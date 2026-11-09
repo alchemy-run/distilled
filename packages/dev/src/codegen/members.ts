@@ -16,13 +16,16 @@ import { oneLine } from "./naming.ts";
 export const ADDITIONAL_PROPERTIES_TRAIT = "com.distilled.openapi#additionalProperties";
 
 /**
- * Output-member marker: the response body is newline-delimited JSON
- * (`application/x-ndjson`), one value of the member's target per line. The
- * generator types the member as a `Stream` of its target and emits
- * `T.NdjsonStream(<target schema>)`, which the SDK's traits module
- * re-exports from `@distilled.cloud/core/ndjson`.
+ * Smithy 2.0 `@default`: the value a member has when the wire leaves it out.
+ * A response always carries such a member (proto3 fields without presence).
  */
-export const NDJSON_STREAM_TRAIT = "com.distilled#ndjsonStream";
+export const DEFAULT_TRAIT = "smithy.api#default";
+
+/**
+ * A server-streaming gRPC operation, whose output collects the stream as
+ * `{ items }`; generated as `API.makeStreaming` (see the proto converter).
+ */
+export const SERVER_STREAMING_TRAIT = "com.distilled.grpc#serverStreaming";
 
 export interface MemberBase {
   /** Original smithy member name. */

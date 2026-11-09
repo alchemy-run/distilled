@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -162,7 +163,7 @@ export type TagValue = string;
 export type TagKey = string;
 export interface TagListEntry {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type InputTagList = TagListEntry[];
 export type VpcEndpointId = string;
@@ -172,15 +173,15 @@ export type Ec2SecurityGroupArn = string;
 export type PLSecurityGroupArnList = string[];
 export interface CreateAgentRequest {
   ActivationKey: string;
-  AgentName?: string;
-  Tags?: TagListEntry[];
-  VpcEndpointId?: string;
-  SubnetArns?: string[];
-  SecurityGroupArns?: string[];
+  AgentName?: string | undefined;
+  Tags?: TagListEntry[] | undefined;
+  VpcEndpointId?: string | undefined;
+  SubnetArns?: string[] | undefined;
+  SecurityGroupArns?: string[] | undefined;
 }
 export type AgentArn = string;
 export interface CreateAgentResponse {
-  AgentArn?: string;
+  AgentArn?: string | undefined;
 }
 export type AzureBlobContainerUrl = string;
 export type AzureBlobAuthenticationType = "SAS" | "NONE" | (string & {});
@@ -195,29 +196,29 @@ export type AgentArnList = string[];
 export type SecretArn = string;
 export type KmsKeyArn = string;
 export interface CmkSecretConfig {
-  SecretArn?: string;
-  KmsKeyArn?: string;
+  SecretArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type IamRoleArnOrEmptyString = string;
 export interface CustomSecretConfig {
-  SecretArn?: string;
-  SecretAccessRoleArn?: string;
+  SecretArn?: string | undefined;
+  SecretAccessRoleArn?: string | undefined;
 }
 export interface CreateLocationAzureBlobRequest {
   ContainerUrl: string;
   AuthenticationType: AzureBlobAuthenticationType;
-  SasConfiguration?: AzureBlobSasConfiguration;
-  BlobType?: AzureBlobType;
-  AccessTier?: AzureAccessTier;
-  Subdirectory?: string;
-  AgentArns?: string[];
-  Tags?: TagListEntry[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  SasConfiguration?: AzureBlobSasConfiguration | undefined;
+  BlobType?: AzureBlobType | undefined;
+  AccessTier?: AzureAccessTier | undefined;
+  Subdirectory?: string | undefined;
+  AgentArns?: string[] | undefined;
+  Tags?: TagListEntry[] | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export type LocationArn = string;
 export interface CreateLocationAzureBlobResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type EfsSubdirectory = string;
 export type EfsFilesystemArn = string;
@@ -230,57 +231,57 @@ export type EfsAccessPointArn = string;
 export type IamRoleArn = string;
 export type EfsInTransitEncryption = "NONE" | "TLS1_2" | (string & {});
 export interface CreateLocationEfsRequest {
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
   EfsFilesystemArn: string;
   Ec2Config: Ec2Config;
-  Tags?: TagListEntry[];
-  AccessPointArn?: string;
-  FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: EfsInTransitEncryption;
+  Tags?: TagListEntry[] | undefined;
+  AccessPointArn?: string | undefined;
+  FileSystemAccessRoleArn?: string | undefined;
+  InTransitEncryption?: EfsInTransitEncryption | undefined;
 }
 export interface CreateLocationEfsResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type FsxFilesystemArn = string;
 export type FsxLustreSubdirectory = string;
 export interface CreateLocationFsxLustreRequest {
   FsxFilesystemArn: string;
   SecurityGroupArns: string[];
-  Subdirectory?: string;
-  Tags?: TagListEntry[];
+  Subdirectory?: string | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface CreateLocationFsxLustreResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
-export type NfsVersion = "AUTOMATIC" | "NFS3" | "NFS4_0" | "NFS4_1" | (string & {});
+export type NfsVersion = "AUTOMATIC" | "NFS3" | "NFS4_0" | "NFS4_1" | "NFS4_2" | (string & {});
 export interface NfsMountOptions {
-  Version?: NfsVersion;
+  Version?: NfsVersion | undefined;
 }
 export interface FsxProtocolNfs {
-  MountOptions?: NfsMountOptions;
+  MountOptions?: NfsMountOptions | undefined;
 }
 export type SmbDomain = string;
 export type SmbVersion = "AUTOMATIC" | "SMB2" | "SMB3" | "SMB1" | "SMB2_0" | (string & {});
 export interface SmbMountOptions {
-  Version?: SmbVersion;
+  Version?: SmbVersion | undefined;
 }
 export type SmbPassword = string | redacted.Redacted<string>;
 export type SmbUser = string;
 export interface ManagedSecretConfig {
-  SecretArn?: string;
+  SecretArn?: string | undefined;
 }
 export interface FsxProtocolSmb {
-  Domain?: string;
-  MountOptions?: SmbMountOptions;
-  Password?: string | redacted.Redacted<string>;
+  Domain?: string | undefined;
+  MountOptions?: SmbMountOptions | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
   User: string;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface FsxProtocol {
-  NFS?: FsxProtocolNfs;
-  SMB?: FsxProtocolSmb;
+  NFS?: FsxProtocolNfs | undefined;
+  SMB?: FsxProtocolSmb | undefined;
 }
 export type StorageVirtualMachineArn = string;
 export type FsxOntapSubdirectory = string;
@@ -288,37 +289,37 @@ export interface CreateLocationFsxOntapRequest {
   Protocol: FsxProtocol;
   SecurityGroupArns: string[];
   StorageVirtualMachineArn: string;
-  Subdirectory?: string;
-  Tags?: TagListEntry[];
+  Subdirectory?: string | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface CreateLocationFsxOntapResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type FsxOpenZfsSubdirectory = string;
 export interface CreateLocationFsxOpenZfsRequest {
   FsxFilesystemArn: string;
   Protocol: FsxProtocol;
   SecurityGroupArns: string[];
-  Subdirectory?: string;
-  Tags?: TagListEntry[];
+  Subdirectory?: string | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface CreateLocationFsxOpenZfsResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type FsxWindowsSubdirectory = string;
 export interface CreateLocationFsxWindowsRequest {
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
   FsxFilesystemArn: string;
   SecurityGroupArns: string[];
-  Tags?: TagListEntry[];
+  Tags?: TagListEntry[] | undefined;
   User: string;
-  Domain?: string;
-  Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Domain?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface CreateLocationFsxWindowsResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type HdfsSubdirectory = string;
 export type HdfsServerHostname = string;
@@ -344,8 +345,8 @@ export type HdfsDataTransferProtection =
   | "PRIVACY"
   | (string & {});
 export interface QopConfiguration {
-  RpcProtection?: HdfsRpcProtection;
-  DataTransferProtection?: HdfsDataTransferProtection;
+  RpcProtection?: HdfsRpcProtection | undefined;
+  DataTransferProtection?: HdfsDataTransferProtection | undefined;
 }
 export type HdfsAuthenticationType = "SIMPLE" | "KERBEROS" | (string & {});
 export type HdfsUser = string;
@@ -353,24 +354,24 @@ export type KerberosPrincipal = string;
 export type KerberosKeytabFile = Uint8Array;
 export type KerberosKrb5ConfFile = Uint8Array;
 export interface CreateLocationHdfsRequest {
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
   NameNodes: HdfsNameNode[];
-  BlockSize?: number;
-  ReplicationFactor?: number;
-  KmsKeyProviderUri?: string;
-  QopConfiguration?: QopConfiguration;
+  BlockSize?: number | undefined;
+  ReplicationFactor?: number | undefined;
+  KmsKeyProviderUri?: string | undefined;
+  QopConfiguration?: QopConfiguration | undefined;
   AuthenticationType: HdfsAuthenticationType;
-  SimpleUser?: string;
-  KerberosPrincipal?: string;
-  KerberosKeytab?: Uint8Array;
-  KerberosKrb5Conf?: Uint8Array;
+  SimpleUser?: string | undefined;
+  KerberosPrincipal?: string | undefined;
+  KerberosKeytab?: Uint8Array | undefined;
+  KerberosKrb5Conf?: Uint8Array | undefined;
   AgentArns: string[];
-  Tags?: TagListEntry[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Tags?: TagListEntry[] | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface CreateLocationHdfsResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type NfsSubdirectory = string;
 export type ServerHostname = string;
@@ -381,11 +382,11 @@ export interface CreateLocationNfsRequest {
   Subdirectory: string;
   ServerHostname: string;
   OnPremConfig: OnPremConfig;
-  MountOptions?: NfsMountOptions;
-  Tags?: TagListEntry[];
+  MountOptions?: NfsMountOptions | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface CreateLocationNfsResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type ObjectStorageServerPort = number;
 export type ObjectStorageServerProtocol = "HTTPS" | "HTTP" | (string & {});
@@ -396,20 +397,20 @@ export type ObjectStorageSecretKey = string | redacted.Redacted<string>;
 export type ObjectStorageCertificate = Uint8Array;
 export interface CreateLocationObjectStorageRequest {
   ServerHostname: string;
-  ServerPort?: number;
-  ServerProtocol?: ObjectStorageServerProtocol;
-  Subdirectory?: string;
+  ServerPort?: number | undefined;
+  ServerProtocol?: ObjectStorageServerProtocol | undefined;
+  Subdirectory?: string | undefined;
   BucketName: string;
-  AccessKey?: string;
-  SecretKey?: string | redacted.Redacted<string>;
-  AgentArns?: string[];
-  Tags?: TagListEntry[];
-  ServerCertificate?: Uint8Array;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  AccessKey?: string | undefined;
+  SecretKey?: string | redacted.Redacted<string> | undefined;
+  AgentArns?: string[] | undefined;
+  Tags?: TagListEntry[] | undefined;
+  ServerCertificate?: Uint8Array | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface CreateLocationObjectStorageResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type S3BucketArn = string;
 export type S3StorageClass =
@@ -426,15 +427,15 @@ export interface S3Config {
   BucketAccessRoleArn: string;
 }
 export interface CreateLocationS3Request {
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
   S3BucketArn: string;
-  S3StorageClass?: S3StorageClass;
+  S3StorageClass?: S3StorageClass | undefined;
   S3Config: S3Config;
-  AgentArns?: string[];
-  Tags?: TagListEntry[];
+  AgentArns?: string[] | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface CreateLocationS3Response {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type SmbSubdirectory = string;
 export type SmbAuthenticationType = "NTLM" | "KERBEROS" | (string & {});
@@ -443,22 +444,22 @@ export type DnsIpList = string[];
 export interface CreateLocationSmbRequest {
   Subdirectory: string;
   ServerHostname: string;
-  User?: string;
-  Domain?: string;
-  Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  User?: string | undefined;
+  Domain?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
   AgentArns: string[];
-  MountOptions?: SmbMountOptions;
-  Tags?: TagListEntry[];
-  AuthenticationType?: SmbAuthenticationType;
-  DnsIpAddresses?: string[];
-  KerberosPrincipal?: string;
-  KerberosKeytab?: Uint8Array;
-  KerberosKrb5Conf?: Uint8Array;
+  MountOptions?: SmbMountOptions | undefined;
+  Tags?: TagListEntry[] | undefined;
+  AuthenticationType?: SmbAuthenticationType | undefined;
+  DnsIpAddresses?: string[] | undefined;
+  KerberosPrincipal?: string | undefined;
+  KerberosKeytab?: Uint8Array | undefined;
+  KerberosKrb5Conf?: Uint8Array | undefined;
 }
 export interface CreateLocationSmbResponse {
-  LocationArn?: string;
+  LocationArn?: string | undefined;
 }
 export type LogGroupArn = string;
 export type VerifyMode =
@@ -484,35 +485,37 @@ export type SmbSecurityDescriptorCopyFlags =
   | "OWNER_DACL_SACL"
   | (string & {});
 export type ObjectTags = "PRESERVE" | "NONE" | (string & {});
+export type ObjectMetadata = "PRESERVE" | "NONE" | (string & {});
 export interface Options {
-  VerifyMode?: VerifyMode;
-  OverwriteMode?: OverwriteMode;
-  Atime?: Atime;
-  Mtime?: Mtime;
-  Uid?: Uid;
-  Gid?: Gid;
-  PreserveDeletedFiles?: PreserveDeletedFiles;
-  PreserveDevices?: PreserveDevices;
-  PosixPermissions?: PosixPermissions;
-  BytesPerSecond?: number;
-  TaskQueueing?: TaskQueueing;
-  LogLevel?: LogLevel;
-  TransferMode?: TransferMode;
-  SecurityDescriptorCopyFlags?: SmbSecurityDescriptorCopyFlags;
-  ObjectTags?: ObjectTags;
+  VerifyMode?: VerifyMode | undefined;
+  OverwriteMode?: OverwriteMode | undefined;
+  Atime?: Atime | undefined;
+  Mtime?: Mtime | undefined;
+  Uid?: Uid | undefined;
+  Gid?: Gid | undefined;
+  PreserveDeletedFiles?: PreserveDeletedFiles | undefined;
+  PreserveDevices?: PreserveDevices | undefined;
+  PosixPermissions?: PosixPermissions | undefined;
+  BytesPerSecond?: number | undefined;
+  TaskQueueing?: TaskQueueing | undefined;
+  LogLevel?: LogLevel | undefined;
+  TransferMode?: TransferMode | undefined;
+  SecurityDescriptorCopyFlags?: SmbSecurityDescriptorCopyFlags | undefined;
+  ObjectTags?: ObjectTags | undefined;
+  ObjectMetadata?: ObjectMetadata | undefined;
 }
 export type FilterType = "SIMPLE_PATTERN" | (string & {});
 export type FilterValue = string;
 export interface FilterRule {
-  FilterType?: FilterType;
-  Value?: string;
+  FilterType?: FilterType | undefined;
+  Value?: string | undefined;
 }
 export type FilterList = FilterRule[];
 export type ScheduleExpressionCron = string;
 export type ScheduleStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface TaskSchedule {
   ScheduleExpression: string;
-  Status?: ScheduleStatus;
+  Status?: ScheduleStatus | undefined;
 }
 export type ManifestAction = "TRANSFER" | (string & {});
 export type ManifestFormat = "CSV" | (string & {});
@@ -521,61 +524,61 @@ export interface S3ManifestConfig {
   ManifestObjectPath: string;
   BucketAccessRoleArn: string;
   S3BucketArn: string;
-  ManifestObjectVersionId?: string;
+  ManifestObjectVersionId?: string | undefined;
 }
 export interface SourceManifestConfig {
   S3: S3ManifestConfig;
 }
 export interface ManifestConfig {
-  Action?: ManifestAction;
-  Format?: ManifestFormat;
-  Source?: SourceManifestConfig;
+  Action?: ManifestAction | undefined;
+  Format?: ManifestFormat | undefined;
+  Source?: SourceManifestConfig | undefined;
 }
 export interface ReportDestinationS3 {
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
   S3BucketArn: string;
   BucketAccessRoleArn: string;
 }
 export interface ReportDestination {
-  S3?: ReportDestinationS3;
+  S3?: ReportDestinationS3 | undefined;
 }
 export type ReportOutputType = "SUMMARY_ONLY" | "STANDARD" | (string & {});
 export type ReportLevel = "ERRORS_ONLY" | "SUCCESSES_AND_ERRORS" | (string & {});
 export type ObjectVersionIds = "INCLUDE" | "NONE" | (string & {});
 export interface ReportOverride {
-  ReportLevel?: ReportLevel;
+  ReportLevel?: ReportLevel | undefined;
 }
 export interface ReportOverrides {
-  Transferred?: ReportOverride;
-  Verified?: ReportOverride;
-  Deleted?: ReportOverride;
-  Skipped?: ReportOverride;
+  Transferred?: ReportOverride | undefined;
+  Verified?: ReportOverride | undefined;
+  Deleted?: ReportOverride | undefined;
+  Skipped?: ReportOverride | undefined;
 }
 export interface TaskReportConfig {
-  Destination?: ReportDestination;
-  OutputType?: ReportOutputType;
-  ReportLevel?: ReportLevel;
-  ObjectVersionIds?: ObjectVersionIds;
-  Overrides?: ReportOverrides;
+  Destination?: ReportDestination | undefined;
+  OutputType?: ReportOutputType | undefined;
+  ReportLevel?: ReportLevel | undefined;
+  ObjectVersionIds?: ObjectVersionIds | undefined;
+  Overrides?: ReportOverrides | undefined;
 }
 export type TaskMode = "BASIC" | "ENHANCED" | (string & {});
 export interface CreateTaskRequest {
   SourceLocationArn: string;
   DestinationLocationArn: string;
-  CloudWatchLogGroupArn?: string;
-  Name?: string;
-  Options?: Options;
-  Excludes?: FilterRule[];
-  Schedule?: TaskSchedule;
-  Tags?: TagListEntry[];
-  Includes?: FilterRule[];
-  ManifestConfig?: ManifestConfig;
-  TaskReportConfig?: TaskReportConfig;
-  TaskMode?: TaskMode;
+  CloudWatchLogGroupArn?: string | undefined;
+  Name?: string | undefined;
+  Options?: Options | undefined;
+  Excludes?: FilterRule[] | undefined;
+  Schedule?: TaskSchedule | undefined;
+  Tags?: TagListEntry[] | undefined;
+  Includes?: FilterRule[] | undefined;
+  ManifestConfig?: ManifestConfig | undefined;
+  TaskReportConfig?: TaskReportConfig | undefined;
+  TaskMode?: TaskMode | undefined;
 }
 export type TaskArn = string;
 export interface CreateTaskResponse {
-  TaskArn?: string;
+  TaskArn?: string | undefined;
 }
 export interface DeleteAgentRequest {
   AgentArn: string;
@@ -596,172 +599,172 @@ export type AgentStatus = "ONLINE" | "OFFLINE" | (string & {});
 export type EndpointType = "PUBLIC" | "PRIVATE_LINK" | "FIPS" | "FIPS_PRIVATE_LINK" | (string & {});
 export type Endpoint = string;
 export interface PrivateLinkConfig {
-  VpcEndpointId?: string;
-  PrivateLinkEndpoint?: string;
-  SubnetArns?: string[];
-  SecurityGroupArns?: string[];
+  VpcEndpointId?: string | undefined;
+  PrivateLinkEndpoint?: string | undefined;
+  SubnetArns?: string[] | undefined;
+  SecurityGroupArns?: string[] | undefined;
 }
 export type AgentVersion = string;
 export interface Platform {
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface DescribeAgentResponse {
-  AgentArn?: string;
-  Name?: string;
-  Status?: AgentStatus;
-  LastConnectionTime?: Date;
-  CreationTime?: Date;
-  EndpointType?: EndpointType;
-  PrivateLinkConfig?: PrivateLinkConfig;
-  Platform?: Platform;
+  AgentArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: AgentStatus | undefined;
+  LastConnectionTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  EndpointType?: EndpointType | undefined;
+  PrivateLinkConfig?: PrivateLinkConfig | undefined;
+  Platform?: Platform | undefined;
 }
 export interface DescribeLocationAzureBlobRequest {
   LocationArn: string;
 }
 export type LocationUri = string;
 export interface DescribeLocationAzureBlobResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  AuthenticationType?: AzureBlobAuthenticationType;
-  BlobType?: AzureBlobType;
-  AccessTier?: AzureAccessTier;
-  AgentArns?: string[];
-  CreationTime?: Date;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  AuthenticationType?: AzureBlobAuthenticationType | undefined;
+  BlobType?: AzureBlobType | undefined;
+  AccessTier?: AzureAccessTier | undefined;
+  AgentArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface DescribeLocationEfsRequest {
   LocationArn: string;
 }
 export interface DescribeLocationEfsResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  Ec2Config?: Ec2Config;
-  CreationTime?: Date;
-  AccessPointArn?: string;
-  FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: EfsInTransitEncryption;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  Ec2Config?: Ec2Config | undefined;
+  CreationTime?: Date | undefined;
+  AccessPointArn?: string | undefined;
+  FileSystemAccessRoleArn?: string | undefined;
+  InTransitEncryption?: EfsInTransitEncryption | undefined;
 }
 export interface DescribeLocationFsxLustreRequest {
   LocationArn: string;
 }
 export interface DescribeLocationFsxLustreResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  SecurityGroupArns?: string[];
-  CreationTime?: Date;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  SecurityGroupArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DescribeLocationFsxOntapRequest {
   LocationArn: string;
 }
 export interface DescribeLocationFsxOntapResponse {
-  CreationTime?: Date;
-  LocationArn?: string;
-  LocationUri?: string;
-  Protocol?: FsxProtocol;
-  SecurityGroupArns?: string[];
-  StorageVirtualMachineArn?: string;
-  FsxFilesystemArn?: string;
+  CreationTime?: Date | undefined;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  Protocol?: FsxProtocol | undefined;
+  SecurityGroupArns?: string[] | undefined;
+  StorageVirtualMachineArn?: string | undefined;
+  FsxFilesystemArn?: string | undefined;
 }
 export interface DescribeLocationFsxOpenZfsRequest {
   LocationArn: string;
 }
 export interface DescribeLocationFsxOpenZfsResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  SecurityGroupArns?: string[];
-  Protocol?: FsxProtocol;
-  CreationTime?: Date;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  SecurityGroupArns?: string[] | undefined;
+  Protocol?: FsxProtocol | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DescribeLocationFsxWindowsRequest {
   LocationArn: string;
 }
 export interface DescribeLocationFsxWindowsResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  SecurityGroupArns?: string[];
-  CreationTime?: Date;
-  User?: string;
-  Domain?: string;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  SecurityGroupArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  User?: string | undefined;
+  Domain?: string | undefined;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface DescribeLocationHdfsRequest {
   LocationArn: string;
 }
 export interface DescribeLocationHdfsResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  NameNodes?: HdfsNameNode[];
-  BlockSize?: number;
-  ReplicationFactor?: number;
-  KmsKeyProviderUri?: string;
-  QopConfiguration?: QopConfiguration;
-  AuthenticationType?: HdfsAuthenticationType;
-  SimpleUser?: string;
-  KerberosPrincipal?: string;
-  AgentArns?: string[];
-  CreationTime?: Date;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  NameNodes?: HdfsNameNode[] | undefined;
+  BlockSize?: number | undefined;
+  ReplicationFactor?: number | undefined;
+  KmsKeyProviderUri?: string | undefined;
+  QopConfiguration?: QopConfiguration | undefined;
+  AuthenticationType?: HdfsAuthenticationType | undefined;
+  SimpleUser?: string | undefined;
+  KerberosPrincipal?: string | undefined;
+  AgentArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface DescribeLocationNfsRequest {
   LocationArn: string;
 }
 export interface DescribeLocationNfsResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  OnPremConfig?: OnPremConfig;
-  MountOptions?: NfsMountOptions;
-  CreationTime?: Date;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  OnPremConfig?: OnPremConfig | undefined;
+  MountOptions?: NfsMountOptions | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DescribeLocationObjectStorageRequest {
   LocationArn: string;
 }
 export interface DescribeLocationObjectStorageResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  AccessKey?: string;
-  ServerPort?: number;
-  ServerProtocol?: ObjectStorageServerProtocol;
-  AgentArns?: string[];
-  CreationTime?: Date;
-  ServerCertificate?: Uint8Array;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  AccessKey?: string | undefined;
+  ServerPort?: number | undefined;
+  ServerProtocol?: ObjectStorageServerProtocol | undefined;
+  AgentArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  ServerCertificate?: Uint8Array | undefined;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface DescribeLocationS3Request {
   LocationArn: string;
 }
 export interface DescribeLocationS3Response {
-  LocationArn?: string;
-  LocationUri?: string;
-  S3StorageClass?: S3StorageClass;
-  S3Config?: S3Config;
-  AgentArns?: string[];
-  CreationTime?: Date;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  S3StorageClass?: S3StorageClass | undefined;
+  S3Config?: S3Config | undefined;
+  AgentArns?: string[] | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DescribeLocationSmbRequest {
   LocationArn: string;
 }
 export interface DescribeLocationSmbResponse {
-  LocationArn?: string;
-  LocationUri?: string;
-  AgentArns?: string[];
-  User?: string;
-  Domain?: string;
-  MountOptions?: SmbMountOptions;
-  CreationTime?: Date;
-  DnsIpAddresses?: string[];
-  KerberosPrincipal?: string;
-  AuthenticationType?: SmbAuthenticationType;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
+  AgentArns?: string[] | undefined;
+  User?: string | undefined;
+  Domain?: string | undefined;
+  MountOptions?: SmbMountOptions | undefined;
+  CreationTime?: Date | undefined;
+  DnsIpAddresses?: string[] | undefined;
+  KerberosPrincipal?: string | undefined;
+  AuthenticationType?: SmbAuthenticationType | undefined;
+  ManagedSecretConfig?: ManagedSecretConfig | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface DescribeTaskRequest {
   TaskArn: string;
@@ -779,31 +782,31 @@ export type DestinationNetworkInterfaceArns = string[];
 export type ScheduleDisabledReason = string;
 export type ScheduleDisabledBy = "USER" | "SERVICE" | (string & {});
 export interface TaskScheduleDetails {
-  StatusUpdateTime?: Date;
-  DisabledReason?: string;
-  DisabledBy?: ScheduleDisabledBy;
+  StatusUpdateTime?: Date | undefined;
+  DisabledReason?: string | undefined;
+  DisabledBy?: ScheduleDisabledBy | undefined;
 }
 export interface DescribeTaskResponse {
-  TaskArn?: string;
-  Status?: TaskStatus;
-  Name?: string;
-  CurrentTaskExecutionArn?: string;
-  SourceLocationArn?: string;
-  DestinationLocationArn?: string;
-  CloudWatchLogGroupArn?: string;
-  SourceNetworkInterfaceArns?: string[];
-  DestinationNetworkInterfaceArns?: string[];
-  Options?: Options;
-  Excludes?: FilterRule[];
-  Schedule?: TaskSchedule;
-  ErrorCode?: string;
-  ErrorDetail?: string;
-  CreationTime?: Date;
-  Includes?: FilterRule[];
-  ManifestConfig?: ManifestConfig;
-  TaskReportConfig?: TaskReportConfig;
-  ScheduleDetails?: TaskScheduleDetails;
-  TaskMode?: TaskMode;
+  TaskArn?: string | undefined;
+  Status?: TaskStatus | undefined;
+  Name?: string | undefined;
+  CurrentTaskExecutionArn?: string | undefined;
+  SourceLocationArn?: string | undefined;
+  DestinationLocationArn?: string | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
+  SourceNetworkInterfaceArns?: string[] | undefined;
+  DestinationNetworkInterfaceArns?: string[] | undefined;
+  Options?: Options | undefined;
+  Excludes?: FilterRule[] | undefined;
+  Schedule?: TaskSchedule | undefined;
+  ErrorCode?: string | undefined;
+  ErrorDetail?: string | undefined;
+  CreationTime?: Date | undefined;
+  Includes?: FilterRule[] | undefined;
+  ManifestConfig?: ManifestConfig | undefined;
+  TaskReportConfig?: TaskReportConfig | undefined;
+  ScheduleDetails?: TaskScheduleDetails | undefined;
+  TaskMode?: TaskMode | undefined;
 }
 export interface DescribeTaskExecutionRequest {
   TaskExecutionArn: string;
@@ -821,96 +824,96 @@ export type TaskExecutionStatus =
 export type Duration = number;
 export type PhaseStatus = "PENDING" | "SUCCESS" | "ERROR" | (string & {});
 export interface TaskExecutionResultDetail {
-  PrepareDuration?: number;
-  PrepareStatus?: PhaseStatus;
-  TotalDuration?: number;
-  TransferDuration?: number;
-  TransferStatus?: PhaseStatus;
-  VerifyDuration?: number;
-  VerifyStatus?: PhaseStatus;
-  ErrorCode?: string;
-  ErrorDetail?: string;
+  PrepareDuration?: number | undefined;
+  PrepareStatus?: PhaseStatus | undefined;
+  TotalDuration?: number | undefined;
+  TransferDuration?: number | undefined;
+  TransferStatus?: PhaseStatus | undefined;
+  VerifyDuration?: number | undefined;
+  VerifyStatus?: PhaseStatus | undefined;
+  ErrorCode?: string | undefined;
+  ErrorDetail?: string | undefined;
 }
 export interface ReportResult {
-  Status?: PhaseStatus;
-  ErrorCode?: string;
-  ErrorDetail?: string;
+  Status?: PhaseStatus | undefined;
+  ErrorCode?: string | undefined;
+  ErrorDetail?: string | undefined;
 }
 export interface TaskExecutionFilesListedDetail {
-  AtSource?: number;
-  AtDestinationForDelete?: number;
+  AtSource?: number | undefined;
+  AtDestinationForDelete?: number | undefined;
 }
 export interface TaskExecutionFilesFailedDetail {
-  Prepare?: number;
-  Transfer?: number;
-  Verify?: number;
-  Delete?: number;
+  Prepare?: number | undefined;
+  Transfer?: number | undefined;
+  Verify?: number | undefined;
+  Delete?: number | undefined;
 }
 export type ItemCount = number;
 export interface TaskExecutionFoldersListedDetail {
-  AtSource?: number;
-  AtDestinationForDelete?: number;
+  AtSource?: number | undefined;
+  AtDestinationForDelete?: number | undefined;
 }
 export interface TaskExecutionFoldersFailedDetail {
-  List?: number;
-  Prepare?: number;
-  Transfer?: number;
-  Verify?: number;
-  Delete?: number;
+  List?: number | undefined;
+  Prepare?: number | undefined;
+  Transfer?: number | undefined;
+  Verify?: number | undefined;
+  Delete?: number | undefined;
 }
 export interface DescribeTaskExecutionResponse {
-  TaskExecutionArn?: string;
-  Status?: TaskExecutionStatus;
-  Options?: Options;
-  Excludes?: FilterRule[];
-  Includes?: FilterRule[];
-  ManifestConfig?: ManifestConfig;
-  StartTime?: Date;
-  EstimatedFilesToTransfer?: number;
-  EstimatedBytesToTransfer?: number;
-  FilesTransferred?: number;
-  BytesWritten?: number;
-  BytesTransferred?: number;
-  BytesCompressed?: number;
-  Result?: TaskExecutionResultDetail;
-  TaskReportConfig?: TaskReportConfig;
-  FilesDeleted?: number;
-  FilesSkipped?: number;
-  FilesVerified?: number;
-  ReportResult?: ReportResult;
-  EstimatedFilesToDelete?: number;
-  TaskMode?: TaskMode;
-  FilesPrepared?: number;
-  FilesListed?: TaskExecutionFilesListedDetail;
-  FilesFailed?: TaskExecutionFilesFailedDetail;
-  EstimatedFoldersToDelete?: number;
-  EstimatedFoldersToTransfer?: number;
-  FoldersSkipped?: number;
-  FoldersPrepared?: number;
-  FoldersTransferred?: number;
-  FoldersVerified?: number;
-  FoldersDeleted?: number;
-  FoldersListed?: TaskExecutionFoldersListedDetail;
-  FoldersFailed?: TaskExecutionFoldersFailedDetail;
-  LaunchTime?: Date;
-  EndTime?: Date;
+  TaskExecutionArn?: string | undefined;
+  Status?: TaskExecutionStatus | undefined;
+  Options?: Options | undefined;
+  Excludes?: FilterRule[] | undefined;
+  Includes?: FilterRule[] | undefined;
+  ManifestConfig?: ManifestConfig | undefined;
+  StartTime?: Date | undefined;
+  EstimatedFilesToTransfer?: number | undefined;
+  EstimatedBytesToTransfer?: number | undefined;
+  FilesTransferred?: number | undefined;
+  BytesWritten?: number | undefined;
+  BytesTransferred?: number | undefined;
+  BytesCompressed?: number | undefined;
+  Result?: TaskExecutionResultDetail | undefined;
+  TaskReportConfig?: TaskReportConfig | undefined;
+  FilesDeleted?: number | undefined;
+  FilesSkipped?: number | undefined;
+  FilesVerified?: number | undefined;
+  ReportResult?: ReportResult | undefined;
+  EstimatedFilesToDelete?: number | undefined;
+  TaskMode?: TaskMode | undefined;
+  FilesPrepared?: number | undefined;
+  FilesListed?: TaskExecutionFilesListedDetail | undefined;
+  FilesFailed?: TaskExecutionFilesFailedDetail | undefined;
+  EstimatedFoldersToDelete?: number | undefined;
+  EstimatedFoldersToTransfer?: number | undefined;
+  FoldersSkipped?: number | undefined;
+  FoldersPrepared?: number | undefined;
+  FoldersTransferred?: number | undefined;
+  FoldersVerified?: number | undefined;
+  FoldersDeleted?: number | undefined;
+  FoldersListed?: TaskExecutionFoldersListedDetail | undefined;
+  FoldersFailed?: TaskExecutionFoldersFailedDetail | undefined;
+  LaunchTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAgentsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AgentListEntry {
-  AgentArn?: string;
-  Name?: string;
-  Status?: AgentStatus;
-  Platform?: Platform;
+  AgentArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: AgentStatus | undefined;
+  Platform?: Platform | undefined;
 }
 export type AgentList = AgentListEntry[];
 export interface ListAgentsResponse {
-  Agents?: AgentListEntry[];
-  NextToken?: string;
+  Agents?: AgentListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LocationFilterName = "LocationUri" | "LocationType" | "CreationTime" | (string & {});
 export type FilterAttributeValue = string;
@@ -934,44 +937,44 @@ export interface LocationFilter {
 }
 export type LocationFilters = LocationFilter[];
 export interface ListLocationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: LocationFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: LocationFilter[] | undefined;
 }
 export interface LocationListEntry {
-  LocationArn?: string;
-  LocationUri?: string;
+  LocationArn?: string | undefined;
+  LocationUri?: string | undefined;
 }
 export type LocationList = LocationListEntry[];
 export interface ListLocationsResponse {
-  Locations?: LocationListEntry[];
-  NextToken?: string;
+  Locations?: LocationListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutputTagList = TagListEntry[];
 export interface ListTagsForResourceResponse {
-  Tags?: TagListEntry[];
-  NextToken?: string;
+  Tags?: TagListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTaskExecutionsRequest {
-  TaskArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TaskArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TaskExecutionListEntry {
-  TaskExecutionArn?: string;
-  Status?: TaskExecutionStatus;
-  TaskMode?: TaskMode;
+  TaskExecutionArn?: string | undefined;
+  Status?: TaskExecutionStatus | undefined;
+  TaskMode?: TaskMode | undefined;
 }
 export type TaskExecutionList = TaskExecutionListEntry[];
 export interface ListTaskExecutionsResponse {
-  TaskExecutions?: TaskExecutionListEntry[];
-  NextToken?: string;
+  TaskExecutions?: TaskExecutionListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaskFilterName = "LocationId" | "CreationTime" | (string & {});
 export interface TaskFilter {
@@ -981,32 +984,32 @@ export interface TaskFilter {
 }
 export type TaskFilters = TaskFilter[];
 export interface ListTasksRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: TaskFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: TaskFilter[] | undefined;
 }
 export interface TaskListEntry {
-  TaskArn?: string;
-  Status?: TaskStatus;
-  Name?: string;
-  TaskMode?: TaskMode;
+  TaskArn?: string | undefined;
+  Status?: TaskStatus | undefined;
+  Name?: string | undefined;
+  TaskMode?: TaskMode | undefined;
 }
 export type TaskList = TaskListEntry[];
 export interface ListTasksResponse {
-  Tasks?: TaskListEntry[];
-  NextToken?: string;
+  Tasks?: TaskListEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTaskExecutionRequest {
   TaskArn: string;
-  OverrideOptions?: Options;
-  Includes?: FilterRule[];
-  Excludes?: FilterRule[];
-  ManifestConfig?: ManifestConfig;
-  TaskReportConfig?: TaskReportConfig;
-  Tags?: TagListEntry[];
+  OverrideOptions?: Options | undefined;
+  Includes?: FilterRule[] | undefined;
+  Excludes?: FilterRule[] | undefined;
+  ManifestConfig?: ManifestConfig | undefined;
+  TaskReportConfig?: TaskReportConfig | undefined;
+  Tags?: TagListEntry[] | undefined;
 }
 export interface StartTaskExecutionResponse {
-  TaskExecutionArn?: string;
+  TaskExecutionArn?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1021,146 +1024,146 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAgentRequest {
   AgentArn: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateAgentResponse {}
 export interface UpdateLocationAzureBlobRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  AuthenticationType?: AzureBlobAuthenticationType;
-  SasConfiguration?: AzureBlobSasConfiguration;
-  BlobType?: AzureBlobType;
-  AccessTier?: AzureAccessTier;
-  AgentArns?: string[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Subdirectory?: string | undefined;
+  AuthenticationType?: AzureBlobAuthenticationType | undefined;
+  SasConfiguration?: AzureBlobSasConfiguration | undefined;
+  BlobType?: AzureBlobType | undefined;
+  AccessTier?: AzureAccessTier | undefined;
+  AgentArns?: string[] | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface UpdateLocationAzureBlobResponse {}
 export type UpdatedEfsAccessPointArn = string;
 export type UpdatedEfsIamRoleArn = string;
 export interface UpdateLocationEfsRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  AccessPointArn?: string;
-  FileSystemAccessRoleArn?: string;
-  InTransitEncryption?: EfsInTransitEncryption;
+  Subdirectory?: string | undefined;
+  AccessPointArn?: string | undefined;
+  FileSystemAccessRoleArn?: string | undefined;
+  InTransitEncryption?: EfsInTransitEncryption | undefined;
 }
 export interface UpdateLocationEfsResponse {}
 export interface UpdateLocationFsxLustreRequest {
   LocationArn: string;
-  Subdirectory?: string;
+  Subdirectory?: string | undefined;
 }
 export interface UpdateLocationFsxLustreResponse {}
 export type UpdateSmbDomain = string;
 export interface FsxUpdateProtocolSmb {
-  Domain?: string;
-  MountOptions?: SmbMountOptions;
-  Password?: string | redacted.Redacted<string>;
-  User?: string;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Domain?: string | undefined;
+  MountOptions?: SmbMountOptions | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  User?: string | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface FsxUpdateProtocol {
-  NFS?: FsxProtocolNfs;
-  SMB?: FsxUpdateProtocolSmb;
+  NFS?: FsxProtocolNfs | undefined;
+  SMB?: FsxUpdateProtocolSmb | undefined;
 }
 export interface UpdateLocationFsxOntapRequest {
   LocationArn: string;
-  Protocol?: FsxUpdateProtocol;
-  Subdirectory?: string;
+  Protocol?: FsxUpdateProtocol | undefined;
+  Subdirectory?: string | undefined;
 }
 export interface UpdateLocationFsxOntapResponse {}
 export interface UpdateLocationFsxOpenZfsRequest {
   LocationArn: string;
-  Protocol?: FsxProtocol;
-  Subdirectory?: string;
+  Protocol?: FsxProtocol | undefined;
+  Subdirectory?: string | undefined;
 }
 export interface UpdateLocationFsxOpenZfsResponse {}
 export interface UpdateLocationFsxWindowsRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  Domain?: string;
-  User?: string;
-  Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Subdirectory?: string | undefined;
+  Domain?: string | undefined;
+  User?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface UpdateLocationFsxWindowsResponse {}
 export interface UpdateLocationHdfsRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  NameNodes?: HdfsNameNode[];
-  BlockSize?: number;
-  ReplicationFactor?: number;
-  KmsKeyProviderUri?: string;
-  QopConfiguration?: QopConfiguration;
-  AuthenticationType?: HdfsAuthenticationType;
-  SimpleUser?: string;
-  KerberosPrincipal?: string;
-  KerberosKeytab?: Uint8Array;
-  KerberosKrb5Conf?: Uint8Array;
-  AgentArns?: string[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Subdirectory?: string | undefined;
+  NameNodes?: HdfsNameNode[] | undefined;
+  BlockSize?: number | undefined;
+  ReplicationFactor?: number | undefined;
+  KmsKeyProviderUri?: string | undefined;
+  QopConfiguration?: QopConfiguration | undefined;
+  AuthenticationType?: HdfsAuthenticationType | undefined;
+  SimpleUser?: string | undefined;
+  KerberosPrincipal?: string | undefined;
+  KerberosKeytab?: Uint8Array | undefined;
+  KerberosKrb5Conf?: Uint8Array | undefined;
+  AgentArns?: string[] | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface UpdateLocationHdfsResponse {}
 export interface UpdateLocationNfsRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  ServerHostname?: string;
-  OnPremConfig?: OnPremConfig;
-  MountOptions?: NfsMountOptions;
+  Subdirectory?: string | undefined;
+  ServerHostname?: string | undefined;
+  OnPremConfig?: OnPremConfig | undefined;
+  MountOptions?: NfsMountOptions | undefined;
 }
 export interface UpdateLocationNfsResponse {}
 export interface UpdateLocationObjectStorageRequest {
   LocationArn: string;
-  ServerPort?: number;
-  ServerProtocol?: ObjectStorageServerProtocol;
-  Subdirectory?: string;
-  ServerHostname?: string;
-  AccessKey?: string;
-  SecretKey?: string | redacted.Redacted<string>;
-  AgentArns?: string[];
-  ServerCertificate?: Uint8Array;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  ServerPort?: number | undefined;
+  ServerProtocol?: ObjectStorageServerProtocol | undefined;
+  Subdirectory?: string | undefined;
+  ServerHostname?: string | undefined;
+  AccessKey?: string | undefined;
+  SecretKey?: string | redacted.Redacted<string> | undefined;
+  AgentArns?: string[] | undefined;
+  ServerCertificate?: Uint8Array | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
 }
 export interface UpdateLocationObjectStorageResponse {}
 export interface UpdateLocationS3Request {
   LocationArn: string;
-  Subdirectory?: string;
-  S3StorageClass?: S3StorageClass;
-  S3Config?: S3Config;
+  Subdirectory?: string | undefined;
+  S3StorageClass?: S3StorageClass | undefined;
+  S3Config?: S3Config | undefined;
 }
 export interface UpdateLocationS3Response {}
 export interface UpdateLocationSmbRequest {
   LocationArn: string;
-  Subdirectory?: string;
-  ServerHostname?: string;
-  User?: string;
-  Domain?: string;
-  Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
-  AgentArns?: string[];
-  MountOptions?: SmbMountOptions;
-  AuthenticationType?: SmbAuthenticationType;
-  DnsIpAddresses?: string[];
-  KerberosPrincipal?: string;
-  KerberosKeytab?: Uint8Array;
-  KerberosKrb5Conf?: Uint8Array;
+  Subdirectory?: string | undefined;
+  ServerHostname?: string | undefined;
+  User?: string | undefined;
+  Domain?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  CmkSecretConfig?: CmkSecretConfig | undefined;
+  CustomSecretConfig?: CustomSecretConfig | undefined;
+  AgentArns?: string[] | undefined;
+  MountOptions?: SmbMountOptions | undefined;
+  AuthenticationType?: SmbAuthenticationType | undefined;
+  DnsIpAddresses?: string[] | undefined;
+  KerberosPrincipal?: string | undefined;
+  KerberosKeytab?: Uint8Array | undefined;
+  KerberosKrb5Conf?: Uint8Array | undefined;
 }
 export interface UpdateLocationSmbResponse {}
 export interface UpdateTaskRequest {
   TaskArn: string;
-  Options?: Options;
-  Excludes?: FilterRule[];
-  Schedule?: TaskSchedule;
-  Name?: string;
-  CloudWatchLogGroupArn?: string;
-  Includes?: FilterRule[];
-  ManifestConfig?: ManifestConfig;
-  TaskReportConfig?: TaskReportConfig;
+  Options?: Options | undefined;
+  Excludes?: FilterRule[] | undefined;
+  Schedule?: TaskSchedule | undefined;
+  Name?: string | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
+  Includes?: FilterRule[] | undefined;
+  ManifestConfig?: ManifestConfig | undefined;
+  TaskReportConfig?: TaskReportConfig | undefined;
 }
 export interface UpdateTaskResponse {}
 export interface UpdateTaskExecutionRequest {
@@ -1180,7 +1183,7 @@ export type CancelTaskExecutionError = InternalException | InvalidRequestExcepti
  * successfully completes the transfer when you start the next task execution.
  */
 export const cancelTaskExecution: API.OperationMethod<
-  CancelTaskExecutionRequest,
+  CancelTaskExecutionRequest & RegionInput,
   CancelTaskExecutionResponse,
   CancelTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1207,7 @@ export type CreateAgentError = InternalException | InvalidRequestException | Com
  * agent?
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -1232,7 +1235,7 @@ export type CreateLocationAzureBlobError =
  * Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
  */
 export const createLocationAzureBlob: API.OperationMethod<
-  CreateLocationAzureBlobRequest,
+  CreateLocationAzureBlobRequest & RegionInput,
   CreateLocationAzureBlobResponse,
   CreateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1263,7 +1266,7 @@ export type CreateLocationEfsError =
  * Amazon EFS file systems.
  */
 export const createLocationEfs: API.OperationMethod<
-  CreateLocationEfsRequest,
+  CreateLocationEfsRequest & RegionInput,
   CreateLocationEfsResponse,
   CreateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1299,7 @@ export type CreateLocationFsxLustreError =
  * accesses FSx for Lustre file systems.
  */
 export const createLocationFsxLustre: API.OperationMethod<
-  CreateLocationFsxLustreRequest,
+  CreateLocationFsxLustreRequest & RegionInput,
   CreateLocationFsxLustreResponse,
   CreateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1324,7 +1327,7 @@ export type CreateLocationFsxOntapError =
  * accesses FSx for ONTAP file systems.
  */
 export const createLocationFsxOntap: API.OperationMethod<
-  CreateLocationFsxOntapRequest,
+  CreateLocationFsxOntapRequest & RegionInput,
   CreateLocationFsxOntapResponse,
   CreateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1356,7 +1359,7 @@ export type CreateLocationFsxOpenZfsError =
  * `CreateLocationFsxOpenZfs` operation.
  */
 export const createLocationFsxOpenZfs: API.OperationMethod<
-  CreateLocationFsxOpenZfsRequest,
+  CreateLocationFsxOpenZfsRequest & RegionInput,
   CreateLocationFsxOpenZfsResponse,
   CreateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1385,7 +1388,7 @@ export type CreateLocationFsxWindowsError =
  * FSx for Windows File Server file systems.
  */
 export const createLocationFsxWindows: API.OperationMethod<
-  CreateLocationFsxWindowsRequest,
+  CreateLocationFsxWindowsRequest & RegionInput,
   CreateLocationFsxWindowsResponse,
   CreateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1414,7 @@ export type CreateLocationHdfsError = InternalException | InvalidRequestExceptio
  * clusters.
  */
 export const createLocationHdfs: API.OperationMethod<
-  CreateLocationHdfsRequest,
+  CreateLocationHdfsRequest & RegionInput,
   CreateLocationHdfsResponse,
   CreateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1440,7 @@ export type CreateLocationNfsError = InternalException | InvalidRequestException
  * servers.
  */
 export const createLocationNfs: API.OperationMethod<
-  CreateLocationNfsRequest,
+  CreateLocationNfsRequest & RegionInput,
   CreateLocationNfsResponse,
   CreateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1467,7 @@ export type CreateLocationObjectStorageError =
  * Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
  */
 export const createLocationObjectStorage: API.OperationMethod<
-  CreateLocationObjectStorageRequest,
+  CreateLocationObjectStorageRequest & RegionInput,
   CreateLocationObjectStorageResponse,
   CreateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1501,7 +1504,7 @@ export type CreateLocationS3Error =
  * transfers with Amazon S3.
  */
 export const createLocationS3: API.OperationMethod<
-  CreateLocationS3Request,
+  CreateLocationS3Request & RegionInput,
   CreateLocationS3Response,
   CreateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1534,7 @@ export type CreateLocationSmbError = InternalException | InvalidRequestException
  * file servers. For more information, see Providing DataSync access to SMB file servers.
  */
 export const createLocationSmb: API.OperationMethod<
-  CreateLocationSmbRequest,
+  CreateLocationSmbRequest & RegionInput,
   CreateLocationSmbResponse,
   CreateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1567,7 @@ export type CreateTaskError =
  * you begin.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskRequest,
+  CreateTaskRequest & RegionInput,
   CreateTaskResponse,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1592,7 @@ export type DeleteAgentError = InternalException | InvalidRequestException | Com
  * agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1616,7 @@ export type DeleteLocationError =
  * Deletes a transfer location resource from DataSync.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationRequest,
+  DeleteLocationRequest & RegionInput,
   DeleteLocationResponse,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1640,7 @@ export type DeleteTaskError =
  * Deletes a transfer task resource from DataSync.
  */
 export const deleteTask: API.OperationMethod<
-  DeleteTaskRequest,
+  DeleteTaskRequest & RegionInput,
   DeleteTaskResponse,
   DeleteTaskError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1661,7 @@ export type DescribeAgentError = InternalException | InvalidRequestException | C
  * endpoint type, and status.
  */
 export const describeAgent: API.OperationMethod<
-  DescribeAgentRequest,
+  DescribeAgentRequest & RegionInput,
   DescribeAgentResponse,
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1685,7 @@ export type DescribeLocationAzureBlobError =
  * Blob Storage is configured.
  */
 export const describeLocationAzureBlob: API.OperationMethod<
-  DescribeLocationAzureBlobRequest,
+  DescribeLocationAzureBlobRequest & RegionInput,
   DescribeLocationAzureBlobResponse,
   DescribeLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1706,7 +1709,7 @@ export type DescribeLocationEfsError =
  * Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
  */
 export const describeLocationEfs: API.OperationMethod<
-  DescribeLocationEfsRequest,
+  DescribeLocationEfsRequest & RegionInput,
   DescribeLocationEfsResponse,
   DescribeLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1732,7 @@ export type DescribeLocationFsxLustreError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
  */
 export const describeLocationFsxLustre: API.OperationMethod<
-  DescribeLocationFsxLustreRequest,
+  DescribeLocationFsxLustreRequest & RegionInput,
   DescribeLocationFsxLustreResponse,
   DescribeLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1758,7 @@ export type DescribeLocationFsxOntapError =
  * actually return a `Password`.
  */
 export const describeLocationFsxOntap: API.OperationMethod<
-  DescribeLocationFsxOntapRequest,
+  DescribeLocationFsxOntapRequest & RegionInput,
   DescribeLocationFsxOntapResponse,
   DescribeLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1784,7 @@ export type DescribeLocationFsxOpenZfsError =
  * `DescribeLocationFsxOpenZfs` operation.
  */
 export const describeLocationFsxOpenZfs: API.OperationMethod<
-  DescribeLocationFsxOpenZfsRequest,
+  DescribeLocationFsxOpenZfsRequest & RegionInput,
   DescribeLocationFsxOpenZfsResponse,
   DescribeLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1807,7 @@ export type DescribeLocationFsxWindowsError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
  */
 export const describeLocationFsxWindows: API.OperationMethod<
-  DescribeLocationFsxWindowsRequest,
+  DescribeLocationFsxWindowsRequest & RegionInput,
   DescribeLocationFsxWindowsResponse,
   DescribeLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1825,7 +1828,7 @@ export type DescribeLocationHdfsError = InternalException | InvalidRequestExcept
  * Distributed File System (HDFS) is configured.
  */
 export const describeLocationHdfs: API.OperationMethod<
-  DescribeLocationHdfsRequest,
+  DescribeLocationHdfsRequest & RegionInput,
   DescribeLocationHdfsResponse,
   DescribeLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1849,7 @@ export type DescribeLocationNfsError = InternalException | InvalidRequestExcepti
  * File System (NFS) file server is configured.
  */
 export const describeLocationNfs: API.OperationMethod<
-  DescribeLocationNfsRequest,
+  DescribeLocationNfsRequest & RegionInput,
   DescribeLocationNfsResponse,
   DescribeLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1873,7 @@ export type DescribeLocationObjectStorageError =
  * storage system is configured.
  */
 export const describeLocationObjectStorage: API.OperationMethod<
-  DescribeLocationObjectStorageRequest,
+  DescribeLocationObjectStorageRequest & RegionInput,
   DescribeLocationObjectStorageResponse,
   DescribeLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1898,7 @@ export type DescribeLocationS3Error =
  * is configured.
  */
 export const describeLocationS3: API.OperationMethod<
-  DescribeLocationS3Request,
+  DescribeLocationS3Request & RegionInput,
   DescribeLocationS3Response,
   DescribeLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1916,7 +1919,7 @@ export type DescribeLocationSmbError = InternalException | InvalidRequestExcepti
  * Message Block (SMB) file server is configured.
  */
 export const describeLocationSmb: API.OperationMethod<
-  DescribeLocationSmbRequest,
+  DescribeLocationSmbRequest & RegionInput,
   DescribeLocationSmbResponse,
   DescribeLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1944,7 @@ export type DescribeTaskError =
  * DataSync transfers your data.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskRequest,
+  DescribeTaskRequest & RegionInput,
   DescribeTaskResponse,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1970,7 @@ export type DescribeTaskExecutionError = InternalException | InvalidRequestExcep
  * transfer performance counters.
  */
 export const describeTaskExecution: API.OperationMethod<
-  DescribeTaskExecutionRequest,
+  DescribeTaskExecutionRequest & RegionInput,
   DescribeTaskExecutionResponse,
   DescribeTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1998,7 +2001,7 @@ export type ListAgentsError = InternalException | InvalidRequestException | Comm
  * by using DescribeAgent.
  */
 export const listAgents: API.PaginatedOperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -2029,7 +2032,7 @@ export type ListLocationsError = InternalException | InvalidRequestException | C
  * specify in your next request to fetch the next page of locations.
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsRequest,
+  ListLocationsRequest & RegionInput,
   ListLocationsResponse,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2056,7 +2059,7 @@ export type ListTagsForResourceError = InternalException | InvalidRequestExcepti
  * Returns all the tags associated with an Amazon Web Services resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2083,7 +2086,7 @@ export type ListTaskExecutionsError = InternalException | InvalidRequestExceptio
  * Returns a list of executions for an DataSync transfer task.
  */
 export const listTaskExecutions: API.PaginatedOperationMethod<
-  ListTaskExecutionsRequest,
+  ListTaskExecutionsRequest & RegionInput,
   ListTaskExecutionsResponse,
   ListTaskExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2110,7 +2113,7 @@ export type ListTasksError = InternalException | InvalidRequestException | Commo
  * Returns a list of the DataSync tasks you created.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2149,7 +2152,7 @@ export type StartTaskExecutionError =
  * you begin.
  */
 export const startTaskExecution: API.OperationMethod<
-  StartTaskExecutionRequest,
+  StartTaskExecutionRequest & RegionInput,
   StartTaskExecutionResponse,
   StartTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2173,7 +2176,7 @@ export type TagResourceError = InternalException | InvalidRequestException | Com
  * executions.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2193,7 +2196,7 @@ export type UntagResourceError = InternalException | InvalidRequestException | C
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2213,7 +2216,7 @@ export type UpdateAgentError = InternalException | InvalidRequestException | Com
  * Updates the name of an DataSync agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -2239,7 +2242,7 @@ export type UpdateLocationAzureBlobError =
  * For more information, see Configuring DataSync transfers with Azure Blob Storage.
  */
 export const updateLocationAzureBlob: API.OperationMethod<
-  UpdateLocationAzureBlobRequest,
+  UpdateLocationAzureBlobRequest & RegionInput,
   UpdateLocationAzureBlobResponse,
   UpdateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -2263,7 +2266,7 @@ export type UpdateLocationEfsError = InternalException | InvalidRequestException
  * transfers with Amazon EFS.
  */
 export const updateLocationEfs: API.OperationMethod<
-  UpdateLocationEfsRequest,
+  UpdateLocationEfsRequest & RegionInput,
   UpdateLocationEfsResponse,
   UpdateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -2290,7 +2293,7 @@ export type UpdateLocationFsxLustreError =
  * transfers with FSx for Lustre.
  */
 export const updateLocationFsxLustre: API.OperationMethod<
-  UpdateLocationFsxLustreRequest,
+  UpdateLocationFsxLustreRequest & RegionInput,
   UpdateLocationFsxLustreResponse,
   UpdateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -2317,7 +2320,7 @@ export type UpdateLocationFsxOntapError =
  * transfers with FSx for ONTAP.
  */
 export const updateLocationFsxOntap: API.OperationMethod<
-  UpdateLocationFsxOntapRequest,
+  UpdateLocationFsxOntapRequest & RegionInput,
   UpdateLocationFsxOntapResponse,
   UpdateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -2347,7 +2350,7 @@ export type UpdateLocationFsxOpenZfsError =
  * `UpdateLocationFsxOpenZfs` operation.
  */
 export const updateLocationFsxOpenZfs: API.OperationMethod<
-  UpdateLocationFsxOpenZfsRequest,
+  UpdateLocationFsxOpenZfsRequest & RegionInput,
   UpdateLocationFsxOpenZfsResponse,
   UpdateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -2374,7 +2377,7 @@ export type UpdateLocationFsxWindowsError =
  * transfers with FSx for Windows File Server.
  */
 export const updateLocationFsxWindows: API.OperationMethod<
-  UpdateLocationFsxWindowsRequest,
+  UpdateLocationFsxWindowsRequest & RegionInput,
   UpdateLocationFsxWindowsResponse,
   UpdateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2401,7 @@ export type UpdateLocationHdfsError = InternalException | InvalidRequestExceptio
  * transfers with an HDFS cluster.
  */
 export const updateLocationHdfs: API.OperationMethod<
-  UpdateLocationHdfsRequest,
+  UpdateLocationHdfsRequest & RegionInput,
   UpdateLocationHdfsResponse,
   UpdateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -2422,7 +2425,7 @@ export type UpdateLocationNfsError = InternalException | InvalidRequestException
  * file server.
  */
 export const updateLocationNfs: API.OperationMethod<
-  UpdateLocationNfsRequest,
+  UpdateLocationNfsRequest & RegionInput,
   UpdateLocationNfsResponse,
   UpdateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -2449,7 +2452,7 @@ export type UpdateLocationObjectStorageError =
  * transfers with an object storage system.
  */
 export const updateLocationObjectStorage: API.OperationMethod<
-  UpdateLocationObjectStorageRequest,
+  UpdateLocationObjectStorageRequest & RegionInput,
   UpdateLocationObjectStorageResponse,
   UpdateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -2477,7 +2480,7 @@ export type UpdateLocationS3Error = InternalException | InvalidRequestException 
  * - Evaluating S3 request costs when using DataSync
  */
 export const updateLocationS3: API.OperationMethod<
-  UpdateLocationS3Request,
+  UpdateLocationS3Request & RegionInput,
   UpdateLocationS3Response,
   UpdateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -2501,7 +2504,7 @@ export type UpdateLocationSmbError = InternalException | InvalidRequestException
  * transfers with an SMB file server.
  */
 export const updateLocationSmb: API.OperationMethod<
-  UpdateLocationSmbRequest,
+  UpdateLocationSmbRequest & RegionInput,
   UpdateLocationSmbResponse,
   UpdateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2529,7 @@ export type UpdateTaskError =
  * DataSync transfers your data.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -2552,7 +2555,7 @@ export type UpdateTaskExecutionError = InternalException | InvalidRequestExcepti
  * execution.
  */
 export const updateTaskExecution: API.OperationMethod<
-  UpdateTaskExecutionRequest,
+  UpdateTaskExecutionRequest & RegionInput,
   UpdateTaskExecutionResponse,
   UpdateTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2913,6 +2916,7 @@ function __c18(j: number): any {
           TransferMode: S.optional(S.String),
           SecurityDescriptorCopyFlags: S.optional(S.String),
           ObjectTags: S.optional(S.String),
+          ObjectMetadata: S.optional(S.String),
         }),
       ).annotate({ identifier: "Options" });
   }

@@ -75,11 +75,11 @@ export interface AddRepositoryPermissionRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Slug of a team that is granted access to a repository. */
-  teamSlug?: string;
+  teamSlug?: string | undefined;
 }
 /** A team's access grant to a Vercel Container Registry repository. */
 export interface VcrRepositoryPermission {
@@ -100,9 +100,9 @@ export interface ClearRepositoryPermissionsRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ClearRepositoryPermissionsResponse = unknown;
 export interface CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsRequest {
@@ -113,16 +113,16 @@ export interface CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsReques
   /** Single Docker repository name component. */
   repositoryName: string;
   /** Digest of the blob to mount from another repository. */
-  mount?: string;
+  mount?: string | undefined;
   /** Source repository to mount the blob from. */
-  from?: string;
+  from?: string | undefined;
 }
 export type CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsResponse = unknown;
 export interface CreateRepositoryRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** Single Docker repository name component. */
@@ -184,9 +184,9 @@ export interface DeleteRepositoryRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteRepositoryResponse = unknown;
 export interface DeleteRepositoryImageRequest {
@@ -195,9 +195,9 @@ export interface DeleteRepositoryImageRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteRepositoryImageResponse = unknown;
 export interface GetBlobRequest {
@@ -238,9 +238,9 @@ export interface GetRepositoryRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetRepositoryResponse {
   repository: VcrRepository;
@@ -252,9 +252,9 @@ export interface GetRepositoryImageRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
 export type VcrImageDetailKind = "attestation" | "index" | "manifest";
@@ -409,7 +409,7 @@ export type VcrImageDetailTagsList = Array<string>;
 /** A single image with its tags, status and resolved Dockerfile layer history. */
 export interface VcrImageDetail {
   /** CPU architecture the manifest targets. Only present for single-platform manifests. */
-  arch?: string;
+  arch?: string | undefined;
   /** ISO 8601 timestamp of when the image was created. */
   createdAt: string;
   /** Internal identifier of the image. */
@@ -420,9 +420,9 @@ export interface VcrImageDetail {
   /** SHA-256 digest of the image manifest. */
   manifestDigest: string;
   /** Operating system the manifest targets. Only present for single-platform manifests. */
-  platform?: string;
+  platform?: string | undefined;
   /** Identifier of the actor that pushed the image. */
-  pushedBy?: string;
+  pushedBy?: string | undefined;
   /** Identifier of the repository the image belongs to. */
   repositoryId: string;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
@@ -441,9 +441,9 @@ export interface GetRepositoryTagRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
 export type VcrTagKind = "attestation" | "index" | "manifest";
@@ -452,7 +452,7 @@ export type VcrTagStatus = "errored" | "preparing" | "ready" | "unoptimized";
 /** A tag pointing at an image in a Vercel Container Registry repository, enriched with the backing image's metadata and VHS-readiness status. */
 export interface VcrTag {
   /** CPU architecture the manifest targets. Only present for single-platform manifests. */
-  arch?: string;
+  arch?: string | undefined;
   /** ISO 8601 timestamp of when the tag was created. */
   createdAt: string;
   /** Internal identifier of the image the tag points at. */
@@ -462,9 +462,9 @@ export interface VcrTag {
   /** SHA-256 digest of the image manifest the tag points at. */
   manifestDigest: string;
   /** Operating system the manifest targets. Only present for single-platform manifests. */
-  platform?: string;
+  platform?: string | undefined;
   /** Identifier of the actor that pushed the image. */
-  pushedBy?: string;
+  pushedBy?: string | undefined;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
   sizeInBytes: number;
   /** VHS-readiness status, or `null` for a multi-platform index. */
@@ -486,9 +486,9 @@ export interface GetTagsListRequest {
   projectSlug: string;
   /** Single Docker repository name component. */
   repositoryName: string;
-  n?: number;
+  n?: number | undefined;
   /** Opaque pagination cursor returned by a previous list response. */
-  last?: string;
+  last?: string | undefined;
 }
 export type GetTagsListResponseTagsList = Array<string>;
 export interface GetTagsListResponse {
@@ -520,33 +520,33 @@ export interface HeadManifestResponse {}
 export interface ListRepositoriesRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned by a previous list response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type VcrRepositoryListRepositoriesList = Array<VcrRepository>;
 /** A paginated list of Vercel Container Registry repositories. */
 export interface VcrRepositoryList {
   /** Cursor to fetch the next page of results, when more are available. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
   repositories: VcrRepositoryListRepositoriesList;
 }
 export interface ListRepositoryImagesRequest {
   idOrName: string;
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned by a previous list response. */
-  cursor?: string;
-  untagged?: boolean;
+  cursor?: string | undefined;
+  untagged?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
 export type VcrImageListItemKind = "attestation" | "index" | "manifest";
@@ -557,7 +557,7 @@ export type VcrImageListItemTagsList = Array<string>;
 /** An image enriched with its tags and VHS-readiness status, as returned when listing a repository's images. */
 export interface VcrImageListItem {
   /** CPU architecture the manifest targets. Only present for single-platform manifests. */
-  arch?: string;
+  arch?: string | undefined;
   /** ISO 8601 timestamp of when the image was created. */
   createdAt: string;
   /** Internal identifier of the image. */
@@ -567,9 +567,9 @@ export interface VcrImageListItem {
   /** SHA-256 digest of the image manifest. */
   manifestDigest: string;
   /** Operating system the manifest targets. Only present for single-platform manifests. */
-  platform?: string;
+  platform?: string | undefined;
   /** Identifier of the actor that pushed the image. */
-  pushedBy?: string;
+  pushedBy?: string | undefined;
   /** Identifier of the repository the image belongs to. */
   repositoryId: string;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
@@ -584,25 +584,25 @@ export type VcrImageListImagesList = Array<VcrImageListItem>;
 export interface VcrImageList {
   images: VcrImageListImagesList;
   /** Cursor to fetch the next page of results, when more are available. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export interface ListRepositoryPermissionsRequest {
   idOrName: string;
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned by a previous list response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type VcrRepositoryPermissionListPermissionsList = Array<VcrRepositoryPermission>;
 /** A paginated list of Vercel Container Registry repository permissions. */
 export interface VcrRepositoryPermissionList {
   /** Cursor to fetch the next page of results, when more are available. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
   permissions: VcrRepositoryPermissionListPermissionsList;
 }
 /** Field to sort the non-pinned tags by. */
@@ -613,16 +613,16 @@ export interface ListRepositoryTagsRequest {
   idOrName: string;
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
-  limit?: number;
-  cursor?: string;
+  limit?: number | undefined;
+  cursor?: string | undefined;
   /** Field to sort the non-pinned tags by. */
-  sortBy?: ListRepositoryTagsRequestSortBy | (string & {});
+  sortBy?: ListRepositoryTagsRequestSortBy | (string & {}) | undefined;
   /** Sort direction. Defaults to desc. */
-  sortOrder?: ListRepositoryTagsRequestSortOrder | (string & {});
+  sortOrder?: ListRepositoryTagsRequestSortOrder | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListRepositoryTagsResponseTagsItemKind = "attestation" | "index" | "manifest";
 export type ListRepositoryTagsResponseTagsItemStatus =
@@ -631,13 +631,13 @@ export type ListRepositoryTagsResponseTagsItemStatus =
   | "ready"
   | "unoptimized";
 export interface ListRepositoryTagsResponseTagsItem {
-  arch?: string;
+  arch?: string | undefined;
   createdAt: string;
   imageId: string;
   kind: ListRepositoryTagsResponseTagsItemKind;
   manifestDigest: string;
-  platform?: string;
-  pushedBy?: string;
+  platform?: string | undefined;
+  pushedBy?: string | undefined;
   sizeInBytes: number;
   status: ListRepositoryTagsResponseTagsItemStatus | null;
   tag: string;
@@ -645,7 +645,7 @@ export interface ListRepositoryTagsResponseTagsItem {
 }
 export type ListRepositoryTagsResponseTagsList = Array<ListRepositoryTagsResponseTagsItem>;
 export interface ListRepositoryTagsResponse {
-  nextCursor?: string;
+  nextCursor?: string | undefined;
   tags: ListRepositoryTagsResponseTagsList;
 }
 export interface RemoveRepositoryPermissionRequest {
@@ -653,11 +653,11 @@ export interface RemoveRepositoryPermissionRequest {
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Slug of a team that is granted access to a repository. */
-  teamSlug?: string;
+  teamSlug?: string | undefined;
 }
 export type RemoveRepositoryPermissionResponse = unknown;
 export interface ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest {

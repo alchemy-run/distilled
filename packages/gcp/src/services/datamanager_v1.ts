@@ -114,36 +114,36 @@ export type ProductAccountProductEnum =
   | "DISPLAY_VIDEO_ADVERTISER"
   | "DATA_PARTNER";
 export interface ProductAccount {
-  accountType?: ProductAccountAccountTypeEnum | (string & {});
-  accountId?: string;
-  product?: ProductAccountProductEnum | (string & {});
+  accountType?: ProductAccountAccountTypeEnum | (string & {}) | undefined;
+  accountId?: string | undefined;
+  product?: ProductAccountProductEnum | (string & {}) | undefined;
 }
 export type PartnerLinkFeatureSetEnum =
   | "FEATURE_SET_UNSPECIFIED"
   | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
   | "FEATURE_SET_AD_EVENT_MANAGEMENT";
 export interface PartnerCustomerAccount {
-  accountId?: string;
-  accountName?: string;
-  accountType?: string;
+  accountId?: string | undefined;
+  accountName?: string | undefined;
+  accountType?: string | undefined;
 }
 export type PartnerCustomerAccountList = Array<PartnerCustomerAccount>;
 export interface PartnerLinkMetadata {
-  implicitAccounts?: PartnerCustomerAccountList;
+  implicitAccounts?: PartnerCustomerAccountList | undefined;
 }
 export interface PartnerLink {
-  partnerAccount?: ProductAccount;
-  featureSet?: PartnerLinkFeatureSetEnum | (string & {});
-  partnerLinkId?: string;
-  owningAccount?: ProductAccount;
-  partnerCustomerAccount?: PartnerCustomerAccount;
-  name?: string;
-  partnerLinkMetadata?: PartnerLinkMetadata;
+  partnerAccount?: ProductAccount | undefined;
+  featureSet?: PartnerLinkFeatureSetEnum | (string & {}) | undefined;
+  partnerLinkId?: string | undefined;
+  owningAccount?: ProductAccount | undefined;
+  partnerCustomerAccount?: PartnerCustomerAccount | undefined;
+  name?: string | undefined;
+  partnerLinkMetadata?: PartnerLinkMetadata | undefined;
 }
 export interface CreateAccountTypesAccountsPartnerLinksRequest {
   parent: string;
   /** Request body */
-  body?: PartnerLink;
+  body?: PartnerLink | undefined;
 }
 export type UserListDirectLicenseStatusEnum =
   | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
@@ -156,11 +156,11 @@ export type UserListDirectLicenseClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
 export interface UserListLicenseMetrics {
-  impressionCount?: string;
-  endDate?: string;
-  clickCount?: string;
-  revenueUsdMicros?: string;
-  startDate?: string;
+  impressionCount?: string | undefined;
+  endDate?: string | undefined;
+  clickCount?: string | undefined;
+  revenueUsdMicros?: string | undefined;
+  startDate?: string | undefined;
 }
 export type UserListLicensePricingCostTypeEnum =
   | "USER_LIST_PRICING_COST_TYPE_UNSPECIFIED"
@@ -173,33 +173,33 @@ export type UserListLicensePricingBuyerApprovalStateEnum =
   | "APPROVED"
   | "REJECTED";
 export interface UserListLicensePricing {
-  maxCostMicros?: string;
-  pricingId?: string;
-  currencyCode?: string;
-  costType?: UserListLicensePricingCostTypeEnum | (string & {});
-  costMicros?: string;
-  pricingActive?: boolean;
-  startTime?: string;
-  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {});
-  endTime?: string;
+  maxCostMicros?: string | undefined;
+  pricingId?: string | undefined;
+  currencyCode?: string | undefined;
+  costType?: UserListLicensePricingCostTypeEnum | (string & {}) | undefined;
+  costMicros?: string | undefined;
+  pricingActive?: boolean | undefined;
+  startTime?: string | undefined;
+  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {}) | undefined;
+  endTime?: string | undefined;
 }
 export type UserListLicensePricingList = Array<UserListLicensePricing>;
 export interface UserListDirectLicense {
-  status?: UserListDirectLicenseStatusEnum | (string & {});
-  userListId?: string;
-  clientAccountId?: string;
-  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {});
-  metrics?: UserListLicenseMetrics;
-  clientAccountDisplayName?: string;
-  historicalPricings?: UserListLicensePricingList;
-  pricing?: UserListLicensePricing;
-  userListDisplayName?: string;
-  name?: string;
+  status?: UserListDirectLicenseStatusEnum | (string & {}) | undefined;
+  userListId?: string | undefined;
+  clientAccountId?: string | undefined;
+  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {}) | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  clientAccountDisplayName?: string | undefined;
+  historicalPricings?: UserListLicensePricingList | undefined;
+  pricing?: UserListLicensePricing | undefined;
+  userListDisplayName?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
   parent: string;
   /** Request body */
-  body?: UserListDirectLicense;
+  body?: UserListDirectLicense | undefined;
 }
 export type UserListGlobalLicenseStatusEnum =
   | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
@@ -211,19 +211,19 @@ export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_SELL_SIDE"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_BUY_SIDE";
 export interface UserListGlobalLicense {
-  userListDisplayName?: string;
-  pricing?: UserListLicensePricing;
-  name?: string;
-  historicalPricings?: UserListLicensePricingList;
-  userListId?: string;
-  status?: UserListGlobalLicenseStatusEnum | (string & {});
-  metrics?: UserListLicenseMetrics;
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
+  userListDisplayName?: string | undefined;
+  pricing?: UserListLicensePricing | undefined;
+  name?: string | undefined;
+  historicalPricings?: UserListLicensePricingList | undefined;
+  userListId?: string | undefined;
+  status?: UserListGlobalLicenseStatusEnum | (string & {}) | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {}) | undefined;
 }
 export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
   parent: string;
   /** Request body */
-  body?: UserListGlobalLicense;
+  body?: UserListGlobalLicense | undefined;
 }
 export type UserListAccessReasonEnum =
   | "ACCESS_REASON_UNSPECIFIED"
@@ -234,16 +234,16 @@ export type UserListAccessReasonEnum =
   | "AFFILIATED";
 export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
 export interface SizeInfo {
-  gmailMembersCount?: string;
-  youtubeMembersCount?: string;
-  displayNetworkMembersCount?: string;
-  searchNetworkMembersCount?: string;
+  gmailMembersCount?: string | undefined;
+  youtubeMembersCount?: string | undefined;
+  displayNetworkMembersCount?: string | undefined;
+  searchNetworkMembersCount?: string | undefined;
 }
 export type UserListMembershipStatusEnum = "MEMBERSHIP_STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
 export type UserListAccountAccessStatusEnum = "ACCESS_STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED";
 export interface TargetNetworkInfo {
-  eligibleForDisplay?: boolean;
-  eligibleForSearch?: boolean;
+  eligibleForDisplay?: boolean | undefined;
+  eligibleForSearch?: boolean | undefined;
 }
 export type PartnerAudienceInfoPartnerAudienceSourceEnum =
   | "PARTNER_AUDIENCE_SOURCE_UNSPECIFIED"
@@ -251,15 +251,15 @@ export type PartnerAudienceInfoPartnerAudienceSourceEnum =
   | "LINEAR_TV_AUDIENCE"
   | "AGENCY_PROVIDER_AUDIENCE";
 export interface PartnerAudienceInfo {
-  partnerAudienceSource?: PartnerAudienceInfoPartnerAudienceSourceEnum | (string & {});
-  commercePartner?: string;
+  partnerAudienceSource?: PartnerAudienceInfoPartnerAudienceSourceEnum | (string & {}) | undefined;
+  commercePartner?: string | undefined;
 }
 export interface PairIdInfo {
-  matchRatePercentage?: number;
-  cleanRoomIdentifier?: string;
-  publisherId?: string;
-  advertiserIdentifierCount?: string;
-  publisherName?: string;
+  matchRatePercentage?: number | undefined;
+  cleanRoomIdentifier?: string | undefined;
+  publisherId?: string | undefined;
+  advertiserIdentifierCount?: string | undefined;
+  publisherName?: string | undefined;
 }
 export type MobileIdInfoKeySpaceEnum = "KEY_SPACE_UNSPECIFIED" | "IOS" | "ANDROID";
 export type MobileIdInfoDataSourceTypeEnum =
@@ -269,9 +269,9 @@ export type MobileIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
   | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
 export interface MobileIdInfo {
-  keySpace?: MobileIdInfoKeySpaceEnum | (string & {});
-  dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {});
-  appId?: string;
+  keySpace?: MobileIdInfoKeySpaceEnum | (string & {}) | undefined;
+  dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {}) | undefined;
+  appId?: string | undefined;
 }
 export type ContactIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_UNSPECIFIED"
@@ -280,8 +280,8 @@ export type ContactIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
   | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
 export interface ContactIdInfo {
-  dataSourceType?: ContactIdInfoDataSourceTypeEnum | (string & {});
-  matchRatePercentage?: number;
+  dataSourceType?: ContactIdInfoDataSourceTypeEnum | (string & {}) | undefined;
+  matchRatePercentage?: number | undefined;
 }
 export type PseudonymousIdInfoSyncStatusEnum =
   | "SYNC_STATUS_UNSPECIFIED"
@@ -289,8 +289,8 @@ export type PseudonymousIdInfoSyncStatusEnum =
   | "READY_FOR_USE"
   | "FAILED";
 export interface PseudonymousIdInfo {
-  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {});
-  billableRecordCount?: string;
+  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {}) | undefined;
+  billableRecordCount?: string | undefined;
 }
 export type UserIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_UNSPECIFIED"
@@ -299,7 +299,7 @@ export type UserIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_THIRD_PARTY_VOTER_FILE"
   | "DATA_SOURCE_TYPE_THIRD_PARTY_PARTNER_DATA";
 export interface UserIdInfo {
-  dataSourceType?: UserIdInfoDataSourceTypeEnum | (string & {});
+  dataSourceType?: UserIdInfoDataSourceTypeEnum | (string & {}) | undefined;
 }
 export type IngestedUserListInfoUploadKeyTypesItemEnum =
   | "UPLOAD_KEY_TYPE_UNSPECIFIED"
@@ -312,60 +312,60 @@ export type IngestedUserListInfoUploadKeyTypesItemEnumList = Array<
   IngestedUserListInfoUploadKeyTypesItemEnum | (string & {})
 >;
 export interface IngestedUserListInfo {
-  partnerAudienceInfo?: PartnerAudienceInfo;
-  pairIdInfo?: PairIdInfo;
-  mobileIdInfo?: MobileIdInfo;
-  contactIdInfo?: ContactIdInfo;
-  pseudonymousIdInfo?: PseudonymousIdInfo;
-  userIdInfo?: UserIdInfo;
-  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList;
+  partnerAudienceInfo?: PartnerAudienceInfo | undefined;
+  pairIdInfo?: PairIdInfo | undefined;
+  mobileIdInfo?: MobileIdInfo | undefined;
+  contactIdInfo?: ContactIdInfo | undefined;
+  pseudonymousIdInfo?: PseudonymousIdInfo | undefined;
+  userIdInfo?: UserIdInfo | undefined;
+  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList | undefined;
 }
 export interface UserList {
-  accessReason?: UserListAccessReasonEnum | (string & {});
-  displayName?: string;
-  integrationCode?: string;
-  closingReason?: UserListClosingReasonEnum | (string & {});
-  membershipDuration?: string;
-  sizeInfo?: SizeInfo;
-  membershipStatus?: UserListMembershipStatusEnum | (string & {});
-  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
-  description?: string;
-  name?: string;
-  targetNetworkInfo?: TargetNetworkInfo;
-  id?: string;
-  ingestedUserListInfo?: IngestedUserListInfo;
-  readOnly?: boolean;
+  accessReason?: UserListAccessReasonEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  integrationCode?: string | undefined;
+  closingReason?: UserListClosingReasonEnum | (string & {}) | undefined;
+  membershipDuration?: string | undefined;
+  sizeInfo?: SizeInfo | undefined;
+  membershipStatus?: UserListMembershipStatusEnum | (string & {}) | undefined;
+  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  targetNetworkInfo?: TargetNetworkInfo | undefined;
+  id?: string | undefined;
+  ingestedUserListInfo?: IngestedUserListInfo | undefined;
+  readOnly?: boolean | undefined;
 }
 export interface CreateAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   parent: string;
   /** Request body */
-  body?: UserList;
+  body?: UserList | undefined;
 }
 export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   name: string;
 }
 export interface Empty {}
 export interface DeleteAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   name: string;
 }
 export type StringList = Array<string>;
 export interface Location {
-  regionCodes?: StringList;
+  regionCodes?: StringList | undefined;
 }
 export interface Baseline {
-  baselineLocation?: Location;
-  locationAutoDetectionEnabled?: boolean;
+  baselineLocation?: Location | undefined;
+  locationAutoDetectionEnabled?: boolean | undefined;
 }
 export interface RetrieveInsightsRequest {
-  userListId?: string;
-  baseline?: Baseline;
+  userListId?: string | undefined;
+  baseline?: Baseline | undefined;
 }
 export interface GetAccountTypesAccountsInsightsRequest {
   parent: string;
   /** Request body */
-  body?: RetrieveInsightsRequest;
+  body?: RetrieveInsightsRequest | undefined;
 }
 export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_UNSPECIFIED"
@@ -382,10 +382,10 @@ export type MarketingDataInsightsAttributeGenderEnum =
   | "GENDER_MALE"
   | "GENDER_FEMALE";
 export interface MarketingDataInsightsAttribute {
-  ageRange?: MarketingDataInsightsAttributeAgeRangeEnum;
-  gender?: MarketingDataInsightsAttributeGenderEnum;
-  userInterestId?: string;
-  lift?: number;
+  ageRange?: MarketingDataInsightsAttributeAgeRangeEnum | undefined;
+  gender?: MarketingDataInsightsAttributeGenderEnum | undefined;
+  userInterestId?: string | undefined;
+  lift?: number | undefined;
 }
 export type MarketingDataInsightsAttributeList = Array<MarketingDataInsightsAttribute>;
 export type MarketingDataInsightDimensionEnum =
@@ -396,12 +396,12 @@ export type MarketingDataInsightDimensionEnum =
   | "AGE_RANGE"
   | "GENDER";
 export interface MarketingDataInsight {
-  attributes?: MarketingDataInsightsAttributeList;
-  dimension?: MarketingDataInsightDimensionEnum;
+  attributes?: MarketingDataInsightsAttributeList | undefined;
+  dimension?: MarketingDataInsightDimensionEnum | undefined;
 }
 export type MarketingDataInsightList = Array<MarketingDataInsight>;
 export interface RetrieveInsightsResponse {
-  marketingDataInsights?: MarketingDataInsightList;
+  marketingDataInsights?: MarketingDataInsightList | undefined;
 }
 export interface GetAccountTypesAccountsUserListDirectLicensesRequest {
   name: string;
@@ -413,7 +413,7 @@ export interface GetAccountTypesAccountsUserListsRequest {
   name: string;
 }
 export interface GetRequestStatusRequest {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RequestStatusPerDestinationRequestStatusEnum =
   | "REQUEST_STATUS_UNKNOWN"
@@ -433,28 +433,28 @@ export type WarningCountReasonEnum =
   | "PROCESSING_WARNING_REASON_INTERNAL_ERROR"
   | "PROCESSING_WARNING_REASON_AWS_AUTH_FAILED";
 export interface WarningCount {
-  recordCount?: string;
-  reason?: WarningCountReasonEnum;
+  recordCount?: string | undefined;
+  reason?: WarningCountReasonEnum | undefined;
 }
 export type WarningCountList = Array<WarningCount>;
 export interface WarningInfo {
-  warningCounts?: WarningCountList;
+  warningCounts?: WarningCountList | undefined;
 }
 export interface RemoveUserIdDataStatus {
-  recordCount?: string;
-  userIdCount?: string;
+  recordCount?: string | undefined;
+  userIdCount?: string | undefined;
 }
 export interface RemoveUserDataStatus {
-  recordCount?: string;
-  userIdentifierCount?: string;
+  recordCount?: string | undefined;
+  userIdentifierCount?: string | undefined;
 }
 export interface RemovePairDataStatus {
-  recordCount?: string;
-  pairIdCount?: string;
+  recordCount?: string | undefined;
+  pairIdCount?: string | undefined;
 }
 export interface RemovePpidDataStatus {
-  ppidCount?: string;
-  recordCount?: string;
+  ppidCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export type DataTypeCountTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -463,45 +463,45 @@ export type DataTypeCountTypeEnum =
   | "ADDRESS"
   | "IP_ADDRESS";
 export interface DataTypeCount {
-  type?: DataTypeCountTypeEnum;
-  count?: string;
+  type?: DataTypeCountTypeEnum | undefined;
+  count?: string | undefined;
 }
 export type DataTypeCountList = Array<DataTypeCount>;
 export interface RemoveCompositeDataStatus {
-  dataTypeCounts?: DataTypeCountList;
-  recordCount?: string;
+  dataTypeCounts?: DataTypeCountList | undefined;
+  recordCount?: string | undefined;
 }
 export interface RemoveGoogleUserIdDataStatus {
-  googleUserIdCount?: string;
-  recordCount?: string;
+  googleUserIdCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export interface RemoveMobileDataStatus {
-  recordCount?: string;
-  mobileIdCount?: string;
+  recordCount?: string | undefined;
+  mobileIdCount?: string | undefined;
 }
 export interface RemovePartnerProvidedIdDataStatus {
-  recordCount?: string;
-  partnerProvidedIdCount?: string;
+  recordCount?: string | undefined;
+  partnerProvidedIdCount?: string | undefined;
 }
 export interface RemoveAudienceMembersStatus {
-  userIdDataRemovalStatus?: RemoveUserIdDataStatus;
-  userDataRemovalStatus?: RemoveUserDataStatus;
-  pairDataRemovalStatus?: RemovePairDataStatus;
-  ppidDataRemovalStatus?: RemovePpidDataStatus;
-  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
-  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus;
-  mobileDataRemovalStatus?: RemoveMobileDataStatus;
-  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus;
+  userIdDataRemovalStatus?: RemoveUserIdDataStatus | undefined;
+  userDataRemovalStatus?: RemoveUserDataStatus | undefined;
+  pairDataRemovalStatus?: RemovePairDataStatus | undefined;
+  ppidDataRemovalStatus?: RemovePpidDataStatus | undefined;
+  compositeDataRemovalStatus?: RemoveCompositeDataStatus | undefined;
+  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus | undefined;
+  mobileDataRemovalStatus?: RemoveMobileDataStatus | undefined;
+  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus | undefined;
 }
 export interface RemoveAllAudienceMembersStatus {}
 export interface IngestMobileDataStatus {
-  mobileIdCount?: string;
-  recordCount?: string;
+  mobileIdCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export type IngestUserIdDataStatus = RemoveUserIdDataStatus;
 export interface IngestPartnerProvidedIdDataStatus {
-  partnerProvidedIdCount?: string;
-  recordCount?: string;
+  partnerProvidedIdCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export type IngestUserDataStatusUploadMatchRateRangeEnum =
   | "MATCH_RATE_RANGE_UNKNOWN"
@@ -516,13 +516,13 @@ export type IngestUserDataStatusUploadMatchRateRangeEnum =
   | "MATCH_RATE_RANGE_81_TO_90"
   | "MATCH_RATE_RANGE_91_TO_100";
 export interface IngestUserDataStatus {
-  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
-  userIdentifierCount?: string;
-  recordCount?: string;
+  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum | undefined;
+  userIdentifierCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export interface IngestPairDataStatus {
-  pairIdCount?: string;
-  recordCount?: string;
+  pairIdCount?: string | undefined;
+  recordCount?: string | undefined;
 }
 export type IngestPpidDataStatus = RemovePpidDataStatus;
 export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
@@ -538,30 +538,30 @@ export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
   | "MATCH_RATE_RANGE_81_TO_90"
   | "MATCH_RATE_RANGE_91_TO_100";
 export interface IngestCompositeDataStatus {
-  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
-  recordCount?: string;
-  dataTypeCounts?: DataTypeCountList;
+  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum | undefined;
+  recordCount?: string | undefined;
+  dataTypeCounts?: DataTypeCountList | undefined;
 }
 export type IngestGoogleUserIdDataStatus = RemoveGoogleUserIdDataStatus;
 export interface IngestAudienceMembersStatus {
-  mobileDataIngestionStatus?: IngestMobileDataStatus;
-  userIdDataIngestionStatus?: RemoveUserIdDataStatus;
-  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
-  userDataIngestionStatus?: IngestUserDataStatus;
-  pairDataIngestionStatus?: IngestPairDataStatus;
-  ppidDataIngestionStatus?: RemovePpidDataStatus;
-  compositeDataIngestionStatus?: IngestCompositeDataStatus;
-  googleUserIdDataIngestionStatus?: RemoveGoogleUserIdDataStatus;
+  mobileDataIngestionStatus?: IngestMobileDataStatus | undefined;
+  userIdDataIngestionStatus?: RemoveUserIdDataStatus | undefined;
+  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus | undefined;
+  userDataIngestionStatus?: IngestUserDataStatus | undefined;
+  pairDataIngestionStatus?: IngestPairDataStatus | undefined;
+  ppidDataIngestionStatus?: RemovePpidDataStatus | undefined;
+  compositeDataIngestionStatus?: IngestCompositeDataStatus | undefined;
+  googleUserIdDataIngestionStatus?: RemoveGoogleUserIdDataStatus | undefined;
 }
 export interface Destination {
-  reference?: string;
-  productDestinationId?: string;
-  loginAccount?: ProductAccount;
-  operatingAccount?: ProductAccount;
-  linkedAccount?: ProductAccount;
+  reference?: string | undefined;
+  productDestinationId?: string | undefined;
+  loginAccount?: ProductAccount | undefined;
+  operatingAccount?: ProductAccount | undefined;
+  linkedAccount?: ProductAccount | undefined;
 }
 export interface IngestEventsStatus {
-  recordCount?: string;
+  recordCount?: string | undefined;
 }
 export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_UNSPECIFIED"
@@ -612,26 +612,26 @@ export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_DESTINATION_TOO_RECENTLY_CREATED"
   | "PROCESSING_ERROR_REASON_EXPIRED_CLICK";
 export interface ErrorCount {
-  recordCount?: string;
-  reason?: ErrorCountReasonEnum;
+  recordCount?: string | undefined;
+  reason?: ErrorCountReasonEnum | undefined;
 }
 export type ErrorCountList = Array<ErrorCount>;
 export interface ErrorInfo {
-  errorCounts?: ErrorCountList;
+  errorCounts?: ErrorCountList | undefined;
 }
 export interface RequestStatusPerDestination {
-  requestStatus?: RequestStatusPerDestinationRequestStatusEnum;
-  warningInfo?: WarningInfo;
-  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus;
-  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus;
-  audienceMembersIngestionStatus?: IngestAudienceMembersStatus;
-  destination?: Destination;
-  eventsIngestionStatus?: IngestEventsStatus;
-  errorInfo?: ErrorInfo;
+  requestStatus?: RequestStatusPerDestinationRequestStatusEnum | undefined;
+  warningInfo?: WarningInfo | undefined;
+  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus | undefined;
+  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus | undefined;
+  audienceMembersIngestionStatus?: IngestAudienceMembersStatus | undefined;
+  destination?: Destination | undefined;
+  eventsIngestionStatus?: IngestEventsStatus | undefined;
+  errorInfo?: ErrorInfo | undefined;
 }
 export type RequestStatusPerDestinationList = Array<RequestStatusPerDestination>;
 export interface GetRequestStatusResponse {
-  requestStatusPerDestination?: RequestStatusPerDestinationList;
+  requestStatusPerDestination?: RequestStatusPerDestinationList | undefined;
 }
 export type AdEventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -664,22 +664,22 @@ export type AdEventPlatformTypeEnum =
   | "PLATFORM_TYPE_PHONE"
   | "PLATFORM_TYPE_TABLET";
 export interface AddressInfo {
-  addressLine?: string;
-  city?: string;
-  administrativeArea?: string;
-  familyName?: string;
-  postalCode?: string;
-  givenName?: string;
-  regionCode?: string;
+  addressLine?: string | undefined;
+  city?: string | undefined;
+  administrativeArea?: string | undefined;
+  familyName?: string | undefined;
+  postalCode?: string | undefined;
+  givenName?: string | undefined;
+  regionCode?: string | undefined;
 }
 export interface UserIdentifier {
-  emailAddress?: string;
-  phoneNumber?: string;
-  address?: AddressInfo;
+  emailAddress?: string | undefined;
+  phoneNumber?: string | undefined;
+  address?: AddressInfo | undefined;
 }
 export type UserIdentifierList = Array<UserIdentifier>;
 export interface UserData {
-  userIdentifiers?: UserIdentifierList;
+  userIdentifiers?: UserIdentifierList | undefined;
 }
 export type AdEventTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -703,14 +703,14 @@ export type ViewabilityInfoViewTypeEnum =
   | "VIEW_TYPE_MRC_VIEWED"
   | "VIEW_TYPE_MRC_RENDERED";
 export interface ViewabilityInfo {
-  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {});
-  mediaVolumePercent?: number;
-  viewableDuration?: string;
-  viewablePercent?: number;
-  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
-  mediaDuration?: string;
-  mediaSkippable?: boolean;
-  playbackDuration?: string;
+  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {}) | undefined;
+  mediaVolumePercent?: number | undefined;
+  viewableDuration?: string | undefined;
+  viewablePercent?: number | undefined;
+  viewType?: ViewabilityInfoViewTypeEnum | (string & {}) | undefined;
+  mediaDuration?: string | undefined;
+  mediaSkippable?: boolean | undefined;
+  playbackDuration?: string | undefined;
 }
 export type AdEventAdPlacementEnum =
   | "AD_PLACEMENT_UNSPECIFIED"
@@ -749,102 +749,102 @@ export type AdEventPlatformEnum =
   | "PLATFORM_ANDROID"
   | "PLATFORM_WEB";
 export interface DeviceInfo {
-  browser?: string;
-  screenWidth?: number;
-  userAgent?: string;
-  operatingSystemVersion?: string;
-  screenHeight?: number;
-  ipAddress?: string;
-  browserVersion?: string;
-  operatingSystem?: string;
-  brand?: string;
-  category?: string;
-  model?: string;
-  languageCode?: string;
+  browser?: string | undefined;
+  screenWidth?: number | undefined;
+  userAgent?: string | undefined;
+  operatingSystemVersion?: string | undefined;
+  screenHeight?: number | undefined;
+  ipAddress?: string | undefined;
+  browserVersion?: string | undefined;
+  operatingSystem?: string | undefined;
+  brand?: string | undefined;
+  category?: string | undefined;
+  model?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface AdEvent {
-  regionCode?: string;
-  measurementAllowed?: boolean;
-  adHeight?: number;
-  campaignName?: string;
-  adTypeString?: string;
-  eventType?: AdEventEventTypeEnum | (string & {});
-  attributionHint?: AdEventAttributionHintEnum | (string & {});
-  adType?: AdEventAdTypeEnum | (string & {});
-  ipAddress?: string;
-  platformString?: string;
-  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
-  platformType?: AdEventPlatformTypeEnum | (string & {});
-  advertiserId?: string;
-  userData?: UserData;
-  eventSubtypeString?: string;
-  targetingType?: AdEventTargetingTypeEnum | (string & {});
-  adGroupId?: string;
-  viewabilityInfo?: ViewabilityInfo;
-  adFormatString?: string;
-  adPlacement?: AdEventAdPlacementEnum | (string & {});
-  adFormat?: AdEventAdFormatEnum | (string & {});
-  platformTypeString?: string;
-  timestamp?: string;
-  targetingTypeString?: string;
-  source?: string;
-  platform?: AdEventPlatformEnum | (string & {});
-  adPlacementString?: string;
-  deviceInfo?: DeviceInfo;
-  campaignId?: string;
-  mobileDeviceId?: string;
-  adId?: string;
-  medium?: string;
-  eventId?: string;
-  adWidth?: number;
+  regionCode?: string | undefined;
+  measurementAllowed?: boolean | undefined;
+  adHeight?: number | undefined;
+  campaignName?: string | undefined;
+  adTypeString?: string | undefined;
+  eventType?: AdEventEventTypeEnum | (string & {}) | undefined;
+  attributionHint?: AdEventAttributionHintEnum | (string & {}) | undefined;
+  adType?: AdEventAdTypeEnum | (string & {}) | undefined;
+  ipAddress?: string | undefined;
+  platformString?: string | undefined;
+  eventSubtype?: AdEventEventSubtypeEnum | (string & {}) | undefined;
+  platformType?: AdEventPlatformTypeEnum | (string & {}) | undefined;
+  advertiserId?: string | undefined;
+  userData?: UserData | undefined;
+  eventSubtypeString?: string | undefined;
+  targetingType?: AdEventTargetingTypeEnum | (string & {}) | undefined;
+  adGroupId?: string | undefined;
+  viewabilityInfo?: ViewabilityInfo | undefined;
+  adFormatString?: string | undefined;
+  adPlacement?: AdEventAdPlacementEnum | (string & {}) | undefined;
+  adFormat?: AdEventAdFormatEnum | (string & {}) | undefined;
+  platformTypeString?: string | undefined;
+  timestamp?: string | undefined;
+  targetingTypeString?: string | undefined;
+  source?: string | undefined;
+  platform?: AdEventPlatformEnum | (string & {}) | undefined;
+  adPlacementString?: string | undefined;
+  deviceInfo?: DeviceInfo | undefined;
+  campaignId?: string | undefined;
+  mobileDeviceId?: string | undefined;
+  adId?: string | undefined;
+  medium?: string | undefined;
+  eventId?: string | undefined;
+  adWidth?: number | undefined;
 }
 export type AdEventList = Array<AdEvent>;
 export type AwsWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
 export interface AwsWrappedKeyInfo {
-  roleArn?: string;
-  kekUri?: string;
-  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
-  encryptedDek?: string;
+  roleArn?: string | undefined;
+  kekUri?: string | undefined;
+  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {}) | undefined;
+  encryptedDek?: string | undefined;
 }
 export type GcpWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
 export interface GcpWrappedKeyInfo {
-  encryptedDek?: string;
-  wipProvider?: string;
-  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
-  kekUri?: string;
+  encryptedDek?: string | undefined;
+  wipProvider?: string | undefined;
+  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {}) | undefined;
+  kekUri?: string | undefined;
 }
 export interface CoordinatorKeyInfo {
-  keyId?: string;
+  keyId?: string | undefined;
 }
 export interface EncryptionInfo {
-  awsWrappedKeyInfo?: AwsWrappedKeyInfo;
-  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
-  coordinatorKeyInfo?: CoordinatorKeyInfo;
+  awsWrappedKeyInfo?: AwsWrappedKeyInfo | undefined;
+  gcpWrappedKeyInfo?: GcpWrappedKeyInfo | undefined;
+  coordinatorKeyInfo?: CoordinatorKeyInfo | undefined;
 }
 export interface IngestAdEventsRequest {
-  adEvents?: AdEventList;
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  adEvents?: AdEventList | undefined;
+  validateOnly?: boolean | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface IngestAdEventsRequest_ {
   /** Request body */
-  body?: IngestAdEventsRequest;
+  body?: IngestAdEventsRequest | undefined;
 }
 export interface IngestAdEventsResponse {}
 export interface PartnerProvidedIdData {
-  partnerProvidedIds?: StringList;
+  partnerProvidedIds?: StringList | undefined;
 }
 export interface GoogleUserIdData {
-  googleUserIds?: StringList;
+  googleUserIds?: StringList | undefined;
 }
 export interface PairData {
-  pairIds?: StringList;
+  pairIds?: StringList | undefined;
 }
 export interface MobileData {
-  mobileIds?: StringList;
+  mobileIds?: StringList | undefined;
 }
 export interface PpidData {
-  ppids?: StringList;
+  ppids?: StringList | undefined;
 }
 export type ConsentAdUserDataEnum =
   | "CONSENT_STATUS_UNSPECIFIED"
@@ -855,33 +855,33 @@ export type ConsentAdPersonalizationEnum =
   | "CONSENT_GRANTED"
   | "CONSENT_DENIED";
 export interface Consent {
-  adUserData?: ConsentAdUserDataEnum | (string & {});
-  adPersonalization?: ConsentAdPersonalizationEnum | (string & {});
+  adUserData?: ConsentAdUserDataEnum | (string & {}) | undefined;
+  adPersonalization?: ConsentAdPersonalizationEnum | (string & {}) | undefined;
 }
 export interface IpData {
-  ipAddress?: string;
-  observeStartTime?: string;
-  observeEndTime?: string;
+  ipAddress?: string | undefined;
+  observeStartTime?: string | undefined;
+  observeEndTime?: string | undefined;
 }
 export type IpDataList = Array<IpData>;
 export interface CompositeData {
-  ipData?: IpDataList;
-  userData?: UserData;
+  ipData?: IpDataList | undefined;
+  userData?: UserData | undefined;
 }
 export interface UserIdData {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface AudienceMember {
-  destinationReferences?: StringList;
-  partnerProvidedIdData?: PartnerProvidedIdData;
-  googleUserIdData?: GoogleUserIdData;
-  userData?: UserData;
-  pairData?: PairData;
-  mobileData?: MobileData;
-  ppidData?: PpidData;
-  consent?: Consent;
-  compositeData?: CompositeData;
-  userIdData?: UserIdData;
+  destinationReferences?: StringList | undefined;
+  partnerProvidedIdData?: PartnerProvidedIdData | undefined;
+  googleUserIdData?: GoogleUserIdData | undefined;
+  userData?: UserData | undefined;
+  pairData?: PairData | undefined;
+  mobileData?: MobileData | undefined;
+  ppidData?: PpidData | undefined;
+  consent?: Consent | undefined;
+  compositeData?: CompositeData | undefined;
+  userIdData?: UserIdData | undefined;
 }
 export type AudienceMemberList = Array<AudienceMember>;
 export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
@@ -893,20 +893,21 @@ export type TermsOfServiceCustomerMatchTermsOfServiceStatusEnum =
 export interface TermsOfService {
   customerMatchTermsOfServiceStatus?:
     | TermsOfServiceCustomerMatchTermsOfServiceStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface IngestAudienceMembersRequest {
-  audienceMembers?: AudienceMemberList;
-  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {});
-  destinations?: DestinationList;
-  consent?: Consent;
-  termsOfService?: TermsOfService;
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  audienceMembers?: AudienceMemberList | undefined;
+  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
+  destinations?: DestinationList | undefined;
+  consent?: Consent | undefined;
+  termsOfService?: TermsOfService | undefined;
+  validateOnly?: boolean | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface IngestAudienceMembersRequest_ {
   /** Request body */
-  body?: IngestAudienceMembersRequest;
+  body?: IngestAudienceMembersRequest | undefined;
 }
 export type FieldWarningReasonEnum =
   | "WARNING_REASON_UNSPECIFIED"
@@ -925,14 +926,14 @@ export type FieldWarningReasonEnum =
   | "WARNING_REASON_INVALID_DEVICE_SCREEN_RESOLUTION"
   | "WARNING_REASON_INVALID_MERCHANT_ID";
 export interface FieldWarning {
-  reason?: FieldWarningReasonEnum;
-  field?: string;
-  description?: string;
+  reason?: FieldWarningReasonEnum | undefined;
+  field?: string | undefined;
+  description?: string | undefined;
 }
 export type FieldWarningList = Array<FieldWarning>;
 export interface IngestAudienceMembersResponse {
-  fieldWarnings?: FieldWarningList;
-  requestId?: string;
+  fieldWarnings?: FieldWarningList | undefined;
+  requestId?: string | undefined;
 }
 export type EventEventSourceEnum =
   | "EVENT_SOURCE_UNSPECIFIED"
@@ -953,61 +954,61 @@ export type UserPropertiesCustomerTypeEnum =
   | "RETURNING"
   | "REENGAGED";
 export interface UserProperty {
-  propertyName?: string;
-  value?: string;
+  propertyName?: string | undefined;
+  value?: string | undefined;
 }
 export type UserPropertyList = Array<UserProperty>;
 export interface UserProperties {
-  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
-  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
-  additionalUserProperties?: UserPropertyList;
+  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {}) | undefined;
+  customerType?: UserPropertiesCustomerTypeEnum | (string & {}) | undefined;
+  additionalUserProperties?: UserPropertyList | undefined;
 }
 export interface CustomVariable {
-  variable?: string;
-  value?: string;
-  destinationReferences?: StringList;
+  variable?: string | undefined;
+  value?: string | undefined;
+  destinationReferences?: StringList | undefined;
 }
 export type CustomVariableList = Array<CustomVariable>;
 export interface ItemParameter {
-  parameterName?: string;
-  value?: string;
+  parameterName?: string | undefined;
+  value?: string | undefined;
 }
 export type ItemParameterList = Array<ItemParameter>;
 export interface ItemCustomVariable {
-  destinationReferences?: StringList;
-  value?: string;
-  variable?: string;
+  destinationReferences?: StringList | undefined;
+  value?: string | undefined;
+  variable?: string | undefined;
 }
 export type ItemCustomVariableList = Array<ItemCustomVariable>;
 export interface Item {
-  conversionValue?: number;
-  additionalItemParameters?: ItemParameterList;
-  merchantFeedLabel?: string;
-  quantity?: string;
-  merchantProductId?: string;
-  unitPrice?: number;
-  itemId?: string;
-  customVariables?: ItemCustomVariableList;
-  merchantFeedLanguageCode?: string;
-  merchantId?: string;
+  conversionValue?: number | undefined;
+  additionalItemParameters?: ItemParameterList | undefined;
+  merchantFeedLabel?: string | undefined;
+  quantity?: string | undefined;
+  merchantProductId?: string | undefined;
+  unitPrice?: number | undefined;
+  itemId?: string | undefined;
+  customVariables?: ItemCustomVariableList | undefined;
+  merchantFeedLanguageCode?: string | undefined;
+  merchantId?: string | undefined;
 }
 export type ItemList = Array<Item>;
 export interface CartData {
-  couponCodes?: StringList;
-  merchantFeedLanguageCode?: string;
-  merchantId?: string;
-  transactionDiscount?: number;
-  items?: ItemList;
-  merchantFeedLabel?: string;
+  couponCodes?: StringList | undefined;
+  merchantFeedLanguageCode?: string | undefined;
+  merchantId?: string | undefined;
+  transactionDiscount?: number | undefined;
+  items?: ItemList | undefined;
+  merchantFeedLabel?: string | undefined;
 }
 export interface ExperimentalField {
-  field?: string;
-  value?: string;
+  field?: string | undefined;
+  value?: string | undefined;
 }
 export type ExperimentalFieldList = Array<ExperimentalField>;
 export interface EventParameter {
-  value?: string;
-  parameterName?: string;
+  value?: string | undefined;
+  parameterName?: string | undefined;
 }
 export type EventParameterList = Array<EventParameter>;
 export type EncryptedUserIdEntityTypeEnum =
@@ -1023,124 +1024,124 @@ export type EncryptedUserIdSourceEnum =
   | "AD_SERVING"
   | "DATA_TRANSFER";
 export interface EncryptedUserId {
-  entityType?: EncryptedUserIdEntityTypeEnum | (string & {});
-  source?: EncryptedUserIdSourceEnum | (string & {});
-  entityId?: string;
-  encryptedId?: string;
+  entityType?: EncryptedUserIdEntityTypeEnum | (string & {}) | undefined;
+  source?: EncryptedUserIdSourceEnum | (string & {}) | undefined;
+  entityId?: string | undefined;
+  encryptedId?: string | undefined;
 }
 export type EncryptedUserIdList = Array<EncryptedUserId>;
 export interface AdIdentifiers {
-  sessionAttributes?: string;
-  visitorPpid?: string;
-  encryptedUserIds?: EncryptedUserIdList;
-  gclid?: string;
-  dclid?: string;
-  wbraid?: string;
-  impressionId?: string;
-  mobileDeviceId?: string;
-  gbraid?: string;
-  landingPageDeviceInfo?: DeviceInfo;
-  matchId?: string;
-  ppid?: string;
+  sessionAttributes?: string | undefined;
+  visitorPpid?: string | undefined;
+  encryptedUserIds?: EncryptedUserIdList | undefined;
+  gclid?: string | undefined;
+  dclid?: string | undefined;
+  wbraid?: string | undefined;
+  impressionId?: string | undefined;
+  mobileDeviceId?: string | undefined;
+  gbraid?: string | undefined;
+  landingPageDeviceInfo?: DeviceInfo | undefined;
+  matchId?: string | undefined;
+  ppid?: string | undefined;
 }
 export interface EventLocation {
-  city?: string;
-  subcontinentCode?: string;
-  storeId?: string;
-  subdivisionCode?: string;
-  regionCode?: string;
-  continentCode?: string;
+  city?: string | undefined;
+  subcontinentCode?: string | undefined;
+  storeId?: string | undefined;
+  subdivisionCode?: string | undefined;
+  regionCode?: string | undefined;
+  continentCode?: string | undefined;
 }
 export interface Event {
-  eventName?: string;
-  userId?: string;
-  conversionCount?: number;
-  eventSource?: EventEventSourceEnum | (string & {});
-  userProperties?: UserProperties;
-  thirdPartyUserData?: UserData;
-  currency?: string;
-  clientId?: string;
-  customVariables?: CustomVariableList;
-  appInstanceId?: string;
-  eventTimestamp?: string;
-  cartData?: CartData;
-  conversionValue?: number;
-  lastUpdatedTimestamp?: string;
-  experimentalFields?: ExperimentalFieldList;
-  userData?: UserData;
-  additionalEventParameters?: EventParameterList;
-  adIdentifiers?: AdIdentifiers;
-  consent?: Consent;
-  eventLocation?: EventLocation;
-  destinationReferences?: StringList;
-  eventDeviceInfo?: DeviceInfo;
-  transactionId?: string;
+  eventName?: string | undefined;
+  userId?: string | undefined;
+  conversionCount?: number | undefined;
+  eventSource?: EventEventSourceEnum | (string & {}) | undefined;
+  userProperties?: UserProperties | undefined;
+  thirdPartyUserData?: UserData | undefined;
+  currency?: string | undefined;
+  clientId?: string | undefined;
+  customVariables?: CustomVariableList | undefined;
+  appInstanceId?: string | undefined;
+  eventTimestamp?: string | undefined;
+  cartData?: CartData | undefined;
+  conversionValue?: number | undefined;
+  lastUpdatedTimestamp?: string | undefined;
+  experimentalFields?: ExperimentalFieldList | undefined;
+  userData?: UserData | undefined;
+  additionalEventParameters?: EventParameterList | undefined;
+  adIdentifiers?: AdIdentifiers | undefined;
+  consent?: Consent | undefined;
+  eventLocation?: EventLocation | undefined;
+  destinationReferences?: StringList | undefined;
+  eventDeviceInfo?: DeviceInfo | undefined;
+  transactionId?: string | undefined;
 }
 export type EventList = Array<Event>;
 export type IngestEventsRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface IngestEventsRequest {
-  events?: EventList;
-  destinations?: DestinationList;
-  consent?: Consent;
-  encoding?: IngestEventsRequestEncodingEnum | (string & {});
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
+  events?: EventList | undefined;
+  destinations?: DestinationList | undefined;
+  consent?: Consent | undefined;
+  encoding?: IngestEventsRequestEncodingEnum | (string & {}) | undefined;
+  validateOnly?: boolean | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface IngestEventsRequest_ {
   /** Request body */
-  body?: IngestEventsRequest;
+  body?: IngestEventsRequest | undefined;
 }
 export interface IngestEventsResponse {
-  fieldWarnings?: FieldWarningList;
-  requestId?: string;
+  fieldWarnings?: FieldWarningList | undefined;
+  requestId?: string | undefined;
 }
 export interface User {
-  mobileData?: MobileData;
-  userData?: UserData;
+  mobileData?: MobileData | undefined;
+  userData?: UserData | undefined;
 }
 export type UserList_ = Array<User>;
 export type IngestUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface IngestUsersRequest {
-  encryptionInfo?: EncryptionInfo;
-  users?: UserList_;
-  destinations?: DestinationList;
-  encoding?: IngestUsersRequestEncodingEnum | (string & {});
-  validateOnly?: boolean;
+  encryptionInfo?: EncryptionInfo | undefined;
+  users?: UserList_ | undefined;
+  destinations?: DestinationList | undefined;
+  encoding?: IngestUsersRequestEncodingEnum | (string & {}) | undefined;
+  validateOnly?: boolean | undefined;
 }
 export interface IngestUsersRequest_ {
   /** Request body */
-  body?: IngestUsersRequest;
+  body?: IngestUsersRequest | undefined;
 }
 export interface IngestUsersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListDirectLicensesRequest {
-  pageSize?: number;
-  filter?: string;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type UserListDirectLicenseList = Array<UserListDirectLicense>;
 export interface ListUserListDirectLicensesResponse {
-  userListDirectLicenses?: UserListDirectLicenseList;
-  nextPageToken?: string;
+  userListDirectLicenses?: UserListDirectLicenseList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
-  filter?: string;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
 }
 export type UserListGlobalLicenseList = Array<UserListGlobalLicense>;
 export interface ListUserListGlobalLicensesResponse {
-  userListGlobalLicenses?: UserListGlobalLicenseList;
-  nextPageToken?: string;
+  userListGlobalLicenses?: UserListGlobalLicenseList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
-  filter?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
 }
 export type UserListGlobalLicenseCustomerInfoStatusEnum =
   | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
@@ -1158,106 +1159,106 @@ export type UserListGlobalLicenseCustomerInfoLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_SELL_SIDE"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_BUY_SIDE";
 export interface UserListGlobalLicenseCustomerInfo {
-  userListId?: string;
-  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
-  clientAccountId?: string;
-  clientAccountDisplayName?: string;
-  historicalPricings?: UserListLicensePricingList;
-  userListDisplayName?: string;
-  pricing?: UserListLicensePricing;
-  name?: string;
-  metrics?: UserListLicenseMetrics;
-  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum;
-  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum;
+  userListId?: string | undefined;
+  status?: UserListGlobalLicenseCustomerInfoStatusEnum | undefined;
+  clientAccountId?: string | undefined;
+  clientAccountDisplayName?: string | undefined;
+  historicalPricings?: UserListLicensePricingList | undefined;
+  userListDisplayName?: string | undefined;
+  pricing?: UserListLicensePricing | undefined;
+  name?: string | undefined;
+  metrics?: UserListLicenseMetrics | undefined;
+  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum | undefined;
+  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum | undefined;
 }
 export type UserListGlobalLicenseCustomerInfoList = Array<UserListGlobalLicenseCustomerInfo>;
 export interface ListUserListGlobalLicenseCustomerInfosResponse {
-  userListGlobalLicenseCustomerInfos?: UserListGlobalLicenseCustomerInfoList;
-  nextPageToken?: string;
+  userListGlobalLicenseCustomerInfos?: UserListGlobalLicenseCustomerInfoList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountTypesAccountsUserListsRequest {
-  pageToken?: string;
-  filter?: string;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type UserListList = Array<UserList>;
 export interface ListUserListsResponse {
-  userLists?: UserListList;
-  nextPageToken?: string;
+  userLists?: UserListList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: UserListDirectLicense;
+  body?: UserListDirectLicense | undefined;
 }
 export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: UserListGlobalLicense;
+  body?: UserListGlobalLicense | undefined;
 }
 export interface PatchAccountTypesAccountsUserListsRequest {
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: UserList;
+  body?: UserList | undefined;
 }
 export interface RemoveAllAudienceMembersRequest {
-  destinations?: DestinationList;
-  validateOnly?: boolean;
-  removeAsOfTime?: string;
+  destinations?: DestinationList | undefined;
+  validateOnly?: boolean | undefined;
+  removeAsOfTime?: string | undefined;
 }
 export interface RemoveAllAudienceMembersRequest_ {
   /** Request body */
-  body?: RemoveAllAudienceMembersRequest;
+  body?: RemoveAllAudienceMembersRequest | undefined;
 }
 export interface RemoveAllAudienceMembersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RemoveAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export interface RemoveAudienceMembersRequest {
-  destinations?: DestinationList;
-  encryptionInfo?: EncryptionInfo;
-  audienceMembers?: AudienceMemberList;
-  validateOnly?: boolean;
-  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
+  destinations?: DestinationList | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
+  audienceMembers?: AudienceMemberList | undefined;
+  validateOnly?: boolean | undefined;
+  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
 }
 export interface RemoveAudienceMembersRequest_ {
   /** Request body */
-  body?: RemoveAudienceMembersRequest;
+  body?: RemoveAudienceMembersRequest | undefined;
 }
 export interface RemoveAudienceMembersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RemoveUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type UserDataList = Array<UserData>;
 export interface RemoveUsersRequest {
-  destinations?: DestinationList;
-  encoding?: RemoveUsersRequestEncodingEnum | (string & {});
-  encryptionInfo?: EncryptionInfo;
-  validateOnly?: boolean;
-  userData?: UserDataList;
+  destinations?: DestinationList | undefined;
+  encoding?: RemoveUsersRequestEncodingEnum | (string & {}) | undefined;
+  encryptionInfo?: EncryptionInfo | undefined;
+  validateOnly?: boolean | undefined;
+  userData?: UserDataList | undefined;
 }
 export interface RemoveUsersRequest_ {
   /** Request body */
-  body?: RemoveUsersRequest;
+  body?: RemoveUsersRequest | undefined;
 }
 export interface RemoveUsersResponse {
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface SearchAccountTypesAccountsPartnerLinksRequest {
-  filter?: string;
-  pageToken?: string;
-  pageSize?: number;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type PartnerLinkList = Array<PartnerLink>;
 export interface SearchPartnerLinksResponse {
-  nextPageToken?: string;
-  partnerLinks?: PartnerLinkList;
+  nextPageToken?: string | undefined;
+  partnerLinks?: PartnerLinkList | undefined;
 }
 export type CreateAccountTypesAccountsPartnerLinksError =
   | NotFound

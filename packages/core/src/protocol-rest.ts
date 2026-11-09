@@ -5,17 +5,16 @@ import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
-import { rawResponseRootSymbol } from "./annotations.ts";
+import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
-import { ndjsonStreamSymbol, type NdjsonStreamTrait } from "./ndjson.ts";
 import { recordPageHeaders } from "./pagination.ts";
 import { unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
   getAnn,
-  getPropAnn,
   getProps,
+  hasPropAnn,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
@@ -44,14 +43,12 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             per-op matcher classes (`matchTypedError`), then the status
+ *             the provider's `classifyError`, then per-op matcher
+ *             classes (`matchTypedError`), then the status
  *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
  *             for unmapped 5xx, then the provider's `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
- *             headers on retryable statuses. A 2xx for an output whose
- *             member carries `NdjsonStream` (core/ndjson) succeeds at the
- *             headers, and that member streams the body's lines, each
- *             decoded like a 2xx body.
+ *             headers on retryable statuses.
  *
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
  * in the provider package -- via these options or a hand-written protocol.
@@ -184,6 +181,13 @@ export interface RestProtocolOptions<C> {
    * else to {@link unknownError}.
    */
   readonly statusMap?: Readonly<Record<number, new (args: any) => any>>;
+  /**
+   * The provider's own reading of a failure, consulted before per-op typed
+   * matching and the status map: return the error to fail with, or
+   * `undefined` to decode the failure as usual. For rules a status alone
+   * can't express, e.g. a 403 that is a rate limit because of its headers.
+   */
+  readonly classifyError?: (info: RestErrorInfo) => unknown;
   /** Fallback error for failures nothing else matched. */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
@@ -202,6 +206,8 @@ export interface RestProtocolOptions<C> {
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /** Passed through to `buildRequest` (wire names for unmodeled input keys). */
   readonly unknownKeyToWire?: (key: string) => string;
+  /** Passed through to `buildRequest`: send `{}` when a bodied call has no body members. */
+  readonly emptyJsonBody?: boolean;
 }
 
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
@@ -293,24 +299,17 @@ export const validateSuccess = <E>(
 interface DecodePlan {
   readonly binary: boolean;
   readonly verbatim: boolean;
+  /**
+   * A member of a structure output that receives the whole body
+   * (`T.RawResponse()` next to header members), e.g. a bare JSON array with
+   * its next-page token in a response header.
+   */
+  readonly bodyMember: AST.PropertySignature | undefined;
+  /** The output is a bare string, so an empty body decodes to `""`. */
+  readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
-  /** The member that receives an NDJSON body as a stream (`NdjsonStream`). */
-  readonly ndjson: NdjsonMember | undefined;
 }
-
-interface NdjsonMember {
-  readonly key: string;
-  readonly trait: NdjsonStreamTrait;
-}
-
-const ndjsonMemberOf = (outputAst: AST.AST): NdjsonMember | undefined => {
-  for (const prop of getProps(outputAst)) {
-    const trait = getPropAnn(prop, ndjsonStreamSymbol) as NdjsonStreamTrait | undefined;
-    if (trait !== undefined) return { key: String(prop.name), trait };
-  }
-  return undefined;
-};
 
 const decodePlans = /*@__PURE__*/ new WeakMap<AST.AST, DecodePlan>();
 const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
@@ -319,8 +318,9 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
+      text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
-      ndjson: ndjsonMemberOf(outputAst),
+      bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
     };
     decodePlans.set(outputAst, plan);
   }
@@ -388,6 +388,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
+      emptyJsonBody: options.emptyJsonBody,
     }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 
@@ -414,6 +415,18 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     if (status >= 400) {
       const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+
+      // 0. The provider's own reading of the failure.
+      if (options.classifyError) {
+        const classified = options.classifyError({
+          status,
+          code: env.code,
+          message,
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (classified !== undefined) return { ok: false, error: classified };
+      }
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(
@@ -476,66 +489,20 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // with sensitive members, a non-JSON body fails in every mode and parse
     // errors withhold the body.
     const plan = decodePlanFor(outputAst);
-    let body: unknown = nonJson ? text : (json ?? {});
+    let body: unknown = nonJson ? text : (json ?? (plan.text ? "" : {}));
     if (options.transformResponse) body = options.transformResponse(body);
+    const mapped =
+      plan.bodyMember !== undefined
+        ? { [plan.bodyMember.name]: mapKeys(plan.bodyMember.type, body, "decode") }
+        : plan.verbatim
+          ? body
+          : mapKeys(outputAst, body, "decode");
     const checked = checkSuccess(context, outputAst, {
-      value: withResponseHeaders(
-        plan.headers,
-        plan.verbatim ? body : mapKeys(outputAst, body, "decode"),
-        headers,
-      ),
+      value: withResponseHeaders(plan.headers, mapped, headers),
       body: nonJson ? text : json,
       nonJson,
     });
     return checked.ok ? checked : { ok: false, error: options.parseError(checked.error) };
-  };
-
-  /**
-   * One line of an NDJSON body, decoded like a 2xx body against the
-   * member's frame schema. A line that is not JSON fails with `parseError`
-   * in every mode.
-   */
-  const decodeLine = (
-    context: Context.Context<any>,
-    frameAst: AST.AST,
-    line: string,
-  ): Effect.Effect<unknown> => {
-    let json: unknown;
-    try {
-      json = JSON.parse(line);
-    } catch {
-      return fail(
-        options.parseError({
-          body: hasSensitiveMember(frameAst) ? "[REDACTED]" : line,
-          cause: "Invalid JSON line",
-        }),
-      );
-    }
-    const body = options.transformResponse ? options.transformResponse(json) : json;
-    const checked = checkSuccess(context, frameAst, {
-      value: mapsVerbatim(frameAst, "decode") ? body : mapKeys(frameAst, body, "decode"),
-      body: json,
-      nonJson: false,
-    });
-    return checked.ok ? Effect.succeed(checked.value) : fail(options.parseError(checked.error));
-  };
-
-  /** A 2xx NDJSON body: its stream member, plus any header members. */
-  const ndjsonOutput = (
-    context: Context.Context<any>,
-    response: HttpClientResponse.HttpClientResponse,
-    plan: DecodePlan,
-    member: NdjsonMember,
-  ): unknown => {
-    const frameAst = member.trait.frame.ast;
-    const stream = member.trait.frames(response.stream, (line) =>
-      decodeLine(context, frameAst, line),
-    );
-    return withResponseHeaders(
-      plan.headers,
-      { [member.key]: stream },
-      response.headers as Record<string, string | undefined>,
-    );
   };
 
   const decodeResponse = (
@@ -543,32 +510,23 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     response: HttpClientResponse.HttpClientResponse,
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
-  ): Effect.Effect<unknown> => {
-    const ok = response.status >= 200 && response.status < 300;
-    const plan = ok ? decodePlanFor(outputAst) : undefined;
-    // The call succeeds at the headers; the stream reads the body later.
-    if (plan?.ndjson !== undefined) {
-      return Effect.succeed(ndjsonOutput(context, response, plan, plan.ndjson));
-    }
+  ): Effect.Effect<unknown> =>
     // A body read that fails (reset or abort mid-body) fails the call with
     // its `HttpClientError`, which every operation's error channel declares.
-    return (
-      plan?.binary
-        ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
-        : Effect.flatMap(response.text, (text) => {
-            recordPageHeaders(context, response.headers);
-            const decoded = decodeText(
-              context,
-              response.status,
-              response.headers as Record<string, string | undefined>,
-              text ?? "",
-              outputAst,
-              errorClasses,
-            );
-            return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
-          })
-    ) as Effect.Effect<unknown>;
-  };
+    (response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
+      ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
+      : Effect.flatMap(response.text, (text) => {
+          recordPageHeaders(context, response.headers);
+          const decoded = decodeText(
+            context,
+            response.status,
+            response.headers as Record<string, string | undefined>,
+            text ?? "",
+            outputAst,
+            errorClasses,
+          );
+          return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+        })) as Effect.Effect<unknown>;
 
   const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {

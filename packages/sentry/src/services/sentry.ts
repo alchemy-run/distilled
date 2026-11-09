@@ -83,24 +83,24 @@ export interface AddOrganizationMemberRequest {
   /** The email address to send the invitation to. */
   email: string;
   /** Deprecated, use `orgRole`. The organization-level role to assign. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
-  role?: AddOrganizationMemberRequestRole | (string & {});
+  role?: AddOrganizationMemberRequestRole | (string & {}) | undefined;
   /** The organization-level role of the new member. Roles include: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `owner` - Has unrestricted access to the organization, its data, and its settings. Can add, modify, and delete projects and members, as well as make billing and plan changes. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
-  orgRole?: AddOrganizationMemberRequestOrgRole | (string & {});
+  orgRole?: AddOrganizationMemberRequestOrgRole | (string & {}) | undefined;
   /** Deprecated, use `teamRoles`. Slugs of teams to add the member to. */
-  teams?: AddOrganizationMemberRequestTeamsList;
+  teams?: AddOrganizationMemberRequestTeamsList | undefined;
   /** The team and team-roles assigned to the member. Team roles can be either: - `contributor` - Can view and act on issues. Depending on organization settings, they can also add team members. - `admin` - Has full management access to their team's membership and projects. */
-  teamRoles?: AddOrganizationMemberRequestTeamRolesList | null;
+  teamRoles?: AddOrganizationMemberRequestTeamRolesList | null | undefined;
   /** Whether or not to send an invite notification through email. Defaults to True. */
-  sendInvite?: boolean;
+  sendInvite?: boolean | undefined;
   /** Whether or not to re-invite a user who has already been invited to the organization. Defaults to True. */
-  reinvite?: boolean;
+  reinvite?: boolean | undefined;
   /** Reissue the invite token, invalidating any previously sent invite link. */
-  regenerate?: boolean;
+  regenerate?: boolean | undefined;
 }
 export interface AddOrganizationMemberResponseExternalUsersItem {
-  externalId?: string;
-  userId?: string;
-  teamId?: string;
+  externalId?: string | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
   id: string;
   provider: string;
   externalName: string;
@@ -127,9 +127,9 @@ export interface AddOrganizationMemberResponseUserIdentitiesItem {
 export type AddOrganizationMemberResponseUserIdentitiesList =
   Array<AddOrganizationMemberResponseUserIdentitiesItem>;
 export interface AddOrganizationMemberResponseUserAvatar {
-  avatarType?: string;
-  avatarUuid?: string | null;
-  avatarUrl?: string | null;
+  avatarType?: string | undefined;
+  avatarUuid?: string | null | undefined;
+  avatarUrl?: string | null | undefined;
 }
 export type AddOrganizationMemberResponseUserAuthenticatorsList = Array<unknown>;
 export type AddOrganizationMemberResponseUserExperimentsMap = {
@@ -143,10 +143,10 @@ export interface AddOrganizationMemberResponseUserEmailsItem {
 export type AddOrganizationMemberResponseUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface AddOrganizationMemberResponseUser {
-  identities?: AddOrganizationMemberResponseUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: AddOrganizationMemberResponseUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: AddOrganizationMemberResponseUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: AddOrganizationMemberResponseUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -174,7 +174,7 @@ export interface AddOrganizationMemberResponseFlags {
   partnership_restricted: boolean;
 }
 export interface AddOrganizationMemberResponse {
-  externalUsers?: AddOrganizationMemberResponseExternalUsersList;
+  externalUsers?: AddOrganizationMemberResponseExternalUsersList | undefined;
   id: string;
   email: string;
   name: string;
@@ -259,11 +259,11 @@ export type AddProjectSymbolSourceRequestFiltersPathPatternsList = Array<string>
 /** Filter settings for the source. This is optional for all sources. **`filetypes`** ***(list)*** - A list of file types that can be found on this source. If this is left empty, all file types will be enabled. The options are: - `pe` - Windows executable files - `pdb` - Windows debug files - `portablepdb` - .NET portable debug files - `mach_code` - MacOS executable files - `mach_debug` - MacOS debug files - `elf_code` - ELF executable files - `elf_debug` - ELF debug files - `wasm_code` - WASM executable files - `wasm_debug` - WASM debug files - `breakpad` - Breakpad symbol files - `sourcebundle` - Source code bundles - `uuidmap` - Apple UUID mapping files - `bcsymbolmap` - Apple bitcode symbol maps - `il2cpp` - Unity IL2CPP mapping files - `proguard` - ProGuard mapping files **`path_patterns`** ***(list)*** - A list of glob patterns to check against the debug and code file paths of debug files. Only files that match one of these patterns will be requested from the source. If this is left empty, no path-based filtering takes place. **`requires_checksum`** ***(boolean)*** - Whether this source requires a debug checksum to be sent with each request. Defaults to `false`. ```json { "filters": { "filetypes": ["pe", "pdb", "portablepdb"], "path_patterns": ["*ffmpeg*"] } } ``` */
 export interface AddProjectSymbolSourceRequestFilters {
   /** The file types enabled for the source. */
-  filetypes?: AddProjectSymbolSourceRequestFiltersFiletypesList;
+  filetypes?: AddProjectSymbolSourceRequestFiltersFiletypesList | undefined;
   /** The debug and code file paths enabled for the source. */
-  path_patterns?: AddProjectSymbolSourceRequestFiltersPathPatternsList;
+  path_patterns?: AddProjectSymbolSourceRequestFiltersPathPatternsList | undefined;
   /** Whether the source requires debug checksums. */
-  requires_checksum?: boolean;
+  requires_checksum?: boolean | undefined;
 }
 /** The source's [S3 region](https://docs.aws.amazon.com/general/latest/gr/s3.html). Required for S3 sources, invalid for all others. * `us-east-2` - US East (Ohio) * `us-east-1` - US East (N. Virginia) * `us-west-1` - US West (N. California) * `us-west-2` - US West (Oregon) * `ap-east-1` - Asia Pacific (Hong Kong) * `ap-south-1` - Asia Pacific (Mumbai) * `ap-northeast-2` - Asia Pacific (Seoul) * `ap-southeast-1` - Asia Pacific (Singapore) * `ap-southeast-2` - Asia Pacific (Sydney) * `ap-northeast-1` - Asia Pacific (Tokyo) * `ca-central-1` - Canada (Central) * `cn-north-1` - China (Beijing) * `cn-northwest-1` - China (Ningxia) * `eu-central-1` - EU (Frankfurt) * `eu-west-1` - EU (Ireland) * `eu-west-2` - EU (London) * `eu-west-3` - EU (Paris) * `eu-north-1` - EU (Stockholm) * `sa-east-1` - South America (São Paulo) * `us-gov-east-1` - AWS GovCloud (US-East) * `us-gov-west-1` - AWS GovCloud (US) */
 export type AddProjectSymbolSourceRequestRegion =
@@ -298,45 +298,45 @@ export interface AddProjectSymbolSourceRequest {
   /** The human-readable name of the source. */
   name: string;
   /** The internal ID of the source. Must be distinct from all other source IDs and cannot start with '`sentry:`'. If this is not provided, a new UUID will be generated. */
-  id?: string;
+  id?: string | undefined;
   /** Layout settings for the source. This is required for HTTP, GCS, and S3 sources. **`type`** ***(string)*** - The layout of the folder structure. The options are: - `native` - Platform-Specific (SymStore / GDB / LLVM) - `symstore` - Microsoft SymStore - `symstore_index2` - Microsoft SymStore (with index2.txt) - `ssqp` - Microsoft SSQP - `unified` - Unified Symbol Server Layout - `debuginfod` - debuginfod **`casing`** ***(string)*** - The layout of the folder structure. The options are: - `default` - Default (mixed case) - `uppercase` - Uppercase - `lowercase` - Lowercase ```json { "layout": { "type": "native" "casing": "default" } } ``` */
-  layout?: AddProjectSymbolSourceRequestLayout;
+  layout?: AddProjectSymbolSourceRequestLayout | undefined;
   /** Filter settings for the source. This is optional for all sources. **`filetypes`** ***(list)*** - A list of file types that can be found on this source. If this is left empty, all file types will be enabled. The options are: - `pe` - Windows executable files - `pdb` - Windows debug files - `portablepdb` - .NET portable debug files - `mach_code` - MacOS executable files - `mach_debug` - MacOS debug files - `elf_code` - ELF executable files - `elf_debug` - ELF debug files - `wasm_code` - WASM executable files - `wasm_debug` - WASM debug files - `breakpad` - Breakpad symbol files - `sourcebundle` - Source code bundles - `uuidmap` - Apple UUID mapping files - `bcsymbolmap` - Apple bitcode symbol maps - `il2cpp` - Unity IL2CPP mapping files - `proguard` - ProGuard mapping files **`path_patterns`** ***(list)*** - A list of glob patterns to check against the debug and code file paths of debug files. Only files that match one of these patterns will be requested from the source. If this is left empty, no path-based filtering takes place. **`requires_checksum`** ***(boolean)*** - Whether this source requires a debug checksum to be sent with each request. Defaults to `false`. ```json { "filters": { "filetypes": ["pe", "pdb", "portablepdb"], "path_patterns": ["*ffmpeg*"] } } ``` */
-  filters?: AddProjectSymbolSourceRequestFilters;
+  filters?: AddProjectSymbolSourceRequestFilters | undefined;
   /** The source's URL. Optional for HTTP sources, invalid for all others. */
-  url?: string;
+  url?: string | undefined;
   /** The user name for accessing the source. Optional for HTTP sources, invalid for all others. */
-  username?: string;
+  username?: string | undefined;
   /** The password for accessing the source. Optional for HTTP sources, invalid for all others. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The GCS or S3 bucket where the source resides. Required for GCS and S3 source, invalid for HTTP sources. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** The source's [S3 region](https://docs.aws.amazon.com/general/latest/gr/s3.html). Required for S3 sources, invalid for all others. * `us-east-2` - US East (Ohio) * `us-east-1` - US East (N. Virginia) * `us-west-1` - US West (N. California) * `us-west-2` - US West (Oregon) * `ap-east-1` - Asia Pacific (Hong Kong) * `ap-south-1` - Asia Pacific (Mumbai) * `ap-northeast-2` - Asia Pacific (Seoul) * `ap-southeast-1` - Asia Pacific (Singapore) * `ap-southeast-2` - Asia Pacific (Sydney) * `ap-northeast-1` - Asia Pacific (Tokyo) * `ca-central-1` - Canada (Central) * `cn-north-1` - China (Beijing) * `cn-northwest-1` - China (Ningxia) * `eu-central-1` - EU (Frankfurt) * `eu-west-1` - EU (Ireland) * `eu-west-2` - EU (London) * `eu-west-3` - EU (Paris) * `eu-north-1` - EU (Stockholm) * `sa-east-1` - South America (São Paulo) * `us-gov-east-1` - AWS GovCloud (US-East) * `us-gov-west-1` - AWS GovCloud (US) */
-  region?: AddProjectSymbolSourceRequestRegion | (string & {});
+  region?: AddProjectSymbolSourceRequestRegion | (string & {}) | undefined;
   /** The [AWS Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
-  access_key?: string;
+  access_key?: string | undefined;
   /** The [AWS Secret Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
-  secret_key?: string | Redacted.Redacted<string>;
+  secret_key?: string | Redacted.Redacted<string> | undefined;
   /** The GCS, Azure or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS, Azure and S3 sources, invalid for HTTP. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The GCS email address for authentication. Required for GCS sources, invalid for all others. */
-  client_email?: string;
+  client_email?: string | undefined;
   /** The GCS private key. Required for GCS sources if not using impersonated tokens. Invalid for all others. */
-  private_key?: string | Redacted.Redacted<string>;
+  private_key?: string | Redacted.Redacted<string> | undefined;
   /** The Azure storage account name. Required for Azure sources, invalid for all others. */
-  account?: string;
+  account?: string | undefined;
   /** The Azure blob container name. Required for Azure sources, invalid for all others. */
-  container?: string;
+  container?: string | undefined;
   /** The Microsoft Entra tenant ID. Required for Azure sources, invalid for all others. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The Microsoft Entra application (client) ID. Required for Azure sources, invalid for all others. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The Microsoft Entra client secret. Required for Azure sources, invalid for all others. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase0Type = "http";
 export interface AddProjectSymbolSourceResponseBodyCase0Password {
-  hidden_secret?: boolean;
+  hidden_secret?: boolean | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase0LayoutType =
   | "native"
@@ -352,7 +352,7 @@ export type AddProjectSymbolSourceResponseBodyCase0LayoutCasing =
   | "default";
 export interface AddProjectSymbolSourceResponseBodyCase0Layout {
   type: AddProjectSymbolSourceResponseBodyCase0LayoutType;
-  casing?: AddProjectSymbolSourceResponseBodyCase0LayoutCasing;
+  casing?: AddProjectSymbolSourceResponseBodyCase0LayoutCasing | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase0FiltersFiletypesItem =
   | "pe"
@@ -375,23 +375,23 @@ export type AddProjectSymbolSourceResponseBodyCase0FiltersFiletypesList =
   Array<AddProjectSymbolSourceResponseBodyCase0FiltersFiletypesItem>;
 export type AddProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase0Filters {
-  filetypes?: AddProjectSymbolSourceResponseBodyCase0FiltersFiletypesList;
-  path_patterns?: AddProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: AddProjectSymbolSourceResponseBodyCase0FiltersFiletypesList | undefined;
+  path_patterns?: AddProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase0PlatformsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase0 {
   type: AddProjectSymbolSourceResponseBodyCase0Type;
   url: string;
-  username?: string;
-  password?: AddProjectSymbolSourceResponseBodyCase0Password;
+  username?: string | undefined;
+  password?: AddProjectSymbolSourceResponseBodyCase0Password | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: AddProjectSymbolSourceResponseBodyCase0Layout;
-  filters?: AddProjectSymbolSourceResponseBodyCase0Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: AddProjectSymbolSourceResponseBodyCase0PlatformsList;
+  filters?: AddProjectSymbolSourceResponseBodyCase0Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: AddProjectSymbolSourceResponseBodyCase0PlatformsList | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase1Type = "s3";
 export type AddProjectSymbolSourceResponseBodyCase1SecretKey =
@@ -410,7 +410,7 @@ export type AddProjectSymbolSourceResponseBodyCase1LayoutCasing =
   | "default";
 export interface AddProjectSymbolSourceResponseBodyCase1Layout {
   type: AddProjectSymbolSourceResponseBodyCase1LayoutType;
-  casing?: AddProjectSymbolSourceResponseBodyCase1LayoutCasing;
+  casing?: AddProjectSymbolSourceResponseBodyCase1LayoutCasing | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase1FiltersFiletypesItem =
   | "pe"
@@ -433,9 +433,9 @@ export type AddProjectSymbolSourceResponseBodyCase1FiltersFiletypesList =
   Array<AddProjectSymbolSourceResponseBodyCase1FiltersFiletypesItem>;
 export type AddProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase1Filters {
-  filetypes?: AddProjectSymbolSourceResponseBodyCase1FiltersFiletypesList;
-  path_patterns?: AddProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: AddProjectSymbolSourceResponseBodyCase1FiltersFiletypesList | undefined;
+  path_patterns?: AddProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase1PlatformsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase1 {
@@ -444,14 +444,14 @@ export interface AddProjectSymbolSourceResponseBodyCase1 {
   region: string;
   access_key: string;
   secret_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: AddProjectSymbolSourceResponseBodyCase1Layout;
-  filters?: AddProjectSymbolSourceResponseBodyCase1Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: AddProjectSymbolSourceResponseBodyCase1PlatformsList;
+  filters?: AddProjectSymbolSourceResponseBodyCase1Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: AddProjectSymbolSourceResponseBodyCase1PlatformsList | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase2Type = "gcs";
 export type AddProjectSymbolSourceResponseBodyCase2PrivateKey =
@@ -470,7 +470,7 @@ export type AddProjectSymbolSourceResponseBodyCase2LayoutCasing =
   | "default";
 export interface AddProjectSymbolSourceResponseBodyCase2Layout {
   type: AddProjectSymbolSourceResponseBodyCase2LayoutType;
-  casing?: AddProjectSymbolSourceResponseBodyCase2LayoutCasing;
+  casing?: AddProjectSymbolSourceResponseBodyCase2LayoutCasing | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase2FiltersFiletypesItem =
   | "pe"
@@ -493,9 +493,9 @@ export type AddProjectSymbolSourceResponseBodyCase2FiltersFiletypesList =
   Array<AddProjectSymbolSourceResponseBodyCase2FiltersFiletypesItem>;
 export type AddProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase2Filters {
-  filetypes?: AddProjectSymbolSourceResponseBodyCase2FiltersFiletypesList;
-  path_patterns?: AddProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: AddProjectSymbolSourceResponseBodyCase2FiltersFiletypesList | undefined;
+  path_patterns?: AddProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase2PlatformsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase2 {
@@ -503,14 +503,14 @@ export interface AddProjectSymbolSourceResponseBodyCase2 {
   bucket: string;
   client_email: string;
   private_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: AddProjectSymbolSourceResponseBodyCase2Layout;
-  filters?: AddProjectSymbolSourceResponseBodyCase2Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: AddProjectSymbolSourceResponseBodyCase2PlatformsList;
+  filters?: AddProjectSymbolSourceResponseBodyCase2Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: AddProjectSymbolSourceResponseBodyCase2PlatformsList | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase3Type = "azure";
 export type AddProjectSymbolSourceResponseBodyCase3ClientSecret =
@@ -529,7 +529,7 @@ export type AddProjectSymbolSourceResponseBodyCase3LayoutCasing =
   | "default";
 export interface AddProjectSymbolSourceResponseBodyCase3Layout {
   type: AddProjectSymbolSourceResponseBodyCase3LayoutType;
-  casing?: AddProjectSymbolSourceResponseBodyCase3LayoutCasing;
+  casing?: AddProjectSymbolSourceResponseBodyCase3LayoutCasing | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem =
   | "pe"
@@ -552,9 +552,9 @@ export type AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList =
   Array<AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem>;
 export type AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase3Filters {
-  filetypes?: AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList;
-  path_patterns?: AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList | undefined;
+  path_patterns?: AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase3PlatformsList = Array<string>;
 export interface AddProjectSymbolSourceResponseBodyCase3 {
@@ -564,14 +564,14 @@ export interface AddProjectSymbolSourceResponseBodyCase3 {
   tenant_id: string;
   client_id: string;
   client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: AddProjectSymbolSourceResponseBodyCase3Layout;
-  filters?: AddProjectSymbolSourceResponseBodyCase3Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: AddProjectSymbolSourceResponseBodyCase3PlatformsList;
+  filters?: AddProjectSymbolSourceResponseBodyCase3Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: AddProjectSymbolSourceResponseBodyCase3PlatformsList | undefined;
 }
 export type AddProjectSymbolSourceResponseBodyCase4Type = "appStoreConnect";
 export interface AddProjectSymbolSourceResponseBodyCase4 {
@@ -611,9 +611,9 @@ export interface AddProjectTeamResponseTeam {
 export type AddProjectTeamResponseTeamsItem = AddProjectTeamResponseTeam;
 export type AddProjectTeamResponseTeamsList = Array<AddProjectTeamResponseTeam>;
 export interface AddProjectTeamResponse {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -651,19 +651,19 @@ export interface AddProjectTeamResponse {
   avatar: AddOrganizationMemberResponseUserAvatar;
   color: string;
   status: string;
-  team?: AddProjectTeamResponseTeam;
+  team?: AddProjectTeamResponseTeam | undefined;
   teams: AddProjectTeamResponseTeamsList;
 }
 /** Additional details about the resolution. Valid values are `"inRelease"`, `"inNextRelease"`, `"inCommit"`, `"ignoreDuration"`, `"ignoreCount"`, `"ignoreWindow"`, `"ignoreUserCount"`, and `"ignoreUserWindow"`. */
 export interface BulkMutateAListOfIssuesRequestStatusDetails {
-  inRelease?: string;
-  inNextRelease?: boolean;
-  inCommit?: string;
-  ignoreDuration?: number;
-  ignoreCount?: number;
-  ignoreWindow?: number;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
+  inRelease?: string | undefined;
+  inNextRelease?: boolean | undefined;
+  inCommit?: string | undefined;
+  ignoreDuration?: number | undefined;
+  ignoreCount?: number | undefined;
+  ignoreWindow?: number | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
 }
 export interface BulkMutateAListOfIssuesRequest {
   /** The ID or slug of the organization the issues belong to. */
@@ -671,23 +671,23 @@ export interface BulkMutateAListOfIssuesRequest {
   /** The ID or slug of the project the issues belong to. */
   project_id_or_slug: string;
   /** A list of IDs of the issues to be mutated. This parameter shall be repeated for each issue. It is optional only if a status is mutated in which case an implicit update all is assumed. */
-  id?: number;
+  id?: number | undefined;
   /** Optionally limits the query to issues of the specified status. Valid values are `"resolved"`, `"reprocessing"`, `"unresolved"`, and `"ignored"`. */
-  status?: string;
+  status?: string | undefined;
   /** Additional details about the resolution. Valid values are `"inRelease"`, `"inNextRelease"`, `"inCommit"`, `"ignoreDuration"`, `"ignoreCount"`, `"ignoreWindow"`, `"ignoreUserCount"`, and `"ignoreUserWindow"`. */
-  statusDetails?: BulkMutateAListOfIssuesRequestStatusDetails;
+  statusDetails?: BulkMutateAListOfIssuesRequestStatusDetails | undefined;
   /** The number of minutes to ignore this issue. */
-  ignoreDuration?: number;
+  ignoreDuration?: number | undefined;
   /** Sets the issue to public or private. */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Allows to merge or unmerge different issues. */
-  merge?: boolean;
+  merge?: boolean | undefined;
   /** The actor ID (or username) of the user or team that should be assigned to this issue. */
-  assignedTo?: string;
+  assignedTo?: string | undefined;
   /** In case this API call is invoked with a user context this allows changing of the flag that indicates if the user has seen the event. */
-  hasSeen?: boolean;
+  hasSeen?: boolean | undefined;
   /** In case this API call is invoked with a user context this allows changing of the bookmark flag. */
-  isBookmarked?: boolean;
+  isBookmarked?: boolean | undefined;
 }
 export type BulkMutateAListOfIssuesResponseStatus = "resolved" | "unresolved" | "ignored";
 export interface BulkMutateAListOfIssuesResponse {
@@ -701,7 +701,7 @@ export interface BulkRemoveAListOfIssuesRequest {
   /** The ID or slug of the project the issues belong to. */
   project_id_or_slug: string;
   /** A list of IDs of the issues to be removed. This parameter shall be repeated for each issue, e.g. `?id=1&id=2&id=3`. If this parameter is not provided, it will attempt to remove the first 1000 issues. */
-  id?: number;
+  id?: number | undefined;
 }
 export interface BulkRemoveAListOfIssuesResponse {}
 /** List of environment names to update. Maximum 1000. */
@@ -755,9 +755,9 @@ export interface CreateACustomInboundFilterRequest {
   /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
   conditions: CreateACustomInboundFilterRequestConditionsList;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
 export type CreateACustomInboundFilterResponseDataType =
@@ -797,9 +797,9 @@ export interface CreateACustomInboundFilterResponse {
   /** When the filter was last changed. */
   dateUpdated: string;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface CreateAnExternalIssueAndLinkItToAnIssueRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -811,7 +811,7 @@ export interface CreateAnExternalIssueAndLinkItToAnIssueRequest {
   /** The title of the external issue to create. */
   title: string;
   /** The description (body) of the external issue to create. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateAnExternalIssueAndLinkItToAnIssueResponse {
   id: number;
@@ -845,8 +845,8 @@ export type CreateOrganizationDashboardRequestWidgetsItemQueriesItemFieldAliases
   Array<string>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationDashboardRequestWidgetsItemQueriesItemOnDemandExtraction {
-  extraction_state?: string;
-  enabled?: boolean;
+  extraction_state?: string | undefined;
+  enabled?: boolean | undefined;
 }
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsItem {
@@ -857,20 +857,31 @@ export type CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashbo
   Array<CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsItem>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationDashboardRequestWidgetsItemQueriesItem {
-  id?: string;
-  fields?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemFieldsList;
-  aggregates?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemAggregatesList | null;
-  columns?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemColumnsList | null;
-  field_aliases?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemFieldAliasesList | null;
-  name?: string;
-  conditions?: string;
-  orderby?: string;
-  is_hidden?: boolean;
+  id?: string | undefined;
+  fields?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemFieldsList | undefined;
+  aggregates?:
+    | CreateOrganizationDashboardRequestWidgetsItemQueriesItemAggregatesList
+    | null
+    | undefined;
+  columns?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemColumnsList | null | undefined;
+  field_aliases?:
+    | CreateOrganizationDashboardRequestWidgetsItemQueriesItemFieldAliasesList
+    | null
+    | undefined;
+  name?: string | undefined;
+  conditions?: string | undefined;
+  orderby?: string | undefined;
+  is_hidden?: boolean | undefined;
   /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
-  on_demand_extraction?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemOnDemandExtraction;
-  on_demand_extraction_disabled?: boolean;
-  selected_aggregate?: number | null;
-  linked_dashboards?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsList | null;
+  on_demand_extraction?:
+    | CreateOrganizationDashboardRequestWidgetsItemQueriesItemOnDemandExtraction
+    | undefined;
+  on_demand_extraction_disabled?: boolean | undefined;
+  selected_aggregate?: number | null | undefined;
+  linked_dashboards?:
+    | CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsList
+    | null
+    | undefined;
 }
 export type CreateOrganizationDashboardRequestWidgetsItemQueriesList =
   Array<CreateOrganizationDashboardRequestWidgetsItemQueriesItem>;
@@ -902,22 +913,37 @@ export type CreateOrganizationDashboardRequestWidgetsItemAxisRange = "auto" | "d
 export type CreateOrganizationDashboardRequestWidgetsItemLegendType = "default" | "breakdown";
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationDashboardRequestWidgetsItem {
-  id?: string;
-  title?: string;
-  description?: string | null;
-  thresholds?: CreateOrganizationDashboardRequestWidgetsItemThresholdsMap | null;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | null | undefined;
+  thresholds?: CreateOrganizationDashboardRequestWidgetsItemThresholdsMap | null | undefined;
   /** * `line` * `area` * `bar` * `table` * `big_number` * `details` * `categorical_bar` * `wheel` * `rage_and_dead_clicks` * `server_tree` * `text` * `agents_traces_table` * `heatmap` */
-  display_type?: CreateOrganizationDashboardRequestWidgetsItemDisplayType | (string & {});
-  interval?: string;
-  queries?: CreateOrganizationDashboardRequestWidgetsItemQueriesList;
+  display_type?:
+    | CreateOrganizationDashboardRequestWidgetsItemDisplayType
+    | (string & {})
+    | undefined;
+  interval?: string | undefined;
+  queries?: CreateOrganizationDashboardRequestWidgetsItemQueriesList | undefined;
   /** * `discover` * `issue` * `metrics` * `error-events` * `transaction-like` * `spans` * `logs` * `tracemetrics` * `preprod-app-size` */
-  widget_type?: CreateOrganizationDashboardRequestWidgetsItemWidgetType | (string & {}) | null;
-  limit?: number | null;
-  layout?: CreateOrganizationDashboardRequestWidgetsItemLayout | null;
+  widget_type?:
+    | CreateOrganizationDashboardRequestWidgetsItemWidgetType
+    | (string & {})
+    | null
+    | undefined;
+  limit?: number | null | undefined;
+  layout?: CreateOrganizationDashboardRequestWidgetsItemLayout | null | undefined;
   /** * `auto` * `dataMin` */
-  axis_range?: CreateOrganizationDashboardRequestWidgetsItemAxisRange | (string & {}) | null;
+  axis_range?:
+    | CreateOrganizationDashboardRequestWidgetsItemAxisRange
+    | (string & {})
+    | null
+    | undefined;
   /** * `default` * `breakdown` */
-  legend_type?: CreateOrganizationDashboardRequestWidgetsItemLegendType | (string & {}) | null;
+  legend_type?:
+    | CreateOrganizationDashboardRequestWidgetsItemLegendType
+    | (string & {})
+    | null
+    | undefined;
 }
 /** A json list of widgets saved in this dashboard. */
 export type CreateOrganizationDashboardRequestWidgetsList =
@@ -935,7 +961,9 @@ export interface CreateOrganizationDashboardRequestPermissions {
   /** Whether the dashboard is editable by everyone. */
   is_editable_by_everyone: boolean;
   /** List of team IDs that have edit access to a dashboard. */
-  teams_with_edit_access?: CreateOrganizationDashboardRequestPermissionsTeamsWithEditAccessList;
+  teams_with_edit_access?:
+    | CreateOrganizationDashboardRequestPermissionsTeamsWithEditAccessList
+    | undefined;
 }
 export interface CreateOrganizationDashboardRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -943,27 +971,27 @@ export interface CreateOrganizationDashboardRequest {
   /** The user defined title for this dashboard. */
   title: string;
   /** A dashboard's unique id. */
-  id?: string;
+  id?: string | undefined;
   /** A json list of widgets saved in this dashboard. */
-  widgets?: CreateOrganizationDashboardRequestWidgetsList;
+  widgets?: CreateOrganizationDashboardRequestWidgetsList | undefined;
   /** The saved projects filter for this dashboard. */
-  projects?: CreateOrganizationDashboardRequestProjectsList;
+  projects?: CreateOrganizationDashboardRequestProjectsList | undefined;
   /** The saved environment filter for this dashboard. */
-  environment?: CreateOrganizationDashboardRequestEnvironmentList | null;
+  environment?: CreateOrganizationDashboardRequestEnvironmentList | null | undefined;
   /** The saved time range period for this dashboard. */
-  period?: string | null;
+  period?: string | null | undefined;
   /** The saved start time for this dashboard. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** The saved end time for this dashboard. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The saved filters for this dashboard. */
-  filters?: CreateOrganizationDashboardRequestFiltersMap;
+  filters?: CreateOrganizationDashboardRequestFiltersMap | undefined;
   /** Setting that lets you display saved time range for this dashboard in UTC. */
-  utc?: boolean;
+  utc?: boolean | undefined;
   /** Permissions that restrict users from editing dashboards */
-  permissions?: CreateOrganizationDashboardRequestPermissions | null;
+  permissions?: CreateOrganizationDashboardRequestPermissions | null | undefined;
   /** Favorite the dashboard automatically for the request user */
-  is_favorited?: boolean;
+  is_favorited?: boolean | undefined;
 }
 export type CreateOrganizationDashboardResponseEnvironmentList = Array<string>;
 export type CreateOrganizationDashboardResponseCreatedByIdentitiesItemOrganization =
@@ -985,10 +1013,10 @@ export type CreateOrganizationDashboardResponseCreatedByEmailsItem =
 export type CreateOrganizationDashboardResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface CreateOrganizationDashboardResponseCreatedBy {
-  identities?: CreateOrganizationDashboardResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: CreateOrganizationDashboardResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: CreateOrganizationDashboardResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: CreateOrganizationDashboardResponseCreatedByAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -1011,8 +1039,8 @@ export type CreateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap
   [key: string]: number | undefined;
 };
 export interface CreateOrganizationDashboardResponseWidgetsItemThresholds {
-  preferredPolarity?: string;
-  timeWindow?: string;
+  preferredPolarity?: string | undefined;
+  timeWindow?: string | undefined;
   max_values: CreateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
@@ -1112,9 +1140,9 @@ export type CreateOrganizationDashboardResponseFiltersGlobalFilterItemMap = {
 export type CreateOrganizationDashboardResponseFiltersGlobalFilterList =
   Array<CreateOrganizationDashboardResponseFiltersGlobalFilterItemMap>;
 export interface CreateOrganizationDashboardResponseFilters {
-  release?: CreateOrganizationDashboardResponseFiltersReleaseList;
-  releaseId?: CreateOrganizationDashboardResponseFiltersReleaseIdList;
-  globalFilter?: CreateOrganizationDashboardResponseFiltersGlobalFilterList;
+  release?: CreateOrganizationDashboardResponseFiltersReleaseList | undefined;
+  releaseId?: CreateOrganizationDashboardResponseFiltersReleaseIdList | undefined;
+  globalFilter?: CreateOrganizationDashboardResponseFiltersGlobalFilterList | undefined;
 }
 export type CreateOrganizationDashboardResponsePermissionsTeamsWithEditAccessList = Array<number>;
 export interface CreateOrganizationDashboardResponsePermissions {
@@ -1122,12 +1150,12 @@ export interface CreateOrganizationDashboardResponsePermissions {
   teamsWithEditAccess: CreateOrganizationDashboardResponsePermissionsTeamsWithEditAccessList;
 }
 export interface CreateOrganizationDashboardResponse {
-  environment?: CreateOrganizationDashboardResponseEnvironmentList;
-  period?: string;
-  utc?: string;
-  expired?: boolean;
-  start?: string;
-  end?: string;
+  environment?: CreateOrganizationDashboardResponseEnvironmentList | undefined;
+  period?: string | undefined;
+  utc?: string | undefined;
+  expired?: boolean | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
   id: string;
   title: string;
   dateCreated: string;
@@ -1170,45 +1198,48 @@ export interface CreateOrganizationDiscoverSavedQueryRequest {
   /** The user-defined saved query name. */
   name: string;
   /** The saved projects filter for this query. */
-  projects?: CreateOrganizationDiscoverSavedQueryRequestProjectsList;
+  projects?: CreateOrganizationDiscoverSavedQueryRequestProjectsList | undefined;
   /** The dataset you would like to query. Note: `discover` is a **deprecated** value. The allowed values are: `error-events`, `transaction-like` * `discover` * `error-events` * `transaction-like` */
-  queryDataset?: CreateOrganizationDiscoverSavedQueryRequestQueryDataset | (string & {});
+  queryDataset?:
+    | CreateOrganizationDiscoverSavedQueryRequestQueryDataset
+    | (string & {})
+    | undefined;
   /** The saved start time for this saved query. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** The saved end time for this saved query. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The saved time range period for this saved query. */
-  range?: string | null;
+  range?: string | null | undefined;
   /** The fields, functions, or equations that can be requested for the query. At most 20 fields can be selected per request. Each field can be one of the following types: - A built-in key field. See possible fields in the [properties table](/product/sentry-basics/search/searchable-properties/#properties-table), under any field that is an event property. - example: `field=transaction` - A tag. Tags should use the `tag[]` formatting to avoid ambiguity with any fields - example: `field=tag[isEnterprise]` - A function which will be in the format of `function_name(parameters,...)`. See possible functions in the [query builder documentation](/product/discover-queries/query-builder/#stacking-functions). - when a function is included, Discover will group by any tags or fields - example: `field=count_if(transaction.duration,greater,300)` - An equation when prefixed with `equation|`. Read more about [equations here](/product/discover-queries/query-builder/query-equations/). - example: `field=equation|count_if(transaction.duration,greater,300) / count() * 100` */
-  fields?: CreateOrganizationDiscoverSavedQueryRequestFieldsList | null;
+  fields?: CreateOrganizationDiscoverSavedQueryRequestFieldsList | null | undefined;
   /** How to order the query results. Must be something in the `field` list, excluding equations. */
-  orderby?: string | null;
+  orderby?: string | null | undefined;
   /** Time-bucket granularity in seconds for the saved query. */
-  rollup?: number | null;
+  rollup?: number | null | undefined;
   /** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
-  aggregations?: CreateOrganizationDiscoverSavedQueryRequestAggregationsList | null;
+  aggregations?: CreateOrganizationDiscoverSavedQueryRequestAggregationsList | null | undefined;
   /** Columns to group results by. */
-  groupby?: CreateOrganizationDiscoverSavedQueryRequestGroupbyList | null;
+  groupby?: CreateOrganizationDiscoverSavedQueryRequestGroupbyList | null | undefined;
   /** Filter conditions, each as a `[column, operator, value]` triple. */
-  conditions?: CreateOrganizationDiscoverSavedQueryRequestConditionsList | null;
+  conditions?: CreateOrganizationDiscoverSavedQueryRequestConditionsList | null | undefined;
   /** Maximum number of rows to return, from `0` to `1000`. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Saved query schema version. `1` for the legacy shape, `2` for the current one. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The name of environments to filter by. */
-  environment?: CreateOrganizationDiscoverSavedQueryRequestEnvironmentList | null;
+  environment?: CreateOrganizationDiscoverSavedQueryRequestEnvironmentList | null | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Rendered column widths, in the same order as the query's fields. */
-  widths?: CreateOrganizationDiscoverSavedQueryRequestWidthsList | null;
+  widths?: CreateOrganizationDiscoverSavedQueryRequestWidthsList | null | undefined;
   /** Aggregate functions to be plotted on the chart. */
-  yAxis?: CreateOrganizationDiscoverSavedQueryRequestYAxisList | null;
+  yAxis?: CreateOrganizationDiscoverSavedQueryRequestYAxisList | null | undefined;
   /** Visualization type for saved query chart. Allowed values are: - default - previous - top5 - daily - dailytop5 - bar */
-  display?: string | null;
+  display?: string | null | undefined;
   /** Number of top events' timeseries to be visualized. */
-  topEvents?: number | null;
+  topEvents?: number | null | undefined;
   /** Resolution of the time series. */
-  interval?: string | null;
+  interval?: string | null | undefined;
 }
 export type CreateOrganizationDiscoverSavedQueryResponseEnvironmentList = Array<string>;
 export type CreateOrganizationDiscoverSavedQueryResponseFieldsList = Array<string>;
@@ -1240,10 +1271,12 @@ export type CreateOrganizationDiscoverSavedQueryResponseCreatedByEmailsItem =
 export type CreateOrganizationDiscoverSavedQueryResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface CreateOrganizationDiscoverSavedQueryResponseCreatedBy {
-  identities?: CreateOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: CreateOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: CreateOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | CreateOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -1263,25 +1296,25 @@ export interface CreateOrganizationDiscoverSavedQueryResponseCreatedBy {
   emails: CreateOrganizationDiscoverSavedQueryResponseCreatedByEmailsList;
 }
 export interface CreateOrganizationDiscoverSavedQueryResponse {
-  environment?: CreateOrganizationDiscoverSavedQueryResponseEnvironmentList;
-  query?: string;
-  fields?: CreateOrganizationDiscoverSavedQueryResponseFieldsList;
-  widths?: CreateOrganizationDiscoverSavedQueryResponseWidthsList;
-  conditions?: CreateOrganizationDiscoverSavedQueryResponseConditionsList;
-  aggregations?: CreateOrganizationDiscoverSavedQueryResponseAggregationsList;
-  range?: string;
-  start?: string;
-  end?: string;
-  orderby?: string;
-  limit?: string;
-  yAxis?: CreateOrganizationDiscoverSavedQueryResponseYAxisList;
-  display?: string;
-  topEvents?: number;
-  interval?: string;
-  exploreQuery?: CreateOrganizationDiscoverSavedQueryResponseExploreQueryMap;
-  lastVisited?: string;
-  starred?: boolean;
-  position?: number | null;
+  environment?: CreateOrganizationDiscoverSavedQueryResponseEnvironmentList | undefined;
+  query?: string | undefined;
+  fields?: CreateOrganizationDiscoverSavedQueryResponseFieldsList | undefined;
+  widths?: CreateOrganizationDiscoverSavedQueryResponseWidthsList | undefined;
+  conditions?: CreateOrganizationDiscoverSavedQueryResponseConditionsList | undefined;
+  aggregations?: CreateOrganizationDiscoverSavedQueryResponseAggregationsList | undefined;
+  range?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  orderby?: string | undefined;
+  limit?: string | undefined;
+  yAxis?: CreateOrganizationDiscoverSavedQueryResponseYAxisList | undefined;
+  display?: string | undefined;
+  topEvents?: number | undefined;
+  interval?: string | undefined;
+  exploreQuery?: CreateOrganizationDiscoverSavedQueryResponseExploreQueryMap | undefined;
+  lastVisited?: string | undefined;
+  starred?: boolean | undefined;
+  position?: number | null | undefined;
   id: string;
   name: string;
   projects: CreateOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -1317,12 +1350,12 @@ export interface CreateOrganizationExternalUserRequest {
   /** The Integration ID. */
   integration_id: number;
   /** The associated user ID for provider. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface CreateOrganizationExternalUserResponse {
-  externalId?: string;
-  userId?: string;
-  teamId?: string;
+  externalId?: string | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
   id: string;
   provider: string;
   externalName: string;
@@ -1342,13 +1375,13 @@ export interface CreateOrganizationForwardingRequest {
   /** The provider of the data forwarder. One of "segment", "sqs", or "splunk". * `segment` - Segment * `sqs` - Amazon SQS * `splunk` - Splunk */
   provider: CreateOrganizationForwardingRequestProvider | (string & {});
   /** Whether the data forwarder is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Whether to enroll new projects automatically, after they're created. */
-  enroll_new_projects?: boolean;
+  enroll_new_projects?: boolean | undefined;
   /** The configuration for the data forwarder, specific to the provider type. For a 'sqs' provider, the required keys are queue_url, region, access_key, secret_key. If using a FIFO queue, you must also provide a message_group_id, though s3_bucket is optional. For a 'segment' provider, the required keys are write_key. For a 'splunk' provider, the required keys are instance_url, index, source, token. */
-  config?: CreateOrganizationForwardingRequestConfigMap;
+  config?: CreateOrganizationForwardingRequestConfigMap | undefined;
   /** The IDs of the projects connected to the data forwarder. Missing project IDs will be unenrolled if previously enrolled. */
-  project_ids?: CreateOrganizationForwardingRequestProjectIdsList;
+  project_ids?: CreateOrganizationForwardingRequestProjectIdsList | undefined;
 }
 export interface CreateOrganizationForwardingResponseEnrolledProjectsItem {
   id: string;
@@ -1396,13 +1429,13 @@ export type CreateOrganizationIssueViewRequestProjectsList = Array<number>;
 export type CreateOrganizationIssueViewRequestEnvironmentsList = Array<string>;
 export interface CreateOrganizationIssueViewRequestTimeFilters {
   /** The start of the time range in ISO-8601 format. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** The end of the time range in ISO-8601 format. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The relative time period, such as `14d`. */
-  period?: string | null;
+  period?: string | null | undefined;
   /** Whether to interpret the time range as UTC. */
-  utc?: boolean | null;
+  utc?: boolean | null | undefined;
 }
 /** How to sort issues in the view. * `date` - Last Seen * `new` - First Seen * `trends` - Trends * `freq` - Events * `user` - Users * `inbox` - Date Added * `recommended` - Recommended */
 export type CreateOrganizationIssueViewRequestQuerySort =
@@ -1427,9 +1460,9 @@ export interface CreateOrganizationIssueViewRequest {
   /** The time range for the view. */
   timeFilters: CreateOrganizationIssueViewRequestTimeFilters;
   /** How to sort issues in the view. * `date` - Last Seen * `new` - First Seen * `trends` - Trends * `freq` - Events * `user` - Users * `inbox` - Date Added * `recommended` - Recommended */
-  querySort?: CreateOrganizationIssueViewRequestQuerySort | (string & {});
+  querySort?: CreateOrganizationIssueViewRequestQuerySort | (string & {}) | undefined;
   /** Whether to star the issue view for the current user. */
-  starred?: boolean;
+  starred?: boolean | undefined;
 }
 export type CreateOrganizationIssueViewResponseCreatedByIdentitiesItemOrganization =
   AddOrganizationMemberResponseUserIdentitiesItemOrganization;
@@ -1450,10 +1483,10 @@ export type CreateOrganizationIssueViewResponseCreatedByEmailsItem =
 export type CreateOrganizationIssueViewResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface CreateOrganizationIssueViewResponseCreatedBy {
-  identities?: CreateOrganizationIssueViewResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: CreateOrganizationIssueViewResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -1483,10 +1516,10 @@ export type CreateOrganizationIssueViewResponseQuerySort =
 export type CreateOrganizationIssueViewResponseProjectsList = Array<number>;
 export type CreateOrganizationIssueViewResponseEnvironmentsList = Array<string>;
 export interface CreateOrganizationIssueViewResponseTimeFilters {
-  start?: string | null;
-  end?: string | null;
-  period?: string | null;
-  utc?: boolean | null;
+  start?: string | null | undefined;
+  end?: string | null | undefined;
+  period?: string | null | undefined;
+  utc?: boolean | null | undefined;
 }
 export interface CreateOrganizationIssueViewResponse {
   id: string;
@@ -2108,19 +2141,19 @@ export type CreateOrganizationMonitorRequestConfigTimezone =
   | "";
 export interface CreateOrganizationMonitorRequestConfig {
   /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
-  schedule_type?: CreateOrganizationMonitorRequestConfigScheduleType | (string & {});
+  schedule_type?: CreateOrganizationMonitorRequestConfigScheduleType | (string & {}) | undefined;
   /** Varies depending on the schedule_type. Is either a crontab string, or a 2 element tuple for intervals (e.g. [1, 'day']) */
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
-  checkin_margin?: number | null;
+  checkin_margin?: number | null | undefined;
   /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
-  max_runtime?: number | null;
+  max_runtime?: number | null | undefined;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
-  timezone?: CreateOrganizationMonitorRequestConfigTimezone | (string & {});
+  timezone?: CreateOrganizationMonitorRequestConfigTimezone | (string & {}) | undefined;
   /** How many consecutive missed or failed check-ins in a row before creating a new issue. */
-  failure_issue_threshold?: number | null;
+  failure_issue_threshold?: number | null | undefined;
   /** How many successful check-ins in a row before resolving an issue. */
-  recovery_threshold?: number | null;
+  recovery_threshold?: number | null | undefined;
 }
 /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
 export type CreateOrganizationMonitorRequestStatus = "active" | "disabled";
@@ -2135,7 +2168,7 @@ export type CreateOrganizationMonitorRequestAlertRuleTargetsList =
   Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
 export interface CreateOrganizationMonitorRequestAlertRule {
   /** Name of the environment */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Array of dictionaries with information of the user or team to be notified */
   targets: CreateOrganizationMonitorRequestAlertRuleTargetsList;
 }
@@ -2149,15 +2182,15 @@ export interface CreateOrganizationMonitorRequest {
   /** The configuration for the monitor. */
   config: CreateOrganizationMonitorRequestConfig;
   /** Uniquely identifies your monitor within your organization. Changing this slug will require updates to any instrumented check-in calls. */
-  slug?: string;
+  slug?: string | undefined;
   /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
-  status?: CreateOrganizationMonitorRequestStatus | (string & {});
+  status?: CreateOrganizationMonitorRequestStatus | (string & {}) | undefined;
   /** The ID of the team or user that owns the monitor. (eg. user:51 or team:6) */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Disable creation of monitor incidents */
-  is_muted?: boolean;
+  is_muted?: boolean | undefined;
   /** Alert rule configuration created alongside the monitor. */
-  alert_rule?: CreateOrganizationMonitorRequestAlertRule;
+  alert_rule?: CreateOrganizationMonitorRequestAlertRule | undefined;
 }
 export interface CreateOrganizationMonitorResponseAlertRuleTargetsItem {
   targetIdentifier: number;
@@ -2189,9 +2222,9 @@ export type CreateOrganizationMonitorResponseProjectAccessList = Array<string>;
 export type CreateOrganizationMonitorResponseProjectAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface CreateOrganizationMonitorResponseProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -2254,10 +2287,10 @@ export interface CreateOrganizationMonitorResponseOwner {
   type: CreateOrganizationMonitorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface CreateOrganizationMonitorResponse {
-  alertRule?: CreateOrganizationMonitorResponseAlertRule;
+  alertRule?: CreateOrganizationMonitorResponseAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -2280,17 +2313,17 @@ export interface CreateOrganizationNotificationsActionRequest {
   /** Service that is used for sending the notification. - `email` - `slack` - `sentry_notification` - `pagerduty` - `opsgenie` */
   service_type: string;
   /** ID of the integration used as the notification service. See [List Integrations](https://docs.sentry.io/api/integrations/list-an-organizations-available-integrations/) to retrieve a full list of integrations. Required if **service_type** is `slack`, `pagerduty` or `opsgenie`. */
-  integration_id?: number;
+  integration_id?: number | undefined;
   /** ID of the notification target, like a Slack channel ID. Required if **service_type** is `slack` or `opsgenie`. */
-  target_identifier?: string;
+  target_identifier?: string | undefined;
   /** Name of the notification target, like a Slack channel name. Required if **service_type** is `slack` or `opsgenie`. */
-  target_display?: string;
+  target_display?: string | undefined;
   /** List of project IDs or slugs that the Notification Action is created for. */
-  projects?: CreateOrganizationNotificationsActionRequestProjectsList;
+  projects?: CreateOrganizationNotificationsActionRequestProjectsList | undefined;
   /** ID of the custom integration to notify, when the target is a Sentry app. */
-  sentry_app_id?: number;
+  sentry_app_id?: number | undefined;
   /** How the notification target is addressed. */
-  target_type?: string;
+  target_type?: string | undefined;
 }
 export type CreateOrganizationNotificationsActionResponseProjectsList = Array<number>;
 export interface CreateOrganizationNotificationsActionResponse {
@@ -2311,11 +2344,11 @@ export interface CreateOrganizationProjectRequest {
   /** The name for the project. */
   name: string;
   /** Uniquely identifies a project and is used for the interface. If not provided, it is automatically generated from the name. */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The platform for the project. */
-  platform?: string | null;
+  platform?: string | null | undefined;
   /** Defaults to true where the behavior is to alert the user on every new issue. Setting this to false will turn this off and the user must create their own alerts to be notified of new issues. */
-  default_rules?: boolean;
+  default_rules?: boolean | undefined;
 }
 export type CreateOrganizationProjectResponseLatestDeploysValueMap = {
   [key: string]: string | undefined;
@@ -2335,11 +2368,11 @@ export interface CreateOrganizationProjectResponseLatestRelease {
   version: string;
 }
 export interface CreateOrganizationProjectResponse {
-  latestDeploys?: CreateOrganizationProjectResponseLatestDeploysMap | null;
-  options?: CreateOrganizationProjectResponseOptionsMap;
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  latestDeploys?: CreateOrganizationProjectResponseLatestDeploysMap | null | undefined;
+  options?: CreateOrganizationProjectResponseOptionsMap | undefined;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -2396,10 +2429,10 @@ export type CreateOrganizationProjectDetectorRequestConditionGroupLogicType =
 export type CreateOrganizationProjectDetectorRequestConditionGroupConditionsList = Array<unknown>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationProjectDetectorRequestConditionGroup {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: CreateOrganizationProjectDetectorRequestConditionGroupLogicType | (string & {});
-  conditions?: CreateOrganizationProjectDetectorRequestConditionGroupConditionsList;
+  conditions?: CreateOrganizationProjectDetectorRequestConditionGroupConditionsList | undefined;
 }
 export interface CreateOrganizationProjectDetectorRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -2411,26 +2444,26 @@ export interface CreateOrganizationProjectDetectorRequest {
   /** The type of monitor - `metric_issue`. */
   type: string;
   /** The IDs of the alerts to connect this monitor to. Use the 'Fetch Alerts' endpoint to find the IDs. */
-  workflow_ids?: CreateOrganizationProjectDetectorRequestWorkflowIdsList;
+  workflow_ids?: CreateOrganizationProjectDetectorRequestWorkflowIdsList | undefined;
   /** The data sources for the monitor to use based on what you want to measure. **Number of Errors Metric Monitor** - `eventTypes`: Any of `error` or `default`. ```json [ { "aggregate": "count()", "dataset" : "events", "environment": "prod", "eventTypes": ["default", "error"], "query": "is:unresolved", "queryType": 0, "timeWindow": 3600, }, ], ``` **Users Experiencing Errors Metric Monitor** - `eventTypes`: Any of `error` or `default`. ```json [ { "aggregate": "count_unique(tags[sentry:user])", "dataset" : "events", "environment": "prod", "eventTypes": ["default", "error"], "query": "is:unresolved", "queryType": 0, "timeWindow": 3600, }, ], ``` **Throughput Metric Monitor** ```json [ { "aggregate":"count(span.duration)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Duration Metric Monitor** ```json [ { "aggregate":"p95(span.duration)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Failure Rate Metric Monitor** ```json [ { "aggregate":"failure_rate()", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Largest Contentful Paint Metric Monitor** - `dataset`: If a custom percentile is used, dataset is `transactions`. Otherwise, dataset is `events_analytics_platform`. - `aggregate`: Valid values are `avg(measurements.lcp)`, `p50(measurements.lcp)`, `p75(measurements.lcp)`, `p95(measurements.lcp)`, `p99(measurements.lcp)`, `p100(measurements.lcp)`, and `percentile(measurements.lcp,x)`, where `x` is your custom percentile. ```json [ { "aggregate":"p95(measurements.lcp)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Custom Metric Monitor** - `dataset`: If a custom percentile is used, dataset is `transactions`. Otherwise, dataset is `events_analytics_platform`. - `aggregate`: Valid values are: `avg(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p50(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p75(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p95(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p99(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p100(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `percentile(x,y)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`, and `y` is the custom percentile. `failure_rate()` `apdex(x)`, where `x` is the value of the Apdex score. `count()` ```json [ { "aggregate": "p75(measurements.ttfb)" "dataset": "events_analytics_platform", "queryType": 1, }, ], */
-  data_sources?: CreateOrganizationProjectDetectorRequestDataSourcesList;
+  data_sources?: CreateOrganizationProjectDetectorRequestDataSourcesList | undefined;
   /** The issue detection type configuration. - `detectionType` - `static`: Threshold based monitor - `percent`: Change based monitor - `dynamic`: Dynamic monitor - `comparisonDelta`: If selecting a **change** detection type, the comparison delta is the time period at which to compare against in minutes. For example, a value of 3600 compares the metric tracked against data 1 hour ago. - `300`: 5 minutes - `900`: 15 minutes - `3600`: 1 hour - `86400`: 1 day - `604800`: 1 week - `2592000`: 1 month **Threshold** ```json { "detectionType": "static", } ``` **Change** ```json { "detectionType": "percent", "comparisonDelta": 3600, } ``` **Dynamic** ```json { "detectionType": "dynamic", } ``` */
-  config?: CreateOrganizationProjectDetectorRequestConfigMap;
+  config?: CreateOrganizationProjectDetectorRequestConfigMap | undefined;
   /** Issue detection configuration for when to create an issue and at what priority level. - `logicType`: `any` - `type`: Any of `gt` (greater than), `lte` (less than or equal), or `anomaly_detection` (dynamic) - `comparison`: Any positive integer. This is threshold that must be crossed for the monitor to create an issue, e.g. "Create a metric issue when there are more than 5 unresolved error events". - If creating a **dynamic** monitor, see the options below. - `seasonality`: `auto` - `sensitivity`: Level of responsiveness. Options are one of `low`, `medium`, or `high` - `thresholdType`: If you want to be alerted to anomalies that are moving above, below, or in both directions in relation to your threshold. - `0`: Above - `1`: Below - `2`: Above and below - `conditionResult`: The issue state change when the threshold is crossed. - `75`: High priority - `50`: Low priority - `0`: Resolved **Threshold and Change Monitor** ```json "logicType": "any", "conditions": [ { "type": "gt", "comparison": 10, "conditionResult": 75 }, { "type": "lte", "comparison": 10, "conditionResult": 0 } ], "actions": [] ``` **Threshold Monitor with Medium Priority** ```json "logicType": "any", "conditions": [ { type: "gt", comparison: 5, conditionResult: 75 }, { type: "gt", comparison: 2, conditionResult: 50 }, { type: "lte", comparison: 2, conditionResult: 0 } ], "actions": [] ``` **Dynamic Monitor** ```json "logicType": "any", "conditions": [ { "type": "anomaly_detection", "comparison": { "seasonality": "auto", "sensitivity": "medium", "thresholdType": 2 }, "conditionResult": 75 } ], "actions": [] ``` */
-  condition_group?: CreateOrganizationProjectDetectorRequestConditionGroup;
+  condition_group?: CreateOrganizationProjectDetectorRequestConditionGroup | undefined;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** A description of the monitor. Will be used in the resulting issue. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Set to False if you want to disable the monitor. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type CreateOrganizationProjectDetectorResponseOwnerType = "user" | "team";
 export interface CreateOrganizationProjectDetectorResponseOwner {
   type: CreateOrganizationProjectDetectorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type CreateOrganizationProjectDetectorResponseLatestGroupMap = {
   [key: string]: unknown | undefined;
@@ -2448,10 +2481,10 @@ export type CreateOrganizationProjectDetectorResponseConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface CreateOrganizationProjectDetectorResponse {
-  owner?: CreateOrganizationProjectDetectorResponseOwner | null;
-  createdBy?: string | null;
-  latestGroup?: CreateOrganizationProjectDetectorResponseLatestGroupMap | null;
-  description?: string | null;
+  owner?: CreateOrganizationProjectDetectorResponseOwner | null | undefined;
+  createdBy?: string | null | undefined;
+  latestGroup?: CreateOrganizationProjectDetectorResponseLatestGroupMap | null | undefined;
+  description?: string | null | undefined;
   id: string;
   projectId: string | null;
   name: string;
@@ -2474,12 +2507,12 @@ export type CreateOrganizationReleaseRequestCommitsItemPatchSetList =
   Array<CreateOrganizationReleaseRequestCommitsItemPatchSetItem>;
 export interface CreateOrganizationReleaseRequestCommitsItem {
   id: string;
-  repository?: string | null;
-  message?: string | null;
-  author_name?: string | null;
-  author_email?: string | null;
-  timestamp?: string | null;
-  patch_set?: CreateOrganizationReleaseRequestCommitsItemPatchSetList | null;
+  repository?: string | null | undefined;
+  message?: string | null | undefined;
+  author_name?: string | null | undefined;
+  author_email?: string | null | undefined;
+  timestamp?: string | null | undefined;
+  patch_set?: CreateOrganizationReleaseRequestCommitsItemPatchSetList | null | undefined;
 }
 /** An optional list of commit data to be associated. */
 export type CreateOrganizationReleaseRequestCommitsList =
@@ -2487,7 +2520,7 @@ export type CreateOrganizationReleaseRequestCommitsList =
 export interface CreateOrganizationReleaseRequestHeadCommitsItem {
   currentId: string;
   repository: string;
-  previousId?: string | null;
+  previousId?: string | null | undefined;
 }
 /** (Deprecated) Use `refs` instead. An optional list of head commits to associate with the release, one per repository. */
 export type CreateOrganizationReleaseRequestHeadCommitsList =
@@ -2495,7 +2528,7 @@ export type CreateOrganizationReleaseRequestHeadCommitsList =
 export interface CreateOrganizationReleaseRequestRefsItem {
   commit: string;
   repository: string;
-  previousCommit?: string | null;
+  previousCommit?: string | null | undefined;
 }
 /** An optional list of commit references, one per repository, used to associate commits with the release. */
 export type CreateOrganizationReleaseRequestRefsList =
@@ -2508,27 +2541,27 @@ export interface CreateOrganizationReleaseRequest {
   /** A list of project slugs that are involved in this release. */
   projects: CreateOrganizationReleaseRequestProjectsList;
   /** An optional commit reference. This is useful if a tagged version has been provided. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** A URL that points to the release. For instance, this can be the path to an online interface to the source code, such as a GitHub URL. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** An optional date that indicates when the release went live. If not provided the current time is used. */
-  dateReleased?: string | null;
+  dateReleased?: string | null | undefined;
   /** An optional list of commit data to be associated. */
-  commits?: CreateOrganizationReleaseRequestCommitsList;
+  commits?: CreateOrganizationReleaseRequestCommitsList | undefined;
   /** The status of the release. Can be `open` or `archived`. */
-  status?: string;
+  status?: string | undefined;
   /** The username of the user to set as the release owner. */
-  owner?: string;
+  owner?: string | undefined;
   /** (Deprecated) Use `refs` instead. An optional list of head commits to associate with the release, one per repository. */
-  headCommits?: CreateOrganizationReleaseRequestHeadCommitsList;
+  headCommits?: CreateOrganizationReleaseRequestHeadCommitsList | undefined;
   /** An optional list of commit references, one per repository, used to associate commits with the release. */
-  refs?: CreateOrganizationReleaseRequestRefsList;
+  refs?: CreateOrganizationReleaseRequestRefsList | undefined;
 }
 export type CreateOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export type CreateOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
 export interface CreateOrganizationReleaseResponseLastDeploy {
-  dateStarted?: string | null;
-  url?: string | null;
+  dateStarted?: string | null | undefined;
+  url?: string | null | undefined;
   id: string;
   environment: string;
   dateFinished: string;
@@ -2544,7 +2577,7 @@ export type CreateOrganizationReleaseResponseVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface CreateOrganizationReleaseResponseVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: CreateOrganizationReleaseResponseVersionInfoVersionMap;
   buildHash: string | null;
@@ -2569,10 +2602,10 @@ export type CreateOrganizationReleaseResponseAuthorsItemCase0EmailsItem =
 export type CreateOrganizationReleaseResponseAuthorsItemCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface CreateOrganizationReleaseResponseAuthorsItemCase0 {
-  identities?: CreateOrganizationReleaseResponseAuthorsItemCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: CreateOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: CreateOrganizationReleaseResponseAuthorsItemCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: CreateOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -2604,18 +2637,18 @@ export type CreateOrganizationReleaseResponseProjectsItemHealthDataStatsMap = {
   [key: string]: unknown | undefined;
 };
 export interface CreateOrganizationReleaseResponseProjectsItemHealthData {
-  durationP50?: number | null;
-  durationP90?: number | null;
-  crashFreeUsers?: number | null;
-  crashFreeSessions?: number | null;
-  totalUsers?: number | null;
-  totalUsers24h?: number | null;
-  totalProjectUsers24h?: number | null;
-  totalSessions?: number | null;
-  totalSessions24h?: number | null;
-  totalProjectSessions24h?: number | null;
-  adoption?: number | null;
-  sessionsAdoption?: number | null;
+  durationP50?: number | null | undefined;
+  durationP90?: number | null | undefined;
+  crashFreeUsers?: number | null | undefined;
+  crashFreeSessions?: number | null | undefined;
+  totalUsers?: number | null | undefined;
+  totalUsers24h?: number | null | undefined;
+  totalProjectUsers24h?: number | null | undefined;
+  totalSessions?: number | null | undefined;
+  totalSessions24h?: number | null | undefined;
+  totalProjectSessions24h?: number | null | undefined;
+  adoption?: number | null | undefined;
+  sessionsAdoption?: number | null | undefined;
   sessionsCrashed: number;
   sessionsErrored: number;
   hasHealthData: boolean;
@@ -2623,10 +2656,10 @@ export interface CreateOrganizationReleaseResponseProjectsItemHealthData {
 }
 export type CreateOrganizationReleaseResponseProjectsItemPlatformsList = Array<string>;
 export interface CreateOrganizationReleaseResponseProjectsItem {
-  healthData?: CreateOrganizationReleaseResponseProjectsItemHealthData | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
+  healthData?: CreateOrganizationReleaseResponseProjectsItemHealthData | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
   id: number;
   slug: string;
   name: string;
@@ -2638,19 +2671,19 @@ export interface CreateOrganizationReleaseResponseProjectsItem {
 export type CreateOrganizationReleaseResponseProjectsList =
   Array<CreateOrganizationReleaseResponseProjectsItem>;
 export interface CreateOrganizationReleaseResponse {
-  ref?: string | null;
-  url?: string | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
-  owner?: CreateOrganizationReleaseResponseOwnerMap | null;
-  lastCommit?: CreateOrganizationReleaseResponseLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  firstEvent?: string | null;
-  lastEvent?: string | null;
-  currentProjectMeta?: CreateOrganizationReleaseResponseCurrentProjectMetaMap | null;
-  userAgent?: string | null;
-  adoptionStages?: CreateOrganizationReleaseResponseAdoptionStagesMap | null;
+  ref?: string | null | undefined;
+  url?: string | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
+  owner?: CreateOrganizationReleaseResponseOwnerMap | null | undefined;
+  lastCommit?: CreateOrganizationReleaseResponseLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  firstEvent?: string | null | undefined;
+  lastEvent?: string | null | undefined;
+  currentProjectMeta?: CreateOrganizationReleaseResponseCurrentProjectMetaMap | null | undefined;
+  userAgent?: string | null | undefined;
+  adoptionStages?: CreateOrganizationReleaseResponseAdoptionStagesMap | null | undefined;
   id: number;
   version: string;
   newGroups: number;
@@ -2673,15 +2706,15 @@ export interface CreateOrganizationReleaseDeployRequest {
   /** The environment you're deploying to */
   environment: string;
   /** The optional name of the deploy */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The optional URL that points to the deploy */
-  url?: string | null;
+  url?: string | null | undefined;
   /** An optional date that indicates when the deploy started */
-  dateStarted?: string | null;
+  dateStarted?: string | null | undefined;
   /** An optional date that indicates when the deploy ended. If not provided, the current time is used. */
-  dateFinished?: string | null;
+  dateFinished?: string | null | undefined;
   /** The optional list of project slugs to create a deploy within. If not provided, deploys are created for all of the release's projects. */
-  projects?: CreateOrganizationReleaseDeployRequestProjectsList;
+  projects?: CreateOrganizationReleaseDeployRequestProjectsList | undefined;
 }
 export interface CreateOrganizationReleaseDeployResponse {
   /** The ID of the deploy */
@@ -2701,9 +2734,9 @@ export interface CreateOrganizationTeamRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Uniquely identifies a team and is used for the interface. If not provided, it is automatically generated from the name. */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** **`[DEPRECATED]`** The name for the team. If not provided, it is automatically generated from the slug */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type CreateOrganizationTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export type CreateOrganizationTeamResponseAccessList = Array<string>;
@@ -2738,10 +2771,10 @@ export interface CreateOrganizationTeamResponseOrganizationLinks {
   regionUrl: string;
 }
 export interface CreateOrganizationTeamResponseOrganization {
-  features?: CreateOrganizationTeamResponseOrganizationFeaturesList;
-  extraOptions?: CreateOrganizationTeamResponseOrganizationExtraOptionsMap;
-  access?: CreateOrganizationTeamResponseOrganizationAccessList;
-  onboardingTasks?: CreateOrganizationTeamResponseOrganizationOnboardingTasksList;
+  features?: CreateOrganizationTeamResponseOrganizationFeaturesList | undefined;
+  extraOptions?: CreateOrganizationTeamResponseOrganizationExtraOptionsMap | undefined;
+  access?: CreateOrganizationTeamResponseOrganizationAccessList | undefined;
+  onboardingTasks?: CreateOrganizationTeamResponseOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -2761,9 +2794,9 @@ export type CreateOrganizationTeamResponseProjectsItemAccessList = Array<string>
 export type CreateOrganizationTeamResponseProjectsItemAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface CreateOrganizationTeamResponseProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -2817,9 +2850,9 @@ export interface CreateOrganizationTeamResponse {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: CreateOrganizationTeamResponseExternalTeamsList;
-  organization?: CreateOrganizationTeamResponseOrganization;
-  projects?: CreateOrganizationTeamResponseProjectsList;
+  externalTeams?: CreateOrganizationTeamResponseExternalTeamsList | undefined;
+  organization?: CreateOrganizationTeamResponseOrganization | undefined;
+  projects?: CreateOrganizationTeamResponseProjectsList | undefined;
 }
 /** The IDs of the monitors to connect this alert to. Use 'Fetch an Organization's Monitors' to find the IDs. */
 export type CreateOrganizationWorkflowRequestDetectorIdsList = Array<number>;
@@ -2834,10 +2867,10 @@ export type CreateOrganizationWorkflowRequestTriggersLogicType =
 export type CreateOrganizationWorkflowRequestTriggersConditionsList = Array<unknown>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationWorkflowRequestTriggers {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: CreateOrganizationWorkflowRequestTriggersLogicType | (string & {});
-  conditions?: CreateOrganizationWorkflowRequestTriggersConditionsList;
+  conditions?: CreateOrganizationWorkflowRequestTriggersConditionsList | undefined;
 }
 /** * `any` * `any-short` * `all` * `none` */
 export type CreateOrganizationWorkflowRequestActionFiltersItemLogicType =
@@ -2853,10 +2886,10 @@ export type CreateOrganizationWorkflowRequestActionFiltersItemActionsList =
   Array<CreateOrganizationWorkflowRequestActionFiltersItemActionsItemMap>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface CreateOrganizationWorkflowRequestActionFiltersItem {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: CreateOrganizationWorkflowRequestActionFiltersItemLogicType | (string & {});
-  conditions?: CreateOrganizationWorkflowRequestActionFiltersItemConditionsList;
+  conditions?: CreateOrganizationWorkflowRequestActionFiltersItemConditionsList | undefined;
   actions: CreateOrganizationWorkflowRequestActionFiltersItemActionsList;
 }
 /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
@@ -2868,21 +2901,21 @@ export interface CreateOrganizationWorkflowRequest {
   /** The name of the alert */
   name: string;
   /** The ID of the existing alert */
-  id?: string;
+  id?: string | undefined;
   /** Whether the alert is enabled or disabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The IDs of the monitors to connect this alert to. Use 'Fetch an Organization's Monitors' to find the IDs. */
-  detector_ids?: CreateOrganizationWorkflowRequestDetectorIdsList;
+  detector_ids?: CreateOrganizationWorkflowRequestDetectorIdsList | undefined;
   /** Typically the frequency at which the alert will fire, in minutes. - `0`: 0 minutes - `5`: 5 minutes - `10`: 10 minutes - `30`: 30 minutes - `60`: 1 hour - `180`: 3 hours - `720`: 12 hours - `1440`: 24 hours ```json { "frequency":3600 } ``` */
-  config?: CreateOrganizationWorkflowRequestConfigMap;
+  config?: CreateOrganizationWorkflowRequestConfigMap | undefined;
   /** The name of the environment for the alert to evaluate in */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** The conditions on which the alert will trigger. See available options below. ```json "triggers": { "organizationId": "1", "logicType": "any-short", "conditions": [ { "type": "first_seen_event", "comparison": true, "conditionResult": true }, { "type": "issue_resolved_trigger", "comparison": true, "conditionResult": true }, { "type": "reappeared_event", "comparison": true, "conditionResult": true }, { "type": "regression_event", "comparison": true, "conditionResult": true }, { "type": "seer_activity_trigger", "comparison": [ "rca_completed", "solution_completed", "coding_completed", "pr_ready_for_review" ], "conditionResult": true } ], "actions": [] } ``` */
-  triggers?: CreateOrganizationWorkflowRequestTriggers;
+  triggers?: CreateOrganizationWorkflowRequestTriggers | undefined;
   /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
-  action_filters?: CreateOrganizationWorkflowRequestActionFiltersList;
+  action_filters?: CreateOrganizationWorkflowRequestActionFiltersList | undefined;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
-  owner?: string | null;
+  owner?: string | null | undefined;
 }
 export type CreateOrganizationWorkflowResponseTriggersConditionsCase0ItemComparison =
   | boolean
@@ -2906,12 +2939,12 @@ export type CreateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap 
   [key: string]: unknown | undefined;
 };
 export interface CreateOrganizationWorkflowResponseTriggersActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: CreateOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap;
-  config?: CreateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: CreateOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap | undefined;
+  config?: CreateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type CreateOrganizationWorkflowResponseTriggersActionsCase0List =
   Array<CreateOrganizationWorkflowResponseTriggersActionsCase0Item>;
@@ -2920,11 +2953,11 @@ export type CreateOrganizationWorkflowResponseTriggersActions =
   | CreateOrganizationWorkflowResponseTriggersActionsCase0List
   | CreateOrganizationWorkflowResponseTriggersActionsCase1List;
 export interface CreateOrganizationWorkflowResponseTriggers {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: CreateOrganizationWorkflowResponseTriggersConditions;
-  actions?: CreateOrganizationWorkflowResponseTriggersActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: CreateOrganizationWorkflowResponseTriggersConditions | undefined;
+  actions?: CreateOrganizationWorkflowResponseTriggersActions | undefined;
 }
 export type CreateOrganizationWorkflowResponseActionFiltersItemConditionsCase0ItemComparison =
   | boolean
@@ -2948,12 +2981,12 @@ export type CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemC
   [key: string]: unknown | undefined;
 };
 export interface CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap;
-  config?: CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap | undefined;
+  config?: CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0List =
   Array<CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0Item>;
@@ -2962,11 +2995,11 @@ export type CreateOrganizationWorkflowResponseActionFiltersItemActions =
   | CreateOrganizationWorkflowResponseActionFiltersItemActionsCase0List
   | CreateOrganizationWorkflowResponseActionFiltersItemActionsCase1List;
 export interface CreateOrganizationWorkflowResponseActionFiltersItem {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: CreateOrganizationWorkflowResponseActionFiltersItemConditions;
-  actions?: CreateOrganizationWorkflowResponseActionFiltersItemActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: CreateOrganizationWorkflowResponseActionFiltersItemConditions | undefined;
+  actions?: CreateOrganizationWorkflowResponseActionFiltersItemActions | undefined;
 }
 export type CreateOrganizationWorkflowResponseActionFiltersList =
   Array<CreateOrganizationWorkflowResponseActionFiltersItem>;
@@ -3064,7 +3097,7 @@ export interface CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher {
 export interface CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem {
   type: string;
   name: string;
-  id?: string;
+  id?: string | undefined;
 }
 export type CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList =
   Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
@@ -3082,11 +3115,11 @@ export type CreateProjectCodeOwnersResponseSchema =
   | CreateProjectCodeOwnersResponseSchemaCase0
   | unknown;
 export interface CreateProjectCodeOwnersResponse {
-  codeMapping?: CreateProjectCodeOwnersResponseCodeMapping;
-  ownershipSyntax?: string;
-  errors?: CreateProjectCodeOwnersResponseErrors;
-  schema?: CreateProjectCodeOwnersResponseSchema;
-  codeOwnersUrl?: string;
+  codeMapping?: CreateProjectCodeOwnersResponseCodeMapping | undefined;
+  ownershipSyntax?: string | undefined;
+  errors?: CreateProjectCodeOwnersResponseErrors | undefined;
+  schema?: CreateProjectCodeOwnersResponseSchema | undefined;
+  codeOwnersUrl?: string | undefined;
   id: string;
   raw: string;
   dateCreated: string;
@@ -3097,8 +3130,8 @@ export interface CreateProjectCodeOwnersResponse {
 }
 /** Applies a rate limit to cap the number of errors accepted during a given time window. To disable entirely set `rateLimit` to null. ```json { "rateLimit": { "window": 7200, // time in seconds "count": 1000 // error cap } } ``` */
 export interface CreateProjectKeyRequestRateLimit {
-  count?: number | null;
-  window?: number | null;
+  count?: number | null | undefined;
+  window?: number | null | undefined;
 }
 /** * `user` * `profiling` * `tempest` * `demo` */
 export type CreateProjectKeyRequestUseCase = "user" | "profiling" | "tempest" | "demo";
@@ -3108,11 +3141,11 @@ export interface CreateProjectKeyRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The optional name of the key. If not provided it will be automatically generated. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Applies a rate limit to cap the number of errors accepted during a given time window. To disable entirely set `rateLimit` to null. ```json { "rateLimit": { "window": 7200, // time in seconds "count": 1000 // error cap } } ``` */
-  rateLimit?: CreateProjectKeyRequestRateLimit;
+  rateLimit?: CreateProjectKeyRequestRateLimit | undefined;
   /** * `user` * `profiling` * `tempest` * `demo` */
-  useCase?: CreateProjectKeyRequestUseCase | (string & {});
+  useCase?: CreateProjectKeyRequestUseCase | (string & {}) | undefined;
 }
 export interface CreateProjectKeyResponseRateLimit {
   window: number;
@@ -3160,7 +3193,7 @@ export interface CreateProjectKeyResponse {
   browserSdk: CreateProjectKeyResponseBrowserSdk;
   dateCreated: string | null;
   dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions;
-  useCase?: string;
+  useCase?: string | undefined;
 }
 /** The repository integration provider. * `github` * `github_enterprise` */
 export type CreateProjectPreprodSizeAnalysisSkippedStatusCheckRequestProvider =
@@ -3251,12 +3284,12 @@ export interface CreateTeamExternalTeamRequest {
   /** The Integration ID. */
   integration_id: number;
   /** The associated user ID for provider. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface CreateTeamExternalTeamResponse {
-  externalId?: string;
-  userId?: string;
-  teamId?: string;
+  externalId?: string | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
   id: string;
   provider: string;
   externalName: string;
@@ -3270,11 +3303,11 @@ export interface CreateTeamProjectRequest {
   /** The name for the project. */
   name: string;
   /** Uniquely identifies a project and is used for the interface. If not provided, it is automatically generated from the name. */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The platform for the project. */
-  platform?: string | null;
+  platform?: string | null | undefined;
   /** Defaults to true where the behavior is to alert the user on every new issue. Setting this to false will turn this off and the user must create their own alerts to be notified of new issues. */
-  default_rules?: boolean;
+  default_rules?: boolean | undefined;
 }
 export type CreateTeamProjectResponseLatestDeploysValueMap = { [key: string]: string | undefined };
 export type CreateTeamProjectResponseLatestDeploysMap = {
@@ -3290,11 +3323,11 @@ export type CreateTeamProjectResponsePlatformsList = Array<string>;
 export type CreateTeamProjectResponseEnvironmentsList = Array<string>;
 export type CreateTeamProjectResponseLatestRelease = CreateOrganizationProjectResponseLatestRelease;
 export interface CreateTeamProjectResponse {
-  latestDeploys?: CreateTeamProjectResponseLatestDeploysMap | null;
-  options?: CreateTeamProjectResponseOptionsMap;
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  latestDeploys?: CreateTeamProjectResponseLatestDeploysMap | null | undefined;
+  options?: CreateTeamProjectResponseOptionsMap | undefined;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -3372,13 +3405,13 @@ export interface DeleteOrganizationDetectorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: DeleteOrganizationDetectorsRequestProjectList;
+  project?: DeleteOrganizationDetectorsRequestProjectList | undefined;
   /** An optional search query for filtering monitors. Available fields are: - `name` - `type`: e.g. `error`, `metric_issue`, `issue_stream` - `assignee`: email, username, #team, me, none */
-  query?: string;
+  query?: string | undefined;
   /** The property to sort results by. If not specified, the results are sorted by id. Available fields are: - `name` - `id` - `type` - `connectedWorkflows` - `latestGroup` - `openIssues` Prefix with `-` to sort in descending order. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The ID of the monitor you'd like to query. */
-  id?: DeleteOrganizationDetectorsRequestIdList;
+  id?: DeleteOrganizationDetectorsRequestIdList | undefined;
 }
 export interface DeleteOrganizationDetectorsResponse {}
 export interface DeleteOrganizationDiscoverSavedQueryRequest {
@@ -3442,25 +3475,25 @@ export interface DeleteOrganizationIssuesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: DeleteOrganizationIssuesRequestEnvironmentList;
+  environment?: DeleteOrganizationIssuesRequestEnvironmentList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: DeleteOrganizationIssuesRequestProjectList;
+  project?: DeleteOrganizationIssuesRequestProjectList | undefined;
   /** The list of issue IDs to be removed. If not provided, it will attempt to remove the first 1000 issues. */
-  id?: DeleteOrganizationIssuesRequestIdList;
+  id?: DeleteOrganizationIssuesRequestIdList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** An optional search query for filtering issues. A default query will apply if no view/query is set. For all results use this parameter with an empty string. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the view to use. If no query is present, the view's query and filters will be applied. */
-  viewId?: string;
+  viewId?: string | undefined;
   /** The sort order of the view. Options include 'Last Seen' (`date`), 'First Seen' (`new`), 'Trends' (`trends`), 'Events' (`freq`), 'Users' (`user`), 'Date Added' (`inbox`), and 'Recommended' (`recommended`). */
-  sort?: DeleteOrganizationIssuesRequestSort | (string & {});
+  sort?: DeleteOrganizationIssuesRequestSort | (string & {}) | undefined;
   /** The maximum number of issues to affect. The maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DeleteOrganizationIssuesResponse {}
 export interface DeleteOrganizationMemberRequest {
@@ -3502,7 +3535,7 @@ export interface DeleteOrganizationMonitorRequest {
   /** The ID or slug of the monitor. */
   monitor_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: DeleteOrganizationMonitorRequestEnvironmentList;
+  environment?: DeleteOrganizationMonitorRequestEnvironmentList | undefined;
 }
 export interface DeleteOrganizationMonitorResponse {}
 export interface DeleteOrganizationNotificationsActionRequest {
@@ -3564,11 +3597,11 @@ export interface DeleteOrganizationWorkflowsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** An optional search query for filtering alerts. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the alert you'd like to query. */
-  id?: DeleteOrganizationWorkflowsRequestIdList;
+  id?: DeleteOrganizationWorkflowsRequestIdList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: DeleteOrganizationWorkflowsRequestProjectList;
+  project?: DeleteOrganizationWorkflowsRequestProjectList | undefined;
 }
 export interface DeleteOrganizationWorkflowsResponse {}
 export interface DeleteProjectRequest {
@@ -3605,7 +3638,7 @@ export interface DeleteProjectMonitorRequest {
   /** The ID or slug of the monitor. */
   monitor_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: DeleteProjectMonitorRequestEnvironmentList;
+  environment?: DeleteProjectMonitorRequestEnvironmentList | undefined;
 }
 export interface DeleteProjectMonitorResponse {}
 export interface DeleteProjectReleaseFileRequest {
@@ -3652,9 +3685,9 @@ export type DeleteProjectTeamResponseTeam = AddProjectTeamResponseTeam;
 export type DeleteProjectTeamResponseTeamsItem = AddProjectTeamResponseTeam;
 export type DeleteProjectTeamResponseTeamsList = Array<AddProjectTeamResponseTeam>;
 export interface DeleteProjectTeamResponse {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -3692,7 +3725,7 @@ export interface DeleteProjectTeamResponse {
   avatar: AddOrganizationMemberResponseUserAvatar;
   color: string;
   status: string;
-  team?: AddProjectTeamResponseTeam;
+  team?: AddProjectTeamResponseTeam | undefined;
   teams: DeleteProjectTeamResponseTeamsList;
 }
 export interface DeleteSentryAppRequest {
@@ -3740,7 +3773,7 @@ export interface ExecuteSentryAppInstallationExternalIssueActionRequest {
   /** The UUID of the Sentry App installation. */
   uuid: string;
   /** The exact canonical webUrl of the external issue to link. Only supported for action=link. An existing matching association is a no-op; a different association or callback URL returns 409 without replacing the link. */
-  expectedExternalIssueUrl?: string;
+  expectedExternalIssueUrl?: string | undefined;
   /** The numeric Sentry issue ID. */
   groupId: string;
   /** The action to perform: `link` or `create`. */
@@ -3796,9 +3829,9 @@ export interface GetACustomInboundFilterResponse {
   /** When the filter was last changed. */
   dateUpdated: string;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type GetAnIntegrationSIssueConfigForAnIssueRequestAction = "create" | "link";
 export interface GetAnIntegrationSIssueConfigForAnIssueRequest {
@@ -3853,8 +3886,10 @@ export interface GetAnIntegrationSIssueConfigForAnIssueResponse {
   missingFeatures: GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList | null;
   status: string;
   provider: GetAnIntegrationSIssueConfigForAnIssueResponseProvider;
-  linkIssueConfig?: GetAnIntegrationSIssueConfigForAnIssueResponseLinkIssueConfigList;
-  createIssueConfig?: GetAnIntegrationSIssueConfigForAnIssueResponseCreateIssueConfigList;
+  linkIssueConfig?: GetAnIntegrationSIssueConfigForAnIssueResponseLinkIssueConfigList | undefined;
+  createIssueConfig?:
+    | GetAnIntegrationSIssueConfigForAnIssueResponseCreateIssueConfigList
+    | undefined;
 }
 export interface GetAServiceHookRequest {
   /** The ID or slug of the organization the client keys belong to. */
@@ -3884,7 +3919,7 @@ export interface GetOrganizationRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Specify `"0"` to return organization details that do not include projects or teams. */
-  detailed?: string;
+  detailed?: string | undefined;
 }
 export type GetOrganizationResponseFeaturesList = Array<string>;
 export type GetOrganizationResponseExtraOptionsValueMap = { [key: string]: unknown | undefined };
@@ -3900,10 +3935,10 @@ export type GetOrganizationResponseStatus = AddOrganizationMemberResponseUserIde
 export type GetOrganizationResponseAvatar = AddOrganizationMemberResponseUserAvatar;
 export type GetOrganizationResponseLinks = CreateOrganizationTeamResponseOrganizationLinks;
 export interface GetOrganizationResponse {
-  features?: GetOrganizationResponseFeaturesList;
-  extraOptions?: GetOrganizationResponseExtraOptionsMap;
-  access?: GetOrganizationResponseAccessList;
-  onboardingTasks?: GetOrganizationResponseOnboardingTasksList;
+  features?: GetOrganizationResponseFeaturesList | undefined;
+  extraOptions?: GetOrganizationResponseExtraOptionsMap | undefined;
+  access?: GetOrganizationResponseAccessList | undefined;
+  onboardingTasks?: GetOrganizationResponseOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -3928,19 +3963,19 @@ export interface GetOrganizationAIConversationRequest {
   /** Conversation ID recorded in `gen_ai.conversation.id`. */
   conversation_id: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: GetOrganizationAIConversationRequestProjectList;
+  project?: GetOrganizationAIConversationRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationAIConversationRequestEnvironmentList;
+  environment?: GetOrganizationAIConversationRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of spans to return per page. Defaults to 100; maximum is 1,000. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface GetOrganizationAIConversationResponseProjectsItem {
   id: number;
@@ -3996,7 +4031,7 @@ export interface GetOrganizationConfigIntegrationsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Specific integration provider to filter by such as `slack`. See our [Integrations Documentation](/product/integrations/) for an updated list of providers. */
-  providerKey?: string;
+  providerKey?: string | undefined;
 }
 export type GetOrganizationConfigIntegrationsResponseProvidersItemFeaturesList = Array<string>;
 export interface GetOrganizationConfigIntegrationsResponseProvidersItem {
@@ -4039,10 +4074,10 @@ export type GetOrganizationDashboardResponseCreatedByEmailsItem =
 export type GetOrganizationDashboardResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface GetOrganizationDashboardResponseCreatedBy {
-  identities?: GetOrganizationDashboardResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: GetOrganizationDashboardResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: GetOrganizationDashboardResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: GetOrganizationDashboardResponseCreatedByAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -4065,8 +4100,8 @@ export type GetOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap = 
   [key: string]: number | undefined;
 };
 export interface GetOrganizationDashboardResponseWidgetsItemThresholds {
-  preferredPolarity?: string;
-  timeWindow?: string;
+  preferredPolarity?: string | undefined;
+  timeWindow?: string | undefined;
   max_values: GetOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
@@ -4160,9 +4195,9 @@ export type GetOrganizationDashboardResponseFiltersGlobalFilterItemMap = {
 export type GetOrganizationDashboardResponseFiltersGlobalFilterList =
   Array<GetOrganizationDashboardResponseFiltersGlobalFilterItemMap>;
 export interface GetOrganizationDashboardResponseFilters {
-  release?: GetOrganizationDashboardResponseFiltersReleaseList;
-  releaseId?: GetOrganizationDashboardResponseFiltersReleaseIdList;
-  globalFilter?: GetOrganizationDashboardResponseFiltersGlobalFilterList;
+  release?: GetOrganizationDashboardResponseFiltersReleaseList | undefined;
+  releaseId?: GetOrganizationDashboardResponseFiltersReleaseIdList | undefined;
+  globalFilter?: GetOrganizationDashboardResponseFiltersGlobalFilterList | undefined;
 }
 export type GetOrganizationDashboardResponsePermissionsTeamsWithEditAccessList = Array<number>;
 export interface GetOrganizationDashboardResponsePermissions {
@@ -4170,12 +4205,12 @@ export interface GetOrganizationDashboardResponsePermissions {
   teamsWithEditAccess: GetOrganizationDashboardResponsePermissionsTeamsWithEditAccessList;
 }
 export interface GetOrganizationDashboardResponse {
-  environment?: GetOrganizationDashboardResponseEnvironmentList;
-  period?: string;
-  utc?: string;
-  expired?: boolean;
-  start?: string;
-  end?: string;
+  environment?: GetOrganizationDashboardResponseEnvironmentList | undefined;
+  period?: string | undefined;
+  utc?: string | undefined;
+  expired?: boolean | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
   id: string;
   title: string;
   dateCreated: string;
@@ -4198,7 +4233,7 @@ export interface GetOrganizationDetectorResponseOwner {
   type: GetOrganizationDetectorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type GetOrganizationDetectorResponseLatestGroupMap = { [key: string]: unknown | undefined };
 export type GetOrganizationDetectorResponseWorkflowIdsList = Array<string>;
@@ -4212,10 +4247,10 @@ export type GetOrganizationDetectorResponseConditionGroupMap = {
 };
 export type GetOrganizationDetectorResponseConfigMap = { [key: string]: unknown | undefined };
 export interface GetOrganizationDetectorResponse {
-  owner?: GetOrganizationDetectorResponseOwner | null;
-  createdBy?: string | null;
-  latestGroup?: GetOrganizationDetectorResponseLatestGroupMap | null;
-  description?: string | null;
+  owner?: GetOrganizationDetectorResponseOwner | null | undefined;
+  createdBy?: string | null | undefined;
+  latestGroup?: GetOrganizationDetectorResponseLatestGroupMap | null | undefined;
+  description?: string | null | undefined;
   id: string;
   projectId: string | null;
   name: string;
@@ -4263,10 +4298,10 @@ export type GetOrganizationDiscoverSavedQueryResponseCreatedByEmailsItem =
 export type GetOrganizationDiscoverSavedQueryResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface GetOrganizationDiscoverSavedQueryResponseCreatedBy {
-  identities?: GetOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: GetOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: GetOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: GetOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -4286,25 +4321,25 @@ export interface GetOrganizationDiscoverSavedQueryResponseCreatedBy {
   emails: GetOrganizationDiscoverSavedQueryResponseCreatedByEmailsList;
 }
 export interface GetOrganizationDiscoverSavedQueryResponse {
-  environment?: GetOrganizationDiscoverSavedQueryResponseEnvironmentList;
-  query?: string;
-  fields?: GetOrganizationDiscoverSavedQueryResponseFieldsList;
-  widths?: GetOrganizationDiscoverSavedQueryResponseWidthsList;
-  conditions?: GetOrganizationDiscoverSavedQueryResponseConditionsList;
-  aggregations?: GetOrganizationDiscoverSavedQueryResponseAggregationsList;
-  range?: string;
-  start?: string;
-  end?: string;
-  orderby?: string;
-  limit?: string;
-  yAxis?: GetOrganizationDiscoverSavedQueryResponseYAxisList;
-  display?: string;
-  topEvents?: number;
-  interval?: string;
-  exploreQuery?: GetOrganizationDiscoverSavedQueryResponseExploreQueryMap;
-  lastVisited?: string;
-  starred?: boolean;
-  position?: number | null;
+  environment?: GetOrganizationDiscoverSavedQueryResponseEnvironmentList | undefined;
+  query?: string | undefined;
+  fields?: GetOrganizationDiscoverSavedQueryResponseFieldsList | undefined;
+  widths?: GetOrganizationDiscoverSavedQueryResponseWidthsList | undefined;
+  conditions?: GetOrganizationDiscoverSavedQueryResponseConditionsList | undefined;
+  aggregations?: GetOrganizationDiscoverSavedQueryResponseAggregationsList | undefined;
+  range?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  orderby?: string | undefined;
+  limit?: string | undefined;
+  yAxis?: GetOrganizationDiscoverSavedQueryResponseYAxisList | undefined;
+  display?: string | undefined;
+  topEvents?: number | undefined;
+  interval?: string | undefined;
+  exploreQuery?: GetOrganizationDiscoverSavedQueryResponseExploreQueryMap | undefined;
+  lastVisited?: string | undefined;
+  starred?: boolean | undefined;
+  position?: number | null | undefined;
   id: string;
   name: string;
   projects: GetOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -4367,11 +4402,11 @@ export interface GetOrganizationIssueRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationIssueRequestEnvironmentList;
+  environment?: GetOrganizationIssueRequestEnvironmentList | undefined;
   /** Additional data to include in the response. */
-  expand?: GetOrganizationIssueRequestExpandList;
+  expand?: GetOrganizationIssueRequestExpandList | undefined;
   /** Fields to remove from the response to improve query performance. */
-  collapse?: GetOrganizationIssueRequestCollapseList;
+  collapse?: GetOrganizationIssueRequestCollapseList | undefined;
 }
 export interface GetOrganizationIssueResponseDerivedData {
   blocker: string;
@@ -4418,10 +4453,10 @@ export type GetOrganizationIssueResponseStatusDetailsActorEmailsItem =
 export type GetOrganizationIssueResponseStatusDetailsActorEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface GetOrganizationIssueResponseStatusDetailsActor {
-  identities?: GetOrganizationIssueResponseStatusDetailsActorIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: GetOrganizationIssueResponseStatusDetailsActorAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: GetOrganizationIssueResponseStatusDetailsActorIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: GetOrganizationIssueResponseStatusDetailsActorAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -4446,17 +4481,17 @@ export interface GetOrganizationIssueResponseStatusDetailsInfo {
   totalEvents: number;
 }
 export interface GetOrganizationIssueResponseStatusDetails {
-  ignoreCount?: number;
-  ignoreUntil?: string;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
-  ignoreWindow?: number;
-  actor?: GetOrganizationIssueResponseStatusDetailsActor;
-  inNextRelease?: boolean;
-  inRelease?: string;
-  inCommit?: string;
-  pendingEvents?: number;
-  info?: GetOrganizationIssueResponseStatusDetailsInfo | null;
+  ignoreCount?: number | undefined;
+  ignoreUntil?: string | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
+  ignoreWindow?: number | undefined;
+  actor?: GetOrganizationIssueResponseStatusDetailsActor | undefined;
+  inNextRelease?: boolean | undefined;
+  inRelease?: string | undefined;
+  inCommit?: string | undefined;
+  pendingEvents?: number | undefined;
+  info?: GetOrganizationIssueResponseStatusDetailsInfo | null | undefined;
 }
 export type GetOrganizationIssueResponseSubstatus =
   | "archived_until_escalating"
@@ -4490,11 +4525,11 @@ export interface GetOrganizationIssueResponseAssignedTo {
   type: GetOrganizationIssueResponseAssignedToType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetOrganizationIssueResponseSubscriptionDetails {
-  disabled?: boolean;
-  reason?: string;
+  disabled?: boolean | undefined;
+  reason?: string | undefined;
 }
 export interface GetOrganizationIssueResponseAnnotationsItem {
   displayName: string;
@@ -4557,12 +4592,12 @@ export type GetOrganizationIssueResponseParticipantsItemMap = {
 export type GetOrganizationIssueResponseParticipantsList =
   Array<GetOrganizationIssueResponseParticipantsItemMap>;
 export interface GetOrganizationIssueResponse {
-  isUnhandled?: boolean;
-  count?: string;
-  userCount?: number;
-  firstSeen?: string | null;
-  lastSeen?: string | null;
-  derivedData?: GetOrganizationIssueResponseDerivedData;
+  isUnhandled?: boolean | undefined;
+  count?: string | undefined;
+  userCount?: number | undefined;
+  firstSeen?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  derivedData?: GetOrganizationIssueResponseDerivedData | undefined;
   id: string;
   shareId: string | null;
   shortId: string;
@@ -4593,16 +4628,16 @@ export interface GetOrganizationIssueResponse {
   subscriptionDetails: GetOrganizationIssueResponseSubscriptionDetails | null;
   hasSeen: boolean;
   annotations: GetOrganizationIssueResponseAnnotationsList;
-  firstRelease?: GetOrganizationIssueResponseFirstReleaseMap | null;
-  lastRelease?: GetOrganizationIssueResponseLastReleaseMap | null;
-  tags?: GetOrganizationIssueResponseTagsList;
-  stats?: GetOrganizationIssueResponseStatsMap;
-  inbox?: GetOrganizationIssueResponseInbox | null;
-  owners?: GetOrganizationIssueResponseOwnersList | null;
-  forecast?: GetOrganizationIssueResponseForecastMap;
-  integrationIssues?: GetOrganizationIssueResponseIntegrationIssuesList;
-  sentryAppIssues?: GetOrganizationIssueResponseSentryAppIssuesList;
-  latestEventHasAttachments?: boolean;
+  firstRelease?: GetOrganizationIssueResponseFirstReleaseMap | null | undefined;
+  lastRelease?: GetOrganizationIssueResponseLastReleaseMap | null | undefined;
+  tags?: GetOrganizationIssueResponseTagsList | undefined;
+  stats?: GetOrganizationIssueResponseStatsMap | undefined;
+  inbox?: GetOrganizationIssueResponseInbox | null | undefined;
+  owners?: GetOrganizationIssueResponseOwnersList | null | undefined;
+  forecast?: GetOrganizationIssueResponseForecastMap | undefined;
+  integrationIssues?: GetOrganizationIssueResponseIntegrationIssuesList | undefined;
+  sentryAppIssues?: GetOrganizationIssueResponseSentryAppIssuesList | undefined;
+  latestEventHasAttachments?: boolean | undefined;
   activity: GetOrganizationIssueResponseActivityList;
   seenBy: GetOrganizationIssueResponseSeenByList;
   userReportCount: number;
@@ -4615,7 +4650,7 @@ export interface GetOrganizationIssueAutofixStateRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** If set, adds a `formatted` field to the response with the autofix rendered as the requested format for LLM consumption. */
-  llmFormat?: GetOrganizationIssueAutofixStateRequestLlmFormat | (string & {});
+  llmFormat?: GetOrganizationIssueAutofixStateRequestLlmFormat | (string & {}) | undefined;
 }
 export type GetOrganizationIssueAutofixStateResponseFormattedFormat = "markdown" | "xml" | "json";
 /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
@@ -4628,7 +4663,7 @@ export type GetOrganizationIssueAutofixStateResponseAutofixMap = {
 };
 export interface GetOrganizationIssueAutofixStateResponse {
   /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
-  formatted?: GetOrganizationIssueAutofixStateResponseFormatted;
+  formatted?: GetOrganizationIssueAutofixStateResponseFormatted | undefined;
   autofix: GetOrganizationIssueAutofixStateResponseAutofixMap | null;
 }
 export type GetOrganizationIssueEventRequestEventId = "latest" | "oldest" | "recommended";
@@ -4642,23 +4677,23 @@ export interface GetOrganizationIssueEventRequest {
   /** The ID of the event to retrieve, or 'latest', 'oldest', or 'recommended'. */
   event_id: GetOrganizationIssueEventRequestEventId | (string & {});
   /** The name of environments to filter by. */
-  environment?: GetOrganizationIssueEventRequestEnvironmentList;
+  environment?: GetOrganizationIssueEventRequestEnvironmentList | undefined;
   /** If set, adds a `formatted` field to the response with the event rendered as the requested format for LLM consumption. */
-  llmFormat?: GetOrganizationIssueEventRequestLlmFormat | (string & {});
+  llmFormat?: GetOrganizationIssueEventRequestLlmFormat | (string & {}) | undefined;
 }
 export type GetOrganizationIssueEventResponseUserGeoMap = { [key: string]: string | undefined };
 export type GetOrganizationIssueEventResponseUserDataMap = { [key: string]: unknown | undefined };
 export interface GetOrganizationIssueEventResponseUser {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: GetOrganizationIssueEventResponseUserGeoMap | null;
-  data?: GetOrganizationIssueEventResponseUserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: GetOrganizationIssueEventResponseUserGeoMap | null | undefined;
+  data?: GetOrganizationIssueEventResponseUserDataMap | null | undefined;
 }
 export interface GetOrganizationIssueEventResponseTagsItem {
-  query?: string;
+  query?: string | undefined;
   key: string;
   value: string;
 }
@@ -4755,26 +4790,26 @@ export type GetOrganizationIssueEventResponseReleaseVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetOrganizationIssueEventResponseReleaseVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: GetOrganizationIssueEventResponseReleaseVersionInfoVersionMap;
   buildHash: string | null;
 }
 export interface GetOrganizationIssueEventResponseRelease {
-  id?: number;
-  commitCount?: number;
-  data?: GetOrganizationIssueEventResponseReleaseDataMap;
-  dateCreated?: string;
-  dateReleased?: string | null;
-  deployCount?: number;
-  ref?: string | null;
-  lastCommit?: GetOrganizationIssueEventResponseReleaseLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  status?: string;
-  url?: string | null;
-  userAgent?: string | null;
-  version?: string | null;
-  versionInfo?: GetOrganizationIssueEventResponseReleaseVersionInfo | null;
+  id?: number | undefined;
+  commitCount?: number | undefined;
+  data?: GetOrganizationIssueEventResponseReleaseDataMap | undefined;
+  dateCreated?: string | undefined;
+  dateReleased?: string | null | undefined;
+  deployCount?: number | undefined;
+  ref?: string | null | undefined;
+  lastCommit?: GetOrganizationIssueEventResponseReleaseLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  status?: string | undefined;
+  url?: string | null | undefined;
+  userAgent?: string | null | undefined;
+  version?: string | null | undefined;
+  versionInfo?: GetOrganizationIssueEventResponseReleaseVersionInfo | null | undefined;
 }
 export interface GetOrganizationIssueEventResponseUserReportUser {
   id: string;
@@ -4834,15 +4869,15 @@ export interface GetOrganizationIssueEventResponse {
   errors: GetOrganizationIssueEventResponseErrorsList;
   occurrence: GetOrganizationIssueEventResponseOccurrence | null;
   _meta: GetOrganizationIssueEventResponseMetaMap;
-  crashFile?: string | null;
-  culprit?: string | null;
-  dateCreated?: string;
-  fingerprints?: GetOrganizationIssueEventResponseFingerprintsList;
-  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  measurements?: GetOrganizationIssueEventResponseMeasurementsMap | null;
-  breakdowns?: GetOrganizationIssueEventResponseBreakdownsMap | null;
+  crashFile?: string | null | undefined;
+  culprit?: string | null | undefined;
+  dateCreated?: string | undefined;
+  fingerprints?: GetOrganizationIssueEventResponseFingerprintsList | undefined;
+  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig | undefined;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  measurements?: GetOrganizationIssueEventResponseMeasurementsMap | null | undefined;
+  breakdowns?: GetOrganizationIssueEventResponseBreakdownsMap | null | undefined;
   release: GetOrganizationIssueEventResponseRelease | null;
   userReport: GetOrganizationIssueEventResponseUserReport | null;
   sdkUpdates: GetOrganizationIssueEventResponseSdkUpdatesList;
@@ -4850,7 +4885,7 @@ export interface GetOrganizationIssueEventResponse {
   nextEventID: string | null;
   previousEventID: string | null;
   /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
-  formatted?: GetOrganizationIssueEventResponseFormatted;
+  formatted?: GetOrganizationIssueEventResponseFormatted | undefined;
 }
 export type GetOrganizationIssueTagRequestEnvironmentList = Array<string>;
 export interface GetOrganizationIssueTagRequest {
@@ -4861,10 +4896,10 @@ export interface GetOrganizationIssueTagRequest {
   /** The tag key to look the values up for. */
   key: string;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationIssueTagRequestEnvironmentList;
+  environment?: GetOrganizationIssueTagRequestEnvironmentList | undefined;
 }
 export interface GetOrganizationIssueTagResponseTopValuesItem {
-  query?: string | null;
+  query?: string | null | undefined;
   key: string;
   name: string;
   value: string | null;
@@ -4875,9 +4910,9 @@ export interface GetOrganizationIssueTagResponseTopValuesItem {
 export type GetOrganizationIssueTagResponseTopValuesList =
   Array<GetOrganizationIssueTagResponseTopValuesItem>;
 export interface GetOrganizationIssueTagResponse {
-  uniqueValues?: number | null;
-  totalValues?: number | null;
-  topValues?: GetOrganizationIssueTagResponseTopValuesList | null;
+  uniqueValues?: number | null | undefined;
+  totalValues?: number | null | undefined;
+  topValues?: GetOrganizationIssueTagResponseTopValuesList | null | undefined;
   key: string;
   name: string;
 }
@@ -4909,10 +4944,10 @@ export type GetOrganizationMemberResponseUserEmailsItem =
 export type GetOrganizationMemberResponseUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface GetOrganizationMemberResponseUser {
-  identities?: GetOrganizationMemberResponseUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: GetOrganizationMemberResponseUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: GetOrganizationMemberResponseUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: GetOrganizationMemberResponseUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -4970,9 +5005,9 @@ export interface GetOrganizationMemberResponseTeamRoleListItem {
 export type GetOrganizationMemberResponseTeamRoleListList =
   Array<GetOrganizationMemberResponseTeamRoleListItem>;
 export interface GetOrganizationMemberResponse {
-  externalUsers?: GetOrganizationMemberResponseExternalUsersList;
-  role?: string;
-  roleName?: string;
+  externalUsers?: GetOrganizationMemberResponseExternalUsersList | undefined;
+  role?: string | undefined;
+  roleName?: string | undefined;
   id: string;
   email: string;
   name: string;
@@ -4998,7 +5033,7 @@ export interface GetOrganizationMonitorRequest {
   /** The ID or slug of the monitor. */
   monitor_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationMonitorRequestEnvironmentList;
+  environment?: GetOrganizationMonitorRequestEnvironmentList | undefined;
 }
 export type GetOrganizationMonitorResponseAlertRuleTargetsItem =
   CreateOrganizationMonitorResponseAlertRuleTargetsItem;
@@ -5027,9 +5062,9 @@ export type GetOrganizationMonitorResponseProjectFeaturesList = Array<string>;
 export type GetOrganizationMonitorResponseProjectAccessList = Array<string>;
 export type GetOrganizationMonitorResponseProjectAvatar = AddOrganizationMemberResponseUserAvatar;
 export interface GetOrganizationMonitorResponseProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -5079,10 +5114,10 @@ export interface GetOrganizationMonitorResponseOwner {
   type: GetOrganizationMonitorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetOrganizationMonitorResponse {
-  alertRule?: GetOrganizationMonitorResponseAlertRule;
+  alertRule?: GetOrganizationMonitorResponseAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -5165,7 +5200,7 @@ export interface GetOrganizationPreprodArtifactSizeAnalysisRequest {
   /** The ID of the build artifact. */
   artifact_id: string;
   /** Optional ID of the base artifact to compare against. If not provided, uses the default base head artifact. */
-  baseArtifactId?: string;
+  baseArtifactId?: string | undefined;
 }
 export type GetOrganizationPreprodArtifactSizeAnalysisResponseAppInfo =
   GetOrganizationPreprodArtifactInstallDetailsResponseAppInfo;
@@ -5277,51 +5312,60 @@ export interface GetOrganizationPreprodArtifactSnapshotRequest {
   /** The ID of the snapshot. */
   snapshot_id: string;
   /** Set to '1' or 'true' to strip image metadata to display_name, image_file_name, group, and description only. */
-  compact_metadata?: string;
+  compact_metadata?: string | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotResponseVcsInfo {
-  head_sha?: string | null;
-  base_sha?: string | null;
-  provider?: string | null;
-  head_repo_name?: string | null;
-  base_repo_name?: string | null;
-  head_ref?: string | null;
-  base_ref?: string | null;
-  pr_number?: number | null;
+  head_sha?: string | null | undefined;
+  base_sha?: string | null | undefined;
+  provider?: string | null | undefined;
+  head_repo_name?: string | null | undefined;
+  base_repo_name?: string | null | undefined;
+  head_ref?: string | null | undefined;
+  base_ref?: string | null | undefined;
+  pr_number?: number | null | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseImagesItemCanvasTheme = "light" | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseImagesItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseImagesItemCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseImagesItemCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseImagesList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseImagesItem>;
 export type GetOrganizationPreprodArtifactSnapshotResponseAddedItemCanvasTheme = "light" | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseAddedItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseAddedItemCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseAddedItemCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseAddedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseAddedItem>;
 export type GetOrganizationPreprodArtifactSnapshotResponseRemovedItemCanvasTheme = "light" | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseRemovedItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseRemovedItemCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseRemovedItemCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseRemovedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseRemovedItem>;
@@ -5329,31 +5373,37 @@ export type GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImageCa
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImageCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImageCanvasTheme =
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImageCanvasTheme
+    | null
+    | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotResponseRenamedItem {
-  base_image?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImage;
-  head_image?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImage;
-  diff_image_key?: string | null;
-  diff?: number | null;
+  base_image?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemBaseImage | undefined;
+  head_image?: GetOrganizationPreprodArtifactSnapshotResponseRenamedItemHeadImage | undefined;
+  diff_image_key?: string | null | undefined;
+  diff?: number | null | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseRenamedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseRenamedItem>;
@@ -5361,31 +5411,37 @@ export type GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImageCa
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImageCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImageCanvasTheme =
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImageCanvasTheme
+    | null
+    | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotResponseChangedItem {
-  base_image?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImage;
-  head_image?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImage;
-  diff_image_key?: string | null;
-  diff?: number | null;
+  base_image?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemBaseImage | undefined;
+  head_image?: GetOrganizationPreprodArtifactSnapshotResponseChangedItemHeadImage | undefined;
+  diff_image_key?: string | null | undefined;
+  diff?: number | null | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseChangedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseChangedItem>;
@@ -5393,13 +5449,16 @@ export type GetOrganizationPreprodArtifactSnapshotResponseUnchangedItemCanvasThe
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseUnchangedItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseUnchangedItemCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseUnchangedItemCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseUnchangedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseUnchangedItem>;
@@ -5407,88 +5466,97 @@ export type GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImageCa
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImageCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImageCanvasTheme =
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImageCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImageCanvasTheme
+    | null
+    | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotResponseErroredItem {
-  base_image?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImage;
-  head_image?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImage;
-  diff_image_key?: string | null;
-  diff?: number | null;
+  base_image?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemBaseImage | undefined;
+  head_image?: GetOrganizationPreprodArtifactSnapshotResponseErroredItemHeadImage | undefined;
+  diff_image_key?: string | null | undefined;
+  diff?: number | null | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseErroredList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseErroredItem>;
 export type GetOrganizationPreprodArtifactSnapshotResponseSkippedItemCanvasTheme = "light" | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotResponseSkippedItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotResponseSkippedItemCanvasTheme | null;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotResponseSkippedItemCanvasTheme
+    | null
+    | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseSkippedList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseSkippedItem>;
 export type GetOrganizationPreprodArtifactSnapshotResponseApproversItemSource = "sentry" | "github";
 export interface GetOrganizationPreprodArtifactSnapshotResponseApproversItem {
-  id?: string | null;
-  name?: string | null;
-  email?: string | null;
-  username?: string | null;
-  avatar_url?: string | null;
-  approved_at?: string | null;
-  source?: GetOrganizationPreprodArtifactSnapshotResponseApproversItemSource;
+  id?: string | null | undefined;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  avatar_url?: string | null | undefined;
+  approved_at?: string | null | undefined;
+  source?: GetOrganizationPreprodArtifactSnapshotResponseApproversItemSource | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotResponseApproversList =
   Array<GetOrganizationPreprodArtifactSnapshotResponseApproversItem>;
 export interface GetOrganizationPreprodArtifactSnapshotResponse {
-  head_artifact_id?: string;
-  base_artifact_id?: string | null;
-  project_id?: string;
-  comparison_type?: string;
-  state?: string;
-  vcs_info?: GetOrganizationPreprodArtifactSnapshotResponseVcsInfo;
-  app_id?: string | null;
-  is_selective?: boolean;
-  images?: GetOrganizationPreprodArtifactSnapshotResponseImagesList;
-  image_count?: number;
-  added?: GetOrganizationPreprodArtifactSnapshotResponseAddedList;
-  added_count?: number;
-  removed?: GetOrganizationPreprodArtifactSnapshotResponseRemovedList;
-  removed_count?: number;
-  renamed?: GetOrganizationPreprodArtifactSnapshotResponseRenamedList;
-  renamed_count?: number;
-  changed?: GetOrganizationPreprodArtifactSnapshotResponseChangedList;
-  changed_count?: number;
-  unchanged?: GetOrganizationPreprodArtifactSnapshotResponseUnchangedList;
-  unchanged_count?: number;
-  errored?: GetOrganizationPreprodArtifactSnapshotResponseErroredList;
-  errored_count?: number;
-  skipped?: GetOrganizationPreprodArtifactSnapshotResponseSkippedList;
-  skipped_count?: number;
-  diff_threshold?: number | null;
-  comparison_state?: string | null;
-  approval_status?: string | null;
-  comparison_error_message?: string | null;
-  approvers?: GetOrganizationPreprodArtifactSnapshotResponseApproversList;
+  head_artifact_id?: string | undefined;
+  base_artifact_id?: string | null | undefined;
+  project_id?: string | undefined;
+  comparison_type?: string | undefined;
+  state?: string | undefined;
+  vcs_info?: GetOrganizationPreprodArtifactSnapshotResponseVcsInfo | undefined;
+  app_id?: string | null | undefined;
+  is_selective?: boolean | undefined;
+  images?: GetOrganizationPreprodArtifactSnapshotResponseImagesList | undefined;
+  image_count?: number | undefined;
+  added?: GetOrganizationPreprodArtifactSnapshotResponseAddedList | undefined;
+  added_count?: number | undefined;
+  removed?: GetOrganizationPreprodArtifactSnapshotResponseRemovedList | undefined;
+  removed_count?: number | undefined;
+  renamed?: GetOrganizationPreprodArtifactSnapshotResponseRenamedList | undefined;
+  renamed_count?: number | undefined;
+  changed?: GetOrganizationPreprodArtifactSnapshotResponseChangedList | undefined;
+  changed_count?: number | undefined;
+  unchanged?: GetOrganizationPreprodArtifactSnapshotResponseUnchangedList | undefined;
+  unchanged_count?: number | undefined;
+  errored?: GetOrganizationPreprodArtifactSnapshotResponseErroredList | undefined;
+  errored_count?: number | undefined;
+  skipped?: GetOrganizationPreprodArtifactSnapshotResponseSkippedList | undefined;
+  skipped_count?: number | undefined;
+  diff_threshold?: number | null | undefined;
+  comparison_state?: string | null | undefined;
+  approval_status?: string | null | undefined;
+  comparison_error_message?: string | null | undefined;
+  approvers?: GetOrganizationPreprodArtifactSnapshotResponseApproversList | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotImageRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -5505,17 +5573,20 @@ export type GetOrganizationPreprodArtifactSnapshotImageResponseHeadImageTagsMap 
   [key: string]: string | undefined;
 };
 export interface GetOrganizationPreprodArtifactSnapshotImageResponseHeadImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotImageResponseHeadImageCanvasTheme | null;
-  diff_threshold?: number | null;
-  description?: string | null;
-  tags?: GetOrganizationPreprodArtifactSnapshotImageResponseHeadImageTagsMap | null;
-  image_url?: string;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotImageResponseHeadImageCanvasTheme
+    | null
+    | undefined;
+  diff_threshold?: number | null | undefined;
+  description?: string | null | undefined;
+  tags?: GetOrganizationPreprodArtifactSnapshotImageResponseHeadImageTagsMap | null | undefined;
+  image_url?: string | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageCanvasTheme =
   | "light"
@@ -5524,26 +5595,29 @@ export type GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageTagsMap 
   [key: string]: string | undefined;
 };
 export interface GetOrganizationPreprodArtifactSnapshotImageResponseBaseImage {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageCanvasTheme | null;
-  diff_threshold?: number | null;
-  description?: string | null;
-  tags?: GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageTagsMap | null;
-  image_url?: string;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageCanvasTheme
+    | null
+    | undefined;
+  diff_threshold?: number | null | undefined;
+  description?: string | null | undefined;
+  tags?: GetOrganizationPreprodArtifactSnapshotImageResponseBaseImageTagsMap | null | undefined;
+  image_url?: string | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotImageResponse {
-  image_file_name?: string;
-  comparison_status?: string | null;
-  head_image?: GetOrganizationPreprodArtifactSnapshotImageResponseHeadImage | null;
-  base_image?: GetOrganizationPreprodArtifactSnapshotImageResponseBaseImage | null;
-  diff_image_url?: string | null;
-  diff_percentage?: number | null;
-  previous_image_file_name?: string | null;
+  image_file_name?: string | undefined;
+  comparison_status?: string | null | undefined;
+  head_image?: GetOrganizationPreprodArtifactSnapshotImageResponseHeadImage | null | undefined;
+  base_image?: GetOrganizationPreprodArtifactSnapshotImageResponseBaseImage | null | undefined;
+  diff_image_url?: string | null | undefined;
+  diff_percentage?: number | null | undefined;
+  previous_image_file_name?: string | null | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotLatestBaseRequestProject = number | string;
 export interface GetOrganizationPreprodArtifactSnapshotLatestBaseRequest {
@@ -5552,45 +5626,48 @@ export interface GetOrganizationPreprodArtifactSnapshotLatestBaseRequest {
   /** App identifier to match. */
   app_id: string;
   /** Git branch name to filter on. */
-  branch?: string;
+  branch?: string | undefined;
   /** Project ID or slug to scope the lookup. */
-  project?: GetOrganizationPreprodArtifactSnapshotLatestBaseRequestProject;
+  project?: GetOrganizationPreprodArtifactSnapshotLatestBaseRequestProject | undefined;
   /** Set to '1' or 'true' to strip image metadata to display_name, image_file_name, group, description, and image_url only. */
-  compact_metadata?: string;
+  compact_metadata?: string | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesItemCanvasTheme =
   | "light"
   | "dark";
 export interface GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesItem {
-  key?: string;
-  display_name?: string | null;
-  group?: string | null;
-  image_file_name?: string;
-  width?: number;
-  height?: number;
-  canvas_theme?: GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesItemCanvasTheme | null;
-  image_url?: string;
+  key?: string | undefined;
+  display_name?: string | null | undefined;
+  group?: string | null | undefined;
+  image_file_name?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  canvas_theme?:
+    | GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesItemCanvasTheme
+    | null
+    | undefined;
+  image_url?: string | undefined;
 }
 export type GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesList =
   Array<GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesItem>;
 export interface GetOrganizationPreprodArtifactSnapshotLatestBaseResponseVcsInfo {
-  head_sha?: string | null;
-  base_sha?: string | null;
-  head_ref?: string | null;
-  base_ref?: string | null;
-  head_repo_name?: string | null;
-  pr_number?: number | null;
+  head_sha?: string | null | undefined;
+  base_sha?: string | null | undefined;
+  head_ref?: string | null | undefined;
+  base_ref?: string | null | undefined;
+  head_repo_name?: string | null | undefined;
+  pr_number?: number | null | undefined;
 }
 export interface GetOrganizationPreprodArtifactSnapshotLatestBaseResponse {
-  head_artifact_id?: string;
-  project_id?: string;
-  project_slug?: string;
-  app_id?: string | null;
-  image_count?: number;
-  images?: GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesList;
-  diff_threshold?: number | null;
-  date_added?: string;
-  vcs_info?: GetOrganizationPreprodArtifactSnapshotLatestBaseResponseVcsInfo;
+  head_artifact_id?: string | undefined;
+  project_id?: string | undefined;
+  project_slug?: string | undefined;
+  app_id?: string | null | undefined;
+  image_count?: number | undefined;
+  images?: GetOrganizationPreprodArtifactSnapshotLatestBaseResponseImagesList | undefined;
+  diff_threshold?: number | null | undefined;
+  date_added?: string | undefined;
+  vcs_info?: GetOrganizationPreprodArtifactSnapshotLatestBaseResponseVcsInfo | undefined;
 }
 export type GetOrganizationProfilingFlamegraphRequestProjectItem = number | string;
 export type GetOrganizationProfilingFlamegraphRequestProjectList =
@@ -5609,23 +5686,23 @@ export interface GetOrganizationProfilingFlamegraphRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: GetOrganizationProfilingFlamegraphRequestProjectList;
+  project?: GetOrganizationProfilingFlamegraphRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationProfilingFlamegraphRequestEnvironmentList;
+  environment?: GetOrganizationProfilingFlamegraphRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** Source dataset to build the flamegraph from. Defaults to `functions` when `fingerprint` is set and `transactions` otherwise. */
-  dataSource?: GetOrganizationProfilingFlamegraphRequestDataSource | (string & {});
+  dataSource?: GetOrganizationProfilingFlamegraphRequestDataSource | (string & {}) | undefined;
   /** A UInt32 function fingerprint. Only valid when `dataSource=functions`. */
-  fingerprint?: number;
+  fingerprint?: number | undefined;
   /** Sentry [search syntax](https://docs.sentry.io/concepts/search/) to filter the candidate profiles. */
-  query?: string;
+  query?: string | undefined;
   /** Optional expansions. Pass `metrics` to include flamegraph metric aggregates in the response. */
-  expand?: GetOrganizationProfilingFlamegraphRequestExpandList;
+  expand?: GetOrganizationProfilingFlamegraphRequestExpandList | undefined;
 }
 export type GetOrganizationProfilingFlamegraphResponseBodyMap = {
   [key: string]: unknown | undefined;
@@ -5661,23 +5738,23 @@ export interface GetOrganizationReleaseRequest {
   /** The version identifier of the release */
   version: string;
   /** Deprecated. Use project instead. */
-  project_id?: string;
+  project_id?: string | undefined;
   /** The project ID or slug to filter by. Overrides project_id when both are sent. */
-  project?: GetOrganizationReleaseRequestProject;
+  project?: GetOrganizationReleaseRequestProject | undefined;
   /** Whether or not to include health data with the release. By default, this is false. */
-  health?: boolean;
+  health?: boolean | undefined;
   /** Whether or not to include adoption stages with the release. By default, this is false. */
-  adoptionStages?: boolean;
+  adoptionStages?: boolean | undefined;
   /** The period of time used to query summary stats for the release. By default, this is 14d. */
-  summaryStatsPeriod?: GetOrganizationReleaseRequestSummaryStatsPeriod | (string & {});
+  summaryStatsPeriod?: GetOrganizationReleaseRequestSummaryStatsPeriod | (string & {}) | undefined;
   /** The period of time used to query health stats for the release. By default, this is 24h if health is enabled. */
-  healthStatsPeriod?: GetOrganizationReleaseRequestHealthStatsPeriod | (string & {});
+  healthStatsPeriod?: GetOrganizationReleaseRequestHealthStatsPeriod | (string & {}) | undefined;
   /** The field used to sort results by. By default, this is `date`. */
-  sort?: GetOrganizationReleaseRequestSort | (string & {});
+  sort?: GetOrganizationReleaseRequestSort | (string & {}) | undefined;
   /** Release statuses that you can filter by. */
-  status?: GetOrganizationReleaseRequestStatus | (string & {});
+  status?: GetOrganizationReleaseRequestStatus | (string & {}) | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
 }
 export type GetOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export type GetOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
@@ -5692,7 +5769,7 @@ export type GetOrganizationReleaseResponseVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetOrganizationReleaseResponseVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: GetOrganizationReleaseResponseVersionInfoVersionMap;
   buildHash: string | null;
@@ -5717,10 +5794,10 @@ export type GetOrganizationReleaseResponseAuthorsItemCase0EmailsItem =
 export type GetOrganizationReleaseResponseAuthorsItemCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface GetOrganizationReleaseResponseAuthorsItemCase0 {
-  identities?: GetOrganizationReleaseResponseAuthorsItemCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: GetOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: GetOrganizationReleaseResponseAuthorsItemCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: GetOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -5750,18 +5827,18 @@ export type GetOrganizationReleaseResponseProjectsItemHealthDataStatsMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetOrganizationReleaseResponseProjectsItemHealthData {
-  durationP50?: number | null;
-  durationP90?: number | null;
-  crashFreeUsers?: number | null;
-  crashFreeSessions?: number | null;
-  totalUsers?: number | null;
-  totalUsers24h?: number | null;
-  totalProjectUsers24h?: number | null;
-  totalSessions?: number | null;
-  totalSessions24h?: number | null;
-  totalProjectSessions24h?: number | null;
-  adoption?: number | null;
-  sessionsAdoption?: number | null;
+  durationP50?: number | null | undefined;
+  durationP90?: number | null | undefined;
+  crashFreeUsers?: number | null | undefined;
+  crashFreeSessions?: number | null | undefined;
+  totalUsers?: number | null | undefined;
+  totalUsers24h?: number | null | undefined;
+  totalProjectUsers24h?: number | null | undefined;
+  totalSessions?: number | null | undefined;
+  totalSessions24h?: number | null | undefined;
+  totalProjectSessions24h?: number | null | undefined;
+  adoption?: number | null | undefined;
+  sessionsAdoption?: number | null | undefined;
   sessionsCrashed: number;
   sessionsErrored: number;
   hasHealthData: boolean;
@@ -5769,10 +5846,10 @@ export interface GetOrganizationReleaseResponseProjectsItemHealthData {
 }
 export type GetOrganizationReleaseResponseProjectsItemPlatformsList = Array<string>;
 export interface GetOrganizationReleaseResponseProjectsItem {
-  healthData?: GetOrganizationReleaseResponseProjectsItemHealthData | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
+  healthData?: GetOrganizationReleaseResponseProjectsItemHealthData | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
   id: number;
   slug: string;
   name: string;
@@ -5784,19 +5861,19 @@ export interface GetOrganizationReleaseResponseProjectsItem {
 export type GetOrganizationReleaseResponseProjectsList =
   Array<GetOrganizationReleaseResponseProjectsItem>;
 export interface GetOrganizationReleaseResponse {
-  ref?: string | null;
-  url?: string | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
-  owner?: GetOrganizationReleaseResponseOwnerMap | null;
-  lastCommit?: GetOrganizationReleaseResponseLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  firstEvent?: string | null;
-  lastEvent?: string | null;
-  currentProjectMeta?: GetOrganizationReleaseResponseCurrentProjectMetaMap | null;
-  userAgent?: string | null;
-  adoptionStages?: GetOrganizationReleaseResponseAdoptionStagesMap | null;
+  ref?: string | null | undefined;
+  url?: string | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
+  owner?: GetOrganizationReleaseResponseOwnerMap | null | undefined;
+  lastCommit?: GetOrganizationReleaseResponseLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  firstEvent?: string | null | undefined;
+  lastEvent?: string | null | undefined;
+  currentProjectMeta?: GetOrganizationReleaseResponseCurrentProjectMetaMap | null | undefined;
+  userAgent?: string | null | undefined;
+  adoptionStages?: GetOrganizationReleaseResponseAdoptionStagesMap | null | undefined;
   id: number;
   version: string;
   newGroups: number;
@@ -5817,7 +5894,7 @@ export interface GetOrganizationReleaseFileRequest {
   /** The ID of the release file. */
   file_id: string;
   /** If set, download the file contents instead of returning metadata. */
-  download?: string;
+  download?: string | undefined;
 }
 export type GetOrganizationReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export interface GetOrganizationReleaseFileResponse {
@@ -5877,33 +5954,33 @@ export interface GetOrganizationReplayRequest {
   /** The ID of the replay you'd like to retrieve. It is a 32-character hexadecimal string. */
   replay_id: string;
   /** This defines the range of the time series, relative to now. The range is given in a `<number><unit>` format. For example `1d` for a one day range. Possible units are `m` for minutes, `h` for hours, `d` for days and `w` for weeks. You must either provide a `statsPeriod`, or a `start` and `end`. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** This defines the start of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `end` instead of `statsPeriod`. */
-  start?: string;
+  start?: string | undefined;
   /** This defines the inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `start` instead of `statsPeriod`. */
-  end?: string;
+  end?: string | undefined;
   /** Specifies a field that should be marshaled in the output. Invalid fields will be rejected. */
-  field?: GetOrganizationReplayRequestFieldList;
+  field?: GetOrganizationReplayRequestFieldList | undefined;
   /** A list of project IDs or slugs to filter by. */
-  project?: GetOrganizationReplayRequestProjectList;
+  project?: GetOrganizationReplayRequestProjectList | undefined;
   /** A list of project slugs to filter your results by. */
-  projectSlug?: GetOrganizationReplayRequestProjectSlugList;
+  projectSlug?: GetOrganizationReplayRequestProjectSlugList | undefined;
   /** The environments to filter by. */
-  environment?: GetOrganizationReplayRequestEnvironmentList;
+  environment?: GetOrganizationReplayRequestEnvironmentList | undefined;
   /** The field to sort the output by. */
-  sort?: string;
+  sort?: string | undefined;
   /** The field to sort the output by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The field to sort the output by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A structured query string to filter the output by. */
-  query?: string;
+  query?: string | undefined;
   /** Internal referrer identifier used for query tracing. */
-  queryReferrer?: string;
+  queryReferrer?: string | undefined;
   /** Limit the number of rows to return in the result. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The cursor parameter is used to paginate results. See [here](https://docs.sentry.io/api/pagination/) for how to use this query parameter */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type GetOrganizationReplayResponseDataTraceIdsList = Array<string>;
 export type GetOrganizationReplayResponseDataErrorIdsList = Array<string>;
@@ -5916,35 +5993,35 @@ export type GetOrganizationReplayResponseDataTags =
   | GetOrganizationReplayResponseDataTagsCase0Map
   | GetOrganizationReplayResponseDataTagsCase1List;
 export interface GetOrganizationReplayResponseDataUserGeo {
-  city?: string | null;
-  country_code?: string | null;
-  region?: string | null;
-  subdivision?: string | null;
+  city?: string | null | undefined;
+  country_code?: string | null | undefined;
+  region?: string | null | undefined;
+  subdivision?: string | null | undefined;
 }
 export interface GetOrganizationReplayResponseDataUser {
-  id?: string | null;
-  username?: string | null;
-  email?: string | null;
-  ip?: string | null;
-  display_name?: string | null;
-  geo?: GetOrganizationReplayResponseDataUserGeo;
+  id?: string | null | undefined;
+  username?: string | null | undefined;
+  email?: string | null | undefined;
+  ip?: string | null | undefined;
+  display_name?: string | null | undefined;
+  geo?: GetOrganizationReplayResponseDataUserGeo | undefined;
 }
 export interface GetOrganizationReplayResponseDataSdk {
-  name?: string | null;
-  version?: string | null;
+  name?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type GetOrganizationReplayResponseDataOs = GetOrganizationReplayResponseDataSdk;
 export type GetOrganizationReplayResponseDataBrowser = GetOrganizationReplayResponseDataSdk;
 export interface GetOrganizationReplayResponseDataDevice {
-  name?: string | null;
-  brand?: string | null;
-  model?: string | null;
-  family?: string | null;
+  name?: string | null | undefined;
+  brand?: string | null | undefined;
+  model?: string | null | undefined;
+  family?: string | null | undefined;
 }
 export interface GetOrganizationReplayResponseDataOtaUpdates {
-  channel?: string | null;
-  runtime_version?: string | null;
-  update_id?: string | null;
+  channel?: string | null | undefined;
+  runtime_version?: string | null | undefined;
+  update_id?: string | null | undefined;
 }
 export type GetOrganizationReplayResponseDataUrlsList = Array<string>;
 export type GetOrganizationReplayResponseDataSegmentNamesList = Array<string>;
@@ -5953,38 +6030,38 @@ export type GetOrganizationReplayResponseDataClicksList =
   Array<GetOrganizationReplayResponseDataClicksItemMap>;
 export type GetOrganizationReplayResponseDataReleasesList = Array<string>;
 export interface GetOrganizationReplayResponseData {
-  id?: string;
-  project_id?: string;
-  trace_ids?: GetOrganizationReplayResponseDataTraceIdsList;
-  error_ids?: GetOrganizationReplayResponseDataErrorIdsList;
-  environment?: string | null;
-  tags?: GetOrganizationReplayResponseDataTags;
-  user?: GetOrganizationReplayResponseDataUser;
-  sdk?: GetOrganizationReplayResponseDataSdk;
-  os?: GetOrganizationReplayResponseDataSdk;
-  browser?: GetOrganizationReplayResponseDataSdk;
-  device?: GetOrganizationReplayResponseDataDevice;
-  ota_updates?: GetOrganizationReplayResponseDataOtaUpdates;
-  is_archived?: boolean | null;
-  urls?: GetOrganizationReplayResponseDataUrlsList | null;
-  segment_names?: GetOrganizationReplayResponseDataSegmentNamesList | null;
-  clicks?: GetOrganizationReplayResponseDataClicksList;
-  count_dead_clicks?: number | null;
-  count_rage_clicks?: number | null;
-  count_errors?: number | null;
-  duration?: number | null;
-  finished_at?: string | null;
-  started_at?: string | null;
-  activity?: number | null;
-  count_urls?: number | null;
-  replay_type?: string;
-  count_segments?: number | null;
-  platform?: string | null;
-  releases?: GetOrganizationReplayResponseDataReleasesList;
-  dist?: string | null;
-  count_warnings?: number | null;
-  count_infos?: number | null;
-  has_viewed?: boolean;
+  id?: string | undefined;
+  project_id?: string | undefined;
+  trace_ids?: GetOrganizationReplayResponseDataTraceIdsList | undefined;
+  error_ids?: GetOrganizationReplayResponseDataErrorIdsList | undefined;
+  environment?: string | null | undefined;
+  tags?: GetOrganizationReplayResponseDataTags | undefined;
+  user?: GetOrganizationReplayResponseDataUser | undefined;
+  sdk?: GetOrganizationReplayResponseDataSdk | undefined;
+  os?: GetOrganizationReplayResponseDataSdk | undefined;
+  browser?: GetOrganizationReplayResponseDataSdk | undefined;
+  device?: GetOrganizationReplayResponseDataDevice | undefined;
+  ota_updates?: GetOrganizationReplayResponseDataOtaUpdates | undefined;
+  is_archived?: boolean | null | undefined;
+  urls?: GetOrganizationReplayResponseDataUrlsList | null | undefined;
+  segment_names?: GetOrganizationReplayResponseDataSegmentNamesList | null | undefined;
+  clicks?: GetOrganizationReplayResponseDataClicksList | undefined;
+  count_dead_clicks?: number | null | undefined;
+  count_rage_clicks?: number | null | undefined;
+  count_errors?: number | null | undefined;
+  duration?: number | null | undefined;
+  finished_at?: string | null | undefined;
+  started_at?: string | null | undefined;
+  activity?: number | null | undefined;
+  count_urls?: number | null | undefined;
+  replay_type?: string | undefined;
+  count_segments?: number | null | undefined;
+  platform?: string | null | undefined;
+  releases?: GetOrganizationReplayResponseDataReleasesList | undefined;
+  dist?: string | null | undefined;
+  count_warnings?: number | null | undefined;
+  count_infos?: number | null | undefined;
+  has_viewed?: boolean | undefined;
 }
 export interface GetOrganizationReplayResponse {
   data: GetOrganizationReplayResponseData;
@@ -6003,19 +6080,19 @@ export interface GetOrganizationReplayCountRequest {
   /** The data source to query replays from. * `errors` * `search_issues` * `spans` */
   data_source: GetOrganizationReplayCountRequestDataSource | (string & {});
   /** The name of environments to filter by. */
-  environment?: GetOrganizationReplayCountRequestEnvironmentList;
+  environment?: GetOrganizationReplayCountRequestEnvironmentList | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: GetOrganizationReplayCountRequestProjectList;
+  project?: GetOrganizationReplayCountRequestProjectList | undefined;
   /** The legacy project slug filter. Prefer `project`, which accepts project IDs or slugs. Use `$all` to include all available projects. For example, the following are valid parameters: - `/?projectSlug=$all` - `/?projectSlug=android&projectSlug=javascript-react` */
-  project_id_or_slug?: GetOrganizationReplayCountRequestProjectIdOrSlugList;
+  project_id_or_slug?: GetOrganizationReplayCountRequestProjectIdOrSlugList | undefined;
   /** If true, return issue IDs rather than counts. */
-  returnIds?: boolean;
+  returnIds?: boolean | undefined;
 }
 export type GetOrganizationReplayCountResponseBodyMap = { [key: string]: number | undefined };
 export type GetOrganizationReplayCountResponse = GetOrganizationReplayCountResponseBodyMap;
@@ -6040,7 +6117,7 @@ export interface GetOrganizationScimV2GroupResponse {
   id: string;
   displayName: string;
   meta: GetOrganizationScimV2GroupResponseMeta;
-  members?: GetOrganizationScimV2GroupResponseMembersList;
+  members?: GetOrganizationScimV2GroupResponseMembersList | undefined;
 }
 export interface GetOrganizationScimV2ResourceTypeRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -6149,7 +6226,7 @@ export type GetOrganizationScimV2UserResponseEmailsList =
   Array<GetOrganizationScimV2UserResponseEmailsItem>;
 export type GetOrganizationScimV2UserResponseMeta = GetOrganizationScimV2GroupResponseMeta;
 export interface GetOrganizationScimV2UserResponse {
-  active?: boolean;
+  active?: boolean | undefined;
   schemas: GetOrganizationScimV2UserResponseSchemasList;
   id: string;
   userName: string;
@@ -6170,36 +6247,36 @@ export interface GetOrganizationSessionsRequest {
   /** The list of fields to query. The available fields are - `sum(session)` - `count_unique(user)` - `avg`, `p50`, `p75`, `p90`, `p95`, `p99`, `max` applied to `session.duration`. For example, `p99(session.duration)`. Session duration is [no longer being recorded](https://github.com/getsentry/sentry/discussions/42716) as of on Jan 12, 2023. Returned data may be incomplete. - `crash_rate`, `crash_free_rate` applied to `user` or `session`. For example, `crash_free_rate(user)` */
   field: GetOrganizationSessionsRequestFieldList;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: GetOrganizationSessionsRequestEnvironmentList;
+  environment?: GetOrganizationSessionsRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: GetOrganizationSessionsRequestProjectList;
+  project?: GetOrganizationSessionsRequestProjectList | undefined;
   /** The number of groups to return per request. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Resolution of the time series, given in the same format as `statsPeriod`. The default and the minimum interval is `1h`. */
-  interval?: string;
+  interval?: string | undefined;
   /** The list of properties to group by. The available groupBy conditions are `project`, `release`, `environment` and `session.status`. */
-  groupBy?: GetOrganizationSessionsRequestGroupByList;
+  groupBy?: GetOrganizationSessionsRequestGroupByList | undefined;
   /** An optional field to order by, which must be one of the fields provided in `field`. Use `-` for descending order, for example, `-sum(session)` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Specify `0` to exclude totals from the response. The default is `1` */
-  includeTotals?: number;
+  includeTotals?: number | undefined;
   /** Specify `0` to exclude series from the response. The default is `1` */
-  includeSeries?: number;
+  includeSeries?: number | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
 }
 export type GetOrganizationSessionsResponseIntervalsList = Array<string>;
 export interface GetOrganizationSessionsResponseGroupsItemBy {
-  project?: number;
-  release?: string;
-  environment?: string;
-  session_status?: string;
+  project?: number | undefined;
+  release?: string | undefined;
+  environment?: string | undefined;
+  session_status?: string | undefined;
 }
 export type GetOrganizationSessionsResponseGroupsItemSeriesValueList = Array<number | null>;
 export type GetOrganizationSessionsResponseGroupsItemSeriesMap = {
@@ -6244,23 +6321,23 @@ export interface GetOrganizationStatsSummaryRequest {
   /** the `sum(quantity)` field is bytes for attachments, and all others the 'event' count for those types of events. `sum(times_seen)` sums the number of times an event has been seen. For 'normal' event types, this will be equal to `sum(quantity)` for now. For sessions, quantity will sum the total number of events seen in a session, while `times_seen` will be the unique number of sessions. and for attachments, `times_seen` will be the total number of attachments, while quantity will be the total sum of attachment bytes. * `sum(quantity)` * `sum(times_seen)` */
   field: GetOrganizationStatsSummaryRequestField | (string & {});
   /** This defines the range of the time series, relative to now. The range is given in a `<number><unit>` format. For example `1d` for a one day range. Possible units are `m` for minutes, `h` for hours, `d` for days and `w` for weeks. You must either provide a `statsPeriod`, or a `start` and `end`. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** This is the resolution of the time series, given in the same format as `statsPeriod`. The default resolution is `1h` and the minimum resolution is currently restricted to `1h` as well. Intervals larger than `1d` are not supported, and the interval has to cleanly divide one day. */
-  interval?: string;
+  interval?: string | undefined;
   /** This defines the start of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `end` instead of `statsPeriod`. */
-  start?: string;
+  start?: string | undefined;
   /** This defines the inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `start` instead of `statsPeriod`. */
-  end?: string;
+  end?: string | undefined;
   /** The ID of the projects to filter by. */
-  project?: GetOrganizationStatsSummaryRequestProjectList;
+  project?: GetOrganizationStatsSummaryRequestProjectList | undefined;
   /** If filtering by attachments, you cannot filter by any other category due to quantity values becoming nonsensical (combining bytes and event counts). If filtering by `error`, it will automatically add `default` and `security` as we currently roll those two categories into `error` for displaying. * `error` * `transaction` * `attachment` * `replays` * `profiles` */
-  category?: GetOrganizationStatsSummaryRequestCategory | (string & {});
+  category?: GetOrganizationStatsSummaryRequestCategory | (string & {}) | undefined;
   /** See https://docs.sentry.io/product/stats/ for more information on outcome statuses. * `accepted` * `filtered` * `rate_limited` * `invalid` * `abuse` * `client_discard` * `cardinality_limited` */
-  outcome?: GetOrganizationStatsSummaryRequestOutcome | (string & {});
+  outcome?: GetOrganizationStatsSummaryRequestOutcome | (string & {}) | undefined;
   /** The reason field will contain why an event was filtered/dropped. */
-  reason?: string;
+  reason?: string | undefined;
   /** Download the API response in as a csv file */
-  download?: boolean;
+  download?: boolean | undefined;
 }
 export type GetOrganizationStatsSummaryResponseProjectsItemStatsItemMap = {
   [key: string]: unknown | undefined;
@@ -6287,19 +6364,19 @@ export interface GetOrganizationTraceRequest {
   /** The ID of the trace, a 32-character hexadecimal string. */
   trace_id: string;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** Internal referrer identifier used for query tracing. Most clients can omit this. */
-  referrer?: string;
+  referrer?: string | undefined;
   /** A 32-character hexadecimal event ID to bias the trace results toward including. */
-  errorId?: string;
+  errorId?: string | undefined;
   /** Additional span attributes to include on each event. Repeat to request multiple. */
-  additional_attributes?: GetOrganizationTraceRequestAdditionalAttributesList;
+  additional_attributes?: GetOrganizationTraceRequestAdditionalAttributesList | undefined;
   /** Set to `1` to include uptime check results in the trace. Defaults to `0`. */
-  include_uptime?: GetOrganizationTraceRequestIncludeUptime | (string & {});
+  include_uptime?: GetOrganizationTraceRequestIncludeUptime | (string & {}) | undefined;
 }
 export type GetOrganizationTraceResponseBodyItemCase0EventType = "span";
 /** Fields shared by every item in a trace. Entries in `children` are full spans at runtime; only the shared fields are documented here. */
@@ -6323,7 +6400,7 @@ export interface GetOrganizationTraceResponseBodyItemCase0ErrorsItem {
   issue_id: number;
   level: string;
   start_timestamp: number;
-  end_timestamp?: number;
+  end_timestamp?: number | undefined;
   culprit: string | null;
   short_id: string | null;
   issue_type: number;
@@ -6343,7 +6420,7 @@ export interface GetOrganizationTraceResponseBodyItemCase0OccurrencesItem {
   issue_id: number;
   level: string;
   start_timestamp: number;
-  end_timestamp?: number;
+  end_timestamp?: number | undefined;
   culprit: string | null;
   short_id: string | null;
   issue_type: number;
@@ -6386,7 +6463,9 @@ export interface GetOrganizationTraceResponseBodyItemCase0 {
   start_timestamp: number;
   is_transaction: boolean;
   transaction_id: string;
-  additional_attributes?: GetOrganizationTraceResponseBodyItemCase0AdditionalAttributesMap;
+  additional_attributes?:
+    | GetOrganizationTraceResponseBodyItemCase0AdditionalAttributesMap
+    | undefined;
 }
 export type GetOrganizationTraceResponseBodyItemCase1EventType = "error" | "occurrence";
 export interface GetOrganizationTraceResponseBodyItemCase1 {
@@ -6399,7 +6478,7 @@ export interface GetOrganizationTraceResponseBodyItemCase1 {
   issue_id: number;
   level: string;
   start_timestamp: number;
-  end_timestamp?: number;
+  end_timestamp?: number | undefined;
   culprit: string | null;
   short_id: string | null;
   issue_type: number;
@@ -6421,7 +6500,7 @@ export interface GetOrganizationTraceResponseBodyItemCase2ErrorsItem {
   issue_id: number;
   level: string;
   start_timestamp: number;
-  end_timestamp?: number;
+  end_timestamp?: number | undefined;
   culprit: string | null;
   short_id: string | null;
   issue_type: number;
@@ -6441,7 +6520,7 @@ export interface GetOrganizationTraceResponseBodyItemCase2OccurrencesItem {
   issue_id: number;
   level: string;
   start_timestamp: number;
-  end_timestamp?: number;
+  end_timestamp?: number | undefined;
   culprit: string | null;
   short_id: string | null;
   issue_type: number;
@@ -6483,13 +6562,13 @@ export interface GetOrganizationTraceMetaRequest {
   /** The ID of the trace, a 32-character hexadecimal string. */
   trace_id: string;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** Set to `1` to include uptime check counts in the response. Defaults to `0` (disabled). */
-  include_uptime?: GetOrganizationTraceMetaRequestIncludeUptime | (string & {});
+  include_uptime?: GetOrganizationTraceMetaRequestIncludeUptime | (string & {}) | undefined;
 }
 export type GetOrganizationTraceMetaResponseTransactionChildCountMapItemMap = {
   [key: string]: unknown | undefined;
@@ -6500,7 +6579,7 @@ export type GetOrganizationTraceMetaResponseSpansCountMapMap = {
   [key: string]: number | undefined;
 };
 export interface GetOrganizationTraceMetaResponse {
-  uptimeCount?: number;
+  uptimeCount?: number | undefined;
   errorsCount: number;
   logsCount: number;
   metricsCount: number;
@@ -6535,12 +6614,12 @@ export type GetOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetOrganizationWorkflowResponseTriggersActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: GetOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap;
-  config?: GetOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: GetOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap | undefined;
+  config?: GetOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type GetOrganizationWorkflowResponseTriggersActionsCase0List =
   Array<GetOrganizationWorkflowResponseTriggersActionsCase0Item>;
@@ -6549,11 +6628,11 @@ export type GetOrganizationWorkflowResponseTriggersActions =
   | GetOrganizationWorkflowResponseTriggersActionsCase0List
   | GetOrganizationWorkflowResponseTriggersActionsCase1List;
 export interface GetOrganizationWorkflowResponseTriggers {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: GetOrganizationWorkflowResponseTriggersConditions;
-  actions?: GetOrganizationWorkflowResponseTriggersActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: GetOrganizationWorkflowResponseTriggersConditions | undefined;
+  actions?: GetOrganizationWorkflowResponseTriggersActions | undefined;
 }
 export type GetOrganizationWorkflowResponseActionFiltersItemConditionsCase0ItemComparison =
   | boolean
@@ -6577,12 +6656,12 @@ export type GetOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConf
   [key: string]: unknown | undefined;
 };
 export interface GetOrganizationWorkflowResponseActionFiltersItemActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: GetOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap;
-  config?: GetOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: GetOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap | undefined;
+  config?: GetOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type GetOrganizationWorkflowResponseActionFiltersItemActionsCase0List =
   Array<GetOrganizationWorkflowResponseActionFiltersItemActionsCase0Item>;
@@ -6591,11 +6670,11 @@ export type GetOrganizationWorkflowResponseActionFiltersItemActions =
   | GetOrganizationWorkflowResponseActionFiltersItemActionsCase0List
   | GetOrganizationWorkflowResponseActionFiltersItemActionsCase1List;
 export interface GetOrganizationWorkflowResponseActionFiltersItem {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: GetOrganizationWorkflowResponseActionFiltersItemConditions;
-  actions?: GetOrganizationWorkflowResponseActionFiltersItemActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: GetOrganizationWorkflowResponseActionFiltersItemConditions | undefined;
+  actions?: GetOrganizationWorkflowResponseActionFiltersItemActions | undefined;
 }
 export type GetOrganizationWorkflowResponseActionFiltersList =
   Array<GetOrganizationWorkflowResponseActionFiltersItem>;
@@ -6662,10 +6741,10 @@ export type GetProjectResponseOrganizationStatus =
 export type GetProjectResponseOrganizationAvatar = AddOrganizationMemberResponseUserAvatar;
 export type GetProjectResponseOrganizationLinks = CreateOrganizationTeamResponseOrganizationLinks;
 export interface GetProjectResponseOrganization {
-  features?: GetProjectResponseOrganizationFeaturesList;
-  extraOptions?: GetProjectResponseOrganizationExtraOptionsMap;
-  access?: GetProjectResponseOrganizationAccessList;
-  onboardingTasks?: GetProjectResponseOrganizationOnboardingTasksList;
+  features?: GetProjectResponseOrganizationFeaturesList | undefined;
+  extraOptions?: GetProjectResponseOrganizationExtraOptionsMap | undefined;
+  access?: GetProjectResponseOrganizationAccessList | undefined;
+  onboardingTasks?: GetProjectResponseOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -6689,9 +6768,9 @@ export type GetProjectResponseDynamicSamplingBiasesItemMap = {
 export type GetProjectResponseDynamicSamplingBiasesList =
   Array<GetProjectResponseDynamicSamplingBiasesItemMap>;
 export interface GetProjectResponse {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -6729,7 +6808,7 @@ export interface GetProjectResponse {
   avatar: AddOrganizationMemberResponseUserAvatar;
   color: string;
   status: string;
-  team?: AddProjectTeamResponseTeam;
+  team?: AddProjectTeamResponseTeam | undefined;
   teams: GetProjectResponseTeamsList;
   latestRelease: CreateOrganizationProjectResponseLatestRelease | null;
   options: GetProjectResponseOptionsMap;
@@ -6841,11 +6920,11 @@ export interface GetProjectCodeOwnersResponseSchemaCase0 {
 }
 export type GetProjectCodeOwnersResponseSchema = GetProjectCodeOwnersResponseSchemaCase0 | unknown;
 export interface GetProjectCodeOwnersResponse {
-  codeMapping?: GetProjectCodeOwnersResponseCodeMapping;
-  ownershipSyntax?: string;
-  errors?: GetProjectCodeOwnersResponseErrors;
-  schema?: GetProjectCodeOwnersResponseSchema;
-  codeOwnersUrl?: string;
+  codeMapping?: GetProjectCodeOwnersResponseCodeMapping | undefined;
+  ownershipSyntax?: string | undefined;
+  errors?: GetProjectCodeOwnersResponseErrors | undefined;
+  schema?: GetProjectCodeOwnersResponseSchema | undefined;
+  codeOwnersUrl?: string | undefined;
   id: string;
   raw: string;
   dateCreated: string;
@@ -6876,18 +6955,18 @@ export interface GetProjectEventRequest {
   /** The ID of the event. It is a 32-character hexadecimal string as reported by the client. */
   event_id: string;
   /** The name of environments to filter by. */
-  environment?: GetProjectEventRequestEnvironmentList;
+  environment?: GetProjectEventRequestEnvironmentList | undefined;
 }
 export type GetProjectEventResponseUserGeoMap = { [key: string]: string | undefined };
 export type GetProjectEventResponseUserDataMap = { [key: string]: unknown | undefined };
 export interface GetProjectEventResponseUser {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: GetProjectEventResponseUserGeoMap | null;
-  data?: GetProjectEventResponseUserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: GetProjectEventResponseUserGeoMap | null | undefined;
+  data?: GetProjectEventResponseUserDataMap | null | undefined;
 }
 export type GetProjectEventResponseTagsItem = GetOrganizationIssueEventResponseTagsItem;
 export type GetProjectEventResponseTagsList = Array<GetOrganizationIssueEventResponseTagsItem>;
@@ -6963,26 +7042,26 @@ export type GetProjectEventResponseReleaseVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetProjectEventResponseReleaseVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: GetProjectEventResponseReleaseVersionInfoVersionMap;
   buildHash: string | null;
 }
 export interface GetProjectEventResponseRelease {
-  id?: number;
-  commitCount?: number;
-  data?: GetProjectEventResponseReleaseDataMap;
-  dateCreated?: string;
-  dateReleased?: string | null;
-  deployCount?: number;
-  ref?: string | null;
-  lastCommit?: GetProjectEventResponseReleaseLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  status?: string;
-  url?: string | null;
-  userAgent?: string | null;
-  version?: string | null;
-  versionInfo?: GetProjectEventResponseReleaseVersionInfo | null;
+  id?: number | undefined;
+  commitCount?: number | undefined;
+  data?: GetProjectEventResponseReleaseDataMap | undefined;
+  dateCreated?: string | undefined;
+  dateReleased?: string | null | undefined;
+  deployCount?: number | undefined;
+  ref?: string | null | undefined;
+  lastCommit?: GetProjectEventResponseReleaseLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  status?: string | undefined;
+  url?: string | null | undefined;
+  userAgent?: string | null | undefined;
+  version?: string | null | undefined;
+  versionInfo?: GetProjectEventResponseReleaseVersionInfo | null | undefined;
 }
 export type GetProjectEventResponseUserReportUser = GetOrganizationIssueEventResponseUserReportUser;
 export type GetProjectEventResponseUserReportEvent =
@@ -7015,15 +7094,15 @@ export interface GetProjectEventResponse {
   errors: GetProjectEventResponseErrorsList;
   occurrence: GetProjectEventResponseOccurrence | null;
   _meta: GetProjectEventResponseMetaMap;
-  crashFile?: string | null;
-  culprit?: string | null;
-  dateCreated?: string;
-  fingerprints?: GetProjectEventResponseFingerprintsList;
-  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  measurements?: GetProjectEventResponseMeasurementsMap | null;
-  breakdowns?: GetProjectEventResponseBreakdownsMap | null;
+  crashFile?: string | null | undefined;
+  culprit?: string | null | undefined;
+  dateCreated?: string | undefined;
+  fingerprints?: GetProjectEventResponseFingerprintsList | undefined;
+  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig | undefined;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  measurements?: GetProjectEventResponseMeasurementsMap | null | undefined;
+  breakdowns?: GetProjectEventResponseBreakdownsMap | null | undefined;
   release: GetProjectEventResponseRelease | null;
   userReport: GetOrganizationIssueEventResponseUserReport | null;
   sdkUpdates: GetProjectEventResponseSdkUpdatesList;
@@ -7041,7 +7120,7 @@ export interface GetProjectEventAttachmentRequest {
   /** The numeric ID of the attachment, as returned from the attachments list endpoint. */
   attachment_id: string;
   /** If this parameter is present, the response will be a binary file download instead of JSON metadata. The value does not matter -- any value (including empty) triggers the download. Depending on where the attachment is stored, the response may be a redirect to the storage service, so clients must follow redirects. */
-  download?: string;
+  download?: string | undefined;
 }
 export type GetProjectEventAttachmentResponseHeadersMap = {
   [key: string]: string | null | undefined;
@@ -7200,17 +7279,17 @@ export interface GetProjectInstallableBuildLatestRequest {
   /** Platform: "apple" or "android". */
   platform: string;
   /** Current build version. When provided, enables check-for-updates mode. */
-  buildVersion?: string;
+  buildVersion?: string | undefined;
   /** Current build number. Accepts a plain integer (e.g. 42) or a version string of two or more period-separated integers (e.g. 1.2.3), each up to 6 digits. Groups beyond the third are dropped. Either this or mainBinaryIdentifier must be provided when buildVersion is set. */
-  buildNumber?: GetProjectInstallableBuildLatestRequestBuildNumber;
+  buildNumber?: GetProjectInstallableBuildLatestRequestBuildNumber | undefined;
   /** UUID of the main binary (e.g. Mach-O UUID for Apple builds). Either this or buildNumber must be provided when buildVersion is set. */
-  mainBinaryIdentifier?: string;
+  mainBinaryIdentifier?: string | undefined;
   /** Filter by build configuration name (exact match). */
-  buildConfiguration?: string;
+  buildConfiguration?: string | undefined;
   /** Filter by code signing type. */
-  codesigningType?: string;
+  codesigningType?: string | undefined;
   /** Filter by install group name (repeatable for multiple groups). */
-  installGroups?: GetProjectInstallableBuildLatestRequestInstallGroupsList;
+  installGroups?: GetProjectInstallableBuildLatestRequestInstallGroupsList | undefined;
 }
 export type GetProjectInstallableBuildLatestResponseLatestArtifactAppInfo =
   GetOrganizationPreprodArtifactInstallDetailsResponseAppInfo;
@@ -7297,7 +7376,7 @@ export interface GetProjectKeyResponse {
   browserSdk: GetProjectKeyResponseBrowserSdk;
   dateCreated: string | null;
   dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions;
-  useCase?: string;
+  useCase?: string | undefined;
 }
 export interface GetProjectMonitorRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -7334,9 +7413,9 @@ export type GetProjectMonitorResponseProjectFeaturesList = Array<string>;
 export type GetProjectMonitorResponseProjectAccessList = Array<string>;
 export type GetProjectMonitorResponseProjectAvatar = AddOrganizationMemberResponseUserAvatar;
 export interface GetProjectMonitorResponseProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -7385,10 +7464,10 @@ export interface GetProjectMonitorResponseOwner {
   type: GetProjectMonitorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetProjectMonitorResponse {
-  alertRule?: GetProjectMonitorResponseAlertRule;
+  alertRule?: GetProjectMonitorResponseAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -7425,7 +7504,7 @@ export interface GetProjectOwnershipResponseSchema {
   rules: GetProjectOwnershipResponseSchemaRulesList;
 }
 export interface GetProjectOwnershipResponse {
-  schema?: GetProjectOwnershipResponseSchema | null;
+  schema?: GetProjectOwnershipResponseSchema | null | undefined;
   raw: string;
   fallthrough: boolean;
   dateCreated: string;
@@ -7536,7 +7615,7 @@ export interface GetProjectReleaseFileRequest {
   /** The ID of the release file. */
   file_id: string;
   /** If set, download the file contents instead of returning metadata. */
-  download?: string;
+  download?: string | undefined;
 }
 export type GetProjectReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export interface GetProjectReleaseFileResponse {
@@ -7628,16 +7707,16 @@ export interface GetSentryAppResponse {
   uuid: string;
   verifyInstall: boolean;
   webhookHeaders: GetSentryAppResponseWebhookHeadersList;
-  isDisabled?: boolean;
-  author?: string | null;
-  overview?: string | null;
-  popularity?: number | null;
-  redirectUrl?: string | null;
-  webhookUrl?: string | null;
-  clientSecret?: string | Redacted.Redacted<string> | null;
-  datePublished?: string;
-  clientId?: string;
-  owner?: GetSentryAppResponseOwner;
+  isDisabled?: boolean | undefined;
+  author?: string | null | undefined;
+  overview?: string | null | undefined;
+  popularity?: number | null | undefined;
+  redirectUrl?: string | null | undefined;
+  webhookUrl?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
+  datePublished?: string | undefined;
+  clientId?: string | undefined;
+  owner?: GetSentryAppResponseOwner | undefined;
 }
 export interface GetSentryAppInstallationExternalRequestOptionsRequest {
   /** The UUID of the Sentry App installation. */
@@ -7645,18 +7724,18 @@ export interface GetSentryAppInstallationExternalRequestOptionsRequest {
   /** The relative URI of the select field's options callback. */
   uri: string;
   /** The Sentry project ID to include in the options request. */
-  projectId?: number;
+  projectId?: number | undefined;
   /** The search text for select options. */
-  query?: string;
+  query?: string | undefined;
   /** A JSON-encoded object containing the values of fields this select depends on. */
-  dependentData?: string;
+  dependentData?: string | undefined;
 }
 export type GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList = Array<string>;
 export type GetSentryAppInstallationExternalRequestOptionsResponseChoicesList =
   Array<GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList>;
 export interface GetSentryAppInstallationExternalRequestOptionsResponse {
   choices: GetSentryAppInstallationExternalRequestOptionsResponseChoicesList;
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 export interface GetTeamRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -7664,9 +7743,9 @@ export interface GetTeamRequest {
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
   /** List of strings to opt in to additional data. Supports `projects`, `externalTeams`. */
-  expand?: string;
+  expand?: string | undefined;
   /** List of strings to opt out of certain pieces of data. Supports `organization`. */
-  collapse?: string;
+  collapse?: string | undefined;
 }
 export type GetTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export type GetTeamResponseAccessList = Array<string>;
@@ -7691,10 +7770,10 @@ export type GetTeamResponseOrganizationStatus =
 export type GetTeamResponseOrganizationAvatar = AddOrganizationMemberResponseUserAvatar;
 export type GetTeamResponseOrganizationLinks = CreateOrganizationTeamResponseOrganizationLinks;
 export interface GetTeamResponseOrganization {
-  features?: GetTeamResponseOrganizationFeaturesList;
-  extraOptions?: GetTeamResponseOrganizationExtraOptionsMap;
-  access?: GetTeamResponseOrganizationAccessList;
-  onboardingTasks?: GetTeamResponseOrganizationOnboardingTasksList;
+  features?: GetTeamResponseOrganizationFeaturesList | undefined;
+  extraOptions?: GetTeamResponseOrganizationExtraOptionsMap | undefined;
+  access?: GetTeamResponseOrganizationAccessList | undefined;
+  onboardingTasks?: GetTeamResponseOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -7713,9 +7792,9 @@ export type GetTeamResponseProjectsItemFeaturesList = Array<string>;
 export type GetTeamResponseProjectsItemAccessList = Array<string>;
 export type GetTeamResponseProjectsItemAvatar = AddOrganizationMemberResponseUserAvatar;
 export interface GetTeamResponseProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -7768,9 +7847,9 @@ export interface GetTeamResponse {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: GetTeamResponseExternalTeamsList;
-  organization?: GetTeamResponseOrganization;
-  projects?: GetTeamResponseProjectsList;
+  externalTeams?: GetTeamResponseExternalTeamsList | undefined;
+  organization?: GetTeamResponseOrganization | undefined;
+  projects?: GetTeamResponseProjectsList | undefined;
 }
 export type GetTraceItemStatisticsRequestStatsTypeItem = "attributeDistributions";
 export type GetTraceItemStatisticsRequestStatsTypeList = Array<
@@ -7787,25 +7866,25 @@ export interface GetTraceItemStatisticsRequest {
   /** The statistics to compute over the matching trace items. */
   statsType: GetTraceItemStatisticsRequestStatsTypeList;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: GetTraceItemStatisticsRequestProjectList;
+  project?: GetTraceItemStatisticsRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: GetTraceItemStatisticsRequestEnvironmentList;
+  environment?: GetTraceItemStatisticsRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The trace item dataset to compute statistics for. Defaults to `spans`. */
-  itemType?: GetTraceItemStatisticsRequestItemType | (string & {});
+  itemType?: GetTraceItemStatisticsRequestItemType | (string & {}) | undefined;
   /** Sentry [search syntax](https://docs.sentry.io/concepts/search/) to filter trace items before computing statistics. */
-  query?: string;
+  query?: string | undefined;
   /** Restrict results to attribute names containing this substring (case-sensitive). */
-  substringMatch?: string;
+  substringMatch?: string | undefined;
   /** Maximum number of trace items to sample when computing statistics. Defaults to `1000`, which is also the maximum. */
-  traceItemsLimit?: number;
+  traceItemsLimit?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface GetTraceItemStatisticsResponseDataItemAttributeDistributionsDataValueItem {
   label: string;
@@ -7838,9 +7917,9 @@ export interface LinkAnExistingExternalIssueToAnIssueRequest {
   /** The identifier or full URL of the existing external issue to link. URL support depends on the selected integration. */
   externalIssue: string;
   /** The repository containing the external issue, in owner/name format. Required by GitHub, GitHub Enterprise, and Bitbucket integrations. */
-  repo?: string;
+  repo?: string | undefined;
   /** An optional comment to post to the external issue when linking, if supported by the integration. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface LinkAnExistingExternalIssueToAnIssueResponse {
   id: number;
@@ -7868,7 +7947,7 @@ export interface ListAnOrganizationSIntegrationPlatformInstallationsRequest {
   /** The organization short name. */
   organization_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListAnOrganizationSIntegrationPlatformInstallationsResponseBodyItemApp {
   uuid: string;
@@ -7933,9 +8012,9 @@ export interface ListAProjectSCustomInboundFiltersResponseBodyItem {
   /** When the filter was last changed. */
   dateUpdated: string;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type ListAProjectSCustomInboundFiltersResponseBodyList =
   Array<ListAProjectSCustomInboundFiltersResponseBodyItem>;
@@ -7947,7 +8026,7 @@ export interface ListAProjectSServiceHooksRequest {
   /** The ID or slug of the project the client keys belong to. */
   project_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListAProjectSServiceHooksResponseBodyItemEventsList = Array<string>;
 export interface ListAProjectSServiceHooksResponseBodyItem {
@@ -7967,11 +8046,11 @@ export interface ListAProjectSUserFeedbackRequest {
   /** The ID or slug of the project. */
   project_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListAProjectSUserFeedbackResponseBodyItemEvent {
-  eventID?: string;
-  id?: string | null;
+  eventID?: string | undefined;
+  id?: string | null | undefined;
 }
 export interface ListAProjectSUserFeedbackResponseBodyItem {
   comments: string;
@@ -7995,7 +8074,7 @@ export interface ListATagSValuesRequest {
   /** The tag key to look up. */
   key: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListATagSValuesResponseBodyItem {
   name: string;
@@ -8010,21 +8089,21 @@ export interface ListOrganizationAIConversationsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationAIConversationsRequestProjectList;
+  project?: ListOrganizationAIConversationsRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationAIConversationsRequestEnvironmentList;
+  environment?: ListOrganizationAIConversationsRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** Sentry search syntax matched against spans. A conversation is returned when any span in it matches. Summary fields include all spans in selected projects and time range, not only matching spans. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of conversations to return per page. Defaults to 10; maximum is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListOrganizationAIConversationsResponseBodyItemToolNamesList = Array<string>;
 export type ListOrganizationAIConversationsResponseBodyItemFlowList = Array<string>;
@@ -8084,17 +8163,17 @@ export interface ListOrganizationDashboardsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Filter the dashboards returned. Repeat this parameter to apply multiple filters. */
-  filter?: ListOrganizationDashboardsRequestFilterList;
+  filter?: ListOrganizationDashboardsRequestFilterList | undefined;
   /** Filter dashboards by title. */
-  query?: string;
+  query?: string | undefined;
   /** The property to sort results by. Prefix the value with `-` to sort in descending order. Available fields are: - `title` - `dateCreated` - `mostPopular` - `recentlyViewed` - `mydashboards` - `myDashboardsAndRecentlyViewed` */
-  sort?: string;
+  sort?: string | undefined;
   /** Pin favorited dashboards to the top of the results. */
-  pin?: ListOrganizationDashboardsRequestPin | (string & {});
+  pin?: ListOrganizationDashboardsRequestPin | (string & {}) | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationDashboardsResponseBodyItemCreatedByIdentitiesItemOrganization =
   AddOrganizationMemberResponseUserIdentitiesItemOrganization;
@@ -8115,10 +8194,12 @@ export type ListOrganizationDashboardsResponseBodyItemCreatedByEmailsItem =
 export type ListOrganizationDashboardsResponseBodyItemCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationDashboardsResponseBodyItemCreatedBy {
-  identities?: ListOrganizationDashboardsResponseBodyItemCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationDashboardsResponseBodyItemCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationDashboardsResponseBodyItemCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationDashboardsResponseBodyItemCreatedByAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -8146,9 +8227,9 @@ export type ListOrganizationDashboardsResponseBodyItemFiltersGlobalFilterItemMap
 export type ListOrganizationDashboardsResponseBodyItemFiltersGlobalFilterList =
   Array<ListOrganizationDashboardsResponseBodyItemFiltersGlobalFilterItemMap>;
 export interface ListOrganizationDashboardsResponseBodyItemFilters {
-  release?: ListOrganizationDashboardsResponseBodyItemFiltersReleaseList;
-  releaseId?: ListOrganizationDashboardsResponseBodyItemFiltersReleaseIdList;
-  globalFilter?: ListOrganizationDashboardsResponseBodyItemFiltersGlobalFilterList;
+  release?: ListOrganizationDashboardsResponseBodyItemFiltersReleaseList | undefined;
+  releaseId?: ListOrganizationDashboardsResponseBodyItemFiltersReleaseIdList | undefined;
+  globalFilter?: ListOrganizationDashboardsResponseBodyItemFiltersGlobalFilterList | undefined;
 }
 export type ListOrganizationDashboardsResponseBodyItemWidgetDisplayList = Array<string>;
 export type ListOrganizationDashboardsResponseBodyItemWidgetPreviewItemMap = {
@@ -8190,28 +8271,28 @@ export interface ListOrganizationDetectorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationDetectorsRequestProjectList;
+  project?: ListOrganizationDetectorsRequestProjectList | undefined;
   /** An optional search query for filtering monitors. Available fields are: - `name` - `type`: e.g. `error`, `metric_issue`, `issue_stream` - `assignee`: email, username, #team, me, none */
-  query?: string;
+  query?: string | undefined;
   /** The property to sort results by. If not specified, the results are sorted by id. Available fields are: - `name` - `id` - `type` - `connectedWorkflows` - `latestGroup` - `openIssues` Prefix with `-` to sort in descending order. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The ID of the monitor you'd like to query. */
-  id?: ListOrganizationDetectorsRequestIdList;
+  id?: ListOrganizationDetectorsRequestIdList | undefined;
   /** Filter by monitor type(s). Can be specified multiple times. */
-  type?: ListOrganizationDetectorsRequestTypeList;
+  type?: ListOrganizationDetectorsRequestTypeList | undefined;
   /** Filter by whether monitors are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationDetectorsResponseBodyItemOwnerType = "user" | "team";
 export interface ListOrganizationDetectorsResponseBodyItemOwner {
   type: ListOrganizationDetectorsResponseBodyItemOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type ListOrganizationDetectorsResponseBodyItemLatestGroupMap = {
   [key: string]: unknown | undefined;
@@ -8229,10 +8310,10 @@ export type ListOrganizationDetectorsResponseBodyItemConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationDetectorsResponseBodyItem {
-  owner?: ListOrganizationDetectorsResponseBodyItemOwner | null;
-  createdBy?: string | null;
-  latestGroup?: ListOrganizationDetectorsResponseBodyItemLatestGroupMap | null;
-  description?: string | null;
+  owner?: ListOrganizationDetectorsResponseBodyItemOwner | null | undefined;
+  createdBy?: string | null | undefined;
+  latestGroup?: ListOrganizationDetectorsResponseBodyItemLatestGroupMap | null | undefined;
+  description?: string | null | undefined;
   id: string;
   projectId: string | null;
   name: string;
@@ -8252,13 +8333,13 @@ export interface ListOrganizationDiscoverSavedQueriesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The name of the Discover query you'd like to filter by. */
-  query?: string;
+  query?: string | undefined;
   /** The property to sort results by. If not specified, the results are sorted by query name. Available fields are: - `name` - `dateCreated` - `dateUpdated` - `mostPopular` - `recentlyViewed` - `myqueries` */
-  sortBy?: string;
+  sortBy?: string | undefined;
 }
 export type ListOrganizationDiscoverSavedQueriesResponseBodyItemEnvironmentList = Array<string>;
 export type ListOrganizationDiscoverSavedQueriesResponseBodyItemFieldsList = Array<string>;
@@ -8290,10 +8371,14 @@ export type ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByEmailsI
 export type ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedBy {
-  identities?: ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?:
+    | ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByIdentitiesList
+    | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -8313,25 +8398,25 @@ export interface ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedBy {
   emails: ListOrganizationDiscoverSavedQueriesResponseBodyItemCreatedByEmailsList;
 }
 export interface ListOrganizationDiscoverSavedQueriesResponseBodyItem {
-  environment?: ListOrganizationDiscoverSavedQueriesResponseBodyItemEnvironmentList;
-  query?: string;
-  fields?: ListOrganizationDiscoverSavedQueriesResponseBodyItemFieldsList;
-  widths?: ListOrganizationDiscoverSavedQueriesResponseBodyItemWidthsList;
-  conditions?: ListOrganizationDiscoverSavedQueriesResponseBodyItemConditionsList;
-  aggregations?: ListOrganizationDiscoverSavedQueriesResponseBodyItemAggregationsList;
-  range?: string;
-  start?: string;
-  end?: string;
-  orderby?: string;
-  limit?: string;
-  yAxis?: ListOrganizationDiscoverSavedQueriesResponseBodyItemYAxisList;
-  display?: string;
-  topEvents?: number;
-  interval?: string;
-  exploreQuery?: ListOrganizationDiscoverSavedQueriesResponseBodyItemExploreQueryMap;
-  lastVisited?: string;
-  starred?: boolean;
-  position?: number | null;
+  environment?: ListOrganizationDiscoverSavedQueriesResponseBodyItemEnvironmentList | undefined;
+  query?: string | undefined;
+  fields?: ListOrganizationDiscoverSavedQueriesResponseBodyItemFieldsList | undefined;
+  widths?: ListOrganizationDiscoverSavedQueriesResponseBodyItemWidthsList | undefined;
+  conditions?: ListOrganizationDiscoverSavedQueriesResponseBodyItemConditionsList | undefined;
+  aggregations?: ListOrganizationDiscoverSavedQueriesResponseBodyItemAggregationsList | undefined;
+  range?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  orderby?: string | undefined;
+  limit?: string | undefined;
+  yAxis?: ListOrganizationDiscoverSavedQueriesResponseBodyItemYAxisList | undefined;
+  display?: string | undefined;
+  topEvents?: number | undefined;
+  interval?: string | undefined;
+  exploreQuery?: ListOrganizationDiscoverSavedQueriesResponseBodyItemExploreQueryMap | undefined;
+  lastVisited?: string | undefined;
+  starred?: boolean | undefined;
+  position?: number | null | undefined;
   id: string;
   name: string;
   projects: ListOrganizationDiscoverSavedQueriesResponseBodyItemProjectsList;
@@ -8352,7 +8437,7 @@ export interface ListOrganizationEnvironmentsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The visibility of the environments to filter by. Defaults to `visible`. */
-  visibility?: ListOrganizationEnvironmentsRequestVisibility | (string & {});
+  visibility?: ListOrganizationEnvironmentsRequestVisibility | (string & {}) | undefined;
 }
 export type ListOrganizationEnvironmentsResponseBodyItem =
   AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -8379,27 +8464,27 @@ export interface ListOrganizationEventsRequest {
   /** Which dataset to query. The chosen dataset determines which fields are queryable. - `errors` - Error events. - `logs` - Structured log events. - `profile_functions` - Function-level Profiling data. - `spans` - Distributed tracing span events. - `tracemetrics` - Application Metrics. - `uptime_results` - Uptime monitoring check results. */
   dataset: ListOrganizationEventsRequestDataset | (string & {});
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationEventsRequestEnvironmentList;
+  environment?: ListOrganizationEventsRequestEnvironmentList | undefined;
   /** Internal referrer identifier used for query tracing. Most clients can omit this. */
-  referrer?: string;
+  referrer?: string | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationEventsRequestProjectList;
+  project?: ListOrganizationEventsRequestProjectList | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
   /** What to order the results of the query by. Must be something in the `field` list, excluding equations. */
-  sort?: string;
+  sort?: string | undefined;
   /** If false, aggregate conditions in the query string are disallowed. Defaults to true. */
-  allowAggregateConditions?: boolean;
+  allowAggregateConditions?: boolean | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationEventsResponseDataItemMap = { [key: string]: unknown | undefined };
 export type ListOrganizationEventsResponseDataList =
@@ -8412,25 +8497,25 @@ export type ListOrganizationEventsResponseMetaTipsMap = { [key: string]: string 
 /** Ingestion status for the data behind a response. */
 export interface ListOrganizationEventsResponseMetaIngestion {
   status: string;
-  delaySeconds?: number;
-  completeThrough?: number;
+  delaySeconds?: number | undefined;
+  completeThrough?: number | undefined;
 }
 /** Meta envelope emitted by `handle_results_with_meta` and the empty-projects short-circuit. Every key is optional because the path that emits it depends on flags (`standard_meta`, debug, dataset) -- the no-projects path only carries `tips`, the standard path carries everything below. */
 export interface ListOrganizationEventsResponseMeta {
-  fields?: ListOrganizationEventsResponseMetaFieldsMap;
-  units?: ListOrganizationEventsResponseMetaUnitsMap;
-  tips?: ListOrganizationEventsResponseMetaTipsMap;
-  datasetReason?: string;
-  isMetricsData?: boolean;
-  isMetricsExtractedData?: boolean;
-  dataset?: string;
-  discoverSplitDecision?: unknown;
-  dataScanned?: string;
-  bytesScanned?: number;
-  routingHint?: string;
-  debug_info?: unknown;
+  fields?: ListOrganizationEventsResponseMetaFieldsMap | undefined;
+  units?: ListOrganizationEventsResponseMetaUnitsMap | undefined;
+  tips?: ListOrganizationEventsResponseMetaTipsMap | undefined;
+  datasetReason?: string | undefined;
+  isMetricsData?: boolean | undefined;
+  isMetricsExtractedData?: boolean | undefined;
+  dataset?: string | undefined;
+  discoverSplitDecision?: unknown | undefined;
+  dataScanned?: string | undefined;
+  bytesScanned?: number | undefined;
+  routingHint?: string | undefined;
+  debug_info?: unknown | undefined;
   /** Ingestion status for the data behind a response. */
-  ingestion?: ListOrganizationEventsResponseMetaIngestion;
+  ingestion?: ListOrganizationEventsResponseMetaIngestion | undefined;
 }
 export interface ListOrganizationEventsResponse {
   data: ListOrganizationEventsResponseDataList;
@@ -8458,39 +8543,41 @@ export interface ListOrganizationEventsTimeseriesRequest {
   /** Which dataset to query. The chosen dataset determines which fields are queryable. - `errors` - Error events. - `logs` - Structured log events. - `profile_functions` - Function-level Profiling data. - `spans` - Distributed tracing span events. - `tracemetrics` - Application Metrics. - `uptime_results` - Uptime monitoring check results. */
   dataset: ListOrganizationEventsTimeseriesRequestDataset | (string & {});
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationEventsTimeseriesRequestEnvironmentList;
+  environment?: ListOrganizationEventsTimeseriesRequestEnvironmentList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationEventsTimeseriesRequestProjectList;
+  project?: ListOrganizationEventsTimeseriesRequestProjectList | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The number of top event results to return, must be between 1 and 10. When TopEvents is passed, both sort and groupBy are required parameters */
-  topEvents?: number;
+  topEvents?: number | undefined;
   /** The delta in seconds to return additional offset timeseries by */
-  comparisonDelta?: number;
+  comparisonDelta?: number | undefined;
   /** The size of the bucket for the timeseries to have, must be a value smaller than the window being queried. If the interval is invalid a default interval will be selected instead */
-  interval?: number;
+  interval?: number | undefined;
   /** What to order the results of the query by. Must be something in the `field` list, excluding equations. */
-  sort?: string;
+  sort?: string | undefined;
   /** List of fields to group by, *Required* for topEvents queries as this and sort determine what the top events are */
-  groupBy?: ListOrganizationEventsTimeseriesRequestGroupByList;
+  groupBy?: ListOrganizationEventsTimeseriesRequestGroupByList | undefined;
   /** The aggregate field to create the timeseries for, defaults to `count()` when not included. - `count()` - Total count of events over the period. - `avg(field)` - Average value of the field over the period. - `pXX(field)` - Percentile value of the field over the period. One of: `p50`, `p75`, `p90`, `p95`, `p99`, `p100`. - `sum(field)` - Sum of all values for the field over the period. - `min(field)` - Lowest value observed for the field over the period. - `max(field)` - Highest value observed for the field over the period. - `count_unique(field)` - Count of unique values observed for the field over the period. See *Note:* regarding accuracy on sampled data. - `epm` - Average number of events received per minute. - `eps` - Average number of events received per second. - `failure_rate()` - Percentage of events whose `status` indicates failure. - `failure_count()` - Total count of events with an error `status` over period. - `performance_score(field)` - Web Vitals performance score for the selected measurement. - `opportunity_score(field)` - Web Vitals opportunity score for the selected measurement. */
-  yAxis?: string;
+  yAxis?: string | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
   /** Whether to disable the use of extrapolation and return the sampled values, due to sampling the number returned may be less than the actual values sent to Sentry */
   disableAggregateExtrapolation?:
     | ListOrganizationEventsTimeseriesRequestDisableAggregateExtrapolation
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether to throw an error when aggregates are passed in the query or groupBy */
   preventMetricAggregates?:
     | ListOrganizationEventsTimeseriesRequestPreventMetricAggregates
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Only applicable with TopEvents, whether to include the 'other' timeseries which represents all the events that aren't in the top groups. */
-  excludeOther?: ListOrganizationEventsTimeseriesRequestExcludeOther | (string & {});
+  excludeOther?: ListOrganizationEventsTimeseriesRequestExcludeOther | (string & {}) | undefined;
 }
 export type ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItemType = "system";
 /** One time bucket's volume for a system data-fidelity annotation. */
@@ -8502,7 +8589,7 @@ export interface ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsI
   start: number;
   end: number;
   eventCount: number;
-  byteSize?: number;
+  byteSize?: number | undefined;
 }
 export type ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList =
   Array<ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem>;
@@ -8516,7 +8603,7 @@ export interface ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotations
   start: number;
   end: number;
   eventCount: number;
-  byteSize?: number;
+  byteSize?: number | undefined;
 }
 export type ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList =
   Array<ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem>;
@@ -8527,10 +8614,14 @@ export interface ListOrganizationEventsTimeseriesResponseMeta {
   dataset: string;
   start: number;
   end: number;
-  droppedAnnotations?: ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList;
-  acceptedAnnotations?: ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList;
+  droppedAnnotations?:
+    | ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList
+    | undefined;
+  acceptedAnnotations?:
+    | ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList
+    | undefined;
   /** Ingestion status for the data behind a response. */
-  ingestion?: ListOrganizationEventsResponseMetaIngestion;
+  ingestion?: ListOrganizationEventsResponseMetaIngestion | undefined;
 }
 export type ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesItemConfidence =
   | "low"
@@ -8539,11 +8630,14 @@ export interface ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesIte
   timestamp: number;
   value: number;
   incomplete: boolean;
-  comparisonValue?: number;
-  sampleCount?: number;
-  sampleRate?: number | null;
-  confidence?: ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesItemConfidence | null;
-  incompleteReason?: string;
+  comparisonValue?: number | undefined;
+  sampleCount?: number | undefined;
+  sampleRate?: number | null | undefined;
+  confidence?:
+    | ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesItemConfidence
+    | null
+    | undefined;
+  incompleteReason?: string | undefined;
 }
 export type ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesList =
   Array<ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesItem>;
@@ -8561,23 +8655,23 @@ export type ListOrganizationEventsTimeseriesResponseTimeSeriesItemMetaDataScanne
   | "partial"
   | "full";
 export interface ListOrganizationEventsTimeseriesResponseTimeSeriesItemMeta {
-  order?: number;
-  isOther?: boolean;
+  order?: number | undefined;
+  isOther?: boolean | undefined;
   valueUnit: string | null;
-  dataScanned?: ListOrganizationEventsTimeseriesResponseTimeSeriesItemMetaDataScanned;
+  dataScanned?: ListOrganizationEventsTimeseriesResponseTimeSeriesItemMetaDataScanned | undefined;
   valueType: string;
   interval: number;
 }
 export interface ListOrganizationEventsTimeseriesResponseTimeSeriesItem {
   values: ListOrganizationEventsTimeseriesResponseTimeSeriesItemValuesList;
   yAxis: string;
-  groupBy?: ListOrganizationEventsTimeseriesResponseTimeSeriesItemGroupByList;
+  groupBy?: ListOrganizationEventsTimeseriesResponseTimeSeriesItemGroupByList | undefined;
   meta: ListOrganizationEventsTimeseriesResponseTimeSeriesItemMeta;
 }
 export type ListOrganizationEventsTimeseriesResponseTimeSeriesList =
   Array<ListOrganizationEventsTimeseriesResponseTimeSeriesItem>;
 export interface ListOrganizationEventsTimeseriesResponse {
-  meta?: ListOrganizationEventsTimeseriesResponseMeta;
+  meta?: ListOrganizationEventsTimeseriesResponseMeta | undefined;
   timeSeries: ListOrganizationEventsTimeseriesResponseTimeSeriesList;
 }
 export interface ListOrganizationForwardingRequest {
@@ -8632,11 +8726,11 @@ export interface ListOrganizationIntegrationRepositoriesRequest {
   /** The ID of the integration installed on the organization. */
   integration_id: string;
   /** Repository name to search for. */
-  search?: string;
+  search?: string | undefined;
   /** Only return repositories that are not already installed in Sentry. */
-  installableOnly?: boolean;
+  installableOnly?: boolean | undefined;
   /** Only search repositories accessible to the integration installation. */
-  accessibleOnly?: boolean;
+  accessibleOnly?: boolean | undefined;
 }
 export interface ListOrganizationIntegrationRepositoriesResponseReposItem {
   name: string;
@@ -8650,20 +8744,20 @@ export type ListOrganizationIntegrationRepositoriesResponseReposList =
   Array<ListOrganizationIntegrationRepositoriesResponseReposItem>;
 export interface ListOrganizationIntegrationRepositoriesResponse {
   repos: ListOrganizationIntegrationRepositoriesResponseReposList;
-  searchable?: boolean;
+  searchable?: boolean | undefined;
 }
 export type ListOrganizationIntegrationsRequestFeaturesList = Array<string>;
 export interface ListOrganizationIntegrationsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Specific integration provider to filter by such as `slack`. See our [Integrations Documentation](/product/integrations/) for an updated list of providers. */
-  providerKey?: string;
+  providerKey?: string | undefined;
   /** Integration features to filter by. See our [Integrations Documentation](/product/integrations/) for an updated list of features. Current available ones are: - `alert-rule` - `chat-unfurl` - `codeowners` - `commits` - `data-forwarding` - `deployment` - `enterprise-alert-rule` - `enterprise-incident-management` - `incident-management` - `issue-basic` - `issue-sync` - `mobile` - `serverless` - `session-replay` - `stacktrace-link` - `ticket-rules` */
-  features?: ListOrganizationIntegrationsRequestFeaturesList;
+  features?: ListOrganizationIntegrationsRequestFeaturesList | undefined;
   /** Specify `True` to fetch third-party integration configurations. Note that this can add several seconds to the response time. */
-  includeConfig?: boolean;
+  includeConfig?: boolean | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIntegrationsResponseBodyItemScopesList = Array<string>;
 /** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
@@ -8699,23 +8793,23 @@ export interface ListOrganizationIssueEventsRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationIssueEventsRequestEnvironmentList;
+  environment?: ListOrganizationIssueEventsRequestEnvironmentList | undefined;
   /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
-  full?: boolean;
+  full?: boolean | undefined;
   /** Return events in pseudo-random order. This is deterministic so an identical query will always return the same events in the same order. */
-  sample?: boolean;
+  sample?: boolean | undefined;
   /** An optional search query for filtering events. See [search syntax](https://docs.sentry.io/concepts/search/) and queryable event properties at [Sentry Search Documentation](https://docs.sentry.io/concepts/search/searchable-properties/events/) for more information. An example query might be `query=transaction:foo AND release:abc` */
-  query?: string;
+  query?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIssueEventsResponseBodyItemUserGeoMap = {
   [key: string]: string | undefined;
@@ -8724,13 +8818,13 @@ export type ListOrganizationIssueEventsResponseBodyItemUserDataMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationIssueEventsResponseBodyItemUser {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: ListOrganizationIssueEventsResponseBodyItemUserGeoMap | null;
-  data?: ListOrganizationIssueEventsResponseBodyItemUserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: ListOrganizationIssueEventsResponseBodyItemUserGeoMap | null | undefined;
+  data?: ListOrganizationIssueEventsResponseBodyItemUserDataMap | null | undefined;
 }
 export type ListOrganizationIssueEventsResponseBodyItemTagsItem =
   GetOrganizationIssueEventResponseTagsItem;
@@ -8765,7 +8859,7 @@ export interface ListOrganizationIssueExternalIssuesRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIssueExternalIssuesResponseBodyItem =
   GetOrganizationIssueResponseSentryAppIssuesItem;
@@ -8779,9 +8873,9 @@ export interface ListOrganizationIssueHashesRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
-  full?: boolean;
+  full?: boolean | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserGeoMap = {
   [key: string]: string | undefined;
@@ -8790,13 +8884,13 @@ export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserDataM
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationIssueHashesResponseBodyItemLatestEventCase0User {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserGeoMap | null;
-  data?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserGeoMap | null | undefined;
+  data?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0UserDataMap | null | undefined;
 }
 export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase0TagsItem =
   GetOrganizationIssueEventResponseTagsItem;
@@ -8910,15 +9004,23 @@ export interface ListOrganizationIssueHashesResponseBodyItemLatestEventCase0 {
   errors: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0ErrorsList;
   occurrence: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0Occurrence | null;
   _meta: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0MetaMap;
-  crashFile?: string | null;
-  culprit?: string | null;
-  dateCreated?: string;
-  fingerprints?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0FingerprintsList;
-  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  measurements?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0MeasurementsMap | null;
-  breakdowns?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase0BreakdownsMap | null;
+  crashFile?: string | null | undefined;
+  culprit?: string | null | undefined;
+  dateCreated?: string | undefined;
+  fingerprints?:
+    | ListOrganizationIssueHashesResponseBodyItemLatestEventCase0FingerprintsList
+    | undefined;
+  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig | undefined;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  measurements?:
+    | ListOrganizationIssueHashesResponseBodyItemLatestEventCase0MeasurementsMap
+    | null
+    | undefined;
+  breakdowns?:
+    | ListOrganizationIssueHashesResponseBodyItemLatestEventCase0BreakdownsMap
+    | null
+    | undefined;
 }
 export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserGeoMap = {
   [key: string]: string | undefined;
@@ -8927,13 +9029,13 @@ export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserDataM
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationIssueHashesResponseBodyItemLatestEventCase1User {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserGeoMap | null;
-  data?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserGeoMap | null | undefined;
+  data?: ListOrganizationIssueHashesResponseBodyItemLatestEventCase1UserDataMap | null | undefined;
 }
 export type ListOrganizationIssueHashesResponseBodyItemLatestEventCase1TagsItem =
   GetOrganizationIssueEventResponseTagsItem;
@@ -8978,9 +9080,9 @@ export interface ListOrganizationIssueIntegrationsRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of integrations to return per page (1-100). */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListOrganizationIssueIntegrationsResponseBodyItemScopesList = Array<string>;
 /** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
@@ -9065,33 +9167,33 @@ export interface ListOrganizationIssuesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationIssuesRequestEnvironmentList;
+  environment?: ListOrganizationIssuesRequestEnvironmentList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationIssuesRequestProjectList;
+  project?: ListOrganizationIssuesRequestProjectList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The timeline on which stats for the groups should be presented. */
-  groupStatsPeriod?: ListOrganizationIssuesRequestGroupStatsPeriod | (string & {});
+  groupStatsPeriod?: ListOrganizationIssuesRequestGroupStatsPeriod | (string & {}) | undefined;
   /** If this is set to `1` then the query will be parsed for issue short IDs. These may ignore other filters (e.g. projects), which is why it is an opt-in. */
-  shortIdLookup?: ListOrganizationIssuesRequestShortIdLookup | (string & {});
+  shortIdLookup?: ListOrganizationIssuesRequestShortIdLookup | (string & {}) | undefined;
   /** An optional search query for filtering issues. A default query will apply if no view/query is set. For all results use this parameter with an empty string. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the view to use. If no query is present, the view's query and filters will be applied. */
-  viewId?: string;
+  viewId?: string | undefined;
   /** The sort order of the view. Options include 'Last Seen' (`date`), 'First Seen' (`new`), 'Trends' (`trends`), 'Events' (`freq`), 'Users' (`user`), 'Date Added' (`inbox`), and 'Recommended' (`recommended`). */
-  sort?: ListOrganizationIssuesRequestSort | (string & {});
+  sort?: ListOrganizationIssuesRequestSort | (string & {}) | undefined;
   /** The maximum number of issues to affect. The maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Additional data to include in the response. */
-  expand?: ListOrganizationIssuesRequestExpandList;
+  expand?: ListOrganizationIssuesRequestExpandList | undefined;
   /** Fields to remove from the response to improve query performance. */
-  collapse?: ListOrganizationIssuesRequestCollapseList;
+  collapse?: ListOrganizationIssuesRequestCollapseList | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIssuesResponseBodyItemLevel =
   | "sample"
@@ -9128,10 +9230,12 @@ export type ListOrganizationIssuesResponseBodyItemStatusDetailsActorEmailsItem =
 export type ListOrganizationIssuesResponseBodyItemStatusDetailsActorEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationIssuesResponseBodyItemStatusDetailsActor {
-  identities?: ListOrganizationIssuesResponseBodyItemStatusDetailsActorIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationIssuesResponseBodyItemStatusDetailsActorAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationIssuesResponseBodyItemStatusDetailsActorIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationIssuesResponseBodyItemStatusDetailsActorAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -9153,17 +9257,17 @@ export interface ListOrganizationIssuesResponseBodyItemStatusDetailsActor {
 export type ListOrganizationIssuesResponseBodyItemStatusDetailsInfo =
   GetOrganizationIssueResponseStatusDetailsInfo;
 export interface ListOrganizationIssuesResponseBodyItemStatusDetails {
-  ignoreCount?: number;
-  ignoreUntil?: string;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
-  ignoreWindow?: number;
-  actor?: ListOrganizationIssuesResponseBodyItemStatusDetailsActor;
-  inNextRelease?: boolean;
-  inRelease?: string;
-  inCommit?: string;
-  pendingEvents?: number;
-  info?: GetOrganizationIssueResponseStatusDetailsInfo | null;
+  ignoreCount?: number | undefined;
+  ignoreUntil?: string | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
+  ignoreWindow?: number | undefined;
+  actor?: ListOrganizationIssuesResponseBodyItemStatusDetailsActor | undefined;
+  inNextRelease?: boolean | undefined;
+  inRelease?: string | undefined;
+  inCommit?: string | undefined;
+  pendingEvents?: number | undefined;
+  info?: GetOrganizationIssueResponseStatusDetailsInfo | null | undefined;
 }
 export type ListOrganizationIssuesResponseBodyItemSubstatus =
   | "archived_until_escalating"
@@ -9194,7 +9298,7 @@ export interface ListOrganizationIssuesResponseBodyItemAssignedTo {
   type: ListOrganizationIssuesResponseBodyItemAssignedToType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type ListOrganizationIssuesResponseBodyItemSubscriptionDetails =
   GetOrganizationIssueResponseSubscriptionDetails;
@@ -9293,9 +9397,9 @@ export interface ListOrganizationIssueTagValuesRequest {
   /** The tag key to look the values up for. */
   key: string;
   /** Sort order of the resulting tag values. Default is `id`. */
-  sort?: ListOrganizationIssueTagValuesRequestSort | (string & {});
+  sort?: ListOrganizationIssueTagValuesRequestSort | (string & {}) | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationIssueTagValuesRequestEnvironmentList;
+  environment?: ListOrganizationIssueTagValuesRequestEnvironmentList | undefined;
 }
 export type ListOrganizationIssueTagValuesResponseBodyItem =
   GetOrganizationIssueTagResponseTopValuesItem;
@@ -9320,13 +9424,13 @@ export interface ListOrganizationIssueViewsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Whether to return issue views created by the current user or other members. * `me` * `others` */
-  createdBy?: ListOrganizationIssueViewsRequestCreatedBy | (string & {});
+  createdBy?: ListOrganizationIssueViewsRequestCreatedBy | (string & {}) | undefined;
   /** The fields used to sort issue views, in order of precedence. */
-  sort?: ListOrganizationIssueViewsRequestSortList;
+  sort?: ListOrganizationIssueViewsRequestSortList | undefined;
   /** A case-insensitive search against issue view names and queries. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItemOrganization =
   AddOrganizationMemberResponseUserIdentitiesItemOrganization;
@@ -9347,10 +9451,12 @@ export type ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsItem =
 export type ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationIssueViewsResponseBodyItemCreatedBy {
-  identities?: ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -9403,9 +9509,9 @@ export interface ListOrganizationMembersRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Limit results to members matching the given query. `id, `user.id`, ... are supported prefixes match on: `id`, `user.id`, `email`, `role`, `scope`, `isInvited`, `ssoLinked`, `has2fa`, `hasExternalUsers`. For example, `query=user.id:1234`. An unrecognized field returns no results. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationMembersResponseBodyItemExternalUsersItem =
   AddOrganizationMemberResponseExternalUsersItem;
@@ -9430,10 +9536,10 @@ export type ListOrganizationMembersResponseBodyItemUserEmailsItem =
 export type ListOrganizationMembersResponseBodyItemUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationMembersResponseBodyItemUser {
-  identities?: ListOrganizationMembersResponseBodyItemUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationMembersResponseBodyItemUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationMembersResponseBodyItemUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: ListOrganizationMembersResponseBodyItemUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -9454,7 +9560,7 @@ export interface ListOrganizationMembersResponseBodyItemUser {
 }
 export type ListOrganizationMembersResponseBodyItemFlags = AddOrganizationMemberResponseFlags;
 export interface ListOrganizationMembersResponseBodyItem {
-  externalUsers?: ListOrganizationMembersResponseBodyItemExternalUsersList;
+  externalUsers?: ListOrganizationMembersResponseBodyItemExternalUsersList | undefined;
   id: string;
   email: string;
   name: string;
@@ -9476,7 +9582,7 @@ export interface ListOrganizationMonitorCheckinsRequest {
   /** The ID or slug of the monitor. */
   monitor_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationMonitorCheckinsResponseBodyItemGroupsList = Array<string>;
 export type ListOrganizationMonitorCheckinsResponseBodyItemMonitorConfigScheduleType =
@@ -9498,7 +9604,7 @@ export interface ListOrganizationMonitorCheckinsResponseBodyItemMonitorConfig {
   alert_rule_id: number | null;
 }
 export interface ListOrganizationMonitorCheckinsResponseBodyItem {
-  groups?: ListOrganizationMonitorCheckinsResponseBodyItemGroupsList;
+  groups?: ListOrganizationMonitorCheckinsResponseBodyItemGroupsList | undefined;
   id: string;
   environment: string;
   status: string;
@@ -9523,13 +9629,13 @@ export interface ListOrganizationMonitorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationMonitorsRequestProjectList;
+  project?: ListOrganizationMonitorsRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationMonitorsRequestEnvironmentList;
+  environment?: ListOrganizationMonitorsRequestEnvironmentList | undefined;
   /** The owner of the monitor, in the format `user:id` or `team:id`. May be specified multiple times. */
-  owner?: string;
+  owner?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationMonitorsResponseBodyItemAlertRuleTargetsItem =
   CreateOrganizationMonitorResponseAlertRuleTargetsItem;
@@ -9559,9 +9665,9 @@ export type ListOrganizationMonitorsResponseBodyItemProjectAccessList = Array<st
 export type ListOrganizationMonitorsResponseBodyItemProjectAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface ListOrganizationMonitorsResponseBodyItemProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -9611,10 +9717,10 @@ export interface ListOrganizationMonitorsResponseBodyItemOwner {
   type: ListOrganizationMonitorsResponseBodyItemOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface ListOrganizationMonitorsResponseBodyItem {
-  alertRule?: ListOrganizationMonitorsResponseBodyItemAlertRule;
+  alertRule?: ListOrganizationMonitorsResponseBodyItemAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -9638,11 +9744,11 @@ export interface ListOrganizationNotificationsActionsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationNotificationsActionsRequestProjectList;
+  project?: ListOrganizationNotificationsActionsRequestProjectList | undefined;
   /** The legacy project slug filter. Prefer `project`, which accepts project IDs or slugs. Use `$all` to include all available projects. For example, the following are valid parameters: - `/?projectSlug=$all` - `/?projectSlug=android&projectSlug=javascript-react` */
-  project_id_or_slug?: ListOrganizationNotificationsActionsRequestProjectIdOrSlugList;
+  project_id_or_slug?: ListOrganizationNotificationsActionsRequestProjectIdOrSlugList | undefined;
   /** Type of the trigger that causes the notification. The only supported value right now is: `spike-protection` */
-  triggerType?: string;
+  triggerType?: string | undefined;
 }
 export type ListOrganizationNotificationsActionsResponseProjectsList = Array<number>;
 export interface ListOrganizationNotificationsActionsResponse {
@@ -9665,11 +9771,11 @@ export interface ListOrganizationProfilingChunksRequest {
   /** The continuous-profiler ID to fetch chunks for. */
   profiler_id: string;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
 }
 export type ListOrganizationProfilingChunksResponseBodyMap = { [key: string]: unknown | undefined };
 export type ListOrganizationProfilingChunksResponse =
@@ -9679,11 +9785,11 @@ export interface ListOrganizationProjectKeysRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter keys by team slug or ID. If provided, only keys for projects belonging to this team will be returned. */
-  team?: string;
+  team?: string | undefined;
   /** Filter keys by status. Options are 'active' or 'inactive'. * `active` * `inactive` */
-  status?: ListOrganizationProjectKeysRequestStatus | (string & {});
+  status?: ListOrganizationProjectKeysRequestStatus | (string & {}) | undefined;
 }
 export type ListOrganizationProjectKeysResponseBodyItemRateLimit =
   CreateProjectKeyResponseRateLimit;
@@ -9711,7 +9817,7 @@ export interface ListOrganizationProjectKeysResponseBodyItem {
   browserSdk: ListOrganizationProjectKeysResponseBodyItemBrowserSdk;
   dateCreated: string | null;
   dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions;
-  useCase?: string;
+  useCase?: string | undefined;
 }
 export type ListOrganizationProjectKeysResponseBodyList =
   Array<ListOrganizationProjectKeysResponseBodyItem>;
@@ -9720,11 +9826,11 @@ export interface ListOrganizationProjectsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter projects by name or slug. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ListOrganizationProjectsResponseBodyItemLatestDeploysValueMap = {
   [key: string]: string | undefined;
@@ -9745,11 +9851,11 @@ export type ListOrganizationProjectsResponseBodyItemEnvironmentsList = Array<str
 export type ListOrganizationProjectsResponseBodyItemLatestRelease =
   CreateOrganizationProjectResponseLatestRelease;
 export interface ListOrganizationProjectsResponseBodyItem {
-  latestDeploys?: ListOrganizationProjectsResponseBodyItemLatestDeploysMap | null;
-  options?: ListOrganizationProjectsResponseBodyItemOptionsMap;
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  latestDeploys?: ListOrganizationProjectsResponseBodyItemLatestDeploysMap | null | undefined;
+  options?: ListOrganizationProjectsResponseBodyItemOptionsMap | undefined;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -9812,7 +9918,7 @@ export interface ListOrganizationReleaseCommitsRequest {
   /** The version identifier of the release */
   version: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationReleaseCommitsResponseBodyItemPullRequestStatus =
   | "merged"
@@ -9830,13 +9936,18 @@ export interface ListOrganizationReleaseCommitsResponseBodyItemPullRequestReposi
   codeReviewTriggers: ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepository {
-  url?: string | null;
-  provider?: ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?:
+    | ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepositoryProviderMap
+    | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?:
+    | ListOrganizationReleaseCommitsResponseBodyItemPullRequestRepositorySettings
+    | null
+    | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -9861,10 +9972,14 @@ export type ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0
 export type ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0 {
-  identities?: ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?:
+    | ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList
+    | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationReleaseCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -9909,13 +10024,13 @@ export interface ListOrganizationReleaseCommitsResponseBodyItemRepositorySetting
   codeReviewTriggers: ListOrganizationReleaseCommitsResponseBodyItemRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListOrganizationReleaseCommitsResponseBodyItemRepository {
-  url?: string | null;
-  provider?: ListOrganizationReleaseCommitsResponseBodyItemRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListOrganizationReleaseCommitsResponseBodyItemRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?: ListOrganizationReleaseCommitsResponseBodyItemRepositoryProviderMap | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?: ListOrganizationReleaseCommitsResponseBodyItemRepositorySettings | null | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -9940,10 +10055,12 @@ export type ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0EmailsItem 
 export type ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0 {
-  identities?: ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationReleaseCommitsResponseBodyItemAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -9984,8 +10101,8 @@ export interface ListOrganizationReleaseCommitsResponseBodyItem {
   dateCreated: string;
   pullRequest: ListOrganizationReleaseCommitsResponseBodyItemPullRequest | null;
   suspectCommitType: string;
-  repository?: ListOrganizationReleaseCommitsResponseBodyItemRepository;
-  author?: ListOrganizationReleaseCommitsResponseBodyItemAuthor;
+  repository?: ListOrganizationReleaseCommitsResponseBodyItemRepository | undefined;
+  author?: ListOrganizationReleaseCommitsResponseBodyItemAuthor | undefined;
   releases: ListOrganizationReleaseCommitsResponseBodyItemReleasesList;
 }
 export type ListOrganizationReleaseCommitsResponseBodyList =
@@ -9997,7 +10114,7 @@ export interface ListOrganizationReleaseDeploysRequest {
   /** The version identifier of the release */
   version: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Serializer for Deploy response objects */
 export interface ListOrganizationReleaseDeploysResponseBodyItem {
@@ -10025,11 +10142,11 @@ export interface ListOrganizationReleaseFilesRequest {
   /** The version identifier of the release */
   version: string;
   /** If set, only files with these partial names will be returned. */
-  query?: ListOrganizationReleaseFilesRequestQueryList;
+  query?: ListOrganizationReleaseFilesRequestQueryList | undefined;
   /** If set, only files with these exact checksums will be returned. */
-  checksum?: ListOrganizationReleaseFilesRequestChecksumList;
+  checksum?: ListOrganizationReleaseFilesRequestChecksumList | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationReleaseFilesResponseBodyItemHeadersMap = {
   [key: string]: unknown | undefined;
@@ -10054,15 +10171,15 @@ export interface ListOrganizationReleasesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationReleasesRequestProjectList;
+  project?: ListOrganizationReleasesRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationReleasesRequestEnvironmentList;
+  environment?: ListOrganizationReleasesRequestEnvironmentList | undefined;
   /** Case-insensitive substring match against the release version. */
-  query?: string;
+  query?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationReleasesResponseBodyItemOwnerMap = {
   [key: string]: unknown | undefined;
@@ -10082,7 +10199,7 @@ export type ListOrganizationReleasesResponseBodyItemVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationReleasesResponseBodyItemVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: ListOrganizationReleasesResponseBodyItemVersionInfoVersionMap;
   buildHash: string | null;
@@ -10110,10 +10227,12 @@ export type ListOrganizationReleasesResponseBodyItemAuthorsItemCase0EmailsItem =
 export type ListOrganizationReleasesResponseBodyItemAuthorsItemCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationReleasesResponseBodyItemAuthorsItemCase0 {
-  identities?: ListOrganizationReleasesResponseBodyItemAuthorsItemCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationReleasesResponseBodyItemAuthorsItemCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationReleasesResponseBodyItemAuthorsItemCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationReleasesResponseBodyItemAuthorsItemCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -10143,18 +10262,18 @@ export type ListOrganizationReleasesResponseBodyItemProjectsItemHealthDataStatsM
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationReleasesResponseBodyItemProjectsItemHealthData {
-  durationP50?: number | null;
-  durationP90?: number | null;
-  crashFreeUsers?: number | null;
-  crashFreeSessions?: number | null;
-  totalUsers?: number | null;
-  totalUsers24h?: number | null;
-  totalProjectUsers24h?: number | null;
-  totalSessions?: number | null;
-  totalSessions24h?: number | null;
-  totalProjectSessions24h?: number | null;
-  adoption?: number | null;
-  sessionsAdoption?: number | null;
+  durationP50?: number | null | undefined;
+  durationP90?: number | null | undefined;
+  crashFreeUsers?: number | null | undefined;
+  crashFreeSessions?: number | null | undefined;
+  totalUsers?: number | null | undefined;
+  totalUsers24h?: number | null | undefined;
+  totalProjectUsers24h?: number | null | undefined;
+  totalSessions?: number | null | undefined;
+  totalSessions24h?: number | null | undefined;
+  totalProjectSessions24h?: number | null | undefined;
+  adoption?: number | null | undefined;
+  sessionsAdoption?: number | null | undefined;
   sessionsCrashed: number;
   sessionsErrored: number;
   hasHealthData: boolean;
@@ -10162,10 +10281,10 @@ export interface ListOrganizationReleasesResponseBodyItemProjectsItemHealthData 
 }
 export type ListOrganizationReleasesResponseBodyItemProjectsItemPlatformsList = Array<string>;
 export interface ListOrganizationReleasesResponseBodyItemProjectsItem {
-  healthData?: ListOrganizationReleasesResponseBodyItemProjectsItemHealthData | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
+  healthData?: ListOrganizationReleasesResponseBodyItemProjectsItemHealthData | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
   id: number;
   slug: string;
   name: string;
@@ -10177,19 +10296,22 @@ export interface ListOrganizationReleasesResponseBodyItemProjectsItem {
 export type ListOrganizationReleasesResponseBodyItemProjectsList =
   Array<ListOrganizationReleasesResponseBodyItemProjectsItem>;
 export interface ListOrganizationReleasesResponseBodyItem {
-  ref?: string | null;
-  url?: string | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
-  owner?: ListOrganizationReleasesResponseBodyItemOwnerMap | null;
-  lastCommit?: ListOrganizationReleasesResponseBodyItemLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  firstEvent?: string | null;
-  lastEvent?: string | null;
-  currentProjectMeta?: ListOrganizationReleasesResponseBodyItemCurrentProjectMetaMap | null;
-  userAgent?: string | null;
-  adoptionStages?: ListOrganizationReleasesResponseBodyItemAdoptionStagesMap | null;
+  ref?: string | null | undefined;
+  url?: string | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
+  owner?: ListOrganizationReleasesResponseBodyItemOwnerMap | null | undefined;
+  lastCommit?: ListOrganizationReleasesResponseBodyItemLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  firstEvent?: string | null | undefined;
+  lastEvent?: string | null | undefined;
+  currentProjectMeta?:
+    | ListOrganizationReleasesResponseBodyItemCurrentProjectMetaMap
+    | null
+    | undefined;
+  userAgent?: string | null | undefined;
+  adoptionStages?: ListOrganizationReleasesResponseBodyItemAdoptionStagesMap | null | undefined;
   id: number;
   version: string;
   newGroups: number;
@@ -10219,13 +10341,13 @@ export interface ListOrganizationReleaseThresholdStatusesRequest {
   /** The inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `start`. */
   end: string;
   /** A list of environment names to filter your results by. */
-  environment?: ListOrganizationReleaseThresholdStatusesRequestEnvironmentList;
+  environment?: ListOrganizationReleaseThresholdStatusesRequestEnvironmentList | undefined;
   /** A list of project slugs to filter your results by. */
-  projectSlug?: ListOrganizationReleaseThresholdStatusesRequestProjectSlugList;
+  projectSlug?: ListOrganizationReleaseThresholdStatusesRequestProjectSlugList | undefined;
   /** A list of release versions to filter your results by. */
-  release?: ListOrganizationReleaseThresholdStatusesRequestReleaseList;
+  release?: ListOrganizationReleaseThresholdStatusesRequestReleaseList | undefined;
   /** A list of project IDs or slugs to filter your results by. */
-  project?: ListOrganizationReleaseThresholdStatusesRequestProjectList;
+  project?: ListOrganizationReleaseThresholdStatusesRequestProjectList | undefined;
 }
 export type ListOrganizationReleaseThresholdStatusesResponseBodyValueItemEnvironmentMap = {
   [key: string]: unknown | undefined;
@@ -10249,15 +10371,22 @@ export type ListOrganizationReleaseThresholdStatusesResponseBodyValueItemMetricV
   | number
   | unknown;
 export interface ListOrganizationReleaseThresholdStatusesResponseBodyValueItem {
-  id?: string;
-  date_added?: string;
-  environment?: ListOrganizationReleaseThresholdStatusesResponseBodyValueItemEnvironmentMap | null;
-  project?: ListOrganizationReleaseThresholdStatusesResponseBodyValueItemProjectMap;
-  release?: string;
-  threshold_type?: ListOrganizationReleaseThresholdStatusesResponseBodyValueItemThresholdType;
-  trigger_type?: ListOrganizationReleaseThresholdStatusesResponseBodyValueItemTriggerType;
-  value?: number;
-  window_in_seconds?: number;
+  id?: string | undefined;
+  date_added?: string | undefined;
+  environment?:
+    | ListOrganizationReleaseThresholdStatusesResponseBodyValueItemEnvironmentMap
+    | null
+    | undefined;
+  project?: ListOrganizationReleaseThresholdStatusesResponseBodyValueItemProjectMap | undefined;
+  release?: string | undefined;
+  threshold_type?:
+    | ListOrganizationReleaseThresholdStatusesResponseBodyValueItemThresholdType
+    | undefined;
+  trigger_type?:
+    | ListOrganizationReleaseThresholdStatusesResponseBodyValueItemTriggerType
+    | undefined;
+  value?: number | undefined;
+  window_in_seconds?: number | undefined;
   end: string;
   is_healthy: boolean;
   key: string;
@@ -10319,33 +10448,33 @@ export interface ListOrganizationReplaysRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** This defines the range of the time series, relative to now. The range is given in a `<number><unit>` format. For example `1d` for a one day range. Possible units are `m` for minutes, `h` for hours, `d` for days and `w` for weeks. You must either provide a `statsPeriod`, or a `start` and `end`. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** This defines the start of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `end` instead of `statsPeriod`. */
-  start?: string;
+  start?: string | undefined;
   /** This defines the inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `start` instead of `statsPeriod`. */
-  end?: string;
+  end?: string | undefined;
   /** Specifies a field that should be marshaled in the output. Invalid fields will be rejected. */
-  field?: ListOrganizationReplaysRequestFieldList;
+  field?: ListOrganizationReplaysRequestFieldList | undefined;
   /** A list of project IDs or slugs to filter by. */
-  project?: ListOrganizationReplaysRequestProjectList;
+  project?: ListOrganizationReplaysRequestProjectList | undefined;
   /** A list of project slugs to filter your results by. */
-  projectSlug?: ListOrganizationReplaysRequestProjectSlugList;
+  projectSlug?: ListOrganizationReplaysRequestProjectSlugList | undefined;
   /** The environments to filter by. */
-  environment?: ListOrganizationReplaysRequestEnvironmentList;
+  environment?: ListOrganizationReplaysRequestEnvironmentList | undefined;
   /** The field to sort the output by. */
-  sort?: string;
+  sort?: string | undefined;
   /** The field to sort the output by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The field to sort the output by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A structured query string to filter the output by. */
-  query?: string;
+  query?: string | undefined;
   /** Internal referrer identifier used for query tracing. */
-  queryReferrer?: string;
+  queryReferrer?: string | undefined;
   /** Limit the number of rows to return in the result. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The cursor parameter is used to paginate results. See [here](https://docs.sentry.io/api/pagination/) for how to use this query parameter */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationReplaysResponseDataItemTraceIdsList = Array<string>;
 export type ListOrganizationReplaysResponseDataItemErrorIdsList = Array<string>;
@@ -10375,38 +10504,38 @@ export type ListOrganizationReplaysResponseDataItemClicksList =
   Array<ListOrganizationReplaysResponseDataItemClicksItemMap>;
 export type ListOrganizationReplaysResponseDataItemReleasesList = Array<string>;
 export interface ListOrganizationReplaysResponseDataItem {
-  id?: string;
-  project_id?: string;
-  trace_ids?: ListOrganizationReplaysResponseDataItemTraceIdsList;
-  error_ids?: ListOrganizationReplaysResponseDataItemErrorIdsList;
-  environment?: string | null;
-  tags?: ListOrganizationReplaysResponseDataItemTags;
-  user?: GetOrganizationReplayResponseDataUser;
-  sdk?: GetOrganizationReplayResponseDataSdk;
-  os?: GetOrganizationReplayResponseDataSdk;
-  browser?: GetOrganizationReplayResponseDataSdk;
-  device?: GetOrganizationReplayResponseDataDevice;
-  ota_updates?: GetOrganizationReplayResponseDataOtaUpdates;
-  is_archived?: boolean | null;
-  urls?: ListOrganizationReplaysResponseDataItemUrlsList | null;
-  segment_names?: ListOrganizationReplaysResponseDataItemSegmentNamesList | null;
-  clicks?: ListOrganizationReplaysResponseDataItemClicksList;
-  count_dead_clicks?: number | null;
-  count_rage_clicks?: number | null;
-  count_errors?: number | null;
-  duration?: number | null;
-  finished_at?: string | null;
-  started_at?: string | null;
-  activity?: number | null;
-  count_urls?: number | null;
-  replay_type?: string;
-  count_segments?: number | null;
-  platform?: string | null;
-  releases?: ListOrganizationReplaysResponseDataItemReleasesList;
-  dist?: string | null;
-  count_warnings?: number | null;
-  count_infos?: number | null;
-  has_viewed?: boolean;
+  id?: string | undefined;
+  project_id?: string | undefined;
+  trace_ids?: ListOrganizationReplaysResponseDataItemTraceIdsList | undefined;
+  error_ids?: ListOrganizationReplaysResponseDataItemErrorIdsList | undefined;
+  environment?: string | null | undefined;
+  tags?: ListOrganizationReplaysResponseDataItemTags | undefined;
+  user?: GetOrganizationReplayResponseDataUser | undefined;
+  sdk?: GetOrganizationReplayResponseDataSdk | undefined;
+  os?: GetOrganizationReplayResponseDataSdk | undefined;
+  browser?: GetOrganizationReplayResponseDataSdk | undefined;
+  device?: GetOrganizationReplayResponseDataDevice | undefined;
+  ota_updates?: GetOrganizationReplayResponseDataOtaUpdates | undefined;
+  is_archived?: boolean | null | undefined;
+  urls?: ListOrganizationReplaysResponseDataItemUrlsList | null | undefined;
+  segment_names?: ListOrganizationReplaysResponseDataItemSegmentNamesList | null | undefined;
+  clicks?: ListOrganizationReplaysResponseDataItemClicksList | undefined;
+  count_dead_clicks?: number | null | undefined;
+  count_rage_clicks?: number | null | undefined;
+  count_errors?: number | null | undefined;
+  duration?: number | null | undefined;
+  finished_at?: string | null | undefined;
+  started_at?: string | null | undefined;
+  activity?: number | null | undefined;
+  count_urls?: number | null | undefined;
+  replay_type?: string | undefined;
+  count_segments?: number | null | undefined;
+  platform?: string | null | undefined;
+  releases?: ListOrganizationReplaysResponseDataItemReleasesList | undefined;
+  dist?: string | null | undefined;
+  count_warnings?: number | null | undefined;
+  count_infos?: number | null | undefined;
+  has_viewed?: boolean | undefined;
 }
 export type ListOrganizationReplaysResponseDataList =
   Array<ListOrganizationReplaysResponseDataItem>;
@@ -10422,29 +10551,29 @@ export interface ListOrganizationReplaySelectorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The environment to filter by. */
-  environment?: ListOrganizationReplaySelectorsRequestEnvironmentList;
+  environment?: ListOrganizationReplaySelectorsRequestEnvironmentList | undefined;
   /** This defines the range of the time series, relative to now. The range is given in a `<number><unit>` format. For example `1d` for a one day range. Possible units are `m` for minutes, `h` for hours, `d` for days and `w` for weeks.You must either provide a `statsPeriod`, or a `start` and `end`. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** This defines the start of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds.Use along with `end` instead of `statsPeriod`. */
-  start?: string;
+  start?: string | undefined;
   /** This defines the inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds.Use along with `start` instead of `statsPeriod`. */
-  end?: string;
+  end?: string | undefined;
   /** A list of project IDs or slugs to filter by. */
-  project?: ListOrganizationReplaySelectorsRequestProjectList;
+  project?: ListOrganizationReplaySelectorsRequestProjectList | undefined;
   /** A list of project slugs to filter your results by. */
-  projectSlug?: ListOrganizationReplaySelectorsRequestProjectSlugList;
+  projectSlug?: ListOrganizationReplaySelectorsRequestProjectSlugList | undefined;
   /** The field to sort the output by. */
-  sort?: string;
+  sort?: string | undefined;
   /** The field to sort the output by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** The field to sort the output by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
 }
 export type ListOrganizationReplaySelectorsResponseDataItemElementClassList = Array<string>;
 export interface ListOrganizationReplaySelectorsResponseDataItemElement {
@@ -10459,11 +10588,11 @@ export interface ListOrganizationReplaySelectorsResponseDataItemElement {
   title: string;
 }
 export interface ListOrganizationReplaySelectorsResponseDataItem {
-  count_dead_clicks?: number;
-  count_rage_clicks?: number;
-  dom_element?: string;
-  element?: ListOrganizationReplaySelectorsResponseDataItemElement;
-  project_id?: string;
+  count_dead_clicks?: number | undefined;
+  count_rage_clicks?: number | undefined;
+  dom_element?: string | undefined;
+  element?: ListOrganizationReplaySelectorsResponseDataItemElement | undefined;
+  project_id?: string | undefined;
 }
 export type ListOrganizationReplaySelectorsResponseDataList =
   Array<ListOrganizationReplaySelectorsResponseDataItem>;
@@ -10476,7 +10605,7 @@ export interface ListOrganizationRepoCommitsRequest {
   /** The repository ID. */
   repo_id: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationRepoCommitsResponseBodyItemPullRequestStatus =
   | "merged"
@@ -10494,13 +10623,18 @@ export interface ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositor
   codeReviewTriggers: ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListOrganizationRepoCommitsResponseBodyItemPullRequestRepository {
-  url?: string | null;
-  provider?: ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?:
+    | ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositoryProviderMap
+    | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?:
+    | ListOrganizationRepoCommitsResponseBodyItemPullRequestRepositorySettings
+    | null
+    | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -10525,10 +10659,14 @@ export type ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0Ema
 export type ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0 {
-  identities?: ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?:
+    | ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList
+    | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationRepoCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -10573,13 +10711,13 @@ export interface ListOrganizationRepoCommitsResponseBodyItemRepositorySettings {
   codeReviewTriggers: ListOrganizationRepoCommitsResponseBodyItemRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListOrganizationRepoCommitsResponseBodyItemRepository {
-  url?: string | null;
-  provider?: ListOrganizationRepoCommitsResponseBodyItemRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListOrganizationRepoCommitsResponseBodyItemRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?: ListOrganizationRepoCommitsResponseBodyItemRepositoryProviderMap | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?: ListOrganizationRepoCommitsResponseBodyItemRepositorySettings | null | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -10604,10 +10742,12 @@ export type ListOrganizationRepoCommitsResponseBodyItemAuthorCase0EmailsItem =
 export type ListOrganizationRepoCommitsResponseBodyItemAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListOrganizationRepoCommitsResponseBodyItemAuthorCase0 {
-  identities?: ListOrganizationRepoCommitsResponseBodyItemAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListOrganizationRepoCommitsResponseBodyItemAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListOrganizationRepoCommitsResponseBodyItemAuthorCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListOrganizationRepoCommitsResponseBodyItemAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -10638,8 +10778,8 @@ export interface ListOrganizationRepoCommitsResponseBodyItem {
   dateCreated: string;
   pullRequest: ListOrganizationRepoCommitsResponseBodyItemPullRequest | null;
   suspectCommitType: string;
-  repository?: ListOrganizationRepoCommitsResponseBodyItemRepository;
-  author?: ListOrganizationRepoCommitsResponseBodyItemAuthor;
+  repository?: ListOrganizationRepoCommitsResponseBodyItemRepository | undefined;
+  author?: ListOrganizationRepoCommitsResponseBodyItemAuthor | undefined;
 }
 export type ListOrganizationRepoCommitsResponseBodyList =
   Array<ListOrganizationRepoCommitsResponseBodyItem>;
@@ -10650,17 +10790,17 @@ export interface ListOrganizationReposRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Filter repositories by name. */
-  query?: string;
+  query?: string | undefined;
   /** Filter repositories by status. Defaults to `active`. */
-  status?: ListOrganizationReposRequestStatus | (string & {});
+  status?: ListOrganizationReposRequestStatus | (string & {}) | undefined;
   /** Filter repositories by integration ID. */
-  integration_id?: string;
+  integration_id?: string | undefined;
   /** Optional repository fields to expand, such as `settings`. */
-  expand?: ListOrganizationReposRequestExpandList;
+  expand?: ListOrganizationReposRequestExpandList | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of repositories to return per page (1-100). */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListOrganizationReposResponseBodyItemProviderMap = {
   [key: string]: string | undefined;
@@ -10671,13 +10811,13 @@ export interface ListOrganizationReposResponseBodyItemSettings {
   codeReviewTriggers: ListOrganizationReposResponseBodyItemSettingsCodeReviewTriggersList;
 }
 export interface ListOrganizationReposResponseBodyItem {
-  url?: string | null;
-  provider?: ListOrganizationReposResponseBodyItemProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListOrganizationReposResponseBodyItemSettings | null;
+  url?: string | null | undefined;
+  provider?: ListOrganizationReposResponseBodyItemProviderMap | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?: ListOrganizationReposResponseBodyItemSettings | null | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -10686,15 +10826,15 @@ export type ListOrganizationReposResponseBodyList = Array<ListOrganizationReposR
 export type ListOrganizationReposResponse = ListOrganizationReposResponseBodyList;
 export interface ListOrganizationsRequest {
   /** Specify `true` to restrict results to organizations in which you are an owner. */
-  owner?: boolean;
+  owner?: boolean | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Valid query fields include: - `id`: The organization ID - `slug`: The organization slug - `status`: The organization's current status (one of `active`, `pending_deletion`, or `deletion_in_progress`) - `email` or `member_id`: Filter your organizations by the emails or [organization member IDs](/api/organizations/list-an-organizations-members/) of specific members included - `query`: Filter your organizations by name, slug, and members that contain this substring Example: `query=(slug:foo AND status:active) OR (email:[thing-one@example.com,thing-two@example.com] AND query:bar)` */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort results by, in descending order. If not specified the results are sorted by the date they were created. Valid fields include: - `members`: By number of members - `events`: By number of events in the past 24 hours */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListOrganizationsResponseBodyItemFeaturesList = Array<string>;
 export type ListOrganizationsResponseBodyItemExtraOptionsValueMap = {
@@ -10714,10 +10854,10 @@ export type ListOrganizationsResponseBodyItemAvatar = AddOrganizationMemberRespo
 export type ListOrganizationsResponseBodyItemLinks =
   CreateOrganizationTeamResponseOrganizationLinks;
 export interface ListOrganizationsResponseBodyItem {
-  features?: ListOrganizationsResponseBodyItemFeaturesList;
-  extraOptions?: ListOrganizationsResponseBodyItemExtraOptionsMap;
-  access?: ListOrganizationsResponseBodyItemAccessList;
-  onboardingTasks?: ListOrganizationsResponseBodyItemOnboardingTasksList;
+  features?: ListOrganizationsResponseBodyItemFeaturesList | undefined;
+  extraOptions?: ListOrganizationsResponseBodyItemExtraOptionsMap | undefined;
+  access?: ListOrganizationsResponseBodyItemAccessList | undefined;
+  onboardingTasks?: ListOrganizationsResponseBodyItemOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -10739,13 +10879,13 @@ export interface ListOrganizationScimV2GroupsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** SCIM 1-offset based index for pagination. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** The maximum number of results the query should return, maximum of 100. */
-  count?: number;
+  count?: number | undefined;
   /** A SCIM filter expression. The only operator currently supported is `eq`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Fields that should be left off of return values. Right now the only supported field for this query is members. */
-  excludedAttributes?: ListOrganizationScimV2GroupsRequestExcludedAttributesList;
+  excludedAttributes?: ListOrganizationScimV2GroupsRequestExcludedAttributesList | undefined;
 }
 export type ListOrganizationScimV2GroupsResponseSchemasList = Array<string>;
 export type ListOrganizationScimV2GroupsResponseResourcesItemSchemasList = Array<string>;
@@ -10760,7 +10900,7 @@ export interface ListOrganizationScimV2GroupsResponseResourcesItem {
   id: string;
   displayName: string;
   meta: GetOrganizationScimV2GroupResponseMeta;
-  members?: ListOrganizationScimV2GroupsResponseResourcesItemMembersList;
+  members?: ListOrganizationScimV2GroupsResponseResourcesItemMembersList | undefined;
 }
 export type ListOrganizationScimV2GroupsResponseResourcesList =
   Array<ListOrganizationScimV2GroupsResponseResourcesItem>;
@@ -10802,13 +10942,13 @@ export interface ListOrganizationScimV2UsersRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** SCIM 1-offset based index for pagination. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** The maximum number of results the query should return, maximum of 100. */
-  count?: number;
+  count?: number | undefined;
   /** A SCIM filter expression. The only operator currently supported is `eq`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Fields that should be left off of return values. Right now the only supported field for this query is members. */
-  excludedAttributes?: ListOrganizationScimV2UsersRequestExcludedAttributesList;
+  excludedAttributes?: ListOrganizationScimV2UsersRequestExcludedAttributesList | undefined;
 }
 export type ListOrganizationScimV2UsersResponseSchemasList = Array<string>;
 export type ListOrganizationScimV2UsersResponseResourcesItemSchemasList = Array<string>;
@@ -10822,7 +10962,7 @@ export type ListOrganizationScimV2UsersResponseResourcesItemMeta =
   GetOrganizationScimV2GroupResponseMeta;
 /** Conforming to the SCIM RFC, this represents a Sentry Org Member as a SCIM user object. */
 export interface ListOrganizationScimV2UsersResponseResourcesItem {
-  active?: boolean;
+  active?: boolean | undefined;
   schemas: ListOrganizationScimV2UsersResponseResourcesItemSchemasList;
   id: string;
   userName: string;
@@ -10844,9 +10984,9 @@ export interface ListOrganizationSentryAppComponentsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter components by type, such as `issue-link`. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap = {
   [key: string]: unknown | undefined;
@@ -10855,8 +10995,8 @@ export type ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1Context
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1 {
-  detail?: string;
-  context?: ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap;
+  detail?: string | undefined;
+  context?: ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap | undefined;
 }
 export type ListOrganizationSentryAppComponentsResponseBodyItemError =
   | string
@@ -10912,16 +11052,16 @@ export interface ListOrganizationSentryAppsResponseBodyItem {
   uuid: string;
   verifyInstall: boolean;
   webhookHeaders: ListOrganizationSentryAppsResponseBodyItemWebhookHeadersList;
-  isDisabled?: boolean;
-  author?: string | null;
-  overview?: string | null;
-  popularity?: number | null;
-  redirectUrl?: string | null;
-  webhookUrl?: string | null;
-  clientSecret?: string | Redacted.Redacted<string> | null;
-  datePublished?: string;
-  clientId?: string;
-  owner?: GetSentryAppResponseOwner;
+  isDisabled?: boolean | undefined;
+  author?: string | null | undefined;
+  overview?: string | null | undefined;
+  popularity?: number | null | undefined;
+  redirectUrl?: string | null | undefined;
+  webhookUrl?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
+  datePublished?: string | undefined;
+  clientId?: string | undefined;
+  owner?: GetSentryAppResponseOwner | undefined;
 }
 export type ListOrganizationSentryAppsResponseBodyList =
   Array<ListOrganizationSentryAppsResponseBodyItem>;
@@ -10964,21 +11104,21 @@ export interface ListOrganizationStatsV2Request {
   /** the `sum(quantity)` field is bytes for attachments, and all others the 'event' count for those types of events. `sum(times_seen)` sums the number of times an event has been seen. For 'normal' event types, this will be equal to `sum(quantity)` for now. For sessions, quantity will sum the total number of events seen in a session, while `times_seen` will be the unique number of sessions. and for attachments, `times_seen` will be the total number of attachments, while quantity will be the total sum of attachment bytes. * `sum(quantity)` * `sum(times_seen)` */
   field: ListOrganizationStatsV2RequestField | (string & {});
   /** This defines the range of the time series, relative to now. The range is given in a `<number><unit>` format. For example `1d` for a one day range. Possible units are `m` for minutes, `h` for hours, `d` for days and `w` for weeks. You must either provide a `statsPeriod`, or a `start` and `end`. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** This is the resolution of the time series, given in the same format as `statsPeriod`. The default resolution is `1h` and the minimum resolution is currently restricted to `1h` as well. Intervals larger than `1d` are not supported, and the interval has to cleanly divide one day. */
-  interval?: string;
+  interval?: string | undefined;
   /** This defines the start of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `end` instead of `statsPeriod`. */
-  start?: string;
+  start?: string | undefined;
   /** This defines the inclusive end of the time series range as an explicit datetime, either in UTC ISO8601 or epoch seconds. Use along with `start` instead of `statsPeriod`. */
-  end?: string;
+  end?: string | undefined;
   /** The ID of the projects to filter by. Use `-1` to include all accessible projects. */
-  project?: ListOrganizationStatsV2RequestProjectList;
+  project?: ListOrganizationStatsV2RequestProjectList | undefined;
   /** Filter by data category. Each category represents a different type of data: - `error`: Error events (includes `default` and `security` categories) - `transaction`: Transaction events - `attachment`: File attachments (note: cannot be combined with other categories since quantity represents bytes) - `replay`: Session replay events - `profile`: Performance profiles - `profile_duration`: Profile duration data (note: cannot be combined with other categories since quantity represents milliseconds) - `profile_duration_ui`: Profile duration (UI) data (note: cannot be combined with other categories since quantity represents milliseconds) - `profile_chunk`: Profile chunk data - `profile_chunk_ui`: Profile chunk (UI) data - `monitor`: Cron monitor events * `error` * `transaction` * `attachment` * `replay` * `profile` * `profile_duration` * `profile_duration_ui` * `profile_chunk` * `profile_chunk_ui` * `monitor` */
-  category?: ListOrganizationStatsV2RequestCategory | (string & {});
+  category?: ListOrganizationStatsV2RequestCategory | (string & {}) | undefined;
   /** See https://docs.sentry.io/product/stats/ for more information on outcome statuses. * `accepted` * `filtered` * `rate_limited` * `invalid` * `abuse` * `client_discard` * `cardinality_limited` */
-  outcome?: ListOrganizationStatsV2RequestOutcome | (string & {});
+  outcome?: ListOrganizationStatsV2RequestOutcome | (string & {}) | undefined;
   /** The reason field will contain why an event was filtered/dropped. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ListOrganizationStatsV2ResponseIntervalsList = Array<string>;
 export type ListOrganizationStatsV2ResponseGroupsItemByMap = { [key: string]: unknown | undefined };
@@ -11015,30 +11155,30 @@ export interface ListOrganizationTagsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationTagsRequestProjectList;
+  project?: ListOrganizationTagsRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationTagsRequestEnvironmentList;
+  environment?: ListOrganizationTagsRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The dataset to query. Defaults to `discover`. */
-  dataset?: ListOrganizationTagsRequestDataset | (string & {});
+  dataset?: ListOrganizationTagsRequestDataset | (string & {}) | undefined;
   /** Set to `"1"` to enable caching for the tag key query. */
-  use_cache?: ListOrganizationTagsRequestUseCache | (string & {});
+  use_cache?: ListOrganizationTagsRequestUseCache | (string & {}) | undefined;
   /** Set to `"1"` to query feature flags instead of tags. */
-  useFlagsBackend?: ListOrganizationTagsRequestUseFlagsBackend | (string & {});
+  useFlagsBackend?: ListOrganizationTagsRequestUseFlagsBackend | (string & {}) | undefined;
 }
 export type ListOrganizationTagsResponseBodyItemTopValuesItem =
   GetOrganizationIssueTagResponseTopValuesItem;
 export type ListOrganizationTagsResponseBodyItemTopValuesList =
   Array<GetOrganizationIssueTagResponseTopValuesItem>;
 export interface ListOrganizationTagsResponseBodyItem {
-  uniqueValues?: number | null;
-  totalValues?: number | null;
-  topValues?: ListOrganizationTagsResponseBodyItemTopValuesList | null;
+  uniqueValues?: number | null | undefined;
+  totalValues?: number | null | undefined;
+  topValues?: ListOrganizationTagsResponseBodyItemTopValuesList | null | undefined;
   key: string;
   name: string;
 }
@@ -11048,13 +11188,13 @@ export interface ListOrganizationTeamsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** Specify `"0"` to return team details that do not include projects. */
-  detailed?: string;
+  detailed?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter teams by name or slug. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ListOrganizationTeamsResponseBodyItemFlagsMap = { [key: string]: unknown | undefined };
 export type ListOrganizationTeamsResponseBodyItemAccessList = Array<string>;
@@ -11082,10 +11222,12 @@ export type ListOrganizationTeamsResponseBodyItemOrganizationAvatar =
 export type ListOrganizationTeamsResponseBodyItemOrganizationLinks =
   CreateOrganizationTeamResponseOrganizationLinks;
 export interface ListOrganizationTeamsResponseBodyItemOrganization {
-  features?: ListOrganizationTeamsResponseBodyItemOrganizationFeaturesList;
-  extraOptions?: ListOrganizationTeamsResponseBodyItemOrganizationExtraOptionsMap;
-  access?: ListOrganizationTeamsResponseBodyItemOrganizationAccessList;
-  onboardingTasks?: ListOrganizationTeamsResponseBodyItemOrganizationOnboardingTasksList;
+  features?: ListOrganizationTeamsResponseBodyItemOrganizationFeaturesList | undefined;
+  extraOptions?: ListOrganizationTeamsResponseBodyItemOrganizationExtraOptionsMap | undefined;
+  access?: ListOrganizationTeamsResponseBodyItemOrganizationAccessList | undefined;
+  onboardingTasks?:
+    | ListOrganizationTeamsResponseBodyItemOrganizationOnboardingTasksList
+    | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -11105,9 +11247,9 @@ export type ListOrganizationTeamsResponseBodyItemProjectsItemAccessList = Array<
 export type ListOrganizationTeamsResponseBodyItemProjectsItemAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface ListOrganizationTeamsResponseBodyItemProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -11161,9 +11303,9 @@ export interface ListOrganizationTeamsResponseBodyItem {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: ListOrganizationTeamsResponseBodyItemExternalTeamsList;
-  organization?: ListOrganizationTeamsResponseBodyItemOrganization;
-  projects?: ListOrganizationTeamsResponseBodyItemProjectsList;
+  externalTeams?: ListOrganizationTeamsResponseBodyItemExternalTeamsList | undefined;
+  organization?: ListOrganizationTeamsResponseBodyItemOrganization | undefined;
+  projects?: ListOrganizationTeamsResponseBodyItemProjectsList | undefined;
 }
 export type ListOrganizationTeamsResponseBodyList = Array<ListOrganizationTeamsResponseBodyItem>;
 export type ListOrganizationTeamsResponse = ListOrganizationTeamsResponseBodyList;
@@ -11195,27 +11337,27 @@ export interface ListOrganizationTraceItemAttributesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationTraceItemAttributesRequestEnvironmentList;
+  environment?: ListOrganizationTraceItemAttributesRequestEnvironmentList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationTraceItemAttributesRequestProjectList;
+  project?: ListOrganizationTraceItemAttributesRequestProjectList | undefined;
   /** The trace item dataset to list attributes for. One of `itemType` or `dataset` is required. */
-  dataset?: ListOrganizationTraceItemAttributesRequestDataset | (string & {});
+  dataset?: ListOrganizationTraceItemAttributesRequestDataset | (string & {}) | undefined;
   /** Deprecated alias of `dataset`. Use `dataset` instead. */
-  itemType?: ListOrganizationTraceItemAttributesRequestItemType | (string & {});
+  itemType?: ListOrganizationTraceItemAttributesRequestItemType | (string & {}) | undefined;
   /** Filter to attributes of one or more types. Defaults to all types. */
-  attributeType?: ListOrganizationTraceItemAttributesRequestAttributeTypeList;
+  attributeType?: ListOrganizationTraceItemAttributesRequestAttributeTypeList | undefined;
   /** Restrict results to attribute names containing this substring (case-sensitive). */
-  substringMatch?: string;
+  substringMatch?: string | undefined;
   /** Sentry [search syntax](https://docs.sentry.io/concepts/search/) to filter trace items before computing attributes. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationTraceItemAttributesResponseBodyItemSecondaryAliasesList = Array<string>;
 export type ListOrganizationTraceItemAttributesResponseBodyItemAttributeSourceSourceType =
@@ -11223,7 +11365,7 @@ export type ListOrganizationTraceItemAttributesResponseBodyItemAttributeSourceSo
   | "user";
 export interface ListOrganizationTraceItemAttributesResponseBodyItemAttributeSource {
   source_type: ListOrganizationTraceItemAttributesResponseBodyItemAttributeSourceSourceType;
-  is_transformed_alias?: boolean;
+  is_transformed_alias?: boolean | undefined;
 }
 export type ListOrganizationTraceItemAttributesResponseBodyItemAttributeType =
   | "string"
@@ -11233,7 +11375,9 @@ export type ListOrganizationTraceItemAttributesResponseBodyItemAttributeType =
 export interface ListOrganizationTraceItemAttributesResponseBodyItem {
   key: string;
   name: string;
-  secondaryAliases?: ListOrganizationTraceItemAttributesResponseBodyItemSecondaryAliasesList;
+  secondaryAliases?:
+    | ListOrganizationTraceItemAttributesResponseBodyItemSecondaryAliasesList
+    | undefined;
   attributeSource: ListOrganizationTraceItemAttributesResponseBodyItemAttributeSource;
   attributeType: ListOrganizationTraceItemAttributesResponseBodyItemAttributeType;
 }
@@ -11264,29 +11408,29 @@ export interface ListOrganizationTraceMetricsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationTraceMetricsRequestProjectList;
+  project?: ListOrganizationTraceMetricsRequestProjectList | undefined;
   /** The name of environments to filter by. */
-  environment?: ListOrganizationTraceMetricsRequestEnvironmentList;
+  environment?: ListOrganizationTraceMetricsRequestEnvironmentList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** Search query to filter metrics, using the same syntax as the metrics dataset. */
-  query?: string;
+  query?: string | undefined;
   /** Response field to sort by, prefixed with `-` for descending. Defaults to metric name ascending. */
-  sort?: ListOrganizationTraceMetricsRequestSort | (string & {});
+  sort?: ListOrganizationTraceMetricsRequestSort | (string & {}) | undefined;
   /** Optional fields to expand. Pass `context` to include each metric's authored context (brief and details), which describes what the metric measures. Requires the `data-browsing-attribute-context` feature; without it the `context` field is omitted. */
-  expand?: ListOrganizationTraceMetricsRequestExpandList;
+  expand?: ListOrganizationTraceMetricsRequestExpandList | undefined;
   /** Return only metrics that have authored context, and include that context in the response. Use this to discover the metrics that are described well enough to query confidently. Requires the `data-browsing-attribute-context` feature; without it this is a no-op. */
-  contextOnly?: boolean;
+  contextOnly?: boolean | undefined;
 }
 export type ListOrganizationTraceMetricsResponseBodyItemType = "counter" | "gauge" | "distribution";
 export type ListOrganizationTraceMetricsResponseBodyItemContextDetailsList = Array<string>;
 export interface ListOrganizationTraceMetricsResponseBodyItemContext {
-  brief?: string;
-  details?: ListOrganizationTraceMetricsResponseBodyItemContextDetailsList;
+  brief?: string | undefined;
+  details?: ListOrganizationTraceMetricsResponseBodyItemContextDetailsList | undefined;
 }
 export interface ListOrganizationTraceMetricsResponseBodyItem {
   name: string;
@@ -11294,7 +11438,7 @@ export interface ListOrganizationTraceMetricsResponseBodyItem {
   unit: string | null;
   count: number;
   lastSeen: number | null;
-  context?: ListOrganizationTraceMetricsResponseBodyItemContext;
+  context?: ListOrganizationTraceMetricsResponseBodyItemContext | undefined;
 }
 export type ListOrganizationTraceMetricsResponseBodyList =
   Array<ListOrganizationTraceMetricsResponseBodyItem>;
@@ -11334,10 +11478,12 @@ export type ListOrganizationUserTeamsResponseBodyItemOrganizationAvatar =
 export type ListOrganizationUserTeamsResponseBodyItemOrganizationLinks =
   CreateOrganizationTeamResponseOrganizationLinks;
 export interface ListOrganizationUserTeamsResponseBodyItemOrganization {
-  features?: ListOrganizationUserTeamsResponseBodyItemOrganizationFeaturesList;
-  extraOptions?: ListOrganizationUserTeamsResponseBodyItemOrganizationExtraOptionsMap;
-  access?: ListOrganizationUserTeamsResponseBodyItemOrganizationAccessList;
-  onboardingTasks?: ListOrganizationUserTeamsResponseBodyItemOrganizationOnboardingTasksList;
+  features?: ListOrganizationUserTeamsResponseBodyItemOrganizationFeaturesList | undefined;
+  extraOptions?: ListOrganizationUserTeamsResponseBodyItemOrganizationExtraOptionsMap | undefined;
+  access?: ListOrganizationUserTeamsResponseBodyItemOrganizationAccessList | undefined;
+  onboardingTasks?:
+    | ListOrganizationUserTeamsResponseBodyItemOrganizationOnboardingTasksList
+    | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -11357,9 +11503,9 @@ export type ListOrganizationUserTeamsResponseBodyItemProjectsItemAccessList = Ar
 export type ListOrganizationUserTeamsResponseBodyItemProjectsItemAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface ListOrganizationUserTeamsResponseBodyItemProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -11413,9 +11559,9 @@ export interface ListOrganizationUserTeamsResponseBodyItem {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: ListOrganizationUserTeamsResponseBodyItemExternalTeamsList;
-  organization?: ListOrganizationUserTeamsResponseBodyItemOrganization;
-  projects?: ListOrganizationUserTeamsResponseBodyItemProjectsList;
+  externalTeams?: ListOrganizationUserTeamsResponseBodyItemExternalTeamsList | undefined;
+  organization?: ListOrganizationUserTeamsResponseBodyItemOrganization | undefined;
+  projects?: ListOrganizationUserTeamsResponseBodyItemProjectsList | undefined;
 }
 export type ListOrganizationUserTeamsResponseBodyList =
   Array<ListOrganizationUserTeamsResponseBodyItem>;
@@ -11429,19 +11575,19 @@ export interface ListOrganizationWorkflowsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The field to sort results by. If not specified, the results are sorted by id. Available fields are: - `name` - `id` - `dateCreated` - `dateUpdated` - `connectedDetectors` - `actions` - `priorityDetector` Prefix with `-` to sort in descending order. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** An optional search query for filtering alerts. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the alert you'd like to query. */
-  id?: ListOrganizationWorkflowsRequestIdList;
+  id?: ListOrganizationWorkflowsRequestIdList | undefined;
   /** The IDs of monitors connected to the alerts you'd like to query. */
-  detector?: ListOrganizationWorkflowsRequestDetectorList;
+  detector?: ListOrganizationWorkflowsRequestDetectorList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: ListOrganizationWorkflowsRequestProjectList;
+  project?: ListOrganizationWorkflowsRequestProjectList | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListOrganizationWorkflowsResponseBodyItemTriggersConditionsCase0ItemComparison =
   | boolean
@@ -11465,12 +11611,12 @@ export type ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemCon
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemDataMap;
-  config?: ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemDataMap | undefined;
+  config?: ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0List =
   Array<ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0Item>;
@@ -11479,11 +11625,11 @@ export type ListOrganizationWorkflowsResponseBodyItemTriggersActions =
   | ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase0List
   | ListOrganizationWorkflowsResponseBodyItemTriggersActionsCase1List;
 export interface ListOrganizationWorkflowsResponseBodyItemTriggers {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: ListOrganizationWorkflowsResponseBodyItemTriggersConditions;
-  actions?: ListOrganizationWorkflowsResponseBodyItemTriggersActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: ListOrganizationWorkflowsResponseBodyItemTriggersConditions | undefined;
+  actions?: ListOrganizationWorkflowsResponseBodyItemTriggersActions | undefined;
 }
 export type ListOrganizationWorkflowsResponseBodyItemActionFiltersItemConditionsCase0ItemComparison =
   | boolean
@@ -11508,12 +11654,16 @@ export type ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCas
   [key: string]: unknown | undefined;
 };
 export interface ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemDataMap;
-  config?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?:
+    | ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemDataMap
+    | undefined;
+  config?:
+    | ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemConfigMap
+    | undefined;
+  status?: string | undefined;
 }
 export type ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0List =
   Array<ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0Item>;
@@ -11523,11 +11673,11 @@ export type ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActions =
   | ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0List
   | ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase1List;
 export interface ListOrganizationWorkflowsResponseBodyItemActionFiltersItem {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemConditions;
-  actions?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemConditions | undefined;
+  actions?: ListOrganizationWorkflowsResponseBodyItemActionFiltersItemActions | undefined;
 }
 export type ListOrganizationWorkflowsResponseBodyItemActionFiltersList =
   Array<ListOrganizationWorkflowsResponseBodyItemActionFiltersItem>;
@@ -11564,7 +11714,7 @@ export interface ListProjectCodeOwnersRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** Optional fields to expand. */
-  expand?: ListProjectCodeOwnersRequestExpandList;
+  expand?: ListProjectCodeOwnersRequestExpandList | undefined;
 }
 export type ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList = Array<string>;
 export type ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap = {
@@ -11626,11 +11776,11 @@ export type ListProjectCodeOwnersResponseBodyItemSchema =
   | ListProjectCodeOwnersResponseBodyItemSchemaCase0
   | unknown;
 export interface ListProjectCodeOwnersResponseBodyItem {
-  codeMapping?: ListProjectCodeOwnersResponseBodyItemCodeMapping;
-  ownershipSyntax?: string;
-  errors?: ListProjectCodeOwnersResponseBodyItemErrors;
-  schema?: ListProjectCodeOwnersResponseBodyItemSchema;
-  codeOwnersUrl?: string;
+  codeMapping?: ListProjectCodeOwnersResponseBodyItemCodeMapping | undefined;
+  ownershipSyntax?: string | undefined;
+  errors?: ListProjectCodeOwnersResponseBodyItemErrors | undefined;
+  schema?: ListProjectCodeOwnersResponseBodyItemSchema | undefined;
+  codeOwnersUrl?: string | undefined;
   id: string;
   raw: string;
   dateCreated: string;
@@ -11648,15 +11798,15 @@ export interface ListProjectDebugFilesRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** Substring filter matched against object name, debug ID, code ID, CPU name, and file headers. */
-  query?: string;
+  query?: string | undefined;
   /** Filter results to debug information files matching the given debug ID. */
-  debug_id?: string;
+  debug_id?: string | undefined;
   /** Filter results to debug information files matching the given code ID. */
-  code_id?: string;
+  code_id?: string | undefined;
   /** Restrict results to one or more file formats. */
-  file_formats?: ListProjectDebugFilesRequestFileFormatsList;
+  file_formats?: ListProjectDebugFilesRequestFileFormatsList | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectDebugFilesResponseBodyItemHeadersMap = { [key: string]: string | undefined };
 export type ListProjectDebugFilesResponseBodyItemDataMap = { [key: string]: unknown | undefined };
@@ -11683,7 +11833,7 @@ export interface ListProjectEnvironmentsRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The visibility of the environments to filter by. Defaults to `visible`. */
-  visibility?: ListProjectEnvironmentsRequestVisibility | (string & {});
+  visibility?: ListProjectEnvironmentsRequestVisibility | (string & {}) | undefined;
 }
 export type ListProjectEnvironmentsResponseBodyItem = BulkUpdateProjectEnvironmentsResponseBodyItem;
 export type ListProjectEnvironmentsResponseBodyList =
@@ -11697,9 +11847,9 @@ export interface ListProjectEventAttachmentsRequest {
   /** The ID of the event. It is a 32-character hexadecimal string as reported by the client. */
   event_id: string;
   /** Filter the attachments by name (substring match) or by attachment kind. Use `is:screenshot` to restrict the results to screenshot attachments. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectEventAttachmentsResponseBodyItemHeadersMap = {
   [key: string]: string | null | undefined;
@@ -11724,28 +11874,28 @@ export interface ListProjectEventsRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
-  full?: boolean;
+  full?: boolean | undefined;
   /** Return events in pseudo-random order. This is deterministic so an identical query will always return the same events in the same order. */
-  sample?: boolean;
+  sample?: boolean | undefined;
 }
 export type ListProjectEventsResponseBodyItemUserGeoMap = { [key: string]: string | undefined };
 export type ListProjectEventsResponseBodyItemUserDataMap = { [key: string]: unknown | undefined };
 export interface ListProjectEventsResponseBodyItemUser {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: ListProjectEventsResponseBodyItemUserGeoMap | null;
-  data?: ListProjectEventsResponseBodyItemUserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: ListProjectEventsResponseBodyItemUserGeoMap | null | undefined;
+  data?: ListProjectEventsResponseBodyItemUserDataMap | null | undefined;
 }
 export type ListProjectEventsResponseBodyItemTagsItem = GetOrganizationIssueEventResponseTagsItem;
 export type ListProjectEventsResponseBodyItemTagsList =
@@ -11792,9 +11942,9 @@ export interface ListProjectKeysRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter client keys by `active` or `inactive`. Defaults to returning all keys if not specified. */
-  status?: string;
+  status?: string | undefined;
 }
 export type ListProjectKeysResponseBodyItemRateLimit = CreateProjectKeyResponseRateLimit;
 export type ListProjectKeysResponseBodyItemDsn = CreateProjectKeyResponseDsn;
@@ -11821,7 +11971,7 @@ export interface ListProjectKeysResponseBodyItem {
   browserSdk: ListProjectKeysResponseBodyItemBrowserSdk;
   dateCreated: string | null;
   dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions;
-  useCase?: string;
+  useCase?: string | undefined;
 }
 export type ListProjectKeysResponseBodyList = Array<ListProjectKeysResponseBodyItem>;
 export type ListProjectKeysResponse = ListProjectKeysResponseBodyList;
@@ -11853,10 +12003,10 @@ export type ListProjectMembersResponseBodyItemUserEmailsItem =
 export type ListProjectMembersResponseBodyItemUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListProjectMembersResponseBodyItemUser {
-  identities?: ListProjectMembersResponseBodyItemUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListProjectMembersResponseBodyItemUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListProjectMembersResponseBodyItemUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: ListProjectMembersResponseBodyItemUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -11877,7 +12027,7 @@ export interface ListProjectMembersResponseBodyItemUser {
 }
 export type ListProjectMembersResponseBodyItemFlags = AddOrganizationMemberResponseFlags;
 export interface ListProjectMembersResponseBodyItem {
-  externalUsers?: ListProjectMembersResponseBodyItemExternalUsersList;
+  externalUsers?: ListProjectMembersResponseBodyItemExternalUsersList | undefined;
   id: string;
   email: string;
   name: string;
@@ -11920,7 +12070,7 @@ export interface ListProjectMonitorCheckinsResponseBodyItemMonitorConfig {
   alert_rule_id: number | null;
 }
 export interface ListProjectMonitorCheckinsResponseBodyItem {
-  groups?: ListProjectMonitorCheckinsResponseBodyItemGroupsList;
+  groups?: ListProjectMonitorCheckinsResponseBodyItemGroupsList | undefined;
   id: string;
   environment: string;
   status: string;
@@ -11944,7 +12094,7 @@ export interface ListProjectReleaseCommitsRequest {
   /** The version identifier of the release */
   version: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectReleaseCommitsResponseBodyItemPullRequestStatus =
   | "merged"
@@ -11962,13 +12112,16 @@ export interface ListProjectReleaseCommitsResponseBodyItemPullRequestRepositoryS
   codeReviewTriggers: ListProjectReleaseCommitsResponseBodyItemPullRequestRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListProjectReleaseCommitsResponseBodyItemPullRequestRepository {
-  url?: string | null;
-  provider?: ListProjectReleaseCommitsResponseBodyItemPullRequestRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListProjectReleaseCommitsResponseBodyItemPullRequestRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?: ListProjectReleaseCommitsResponseBodyItemPullRequestRepositoryProviderMap | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?:
+    | ListProjectReleaseCommitsResponseBodyItemPullRequestRepositorySettings
+    | null
+    | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -11993,10 +12146,14 @@ export type ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0Email
 export type ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0 {
-  identities?: ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?:
+    | ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0IdentitiesList
+    | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListProjectReleaseCommitsResponseBodyItemPullRequestAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -12041,13 +12198,13 @@ export interface ListProjectReleaseCommitsResponseBodyItemRepositorySettings {
   codeReviewTriggers: ListProjectReleaseCommitsResponseBodyItemRepositorySettingsCodeReviewTriggersList;
 }
 export interface ListProjectReleaseCommitsResponseBodyItemRepository {
-  url?: string | null;
-  provider?: ListProjectReleaseCommitsResponseBodyItemRepositoryProviderMap;
-  status?: string;
-  integrationId?: string | null;
-  externalSlug?: string | null;
-  externalId?: string | null;
-  settings?: ListProjectReleaseCommitsResponseBodyItemRepositorySettings | null;
+  url?: string | null | undefined;
+  provider?: ListProjectReleaseCommitsResponseBodyItemRepositoryProviderMap | undefined;
+  status?: string | undefined;
+  integrationId?: string | null | undefined;
+  externalSlug?: string | null | undefined;
+  externalId?: string | null | undefined;
+  settings?: ListProjectReleaseCommitsResponseBodyItemRepositorySettings | null | undefined;
   id: string;
   name: string;
   dateCreated: string;
@@ -12071,10 +12228,12 @@ export type ListProjectReleaseCommitsResponseBodyItemAuthorCase0EmailsItem =
 export type ListProjectReleaseCommitsResponseBodyItemAuthorCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListProjectReleaseCommitsResponseBodyItemAuthorCase0 {
-  identities?: ListProjectReleaseCommitsResponseBodyItemAuthorCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListProjectReleaseCommitsResponseBodyItemAuthorCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListProjectReleaseCommitsResponseBodyItemAuthorCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListProjectReleaseCommitsResponseBodyItemAuthorCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -12109,8 +12268,8 @@ export interface ListProjectReleaseCommitsResponseBodyItem {
   dateCreated: string;
   pullRequest: ListProjectReleaseCommitsResponseBodyItemPullRequest | null;
   suspectCommitType: string;
-  repository?: ListProjectReleaseCommitsResponseBodyItemRepository;
-  author?: ListProjectReleaseCommitsResponseBodyItemAuthor;
+  repository?: ListProjectReleaseCommitsResponseBodyItemRepository | undefined;
+  author?: ListProjectReleaseCommitsResponseBodyItemAuthor | undefined;
   releases: ListProjectReleaseCommitsResponseBodyItemReleasesList;
 }
 export type ListProjectReleaseCommitsResponseBodyList =
@@ -12126,11 +12285,11 @@ export interface ListProjectReleaseFilesRequest {
   /** The version identifier of the release */
   version: string;
   /** If set, only files with these partial names will be returned. */
-  query?: ListProjectReleaseFilesRequestQueryList;
+  query?: ListProjectReleaseFilesRequestQueryList | undefined;
   /** If set, only files with these exact checksums will be returned. */
-  checksum?: ListProjectReleaseFilesRequestChecksumList;
+  checksum?: ListProjectReleaseFilesRequestChecksumList | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectReleaseFilesResponseBodyItemHeadersMap = {
   [key: string]: unknown | undefined;
@@ -12154,13 +12313,13 @@ export interface ListProjectReleasesRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: ListProjectReleasesRequestEnvironmentList;
+  environment?: ListProjectReleasesRequestEnvironmentList | undefined;
   /** Case-insensitive substring match against the release version. */
-  query?: string;
+  query?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectReleasesResponseBodyItemOwnerMap = { [key: string]: unknown | undefined };
 export type ListProjectReleasesResponseBodyItemLastCommitMap = {
@@ -12178,7 +12337,7 @@ export type ListProjectReleasesResponseBodyItemVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListProjectReleasesResponseBodyItemVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: ListProjectReleasesResponseBodyItemVersionInfoVersionMap;
   buildHash: string | null;
@@ -12203,10 +12362,12 @@ export type ListProjectReleasesResponseBodyItemAuthorsItemCase0EmailsItem =
 export type ListProjectReleasesResponseBodyItemAuthorsItemCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListProjectReleasesResponseBodyItemAuthorsItemCase0 {
-  identities?: ListProjectReleasesResponseBodyItemAuthorsItemCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListProjectReleasesResponseBodyItemAuthorsItemCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListProjectReleasesResponseBodyItemAuthorsItemCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ListProjectReleasesResponseBodyItemAuthorsItemCase0AuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -12236,18 +12397,18 @@ export type ListProjectReleasesResponseBodyItemProjectsItemHealthDataStatsMap = 
   [key: string]: unknown | undefined;
 };
 export interface ListProjectReleasesResponseBodyItemProjectsItemHealthData {
-  durationP50?: number | null;
-  durationP90?: number | null;
-  crashFreeUsers?: number | null;
-  crashFreeSessions?: number | null;
-  totalUsers?: number | null;
-  totalUsers24h?: number | null;
-  totalProjectUsers24h?: number | null;
-  totalSessions?: number | null;
-  totalSessions24h?: number | null;
-  totalProjectSessions24h?: number | null;
-  adoption?: number | null;
-  sessionsAdoption?: number | null;
+  durationP50?: number | null | undefined;
+  durationP90?: number | null | undefined;
+  crashFreeUsers?: number | null | undefined;
+  crashFreeSessions?: number | null | undefined;
+  totalUsers?: number | null | undefined;
+  totalUsers24h?: number | null | undefined;
+  totalProjectUsers24h?: number | null | undefined;
+  totalSessions?: number | null | undefined;
+  totalSessions24h?: number | null | undefined;
+  totalProjectSessions24h?: number | null | undefined;
+  adoption?: number | null | undefined;
+  sessionsAdoption?: number | null | undefined;
   sessionsCrashed: number;
   sessionsErrored: number;
   hasHealthData: boolean;
@@ -12255,10 +12416,10 @@ export interface ListProjectReleasesResponseBodyItemProjectsItemHealthData {
 }
 export type ListProjectReleasesResponseBodyItemProjectsItemPlatformsList = Array<string>;
 export interface ListProjectReleasesResponseBodyItemProjectsItem {
-  healthData?: ListProjectReleasesResponseBodyItemProjectsItemHealthData | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
+  healthData?: ListProjectReleasesResponseBodyItemProjectsItemHealthData | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
   id: number;
   slug: string;
   name: string;
@@ -12270,19 +12431,19 @@ export interface ListProjectReleasesResponseBodyItemProjectsItem {
 export type ListProjectReleasesResponseBodyItemProjectsList =
   Array<ListProjectReleasesResponseBodyItemProjectsItem>;
 export interface ListProjectReleasesResponseBodyItem {
-  ref?: string | null;
-  url?: string | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
-  owner?: ListProjectReleasesResponseBodyItemOwnerMap | null;
-  lastCommit?: ListProjectReleasesResponseBodyItemLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  firstEvent?: string | null;
-  lastEvent?: string | null;
-  currentProjectMeta?: ListProjectReleasesResponseBodyItemCurrentProjectMetaMap | null;
-  userAgent?: string | null;
-  adoptionStages?: ListProjectReleasesResponseBodyItemAdoptionStagesMap | null;
+  ref?: string | null | undefined;
+  url?: string | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
+  owner?: ListProjectReleasesResponseBodyItemOwnerMap | null | undefined;
+  lastCommit?: ListProjectReleasesResponseBodyItemLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  firstEvent?: string | null | undefined;
+  lastEvent?: string | null | undefined;
+  currentProjectMeta?: ListProjectReleasesResponseBodyItemCurrentProjectMetaMap | null | undefined;
+  userAgent?: string | null | undefined;
+  adoptionStages?: ListProjectReleasesResponseBodyItemAdoptionStagesMap | null | undefined;
   id: number;
   version: string;
   newGroups: number;
@@ -12306,13 +12467,13 @@ export interface ListProjectReplayClicksRequest {
   /** The ID of the replay you'd like to retrieve. It is a 32-character hexadecimal string. */
   replay_id: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The name of environments to filter by. */
-  environment?: ListProjectReplayClicksRequestEnvironmentList;
+  environment?: ListProjectReplayClicksRequestEnvironmentList | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
+  query?: string | undefined;
 }
 export interface ListProjectReplayClicksResponseDataItem {
   node_id: number;
@@ -12354,9 +12515,9 @@ export interface ListProjectReplayRecordingSegmentsRequest {
   /** The ID of the replay you'd like to retrieve. It is a 32-character hexadecimal string. */
   replay_id: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListProjectReplayRecordingSegmentsResponseBodyItemItemMap = {
   [key: string]: unknown | undefined;
@@ -12392,7 +12553,7 @@ export interface ListProjectRepositoriesRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** When set to `1`, each row includes a `mappingCount` field with the number of code path mappings for that repository. Omitted by default to keep the response lightweight. */
-  includeMappingCount?: string;
+  includeMappingCount?: string | undefined;
 }
 export interface ListProjectRepositoriesResponseBodyItem {
   id: string;
@@ -12403,7 +12564,7 @@ export interface ListProjectRepositoriesResponseBodyItem {
   repoName: string;
   source: string;
   providerKey: string | null;
-  mappingCount?: number;
+  mappingCount?: number | undefined;
 }
 export type ListProjectRepositoriesResponseBodyList =
   Array<ListProjectRepositoriesResponseBodyItem>;
@@ -12416,13 +12577,13 @@ export interface ListProjectStatsRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The name of the stat to query. Defaults to `received`. */
-  stat?: ListProjectStatsRequestStat | (string & {});
+  stat?: ListProjectStatsRequestStat | (string & {}) | undefined;
   /** A UNIX timestamp (in seconds) that sets the start of the query range. */
-  since?: number;
+  since?: number | undefined;
   /** A UNIX timestamp (in seconds) that sets the end of the query range. */
-  until?: number;
+  until?: number | undefined;
   /** An explicit time series resolution. */
-  resolution?: ListProjectStatsRequestResolution | (string & {});
+  resolution?: ListProjectStatsRequestResolution | (string & {}) | undefined;
 }
 export type ListProjectStatsResponseBodyItemList = Array<number>;
 export type ListProjectStatsResponseBodyList = Array<ListProjectStatsResponseBodyItemList>;
@@ -12433,7 +12594,7 @@ export interface ListProjectSymbolSourcesRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** The ID of the source to look up. If this is not provided, all sources are returned. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase0Type = "http";
 export type ListProjectSymbolSourcesResponseBodyItemCase0Password =
@@ -12452,7 +12613,7 @@ export type ListProjectSymbolSourcesResponseBodyItemCase0LayoutCasing =
   | "default";
 export interface ListProjectSymbolSourcesResponseBodyItemCase0Layout {
   type: ListProjectSymbolSourcesResponseBodyItemCase0LayoutType;
-  casing?: ListProjectSymbolSourcesResponseBodyItemCase0LayoutCasing;
+  casing?: ListProjectSymbolSourcesResponseBodyItemCase0LayoutCasing | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase0FiltersFiletypesItem =
   | "pe"
@@ -12475,23 +12636,23 @@ export type ListProjectSymbolSourcesResponseBodyItemCase0FiltersFiletypesList =
   Array<ListProjectSymbolSourcesResponseBodyItemCase0FiltersFiletypesItem>;
 export type ListProjectSymbolSourcesResponseBodyItemCase0FiltersPathPatternsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase0Filters {
-  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase0FiltersFiletypesList;
-  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase0FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase0FiltersFiletypesList | undefined;
+  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase0FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase0PlatformsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase0 {
   type: ListProjectSymbolSourcesResponseBodyItemCase0Type;
   url: string;
-  username?: string;
-  password?: AddProjectSymbolSourceResponseBodyCase0Password;
+  username?: string | undefined;
+  password?: AddProjectSymbolSourceResponseBodyCase0Password | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: ListProjectSymbolSourcesResponseBodyItemCase0Layout;
-  filters?: ListProjectSymbolSourcesResponseBodyItemCase0Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: ListProjectSymbolSourcesResponseBodyItemCase0PlatformsList;
+  filters?: ListProjectSymbolSourcesResponseBodyItemCase0Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: ListProjectSymbolSourcesResponseBodyItemCase0PlatformsList | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase1Type = "s3";
 export type ListProjectSymbolSourcesResponseBodyItemCase1SecretKey =
@@ -12510,7 +12671,7 @@ export type ListProjectSymbolSourcesResponseBodyItemCase1LayoutCasing =
   | "default";
 export interface ListProjectSymbolSourcesResponseBodyItemCase1Layout {
   type: ListProjectSymbolSourcesResponseBodyItemCase1LayoutType;
-  casing?: ListProjectSymbolSourcesResponseBodyItemCase1LayoutCasing;
+  casing?: ListProjectSymbolSourcesResponseBodyItemCase1LayoutCasing | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase1FiltersFiletypesItem =
   | "pe"
@@ -12533,9 +12694,9 @@ export type ListProjectSymbolSourcesResponseBodyItemCase1FiltersFiletypesList =
   Array<ListProjectSymbolSourcesResponseBodyItemCase1FiltersFiletypesItem>;
 export type ListProjectSymbolSourcesResponseBodyItemCase1FiltersPathPatternsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase1Filters {
-  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase1FiltersFiletypesList;
-  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase1FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase1FiltersFiletypesList | undefined;
+  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase1FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase1PlatformsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase1 {
@@ -12544,14 +12705,14 @@ export interface ListProjectSymbolSourcesResponseBodyItemCase1 {
   region: string;
   access_key: string;
   secret_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: ListProjectSymbolSourcesResponseBodyItemCase1Layout;
-  filters?: ListProjectSymbolSourcesResponseBodyItemCase1Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: ListProjectSymbolSourcesResponseBodyItemCase1PlatformsList;
+  filters?: ListProjectSymbolSourcesResponseBodyItemCase1Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: ListProjectSymbolSourcesResponseBodyItemCase1PlatformsList | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase2Type = "gcs";
 export type ListProjectSymbolSourcesResponseBodyItemCase2PrivateKey =
@@ -12570,7 +12731,7 @@ export type ListProjectSymbolSourcesResponseBodyItemCase2LayoutCasing =
   | "default";
 export interface ListProjectSymbolSourcesResponseBodyItemCase2Layout {
   type: ListProjectSymbolSourcesResponseBodyItemCase2LayoutType;
-  casing?: ListProjectSymbolSourcesResponseBodyItemCase2LayoutCasing;
+  casing?: ListProjectSymbolSourcesResponseBodyItemCase2LayoutCasing | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase2FiltersFiletypesItem =
   | "pe"
@@ -12593,9 +12754,9 @@ export type ListProjectSymbolSourcesResponseBodyItemCase2FiltersFiletypesList =
   Array<ListProjectSymbolSourcesResponseBodyItemCase2FiltersFiletypesItem>;
 export type ListProjectSymbolSourcesResponseBodyItemCase2FiltersPathPatternsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase2Filters {
-  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase2FiltersFiletypesList;
-  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase2FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase2FiltersFiletypesList | undefined;
+  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase2FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase2PlatformsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase2 {
@@ -12603,14 +12764,14 @@ export interface ListProjectSymbolSourcesResponseBodyItemCase2 {
   bucket: string;
   client_email: string;
   private_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: ListProjectSymbolSourcesResponseBodyItemCase2Layout;
-  filters?: ListProjectSymbolSourcesResponseBodyItemCase2Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: ListProjectSymbolSourcesResponseBodyItemCase2PlatformsList;
+  filters?: ListProjectSymbolSourcesResponseBodyItemCase2Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: ListProjectSymbolSourcesResponseBodyItemCase2PlatformsList | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase3Type = "azure";
 export type ListProjectSymbolSourcesResponseBodyItemCase3ClientSecret =
@@ -12629,7 +12790,7 @@ export type ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing =
   | "default";
 export interface ListProjectSymbolSourcesResponseBodyItemCase3Layout {
   type: ListProjectSymbolSourcesResponseBodyItemCase3LayoutType;
-  casing?: ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing;
+  casing?: ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem =
   | "pe"
@@ -12652,9 +12813,9 @@ export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList =
   Array<ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem>;
 export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase3Filters {
-  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList;
-  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList | undefined;
+  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList = Array<string>;
 export interface ListProjectSymbolSourcesResponseBodyItemCase3 {
@@ -12664,14 +12825,14 @@ export interface ListProjectSymbolSourcesResponseBodyItemCase3 {
   tenant_id: string;
   client_id: string;
   client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: ListProjectSymbolSourcesResponseBodyItemCase3Layout;
-  filters?: ListProjectSymbolSourcesResponseBodyItemCase3Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList;
+  filters?: ListProjectSymbolSourcesResponseBodyItemCase3Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList | undefined;
 }
 export type ListProjectSymbolSourcesResponseBodyItemCase4Type = "appStoreConnect";
 export interface ListProjectSymbolSourcesResponseBodyItemCase4 {
@@ -12700,7 +12861,7 @@ export interface ListProjectTeamsRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListProjectTeamsResponseBodyItemFlagsMap = { [key: string]: unknown | undefined };
 export type ListProjectTeamsResponseBodyItemAccessList = Array<string>;
@@ -12727,9 +12888,9 @@ export interface ListProjectUsersRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** Limit results to users matching the given query. Prefixes should be used to suggest the field to match on: `id`, `email`, `username`, `ip`. For example, `query=email:foo@example.com`. */
-  query?: string;
+  query?: string | undefined;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListProjectUsersResponseBodyItem {
   id: string | null;
@@ -12756,7 +12917,7 @@ export interface ListTeamMembersRequest {
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListTeamMembersResponseBodyItemExternalUsersItem =
   AddOrganizationMemberResponseExternalUsersItem;
@@ -12780,10 +12941,10 @@ export type ListTeamMembersResponseBodyItemUserEmailsItem =
 export type ListTeamMembersResponseBodyItemUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ListTeamMembersResponseBodyItemUser {
-  identities?: ListTeamMembersResponseBodyItemUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ListTeamMembersResponseBodyItemUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ListTeamMembersResponseBodyItemUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: ListTeamMembersResponseBodyItemUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -12804,9 +12965,9 @@ export interface ListTeamMembersResponseBodyItemUser {
 }
 export type ListTeamMembersResponseBodyItemFlags = AddOrganizationMemberResponseFlags;
 export interface ListTeamMembersResponseBodyItem {
-  externalUsers?: ListTeamMembersResponseBodyItemExternalUsersList;
-  role?: string;
-  roleName?: string;
+  externalUsers?: ListTeamMembersResponseBodyItemExternalUsersList | undefined;
+  role?: string | undefined;
+  roleName?: string | undefined;
   id: string;
   email: string;
   name: string;
@@ -12829,7 +12990,7 @@ export interface ListTeamProjectsRequest {
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListTeamProjectsResponseBodyItemLatestDeploysValueMap = {
   [key: string]: string | undefined;
@@ -12848,11 +13009,11 @@ export type ListTeamProjectsResponseBodyItemEnvironmentsList = Array<string>;
 export type ListTeamProjectsResponseBodyItemLatestRelease =
   CreateOrganizationProjectResponseLatestRelease;
 export interface ListTeamProjectsResponseBodyItem {
-  latestDeploys?: ListTeamProjectsResponseBodyItemLatestDeploysMap | null;
-  options?: ListTeamProjectsResponseBodyItemOptionsMap;
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  latestDeploys?: ListTeamProjectsResponseBodyItemLatestDeploysMap | null | undefined;
+  options?: ListTeamProjectsResponseBodyItemOptionsMap | undefined;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -12911,7 +13072,7 @@ export interface ProvisionOrganizationScimV2GroupResponse {
   id: string;
   displayName: string;
   meta: GetOrganizationScimV2GroupResponseMeta;
-  members?: ProvisionOrganizationScimV2GroupResponseMembersList;
+  members?: ProvisionOrganizationScimV2GroupResponseMembersList | undefined;
 }
 /** The organization role of the member. If unspecified, this will be set to the organization's default role. The options are: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
 export type ProvisionOrganizationScimV2UserRequestSentryOrgRole =
@@ -12925,7 +13086,7 @@ export interface ProvisionOrganizationScimV2UserRequest {
   /** The SAML field used for email. */
   userName: string;
   /** The organization role of the member. If unspecified, this will be set to the organization's default role. The options are: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
-  sentryOrgRole?: ProvisionOrganizationScimV2UserRequestSentryOrgRole | (string & {});
+  sentryOrgRole?: ProvisionOrganizationScimV2UserRequestSentryOrgRole | (string & {}) | undefined;
 }
 export type ProvisionOrganizationScimV2UserResponseSchemasList = Array<string>;
 export type ProvisionOrganizationScimV2UserResponseName = GetOrganizationScimV2UserResponseName;
@@ -12935,7 +13096,7 @@ export type ProvisionOrganizationScimV2UserResponseEmailsList =
   Array<GetOrganizationScimV2UserResponseEmailsItem>;
 export type ProvisionOrganizationScimV2UserResponseMeta = GetOrganizationScimV2GroupResponseMeta;
 export interface ProvisionOrganizationScimV2UserResponse {
-  active?: boolean;
+  active?: boolean | undefined;
   schemas: ProvisionOrganizationScimV2UserResponseSchemasList;
   id: string;
   userName: string;
@@ -12987,13 +13148,13 @@ export type ResolveOrganizationEventIdResponseEventUserDataMap = {
   [key: string]: unknown | undefined;
 };
 export interface ResolveOrganizationEventIdResponseEventUser {
-  id?: string | null;
-  email?: string | null;
-  username?: string | null;
-  ip_address?: string | null;
-  name?: string | null;
-  geo?: ResolveOrganizationEventIdResponseEventUserGeoMap | null;
-  data?: ResolveOrganizationEventIdResponseEventUserDataMap | null;
+  id?: string | null | undefined;
+  email?: string | null | undefined;
+  username?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  name?: string | null | undefined;
+  geo?: ResolveOrganizationEventIdResponseEventUserGeoMap | null | undefined;
+  data?: ResolveOrganizationEventIdResponseEventUserDataMap | null | undefined;
 }
 export type ResolveOrganizationEventIdResponseEventTagsItem =
   GetOrganizationIssueEventResponseTagsItem;
@@ -13100,15 +13261,15 @@ export interface ResolveOrganizationEventIdResponseEvent {
   errors: ResolveOrganizationEventIdResponseEventErrorsList;
   occurrence: ResolveOrganizationEventIdResponseEventOccurrence | null;
   _meta: ResolveOrganizationEventIdResponseEventMetaMap;
-  crashFile?: string | null;
-  culprit?: string | null;
-  dateCreated?: string;
-  fingerprints?: ResolveOrganizationEventIdResponseEventFingerprintsList;
-  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  measurements?: ResolveOrganizationEventIdResponseEventMeasurementsMap | null;
-  breakdowns?: ResolveOrganizationEventIdResponseEventBreakdownsMap | null;
+  crashFile?: string | null | undefined;
+  culprit?: string | null | undefined;
+  dateCreated?: string | undefined;
+  fingerprints?: ResolveOrganizationEventIdResponseEventFingerprintsList | undefined;
+  groupingConfig?: GetOrganizationIssueEventResponseGroupingConfig | undefined;
+  startTimestamp?: number | undefined;
+  endTimestamp?: number | undefined;
+  measurements?: ResolveOrganizationEventIdResponseEventMeasurementsMap | null | undefined;
+  breakdowns?: ResolveOrganizationEventIdResponseEventBreakdownsMap | null | undefined;
 }
 export interface ResolveOrganizationEventIdResponse {
   organizationSlug: string;
@@ -13132,7 +13293,7 @@ export interface ResolveOrganizationShortIdRequest {
   /** The short ID of the issue to resolve. */
   issue_id: string;
   /** Fields to remove from the response to improve query performance. */
-  collapse?: ResolveOrganizationShortIdRequestCollapseList;
+  collapse?: ResolveOrganizationShortIdRequestCollapseList | undefined;
 }
 export type ResolveOrganizationShortIdResponseGroupDerivedData =
   GetOrganizationIssueResponseDerivedData;
@@ -13171,10 +13332,12 @@ export type ResolveOrganizationShortIdResponseGroupStatusDetailsActorEmailsItem 
 export type ResolveOrganizationShortIdResponseGroupStatusDetailsActorEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface ResolveOrganizationShortIdResponseGroupStatusDetailsActor {
-  identities?: ResolveOrganizationShortIdResponseGroupStatusDetailsActorIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: ResolveOrganizationShortIdResponseGroupStatusDetailsActorAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: ResolveOrganizationShortIdResponseGroupStatusDetailsActorIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | ResolveOrganizationShortIdResponseGroupStatusDetailsActorAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -13196,17 +13359,17 @@ export interface ResolveOrganizationShortIdResponseGroupStatusDetailsActor {
 export type ResolveOrganizationShortIdResponseGroupStatusDetailsInfo =
   GetOrganizationIssueResponseStatusDetailsInfo;
 export interface ResolveOrganizationShortIdResponseGroupStatusDetails {
-  ignoreCount?: number;
-  ignoreUntil?: string;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
-  ignoreWindow?: number;
-  actor?: ResolveOrganizationShortIdResponseGroupStatusDetailsActor;
-  inNextRelease?: boolean;
-  inRelease?: string;
-  inCommit?: string;
-  pendingEvents?: number;
-  info?: GetOrganizationIssueResponseStatusDetailsInfo | null;
+  ignoreCount?: number | undefined;
+  ignoreUntil?: string | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
+  ignoreWindow?: number | undefined;
+  actor?: ResolveOrganizationShortIdResponseGroupStatusDetailsActor | undefined;
+  inNextRelease?: boolean | undefined;
+  inRelease?: string | undefined;
+  inCommit?: string | undefined;
+  pendingEvents?: number | undefined;
+  info?: GetOrganizationIssueResponseStatusDetailsInfo | null | undefined;
 }
 export type ResolveOrganizationShortIdResponseGroupSubstatus =
   | "archived_until_escalating"
@@ -13237,7 +13400,7 @@ export interface ResolveOrganizationShortIdResponseGroupAssignedTo {
   type: ResolveOrganizationShortIdResponseGroupAssignedToType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type ResolveOrganizationShortIdResponseGroupSubscriptionDetails =
   GetOrganizationIssueResponseSubscriptionDetails;
@@ -13246,12 +13409,12 @@ export type ResolveOrganizationShortIdResponseGroupAnnotationsItem =
 export type ResolveOrganizationShortIdResponseGroupAnnotationsList =
   Array<GetOrganizationIssueResponseAnnotationsItem>;
 export interface ResolveOrganizationShortIdResponseGroup {
-  isUnhandled?: boolean;
-  count?: string;
-  userCount?: number;
-  firstSeen?: string | null;
-  lastSeen?: string | null;
-  derivedData?: GetOrganizationIssueResponseDerivedData;
+  isUnhandled?: boolean | undefined;
+  count?: string | undefined;
+  userCount?: number | undefined;
+  firstSeen?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  derivedData?: GetOrganizationIssueResponseDerivedData | undefined;
   id: string;
   shareId: string | null;
   shortId: string;
@@ -13310,27 +13473,27 @@ export interface StartOrganizationIssueAutofixRequest {
   /** The ID of the issue you'd like to query. */
   issue_id: string;
   /** Which autofix step to run. * `root_cause` * `solution` * `code_changes` * `pr_iteration` * `open_pr` * `coding_agent_handoff` */
-  step?: StartOrganizationIssueAutofixRequestStep | (string & {});
+  step?: StartOrganizationIssueAutofixRequestStep | (string & {}) | undefined;
   /** Where the issue fix process should stop. If not provided, will run to root cause. * `root_cause` * `solution` * `code_changes` * `open_pr` */
-  stopping_point?: StartOrganizationIssueAutofixRequestStoppingPoint | (string & {});
+  stopping_point?: StartOrganizationIssueAutofixRequestStoppingPoint | (string & {}) | undefined;
   /** **Deprecated** in favor of sentry_run_id; retained for backward compatibility. The existing run's numeric Seer id to continue. If neither run_id nor sentry_run_id is provided, starts a new run. */
-  run_id?: number;
+  run_id?: number | undefined;
   /** Existing run's UUID to continue. Preferred over run_id, and takes precedence when both are given. */
-  sentry_run_id?: string;
+  sentry_run_id?: string | undefined;
   /** Coding agent integration ID. Required for coding_agent_handoff step (unless provider is specified). */
-  integration_id?: number;
+  integration_id?: number | undefined;
   /** Coding agent provider (e.g., 'github_copilot'). Alternative to integration_id for user-authenticated providers. */
-  provider?: string;
+  provider?: string | undefined;
   /** Optional user context to append to the step prompt. */
-  user_context?: string;
+  user_context?: string | undefined;
   /** Optional repository name for which to create the pull request. Do not pass a repository name to create pull requests in all relevant repositories. */
-  repo_name?: string;
+  repo_name?: string | undefined;
   /** Block index to insert at. When provided, truncates blocks after this point for retry-from-step. */
-  insert_index?: number;
+  insert_index?: number | undefined;
   /** Referrer identifying where the issue fix was triggered from. */
-  referrer?: string;
+  referrer?: string | undefined;
   /** Override bash mode tools. */
-  enable_bash_mode?: boolean;
+  enable_bash_mode?: boolean | undefined;
 }
 export interface StartOrganizationIssueAutofixResponse {}
 export interface UnlinkAnExternalIssueFromAnIssueRequest {
@@ -13377,9 +13540,9 @@ export interface UpdateACustomInboundFilterRequest {
   /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
   conditions: UpdateACustomInboundFilterRequestConditionsList;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
 export type UpdateACustomInboundFilterResponseDataType =
@@ -13419,9 +13582,9 @@ export interface UpdateACustomInboundFilterResponse {
   /** When the filter was last changed. */
   dateUpdated: string;
   /** A human-readable label for the filter. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 /** The events to subscribe to. */
 export type UpdateAServiceHookRequestEventsList = Array<string>;
@@ -13470,69 +13633,69 @@ export interface UpdateOrganizationRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The new slug for the organization, which needs to be unique. */
-  slug?: string;
+  slug?: string | undefined;
   /** The new name for the organization. */
-  name?: string;
+  name?: string | undefined;
   /** Specify `true` to opt-in to new features before they're released to the public. */
-  isEarlyAdopter?: boolean;
+  isEarlyAdopter?: boolean | undefined;
   /** Specify `true` to hide AI features from the organization. */
-  hideAiFeatures?: boolean;
+  hideAiFeatures?: boolean | undefined;
   /** The default role new members will receive. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
-  defaultRole?: UpdateOrganizationRequestDefaultRole | (string & {});
+  defaultRole?: UpdateOrganizationRequestDefaultRole | (string & {}) | undefined;
   /** Specify `true` to allow organization members to freely join any team. */
-  openMembership?: boolean;
+  openMembership?: boolean | undefined;
   /** Specify `true` to allow members to delete events (including the delete & discard action) by granting them the `event:admin` scope. */
-  eventsMemberAdmin?: boolean;
+  eventsMemberAdmin?: boolean | undefined;
   /** Specify `true` to allow members to create, edit, and delete alert rules by granting them the `alerts:write` scope. */
-  alertsMemberWrite?: boolean;
+  alertsMemberWrite?: boolean | undefined;
   /** The role required to download event attachments, such as native crash reports or log files. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
-  attachmentsRole?: UpdateOrganizationRequestAttachmentsRole | (string & {});
+  attachmentsRole?: UpdateOrganizationRequestAttachmentsRole | (string & {}) | undefined;
   /** The role required to download debug information files, ProGuard mappings and source maps. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
-  debugFilesRole?: UpdateOrganizationRequestDebugFilesRole | (string & {});
+  debugFilesRole?: UpdateOrganizationRequestDebugFilesRole | (string & {}) | undefined;
   /** Specify `true` to enable granular replay permissions, allowing per-member access control for replay data. */
-  hasGranularReplayPermissions?: boolean;
+  hasGranularReplayPermissions?: boolean | undefined;
   /** A list of user IDs who have permission to access replay data. Requires the hasGranularReplayPermissions flag to be true to be enforced. */
-  replayAccessMembers?: UpdateOrganizationRequestReplayAccessMembersList | null;
+  replayAccessMembers?: UpdateOrganizationRequestReplayAccessMembersList | null | undefined;
   /** The type of display picture for the organization. * `letter_avatar` - Use initials * `upload` - Upload an image */
-  avatarType?: UpdateOrganizationRequestAvatarType | (string & {});
+  avatarType?: UpdateOrganizationRequestAvatarType | (string & {}) | undefined;
   /** The image to upload as the organization avatar, in base64. Required if `avatarType` is `upload`. */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Specify `true` to require and enforce two-factor authentication for all members. */
-  require2FA?: boolean;
+  require2FA?: boolean | undefined;
   /** Specify `true` to allow sharing of limited details on issues to anonymous users. */
-  allowSharedIssues?: boolean;
+  allowSharedIssues?: boolean | undefined;
   /** Specify `true` to enable enhanced privacy controls to limit personally identifiable information (PII) as well as source code in things like notifications. */
-  enhancedPrivacy?: boolean;
+  enhancedPrivacy?: boolean | undefined;
   /** Specify `true` to allow Sentry to scrape missing JavaScript source context when possible. */
-  scrapeJavaScript?: boolean;
+  scrapeJavaScript?: boolean | undefined;
   /** How many native crash reports (such as Minidumps for improved processing and download in issue details) to store per issue. * `0` - Disabled * `1` - 1 per issue * `5` - 5 per issue * `10` - 10 per issue * `20` - 20 per issue * `50` - 50 per issue * `100` - 100 per issue * `-1` - Unlimited */
-  storeCrashReports?: UpdateOrganizationRequestStoreCrashReports | (number & {});
+  storeCrashReports?: UpdateOrganizationRequestStoreCrashReports | (number & {}) | undefined;
   /** Specify `true` to allow users to request to join your organization. */
-  allowJoinRequests?: boolean;
+  allowJoinRequests?: boolean | undefined;
   /** Specify `true` to require server-side data scrubbing for all projects. */
-  dataScrubber?: boolean;
+  dataScrubber?: boolean | undefined;
   /** Specify `true` to apply the default scrubbers to prevent things like passwords and credit cards from being stored for all projects. */
-  dataScrubberDefaults?: boolean;
+  dataScrubberDefaults?: boolean | undefined;
   /** A list of additional global field names to match against when scrubbing data for all projects. */
-  sensitiveFields?: UpdateOrganizationRequestSensitiveFieldsList;
+  sensitiveFields?: UpdateOrganizationRequestSensitiveFieldsList | undefined;
   /** A list of global field names which data scrubbers should ignore. */
-  safeFields?: UpdateOrganizationRequestSafeFieldsList;
+  safeFields?: UpdateOrganizationRequestSafeFieldsList | undefined;
   /** Specify `true` to prevent IP addresses from being stored for new events on all projects. */
-  scrubIPAddresses?: boolean;
+  scrubIPAddresses?: boolean | undefined;
   /** Advanced data scrubbing rules that can be configured for each project as a JSON string. The new rules will only apply to new incoming events. For more details on advanced data scrubbing, see our [full documentation](/security-legal-pii/scrubbing/advanced-datascrubbing/). > Warning: Calling this endpoint with this field fully overwrites the advanced data scrubbing rules. Below is an example of a payload for a set of advanced data scrubbing rules for masking credit card numbers from the log message (equivalent to `[Mask] [Credit card numbers] from [$message]` in the Sentry app) and removing a specific key called `foo` (equivalent to `[Remove] [Anything] from [extra.foo]` in the Sentry app): ```json { relayPiiConfig: "{\"rules":{\"0\":{\"type\":\"creditcard\",\"redaction\":{\"method\":\"mask\"}},\"1\":{\"type\":\"anything\",\"redaction\":{\"method\":\"remove\"}}},\"applications\":{\"$message\":[\"0\"],\"extra.foo\":[\"1\"]}}" } ``` */
-  relayPiiConfig?: string;
+  relayPiiConfig?: string | undefined;
   /** A list of local Relays (the name, public key, and description as a JSON) registered for the organization. This feature is only available for organizations on the Business and Enterprise plans. Read more about Relay [here](/product/relay/). Below is an example of a list containing a single local Relay registered for the organization: ```json { trustedRelays: [ { name: "my-relay", publicKey: "eiwr9fdruw4erfh892qy4493reyf89ur34wefd90h", description: "Configuration for my-relay." } ] } ``` */
-  trustedRelays?: UpdateOrganizationRequestTrustedRelaysList;
+  trustedRelays?: UpdateOrganizationRequestTrustedRelaysList | undefined;
   /** A Relay base URL to use when displaying Client Key DSNs for this organization. */
-  relayDsnEndpoint?: string | null;
+  relayDsnEndpoint?: string | null | undefined;
   /** Specify `true` to allow the Sentry Slack integration to post replies in threads for an Issue Alert notification. Requires a Slack integration. */
-  issueAlertsThreadFlag?: boolean;
+  issueAlertsThreadFlag?: boolean | undefined;
   /** Specify `true` to allow the Sentry Slack integration to post replies in threads for a Metric Alert notification. Requires a Slack integration. */
-  metricAlertsThreadFlag?: boolean;
+  metricAlertsThreadFlag?: boolean | undefined;
   /** Specify `true` to restore an organization that is pending deletion. */
-  cancelDeletion?: boolean;
+  cancelDeletion?: boolean | undefined;
   /** Deprecated. Response-time threshold in milliseconds previously used to compute Apdex. */
-  apdexThreshold?: number;
+  apdexThreshold?: number | undefined;
 }
 export type UpdateOrganizationResponseFeaturesList = Array<string>;
 export type UpdateOrganizationResponseExtraOptionsValueMap = { [key: string]: unknown | undefined };
@@ -13582,11 +13745,11 @@ export type UpdateOrganizationResponseTeamRoleListList =
 export type UpdateOrganizationResponseSensitiveFieldsList = Array<string>;
 export type UpdateOrganizationResponseSafeFieldsList = Array<string>;
 export interface UpdateOrganizationResponseTrustedRelaysItem {
-  name?: string;
-  description?: string;
-  publicKey?: string;
-  created?: string;
-  lastModified?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  publicKey?: string | undefined;
+  created?: string | undefined;
+  lastModified?: string | undefined;
 }
 export type UpdateOrganizationResponseTrustedRelaysList =
   Array<UpdateOrganizationResponseTrustedRelaysItem>;
@@ -13617,10 +13780,10 @@ export type UpdateOrganizationResponseTeamsItemOrganizationAvatar =
 export type UpdateOrganizationResponseTeamsItemOrganizationLinks =
   CreateOrganizationTeamResponseOrganizationLinks;
 export interface UpdateOrganizationResponseTeamsItemOrganization {
-  features?: UpdateOrganizationResponseTeamsItemOrganizationFeaturesList;
-  extraOptions?: UpdateOrganizationResponseTeamsItemOrganizationExtraOptionsMap;
-  access?: UpdateOrganizationResponseTeamsItemOrganizationAccessList;
-  onboardingTasks?: UpdateOrganizationResponseTeamsItemOrganizationOnboardingTasksList;
+  features?: UpdateOrganizationResponseTeamsItemOrganizationFeaturesList | undefined;
+  extraOptions?: UpdateOrganizationResponseTeamsItemOrganizationExtraOptionsMap | undefined;
+  access?: UpdateOrganizationResponseTeamsItemOrganizationAccessList | undefined;
+  onboardingTasks?: UpdateOrganizationResponseTeamsItemOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -13640,9 +13803,9 @@ export type UpdateOrganizationResponseTeamsItemProjectsItemAccessList = Array<st
 export type UpdateOrganizationResponseTeamsItemProjectsItemAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface UpdateOrganizationResponseTeamsItemProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -13696,9 +13859,9 @@ export interface UpdateOrganizationResponseTeamsItem {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: UpdateOrganizationResponseTeamsItemExternalTeamsList;
-  organization?: UpdateOrganizationResponseTeamsItemOrganization;
-  projects?: UpdateOrganizationResponseTeamsItemProjectsList;
+  externalTeams?: UpdateOrganizationResponseTeamsItemExternalTeamsList | undefined;
+  organization?: UpdateOrganizationResponseTeamsItemOrganization | undefined;
+  projects?: UpdateOrganizationResponseTeamsItemProjectsList | undefined;
 }
 export type UpdateOrganizationResponseTeamsList = Array<UpdateOrganizationResponseTeamsItem>;
 export type UpdateOrganizationResponseProjectsItemLatestDeploysValueMap = {
@@ -13720,11 +13883,11 @@ export type UpdateOrganizationResponseProjectsItemEnvironmentsList = Array<strin
 export type UpdateOrganizationResponseProjectsItemLatestRelease =
   CreateOrganizationProjectResponseLatestRelease;
 export interface UpdateOrganizationResponseProjectsItem {
-  latestDeploys?: UpdateOrganizationResponseProjectsItemLatestDeploysMap | null;
-  options?: UpdateOrganizationResponseProjectsItemOptionsMap;
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  latestDeploys?: UpdateOrganizationResponseProjectsItemLatestDeploysMap | null | undefined;
+  options?: UpdateOrganizationResponseProjectsItemOptionsMap | undefined;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -13766,10 +13929,10 @@ export interface UpdateOrganizationResponseProjectsItem {
 }
 export type UpdateOrganizationResponseProjectsList = Array<UpdateOrganizationResponseProjectsItem>;
 export interface UpdateOrganizationResponse {
-  features?: UpdateOrganizationResponseFeaturesList;
-  extraOptions?: UpdateOrganizationResponseExtraOptionsMap;
-  access?: UpdateOrganizationResponseAccessList;
-  onboardingTasks?: UpdateOrganizationResponseOnboardingTasksList;
+  features?: UpdateOrganizationResponseFeaturesList | undefined;
+  extraOptions?: UpdateOrganizationResponseExtraOptionsMap | undefined;
+  access?: UpdateOrganizationResponseAccessList | undefined;
+  onboardingTasks?: UpdateOrganizationResponseOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -13783,12 +13946,12 @@ export interface UpdateOrganizationResponse {
   allowMemberInvite: boolean;
   allowMemberProjectCreation: boolean;
   allowSuperuserAccess: boolean;
-  role?: unknown;
-  orgRole?: string;
-  targetSampleRate?: number;
-  samplingMode?: string;
-  planSampleRate?: number;
-  desiredSampleRate?: number;
+  role?: unknown | undefined;
+  orgRole?: string | undefined;
+  targetSampleRate?: number | undefined;
+  samplingMode?: string | undefined;
+  planSampleRate?: number | undefined;
+  desiredSampleRate?: number | undefined;
   experiments: UpdateOrganizationResponseExperimentsMap;
   isDefault: boolean;
   defaultRole: string;
@@ -13864,20 +14027,31 @@ export type UpdateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashbo
   Array<CreateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsItem>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface UpdateOrganizationDashboardRequestWidgetsItemQueriesItem {
-  id?: string;
-  fields?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemFieldsList;
-  aggregates?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemAggregatesList | null;
-  columns?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemColumnsList | null;
-  field_aliases?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemFieldAliasesList | null;
-  name?: string;
-  conditions?: string;
-  orderby?: string;
-  is_hidden?: boolean;
+  id?: string | undefined;
+  fields?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemFieldsList | undefined;
+  aggregates?:
+    | UpdateOrganizationDashboardRequestWidgetsItemQueriesItemAggregatesList
+    | null
+    | undefined;
+  columns?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemColumnsList | null | undefined;
+  field_aliases?:
+    | UpdateOrganizationDashboardRequestWidgetsItemQueriesItemFieldAliasesList
+    | null
+    | undefined;
+  name?: string | undefined;
+  conditions?: string | undefined;
+  orderby?: string | undefined;
+  is_hidden?: boolean | undefined;
   /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
-  on_demand_extraction?: CreateOrganizationDashboardRequestWidgetsItemQueriesItemOnDemandExtraction;
-  on_demand_extraction_disabled?: boolean;
-  selected_aggregate?: number | null;
-  linked_dashboards?: UpdateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsList | null;
+  on_demand_extraction?:
+    | CreateOrganizationDashboardRequestWidgetsItemQueriesItemOnDemandExtraction
+    | undefined;
+  on_demand_extraction_disabled?: boolean | undefined;
+  selected_aggregate?: number | null | undefined;
+  linked_dashboards?:
+    | UpdateOrganizationDashboardRequestWidgetsItemQueriesItemLinkedDashboardsList
+    | null
+    | undefined;
 }
 export type UpdateOrganizationDashboardRequestWidgetsItemQueriesList =
   Array<UpdateOrganizationDashboardRequestWidgetsItemQueriesItem>;
@@ -13911,22 +14085,37 @@ export type UpdateOrganizationDashboardRequestWidgetsItemAxisRange = "auto" | "d
 export type UpdateOrganizationDashboardRequestWidgetsItemLegendType = "default" | "breakdown";
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface UpdateOrganizationDashboardRequestWidgetsItem {
-  id?: string;
-  title?: string;
-  description?: string | null;
-  thresholds?: UpdateOrganizationDashboardRequestWidgetsItemThresholdsMap | null;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | null | undefined;
+  thresholds?: UpdateOrganizationDashboardRequestWidgetsItemThresholdsMap | null | undefined;
   /** * `line` * `area` * `bar` * `table` * `big_number` * `details` * `categorical_bar` * `wheel` * `rage_and_dead_clicks` * `server_tree` * `text` * `agents_traces_table` * `heatmap` */
-  display_type?: UpdateOrganizationDashboardRequestWidgetsItemDisplayType | (string & {});
-  interval?: string;
-  queries?: UpdateOrganizationDashboardRequestWidgetsItemQueriesList;
+  display_type?:
+    | UpdateOrganizationDashboardRequestWidgetsItemDisplayType
+    | (string & {})
+    | undefined;
+  interval?: string | undefined;
+  queries?: UpdateOrganizationDashboardRequestWidgetsItemQueriesList | undefined;
   /** * `discover` * `issue` * `metrics` * `error-events` * `transaction-like` * `spans` * `logs` * `tracemetrics` * `preprod-app-size` */
-  widget_type?: UpdateOrganizationDashboardRequestWidgetsItemWidgetType | (string & {}) | null;
-  limit?: number | null;
-  layout?: UpdateOrganizationDashboardRequestWidgetsItemLayout | null;
+  widget_type?:
+    | UpdateOrganizationDashboardRequestWidgetsItemWidgetType
+    | (string & {})
+    | null
+    | undefined;
+  limit?: number | null | undefined;
+  layout?: UpdateOrganizationDashboardRequestWidgetsItemLayout | null | undefined;
   /** * `auto` * `dataMin` */
-  axis_range?: UpdateOrganizationDashboardRequestWidgetsItemAxisRange | (string & {}) | null;
+  axis_range?:
+    | UpdateOrganizationDashboardRequestWidgetsItemAxisRange
+    | (string & {})
+    | null
+    | undefined;
   /** * `default` * `breakdown` */
-  legend_type?: UpdateOrganizationDashboardRequestWidgetsItemLegendType | (string & {}) | null;
+  legend_type?:
+    | UpdateOrganizationDashboardRequestWidgetsItemLegendType
+    | (string & {})
+    | null
+    | undefined;
 }
 /** A json list of widgets saved in this dashboard. */
 export type UpdateOrganizationDashboardRequestWidgetsList =
@@ -13944,7 +14133,9 @@ export interface UpdateOrganizationDashboardRequestPermissions {
   /** Whether the dashboard is editable by everyone. */
   is_editable_by_everyone: boolean;
   /** List of team IDs that have edit access to a dashboard. */
-  teams_with_edit_access?: UpdateOrganizationDashboardRequestPermissionsTeamsWithEditAccessList;
+  teams_with_edit_access?:
+    | UpdateOrganizationDashboardRequestPermissionsTeamsWithEditAccessList
+    | undefined;
 }
 export interface UpdateOrganizationDashboardRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -13952,27 +14143,27 @@ export interface UpdateOrganizationDashboardRequest {
   /** The ID of the dashboard you'd like to retrieve. */
   dashboard_id: number;
   /** A dashboard's unique id. */
-  id?: string;
+  id?: string | undefined;
   /** The user-defined dashboard title. */
-  title?: string;
+  title?: string | undefined;
   /** A json list of widgets saved in this dashboard. */
-  widgets?: UpdateOrganizationDashboardRequestWidgetsList;
+  widgets?: UpdateOrganizationDashboardRequestWidgetsList | undefined;
   /** The saved projects filter for this dashboard. */
-  projects?: UpdateOrganizationDashboardRequestProjectsList;
+  projects?: UpdateOrganizationDashboardRequestProjectsList | undefined;
   /** The saved environment filter for this dashboard. */
-  environment?: UpdateOrganizationDashboardRequestEnvironmentList | null;
+  environment?: UpdateOrganizationDashboardRequestEnvironmentList | null | undefined;
   /** The saved time range period for this dashboard. */
-  period?: string | null;
+  period?: string | null | undefined;
   /** The saved start time for this dashboard. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** The saved end time for this dashboard. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The saved filters for this dashboard. */
-  filters?: UpdateOrganizationDashboardRequestFiltersMap;
+  filters?: UpdateOrganizationDashboardRequestFiltersMap | undefined;
   /** Setting that lets you display saved time range for this dashboard in UTC. */
-  utc?: boolean;
+  utc?: boolean | undefined;
   /** Permissions that restrict users from editing dashboards */
-  permissions?: UpdateOrganizationDashboardRequestPermissions | null;
+  permissions?: UpdateOrganizationDashboardRequestPermissions | null | undefined;
 }
 export type UpdateOrganizationDashboardResponseEnvironmentList = Array<string>;
 export type UpdateOrganizationDashboardResponseCreatedByIdentitiesItemOrganization =
@@ -13994,10 +14185,10 @@ export type UpdateOrganizationDashboardResponseCreatedByEmailsItem =
 export type UpdateOrganizationDashboardResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface UpdateOrganizationDashboardResponseCreatedBy {
-  identities?: UpdateOrganizationDashboardResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: UpdateOrganizationDashboardResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: UpdateOrganizationDashboardResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: UpdateOrganizationDashboardResponseCreatedByAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -14020,8 +14211,8 @@ export type UpdateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap
   [key: string]: number | undefined;
 };
 export interface UpdateOrganizationDashboardResponseWidgetsItemThresholds {
-  preferredPolarity?: string;
-  timeWindow?: string;
+  preferredPolarity?: string | undefined;
+  timeWindow?: string | undefined;
   max_values: UpdateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
@@ -14116,9 +14307,9 @@ export type UpdateOrganizationDashboardResponseFiltersGlobalFilterItemMap = {
 export type UpdateOrganizationDashboardResponseFiltersGlobalFilterList =
   Array<UpdateOrganizationDashboardResponseFiltersGlobalFilterItemMap>;
 export interface UpdateOrganizationDashboardResponseFilters {
-  release?: UpdateOrganizationDashboardResponseFiltersReleaseList;
-  releaseId?: UpdateOrganizationDashboardResponseFiltersReleaseIdList;
-  globalFilter?: UpdateOrganizationDashboardResponseFiltersGlobalFilterList;
+  release?: UpdateOrganizationDashboardResponseFiltersReleaseList | undefined;
+  releaseId?: UpdateOrganizationDashboardResponseFiltersReleaseIdList | undefined;
+  globalFilter?: UpdateOrganizationDashboardResponseFiltersGlobalFilterList | undefined;
 }
 export type UpdateOrganizationDashboardResponsePermissionsTeamsWithEditAccessList = Array<number>;
 export interface UpdateOrganizationDashboardResponsePermissions {
@@ -14126,12 +14317,12 @@ export interface UpdateOrganizationDashboardResponsePermissions {
   teamsWithEditAccess: UpdateOrganizationDashboardResponsePermissionsTeamsWithEditAccessList;
 }
 export interface UpdateOrganizationDashboardResponse {
-  environment?: UpdateOrganizationDashboardResponseEnvironmentList;
-  period?: string;
-  utc?: string;
-  expired?: boolean;
-  start?: string;
-  end?: string;
+  environment?: UpdateOrganizationDashboardResponseEnvironmentList | undefined;
+  period?: string | undefined;
+  utc?: string | undefined;
+  expired?: boolean | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
   id: string;
   title: string;
   dateCreated: string;
@@ -14158,10 +14349,10 @@ export type UpdateOrganizationDetectorRequestConditionGroupLogicType =
 export type UpdateOrganizationDetectorRequestConditionGroupConditionsList = Array<unknown>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface UpdateOrganizationDetectorRequestConditionGroup {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: UpdateOrganizationDetectorRequestConditionGroupLogicType | (string & {});
-  conditions?: UpdateOrganizationDetectorRequestConditionGroupConditionsList;
+  conditions?: UpdateOrganizationDetectorRequestConditionGroupConditionsList | undefined;
 }
 export interface UpdateOrganizationDetectorRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -14173,26 +14364,26 @@ export interface UpdateOrganizationDetectorRequest {
   /** The type of monitor - `metric_issue`. */
   type: string;
   /** The IDs of the alerts to connect this monitor to. Use the 'Fetch Alerts' endpoint to find the IDs. */
-  workflow_ids?: UpdateOrganizationDetectorRequestWorkflowIdsList;
+  workflow_ids?: UpdateOrganizationDetectorRequestWorkflowIdsList | undefined;
   /** The data sources for the monitor to use based on what you want to measure. **Number of Errors Metric Monitor** - `eventTypes`: Any of `error` or `default`. ```json [ { "aggregate": "count()", "dataset" : "events", "environment": "prod", "eventTypes": ["default", "error"], "query": "is:unresolved", "queryType": 0, "timeWindow": 3600, }, ], ``` **Users Experiencing Errors Metric Monitor** - `eventTypes`: Any of `error` or `default`. ```json [ { "aggregate": "count_unique(tags[sentry:user])", "dataset" : "events", "environment": "prod", "eventTypes": ["default", "error"], "query": "is:unresolved", "queryType": 0, "timeWindow": 3600, }, ], ``` **Throughput Metric Monitor** ```json [ { "aggregate":"count(span.duration)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Duration Metric Monitor** ```json [ { "aggregate":"p95(span.duration)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Failure Rate Metric Monitor** ```json [ { "aggregate":"failure_rate()", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Largest Contentful Paint Metric Monitor** - `dataset`: If a custom percentile is used, dataset is `transactions`. Otherwise, dataset is `events_analytics_platform`. - `aggregate`: Valid values are `avg(measurements.lcp)`, `p50(measurements.lcp)`, `p75(measurements.lcp)`, `p95(measurements.lcp)`, `p99(measurements.lcp)`, `p100(measurements.lcp)`, and `percentile(measurements.lcp,x)`, where `x` is your custom percentile. ```json [ { "aggregate":"p95(measurements.lcp)", "dataset":"events_analytics_platform", "environment":"prod", "eventTypes":["trace_item_span"] "query":"", "queryType":1, "timeWindow":3600, "extrapolationMode":"unknown", }, ], ``` **Custom Metric Monitor** - `dataset`: If a custom percentile is used, dataset is `transactions`. Otherwise, dataset is `events_analytics_platform`. - `aggregate`: Valid values are: `avg(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p50(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p75(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p95(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p99(x)`, where x is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `p100(x)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`. `percentile(x,y)`, where `x` is `transaction.duration`, `measurements.cls`, `measurements.fcp`, `measurements.fid`, `measurements.fp`, `measurements.lcp`, `measurements.ttfb`, or `measurements.ttfb.requesttime`, and `y` is the custom percentile. `failure_rate()` `apdex(x)`, where `x` is the value of the Apdex score. `count()` ```json [ { "aggregate": "p75(measurements.ttfb)" "dataset": "events_analytics_platform", "queryType": 1, }, ], */
-  data_sources?: UpdateOrganizationDetectorRequestDataSourcesList;
+  data_sources?: UpdateOrganizationDetectorRequestDataSourcesList | undefined;
   /** The issue detection type configuration. - `detectionType` - `static`: Threshold based monitor - `percent`: Change based monitor - `dynamic`: Dynamic monitor - `comparisonDelta`: If selecting a **change** detection type, the comparison delta is the time period at which to compare against in minutes. For example, a value of 3600 compares the metric tracked against data 1 hour ago. - `300`: 5 minutes - `900`: 15 minutes - `3600`: 1 hour - `86400`: 1 day - `604800`: 1 week - `2592000`: 1 month **Threshold** ```json { "detectionType": "static", } ``` **Change** ```json { "detectionType": "percent", "comparisonDelta": 3600, } ``` **Dynamic** ```json { "detectionType": "dynamic", } ``` */
-  config?: UpdateOrganizationDetectorRequestConfigMap;
+  config?: UpdateOrganizationDetectorRequestConfigMap | undefined;
   /** Issue detection configuration for when to create an issue and at what priority level. - `logicType`: `any` - `type`: Any of `gt` (greater than), `lte` (less than or equal), or `anomaly_detection` (dynamic) - `comparison`: Any positive integer. This is threshold that must be crossed for the monitor to create an issue, e.g. "Create a metric issue when there are more than 5 unresolved error events". - If creating a **dynamic** monitor, see the options below. - `seasonality`: `auto` - `sensitivity`: Level of responsiveness. Options are one of `low`, `medium`, or `high` - `thresholdType`: If you want to be alerted to anomalies that are moving above, below, or in both directions in relation to your threshold. - `0`: Above - `1`: Below - `2`: Above and below - `conditionResult`: The issue state change when the threshold is crossed. - `75`: High priority - `50`: Low priority - `0`: Resolved **Threshold and Change Monitor** ```json "logicType": "any", "conditions": [ { "type": "gt", "comparison": 10, "conditionResult": 75 }, { "type": "lte", "comparison": 10, "conditionResult": 0 } ], "actions": [] ``` **Threshold Monitor with Medium Priority** ```json "logicType": "any", "conditions": [ { type: "gt", comparison: 5, conditionResult: 75 }, { type: "gt", comparison: 2, conditionResult: 50 }, { type: "lte", comparison: 2, conditionResult: 0 } ], "actions": [] ``` **Dynamic Monitor** ```json "logicType": "any", "conditions": [ { "type": "anomaly_detection", "comparison": { "seasonality": "auto", "sensitivity": "medium", "thresholdType": 2 }, "conditionResult": 75 } ], "actions": [] ``` */
-  condition_group?: UpdateOrganizationDetectorRequestConditionGroup;
+  condition_group?: UpdateOrganizationDetectorRequestConditionGroup | undefined;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** A description of the monitor. Will be used in the resulting issue. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Set to False if you want to disable the monitor. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type UpdateOrganizationDetectorResponseOwnerType = "user" | "team";
 export interface UpdateOrganizationDetectorResponseOwner {
   type: UpdateOrganizationDetectorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type UpdateOrganizationDetectorResponseLatestGroupMap = {
   [key: string]: unknown | undefined;
@@ -14208,10 +14399,10 @@ export type UpdateOrganizationDetectorResponseConditionGroupMap = {
 };
 export type UpdateOrganizationDetectorResponseConfigMap = { [key: string]: unknown | undefined };
 export interface UpdateOrganizationDetectorResponse {
-  owner?: UpdateOrganizationDetectorResponseOwner | null;
-  createdBy?: string | null;
-  latestGroup?: UpdateOrganizationDetectorResponseLatestGroupMap | null;
-  description?: string | null;
+  owner?: UpdateOrganizationDetectorResponseOwner | null | undefined;
+  createdBy?: string | null | undefined;
+  latestGroup?: UpdateOrganizationDetectorResponseLatestGroupMap | null | undefined;
+  description?: string | null | undefined;
   id: string;
   projectId: string | null;
   name: string;
@@ -14232,11 +14423,11 @@ export interface UpdateOrganizationDetectorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: UpdateOrganizationDetectorsRequestProjectList;
+  project?: UpdateOrganizationDetectorsRequestProjectList | undefined;
   /** An optional search query for filtering monitors. Available fields are: - `name` - `type`: e.g. `error`, `metric_issue`, `issue_stream` - `assignee`: email, username, #team, me, none */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the monitor you'd like to query. */
-  id?: UpdateOrganizationDetectorsRequestIdList;
+  id?: UpdateOrganizationDetectorsRequestIdList | undefined;
   /** Whether to enable or disable the monitors */
   enabled: boolean;
 }
@@ -14245,7 +14436,7 @@ export interface UpdateOrganizationDetectorsResponseBodyItemOwner {
   type: UpdateOrganizationDetectorsResponseBodyItemOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type UpdateOrganizationDetectorsResponseBodyItemLatestGroupMap = {
   [key: string]: unknown | undefined;
@@ -14263,10 +14454,10 @@ export type UpdateOrganizationDetectorsResponseBodyItemConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationDetectorsResponseBodyItem {
-  owner?: UpdateOrganizationDetectorsResponseBodyItemOwner | null;
-  createdBy?: string | null;
-  latestGroup?: UpdateOrganizationDetectorsResponseBodyItemLatestGroupMap | null;
-  description?: string | null;
+  owner?: UpdateOrganizationDetectorsResponseBodyItemOwner | null | undefined;
+  createdBy?: string | null | undefined;
+  latestGroup?: UpdateOrganizationDetectorsResponseBodyItemLatestGroupMap | null | undefined;
+  description?: string | null | undefined;
   id: string;
   projectId: string | null;
   name: string;
@@ -14315,45 +14506,48 @@ export interface UpdateOrganizationDiscoverSavedQueryRequest {
   /** The user-defined saved query name. */
   name: string;
   /** The saved projects filter for this query. */
-  projects?: UpdateOrganizationDiscoverSavedQueryRequestProjectsList;
+  projects?: UpdateOrganizationDiscoverSavedQueryRequestProjectsList | undefined;
   /** The dataset you would like to query. Note: `discover` is a **deprecated** value. The allowed values are: `error-events`, `transaction-like` * `discover` * `error-events` * `transaction-like` */
-  queryDataset?: UpdateOrganizationDiscoverSavedQueryRequestQueryDataset | (string & {});
+  queryDataset?:
+    | UpdateOrganizationDiscoverSavedQueryRequestQueryDataset
+    | (string & {})
+    | undefined;
   /** The saved start time for this saved query. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** The saved end time for this saved query. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The saved time range period for this saved query. */
-  range?: string | null;
+  range?: string | null | undefined;
   /** The fields, functions, or equations that can be requested for the query. At most 20 fields can be selected per request. Each field can be one of the following types: - A built-in key field. See possible fields in the [properties table](/product/sentry-basics/search/searchable-properties/#properties-table), under any field that is an event property. - example: `field=transaction` - A tag. Tags should use the `tag[]` formatting to avoid ambiguity with any fields - example: `field=tag[isEnterprise]` - A function which will be in the format of `function_name(parameters,...)`. See possible functions in the [query builder documentation](/product/discover-queries/query-builder/#stacking-functions). - when a function is included, Discover will group by any tags or fields - example: `field=count_if(transaction.duration,greater,300)` - An equation when prefixed with `equation|`. Read more about [equations here](/product/discover-queries/query-builder/query-equations/). - example: `field=equation|count_if(transaction.duration,greater,300) / count() * 100` */
-  fields?: UpdateOrganizationDiscoverSavedQueryRequestFieldsList | null;
+  fields?: UpdateOrganizationDiscoverSavedQueryRequestFieldsList | null | undefined;
   /** How to order the query results. Must be something in the `field` list, excluding equations. */
-  orderby?: string | null;
+  orderby?: string | null | undefined;
   /** Time-bucket granularity in seconds for the saved query. */
-  rollup?: number | null;
+  rollup?: number | null | undefined;
   /** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
-  aggregations?: UpdateOrganizationDiscoverSavedQueryRequestAggregationsList | null;
+  aggregations?: UpdateOrganizationDiscoverSavedQueryRequestAggregationsList | null | undefined;
   /** Columns to group results by. */
-  groupby?: UpdateOrganizationDiscoverSavedQueryRequestGroupbyList | null;
+  groupby?: UpdateOrganizationDiscoverSavedQueryRequestGroupbyList | null | undefined;
   /** Filter conditions, each as a `[column, operator, value]` triple. */
-  conditions?: UpdateOrganizationDiscoverSavedQueryRequestConditionsList | null;
+  conditions?: UpdateOrganizationDiscoverSavedQueryRequestConditionsList | null | undefined;
   /** Maximum number of rows to return, from `0` to `1000`. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Saved query schema version. `1` for the legacy shape, `2` for the current one. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The name of environments to filter by. */
-  environment?: UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList | null;
+  environment?: UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList | null | undefined;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Rendered column widths, in the same order as the query's fields. */
-  widths?: UpdateOrganizationDiscoverSavedQueryRequestWidthsList | null;
+  widths?: UpdateOrganizationDiscoverSavedQueryRequestWidthsList | null | undefined;
   /** Aggregate functions to be plotted on the chart. */
-  yAxis?: UpdateOrganizationDiscoverSavedQueryRequestYAxisList | null;
+  yAxis?: UpdateOrganizationDiscoverSavedQueryRequestYAxisList | null | undefined;
   /** Visualization type for saved query chart. Allowed values are: - default - previous - top5 - daily - dailytop5 - bar */
-  display?: string | null;
+  display?: string | null | undefined;
   /** Number of top events' timeseries to be visualized. */
-  topEvents?: number | null;
+  topEvents?: number | null | undefined;
   /** Resolution of the time series. */
-  interval?: string | null;
+  interval?: string | null | undefined;
 }
 export type UpdateOrganizationDiscoverSavedQueryResponseEnvironmentList = Array<string>;
 export type UpdateOrganizationDiscoverSavedQueryResponseFieldsList = Array<string>;
@@ -14385,10 +14579,12 @@ export type UpdateOrganizationDiscoverSavedQueryResponseCreatedByEmailsItem =
 export type UpdateOrganizationDiscoverSavedQueryResponseCreatedByEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface UpdateOrganizationDiscoverSavedQueryResponseCreatedBy {
-  identities?: UpdateOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: UpdateOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: UpdateOrganizationDiscoverSavedQueryResponseCreatedByIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?:
+    | UpdateOrganizationDiscoverSavedQueryResponseCreatedByAuthenticatorsList
+    | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -14408,25 +14604,25 @@ export interface UpdateOrganizationDiscoverSavedQueryResponseCreatedBy {
   emails: UpdateOrganizationDiscoverSavedQueryResponseCreatedByEmailsList;
 }
 export interface UpdateOrganizationDiscoverSavedQueryResponse {
-  environment?: UpdateOrganizationDiscoverSavedQueryResponseEnvironmentList;
-  query?: string;
-  fields?: UpdateOrganizationDiscoverSavedQueryResponseFieldsList;
-  widths?: UpdateOrganizationDiscoverSavedQueryResponseWidthsList;
-  conditions?: UpdateOrganizationDiscoverSavedQueryResponseConditionsList;
-  aggregations?: UpdateOrganizationDiscoverSavedQueryResponseAggregationsList;
-  range?: string;
-  start?: string;
-  end?: string;
-  orderby?: string;
-  limit?: string;
-  yAxis?: UpdateOrganizationDiscoverSavedQueryResponseYAxisList;
-  display?: string;
-  topEvents?: number;
-  interval?: string;
-  exploreQuery?: UpdateOrganizationDiscoverSavedQueryResponseExploreQueryMap;
-  lastVisited?: string;
-  starred?: boolean;
-  position?: number | null;
+  environment?: UpdateOrganizationDiscoverSavedQueryResponseEnvironmentList | undefined;
+  query?: string | undefined;
+  fields?: UpdateOrganizationDiscoverSavedQueryResponseFieldsList | undefined;
+  widths?: UpdateOrganizationDiscoverSavedQueryResponseWidthsList | undefined;
+  conditions?: UpdateOrganizationDiscoverSavedQueryResponseConditionsList | undefined;
+  aggregations?: UpdateOrganizationDiscoverSavedQueryResponseAggregationsList | undefined;
+  range?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  orderby?: string | undefined;
+  limit?: string | undefined;
+  yAxis?: UpdateOrganizationDiscoverSavedQueryResponseYAxisList | undefined;
+  display?: string | undefined;
+  topEvents?: number | undefined;
+  interval?: string | undefined;
+  exploreQuery?: UpdateOrganizationDiscoverSavedQueryResponseExploreQueryMap | undefined;
+  lastVisited?: string | undefined;
+  starred?: boolean | undefined;
+  position?: number | null | undefined;
   id: string;
   name: string;
   projects: UpdateOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -14464,12 +14660,12 @@ export interface UpdateOrganizationExternalUserRequest {
   /** The Integration ID. */
   integration_id: number;
   /** The associated user ID for provider. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface UpdateOrganizationExternalUserResponse {
-  externalId?: string;
-  userId?: string;
-  teamId?: string;
+  externalId?: string | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
   id: string;
   provider: string;
   externalName: string;
@@ -14491,13 +14687,13 @@ export interface UpdateOrganizationForwardingRequest {
   /** The provider of the data forwarder. One of "segment", "sqs", or "splunk". * `segment` - Segment * `sqs` - Amazon SQS * `splunk` - Splunk */
   provider: UpdateOrganizationForwardingRequestProvider | (string & {});
   /** Whether the data forwarder is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Whether to enroll new projects automatically, after they're created. */
-  enroll_new_projects?: boolean;
+  enroll_new_projects?: boolean | undefined;
   /** The configuration for the data forwarder, specific to the provider type. For a 'sqs' provider, the required keys are queue_url, region, access_key, secret_key. If using a FIFO queue, you must also provide a message_group_id, though s3_bucket is optional. For a 'segment' provider, the required keys are write_key. For a 'splunk' provider, the required keys are instance_url, index, source, token. */
-  config?: UpdateOrganizationForwardingRequestConfigMap;
+  config?: UpdateOrganizationForwardingRequestConfigMap | undefined;
   /** The IDs of the projects connected to the data forwarder. Missing project IDs will be unenrolled if previously enrolled. */
-  project_ids?: UpdateOrganizationForwardingRequestProjectIdsList;
+  project_ids?: UpdateOrganizationForwardingRequestProjectIdsList | undefined;
 }
 export type UpdateOrganizationForwardingResponseEnrolledProjectsItem =
   CreateOrganizationForwardingResponseEnrolledProjectsItem;
@@ -14555,7 +14751,7 @@ export interface UpdateOrganizationIssueRequestStatusDetails {
   /** The version of the release that the issue should be resolved in.If set to `latest`, the latest release will be used. */
   inRelease: string;
   /** The commit data that the issue should use for resolution. */
-  inCommit?: UpdateOrganizationIssueRequestStatusDetailsInCommit;
+  inCommit?: UpdateOrganizationIssueRequestStatusDetailsInCommit | undefined;
   /** Ignore the issue until for this many minutes. */
   ignoreDuration: number;
   /** Ignore the issue until it has occurred this many times in `ignoreWindow` minutes. */
@@ -14655,10 +14851,10 @@ export type UpdateOrganizationIssueResponseStatusDetailsActorEmailsItem =
 export type UpdateOrganizationIssueResponseStatusDetailsActorEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface UpdateOrganizationIssueResponseStatusDetailsActor {
-  identities?: UpdateOrganizationIssueResponseStatusDetailsActorIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: UpdateOrganizationIssueResponseStatusDetailsActorAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: UpdateOrganizationIssueResponseStatusDetailsActorIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: UpdateOrganizationIssueResponseStatusDetailsActorAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -14680,17 +14876,17 @@ export interface UpdateOrganizationIssueResponseStatusDetailsActor {
 export type UpdateOrganizationIssueResponseStatusDetailsInfo =
   GetOrganizationIssueResponseStatusDetailsInfo;
 export interface UpdateOrganizationIssueResponseStatusDetails {
-  ignoreCount?: number;
-  ignoreUntil?: string;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
-  ignoreWindow?: number;
-  actor?: UpdateOrganizationIssueResponseStatusDetailsActor;
-  inNextRelease?: boolean;
-  inRelease?: string;
-  inCommit?: string;
-  pendingEvents?: number;
-  info?: GetOrganizationIssueResponseStatusDetailsInfo | null;
+  ignoreCount?: number | undefined;
+  ignoreUntil?: string | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
+  ignoreWindow?: number | undefined;
+  actor?: UpdateOrganizationIssueResponseStatusDetailsActor | undefined;
+  inNextRelease?: boolean | undefined;
+  inRelease?: string | undefined;
+  inCommit?: string | undefined;
+  pendingEvents?: number | undefined;
+  info?: GetOrganizationIssueResponseStatusDetailsInfo | null | undefined;
 }
 export type UpdateOrganizationIssueResponseSubstatus =
   | "archived_until_escalating"
@@ -14719,7 +14915,7 @@ export interface UpdateOrganizationIssueResponseAssignedTo {
   type: UpdateOrganizationIssueResponseAssignedToType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type UpdateOrganizationIssueResponseSubscriptionDetails =
   GetOrganizationIssueResponseSubscriptionDetails;
@@ -14728,12 +14924,12 @@ export type UpdateOrganizationIssueResponseAnnotationsItem =
 export type UpdateOrganizationIssueResponseAnnotationsList =
   Array<GetOrganizationIssueResponseAnnotationsItem>;
 export interface UpdateOrganizationIssueResponse {
-  isUnhandled?: boolean;
-  count?: string;
-  userCount?: number;
-  firstSeen?: string | null;
-  lastSeen?: string | null;
-  derivedData?: GetOrganizationIssueResponseDerivedData;
+  isUnhandled?: boolean | undefined;
+  count?: string | undefined;
+  userCount?: number | undefined;
+  firstSeen?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  derivedData?: GetOrganizationIssueResponseDerivedData | undefined;
   id: string;
   shareId: string | null;
   shortId: string;
@@ -14804,25 +15000,25 @@ export interface UpdateOrganizationIssuesRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The name of environments to filter by. */
-  environment?: UpdateOrganizationIssuesRequestEnvironmentList;
+  environment?: UpdateOrganizationIssuesRequestEnvironmentList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: UpdateOrganizationIssuesRequestProjectList;
+  project?: UpdateOrganizationIssuesRequestProjectList | undefined;
   /** The list of issue IDs to mutate. It is optional for status updates, in which an implicit `update all` is assumed. */
-  id?: UpdateOrganizationIssuesRequestIdList;
+  id?: UpdateOrganizationIssuesRequestIdList | undefined;
   /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
-  statsPeriod?: string;
+  statsPeriod?: string | undefined;
   /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  start?: string;
+  start?: string | undefined;
   /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
-  end?: string;
+  end?: string | undefined;
   /** An optional search query for filtering issues. A default query will apply if no view/query is set. For all results use this parameter with an empty string. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the view to use. If no query is present, the view's query and filters will be applied. */
-  viewId?: string;
+  viewId?: string | undefined;
   /** The sort order of the view. Options include 'Last Seen' (`date`), 'First Seen' (`new`), 'Trends' (`trends`), 'Events' (`freq`), 'Users' (`user`), 'Date Added' (`inbox`), and 'Recommended' (`recommended`). */
-  sort?: UpdateOrganizationIssuesRequestSort | (string & {});
+  sort?: UpdateOrganizationIssuesRequestSort | (string & {}) | undefined;
   /** The maximum number of issues to affect. The maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** If true, marks the issue as reviewed by the requestor. */
   inbox: boolean;
   /** Limit mutations to only issues with the given status. * `resolved` * `unresolved` * `ignored` * `resolvedInNextRelease` * `muted` */
@@ -14865,7 +15061,7 @@ export interface UpdateOrganizationIssuesResponseAssignedTo {
   type: UpdateOrganizationIssuesResponseAssignedToType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export type UpdateOrganizationIssuesResponseMergeChildrenList = Array<string>;
 export interface UpdateOrganizationIssuesResponseMerge {
@@ -14877,32 +15073,32 @@ export interface UpdateOrganizationIssuesResponseStatusDetailsInCommit {
   repository: string;
 }
 export interface UpdateOrganizationIssuesResponseStatusDetails {
-  inNextRelease?: boolean;
-  inRelease?: string;
-  inCommit?: UpdateOrganizationIssuesResponseStatusDetailsInCommit;
-  ignoreDuration?: number;
-  ignoreCount?: number;
-  ignoreWindow?: number;
-  ignoreUserCount?: number;
-  ignoreUserWindow?: number;
+  inNextRelease?: boolean | undefined;
+  inRelease?: string | undefined;
+  inCommit?: UpdateOrganizationIssuesResponseStatusDetailsInCommit | undefined;
+  ignoreDuration?: number | undefined;
+  ignoreCount?: number | undefined;
+  ignoreWindow?: number | undefined;
+  ignoreUserCount?: number | undefined;
+  ignoreUserWindow?: number | undefined;
 }
 export type UpdateOrganizationIssuesResponseSubscriptionDetails =
   GetOrganizationIssueResponseSubscriptionDetails;
 export interface UpdateOrganizationIssuesResponse {
-  assignedTo?: UpdateOrganizationIssuesResponseAssignedTo;
-  discard?: boolean;
-  hasSeen?: boolean;
-  inbox?: boolean;
-  isBookmarked?: boolean;
-  isPublic?: boolean;
-  isSubscribed?: boolean;
-  merge?: UpdateOrganizationIssuesResponseMerge;
-  priority?: string;
-  shareId?: string;
-  status?: string;
-  statusDetails?: UpdateOrganizationIssuesResponseStatusDetails;
-  subscriptionDetails?: GetOrganizationIssueResponseSubscriptionDetails;
-  substatus?: string;
+  assignedTo?: UpdateOrganizationIssuesResponseAssignedTo | undefined;
+  discard?: boolean | undefined;
+  hasSeen?: boolean | undefined;
+  inbox?: boolean | undefined;
+  isBookmarked?: boolean | undefined;
+  isPublic?: boolean | undefined;
+  isSubscribed?: boolean | undefined;
+  merge?: UpdateOrganizationIssuesResponseMerge | undefined;
+  priority?: string | undefined;
+  shareId?: string | undefined;
+  status?: string | undefined;
+  statusDetails?: UpdateOrganizationIssuesResponseStatusDetails | undefined;
+  subscriptionDetails?: GetOrganizationIssueResponseSubscriptionDetails | undefined;
+  substatus?: string | undefined;
 }
 /** The organization role of the member. The options are: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `owner` - Has unrestricted access to the organization, its data, and its settings. Can add, modify, and delete projects and members, as well as make billing and plan changes. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
 export type UpdateOrganizationMemberRequestOrgRole =
@@ -14923,9 +15119,9 @@ export interface UpdateOrganizationMemberRequest {
   /** The ID of the member to update. */
   member_id: string;
   /** The organization role of the member. The options are: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `owner` - Has unrestricted access to the organization, its data, and its settings. Can add, modify, and delete projects and members, as well as make billing and plan changes. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
-  orgRole?: UpdateOrganizationMemberRequestOrgRole | (string & {});
+  orgRole?: UpdateOrganizationMemberRequestOrgRole | (string & {}) | undefined;
   /** Configures the team role of the member. The two roles are: - `contributor` - Can view and act on issues. Depending on organization settings, they can also add team members. - `admin` - Has full management access to their team's membership and projects. ```json { "teamRoles": [ { "teamSlug": "ancient-gabelers", "role": "admin" }, { "teamSlug": "powerful-abolitionist", "role": "contributor" } ] } ``` */
-  teamRoles?: UpdateOrganizationMemberRequestTeamRolesList | null;
+  teamRoles?: UpdateOrganizationMemberRequestTeamRolesList | null | undefined;
 }
 export type UpdateOrganizationMemberResponseExternalUsersItem =
   AddOrganizationMemberResponseExternalUsersItem;
@@ -14949,10 +15145,10 @@ export type UpdateOrganizationMemberResponseUserEmailsItem =
 export type UpdateOrganizationMemberResponseUserEmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface UpdateOrganizationMemberResponseUser {
-  identities?: UpdateOrganizationMemberResponseUserIdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: UpdateOrganizationMemberResponseUserAuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: UpdateOrganizationMemberResponseUserIdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: UpdateOrganizationMemberResponseUserAuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -15008,9 +15204,9 @@ export interface UpdateOrganizationMemberResponseTeamRoleListItem {
 export type UpdateOrganizationMemberResponseTeamRoleListList =
   Array<UpdateOrganizationMemberResponseTeamRoleListItem>;
 export interface UpdateOrganizationMemberResponse {
-  externalUsers?: UpdateOrganizationMemberResponseExternalUsersList;
-  role?: string;
-  roleName?: string;
+  externalUsers?: UpdateOrganizationMemberResponseExternalUsersList | undefined;
+  role?: string | undefined;
+  roleName?: string | undefined;
   id: string;
   email: string;
   name: string;
@@ -15039,7 +15235,7 @@ export interface UpdateOrganizationMemberTeamRequest {
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
   /** The team-level role to switch to. Valid roles include: * `contributor` - Contributors can view and act on events, as well as view most other data within the team's projects. * `admin` - Admin privileges on the team. They can create and remove projects, and can manage the team's memberships. */
-  teamRole?: UpdateOrganizationMemberTeamRequestTeamRole | (string & {});
+  teamRole?: UpdateOrganizationMemberTeamRequestTeamRole | (string & {}) | undefined;
 }
 export type UpdateOrganizationMemberTeamResponseTeamRole = "contributor" | "admin";
 export interface UpdateOrganizationMemberTeamResponse {
@@ -15651,19 +15847,19 @@ export type UpdateOrganizationMonitorRequestConfigTimezone =
   | "";
 export interface UpdateOrganizationMonitorRequestConfig {
   /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
-  schedule_type?: UpdateOrganizationMonitorRequestConfigScheduleType | (string & {});
+  schedule_type?: UpdateOrganizationMonitorRequestConfigScheduleType | (string & {}) | undefined;
   /** Varies depending on the schedule_type. Is either a crontab string, or a 2 element tuple for intervals (e.g. [1, 'day']) */
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
-  checkin_margin?: number | null;
+  checkin_margin?: number | null | undefined;
   /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
-  max_runtime?: number | null;
+  max_runtime?: number | null | undefined;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
-  timezone?: UpdateOrganizationMonitorRequestConfigTimezone | (string & {});
+  timezone?: UpdateOrganizationMonitorRequestConfigTimezone | (string & {}) | undefined;
   /** How many consecutive missed or failed check-ins in a row before creating a new issue. */
-  failure_issue_threshold?: number | null;
+  failure_issue_threshold?: number | null | undefined;
   /** How many successful check-ins in a row before resolving an issue. */
-  recovery_threshold?: number | null;
+  recovery_threshold?: number | null | undefined;
 }
 /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
 export type UpdateOrganizationMonitorRequestStatus = "active" | "disabled";
@@ -15674,7 +15870,7 @@ export type UpdateOrganizationMonitorRequestAlertRuleTargetsList =
   Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
 export interface UpdateOrganizationMonitorRequestAlertRule {
   /** Name of the environment */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Array of dictionaries with information of the user or team to be notified */
   targets: UpdateOrganizationMonitorRequestAlertRuleTargetsList;
 }
@@ -15690,15 +15886,15 @@ export interface UpdateOrganizationMonitorRequest {
   /** The configuration for the monitor. */
   config: UpdateOrganizationMonitorRequestConfig;
   /** Uniquely identifies your monitor within your organization. Changing this slug will require updates to any instrumented check-in calls. */
-  slug?: string;
+  slug?: string | undefined;
   /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
-  status?: UpdateOrganizationMonitorRequestStatus | (string & {});
+  status?: UpdateOrganizationMonitorRequestStatus | (string & {}) | undefined;
   /** The ID of the team or user that owns the monitor. (eg. user:51 or team:6) */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Disable creation of monitor incidents */
-  is_muted?: boolean;
+  is_muted?: boolean | undefined;
   /** Alert rule configuration created alongside the monitor. */
-  alert_rule?: UpdateOrganizationMonitorRequestAlertRule;
+  alert_rule?: UpdateOrganizationMonitorRequestAlertRule | undefined;
 }
 export type UpdateOrganizationMonitorResponseAlertRuleTargetsItem =
   CreateOrganizationMonitorResponseAlertRuleTargetsItem;
@@ -15728,9 +15924,9 @@ export type UpdateOrganizationMonitorResponseProjectAccessList = Array<string>;
 export type UpdateOrganizationMonitorResponseProjectAvatar =
   AddOrganizationMemberResponseUserAvatar;
 export interface UpdateOrganizationMonitorResponseProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -15780,10 +15976,10 @@ export interface UpdateOrganizationMonitorResponseOwner {
   type: UpdateOrganizationMonitorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateOrganizationMonitorResponse {
-  alertRule?: UpdateOrganizationMonitorResponseAlertRule;
+  alertRule?: UpdateOrganizationMonitorResponseAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -15808,17 +16004,17 @@ export interface UpdateOrganizationNotificationsActionRequest {
   /** Service that is used for sending the notification. - `email` - `slack` - `sentry_notification` - `pagerduty` - `opsgenie` */
   service_type: string;
   /** ID of the integration used as the notification service. See [List Integrations](https://docs.sentry.io/api/integrations/list-an-organizations-available-integrations/) to retrieve a full list of integrations. Required if **service_type** is `slack`, `pagerduty` or `opsgenie`. */
-  integration_id?: number;
+  integration_id?: number | undefined;
   /** ID of the notification target, like a Slack channel ID. Required if **service_type** is `slack` or `opsgenie`. */
-  target_identifier?: string;
+  target_identifier?: string | undefined;
   /** Name of the notification target, like a Slack channel name. Required if **service_type** is `slack` or `opsgenie`. */
-  target_display?: string;
+  target_display?: string | undefined;
   /** List of project IDs or slugs that the Notification Action is created for. */
-  projects?: UpdateOrganizationNotificationsActionRequestProjectsList;
+  projects?: UpdateOrganizationNotificationsActionRequestProjectsList | undefined;
   /** ID of the custom integration to notify, when the target is a Sentry app. */
-  sentry_app_id?: number;
+  sentry_app_id?: number | undefined;
   /** How the notification target is addressed. */
-  target_type?: string;
+  target_type?: string | undefined;
 }
 export interface UpdateOrganizationNotificationsActionResponse {}
 export type UpdateOrganizationReleaseRequestCommitsItemPatchSetItem =
@@ -15827,12 +16023,12 @@ export type UpdateOrganizationReleaseRequestCommitsItemPatchSetList =
   Array<CreateOrganizationReleaseRequestCommitsItemPatchSetItem>;
 export interface UpdateOrganizationReleaseRequestCommitsItem {
   id: string;
-  repository?: string | null;
-  message?: string | null;
-  author_name?: string | null;
-  author_email?: string | null;
-  timestamp?: string | null;
-  patch_set?: UpdateOrganizationReleaseRequestCommitsItemPatchSetList | null;
+  repository?: string | null | undefined;
+  message?: string | null | undefined;
+  author_name?: string | null | undefined;
+  author_email?: string | null | undefined;
+  timestamp?: string | null | undefined;
+  patch_set?: UpdateOrganizationReleaseRequestCommitsItemPatchSetList | null | undefined;
 }
 /** An optional list of commit data to be associated. */
 export type UpdateOrganizationReleaseRequestCommitsList =
@@ -15852,19 +16048,19 @@ export interface UpdateOrganizationReleaseRequest {
   /** The version identifier of the release */
   version: string;
   /** An optional commit reference. This is useful if a tagged version has been provided. */
-  ref?: string | null;
+  ref?: string | null | undefined;
   /** A URL that points to the release. For instance, this can be the path to an online interface to the source code, such as a GitHub URL. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** An optional date that indicates when the release went live. If not provided the current time is used. */
-  dateReleased?: string | null;
+  dateReleased?: string | null | undefined;
   /** An optional list of commit data to be associated. */
-  commits?: UpdateOrganizationReleaseRequestCommitsList;
+  commits?: UpdateOrganizationReleaseRequestCommitsList | undefined;
   /** The status of the release. Can be `open` or `archived`. */
-  status?: string;
+  status?: string | undefined;
   /** Deprecated, use `commits`. Head commits to associate with the release. */
-  headCommits?: UpdateOrganizationReleaseRequestHeadCommitsList;
+  headCommits?: UpdateOrganizationReleaseRequestHeadCommitsList | undefined;
   /** An optional way to indicate the start and end commits for each repository included in a release. Head commits must include parameters ``repository`` and ``commit`` (the HEAD SHA). For GitLab repositories, please use the Group name instead of the slug. They can optionally include ``previousCommit`` (the SHA of the HEAD of the previous release), which should be specified if this is the first time you've sent commit data. */
-  refs?: UpdateOrganizationReleaseRequestRefsList;
+  refs?: UpdateOrganizationReleaseRequestRefsList | undefined;
 }
 export type UpdateOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export type UpdateOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
@@ -15880,7 +16076,7 @@ export type UpdateOrganizationReleaseResponseVersionInfoVersionMap = {
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationReleaseResponseVersionInfo {
-  description?: string;
+  description?: string | undefined;
   package: string | null;
   version: UpdateOrganizationReleaseResponseVersionInfoVersionMap;
   buildHash: string | null;
@@ -15905,10 +16101,10 @@ export type UpdateOrganizationReleaseResponseAuthorsItemCase0EmailsItem =
 export type UpdateOrganizationReleaseResponseAuthorsItemCase0EmailsList =
   Array<AddOrganizationMemberResponseUserEmailsItem>;
 export interface UpdateOrganizationReleaseResponseAuthorsItemCase0 {
-  identities?: UpdateOrganizationReleaseResponseAuthorsItemCase0IdentitiesList;
-  avatar?: AddOrganizationMemberResponseUserAvatar;
-  authenticators?: UpdateOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList;
-  canReset2fa?: boolean;
+  identities?: UpdateOrganizationReleaseResponseAuthorsItemCase0IdentitiesList | undefined;
+  avatar?: AddOrganizationMemberResponseUserAvatar | undefined;
+  authenticators?: UpdateOrganizationReleaseResponseAuthorsItemCase0AuthenticatorsList | undefined;
+  canReset2fa?: boolean | undefined;
   id: string;
   name: string;
   username: string;
@@ -15938,18 +16134,18 @@ export type UpdateOrganizationReleaseResponseProjectsItemHealthDataStatsMap = {
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationReleaseResponseProjectsItemHealthData {
-  durationP50?: number | null;
-  durationP90?: number | null;
-  crashFreeUsers?: number | null;
-  crashFreeSessions?: number | null;
-  totalUsers?: number | null;
-  totalUsers24h?: number | null;
-  totalProjectUsers24h?: number | null;
-  totalSessions?: number | null;
-  totalSessions24h?: number | null;
-  totalProjectSessions24h?: number | null;
-  adoption?: number | null;
-  sessionsAdoption?: number | null;
+  durationP50?: number | null | undefined;
+  durationP90?: number | null | undefined;
+  crashFreeUsers?: number | null | undefined;
+  crashFreeSessions?: number | null | undefined;
+  totalUsers?: number | null | undefined;
+  totalUsers24h?: number | null | undefined;
+  totalProjectUsers24h?: number | null | undefined;
+  totalSessions?: number | null | undefined;
+  totalSessions24h?: number | null | undefined;
+  totalProjectSessions24h?: number | null | undefined;
+  adoption?: number | null | undefined;
+  sessionsAdoption?: number | null | undefined;
   sessionsCrashed: number;
   sessionsErrored: number;
   hasHealthData: boolean;
@@ -15957,10 +16153,10 @@ export interface UpdateOrganizationReleaseResponseProjectsItemHealthData {
 }
 export type UpdateOrganizationReleaseResponseProjectsItemPlatformsList = Array<string>;
 export interface UpdateOrganizationReleaseResponseProjectsItem {
-  healthData?: UpdateOrganizationReleaseResponseProjectsItemHealthData | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
+  healthData?: UpdateOrganizationReleaseResponseProjectsItemHealthData | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
   id: number;
   slug: string;
   name: string;
@@ -15972,19 +16168,19 @@ export interface UpdateOrganizationReleaseResponseProjectsItem {
 export type UpdateOrganizationReleaseResponseProjectsList =
   Array<UpdateOrganizationReleaseResponseProjectsItem>;
 export interface UpdateOrganizationReleaseResponse {
-  ref?: string | null;
-  url?: string | null;
-  dateReleased?: string | null;
-  dateCreated?: string | null;
-  dateStarted?: string | null;
-  owner?: UpdateOrganizationReleaseResponseOwnerMap | null;
-  lastCommit?: UpdateOrganizationReleaseResponseLastCommitMap | null;
-  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null;
-  firstEvent?: string | null;
-  lastEvent?: string | null;
-  currentProjectMeta?: UpdateOrganizationReleaseResponseCurrentProjectMetaMap | null;
-  userAgent?: string | null;
-  adoptionStages?: UpdateOrganizationReleaseResponseAdoptionStagesMap | null;
+  ref?: string | null | undefined;
+  url?: string | null | undefined;
+  dateReleased?: string | null | undefined;
+  dateCreated?: string | null | undefined;
+  dateStarted?: string | null | undefined;
+  owner?: UpdateOrganizationReleaseResponseOwnerMap | null | undefined;
+  lastCommit?: UpdateOrganizationReleaseResponseLastCommitMap | null | undefined;
+  lastDeploy?: CreateOrganizationReleaseResponseLastDeploy | null | undefined;
+  firstEvent?: string | null | undefined;
+  lastEvent?: string | null | undefined;
+  currentProjectMeta?: UpdateOrganizationReleaseResponseCurrentProjectMetaMap | null | undefined;
+  userAgent?: string | null | undefined;
+  adoptionStages?: UpdateOrganizationReleaseResponseAdoptionStagesMap | null | undefined;
   id: number;
   version: string;
   newGroups: number;
@@ -16026,8 +16222,8 @@ export type UpdateOrganizationScimV2GroupRequestOperationsItemValueMap = {
 };
 export interface UpdateOrganizationScimV2GroupRequestOperationsItem {
   op: string;
-  value?: UpdateOrganizationScimV2GroupRequestOperationsItemValueMap;
-  path?: string;
+  value?: UpdateOrganizationScimV2GroupRequestOperationsItemValueMap | undefined;
+  path?: string | undefined;
 }
 /** The list of operations to perform. Valid operations are: * Renaming a team: ```json { "Operations": [{ "op": "replace", "value": { "id": 23, "displayName": "newName" } }] } ``` * Adding a member to a team: ```json { "Operations": [{ "op": "add", "path": "members", "value": [ { "value": 23, "display": "testexample@example.com" } ] }] } ``` * Removing a member from a team: ```json { "Operations": [{ "op": "remove", "path": "members[value eq "23"]" }] } ``` * Replacing an entire member set of a team: ```json { "Operations": [{ "op": "replace", "path": "members", "value": [ { "value": 23, "display": "testexample2@sentry.io" }, { "value": 24, "display": "testexample3@sentry.io" } ] }] } ``` */
 export type UpdateOrganizationScimV2GroupRequestOperationsList =
@@ -16046,7 +16242,7 @@ export interface UpdateOrganizationScimV2GroupResponse {}
 export interface UpdateOrganizationScimV2UserRequestOperationsItem {
   op: string;
   value: unknown;
-  path?: string;
+  path?: string | undefined;
 }
 /** A list of operations to perform. Currently, the only valid operation is setting a member's `active` attribute to false, after which the member will be permanently deleted. ```json { "Operations": [{ "op": "replace", "path": "active", "value": False }] } ``` */
 export type UpdateOrganizationScimV2UserRequestOperationsList =
@@ -16061,7 +16257,7 @@ export interface UpdateOrganizationScimV2UserRequest {
   /** A list of operations to perform. Currently, the only valid operation is setting a member's `active` attribute to false, after which the member will be permanently deleted. ```json { "Operations": [{ "op": "replace", "path": "active", "value": False }] } ``` */
   Operations: UpdateOrganizationScimV2UserRequestOperationsList;
   /** SCIM schema URIs identifying the request format. Must be the PatchOp schema. */
-  schemas?: UpdateOrganizationScimV2UserRequestSchemasList;
+  schemas?: UpdateOrganizationScimV2UserRequestSchemasList | undefined;
 }
 export interface UpdateOrganizationScimV2UserResponse {}
 /** The IDs of the monitors to connect this alert to. Use 'Fetch an Organization's Monitors' to find the IDs. */
@@ -16077,10 +16273,10 @@ export type UpdateOrganizationWorkflowRequestTriggersLogicType =
 export type UpdateOrganizationWorkflowRequestTriggersConditionsList = Array<unknown>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface UpdateOrganizationWorkflowRequestTriggers {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: UpdateOrganizationWorkflowRequestTriggersLogicType | (string & {});
-  conditions?: UpdateOrganizationWorkflowRequestTriggersConditionsList;
+  conditions?: UpdateOrganizationWorkflowRequestTriggersConditionsList | undefined;
 }
 /** * `any` * `any-short` * `all` * `none` */
 export type UpdateOrganizationWorkflowRequestActionFiltersItemLogicType =
@@ -16096,10 +16292,10 @@ export type UpdateOrganizationWorkflowRequestActionFiltersItemActionsList =
   Array<UpdateOrganizationWorkflowRequestActionFiltersItemActionsItemMap>;
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export interface UpdateOrganizationWorkflowRequestActionFiltersItem {
-  id?: number;
+  id?: number | undefined;
   /** * `any` * `any-short` * `all` * `none` */
   logic_type: UpdateOrganizationWorkflowRequestActionFiltersItemLogicType | (string & {});
-  conditions?: UpdateOrganizationWorkflowRequestActionFiltersItemConditionsList;
+  conditions?: UpdateOrganizationWorkflowRequestActionFiltersItemConditionsList | undefined;
   actions: UpdateOrganizationWorkflowRequestActionFiltersItemActionsList;
 }
 /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
@@ -16113,21 +16309,21 @@ export interface UpdateOrganizationWorkflowRequest {
   /** The name of the alert */
   name: string;
   /** The ID of the existing alert */
-  id?: string;
+  id?: string | undefined;
   /** Whether the alert is enabled or disabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The IDs of the monitors to connect this alert to. Use 'Fetch an Organization's Monitors' to find the IDs. */
-  detector_ids?: UpdateOrganizationWorkflowRequestDetectorIdsList;
+  detector_ids?: UpdateOrganizationWorkflowRequestDetectorIdsList | undefined;
   /** Typically the frequency at which the alert will fire, in minutes. - `0`: 0 minutes - `5`: 5 minutes - `10`: 10 minutes - `30`: 30 minutes - `60`: 1 hour - `180`: 3 hours - `720`: 12 hours - `1440`: 24 hours ```json { "frequency":3600 } ``` */
-  config?: UpdateOrganizationWorkflowRequestConfigMap;
+  config?: UpdateOrganizationWorkflowRequestConfigMap | undefined;
   /** The name of the environment for the alert to evaluate in */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** The conditions on which the alert will trigger. See available options below. ```json "triggers": { "organizationId": "1", "logicType": "any-short", "conditions": [ { "type": "first_seen_event", "comparison": true, "conditionResult": true }, { "type": "issue_resolved_trigger", "comparison": true, "conditionResult": true }, { "type": "reappeared_event", "comparison": true, "conditionResult": true }, { "type": "regression_event", "comparison": true, "conditionResult": true }, { "type": "seer_activity_trigger", "comparison": [ "rca_completed", "solution_completed", "coding_completed", "pr_ready_for_review" ], "conditionResult": true } ], "actions": [] } ``` */
-  triggers?: UpdateOrganizationWorkflowRequestTriggers;
+  triggers?: UpdateOrganizationWorkflowRequestTriggers | undefined;
   /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
-  action_filters?: UpdateOrganizationWorkflowRequestActionFiltersList;
+  action_filters?: UpdateOrganizationWorkflowRequestActionFiltersList | undefined;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
-  owner?: string | null;
+  owner?: string | null | undefined;
 }
 export type UpdateOrganizationWorkflowResponseTriggersConditionsCase0ItemComparison =
   | boolean
@@ -16151,12 +16347,12 @@ export type UpdateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap 
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationWorkflowResponseTriggersActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: UpdateOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap;
-  config?: UpdateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: UpdateOrganizationWorkflowResponseTriggersActionsCase0ItemDataMap | undefined;
+  config?: UpdateOrganizationWorkflowResponseTriggersActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type UpdateOrganizationWorkflowResponseTriggersActionsCase0List =
   Array<UpdateOrganizationWorkflowResponseTriggersActionsCase0Item>;
@@ -16165,11 +16361,11 @@ export type UpdateOrganizationWorkflowResponseTriggersActions =
   | UpdateOrganizationWorkflowResponseTriggersActionsCase0List
   | UpdateOrganizationWorkflowResponseTriggersActionsCase1List;
 export interface UpdateOrganizationWorkflowResponseTriggers {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: UpdateOrganizationWorkflowResponseTriggersConditions;
-  actions?: UpdateOrganizationWorkflowResponseTriggersActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: UpdateOrganizationWorkflowResponseTriggersConditions | undefined;
+  actions?: UpdateOrganizationWorkflowResponseTriggersActions | undefined;
 }
 export type UpdateOrganizationWorkflowResponseActionFiltersItemConditionsCase0ItemComparison =
   | boolean
@@ -16193,12 +16389,12 @@ export type UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemC
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap;
-  config?: UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemDataMap | undefined;
+  config?: UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0List =
   Array<UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0Item>;
@@ -16207,11 +16403,11 @@ export type UpdateOrganizationWorkflowResponseActionFiltersItemActions =
   | UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase0List
   | UpdateOrganizationWorkflowResponseActionFiltersItemActionsCase1List;
 export interface UpdateOrganizationWorkflowResponseActionFiltersItem {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: UpdateOrganizationWorkflowResponseActionFiltersItemConditions;
-  actions?: UpdateOrganizationWorkflowResponseActionFiltersItemActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: UpdateOrganizationWorkflowResponseActionFiltersItemConditions | undefined;
+  actions?: UpdateOrganizationWorkflowResponseActionFiltersItemActions | undefined;
 }
 export type UpdateOrganizationWorkflowResponseActionFiltersList =
   Array<UpdateOrganizationWorkflowResponseActionFiltersItem>;
@@ -16241,11 +16437,11 @@ export interface UpdateOrganizationWorkflowsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** An optional search query for filtering alerts. */
-  query?: string;
+  query?: string | undefined;
   /** The ID of the alert you'd like to query. */
-  id?: UpdateOrganizationWorkflowsRequestIdList;
+  id?: UpdateOrganizationWorkflowsRequestIdList | undefined;
   /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
-  project?: UpdateOrganizationWorkflowsRequestProjectList;
+  project?: UpdateOrganizationWorkflowsRequestProjectList | undefined;
   /** Whether to enable or disable the alerts */
   enabled: boolean;
 }
@@ -16271,12 +16467,12 @@ export type UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemC
   [key: string]: unknown | undefined;
 };
 export interface UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemDataMap;
-  config?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemDataMap | undefined;
+  config?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0ItemConfigMap | undefined;
+  status?: string | undefined;
 }
 export type UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0List =
   Array<UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0Item>;
@@ -16285,11 +16481,11 @@ export type UpdateOrganizationWorkflowsResponseBodyItemTriggersActions =
   | UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase0List
   | UpdateOrganizationWorkflowsResponseBodyItemTriggersActionsCase1List;
 export interface UpdateOrganizationWorkflowsResponseBodyItemTriggers {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: UpdateOrganizationWorkflowsResponseBodyItemTriggersConditions;
-  actions?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: UpdateOrganizationWorkflowsResponseBodyItemTriggersConditions | undefined;
+  actions?: UpdateOrganizationWorkflowsResponseBodyItemTriggersActions | undefined;
 }
 export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemConditionsCase0ItemComparison =
   | boolean
@@ -16313,12 +16509,16 @@ export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsC
 export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemConfigMap =
   { [key: string]: unknown | undefined };
 export interface UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0Item {
-  id?: string;
-  type?: string;
-  integrationId?: string | null;
-  data?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemDataMap;
-  config?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemConfigMap;
-  status?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  integrationId?: string | null | undefined;
+  data?:
+    | UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemDataMap
+    | undefined;
+  config?:
+    | UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0ItemConfigMap
+    | undefined;
+  status?: string | undefined;
 }
 export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0List =
   Array<UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0Item>;
@@ -16328,11 +16528,11 @@ export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActions 
   | UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase0List
   | UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActionsCase1List;
 export interface UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItem {
-  id?: string;
-  organizationId?: string;
-  logicType?: string;
-  conditions?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemConditions;
-  actions?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActions;
+  id?: string | undefined;
+  organizationId?: string | undefined;
+  logicType?: string | undefined;
+  conditions?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemConditions | undefined;
+  actions?: UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItemActions | undefined;
 }
 export type UpdateOrganizationWorkflowsResponseBodyItemActionFiltersList =
   Array<UpdateOrganizationWorkflowsResponseBodyItemActionFiltersItem>;
@@ -16400,7 +16600,7 @@ export type UpdateProjectRequestDynamicSamplingBiasesItemId =
 export interface UpdateProjectRequestDynamicSamplingBiasesItem {
   /** * `boostEnvironments` * `boostKeyTransactions` * `boostLatestRelease` * `boostLowVolumeTransactions` * `boostReplayId` * `ignoreHealthChecks` * `minimumSampleRate` * `recalibrationRule` */
   id: UpdateProjectRequestDynamicSamplingBiasesItemId | (string & {});
-  active?: boolean;
+  active?: boolean | undefined;
 }
 /** Per-bias toggles adjusting which transactions dynamic sampling favors retaining. */
 export type UpdateProjectRequestDynamicSamplingBiasesList =
@@ -16421,115 +16621,115 @@ export interface UpdateProjectRequest {
   /** Name of the header carrying the security token on inbound security reports. */
   securityTokenHeader: string;
   /** Enables starring the project within the projects tab. Can be updated with **`project:read`** permission. */
-  isBookmarked?: boolean;
+  isBookmarked?: boolean | undefined;
   /** How aggressively Seer runs Autofix on new issues. Can be updated with **`project:read`** permission. * `off` * `super_low` * `low` * `medium` * `high` * `always` */
-  autofixAutomationTuning?: UpdateProjectRequestAutofixAutomationTuning | (string & {});
+  autofixAutomationTuning?: UpdateProjectRequestAutofixAutomationTuning | (string & {}) | undefined;
   /** Let Seer scan new issues automatically. Can be updated with **`project:read`** permission. */
-  seerScannerAutomation?: boolean;
+  seerScannerAutomation?: boolean | undefined;
   /** Enable preprod size status checks. Can be updated with **`project:read`** permission. */
-  preprodSizeStatusChecksEnabled?: boolean;
+  preprodSizeStatusChecksEnabled?: boolean | undefined;
   /** Rules controlling when preprod size status checks fail. Can be updated with **`project:read`** permission. */
-  preprodSizeStatusChecksRules?: UpdateProjectRequestPreprodSizeStatusChecksRulesMap;
+  preprodSizeStatusChecksRules?: UpdateProjectRequestPreprodSizeStatusChecksRulesMap | undefined;
   /** Enable preprod size PR comments. Can be updated with **`project:read`** permission. */
-  preprodSizePrCommentsEnabled?: boolean;
+  preprodSizePrCommentsEnabled?: boolean | undefined;
   /** Rules controlling which preprod size changes are posted as PR comments. Can be updated with **`project:read`** permission. */
-  preprodSizePrCommentsRules?: UpdateProjectRequestPreprodSizePrCommentsRulesMap;
+  preprodSizePrCommentsRules?: UpdateProjectRequestPreprodSizePrCommentsRulesMap | undefined;
   /** Enable preprod snapshot status checks. */
-  preprodSnapshotStatusChecksEnabled?: boolean;
+  preprodSnapshotStatusChecksEnabled?: boolean | undefined;
   /** Fail the preprod snapshot status check when snapshots are added. */
-  preprodSnapshotStatusChecksFailOnAdded?: boolean;
+  preprodSnapshotStatusChecksFailOnAdded?: boolean | undefined;
   /** Fail the preprod snapshot status check when snapshots are removed. */
-  preprodSnapshotStatusChecksFailOnRemoved?: boolean;
+  preprodSnapshotStatusChecksFailOnRemoved?: boolean | undefined;
   /** Fail the preprod snapshot status check when snapshots change. */
-  preprodSnapshotStatusChecksFailOnChanged?: boolean;
+  preprodSnapshotStatusChecksFailOnChanged?: boolean | undefined;
   /** Fail the preprod snapshot status check when snapshots are renamed. */
-  preprodSnapshotStatusChecksFailOnRenamed?: boolean;
+  preprodSnapshotStatusChecksFailOnRenamed?: boolean | undefined;
   /** Enable preprod size analysis. Can be updated with **`project:read`** permission. */
-  preprodSizeEnabledByCustomer?: boolean | null;
+  preprodSizeEnabledByCustomer?: boolean | null | undefined;
   /** Enable preprod build distribution. Can be updated with **`project:read`** permission. */
-  preprodDistributionEnabledByCustomer?: boolean | null;
+  preprodDistributionEnabledByCustomer?: boolean | null | undefined;
   /** Post preprod distribution updates as PR comments. Can be updated with **`project:read`** permission. */
-  preprodDistributionPrCommentsEnabledByCustomer?: boolean | null;
+  preprodDistributionPrCommentsEnabledByCustomer?: boolean | null | undefined;
   /** Post preprod snapshot changes as PR comments. */
-  preprodSnapshotPrCommentsEnabled?: boolean | null;
+  preprodSnapshotPrCommentsEnabled?: boolean | null | undefined;
   /** Include added snapshots in preprod snapshot PR comments. */
-  preprodSnapshotPrCommentsPostOnAdded?: boolean | null;
+  preprodSnapshotPrCommentsPostOnAdded?: boolean | null | undefined;
   /** Include removed snapshots in preprod snapshot PR comments. */
-  preprodSnapshotPrCommentsPostOnRemoved?: boolean | null;
+  preprodSnapshotPrCommentsPostOnRemoved?: boolean | null | undefined;
   /** Include changed snapshots in preprod snapshot PR comments. */
-  preprodSnapshotPrCommentsPostOnChanged?: boolean | null;
+  preprodSnapshotPrCommentsPostOnChanged?: boolean | null | undefined;
   /** Include renamed snapshots in preprod snapshot PR comments. */
-  preprodSnapshotPrCommentsPostOnRenamed?: boolean | null;
+  preprodSnapshotPrCommentsPostOnRenamed?: boolean | null | undefined;
   /** Query selecting which preprod builds are size-analyzed. Can be updated with **`project:read`** permission. */
-  preprodSizeEnabledQuery?: string | null;
+  preprodSizeEnabledQuery?: string | null | undefined;
   /** Query selecting which preprod builds are distributed. Can be updated with **`project:read`** permission. */
-  preprodDistributionEnabledQuery?: string | null;
+  preprodDistributionEnabledQuery?: string | null | undefined;
   /** The name for the project */
-  name?: string;
+  name?: string | undefined;
   /** Uniquely identifies a project and is used for the interface. */
-  slug?: string;
+  slug?: string | undefined;
   /** The platform for the project */
-  platform?: string | null;
+  platform?: string | null | undefined;
   /** Custom prefix for emails from this project. */
-  subjectPrefix?: string;
+  subjectPrefix?: string | undefined;
   /** The email subject to use (excluding the prefix) for individual alerts. Here are the list of variables you can use: - `$title` - `$shortID` - `$projectID` - `$orgID` - `${tag:key}` - such as `${tag:environment}` or `${tag:release}`. */
-  subjectTemplate?: string;
+  subjectTemplate?: string | undefined;
   /** Automatically resolve an issue if it hasn't been seen for this many hours. Set to `0` to disable auto-resolve. */
-  resolveAge?: number | null;
+  resolveAge?: number | null | undefined;
   /** A JSON mapping of context types to lists of strings for their keys. E.g. `{'user': ['id', 'email']}` */
-  highlightContext?: UpdateProjectRequestHighlightContextMap;
+  highlightContext?: UpdateProjectRequestHighlightContextMap | undefined;
   /** A list of strings with tag keys to highlight on this project's issues. E.g. `['release', 'environment']` */
-  highlightTags?: UpdateProjectRequestHighlightTagsList;
+  highlightTags?: UpdateProjectRequestHighlightTagsList | undefined;
   /** Verify SSL certificates when delivering outbound webhooks and service hooks. */
-  verifySSL?: boolean;
+  verifySSL?: boolean | undefined;
   /** Environment selected by default when viewing this project. */
-  defaultEnvironment?: string | null;
+  defaultEnvironment?: string | null | undefined;
   /** Remove known sensitive values from events before storing them. */
-  dataScrubber?: boolean;
+  dataScrubber?: boolean | undefined;
   /** Also scrub Sentry's built-in list of sensitive field names. */
-  dataScrubberDefaults?: boolean;
+  dataScrubberDefaults?: boolean | undefined;
   /** Additional field names to scrub from events, beyond the defaults. */
-  sensitiveFields?: UpdateProjectRequestSensitiveFieldsList;
+  sensitiveFields?: UpdateProjectRequestSensitiveFieldsList | undefined;
   /** Field names to exempt from scrubbing, including the built-in defaults. */
-  safeFields?: UpdateProjectRequestSafeFieldsList;
+  safeFields?: UpdateProjectRequestSafeFieldsList | undefined;
   /** Number of native crash report files to store per issue. Use `-1` for unlimited or `0` to store none. */
-  storeCrashReports?: number | null;
+  storeCrashReports?: number | null | undefined;
   /** Advanced data scrubbing rules, as a JSON string, applied before events are stored. */
-  relayPiiConfig?: string | null;
+  relayPiiConfig?: string | null | undefined;
   /** Identifiers of Sentry-hosted symbol sources to use when symbolicating events. */
-  builtinSymbolSources?: UpdateProjectRequestBuiltinSymbolSourcesList;
+  builtinSymbolSources?: UpdateProjectRequestBuiltinSymbolSourcesList | undefined;
   /** Custom symbol sources, as a JSON string, to use when symbolicating events. */
-  symbolSources?: string | null;
+  symbolSources?: string | null | undefined;
   /** Discard client IP addresses rather than storing them on events. */
-  scrubIPAddresses?: boolean;
+  scrubIPAddresses?: boolean | undefined;
   /** Identifier of the grouping algorithm used to assign events to issues. */
-  groupingConfig?: string | null;
+  groupingConfig?: string | null | undefined;
   /** Grouping enhancement rules, as a newline-delimited config string, adjusting which stack frames contribute to an issue. */
-  groupingEnhancements?: string | null;
+  groupingEnhancements?: string | null | undefined;
   /** Fingerprinting rules, as a newline-delimited config string, controlling how events are grouped into issues. */
-  fingerprintingRules?: string | null;
+  fingerprintingRules?: string | null | undefined;
   /** Grouping algorithm run alongside the primary one during a grouping migration. */
-  secondaryGroupingConfig?: string | null;
+  secondaryGroupingConfig?: string | null | undefined;
   /** Unix timestamp after which the secondary grouping algorithm stops running. */
-  secondaryGroupingExpiry?: number | null;
+  secondaryGroupingExpiry?: number | null | undefined;
   /** Allow Sentry to fetch source files and source maps from your servers. */
-  scrapeJavaScript?: boolean;
+  scrapeJavaScript?: boolean | undefined;
   /** Automatically create releases from ingested events. When disabled, releases must be created manually (e.g. via the Sentry CLI). */
-  enableAutoReleaseCreation?: boolean;
+  enableAutoReleaseCreation?: boolean | undefined;
   /** Origins permitted to send events to this project. Use `*` to allow any. */
-  allowedDomains?: UpdateProjectRequestAllowedDomainsList;
+  allowedDomains?: UpdateProjectRequestAllowedDomainsList | undefined;
   /** ID of a project whose settings, teams, and keys should be copied into this one. */
-  copy_from_project?: number;
+  copy_from_project?: number | undefined;
   /** Target proportion of transactions to retain, from `0` to `1`. Requires manual dynamic sampling mode. */
-  targetSampleRate?: number;
+  targetSampleRate?: number | undefined;
   /** Per-bias toggles adjusting which transactions dynamic sampling favors retaining. */
-  dynamicSamplingBiases?: UpdateProjectRequestDynamicSamplingBiasesList;
+  dynamicSamplingBiases?: UpdateProjectRequestDynamicSamplingBiasesList | undefined;
   /** Fetch screenshots attached to console crash reports. Requires the Tempest feature. */
-  tempestFetchScreenshots?: boolean;
+  tempestFetchScreenshots?: boolean | undefined;
   /** Enable on-demand source context fetching from SCM integrations for stack traces. */
-  scmSourceContextEnabled?: boolean;
+  scmSourceContextEnabled?: boolean | undefined;
   /** The role required to download debug information files, ProGuard mappings and source maps. If not set, inherits from organization setting. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
-  debugFilesRole?: UpdateProjectRequestDebugFilesRole | (string & {}) | null;
+  debugFilesRole?: UpdateProjectRequestDebugFilesRole | (string & {}) | null | undefined;
 }
 export type UpdateProjectResponseFeaturesList = Array<string>;
 export type UpdateProjectResponseAccessList = Array<string>;
@@ -16571,10 +16771,10 @@ export type UpdateProjectResponseOrganizationAvatar = AddOrganizationMemberRespo
 export type UpdateProjectResponseOrganizationLinks =
   CreateOrganizationTeamResponseOrganizationLinks;
 export interface UpdateProjectResponseOrganization {
-  features?: UpdateProjectResponseOrganizationFeaturesList;
-  extraOptions?: UpdateProjectResponseOrganizationExtraOptionsMap;
-  access?: UpdateProjectResponseOrganizationAccessList;
-  onboardingTasks?: UpdateProjectResponseOrganizationOnboardingTasksList;
+  features?: UpdateProjectResponseOrganizationFeaturesList | undefined;
+  extraOptions?: UpdateProjectResponseOrganizationExtraOptionsMap | undefined;
+  access?: UpdateProjectResponseOrganizationAccessList | undefined;
+  onboardingTasks?: UpdateProjectResponseOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -16598,9 +16798,9 @@ export type UpdateProjectResponseDynamicSamplingBiasesItemMap = {
 export type UpdateProjectResponseDynamicSamplingBiasesList =
   Array<UpdateProjectResponseDynamicSamplingBiasesItemMap>;
 export interface UpdateProjectResponse {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -16638,7 +16838,7 @@ export interface UpdateProjectResponse {
   avatar: AddOrganizationMemberResponseUserAvatar;
   color: string;
   status: string;
-  team?: AddProjectTeamResponseTeam;
+  team?: AddProjectTeamResponseTeam | undefined;
   teams: UpdateProjectResponseTeamsList;
   latestRelease: CreateOrganizationProjectResponseLatestRelease | null;
   options: UpdateProjectResponseOptionsMap;
@@ -16692,9 +16892,9 @@ export interface UpdateProjectCodeOwnersRequest {
   /** The ID of the CODEOWNERS configuration. */
   codeowners_id: string;
   /** The raw contents of the CODEOWNERS file. */
-  raw?: string;
+  raw?: string | undefined;
   /** The ID of the code mapping used to translate repository paths to stack trace paths. */
-  codeMappingId?: string;
+  codeMappingId?: string | undefined;
 }
 export type UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList = Array<string>;
 export type UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap = {
@@ -16756,11 +16956,11 @@ export type UpdateProjectCodeOwnersResponseSchema =
   | UpdateProjectCodeOwnersResponseSchemaCase0
   | unknown;
 export interface UpdateProjectCodeOwnersResponse {
-  codeMapping?: UpdateProjectCodeOwnersResponseCodeMapping;
-  ownershipSyntax?: string;
-  errors?: UpdateProjectCodeOwnersResponseErrors;
-  schema?: UpdateProjectCodeOwnersResponseSchema;
-  codeOwnersUrl?: string;
+  codeMapping?: UpdateProjectCodeOwnersResponseCodeMapping | undefined;
+  ownershipSyntax?: string | undefined;
+  errors?: UpdateProjectCodeOwnersResponseErrors | undefined;
+  schema?: UpdateProjectCodeOwnersResponseSchema | undefined;
+  codeOwnersUrl?: string | undefined;
   id: string;
   raw: string;
   dateCreated: string;
@@ -16815,9 +17015,9 @@ export interface UpdateProjectFilterRequest {
   /** The type of filter toggle to update. The options are: - `browser-extensions` - Filter out errors known to be caused by browser extensions. - `localhost` - Filter out events coming from localhost. This applies to both IPv4 (``127.0.0.1``) and IPv6 (``::1``) addresses. - `filtered-transaction` - Filter out transactions for healthcheck and ping endpoints. - `web-crawlers` - Filter out known web crawlers. Some crawlers may execute pages in incompatible ways which cause errors that are unlikely to be seen by a normal user. - `legacy-browser` - Filter out known errors from legacy browsers. Older browsers often give less accurate information, and while they may report valid issues, the context to understand them is incorrect or missing. */
   filter_id: string;
   /** Toggle the browser-extensions, localhost, filtered-transaction, or web-crawlers filter on or off. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Specifies which legacy browser filters should be active. Anything excluded from the list will be disabled. The options are: - `ie` - Internet Explorer Version 11 and lower - `edge` - Edge Version 110 and lower - `safari` - Safari Version 15 and lower - `firefox` - Firefox Version 110 and lower - `chrome` - Chrome Version 110 and lower - `opera` - Opera Version 99 and lower - `android` - Android Version 3 and lower - `opera_mini` - Opera Mini Version 34 and lower Deprecated options: - `ie_pre_9` - Internet Explorer Version 8 and lower - `ie9` - Internet Explorer Version 9 - `ie10` - Internet Explorer Version 10 - `ie11` - Internet Explorer Version 11 - `safari_pre_6` - Safari Version 5 and lower - `opera_pre_15` - Opera Version 14 and lower - `opera_mini_pre_8` - Opera Mini Version 8 and lower - `android_pre_4` - Android Version 3 and lower - `edge_pre_79` - Edge Version 18 and lower (non Chromium based) */
-  subfilters?: UpdateProjectFilterRequestSubfiltersList;
+  subfilters?: UpdateProjectFilterRequestSubfiltersList | undefined;
 }
 export interface UpdateProjectFilterResponse {}
 /** Applies a rate limit to cap the number of errors accepted during a given time window. To disable entirely set `rateLimit` to null. ```json { "rateLimit": { "window": 7200, // time in seconds "count": 1000 // error cap } } ``` */
@@ -16826,11 +17026,11 @@ export type UpdateProjectKeyRequestRateLimit = CreateProjectKeyRequestRateLimit;
 export type UpdateProjectKeyRequestBrowserSdkVersion = "latest" | "7.x";
 /** Configures multiple options for the Javascript Loader Script. - `Performance Monitoring` - `Debug Bundles & Logging` - `Session Replay` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. - `User Feedback` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. - `Logs and Metrics` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. Requires SDK >= 10.0.0. ```json { "dynamicSdkLoaderOptions": { "hasReplay": true, "hasPerformance": true, "hasDebug": true, "hasFeedback": true, "hasLogsAndMetrics": true } } ``` */
 export interface UpdateProjectKeyRequestDynamicSdkLoaderOptions {
-  hasReplay?: boolean;
-  hasPerformance?: boolean;
-  hasDebug?: boolean;
-  hasFeedback?: boolean;
-  hasLogsAndMetrics?: boolean;
+  hasReplay?: boolean | undefined;
+  hasPerformance?: boolean | undefined;
+  hasDebug?: boolean | undefined;
+  hasFeedback?: boolean | undefined;
+  hasLogsAndMetrics?: boolean | undefined;
 }
 export interface UpdateProjectKeyRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -16840,15 +17040,15 @@ export interface UpdateProjectKeyRequest {
   /** The ID of the key to update. */
   key_id: string;
   /** The name for the client key */
-  name?: string;
+  name?: string | undefined;
   /** Activate or deactivate the client key. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Applies a rate limit to cap the number of errors accepted during a given time window. To disable entirely set `rateLimit` to null. ```json { "rateLimit": { "window": 7200, // time in seconds "count": 1000 // error cap } } ``` */
-  rateLimit?: CreateProjectKeyRequestRateLimit;
+  rateLimit?: CreateProjectKeyRequestRateLimit | undefined;
   /** The Sentry Javascript SDK version to use. The currently supported options are: * `latest` - Most recent version * `7.x` - Version 7 releases */
-  browserSdkVersion?: UpdateProjectKeyRequestBrowserSdkVersion | (string & {});
+  browserSdkVersion?: UpdateProjectKeyRequestBrowserSdkVersion | (string & {}) | undefined;
   /** Configures multiple options for the Javascript Loader Script. - `Performance Monitoring` - `Debug Bundles & Logging` - `Session Replay` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. - `User Feedback` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. - `Logs and Metrics` - Note that the loader will load the ES6 bundle instead of the ES5 bundle. Requires SDK >= 10.0.0. ```json { "dynamicSdkLoaderOptions": { "hasReplay": true, "hasPerformance": true, "hasDebug": true, "hasFeedback": true, "hasLogsAndMetrics": true } } ``` */
-  dynamicSdkLoaderOptions?: UpdateProjectKeyRequestDynamicSdkLoaderOptions;
+  dynamicSdkLoaderOptions?: UpdateProjectKeyRequestDynamicSdkLoaderOptions | undefined;
 }
 export type UpdateProjectKeyResponseRateLimit = CreateProjectKeyResponseRateLimit;
 export type UpdateProjectKeyResponseDsn = CreateProjectKeyResponseDsn;
@@ -16874,7 +17074,7 @@ export interface UpdateProjectKeyResponse {
   browserSdk: UpdateProjectKeyResponseBrowserSdk;
   dateCreated: string | null;
   dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions;
-  useCase?: string;
+  useCase?: string | undefined;
 }
 /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
 export type UpdateProjectMonitorRequestConfigScheduleType = "crontab" | "interval";
@@ -17481,19 +17681,19 @@ export type UpdateProjectMonitorRequestConfigTimezone =
   | "";
 export interface UpdateProjectMonitorRequestConfig {
   /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
-  schedule_type?: UpdateProjectMonitorRequestConfigScheduleType | (string & {});
+  schedule_type?: UpdateProjectMonitorRequestConfigScheduleType | (string & {}) | undefined;
   /** Varies depending on the schedule_type. Is either a crontab string, or a 2 element tuple for intervals (e.g. [1, 'day']) */
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
-  checkin_margin?: number | null;
+  checkin_margin?: number | null | undefined;
   /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
-  max_runtime?: number | null;
+  max_runtime?: number | null | undefined;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
-  timezone?: UpdateProjectMonitorRequestConfigTimezone | (string & {});
+  timezone?: UpdateProjectMonitorRequestConfigTimezone | (string & {}) | undefined;
   /** How many consecutive missed or failed check-ins in a row before creating a new issue. */
-  failure_issue_threshold?: number | null;
+  failure_issue_threshold?: number | null | undefined;
   /** How many successful check-ins in a row before resolving an issue. */
-  recovery_threshold?: number | null;
+  recovery_threshold?: number | null | undefined;
 }
 /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
 export type UpdateProjectMonitorRequestStatus = "active" | "disabled";
@@ -17504,7 +17704,7 @@ export type UpdateProjectMonitorRequestAlertRuleTargetsList =
   Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
 export interface UpdateProjectMonitorRequestAlertRule {
   /** Name of the environment */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Array of dictionaries with information of the user or team to be notified */
   targets: UpdateProjectMonitorRequestAlertRuleTargetsList;
 }
@@ -17522,15 +17722,15 @@ export interface UpdateProjectMonitorRequest {
   /** The configuration for the monitor. */
   config: UpdateProjectMonitorRequestConfig;
   /** Uniquely identifies your monitor within your organization. Changing this slug will require updates to any instrumented check-in calls. */
-  slug?: string;
+  slug?: string | undefined;
   /** Status of the monitor. Disabled monitors will not accept events and will not count towards the monitor quota. * `active` * `disabled` */
-  status?: UpdateProjectMonitorRequestStatus | (string & {});
+  status?: UpdateProjectMonitorRequestStatus | (string & {}) | undefined;
   /** The ID of the team or user that owns the monitor. (eg. user:51 or team:6) */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Disable creation of monitor incidents */
-  is_muted?: boolean;
+  is_muted?: boolean | undefined;
   /** Alert rule configuration created alongside the monitor. */
-  alert_rule?: UpdateProjectMonitorRequestAlertRule;
+  alert_rule?: UpdateProjectMonitorRequestAlertRule | undefined;
 }
 export type UpdateProjectMonitorResponseAlertRuleTargetsItem =
   CreateOrganizationMonitorResponseAlertRuleTargetsItem;
@@ -17559,9 +17759,9 @@ export type UpdateProjectMonitorResponseProjectFeaturesList = Array<string>;
 export type UpdateProjectMonitorResponseProjectAccessList = Array<string>;
 export type UpdateProjectMonitorResponseProjectAvatar = AddOrganizationMemberResponseUserAvatar;
 export interface UpdateProjectMonitorResponseProject {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -17611,10 +17811,10 @@ export interface UpdateProjectMonitorResponseOwner {
   type: UpdateProjectMonitorResponseOwnerType;
   id: string;
   name: string;
-  email?: string;
+  email?: string | undefined;
 }
 export interface UpdateProjectMonitorResponse {
-  alertRule?: UpdateProjectMonitorResponseAlertRule;
+  alertRule?: UpdateProjectMonitorResponseAlertRule | undefined;
   id: string;
   name: string;
   slug: string;
@@ -17633,13 +17833,13 @@ export interface UpdateProjectOwnershipRequest {
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
   /** Raw input for ownership configuration. See the [Ownership Rules Documentation](/product/issues/ownership-rules/) to learn more. */
-  raw?: string;
+  raw?: string | undefined;
   /** A boolean determining who to assign ownership to when an ownership rule has no match. If set to `True`, all project members are made owners. Otherwise, no owners are set. */
-  fallthrough?: boolean;
+  fallthrough?: boolean | undefined;
   /** Auto-assignment settings. The available options are: - Auto Assign to Issue Owner - Auto Assign to Suspect Commits - Turn off Auto-Assignment */
-  autoAssignment?: string;
+  autoAssignment?: string | undefined;
   /** Set to `True` to sync issue owners with CODEOWNERS updates in a release. */
-  codeownersAutoSync?: boolean;
+  codeownersAutoSync?: boolean | undefined;
 }
 export interface UpdateProjectOwnershipResponse {}
 export interface UpdateProjectReleaseFileRequest {
@@ -17711,11 +17911,11 @@ export type UpdateProjectSymbolSourceRequestFiltersPathPatternsList = Array<stri
 /** Filter settings for the source. This is optional for all sources. **`filetypes`** ***(list)*** - A list of file types that can be found on this source. If this is left empty, all file types will be enabled. The options are: - `pe` - Windows executable files - `pdb` - Windows debug files - `portablepdb` - .NET portable debug files - `mach_code` - MacOS executable files - `mach_debug` - MacOS debug files - `elf_code` - ELF executable files - `elf_debug` - ELF debug files - `wasm_code` - WASM executable files - `wasm_debug` - WASM debug files - `breakpad` - Breakpad symbol files - `sourcebundle` - Source code bundles - `uuidmap` - Apple UUID mapping files - `bcsymbolmap` - Apple bitcode symbol maps - `il2cpp` - Unity IL2CPP mapping files - `proguard` - ProGuard mapping files **`path_patterns`** ***(list)*** - A list of glob patterns to check against the debug and code file paths of debug files. Only files that match one of these patterns will be requested from the source. If this is left empty, no path-based filtering takes place. **`requires_checksum`** ***(boolean)*** - Whether this source requires a debug checksum to be sent with each request. Defaults to `false`. ```json { "filters": { "filetypes": ["pe", "pdb", "portablepdb"], "path_patterns": ["*ffmpeg*"] } } ``` */
 export interface UpdateProjectSymbolSourceRequestFilters {
   /** The file types enabled for the source. */
-  filetypes?: UpdateProjectSymbolSourceRequestFiltersFiletypesList;
+  filetypes?: UpdateProjectSymbolSourceRequestFiltersFiletypesList | undefined;
   /** The debug and code file paths enabled for the source. */
-  path_patterns?: UpdateProjectSymbolSourceRequestFiltersPathPatternsList;
+  path_patterns?: UpdateProjectSymbolSourceRequestFiltersPathPatternsList | undefined;
   /** Whether the source requires debug checksums. */
-  requires_checksum?: boolean;
+  requires_checksum?: boolean | undefined;
 }
 /** The source's [S3 region](https://docs.aws.amazon.com/general/latest/gr/s3.html). Required for S3 sources, invalid for all others. * `us-east-2` - US East (Ohio) * `us-east-1` - US East (N. Virginia) * `us-west-1` - US West (N. California) * `us-west-2` - US West (Oregon) * `ap-east-1` - Asia Pacific (Hong Kong) * `ap-south-1` - Asia Pacific (Mumbai) * `ap-northeast-2` - Asia Pacific (Seoul) * `ap-southeast-1` - Asia Pacific (Singapore) * `ap-southeast-2` - Asia Pacific (Sydney) * `ap-northeast-1` - Asia Pacific (Tokyo) * `ca-central-1` - Canada (Central) * `cn-north-1` - China (Beijing) * `cn-northwest-1` - China (Ningxia) * `eu-central-1` - EU (Frankfurt) * `eu-west-1` - EU (Ireland) * `eu-west-2` - EU (London) * `eu-west-3` - EU (Paris) * `eu-north-1` - EU (Stockholm) * `sa-east-1` - South America (São Paulo) * `us-gov-east-1` - AWS GovCloud (US-East) * `us-gov-west-1` - AWS GovCloud (US) */
 export type UpdateProjectSymbolSourceRequestRegion =
@@ -17752,39 +17952,39 @@ export interface UpdateProjectSymbolSourceRequest {
   /** The human-readable name of the source. */
   name: string;
   /** Layout settings for the source. This is required for HTTP, GCS, and S3 sources. **`type`** ***(string)*** - The layout of the folder structure. The options are: - `native` - Platform-Specific (SymStore / GDB / LLVM) - `symstore` - Microsoft SymStore - `symstore_index2` - Microsoft SymStore (with index2.txt) - `ssqp` - Microsoft SSQP - `unified` - Unified Symbol Server Layout - `debuginfod` - debuginfod **`casing`** ***(string)*** - The layout of the folder structure. The options are: - `default` - Default (mixed case) - `uppercase` - Uppercase - `lowercase` - Lowercase ```json { "layout": { "type": "native" "casing": "default" } } ``` */
-  layout?: UpdateProjectSymbolSourceRequestLayout;
+  layout?: UpdateProjectSymbolSourceRequestLayout | undefined;
   /** Filter settings for the source. This is optional for all sources. **`filetypes`** ***(list)*** - A list of file types that can be found on this source. If this is left empty, all file types will be enabled. The options are: - `pe` - Windows executable files - `pdb` - Windows debug files - `portablepdb` - .NET portable debug files - `mach_code` - MacOS executable files - `mach_debug` - MacOS debug files - `elf_code` - ELF executable files - `elf_debug` - ELF debug files - `wasm_code` - WASM executable files - `wasm_debug` - WASM debug files - `breakpad` - Breakpad symbol files - `sourcebundle` - Source code bundles - `uuidmap` - Apple UUID mapping files - `bcsymbolmap` - Apple bitcode symbol maps - `il2cpp` - Unity IL2CPP mapping files - `proguard` - ProGuard mapping files **`path_patterns`** ***(list)*** - A list of glob patterns to check against the debug and code file paths of debug files. Only files that match one of these patterns will be requested from the source. If this is left empty, no path-based filtering takes place. **`requires_checksum`** ***(boolean)*** - Whether this source requires a debug checksum to be sent with each request. Defaults to `false`. ```json { "filters": { "filetypes": ["pe", "pdb", "portablepdb"], "path_patterns": ["*ffmpeg*"] } } ``` */
-  filters?: UpdateProjectSymbolSourceRequestFilters;
+  filters?: UpdateProjectSymbolSourceRequestFilters | undefined;
   /** The source's URL. Optional for HTTP sources, invalid for all others. */
-  url?: string;
+  url?: string | undefined;
   /** The user name for accessing the source. Optional for HTTP sources, invalid for all others. */
-  username?: string;
+  username?: string | undefined;
   /** The password for accessing the source. Optional for HTTP sources, invalid for all others. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The GCS or S3 bucket where the source resides. Required for GCS and S3 source, invalid for HTTP sources. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** The source's [S3 region](https://docs.aws.amazon.com/general/latest/gr/s3.html). Required for S3 sources, invalid for all others. * `us-east-2` - US East (Ohio) * `us-east-1` - US East (N. Virginia) * `us-west-1` - US West (N. California) * `us-west-2` - US West (Oregon) * `ap-east-1` - Asia Pacific (Hong Kong) * `ap-south-1` - Asia Pacific (Mumbai) * `ap-northeast-2` - Asia Pacific (Seoul) * `ap-southeast-1` - Asia Pacific (Singapore) * `ap-southeast-2` - Asia Pacific (Sydney) * `ap-northeast-1` - Asia Pacific (Tokyo) * `ca-central-1` - Canada (Central) * `cn-north-1` - China (Beijing) * `cn-northwest-1` - China (Ningxia) * `eu-central-1` - EU (Frankfurt) * `eu-west-1` - EU (Ireland) * `eu-west-2` - EU (London) * `eu-west-3` - EU (Paris) * `eu-north-1` - EU (Stockholm) * `sa-east-1` - South America (São Paulo) * `us-gov-east-1` - AWS GovCloud (US-East) * `us-gov-west-1` - AWS GovCloud (US) */
-  region?: UpdateProjectSymbolSourceRequestRegion | (string & {});
+  region?: UpdateProjectSymbolSourceRequestRegion | (string & {}) | undefined;
   /** The [AWS Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
-  access_key?: string;
+  access_key?: string | undefined;
   /** The [AWS Secret Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
-  secret_key?: string | Redacted.Redacted<string>;
+  secret_key?: string | Redacted.Redacted<string> | undefined;
   /** The GCS, Azure or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS, Azure and S3 sources, invalid for HTTP. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The GCS email address for authentication. Required for GCS sources, invalid for all others. */
-  client_email?: string;
+  client_email?: string | undefined;
   /** The GCS private key. Required for GCS sources if not using impersonated tokens. Invalid for all others. */
-  private_key?: string | Redacted.Redacted<string>;
+  private_key?: string | Redacted.Redacted<string> | undefined;
   /** The Azure storage account name. Required for Azure sources, invalid for all others. */
-  account?: string;
+  account?: string | undefined;
   /** The Azure blob container name. Required for Azure sources, invalid for all others. */
-  container?: string;
+  container?: string | undefined;
   /** The Microsoft Entra tenant ID. Required for Azure sources, invalid for all others. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The Microsoft Entra application (client) ID. Required for Azure sources, invalid for all others. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The Microsoft Entra client secret. Required for Azure sources, invalid for all others. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase0Type = "http";
 export type UpdateProjectSymbolSourceResponseBodyCase0Password =
@@ -17803,7 +18003,7 @@ export type UpdateProjectSymbolSourceResponseBodyCase0LayoutCasing =
   | "default";
 export interface UpdateProjectSymbolSourceResponseBodyCase0Layout {
   type: UpdateProjectSymbolSourceResponseBodyCase0LayoutType;
-  casing?: UpdateProjectSymbolSourceResponseBodyCase0LayoutCasing;
+  casing?: UpdateProjectSymbolSourceResponseBodyCase0LayoutCasing | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase0FiltersFiletypesItem =
   | "pe"
@@ -17826,23 +18026,23 @@ export type UpdateProjectSymbolSourceResponseBodyCase0FiltersFiletypesList =
   Array<UpdateProjectSymbolSourceResponseBodyCase0FiltersFiletypesItem>;
 export type UpdateProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase0Filters {
-  filetypes?: UpdateProjectSymbolSourceResponseBodyCase0FiltersFiletypesList;
-  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: UpdateProjectSymbolSourceResponseBodyCase0FiltersFiletypesList | undefined;
+  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase0FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase0PlatformsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase0 {
   type: UpdateProjectSymbolSourceResponseBodyCase0Type;
   url: string;
-  username?: string;
-  password?: AddProjectSymbolSourceResponseBodyCase0Password;
+  username?: string | undefined;
+  password?: AddProjectSymbolSourceResponseBodyCase0Password | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: UpdateProjectSymbolSourceResponseBodyCase0Layout;
-  filters?: UpdateProjectSymbolSourceResponseBodyCase0Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: UpdateProjectSymbolSourceResponseBodyCase0PlatformsList;
+  filters?: UpdateProjectSymbolSourceResponseBodyCase0Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: UpdateProjectSymbolSourceResponseBodyCase0PlatformsList | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase1Type = "s3";
 export type UpdateProjectSymbolSourceResponseBodyCase1SecretKey =
@@ -17861,7 +18061,7 @@ export type UpdateProjectSymbolSourceResponseBodyCase1LayoutCasing =
   | "default";
 export interface UpdateProjectSymbolSourceResponseBodyCase1Layout {
   type: UpdateProjectSymbolSourceResponseBodyCase1LayoutType;
-  casing?: UpdateProjectSymbolSourceResponseBodyCase1LayoutCasing;
+  casing?: UpdateProjectSymbolSourceResponseBodyCase1LayoutCasing | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase1FiltersFiletypesItem =
   | "pe"
@@ -17884,9 +18084,9 @@ export type UpdateProjectSymbolSourceResponseBodyCase1FiltersFiletypesList =
   Array<UpdateProjectSymbolSourceResponseBodyCase1FiltersFiletypesItem>;
 export type UpdateProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase1Filters {
-  filetypes?: UpdateProjectSymbolSourceResponseBodyCase1FiltersFiletypesList;
-  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: UpdateProjectSymbolSourceResponseBodyCase1FiltersFiletypesList | undefined;
+  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase1FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase1PlatformsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase1 {
@@ -17895,14 +18095,14 @@ export interface UpdateProjectSymbolSourceResponseBodyCase1 {
   region: string;
   access_key: string;
   secret_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: UpdateProjectSymbolSourceResponseBodyCase1Layout;
-  filters?: UpdateProjectSymbolSourceResponseBodyCase1Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: UpdateProjectSymbolSourceResponseBodyCase1PlatformsList;
+  filters?: UpdateProjectSymbolSourceResponseBodyCase1Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: UpdateProjectSymbolSourceResponseBodyCase1PlatformsList | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase2Type = "gcs";
 export type UpdateProjectSymbolSourceResponseBodyCase2PrivateKey =
@@ -17921,7 +18121,7 @@ export type UpdateProjectSymbolSourceResponseBodyCase2LayoutCasing =
   | "default";
 export interface UpdateProjectSymbolSourceResponseBodyCase2Layout {
   type: UpdateProjectSymbolSourceResponseBodyCase2LayoutType;
-  casing?: UpdateProjectSymbolSourceResponseBodyCase2LayoutCasing;
+  casing?: UpdateProjectSymbolSourceResponseBodyCase2LayoutCasing | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase2FiltersFiletypesItem =
   | "pe"
@@ -17944,9 +18144,9 @@ export type UpdateProjectSymbolSourceResponseBodyCase2FiltersFiletypesList =
   Array<UpdateProjectSymbolSourceResponseBodyCase2FiltersFiletypesItem>;
 export type UpdateProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase2Filters {
-  filetypes?: UpdateProjectSymbolSourceResponseBodyCase2FiltersFiletypesList;
-  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: UpdateProjectSymbolSourceResponseBodyCase2FiltersFiletypesList | undefined;
+  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase2FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase2PlatformsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase2 {
@@ -17954,14 +18154,14 @@ export interface UpdateProjectSymbolSourceResponseBodyCase2 {
   bucket: string;
   client_email: string;
   private_key: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: UpdateProjectSymbolSourceResponseBodyCase2Layout;
-  filters?: UpdateProjectSymbolSourceResponseBodyCase2Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: UpdateProjectSymbolSourceResponseBodyCase2PlatformsList;
+  filters?: UpdateProjectSymbolSourceResponseBodyCase2Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: UpdateProjectSymbolSourceResponseBodyCase2PlatformsList | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase3Type = "azure";
 export type UpdateProjectSymbolSourceResponseBodyCase3ClientSecret =
@@ -17980,7 +18180,7 @@ export type UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing =
   | "default";
 export interface UpdateProjectSymbolSourceResponseBodyCase3Layout {
   type: UpdateProjectSymbolSourceResponseBodyCase3LayoutType;
-  casing?: UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing;
+  casing?: UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem =
   | "pe"
@@ -18003,9 +18203,9 @@ export type UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList =
   Array<UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem>;
 export type UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase3Filters {
-  filetypes?: UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList;
-  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList;
-  requires_checksum?: boolean;
+  filetypes?: UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList | undefined;
+  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList | undefined;
+  requires_checksum?: boolean | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase3PlatformsList = Array<string>;
 export interface UpdateProjectSymbolSourceResponseBodyCase3 {
@@ -18015,14 +18215,14 @@ export interface UpdateProjectSymbolSourceResponseBodyCase3 {
   tenant_id: string;
   client_id: string;
   client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
-  prefix?: string;
+  prefix?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
   layout: UpdateProjectSymbolSourceResponseBodyCase3Layout;
-  filters?: UpdateProjectSymbolSourceResponseBodyCase3Filters;
-  is_public?: boolean;
-  has_index?: boolean;
-  platforms?: UpdateProjectSymbolSourceResponseBodyCase3PlatformsList;
+  filters?: UpdateProjectSymbolSourceResponseBodyCase3Filters | undefined;
+  is_public?: boolean | undefined;
+  has_index?: boolean | undefined;
+  platforms?: UpdateProjectSymbolSourceResponseBodyCase3PlatformsList | undefined;
 }
 export type UpdateProjectSymbolSourceResponseBodyCase4Type = "appStoreConnect";
 export interface UpdateProjectSymbolSourceResponseBodyCase4 {
@@ -18063,29 +18263,29 @@ export interface UpdateSentryAppRequest {
   /** The custom integration's permission scopes for API access. */
   scopes: UpdateSentryAppRequestScopesList | null;
   /** The custom integration's author. */
-  author?: string | null;
+  author?: string | null | undefined;
   /** Webhook events the custom integration is subscribed to. */
-  events?: UpdateSentryAppRequestEventsList | null;
+  events?: UpdateSentryAppRequestEventsList | null | undefined;
   /** The list of features that the custom integration supports. */
-  features?: UpdateSentryAppRequestFeaturesList | null;
+  features?: UpdateSentryAppRequestFeaturesList | null | undefined;
   /** The UI components schema, used to render the custom integration's configuration UI elements. See our [schema docs](https://docs.sentry.io/organization/integrations/integration-platform/ui-components/) for more information. */
-  schema?: UpdateSentryAppRequestSchemaMap | null;
+  schema?: UpdateSentryAppRequestSchemaMap | null | undefined;
   /** The webhook destination URL. */
-  webhookUrl?: string | null;
+  webhookUrl?: string | null | undefined;
   /** The post-installation redirect URL. */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
   /** Whether or not the integration is internal only. False means the integration is public. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
   /** Marks whether or not the custom integration can be used in an alert rule. */
-  isAlertable?: boolean;
+  isAlertable?: boolean | undefined;
   /** The custom integration's description. */
-  overview?: string | null;
+  overview?: string | null | undefined;
   /** Whether or not an installation of the custom integration should be verified. */
-  verifyInstall?: boolean;
+  verifyInstall?: boolean | undefined;
   /** The list of allowed origins for CORS. */
-  allowedOrigins?: UpdateSentryAppRequestAllowedOriginsList;
+  allowedOrigins?: UpdateSentryAppRequestAllowedOriginsList | undefined;
   /** Custom headers sent with every webhook request. Each entry is a single 'Header-Name: value' pair. */
-  webhookHeaders?: UpdateSentryAppRequestWebhookHeadersList;
+  webhookHeaders?: UpdateSentryAppRequestWebhookHeadersList | undefined;
 }
 export type UpdateSentryAppResponseAllowedOriginsList = Array<string>;
 export type UpdateSentryAppResponseAvatarsItem = GetSentryAppResponseAvatarsItem;
@@ -18112,16 +18312,16 @@ export interface UpdateSentryAppResponse {
   uuid: string;
   verifyInstall: boolean;
   webhookHeaders: UpdateSentryAppResponseWebhookHeadersList;
-  isDisabled?: boolean;
-  author?: string | null;
-  overview?: string | null;
-  popularity?: number | null;
-  redirectUrl?: string | null;
-  webhookUrl?: string | null;
-  clientSecret?: string | Redacted.Redacted<string> | null;
-  datePublished?: string;
-  clientId?: string;
-  owner?: GetSentryAppResponseOwner;
+  isDisabled?: boolean | undefined;
+  author?: string | null | undefined;
+  overview?: string | null | undefined;
+  popularity?: number | null | undefined;
+  redirectUrl?: string | null | undefined;
+  webhookUrl?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
+  datePublished?: string | undefined;
+  clientId?: string | undefined;
+  owner?: GetSentryAppResponseOwner | undefined;
 }
 export interface UpdateTeamRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -18131,7 +18331,7 @@ export interface UpdateTeamRequest {
   /** Uniquely identifies a team. This is must be available. */
   slug: string;
   /** The name of the team. */
-  name?: string;
+  name?: string | undefined;
 }
 export type UpdateTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export type UpdateTeamResponseAccessList = Array<string>;
@@ -18156,10 +18356,10 @@ export type UpdateTeamResponseOrganizationStatus =
 export type UpdateTeamResponseOrganizationAvatar = AddOrganizationMemberResponseUserAvatar;
 export type UpdateTeamResponseOrganizationLinks = CreateOrganizationTeamResponseOrganizationLinks;
 export interface UpdateTeamResponseOrganization {
-  features?: UpdateTeamResponseOrganizationFeaturesList;
-  extraOptions?: UpdateTeamResponseOrganizationExtraOptionsMap;
-  access?: UpdateTeamResponseOrganizationAccessList;
-  onboardingTasks?: UpdateTeamResponseOrganizationOnboardingTasksList;
+  features?: UpdateTeamResponseOrganizationFeaturesList | undefined;
+  extraOptions?: UpdateTeamResponseOrganizationExtraOptionsMap | undefined;
+  access?: UpdateTeamResponseOrganizationAccessList | undefined;
+  onboardingTasks?: UpdateTeamResponseOrganizationOnboardingTasksList | undefined;
   id: string;
   slug: string;
   status: AddOrganizationMemberResponseUserIdentitiesItemProvider;
@@ -18178,9 +18378,9 @@ export type UpdateTeamResponseProjectsItemFeaturesList = Array<string>;
 export type UpdateTeamResponseProjectsItemAccessList = Array<string>;
 export type UpdateTeamResponseProjectsItemAvatar = AddOrganizationMemberResponseUserAvatar;
 export interface UpdateTeamResponseProjectsItem {
-  stats?: unknown;
-  transactionStats?: unknown;
-  sessionStats?: unknown;
+  stats?: unknown | undefined;
+  transactionStats?: unknown | undefined;
+  sessionStats?: unknown | undefined;
   id: string;
   slug: string;
   name: string;
@@ -18233,9 +18433,9 @@ export interface UpdateTeamResponse {
   isPending: boolean;
   memberCount: number;
   avatar: AddOrganizationMemberResponseUserAvatar;
-  externalTeams?: UpdateTeamResponseExternalTeamsList;
-  organization?: UpdateTeamResponseOrganization;
-  projects?: UpdateTeamResponseProjectsList;
+  externalTeams?: UpdateTeamResponseExternalTeamsList | undefined;
+  organization?: UpdateTeamResponseOrganization | undefined;
+  projects?: UpdateTeamResponseProjectsList | undefined;
 }
 /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
 export type UpdateTeamExternalTeamRequestProvider =
@@ -18265,12 +18465,12 @@ export interface UpdateTeamExternalTeamRequest {
   /** The Integration ID. */
   integration_id: number;
   /** The associated user ID for provider. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface UpdateTeamExternalTeamResponse {
-  externalId?: string;
-  userId?: string;
-  teamId?: string;
+  externalId?: string | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
   id: string;
   provider: string;
   externalName: string;
@@ -18286,11 +18486,11 @@ export interface UploadOrganizationReleaseFileRequest {
   /** The multipart-encoded file contents to upload. */
   file: string;
   /** The name (full path) the file will be referenced as, e.g. the full web URI of a JavaScript file. Defaults to the uploaded file's name. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the distribution to associate the file with. */
-  dist?: string;
+  dist?: string | undefined;
   /** Headers to attach to the file, each formatted as a `"key:value"` string (for example, to define a content type). May be supplied multiple times. */
-  header?: UploadOrganizationReleaseFileRequestHeaderList;
+  header?: UploadOrganizationReleaseFileRequestHeaderList | undefined;
 }
 export type UploadOrganizationReleaseFileResponseHeadersMap = {
   [key: string]: unknown | undefined;
@@ -18328,11 +18528,11 @@ export interface UploadProjectReleaseFileRequest {
   /** The multipart-encoded file contents to upload. */
   file: string;
   /** The name (full path) the file will be referenced as, e.g. the full web URI of a JavaScript file. Defaults to the uploaded file's name. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the distribution to associate the file with. */
-  dist?: string;
+  dist?: string | undefined;
   /** Headers to attach to the file, each formatted as a `"key:value"` string (for example, to define a content type). May be supplied multiple times. */
-  header?: UploadProjectReleaseFileRequestHeaderList;
+  header?: UploadProjectReleaseFileRequestHeaderList | undefined;
 }
 export type UploadProjectReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export interface UploadProjectReleaseFileResponse {

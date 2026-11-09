@@ -24,10 +24,10 @@ const TELEMETRY = {
 } as const;
 
 export interface AttemptAwaitRequest {
-  attemptToken?: string;
-  requestedAt?: number;
+  attemptToken?: string | undefined;
+  requestedAt?: number | undefined;
   /** Used for waypoints. */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -39,26 +39,28 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 /** Which data format a binary message is encoded with. */
 export type DataFormat =
@@ -67,72 +69,71 @@ export type DataFormat =
   | "DATA_FORMAT_ASGI"
   | "DATA_FORMAT_GENERATOR_DONE"
   | "DATA_FORMAT_CBOR";
-/** How long to sleep before requesting another input. */
 export interface FunctionGetOutputsItem {
-  result?: GenericResult;
-  idx?: number;
-  inputId?: string;
-  dataFormat?: DataFormat;
+  result?: GenericResult | undefined;
+  idx: number;
+  inputId: string;
+  dataFormat: DataFormat;
   /** for result.data_oneof */
-  taskId?: string;
-  inputStartedAt?: number;
-  outputCreatedAt?: number;
-  retryCount?: number;
-  fcTraceTag?: string;
+  taskId: string;
+  inputStartedAt: number;
+  outputCreatedAt: number;
+  retryCount: number;
+  fcTraceTag: string;
 }
 export interface AttemptAwaitResponse {
-  output?: FunctionGetOutputsItem;
+  output?: FunctionGetOutputsItem | undefined;
 }
 export interface FunctionInput {
   /** serialized (args, kwargs). */
-  args?: string;
-  argsBlobId?: string;
-  finalInput?: boolean;
-  dataFormat?: DataFormat | (string & {});
+  args?: string | undefined;
+  argsBlobId?: string | undefined;
+  finalInput?: boolean | undefined;
+  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
-  methodName?: string;
+  methodName?: string | undefined;
 }
 export type BlobUploadResultOutcome = "OUTCOME_UNSPECIFIED" | "OUTCOME_SUCCESS" | "OUTCOME_FAILURE";
 export interface BlobUploadResult {
-  blobId?: string;
+  blobId?: string | undefined;
   /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
-  outcome?: BlobUploadResultOutcome | (string & {});
-  throughputBytesS?: string;
+  outcome?: BlobUploadResultOutcome | (string & {}) | undefined;
+  throughputBytesS?: string | undefined;
 }
 export type BlobUploadResultList = Array<BlobUploadResult>;
 export interface FunctionPutInputsItem {
-  idx?: number;
-  input?: FunctionInput;
-  r2Failed?: boolean;
+  idx?: number | undefined;
+  input?: FunctionInput | undefined;
+  r2Failed?: boolean | undefined;
   /** r2_latency_ms */
-  r2ThroughputBytesS?: string;
-  blobUploadResults?: BlobUploadResultList;
+  r2ThroughputBytesS?: string | undefined;
+  blobUploadResults?: BlobUploadResultList | undefined;
 }
 export interface RetryAttemptRequest {
-  functionId?: string;
-  parentInputId?: string;
-  input?: FunctionPutInputsItem;
-  attemptToken?: string;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  input?: FunctionPutInputsItem | undefined;
+  attemptToken?: string | undefined;
 }
 export interface RetryAttemptResponse {
-  attemptToken?: string;
+  attemptToken: string;
 }
 export interface StartAttemptRequest {
-  functionId?: string;
-  parentInputId?: string;
-  input?: FunctionPutInputsItem;
-  proxied?: boolean;
+  functionId?: string | undefined;
+  parentInputId?: string | undefined;
+  input?: FunctionPutInputsItem | undefined;
+  proxied?: boolean | undefined;
 }
 export interface FunctionRetryPolicy {
-  backoffCoefficient?: number;
-  initialDelayMs?: number;
-  maxDelayMs?: number;
+  backoffCoefficient: number;
+  initialDelayMs: number;
+  maxDelayMs: number;
   /** NOTE: two-byte field number not used for special reason. copy-paste error. Ref: PR #2542 */
-  retries?: number;
+  retries: number;
 }
 export interface StartAttemptResponse {
-  attemptToken?: string;
-  retryPolicy?: FunctionRetryPolicy;
+  attemptToken: string;
+  retryPolicy?: FunctionRetryPolicy | undefined;
 }
 export type AttemptAwaitError = ModalOpError;
 /** Input Plane */
@@ -199,29 +200,29 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(1, __c0, 1)),
-          idx: S.optional(S.Number),
-          inputId: S.optional(S.String),
-          dataFormat: S.optional(S.String),
-          taskId: S.optional(S.String),
-          inputStartedAt: S.optional(S.Number),
-          outputCreatedAt: S.optional(S.Number),
-          retryCount: S.optional(S.Number),
-          fcTraceTag: S.optional(S.String),
+          idx: S.Number,
+          inputId: S.String,
+          dataFormat: S.String,
+          taskId: S.String,
+          inputStartedAt: S.Number,
+          outputCreatedAt: S.Number,
+          retryCount: S.Number,
+          fcTraceTag: S.String,
         }),
       ).annotate({ identifier: "FunctionGetOutputsItem" });
     case 3:
@@ -248,7 +249,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attemptToken: S.optional(S.String),
+          attemptToken: S.String,
         }),
       ).annotate({ identifier: "RetryAttemptResponse" });
   }
@@ -303,16 +304,16 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backoffCoefficient: S.optional(S.Number),
-          initialDelayMs: S.optional(S.Number),
-          maxDelayMs: S.optional(S.Number),
-          retries: S.optional(S.Number),
+          backoffCoefficient: S.Number,
+          initialDelayMs: S.Number,
+          maxDelayMs: S.Number,
+          retries: S.Number,
         }),
       ).annotate({ identifier: "FunctionRetryPolicy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attemptToken: S.optional(S.String),
+          attemptToken: S.String,
           retryPolicy: S.optional(__S(13, __c3, 1)),
         }),
       ).annotate({ identifier: "StartAttemptResponse" });

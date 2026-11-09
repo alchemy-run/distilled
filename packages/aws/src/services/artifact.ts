@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -207,12 +208,12 @@ export type LongStringAttribute = string;
 export type ShortStringAttribute = string;
 export type FileSectionList = string[];
 export interface InquiryFileContent {
-  fileSections?: string[];
+  fileSections?: string[] | undefined;
   content: Uint8Array;
 }
 export type InquiryContent =
-  | { query: string; fileContent?: never }
-  | { query?: never; fileContent: InquiryFileContent };
+  | { query: string; fileContent?: undefined }
+  | { query?: undefined; fileContent: InquiryFileContent };
 export type IdempotentClientToken = string;
 export type InquirySupportMode = "AI_ONLY" | "FULL_SUPPORT" | (string & {});
 export type TagKey = string;
@@ -221,9 +222,9 @@ export type TagsMap = { [key: string]: string | undefined };
 export interface CreateComplianceInquiryRequest {
   name: string | redacted.Redacted<string>;
   inquiryContent: InquiryContent;
-  clientToken?: string;
-  supportMode?: InquirySupportMode;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  supportMode?: InquirySupportMode | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type InquiryId = string;
 export type InquiryStatus = "PROCESSING" | "HUMAN_REVIEW" | "COMPLETED" | "FAILED" | (string & {});
@@ -247,27 +248,27 @@ export interface InquirySummary {
   createdAt: Date;
 }
 export interface CreateComplianceInquiryResponse {
-  complianceInquirySummary?: InquirySummary;
-  tags?: { [key: string]: string | undefined };
+  complianceInquirySummary?: InquirySummary | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QueryIdentifiersList = number[];
 export interface ExportComplianceInquiryRequest {
   complianceInquiryId: string;
-  queryIdentifiers?: number[];
-  includeCitations?: boolean;
+  queryIdentifiers?: number[] | undefined;
+  includeCitations?: boolean | undefined;
 }
 export type PresignedUrl = string | redacted.Redacted<string>;
 export interface ExportComplianceInquiryResponse {
-  documentPresignedUrl?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  documentPresignedUrl?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAccountSettingsRequest {}
 export type NotificationSubscriptionStatus = "SUBSCRIBED" | "NOT_SUBSCRIBED" | (string & {});
 export interface AccountSettings {
-  notificationSubscriptionStatus?: NotificationSubscriptionStatus;
+  notificationSubscriptionStatus?: NotificationSubscriptionStatus | undefined;
 }
 export interface GetAccountSettingsResponse {
-  accountSettings?: AccountSettings;
+  accountSettings?: AccountSettings | undefined;
 }
 export interface GetComplianceInquiryMetadataRequest {
   complianceInquiryId: string;
@@ -280,26 +281,26 @@ export interface InquiryDetail {
   statusMessage: InquiryStatusMessage;
   inputSource: InputSource;
   createdAt: Date;
-  updatedAt?: Date;
-  supportMode?: InquirySupportMode;
+  updatedAt?: Date | undefined;
+  supportMode?: InquirySupportMode | undefined;
 }
 export interface GetComplianceInquiryMetadataResponse {
-  complianceInquiryDetail?: InquiryDetail;
-  tags?: { [key: string]: string | undefined };
+  complianceInquiryDetail?: InquiryDetail | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ReportId = string;
 export type VersionAttribute = number;
 export interface GetReportRequest {
   reportId: string;
-  reportVersion?: number;
+  reportVersion?: number | undefined;
   termToken: string;
 }
 export interface GetReportResponse {
-  documentPresignedUrl?: string;
+  documentPresignedUrl?: string | undefined;
 }
 export interface GetReportMetadataRequest {
   reportId: string;
-  reportVersion?: number;
+  reportVersion?: number | undefined;
 }
 export type PublishedState = "PUBLISHED" | "UNPUBLISHED" | (string & {});
 export type AcceptanceType = "PASSTHROUGH" | "EXPLICIT" | (string & {});
@@ -307,59 +308,59 @@ export type SequenceNumberAttribute = number;
 export type UploadState = "PROCESSING" | "COMPLETE" | "FAILED" | "FAULT" | (string & {});
 export type StatusMessage = string;
 export interface ReportDetail {
-  id?: string;
-  name?: string;
-  description?: string;
-  periodStart?: Date;
-  periodEnd?: Date;
-  createdAt?: Date;
-  lastModifiedAt?: Date;
-  deletedAt?: Date;
-  state?: PublishedState;
-  arn?: string;
-  series?: string;
-  category?: string;
-  companyName?: string;
-  productName?: string;
-  termArn?: string;
-  version?: number;
-  acceptanceType?: AcceptanceType;
-  sequenceNumber?: number;
-  uploadState?: UploadState;
-  statusMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  periodStart?: Date | undefined;
+  periodEnd?: Date | undefined;
+  createdAt?: Date | undefined;
+  lastModifiedAt?: Date | undefined;
+  deletedAt?: Date | undefined;
+  state?: PublishedState | undefined;
+  arn?: string | undefined;
+  series?: string | undefined;
+  category?: string | undefined;
+  companyName?: string | undefined;
+  productName?: string | undefined;
+  termArn?: string | undefined;
+  version?: number | undefined;
+  acceptanceType?: AcceptanceType | undefined;
+  sequenceNumber?: number | undefined;
+  uploadState?: UploadState | undefined;
+  statusMessage?: string | undefined;
 }
 export interface GetReportMetadataResponse {
-  reportDetails?: ReportDetail;
+  reportDetails?: ReportDetail | undefined;
 }
 export interface GetTermForReportRequest {
   reportId: string;
-  reportVersion?: number;
+  reportVersion?: number | undefined;
 }
 export interface GetTermForReportResponse {
-  documentPresignedUrl?: string;
-  termToken?: string;
+  documentPresignedUrl?: string | undefined;
+  termToken?: string | undefined;
 }
 export type MaxResultsAttribute = number;
 export type NextTokenAttribute = string;
 export interface ListComplianceInquiriesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type InquiriesList = InquirySummary[];
 export interface ListComplianceInquiriesResponse {
-  complianceInquiries?: InquirySummary[];
-  nextToken?: string;
+  complianceInquiries?: InquirySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListComplianceInquiryQueriesRequest {
   complianceInquiryId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReviewType = "HUMAN" | "AI" | (string & {});
 export interface Citation {
-  sourceLabel?: string;
-  sourceContent?: string;
-  sourceLink?: string;
+  sourceLabel?: string | undefined;
+  sourceContent?: string | undefined;
+  sourceLink?: string | undefined;
 }
 export type CitationList = Citation[];
 export type QueryStatus = "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
@@ -378,22 +379,22 @@ export type ResponseVersionList = ResponseVersion[];
 export interface QuerySummary {
   queryIdentifier: number;
   query: string;
-  response?: string;
-  reviewType?: ReviewType;
-  citations?: Citation[];
+  response?: string | undefined;
+  reviewType?: ReviewType | undefined;
+  citations?: Citation[] | undefined;
   status: QueryStatus;
   statusMessage: QueryStatusMessage;
   createdAt: Date;
-  updatedResponseVersions?: ResponseVersion[];
+  updatedResponseVersions?: ResponseVersion[] | undefined;
 }
 export type QueriesList = QuerySummary[];
 export interface ListComplianceInquiryQueriesResponse {
-  queries?: QuerySummary[];
-  nextToken?: string;
+  queries?: QuerySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomerAgreementsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CustomerAgreementIdAttribute = string;
 export type CustomerAgreementState =
@@ -404,71 +405,71 @@ export type CustomerAgreementState =
 export type AgreementTerms = string[];
 export type AgreementType = "CUSTOM" | "DEFAULT" | "MODIFIED" | (string & {});
 export interface CustomerAgreementSummary {
-  name?: string;
-  arn?: string;
-  id?: string;
-  agreementArn?: string;
-  awsAccountId?: string;
-  organizationArn?: string;
-  effectiveStart?: Date;
-  effectiveEnd?: Date;
-  state?: CustomerAgreementState;
-  description?: string;
-  acceptanceTerms?: string[];
-  terminateTerms?: string[];
-  type?: AgreementType;
+  name?: string | undefined;
+  arn?: string | undefined;
+  id?: string | undefined;
+  agreementArn?: string | undefined;
+  awsAccountId?: string | undefined;
+  organizationArn?: string | undefined;
+  effectiveStart?: Date | undefined;
+  effectiveEnd?: Date | undefined;
+  state?: CustomerAgreementState | undefined;
+  description?: string | undefined;
+  acceptanceTerms?: string[] | undefined;
+  terminateTerms?: string[] | undefined;
+  type?: AgreementType | undefined;
 }
 export type CustomerAgreementList = CustomerAgreementSummary[];
 export interface ListCustomerAgreementsResponse {
   customerAgreements: CustomerAgreementSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListReportsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ReportSummary {
-  id?: string;
-  name?: string;
-  state?: PublishedState;
-  arn?: string;
-  version?: number;
-  uploadState?: UploadState;
-  description?: string;
-  periodStart?: Date;
-  periodEnd?: Date;
-  series?: string;
-  category?: string;
-  companyName?: string;
-  productName?: string;
-  statusMessage?: string;
-  acceptanceType?: AcceptanceType;
+  id?: string | undefined;
+  name?: string | undefined;
+  state?: PublishedState | undefined;
+  arn?: string | undefined;
+  version?: number | undefined;
+  uploadState?: UploadState | undefined;
+  description?: string | undefined;
+  periodStart?: Date | undefined;
+  periodEnd?: Date | undefined;
+  series?: string | undefined;
+  category?: string | undefined;
+  companyName?: string | undefined;
+  productName?: string | undefined;
+  statusMessage?: string | undefined;
+  acceptanceType?: AcceptanceType | undefined;
 }
 export type ReportsList = ReportSummary[];
 export interface ListReportsResponse {
-  reports?: ReportSummary[];
-  nextToken?: string;
+  reports?: ReportSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListReportVersionsRequest {
   reportId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListReportVersionsResponse {
   reports: ReportSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutAccountSettingsRequest {
-  notificationSubscriptionStatus?: NotificationSubscriptionStatus;
+  notificationSubscriptionStatus?: NotificationSubscriptionStatus | undefined;
 }
 export interface PutAccountSettingsResponse {
-  accountSettings?: AccountSettings;
+  accountSettings?: AccountSettings | undefined;
 }
 export type FeedbackRating = "THUMBS_UP" | "THUMBS_DOWN" | (string & {});
 export type FeedbackReasonCode =
@@ -480,12 +481,12 @@ export type FeedbackReasonCodeList = FeedbackReasonCode[];
 export type FeedbackCommentAttribute = string | redacted.Redacted<string>;
 export interface PutComplianceInquiryFeedbackRequest {
   complianceInquiryId: string;
-  queryIdentifier?: number;
+  queryIdentifier?: number | undefined;
   rating: FeedbackRating;
-  responseRevisionId?: number;
-  reasonCodes?: FeedbackReasonCode[];
-  comment?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  responseRevisionId?: number | undefined;
+  reasonCodes?: FeedbackReasonCode[] | undefined;
+  comment?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutComplianceInquiryFeedbackResponse {
   submittedAt: Date;
@@ -518,7 +519,7 @@ export type CreateComplianceInquiryError =
  * Create a new compliance inquiry.
  */
 export const createComplianceInquiry: API.OperationMethod<
-  CreateComplianceInquiryRequest,
+  CreateComplianceInquiryRequest & RegionInput,
   CreateComplianceInquiryResponse,
   CreateComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -550,7 +551,7 @@ export type ExportComplianceInquiryError =
  * Export a compliance inquiry report.
  */
 export const exportComplianceInquiry: API.OperationMethod<
-  ExportComplianceInquiryRequest,
+  ExportComplianceInquiryRequest & RegionInput,
   ExportComplianceInquiryResponse,
   ExportComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -584,7 +585,7 @@ export type GetAccountSettingsError =
  * Get the account settings for Artifact.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type GetComplianceInquiryMetadataError =
  * Get the metadata for a single compliance inquiry.
  */
 export const getComplianceInquiryMetadata: API.OperationMethod<
-  GetComplianceInquiryMetadataRequest,
+  GetComplianceInquiryMetadataRequest & RegionInput,
   GetComplianceInquiryMetadataResponse,
   GetComplianceInquiryMetadataError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type GetReportError =
  * Get the content for a single report.
  */
 export const getReport: API.OperationMethod<
-  GetReportRequest,
+  GetReportRequest & RegionInput,
   GetReportResponse,
   GetReportError,
   Credentials | HttpClient.HttpClient
@@ -687,7 +688,7 @@ export type GetReportMetadataError =
  * Get the metadata for a single report.
  */
 export const getReportMetadata: API.OperationMethod<
-  GetReportMetadataRequest,
+  GetReportMetadataRequest & RegionInput,
   GetReportMetadataResponse,
   GetReportMetadataError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type GetTermForReportError =
  * Get the Term content associated with a single report.
  */
 export const getTermForReport: API.OperationMethod<
-  GetTermForReportRequest,
+  GetTermForReportRequest & RegionInput,
   GetTermForReportResponse,
   GetTermForReportError,
   Credentials | HttpClient.HttpClient
@@ -756,7 +757,7 @@ export type ListComplianceInquiriesError =
  * List available compliance inquiries.
  */
 export const listComplianceInquiries: API.PaginatedOperationMethod<
-  ListComplianceInquiriesRequest,
+  ListComplianceInquiriesRequest & RegionInput,
   ListComplianceInquiriesResponse,
   ListComplianceInquiriesError,
   Credentials | HttpClient.HttpClient,
@@ -795,7 +796,7 @@ export type ListComplianceInquiryQueriesError =
  * List queries within a compliance inquiry.
  */
 export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
-  ListComplianceInquiryQueriesRequest,
+  ListComplianceInquiryQueriesRequest & RegionInput,
   ListComplianceInquiryQueriesResponse,
   ListComplianceInquiryQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -833,7 +834,7 @@ export type ListCustomerAgreementsError =
  * List active customer-agreements applicable to calling identity.
  */
 export const listCustomerAgreements: API.PaginatedOperationMethod<
-  ListCustomerAgreementsRequest,
+  ListCustomerAgreementsRequest & RegionInput,
   ListCustomerAgreementsResponse,
   ListCustomerAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -872,7 +873,7 @@ export type ListReportsError =
  * List available reports.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsRequest,
+  ListReportsRequest & RegionInput,
   ListReportsResponse,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -913,7 +914,7 @@ export type ListReportVersionsError =
  * List available report versions for a given report.
  */
 export const listReportVersions: API.PaginatedOperationMethod<
-  ListReportVersionsRequest,
+  ListReportVersionsRequest & RegionInput,
   ListReportVersionsResponse,
   ListReportVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -953,7 +954,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -987,7 +988,7 @@ export type PutAccountSettingsError =
  * Put the account settings for Artifact.
  */
 export const putAccountSettings: API.OperationMethod<
-  PutAccountSettingsRequest,
+  PutAccountSettingsRequest & RegionInput,
   PutAccountSettingsResponse,
   PutAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type PutComplianceInquiryFeedbackError =
  * Submits feedback on a compliance inquiry response.
  */
 export const putComplianceInquiryFeedback: API.OperationMethod<
-  PutComplianceInquiryFeedbackRequest,
+  PutComplianceInquiryFeedbackRequest & RegionInput,
   PutComplianceInquiryFeedbackResponse,
   PutComplianceInquiryFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1055,7 +1056,7 @@ export type TagResourceError =
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1087,7 +1088,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

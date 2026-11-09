@@ -73,7 +73,7 @@ export interface AddDiskResponse {
   name: string;
   sizeGB: number;
   mountPath: string;
-  serviceId?: string;
+  serviceId?: string | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -94,13 +94,13 @@ export interface Header {
   value: string;
 }
 export interface AddHeadersResponse {
-  headers?: Header;
+  headers?: Header | undefined;
 }
 export interface AddOrUpdateBuildSourceSecretFileRequest {
   buildSourceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 export interface SecretFile {
   name: string;
@@ -111,7 +111,7 @@ export interface AddOrUpdateSecretFileRequest {
   serviceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 export type AddResourcesToEnvironmentRequestResourceIdsList = Array<string>;
 export interface AddResourcesToEnvironmentRequest {
@@ -135,7 +135,7 @@ export interface Environment {
   name: string;
   projectId: string;
   databasesIds: EnvironmentDatabasesIdsList;
-  ipAllowList?: EnvironmentIpAllowListList;
+  ipAllowList?: EnvironmentIpAllowListList | undefined;
   redisIds: EnvironmentRedisIdsList;
   serviceIds: EnvironmentServiceIdsList;
   envGroupIds: EnvironmentEnvGroupIdsList;
@@ -150,7 +150,7 @@ export interface AddRouteRequest {
   source: string;
   destination: string;
   /** Redirect and Rewrite Rules are applied in priority order starting at 0. Defaults to last in the priority list. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export interface Route {
   id: string;
@@ -202,18 +202,18 @@ export interface CancelDeployRequest {
   deployId: string;
 }
 export interface DeployCommit {
-  id?: string;
-  message?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  message?: string | undefined;
+  createdAt?: string | undefined;
 }
 /** Image information used when creating the deploy. Not present for Git-backed deploys */
 export interface DeployImage {
   /** Image reference used when creating the deploy */
-  ref?: string;
+  ref?: string | undefined;
   /** SHA that the image reference was resolved to when creating the deploy */
-  sha?: string;
+  sha?: string | undefined;
   /** Name of credential used to pull the image, if provided */
-  registryCredential?: string;
+  registryCredential?: string | undefined;
 }
 export type DeployStatus =
   | "created"
@@ -240,15 +240,15 @@ export type DeployTrigger =
   | "service_updated";
 export interface Deploy {
   id: string;
-  commit?: DeployCommit;
+  commit?: DeployCommit | undefined;
   /** Image information used when creating the deploy. Not present for Git-backed deploys */
-  image?: DeployImage;
-  status?: DeployStatus;
-  trigger?: DeployTrigger;
-  startedAt?: string;
-  finishedAt?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  image?: DeployImage | undefined;
+  status?: DeployStatus | undefined;
+  trigger?: DeployTrigger | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface CancelJobRequest {
   /** The ID of the service */
@@ -262,10 +262,10 @@ export interface Schema7 {
   serviceId: string;
   startCommand: string;
   planId: string;
-  status?: Items2;
+  status?: Items2 | undefined;
   createdAt: string;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface CancelTaskRunRequest {
   /** The ID of the task run */
@@ -296,22 +296,22 @@ export type CreateBuildSourceRequestGitRegion =
   | "singapore"
   | "virginia";
 export interface CreateBuildSourceRequestGit {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
-  buildFilter?: BuildFilter2;
-  dockerfilePath?: string;
+  baseDir?: string | undefined;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
+  buildFilter?: BuildFilter2 | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
   runtime: CreateBuildSourceRequestGitRuntime | (string & {});
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Defaults to "oregon" */
-  region?: CreateBuildSourceRequestGitRegion | (string & {});
-  repoUrl?: string;
-  rootDir?: string;
+  region?: CreateBuildSourceRequestGitRegion | (string & {}) | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 export interface CreateBuildSourceRequestImage {
   ownerId: string;
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   imageUrl: string;
 }
 export type CreateBuildSourceRequestServiceIdsList = Array<string>;
@@ -337,33 +337,33 @@ export type CreateBuildSourceRequestEnvGroupIdsList = Array<string>;
 export interface CreateBuildSourceRequest {
   ownerId: string;
   name: string;
-  projectId?: string;
-  git?: CreateBuildSourceRequestGit;
-  image?: CreateBuildSourceRequestImage;
-  serviceIds?: CreateBuildSourceRequestServiceIdsList;
-  envVars?: Schema6;
+  projectId?: string | undefined;
+  git?: CreateBuildSourceRequestGit | undefined;
+  image?: CreateBuildSourceRequestImage | undefined;
+  serviceIds?: CreateBuildSourceRequestServiceIdsList | undefined;
+  envVars?: Schema6 | undefined;
   /** Secret files for the build source's build. Only valid for `git` sources. */
-  secretFiles?: CreateBuildSourceRequestSecretFilesList;
+  secretFiles?: CreateBuildSourceRequestSecretFilesList | undefined;
   /** IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment. */
-  envGroupIds?: CreateBuildSourceRequestEnvGroupIdsList;
+  envGroupIds?: CreateBuildSourceRequestEnvGroupIdsList | undefined;
 }
 /** Build runtime for the build source. Static sites are not supported for build sources. */
 export type GitRuntime = "docker" | "elixir" | "go" | "node" | "python" | "ruby" | "rust";
 /** Defaults to "oregon" */
 export type GitRegion = "frankfurt" | "oregon" | "ohio" | "singapore" | "virginia";
 export interface Git {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
-  buildFilter?: BuildFilter2;
-  dockerfilePath?: string;
+  baseDir?: string | undefined;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
+  buildFilter?: BuildFilter2 | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
   runtime: GitRuntime;
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Defaults to "oregon" */
-  region?: GitRegion;
-  repoUrl?: string;
-  rootDir?: string;
+  region?: GitRegion | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 export type Image2 = CreateBuildSourceRequestImage;
 export interface CreateBuildSourceResponseServiceLinksItem {
@@ -379,11 +379,11 @@ export interface CreateBuildSourceResponse {
   /** ID of the workspace this build source belongs to. */
   ownerId: string;
   /** ID of the project this build source is scoped to, if any. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  git?: Git;
+  git?: Git | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
-  image?: CreateBuildSourceRequestImage;
+  image?: CreateBuildSourceRequestImage | undefined;
   createdAt: string;
   updatedAt: string;
   /** Services currently linked to this build source. */
@@ -397,8 +397,8 @@ export interface CreateCustomDomainRequest {
 export type CustomDomainDomainType = "apex" | "subdomain";
 export type CustomDomainVerificationStatus = "verified" | "unverified";
 export interface CustomDomainServer {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export interface CustomDomain {
   id: string;
@@ -408,7 +408,7 @@ export interface CustomDomain {
   redirectForName: string;
   verificationStatus: CustomDomainVerificationStatus;
   createdAt: string;
-  server?: CustomDomainServer;
+  server?: CustomDomainServer | undefined;
 }
 export type CreateCustomDomainResponseBodyList = Array<CustomDomain>;
 export type CreateCustomDomainResponse = CreateCustomDomainResponseBodyList;
@@ -420,12 +420,12 @@ export interface CreateDedicatedIpRequest {
   /** Name for the dedicated IP set. */
   name: string;
   /** Free-form description for the dedicated IP set. */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the workspace that will own this dedicated IP set. */
   ownerId: string;
   region: Region | (string & {});
   /** Environments to scope the dedicated IP set to. If omitted or empty, it applies to all services in the workspace within its region. */
-  environmentIds?: CreateDedicatedIpRequestEnvironmentIdsList;
+  environmentIds?: CreateDedicatedIpRequestEnvironmentIdsList | undefined;
 }
 /** Environments this dedicated IP set applies to. If empty, it applies to all services in the workspace within its region. */
 export type DedicatedIPEnvironmentIdsList = Array<string>;
@@ -458,7 +458,7 @@ export interface DedicatedIP {
   /** Time the dedicated IP set was created. */
   createdAt: string;
   /** Time the dedicated IP set was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** If `clear`, Render clears the service's build cache before deploying. This can be useful if you're experiencing issues with your build. */
 export type CreateDeployRequestClearCache = "clear" | "do_not_clear";
@@ -468,15 +468,15 @@ export interface CreateDeployRequest {
   /** The ID of the service */
   serviceId: string;
   /** The ID of the build to deploy. Cannot be combined with `commitId`, `imageUrl`, or `deployMode`. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** If `clear`, Render clears the service's build cache before deploying. This can be useful if you're experiencing issues with your build. */
-  clearCache?: CreateDeployRequestClearCache | (string & {});
+  clearCache?: CreateDeployRequestClearCache | (string & {}) | undefined;
   /** The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch. Cannot be combined with `buildId`, `imageUrl`, or `deployMode: deploy_only`. Note that deploying a specific commit with this endpoint does not disable autodeploys for the service. You can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard. Not supported for cron jobs. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** The URL of the image to deploy for an image-backed service. Cannot be combined with `buildId`, `commitId`, or `deployMode: deploy_only`. The host, repository, and image name all must match the currently configured image for the service. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Deployment mode controlling build and deploy behavior. Defaults to `build_and_deploy` when not specified. **Validation:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with `commitId`, `imageUrl`, or `clearCache`. */
-  deployMode?: DeployMode | (string & {});
+  deployMode?: DeployMode | (string & {}) | undefined;
 }
 export type CreateEnvGroupRequestSecretFilesList = Array<Items>;
 export type CreateEnvGroupRequestServiceIdsList = Array<string>;
@@ -484,9 +484,9 @@ export interface CreateEnvGroupRequest {
   name: string;
   ownerId: string;
   envVars: Schema6;
-  secretFiles?: CreateEnvGroupRequestSecretFilesList;
-  serviceIds?: CreateEnvGroupRequestServiceIdsList;
-  environmentId?: string;
+  secretFiles?: CreateEnvGroupRequestSecretFilesList | undefined;
+  serviceIds?: CreateEnvGroupRequestServiceIdsList | undefined;
+  environmentId?: string | undefined;
 }
 export type ServiceTypeShort = "static" | "web" | "pserv" | "worker" | "cron";
 export interface EnvGroupLink {
@@ -510,7 +510,7 @@ export interface CreateEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: CreateEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: CreateEnvGroupResponseEnvVarsList;
   secretFiles: CreateEnvGroupResponseSecretFilesList;
 }
@@ -518,9 +518,9 @@ export type CreateEnvironmentRequestIpAllowListList = Array<CidrBlockAndDescript
 export interface CreateEnvironmentRequest {
   name: string;
   projectId: string;
-  protectedStatus?: ProtectedStatus | (string & {});
-  networkIsolationEnabled?: boolean;
-  ipAllowList?: CreateEnvironmentRequestIpAllowListList;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  ipAllowList?: CreateEnvironmentRequestIpAllowListList | undefined;
 }
 export type KeyValuePlan =
   | "free"
@@ -554,11 +554,11 @@ export interface CreateKeyValueRequest {
   /** The ID of the owner of the Key Value instance */
   ownerId: string;
   plan: KeyValuePlan | (string & {});
-  region?: Region | (string & {});
-  environmentId?: string;
-  maxmemoryPolicy?: MaxmemoryPolicy | (string & {});
-  persistenceMode?: PersistenceMode | (string & {});
-  ipAllowList?: CreateKeyValueRequestIpAllowListList;
+  region?: Region | (string & {}) | undefined;
+  environmentId?: string | undefined;
+  maxmemoryPolicy?: MaxmemoryPolicy | (string & {}) | undefined;
+  persistenceMode?: PersistenceMode | (string & {}) | undefined;
+  ipAllowList?: CreateKeyValueRequestIpAllowListList | undefined;
 }
 export type DatabaseStatus =
   | "creating"
@@ -578,15 +578,15 @@ export interface Owner {
   id: string;
   name: string;
   email: string;
-  ipAllowList?: OwnerIpAllowListList;
+  ipAllowList?: OwnerIpAllowListList | undefined;
   /** Whether two-factor authentication is enabled for the owner. Only present if `type` is `user`. */
-  twoFactorAuthEnabled?: boolean;
+  twoFactorAuthEnabled?: boolean | undefined;
   type: OwnerType;
 }
 /** Options for a Key Value instance */
 export interface KeyValueOptions {
-  maxmemoryPolicy?: string;
-  persistenceMode?: PersistenceMode;
+  maxmemoryPolicy?: string | undefined;
+  persistenceMode?: PersistenceMode | undefined;
 }
 /** The IP allow list for the Key Value instance */
 export type KeyValueDetailIpAllowListList = Array<CidrBlockAndDescription>;
@@ -602,7 +602,7 @@ export interface Maintenance {
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
 }
 /** A Key Value instance */
@@ -623,10 +623,10 @@ export interface KeyValueDetail {
   /** The IP allow list for the Key Value instance */
   ipAllowList: KeyValueDetailIpAllowListList;
   /** The ID of the environment the Key Value instance is associated with */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The version of Key Value */
   version: string;
-  maintenance?: Maintenance;
+  maintenance?: Maintenance | undefined;
 }
 export type CreatePostgresRequestPlan =
   | "free"
@@ -689,27 +689,27 @@ export type ReadReplicasInput = Array<ReadReplicaInput>;
 /** The PostgreSQL version */
 export type PostgresVersion = "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18";
 export interface CreatePostgresRequest {
-  databaseName?: string;
-  databaseUser?: string;
+  databaseName?: string | undefined;
+  databaseUser?: string | undefined;
   /** The Datadog API key for the Datadog agent to monitor the new database. */
-  datadogAPIKey?: string;
+  datadogAPIKey?: string | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
-  datadogSite?: string;
+  datadogSite?: string | undefined;
   /** The name of the database as it will appear in the Render Dashboard */
   name: string;
-  enableHighAvailability?: boolean;
-  environmentId?: string;
+  enableHighAvailability?: boolean | undefined;
+  environmentId?: string | undefined;
   /** The ID of the workspace to create the database for */
   ownerId: string;
   plan: CreatePostgresRequestPlan | (string & {});
   /** The number of gigabytes of disk space to allocate for the database */
-  diskSizeGB?: number;
-  enableDiskAutoscaling?: boolean;
+  diskSizeGB?: number | undefined;
+  enableDiskAutoscaling?: boolean | undefined;
   /** What connection pool to use (if any) out of 'pgbouncer' and 'none' */
-  connectionPool?: string;
-  region?: Region | (string & {});
-  ipAllowList?: CreatePostgresRequestIpAllowListList;
-  readReplicas?: ReadReplicasInput;
+  connectionPool?: string | undefined;
+  region?: Region | (string & {}) | undefined;
+  ipAllowList?: CreatePostgresRequestIpAllowListList | undefined;
+  readReplicas?: ReadReplicasInput | undefined;
   version: PostgresVersion | (string & {});
 }
 export type PostgresDetailIpAllowListList = Array<CidrBlockAndDescription>;
@@ -789,19 +789,19 @@ export interface PostgresDetail {
   createdAt: string;
   updatedAt: string;
   /** The time at which the database will be expire. Applies to free tier databases only. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The URL to view the Postgres instance in the Render Dashboard */
   dashboardUrl: string;
   databaseName: string;
   databaseUser: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   highAvailabilityEnabled: boolean;
-  maintenance?: Maintenance;
+  maintenance?: Maintenance | undefined;
   name: string;
   owner: Owner;
   plan: Plan2;
-  diskSizeGB?: number;
-  primaryPostgresID?: string;
+  diskSizeGB?: number | undefined;
+  primaryPostgresID?: string | undefined;
   region: Region;
   readReplicas: ReadReplicas;
   role: DatabaseRole;
@@ -826,9 +826,9 @@ export interface CreatePostgresUserResponse {}
 export type ProjectPOSTEnvironmentInputIpAllowListList = Array<CidrBlockAndDescription>;
 export interface ProjectPOSTEnvironmentInput {
   name: string;
-  protectedStatus?: ProtectedStatus | (string & {});
-  networkIsolationEnabled?: boolean;
-  ipAllowList?: ProjectPOSTEnvironmentInputIpAllowListList;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  ipAllowList?: ProjectPOSTEnvironmentInputIpAllowListList | undefined;
 }
 /** The environments to create when creating the project */
 export type CreateProjectRequestEnvironmentsList = Array<ProjectPOSTEnvironmentInput>;
@@ -893,7 +893,7 @@ export interface Image {
   /** The ID of the owner for this image. This should match the owner of the service as well as the owner of any specified registry credential. */
   ownerId: string;
   /** Optional reference to the registry credential passed to the image repository to retrieve this image. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Path to the image used for this server (e.g docker.io/library/nginx:latest). */
   imagePath: string;
 }
@@ -919,35 +919,35 @@ export type PullRequestPreviewsEnabled = "yes" | "no";
 export type PreviewsGeneration = "off" | "manual" | "automatic";
 export interface Previews {
   /** Defaults to "off" */
-  generation?: PreviewsGeneration | (string & {});
+  generation?: PreviewsGeneration | (string & {}) | undefined;
 }
 export interface RoutePost {
   type: RouteType | (string & {});
   source: string;
   destination: string;
   /** Redirect and Rewrite Rules are applied in priority order starting at 0. Defaults to last in the priority list. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type StaticSiteDetailsPOSTRoutesList = Array<RoutePost>;
 /** Controls whether render.com subdomains are available for the service */
 export type RenderSubdomainPolicy = "enabled" | "disabled";
 export type StaticSiteDetailsPOSTIpAllowListList = Array<CidrBlockAndDescription>;
 export interface StaticSiteDetailsPOST {
-  buildCommand?: string;
-  headers?: StaticSiteDetailsPOSTHeadersList;
+  buildCommand?: string | undefined;
+  headers?: StaticSiteDetailsPOSTHeadersList | undefined;
   /** Defaults to "public" */
-  publishPath?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  routes?: StaticSiteDetailsPOSTRoutesList;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: StaticSiteDetailsPOSTIpAllowListList;
+  publishPath?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  routes?: StaticSiteDetailsPOSTRoutesList | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: StaticSiteDetailsPOSTIpAllowListList | undefined;
 }
 export interface ServiceDisk {
   name: string;
   mountPath: string;
   /** Defaults to 1 */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
 }
 /** This field has been deprecated, runtime should be used in its place. */
 export type ServiceEnv = "docker" | "elixir" | "go" | "node" | "python" | "ruby" | "rust" | "image";
@@ -962,11 +962,11 @@ export type ServiceRuntime =
   | "rust"
   | "image";
 export interface DockerDetailsPOST {
-  dockerCommand?: string;
-  dockerContext?: string;
+  dockerCommand?: string | undefined;
+  dockerContext?: string | undefined;
   /** Defaults to "./Dockerfile" */
-  dockerfilePath?: string;
-  registryCredentialId?: string;
+  dockerfilePath?: string | undefined;
+  registryCredentialId?: string | undefined;
 }
 /** Fields for native environment (runtime) services */
 export interface NativeEnvironmentDetailsPOST {
@@ -1013,25 +1013,25 @@ export type Plan =
 export type WebServiceDetailsPOSTIpAllowListList = Array<CidrBlockAndDescription>;
 export interface WebServiceDetailsPOST {
   /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  autoscaling?: Schema5;
-  disk?: ServiceDisk;
-  env?: ServiceEnv | (string & {});
+  buildSourceId?: string | undefined;
+  autoscaling?: Schema5 | undefined;
+  disk?: ServiceDisk | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
   runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetailsPOST;
-  healthCheckPath?: string;
-  maintenanceMode?: MaintenanceMode;
+  envSpecificDetails?: EnvSpecificDetailsPOST | undefined;
+  healthCheckPath?: string | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
   /** Defaults to 1 */
-  numInstances?: number;
+  numInstances?: number | undefined;
   /** The compute plan to use. If omitted, defaults to `0.5c-512mb` when creating a new service. */
-  plan?: Plan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  region?: Region | (string & {});
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: WebServiceDetailsPOSTIpAllowListList;
+  plan?: Plan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  region?: Region | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: WebServiceDetailsPOSTIpAllowListList | undefined;
 }
 /** Defaults to `0.5c-512mb` when creating a new service. */
 export type PaidPlan =
@@ -1057,43 +1057,43 @@ export type PaidPlan =
   | "12c-96g";
 export interface PrivateServiceDetailsPOST {
   /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  autoscaling?: Schema5;
-  disk?: ServiceDisk;
-  env?: ServiceEnv | (string & {});
+  buildSourceId?: string | undefined;
+  autoscaling?: Schema5 | undefined;
+  disk?: ServiceDisk | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
   runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetailsPOST;
+  envSpecificDetails?: EnvSpecificDetailsPOST | undefined;
   /** Defaults to 1 */
-  numInstances?: number;
-  plan?: PaidPlan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  region?: Region | (string & {});
-  maxShutdownDelaySeconds?: number;
+  numInstances?: number | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  region?: Region | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export type BackgroundWorkerDetailsPOST = PrivateServiceDetailsPOST;
 export interface DockerDetails {
   dockerCommand: string;
   dockerContext: string;
   dockerfilePath: string;
-  preDeployCommand?: string;
-  registryCredential?: RegistryCredential;
+  preDeployCommand?: string | undefined;
+  registryCredential?: RegistryCredential | undefined;
 }
 export interface NativeEnvironmentDetails {
   buildCommand: string;
   startCommand: string;
-  preDeployCommand?: string;
+  preDeployCommand?: string | undefined;
 }
 export type EnvSpecificDetails = DockerDetails | NativeEnvironmentDetails;
 export interface CronJobDetailsPOST {
   /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
-  buildSourceId?: string;
-  env?: ServiceEnv | (string & {});
+  buildSourceId?: string | undefined;
+  env?: ServiceEnv | (string & {}) | undefined;
   runtime: ServiceRuntime | (string & {});
-  envSpecificDetails?: EnvSpecificDetails;
-  plan?: PaidPlan | (string & {});
-  region?: Region | (string & {});
+  envSpecificDetails?: EnvSpecificDetails | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  region?: Region | (string & {}) | undefined;
   schedule: string;
 }
 export type CreateServiceRequestServiceDetails =
@@ -1109,20 +1109,20 @@ export interface CreateServiceRequest {
   /** The ID of the workspace the service belongs to. Obtain your workspace's ID from its Settings page in the Render Dashboard. */
   ownerId: string;
   /** The service's repository URL. Do not specify a branch in this string (use the `branch` parameter instead). */
-  repo?: string;
-  autoDeploy?: AutoDeploy | (string & {});
+  repo?: string | undefined;
+  autoDeploy?: AutoDeploy | (string & {}) | undefined;
   /** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
-  autoDeployTrigger?: CreateServiceRequestAutoDeployTrigger | (string & {});
+  autoDeployTrigger?: CreateServiceRequestAutoDeployTrigger | (string & {}) | undefined;
   /** The repo branch to pull, build, and deploy. If omitted, uses the repository's default branch. */
-  branch?: string;
-  image?: Image;
-  buildFilter?: BuildFilter;
-  rootDir?: string;
-  envVars?: Schema6;
-  secretFiles?: CreateServiceRequestSecretFilesList;
+  branch?: string | undefined;
+  image?: Image | undefined;
+  buildFilter?: BuildFilter | undefined;
+  rootDir?: string | undefined;
+  envVars?: Schema6 | undefined;
+  secretFiles?: CreateServiceRequestSecretFilesList | undefined;
   /** The ID of the environment the service belongs to, if any. Obtain an environment's ID from its Settings page in the Render Dashboard. */
-  environmentId?: string;
-  serviceDetails?: CreateServiceRequestServiceDetails;
+  environmentId?: string | undefined;
+  serviceDetails?: CreateServiceRequestServiceDetails | undefined;
 }
 /** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
 export type AutoDeployTrigger = "commit" | "off" | "checksPass";
@@ -1135,14 +1135,14 @@ export type Resource = CreateBuildSourceResponseServiceLinksItem;
 export type BuildPlan = "starter" | "performance";
 export interface StaticSiteDetails {
   buildCommand: string;
-  ipAllowList?: StaticSiteDetailsIpAllowListList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  ipAllowList?: StaticSiteDetailsIpAllowListList | undefined;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   publishPath: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   url: string;
   buildPlan: BuildPlan;
-  renderSubdomainPolicy?: RenderSubdomainPolicy;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | undefined;
 }
 export type CacheProfile = "no-cache" | "origin-controlled" | "origin-controlled-all";
 export interface Cache {
@@ -1162,71 +1162,71 @@ export interface ServerPort {
 }
 export type WebServiceDetailsOpenPortsList = Array<ServerPort>;
 export interface WebServiceDetails {
-  autoscaling?: Schema5;
-  cache?: Cache;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  cache?: Cache | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   healthCheckPath: string;
-  ipAllowList?: WebServiceDetailsIpAllowListList;
-  maintenanceMode?: MaintenanceMode;
+  ipAllowList?: WebServiceDetailsIpAllowListList | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: WebServiceDetailsOpenPortsList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   url: string;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | undefined;
 }
 export type Disk = WebServiceDetailsDisk;
 export type PrivateServiceDetailsOpenPortsList = Array<ServerPort>;
 export interface PrivateServiceDetails {
-  autoscaling?: Schema5;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: PrivateServiceDetailsOpenPortsList;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   url: string;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export interface BackgroundWorkerDetails {
-  autoscaling?: Schema5;
-  disk?: WebServiceDetailsDisk;
+  autoscaling?: Schema5 | undefined;
+  disk?: WebServiceDetailsDisk | undefined;
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
-  parentServer?: CreateBuildSourceResponseServiceLinksItem;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem | undefined;
   plan: Plan;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
-  previews?: Previews;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | undefined;
+  previews?: Previews | undefined;
   region: Region;
   runtime: ServiceRuntime;
-  sshAddress?: string;
+  sshAddress?: string | undefined;
   buildPlan: BuildPlan;
-  maxShutdownDelaySeconds?: number;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export interface CronJobDetails {
   env: ServiceEnv;
   envSpecificDetails: EnvSpecificDetails;
-  lastSuccessfulRunAt?: string;
+  lastSuccessfulRunAt?: string | undefined;
   plan: Plan;
   region: Region;
   runtime: ServiceRuntime;
@@ -1241,21 +1241,21 @@ export type ServiceServiceDetails =
   | CronJobDetails;
 export interface Service {
   id: string;
-  buildSourceId?: string;
+  buildSourceId?: string | undefined;
   autoDeploy: AutoDeploy;
-  autoDeployTrigger?: AutoDeployTrigger;
-  branch?: string;
-  buildFilter?: BuildFilter;
+  autoDeployTrigger?: AutoDeployTrigger | undefined;
+  branch?: string | undefined;
+  buildFilter?: BuildFilter | undefined;
   createdAt: string;
   /** The URL to view the service in the Render Dashboard */
   dashboardUrl: string;
-  environmentId?: string;
-  imagePath?: string;
+  environmentId?: string | undefined;
+  imagePath?: string | undefined;
   name: string;
   notifyOnFail: NotifySetting;
   ownerId: string;
-  registryCredential?: CreateBuildSourceResponseServiceLinksItem;
-  repo?: string;
+  registryCredential?: CreateBuildSourceResponseServiceLinksItem | undefined;
+  repo?: string | undefined;
   rootDir: string;
   slug: string;
   suspended: ServiceSuspended;
@@ -1265,8 +1265,8 @@ export interface Service {
   serviceDetails: ServiceServiceDetails;
 }
 export interface ServiceAndDeploy {
-  service?: Service;
-  deployId?: string;
+  service?: Service | undefined;
+  deployId?: string | undefined;
 }
 /** Positional arguments passed to the task function */
 export type CreateTaskRequestInputCase0List = Array<unknown>;
@@ -1282,7 +1282,7 @@ export interface CreateTaskRequest {
   /** Input data for a task. Can be either an array (for positional arguments) or an object (for named parameters). */
   input: CreateTaskRequestInput;
   /** A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a single workflow version, so the same key used against a different version starts a separate run. Omit the key to always start a new run. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export type Status2 =
   | "pending"
@@ -1294,24 +1294,24 @@ export type Status2 =
   | "paused";
 export interface CreateTaskResponseAttemptsItem {
   /** The ID of the task run this attempt belongs to. */
-  taskRunId?: string;
+  taskRunId?: string | undefined;
   /** The 0-indexed attempt number. */
   attempt: number;
   status: Status2;
-  enqueuedAt?: string;
+  enqueuedAt?: string | undefined;
   startedAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
 }
 export type CreateTaskResponseAttemptsList = Array<CreateTaskResponseAttemptsItem>;
 export interface CreateTaskResponse {
   id: string;
   taskId: string;
   status: Status2;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: CreateTaskResponseAttemptsList;
@@ -1409,13 +1409,13 @@ export interface CreateWebhookResponse {
 export type Runtime = "elixir" | "go" | "node" | "python" | "ruby";
 export interface CreateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   runtime: Runtime | (string & {});
 }
 /** Defaults to "oregon" */
@@ -1436,18 +1436,18 @@ export interface CreateWorkflowRequest {
   /** Defaults to "oregon" */
   region: CreateWorkflowRequestRegion | (string & {});
   /** Controls autodeploy behavior. "commit" deploys when a commit is pushed to the branch. "checksPass" waits for CI checks to pass before deploying. "off" disables autodeploy. */
-  autoDeployTrigger?: CreateWorkflowRequestAutoDeployTrigger | (string & {});
-  envVars?: Schema6;
+  autoDeployTrigger?: CreateWorkflowRequestAutoDeployTrigger | (string & {}) | undefined;
+  envVars?: Schema6 | undefined;
 }
 export interface BuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   runtime: Runtime;
 }
 /** Defaults to "oregon" */
@@ -1464,13 +1464,13 @@ export interface CreateWorkflowResponse {
   /** Command to run the workflow. */
   runCommand: string;
   region: Region2;
-  environmentId?: string;
-  slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger2;
+  environmentId?: string | undefined;
+  slug?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | undefined;
 }
 export interface CreateWorkflowVersionRequest {
   workflowId: string;
-  commit?: string;
+  commit?: string | undefined;
 }
 export interface CreateWorkflowVersionResponse {}
 export interface DeleteAutoscalingConfigRequest {
@@ -1629,13 +1629,13 @@ export interface FailoverPostgresRequest {
 export interface FailoverPostgresResponse {}
 export interface GetActiveConnectionsRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources Postgres ids or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export interface GetActiveConnectionsResponseBodyItemLabelsItem {
@@ -1666,13 +1666,13 @@ export type GetActiveConnectionsResponseBodyList = Array<GetActiveConnectionsRes
 export type GetActiveConnectionsResponse = GetActiveConnectionsResponseBodyList;
 export interface GetBandwidthRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetBandwidthResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1697,13 +1697,13 @@ export type GetBandwidthResponseBodyList = Array<GetBandwidthResponseBodyItem>;
 export type GetBandwidthResponse = GetBandwidthResponseBodyList;
 export interface GetBandwidthSourcesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 export type GetBandwidthSourcesResponseDataItemLabelsTrafficSource =
   | "total"
@@ -1712,22 +1712,22 @@ export type GetBandwidthSourcesResponseDataItemLabelsTrafficSource =
   | "nat"
   | "privatelink";
 export interface GetBandwidthSourcesResponseDataItemLabels {
-  resource?: string;
-  trafficSource?: GetBandwidthSourcesResponseDataItemLabelsTrafficSource;
+  resource?: string | undefined;
+  trafficSource?: GetBandwidthSourcesResponseDataItemLabelsTrafficSource | undefined;
 }
 export interface GetBandwidthSourcesResponseDataItemValuesItem {
-  timestamp?: number;
-  value?: number;
+  timestamp?: number | undefined;
+  value?: number | undefined;
 }
 export type GetBandwidthSourcesResponseDataItemValuesList =
   Array<GetBandwidthSourcesResponseDataItemValuesItem>;
 export interface GetBandwidthSourcesResponseDataItem {
-  labels?: GetBandwidthSourcesResponseDataItemLabels;
-  values?: GetBandwidthSourcesResponseDataItemValuesList;
+  labels?: GetBandwidthSourcesResponseDataItemLabels | undefined;
+  values?: GetBandwidthSourcesResponseDataItemValuesList | undefined;
 }
 export type GetBandwidthSourcesResponseDataList = Array<GetBandwidthSourcesResponseDataItem>;
 export interface GetBandwidthSourcesResponse {
-  data?: GetBandwidthSourcesResponseDataList;
+  data?: GetBandwidthSourcesResponseDataList | undefined;
 }
 export interface GetBlueprintRequest {
   /** The ID of the Blueprint */
@@ -1764,7 +1764,7 @@ export interface GetBlueprintResponse {
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
   resources: GetBlueprintResponseResourcesList;
 }
 export interface GetBuildSourceRequest {
@@ -1779,11 +1779,11 @@ export interface Schema12 {
   /** ID of the workspace this build source belongs to. */
   ownerId: string;
   /** ID of the project this build source is scoped to, if any. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  git?: Git;
+  git?: Git | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
-  image?: CreateBuildSourceRequestImage;
+  image?: CreateBuildSourceRequestImage | undefined;
   createdAt: string;
   updatedAt: string;
   /** Services currently linked to this build source. */
@@ -1802,19 +1802,19 @@ export interface GetBuildSourceSecretFileRequest {
 export type GetCpuRequestAggregationMethod = "AVG" | "MAX" | "MIN";
 export interface GetCpuRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
   /** The aggregation method to apply to multiple time series */
-  aggregationMethod?: GetCpuRequestAggregationMethod | (string & {});
+  aggregationMethod?: GetCpuRequestAggregationMethod | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1839,17 +1839,17 @@ export type GetCpuResponseBodyList = Array<GetCpuResponseBodyItem>;
 export type GetCpuResponse = GetCpuResponseBodyList;
 export interface GetCpuLimitRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuLimitResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1874,17 +1874,17 @@ export type GetCpuLimitResponseBodyList = Array<GetCpuLimitResponseBodyItem>;
 export type GetCpuLimitResponse = GetCpuLimitResponseBodyList;
 export interface GetCpuTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetCpuTargetResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -1932,21 +1932,21 @@ export interface Schema2 {
   name: string;
   sizeGB: number;
   mountPath: string;
-  serviceId?: string;
+  serviceId?: string | undefined;
   createdAt: string;
   updatedAt: string;
 }
 export interface GetDiskCapacityRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetDiskCapacityResponseBodyItemLabelsItem =
@@ -1973,15 +1973,15 @@ export type GetDiskCapacityResponseBodyList = Array<GetDiskCapacityResponseBodyI
 export type GetDiskCapacityResponse = GetDiskCapacityResponseBodyList;
 export interface GetDiskUsageRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetDiskUsageResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -2020,7 +2020,7 @@ export interface GetEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: GetEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: GetEnvGroupResponseEnvVarsList;
   secretFiles: GetEnvGroupResponseSecretFilesList;
 }
@@ -2048,9 +2048,9 @@ export interface GetEnvVarRequest {
 export interface GetEnvVarsForBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface EnvVarWithCursor {
   envVar: EnvVar;
@@ -2062,9 +2062,9 @@ export interface GetEnvVarsForServiceRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetEnvVarsForServiceResponseBodyList = Array<EnvVarWithCursor>;
 export type GetEnvVarsForServiceResponse = GetEnvVarsForServiceResponseBodyList;
@@ -2147,12 +2147,12 @@ export interface GetEventResponseDetailsCase0Case0 {
 }
 export interface GetEventResponseDetailsCase0Case1 {
   /** The previously linked build source. Absent when the service was newly attached. */
-  fromBuildSourceId?: string;
+  fromBuildSourceId?: string | undefined;
   /** The newly linked build source. Absent when the service was detached. */
-  toBuildSourceId?: string;
+  toBuildSourceId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case2 {
-  fromConfig?: Schema5;
+  fromConfig?: Schema5 | undefined;
   toConfig: Schema5;
 }
 export interface GetEventResponseDetailsCase0Case3 {
@@ -2162,10 +2162,10 @@ export interface GetEventResponseDetailsCase0Case3 {
 export interface GetEventResponseDetailsCase0Case4 {
   fromInstances: number;
   toInstances: number;
-  currentCPU?: number;
-  targetCPU?: number;
-  currentMemory?: number;
-  targetMemory?: number;
+  currentCPU?: number | undefined;
+  targetCPU?: number | undefined;
+  currentMemory?: number | undefined;
+  targetMemory?: number | undefined;
 }
 export interface GetEventResponseDetailsCase0Case5 {
   deletedBranch: string;
@@ -2182,21 +2182,21 @@ export interface ReasonOomKilled {
 export interface Reason {
   evicted: boolean;
   /** Details about why the application was evicted. */
-  evictionReason?: string;
+  evictionReason?: string | undefined;
   /** If present, the application exited with the specified non-zero status. */
-  nonZeroExit?: number;
+  nonZeroExit?: number | undefined;
   /** If true, the application exited early. Services besides cron jobs should not exit unless receiving a `SIGTERM` signal from Render. */
-  earlyExit?: boolean;
-  oomKilled?: ReasonOomKilled;
-  timedOutSeconds?: number;
-  unhealthy?: string;
-  timedOutReason?: string;
+  earlyExit?: boolean | undefined;
+  oomKilled?: ReasonOomKilled | undefined;
+  timedOutSeconds?: number | undefined;
+  unhealthy?: string | undefined;
+  timedOutReason?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case6Reason {
-  buildFailed?: NewBuild;
-  newBuild?: NewBuild;
-  newDeploy?: NewBuild;
-  failure?: Reason;
+  buildFailed?: NewBuild | undefined;
+  newBuild?: NewBuild | undefined;
+  newDeploy?: NewBuild | undefined;
+  failure?: Reason | undefined;
 }
 export interface GetEventResponseDetailsCase0Case6 {
   buildId: string;
@@ -2216,11 +2216,11 @@ export interface GetEventResponseDetailsCase0Case7Trigger {
   envUpdated: boolean;
   /** Deploy was triggered manually from the dashboard */
   manual: boolean;
-  user?: User2;
+  user?: User2 | undefined;
   /** Updated property that triggered the deploy */
-  updatedProperty?: string;
+  updatedProperty?: string | undefined;
   /** Commit that triggered the deploy */
-  newCommit?: string;
+  newCommit?: string | undefined;
   /** Deploy was triggered by Render */
   deployedByRender: boolean;
   /** Whether the cache was cleared for the deploy */
@@ -2228,7 +2228,7 @@ export interface GetEventResponseDetailsCase0Case7Trigger {
   /** Whether the deploy was triggered by a rollback */
   rollback: boolean;
   /** Deploy ID that was rolled back to */
-  rollbackTargetDeployId?: string;
+  rollbackTargetDeployId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case7 {
   buildId: string;
@@ -2252,9 +2252,9 @@ export type GetEventResponseDetailsCase0Case9User = User2;
 export interface GetEventResponseDetailsCase0Case9 {
   cronJobRunId: string;
   status: GetEventResponseDetailsCase0Case9Status;
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** User who triggered the action */
-  user?: User2;
+  user?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase0Case10 {
   cronJobRunId: string;
@@ -2268,14 +2268,14 @@ export interface GetEventResponseDetailsCase0Case11 {
   deployStatus: BuildStatus;
   status: number;
   /** Set when the deploy shipped a build published by the service's linked build source. */
-  buildId?: string;
+  buildId?: string | undefined;
 }
 export type Trigger = GetEventResponseDetailsCase0Case7Trigger;
 export interface GetEventResponseDetailsCase0Case12 {
   deployId: string;
   trigger: GetEventResponseDetailsCase0Case7Trigger;
   /** Set when the deploy ships a build published by the service's linked build source. */
-  buildId?: string;
+  buildId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase0Case13 {
   diskId: string;
@@ -2309,7 +2309,7 @@ export type GetEventResponseDetailsCase0Case21 = GetEventResponseDetailsCase0Cas
 export interface GetEventResponseDetailsCase0Case22 {
   jobId: string;
   status: Items2;
-  reason?: Reason;
+  reason?: Reason | undefined;
 }
 export interface GetEventResponseDetailsCase0Case23 {
   enabled: boolean;
@@ -2319,7 +2319,7 @@ export interface GetEventResponseDetailsCase0Case24 {
   toURI: string;
 }
 export interface GetEventResponseDetailsCase0Case26Trigger {
-  user?: User2;
+  user?: User2 | undefined;
   /** Maintenance was triggered manually */
   manual: boolean;
   /** Maintenance was triggered by Render */
@@ -2345,19 +2345,19 @@ export interface GetEventResponseDetailsCase0Case30 {
   deployId: string;
 }
 export interface GetEventResponseDetailsCase0Case32 {
-  instanceID?: string;
-  reason?: Reason;
+  instanceID?: string | undefined;
+  reason?: Reason | undefined;
 }
 export interface GetEventResponseDetailsCase0Case34 {
   triggeredByUser: string | null;
 }
 export interface GetEventResponseDetailsCase0Case37 {
   actor: string;
-  suspendedByUser?: User2;
+  suspendedByUser?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase0Case38 {
   actor: string;
-  resumedByUser?: User2;
+  resumedByUser?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase0Case40 {
   trigger: string;
@@ -2365,7 +2365,7 @@ export interface GetEventResponseDetailsCase0Case40 {
 export interface GetEventResponseDetailsCase0Case41Trigger {
   /** Edge Cache change was triggered manually from the dashboard */
   manual: boolean;
-  user?: User2;
+  user?: User2 | undefined;
   /** Edge Cache Change was triggered by Render */
   system: boolean;
 }
@@ -2379,11 +2379,11 @@ export interface GetEventResponseDetailsCase0Case44 {
   /** Why auto-deploy was disabled (manual_deploy, rollback, or setting_change) */
   reason: string;
   /** The auto-deploy trigger value immediately before it was disabled */
-  fromTrigger?: AutoDeployTrigger;
+  fromTrigger?: AutoDeployTrigger | undefined;
 }
 export interface GetEventResponseDetailsCase0Case45 {
   /** The auto-deploy trigger value after it was re-enabled */
-  newTrigger?: AutoDeployTrigger;
+  newTrigger?: AutoDeployTrigger | undefined;
 }
 export type GetEventResponseDetailsCase0 =
   | GetEventResponseDetailsCase0Case0
@@ -2428,22 +2428,22 @@ export type GetEventResponseDetailsCase0 =
   | GetEventResponseDetailsCase0Case44
   | GetEventResponseDetailsCase0Case45;
 export interface GetEventResponseDetailsCase1Case4 {
-  leaderId?: string;
+  leaderId?: string | undefined;
 }
 export interface GetEventResponseDetailsCase1Case5 {
-  user?: User2;
+  user?: User2 | undefined;
   from: string;
   to: string;
 }
 export interface GetEventResponseDetailsCase1Case6 {
-  user?: User2;
+  user?: User2 | undefined;
   enabled: boolean;
 }
 export interface GetEventResponseDetailsCase1Case7 {
-  user?: User2;
+  user?: User2 | undefined;
 }
 export interface GetEventResponseDetailsCase1Case8 {
-  user?: User2;
+  user?: User2 | undefined;
   fromDiskSize: number;
   toDiskSize: number;
 }
@@ -2461,7 +2461,7 @@ export interface GetEventResponseDetailsCase1Case13 {
   toVersion: string;
 }
 export interface GetEventResponseDetailsCase1Case14 {
-  user?: User2;
+  user?: User2 | undefined;
   fromVersion: string;
   toVersion: string;
 }
@@ -2497,21 +2497,21 @@ export interface GetEventResponse {
 }
 export interface GetHttpLatencyRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
   /** The quantile of latencies to fetch. When multiple quantile query params are provided, they are ORed together */
-  quantile?: number;
+  quantile?: number | undefined;
 }
 /** A time series datapoint label */
 export type GetHttpLatencyResponseBodyItemLabelsItem =
@@ -2539,21 +2539,21 @@ export type GetHttpLatencyResponse = GetHttpLatencyResponseBodyList;
 export type GetHttpRequestsRequestAggregateBy = "statusCode" | "host";
 export interface GetHttpRequestsRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
   /** The field to aggregate by */
-  aggregateBy?: GetHttpRequestsRequestAggregateBy | (string & {});
+  aggregateBy?: GetHttpRequestsRequestAggregateBy | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetHttpRequestsResponseBodyItemLabelsItem =
@@ -2580,15 +2580,15 @@ export type GetHttpRequestsResponseBodyList = Array<GetHttpRequestsResponseBodyI
 export type GetHttpRequestsResponse = GetHttpRequestsResponseBodyList;
 export interface GetInstanceCountRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetInstanceCountResponseBodyItemLabelsItem =
@@ -2642,23 +2642,23 @@ export interface GetMaintenanceResponse {
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
   resourceId: string;
 }
 export interface GetMemoryRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -2683,17 +2683,17 @@ export type GetMemoryResponseBodyList = Array<GetMemoryResponseBodyItem>;
 export type GetMemoryResponse = GetMemoryResponseBodyList;
 export interface GetMemoryLimitRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryLimitResponseBodyItemLabelsItem =
@@ -2720,17 +2720,17 @@ export type GetMemoryLimitResponseBodyList = Array<GetMemoryLimitResponseBodyIte
 export type GetMemoryLimitResponse = GetMemoryLimitResponseBodyList;
 export interface GetMemoryTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources can be service ids, Postgres ids, or Redis ids */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** Instance ID to query. When multiple instance ID query params are provided, they are ORed together */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetMemoryTargetResponseBodyItemLabelsItem =
@@ -2767,10 +2767,10 @@ export interface GetOwnerLogStreamRequest {
 export type Preview = "send" | "drop";
 export interface GetOwnerLogStreamResponse {
   /** The ID of the owner. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
-  preview?: Preview;
+  endpoint?: string | undefined;
+  preview?: Preview | undefined;
 }
 export interface GetOwnerMembersRequest {
   /** The ID of the team */
@@ -2838,8 +2838,8 @@ export interface PostgresConnectionInfo {
   password: string | Redacted.Redacted<string>;
   internalConnectionString: string;
   externalConnectionString: string;
-  internalConnectionPoolString?: string;
-  externalConnectionPoolString?: string;
+  internalConnectionPoolString?: string | undefined;
+  externalConnectionPoolString?: string | undefined;
   psqlCommand: string;
 }
 export interface GetPostgresRecoveryInfoRequest {
@@ -2853,7 +2853,7 @@ export type GetPostgresRecoveryInfoResponseRecoveryStatus =
 export interface GetPostgresRecoveryInfoResponse {
   /** Availability of point-in-time recovery. */
   recoveryStatus: GetPostgresRecoveryInfoResponseRecoveryStatus;
-  startsAt?: string;
+  startsAt?: string | undefined;
 }
 export interface GetProjectRequest {
   projectId: string;
@@ -2864,13 +2864,13 @@ export interface GetRegistryCredentialRequest {
 }
 export interface GetReplicationLagRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Postgres ID to query. When multiple resource query params are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetReplicationLagResponseBodyItemLabelsItem =
@@ -2903,10 +2903,10 @@ export interface GetResourceLogStreamRequest {
 export type Items3 = "send" | "drop";
 export interface GetResourceLogStreamResponse {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
 }
 export interface GetSecretFileRequest {
   /** The ID of the service */
@@ -2941,7 +2941,7 @@ export interface OutboundIps {
   /** `dedicated` if a dedicated IP set applies to the resource, `shared` if its traffic originates from the shared Render IPs for its region. */
   type: OutboundIpsType;
   /** The dedicated IP set the traffic originates from. Only present when `type` is `dedicated`. */
-  dedicatedIpId?: string;
+  dedicatedIpId?: string | undefined;
   /** The IP addresses the resource's outbound traffic originates from. */
   ips: OutboundIpsIpsList;
 }
@@ -2953,8 +2953,8 @@ export interface GetTaskResponse {
   id: string;
   name: string;
   createdAt: string;
-  workflowId?: string;
-  workflowVersionId?: string;
+  workflowId?: string | undefined;
+  workflowVersionId?: string | undefined;
 }
 export interface GetTaskRunRequest {
   /** The ID of the task run */
@@ -2978,16 +2978,16 @@ export type Input = InputCase0List | InputCase1Map;
 export type Results = Array<unknown>;
 export interface GetTaskRunResponseAttemptsItem {
   /** The ID of the task run this attempt belongs to. */
-  taskRunId?: string;
+  taskRunId?: string | undefined;
   /** The 0-indexed attempt number. */
   attempt: number;
   status: Status2;
-  enqueuedAt?: string;
+  enqueuedAt?: string | undefined;
   startedAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Error message if the task attempt failed. */
-  error?: string;
-  results?: Results;
+  error?: string | undefined;
+  results?: Results | undefined;
 }
 export type GetTaskRunResponseAttemptsList = Array<GetTaskRunResponseAttemptsItem>;
 export interface GetTaskRunResponse {
@@ -2996,13 +2996,13 @@ export interface GetTaskRunResponse {
   status: GetTaskRunResponseStatus;
   results: GetTaskRunResponseResultsList;
   /** Error message if the task run failed. */
-  error?: string;
-  startedAt?: string;
-  completedAt?: string;
+  error?: string | undefined;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   input: Input;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: GetTaskRunResponseAttemptsList;
@@ -3011,17 +3011,17 @@ export type GetTaskRunsCompletedRequestState = "succeeded" | "failed";
 export type GetTaskRunsCompletedRequestAggregateBy = "state";
 export interface GetTaskRunsCompletedRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Task ID to query. When multiple task IDs are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** The state of task runs to filter to. When multiple state query params are provided, they are ORed together */
-  state?: GetTaskRunsCompletedRequestState | (string & {});
+  state?: GetTaskRunsCompletedRequestState | (string & {}) | undefined;
   /** The field to aggregate by */
-  aggregateBy?: GetTaskRunsCompletedRequestAggregateBy | (string & {});
+  aggregateBy?: GetTaskRunsCompletedRequestAggregateBy | (string & {}) | undefined;
 }
 /** A time series datapoint label */
 export type GetTaskRunsCompletedResponseBodyItemLabelsItem =
@@ -3048,13 +3048,13 @@ export type GetTaskRunsCompletedResponseBodyList = Array<GetTaskRunsCompletedRes
 export type GetTaskRunsCompletedResponse = GetTaskRunsCompletedResponseBodyList;
 export interface GetTaskRunsQueuedRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Task ID to query. When multiple task IDs are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** A time series datapoint label */
 export type GetTaskRunsQueuedResponseBodyItemLabelsItem =
@@ -3112,9 +3112,9 @@ export interface Schema15 {
   /** Command to run the workflow. */
   runCommand: string;
   region: Region2;
-  environmentId?: string;
-  slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger2;
+  environmentId?: string | undefined;
+  slug?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | undefined;
 }
 export interface GetWorkflowVersionRequest {
   /** The ID of the workflow version */
@@ -3151,7 +3151,7 @@ export interface LinkEnvGroupToBuildSourceResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: LinkEnvGroupToBuildSourceResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: LinkEnvGroupToBuildSourceResponseEnvVarsList;
   secretFiles: LinkEnvGroupToBuildSourceResponseSecretFilesList;
 }
@@ -3173,27 +3173,27 @@ export interface LinkServiceToEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: LinkServiceToEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: LinkServiceToEnvGroupResponseEnvVarsList;
   secretFiles: LinkServiceToEnvGroupResponseSecretFilesList;
 }
 export interface ListApplicationFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
 }
 export type ListApplicationFilterValuesResponseBodyItemFilter = "instance";
 export type ListApplicationFilterValuesResponseBodyItemValuesList = Array<string>;
 export interface ListApplicationFilterValuesResponseBodyItem {
-  filter?: ListApplicationFilterValuesResponseBodyItemFilter;
-  values?: ListApplicationFilterValuesResponseBodyItemValuesList;
+  filter?: ListApplicationFilterValuesResponseBodyItemFilter | undefined;
+  values?: ListApplicationFilterValuesResponseBodyItemValuesList | undefined;
 }
 /** A collection of filter values for application metrics */
 export type ListApplicationFilterValuesResponseBodyList =
@@ -3202,11 +3202,11 @@ export type ListApplicationFilterValuesResponse = ListApplicationFilterValuesRes
 export type ListBlueprintsRequestOwnerIdList = Array<string>;
 export interface ListBlueprintsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListBlueprintsRequestOwnerIdList;
+  ownerId?: ListBlueprintsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** A Blueprint has status `created` until its first Sync is approved. */
 export type Status = "created" | "paused" | "in_sync" | "syncing" | "error";
@@ -3218,7 +3218,7 @@ export interface Schema {
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
 }
 /** A Blueprint with a cursor */
 export interface BlueprintWithCursor {
@@ -3231,17 +3231,17 @@ export interface ListBlueprintSyncsRequest {
   /** The ID of the Blueprint */
   blueprintId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SyncWithCursorSyncCommit = NewBuild;
 export type SyncWithCursorSyncState = "created" | "pending" | "running" | "error" | "success";
 export interface SyncWithCursorSync {
   id: string;
   commit: NewBuild;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   state: SyncWithCursorSyncState;
 }
 /** A Blueprint sync with a cursor */
@@ -3254,9 +3254,9 @@ export type ListBlueprintSyncsResponse = ListBlueprintSyncsResponseBodyList;
 export interface ListBuildsInBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SchemaBuildRunStatus =
   | "created"
@@ -3276,31 +3276,31 @@ export type SchemaBuildRunRuntime =
 /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
 export interface SchemaBuildRun {
   id: string;
-  status?: SchemaBuildRunStatus;
-  buildStartedAt?: string;
-  buildFinishedAt?: string;
-  runtime?: SchemaBuildRunRuntime;
-  commitId?: string;
-  commitUrl?: string;
+  status?: SchemaBuildRunStatus | undefined;
+  buildStartedAt?: string | undefined;
+  buildFinishedAt?: string | undefined;
+  runtime?: SchemaBuildRunRuntime | undefined;
+  commitId?: string | undefined;
+  commitUrl?: string | undefined;
 }
 /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
 export interface SchemaImage {
-  imageVersionId?: string;
-  SHA?: string;
-  ref?: string;
-  imageUrl?: string;
-  registryCredentialId?: string;
+  imageVersionId?: string | undefined;
+  SHA?: string | undefined;
+  ref?: string | undefined;
+  imageUrl?: string | undefined;
+  registryCredentialId?: string | undefined;
 }
 export interface Schema13 {
   id: string;
   buildSourceId: string;
   /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  buildRun?: SchemaBuildRun;
+  buildRun?: SchemaBuildRun | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
-  image?: SchemaImage;
+  image?: SchemaImage | undefined;
   createdAt: string;
   updatedAt: string;
-  assetsDeletedAt?: string;
+  assetsDeletedAt?: string | undefined;
 }
 export type ListBuildsInBuildSourceResponseBodyList = Array<Schema13>;
 export type ListBuildsInBuildSourceResponse = ListBuildsInBuildSourceResponseBodyList;
@@ -3308,24 +3308,24 @@ export type ListBuildSourcesRequestNameList = Array<string>;
 export type ListBuildSourcesRequestOwnerIdList = Array<string>;
 export interface ListBuildSourcesRequest {
   /** Filter by name */
-  name?: ListBuildSourcesRequestNameList;
+  name?: ListBuildSourcesRequestNameList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListBuildSourcesRequestOwnerIdList;
-  projectId?: string;
+  ownerId?: ListBuildSourcesRequestOwnerIdList | undefined;
+  projectId?: string | undefined;
   /** Include previews in the response */
-  includePreviews?: boolean;
+  includePreviews?: boolean | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListBuildSourcesResponseBodyItem {
   buildSource: Schema12;
@@ -3340,19 +3340,19 @@ export interface ListCustomDomainsRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter for the names of custom domain */
-  name?: ListCustomDomainsRequestNameList;
+  name?: ListCustomDomainsRequestNameList | undefined;
   /** Filter for domain type */
-  domainType?: ListCustomDomainsRequestDomainType | (string & {});
+  domainType?: ListCustomDomainsRequestDomainType | (string & {}) | undefined;
   /** Filter for domain verification status (`verified` or `unverified`) */
-  verificationStatus?: ListCustomDomainsRequestVerificationStatus | (string & {});
+  verificationStatus?: ListCustomDomainsRequestVerificationStatus | (string & {}) | undefined;
   /** Filter for custom domains created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for custom domains created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
 }
 export interface CustomDomainWithCursor {
   customDomain: CustomDomain;
@@ -3364,7 +3364,7 @@ export interface ListDedicatedIpsRequest {
   /** The ID of the workspace to list dedicated IP sets for. */
   ownerId: string;
   /** Filter dedicated IP sets limited to this environment. Excludes workspace-scoped dedicated IP sets. The environment must belong to the workspace named by `ownerId`. */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type ListDedicatedIpsResponseBodyList = Array<DedicatedIP>;
 export type ListDedicatedIpsResponse = ListDedicatedIpsResponseBodyList;
@@ -3373,27 +3373,27 @@ export interface ListDeploysRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for deploys with the specified statuses */
-  status?: ListDeploysRequestStatusList;
+  status?: ListDeploysRequestStatusList | undefined;
   /** Filter for deploys created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for deploys created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for deploys updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for deploys updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter for deploys finished before a certain time (specified as an ISO 8601 timestamp) */
-  finishedBefore?: string;
+  finishedBefore?: string | undefined;
   /** Filter for deploys finished after a certain time (specified as an ISO 8601 timestamp) */
-  finishedAfter?: string;
+  finishedAfter?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DeployWithCursor {
-  deploy?: Deploy;
-  cursor?: string;
+  deploy?: Deploy | undefined;
+  cursor?: string | undefined;
 }
 export type DeployList = Array<DeployWithCursor>;
 export type ListDeploysResponse = DeployList;
@@ -3403,25 +3403,25 @@ export type ListDisksRequestNameList = Array<string>;
 export type ListDisksRequestServiceIdList = Array<string>;
 export interface ListDisksRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListDisksRequestOwnerIdList;
+  ownerId?: ListDisksRequestOwnerIdList | undefined;
   /** Filter by disk IDs */
-  diskId?: ListDisksRequestDiskIdList;
+  diskId?: ListDisksRequestDiskIdList | undefined;
   /** Filter by name */
-  name?: ListDisksRequestNameList;
+  name?: ListDisksRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter for resources by service ID */
-  serviceId?: ListDisksRequestServiceIdList;
+  serviceId?: ListDisksRequestServiceIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DiskWithCursor {
   disk: Schema2;
@@ -3434,23 +3434,23 @@ export type ListEnvGroupsRequestOwnerIdList = Array<string>;
 export type ListEnvGroupsRequestEnvironmentIdList = Array<string>;
 export interface ListEnvGroupsRequest {
   /** Filter by name */
-  name?: ListEnvGroupsRequestNameList;
+  name?: ListEnvGroupsRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListEnvGroupsRequestOwnerIdList;
+  ownerId?: ListEnvGroupsRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListEnvGroupsRequestEnvironmentIdList;
+  environmentId?: ListEnvGroupsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of serviceIds linked to the envGroup */
 export type EnvGroupMetaServiceLinksList = Array<EnvGroupLink>;
@@ -3462,7 +3462,7 @@ export interface EnvGroupMeta {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: EnvGroupMetaServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type ListEnvGroupsResponseBodyList = Array<EnvGroupMeta>;
 export type ListEnvGroupsResponse = ListEnvGroupsResponseBodyList;
@@ -3472,25 +3472,25 @@ export type ListEnvironmentsRequestOwnerIdList = Array<string>;
 export type ListEnvironmentsRequestEnvironmentIdList = Array<string>;
 export interface ListEnvironmentsRequest {
   /** Filter by name */
-  name?: ListEnvironmentsRequestNameList;
+  name?: ListEnvironmentsRequestNameList | undefined;
   /** Filter for resources that belong to a project */
   projectId: ListEnvironmentsRequestProjectIdList;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListEnvironmentsRequestOwnerIdList;
+  ownerId?: ListEnvironmentsRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListEnvironmentsRequestEnvironmentIdList;
+  environmentId?: ListEnvironmentsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** An environment with a cursor */
 export interface EnvironmentWithCursor {
@@ -3547,15 +3547,15 @@ export interface ListEventsRequest {
   /** The ID of the service */
   serviceId: string;
   /** The type of event to filter to */
-  type?: ListEventsRequestType | (string & {});
+  type?: ListEventsRequestType | (string & {}) | undefined;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type _0 =
   | "artifact_fetch_failed"
@@ -3627,9 +3627,9 @@ export type _0Case9User = User2;
 export interface _0Case9 {
   cronJobRunId: string;
   status: _0Case9Status;
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** User who triggered the action */
-  user?: User2;
+  user?: User2 | undefined;
 }
 export type _0Case10 = GetEventResponseDetailsCase0Case10;
 export type _0Case11 = GetEventResponseDetailsCase0Case11;
@@ -3726,15 +3726,15 @@ export interface ListHeadersRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for specific paths that headers apply to */
-  path?: ListHeadersRequestPathList;
+  path?: ListHeadersRequestPathList | undefined;
   /** Filter for header names */
-  name?: ListHeadersRequestNameList;
+  name?: ListHeadersRequestNameList | undefined;
   /** Filter for header values */
-  value?: ListHeadersRequestValueList;
+  value?: ListHeadersRequestValueList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface HeaderWithCursor {
   header: Header;
@@ -3744,25 +3744,25 @@ export type ListHeadersResponseBodyList = Array<HeaderWithCursor>;
 export type ListHeadersResponse = ListHeadersResponseBodyList;
 export interface ListHttpFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The status codes of HTTP requests to filter to. When multiple status code query params are provided, they are ORed together */
-  statusCode?: string;
+  statusCode?: string | undefined;
 }
 export type ListHttpFilterValuesResponseBodyItemFilter = "host" | "statusCode";
 export type ListHttpFilterValuesResponseBodyItemValuesList = Array<string>;
 export interface ListHttpFilterValuesResponseBodyItem {
-  filter?: ListHttpFilterValuesResponseBodyItemFilter;
-  values?: ListHttpFilterValuesResponseBodyItemValuesList;
+  filter?: ListHttpFilterValuesResponseBodyItemFilter | undefined;
+  values?: ListHttpFilterValuesResponseBodyItemValuesList | undefined;
 }
 /** A collection of filter values for HTTP metrics */
 export type ListHttpFilterValuesResponseBodyList = Array<ListHttpFilterValuesResponseBodyItem>;
@@ -3783,23 +3783,23 @@ export interface ListJobRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter for the status of the job (`pending`, `running`, `succeeded`, `failed`, or `canceled`) */
-  status?: ListJobRequestStatusList;
+  status?: ListJobRequestStatusList | undefined;
   /** Filter for jobs created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for jobs created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for jobs started before a certain time (specified as an ISO 8601 timestamp) */
-  startedBefore?: string;
+  startedBefore?: string | undefined;
   /** Filter for jobs started after a certain time (specified as an ISO 8601 timestamp) */
-  startedAfter?: string;
+  startedAfter?: string | undefined;
   /** Filter for jobs finished before a certain time (specified as an ISO 8601 timestamp) */
-  finishedBefore?: string;
+  finishedBefore?: string | undefined;
   /** Filter for jobs finished after a certain time (specified as an ISO 8601 timestamp) */
-  finishedAfter?: string;
+  finishedAfter?: string | undefined;
 }
 export interface JobWithCursor {
   job: Schema7;
@@ -3813,25 +3813,25 @@ export type ListKeyValueRequestOwnerIdList = Array<string>;
 export type ListKeyValueRequestEnvironmentIdList = Array<string>;
 export interface ListKeyValueRequest {
   /** Filter by name */
-  name?: ListKeyValueRequestNameList;
+  name?: ListKeyValueRequestNameList | undefined;
   /** Filter by resource region */
-  region?: ListKeyValueRequestRegionList;
+  region?: ListKeyValueRequestRegionList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListKeyValueRequestOwnerIdList;
+  ownerId?: ListKeyValueRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListKeyValueRequestEnvironmentIdList;
+  environmentId?: ListKeyValueRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The IP allow list for the Key Value instance */
 export type KeyValueIpAllowListList = Array<CidrBlockAndDescription>;
@@ -3853,7 +3853,7 @@ export interface KeyValue {
   /** The IP allow list for the Key Value instance */
   ipAllowList: KeyValueIpAllowListList;
   /** The ID of the environment the Key Value instance is associated with */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The version of Key Value */
   version: string;
   /** The URL to view the Key Value instance in the Render Dashboard */
@@ -3882,37 +3882,37 @@ export interface ListLogsRequest {
   /** The ID of the workspace to return logs for */
   ownerId: string;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListLogsRequestDirection | (string & {});
+  direction?: ListLogsRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: ListLogsRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: ListLogsRequestInstanceList;
+  instance?: ListLogsRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: ListLogsRequestHostList;
+  host?: ListLogsRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: ListLogsRequestStatusCodeList;
+  statusCode?: ListLogsRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: ListLogsRequestMethodList;
+  method?: ListLogsRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: ListLogsRequestTaskList;
+  task?: ListLogsRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: ListLogsRequestTaskRunList;
+  taskRun?: ListLogsRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: ListLogsRequestSandboxList;
+  sandbox?: ListLogsRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: ListLogsRequestLevelList;
+  level?: ListLogsRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: ListLogsRequestTypeList;
+  type?: ListLogsRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: ListLogsRequestTextList;
+  text?: ListLogsRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: ListLogsRequestPathList;
+  path?: ListLogsRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The name of the log label */
 export type SchemaLabelsItemName =
@@ -3985,37 +3985,37 @@ export interface ListLogsValuesRequest {
   /** The label to query logs for */
   label: ListLogsValuesRequestLabel | (string & {});
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListLogsValuesRequestDirection | (string & {});
+  direction?: ListLogsValuesRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: ListLogsValuesRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: ListLogsValuesRequestInstanceList;
+  instance?: ListLogsValuesRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: ListLogsValuesRequestHostList;
+  host?: ListLogsValuesRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: ListLogsValuesRequestStatusCodeList;
+  statusCode?: ListLogsValuesRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: ListLogsValuesRequestMethodList;
+  method?: ListLogsValuesRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: ListLogsValuesRequestTaskList;
+  task?: ListLogsValuesRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: ListLogsValuesRequestTaskRunList;
+  taskRun?: ListLogsValuesRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: ListLogsValuesRequestSandboxList;
+  sandbox?: ListLogsValuesRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: ListLogsValuesRequestLevelList;
+  level?: ListLogsValuesRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: ListLogsValuesRequestTypeList;
+  type?: ListLogsValuesRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: ListLogsValuesRequestTextList;
+  text?: ListLogsValuesRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: ListLogsValuesRequestPathList;
+  path?: ListLogsValuesRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListLogsValuesResponseBodyList = Array<string>;
 export type ListLogsValuesResponse = ListLogsValuesResponseBodyList;
@@ -4032,17 +4032,17 @@ export type ListMaintenanceRequestStateList = Array<
   ListMaintenanceRequestStateItem | (string & {})
 >;
 export interface ListMaintenanceRequest {
-  resourceId?: ListMaintenanceRequestResourceIdList;
+  resourceId?: ListMaintenanceRequestResourceIdList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListMaintenanceRequestOwnerIdList;
-  state?: ListMaintenanceRequestStateList;
+  ownerId?: ListMaintenanceRequestOwnerIdList | undefined;
+  state?: ListMaintenanceRequestStateList | undefined;
 }
 export interface Schema11 {
   id: string;
   type: string;
   scheduledAt: string;
   /** If present, the maintenance run cannot be scheduled for later than this date-time. */
-  pendingMaintenanceBy?: string;
+  pendingMaintenanceBy?: string | undefined;
   state: Items4;
   resourceId: string;
 }
@@ -4052,13 +4052,13 @@ export type ListNotificationOverridesRequestOwnerIdList = Array<string>;
 export type ListNotificationOverridesRequestServiceIdList = Array<string>;
 export interface ListNotificationOverridesRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListNotificationOverridesRequestOwnerIdList;
+  ownerId?: ListNotificationOverridesRequestOwnerIdList | undefined;
   /** Filter for resources by service ID */
-  serviceId?: ListNotificationOverridesRequestServiceIdList;
+  serviceId?: ListNotificationOverridesRequestServiceIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface NotificationOverrideWithCursorOverride {
   serviceId: string;
@@ -4076,15 +4076,15 @@ export interface ListOrganizationAuditLogsRequest {
   /** The unique identifier of the organization */
   orgId: string;
   /** Start time for filtering audit logs (ISO 8601 format) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for filtering audit logs (ISO 8601 format) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListOrganizationAuditLogsRequestDirection | (string & {});
+  direction?: ListOrganizationAuditLogsRequestDirection | (string & {}) | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of audit log items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The type of event that occurred */
 export type AuditLogEvent =
@@ -4176,9 +4176,9 @@ export interface AuditLogActor {
   /** The type of actor that performed the action */
   type: AuditLogActorType;
   /** Email address of the actor (if applicable) */
-  email?: string;
+  email?: string | undefined;
   /** Unique identifier of the actor (if applicable) */
-  id?: string;
+  id?: string | undefined;
 }
 /** Additional context information about the event */
 export type AuditLogMetadataMap = { [key: string]: string | undefined };
@@ -4206,15 +4206,15 @@ export interface ListOwnerAuditLogsRequest {
   /** The ID of the workspace to return resources for */
   ownerId: string;
   /** Start time for filtering audit logs (ISO 8601 format) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for filtering audit logs (ISO 8601 format) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: ListOwnerAuditLogsRequestDirection | (string & {});
+  direction?: ListOwnerAuditLogsRequestDirection | (string & {}) | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of audit log items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListOwnerAuditLogsResponseBodyList = Array<AuditLogWithCursor>;
 export type ListOwnerAuditLogsResponse = ListOwnerAuditLogsResponseBodyList;
@@ -4222,37 +4222,37 @@ export type ListOwnersRequestNameList = Array<string>;
 export type ListOwnersRequestEmailList = Array<string>;
 export interface ListOwnersRequest {
   /** Only return workspaces with one of the provided names. Only exact matches are returned. */
-  name?: ListOwnersRequestNameList;
+  name?: ListOwnersRequestNameList | undefined;
   /** Only return workspaces owned by one of the provided email addresses. */
-  email?: ListOwnersRequestEmailList;
+  email?: ListOwnersRequestEmailList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface OwnerWithCursor {
-  owner?: Owner;
-  cursor?: string;
+  owner?: Owner | undefined;
+  cursor?: string | undefined;
 }
 export type ListOwnersResponseBodyList = Array<OwnerWithCursor>;
 export type ListOwnersResponse = ListOwnersResponseBodyList;
 export interface ListPathFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The resolution of the returned data */
-  resolutionSeconds?: number;
+  resolutionSeconds?: number | undefined;
   /** Service ID to query. When multiple service ids are provided, they are ORed together */
-  resource?: string;
+  resource?: string | undefined;
   /** This parameter is deprecated. Please use `resource` instead */
-  service?: string;
+  service?: string | undefined;
   /** The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together */
-  host?: string;
+  host?: string | undefined;
   /** The status codes of HTTP requests to filter to. When multiple status code query params are provided, they are ORed together */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together */
-  path?: string;
+  path?: string | undefined;
 }
 /** A collection of suggested paths to filter by */
 export type ListPathFilterValuesResponseBodyList = Array<string>;
@@ -4267,29 +4267,29 @@ export type ListPostgresRequestOwnerIdList = Array<string>;
 export type ListPostgresRequestEnvironmentIdList = Array<string>;
 export interface ListPostgresRequest {
   /** Filter by name */
-  name?: ListPostgresRequestNameList;
+  name?: ListPostgresRequestNameList | undefined;
   /** Filter by resource region */
-  region?: ListPostgresRequestRegionList;
+  region?: ListPostgresRequestRegionList | undefined;
   /** Filter resources based on whether they're suspended or not suspended */
-  suspended?: ListPostgresRequestSuspendedList;
+  suspended?: ListPostgresRequestSuspendedList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListPostgresRequestOwnerIdList;
+  ownerId?: ListPostgresRequestOwnerIdList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListPostgresRequestEnvironmentIdList;
+  environmentId?: ListPostgresRequestEnvironmentIdList | undefined;
   /** Include replicas in the response */
-  includeReplicas?: boolean;
+  includeReplicas?: boolean | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type PostgresIpAllowListList = Array<CidrBlockAndDescription>;
 export type PostgresSuspended = "suspended" | "not_suspended";
@@ -4300,16 +4300,16 @@ export interface Postgres {
   createdAt: string;
   updatedAt: string;
   /** The time at which the database will be expire. Applies to free tier databases only. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   databaseName: string;
   databaseUser: string;
-  environmentId?: string;
+  environmentId?: string | undefined;
   highAvailabilityEnabled: boolean;
   name: string;
   owner: Owner;
   plan: Plan2;
-  diskSizeGB?: number;
-  primaryPostgresID?: string;
+  diskSizeGB?: number | undefined;
+  primaryPostgresID?: string | undefined;
   region: Region;
   readReplicas: ReadReplicas;
   role: DatabaseRole;
@@ -4336,7 +4336,7 @@ export interface ListPostgresExportResponseBodyItem {
   id: string;
   createdAt: string;
   /** URL to download the Postgres export */
-  url?: string;
+  url?: string | undefined;
 }
 export type ListPostgresExportResponseBodyList = Array<ListPostgresExportResponseBodyItem>;
 export type ListPostgresExportResponse = ListPostgresExportResponseBodyList;
@@ -4345,21 +4345,21 @@ export interface ListPostgresProcessesRequest {
 }
 /** A single live process from pg_stat_activity. */
 export interface ListPostgresProcessesResponseProcessesItem {
-  pid?: number;
-  databaseName?: string;
-  username?: string;
-  applicationName?: string;
-  clientAddr?: string;
-  backendStart?: string;
-  queryStart?: string;
-  state?: string;
-  waitEvent?: string;
-  waitEventType?: string;
-  query?: string;
+  pid?: number | undefined;
+  databaseName?: string | undefined;
+  username?: string | undefined;
+  applicationName?: string | undefined;
+  clientAddr?: string | undefined;
+  backendStart?: string | undefined;
+  queryStart?: string | undefined;
+  state?: string | undefined;
+  waitEvent?: string | undefined;
+  waitEventType?: string | undefined;
+  query?: string | undefined;
   /** Duration of the query, in seconds. */
-  duration?: number;
+  duration?: number | undefined;
   /** Whether this process is running against the primary instance of a highly available database. */
-  isLeader?: boolean;
+  isLeader?: boolean | undefined;
 }
 export type ListPostgresProcessesResponseProcessesList =
   Array<ListPostgresProcessesResponseProcessesItem>;
@@ -4371,11 +4371,11 @@ export interface ListPostgresSizesRequest {
 }
 /** The size of an index, table, or database. */
 export interface ListPostgresSizesResponseSizesItem {
-  Database?: string;
-  Schema?: string;
-  Table?: string;
-  Index?: string;
-  Bytes?: number;
+  Database?: string | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Index?: string | undefined;
+  Bytes?: number | undefined;
 }
 export type ListPostgresSizesResponseSizesList = Array<ListPostgresSizesResponseSizesItem>;
 export interface ListPostgresSizesResponse {
@@ -4386,10 +4386,10 @@ export interface ListPostgresTableScansRequest {
 }
 /** The number of sequential scans performed against a table. */
 export interface ListPostgresTableScansResponseTableScansItem {
-  Database?: string;
-  Schema?: string;
-  Table?: string;
-  Scans?: number;
+  Database?: string | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Scans?: number | undefined;
 }
 export type ListPostgresTableScansResponseTableScansList =
   Array<ListPostgresTableScansResponseTableScansItem>;
@@ -4401,25 +4401,25 @@ export interface ListPostgresTopQueriesRequest {
 }
 /** A single query from pg_stat_statements. */
 export interface ListPostgresTopQueriesResponseTopQueriesItem {
-  queryId?: string;
-  query?: string;
-  calls?: number;
-  totalTimeMs?: number;
-  minTimeMs?: number;
-  maxTimeMs?: number;
-  meanTimeMs?: number;
-  stddevTimeMs?: number;
-  rows?: number;
-  sharedBlocksHit?: number;
-  sharedBlocksRead?: number;
-  sharedBlocksDirtied?: number;
-  sharedBlocksWritten?: number;
-  localBlocksHit?: number;
-  localBlocksRead?: number;
-  localBlocksDirtied?: number;
-  localBlocksWritten?: number;
-  tempBlocksRead?: number;
-  tempBlocksWritten?: number;
+  queryId?: string | undefined;
+  query?: string | undefined;
+  calls?: number | undefined;
+  totalTimeMs?: number | undefined;
+  minTimeMs?: number | undefined;
+  maxTimeMs?: number | undefined;
+  meanTimeMs?: number | undefined;
+  stddevTimeMs?: number | undefined;
+  rows?: number | undefined;
+  sharedBlocksHit?: number | undefined;
+  sharedBlocksRead?: number | undefined;
+  sharedBlocksDirtied?: number | undefined;
+  sharedBlocksWritten?: number | undefined;
+  localBlocksHit?: number | undefined;
+  localBlocksRead?: number | undefined;
+  localBlocksDirtied?: number | undefined;
+  localBlocksWritten?: number | undefined;
+  tempBlocksRead?: number | undefined;
+  tempBlocksWritten?: number | undefined;
 }
 export type ListPostgresTopQueriesResponseTopQueriesList =
   Array<ListPostgresTopQueriesResponseTopQueriesItem>;
@@ -4430,10 +4430,10 @@ export interface ListPostgresUsersRequest {
   postgresId: string;
 }
 export interface ListPostgresUsersResponseBodyItem {
-  username?: string;
-  default?: boolean;
-  createdAt?: string;
-  openConnections?: number;
+  username?: string | undefined;
+  default?: boolean | undefined;
+  createdAt?: string | undefined;
+  openConnections?: number | undefined;
 }
 export type ListPostgresUsersResponseBodyList = Array<ListPostgresUsersResponseBodyItem>;
 export type ListPostgresUsersResponse = ListPostgresUsersResponseBodyList;
@@ -4441,21 +4441,21 @@ export type ListProjectsRequestNameList = Array<string>;
 export type ListProjectsRequestOwnerIdList = Array<string>;
 export interface ListProjectsRequest {
   /** Filter by name */
-  name?: ListProjectsRequestNameList;
+  name?: ListProjectsRequestNameList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListProjectsRequestOwnerIdList;
+  ownerId?: ListProjectsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ProjectWithCursor {
   project: Project;
@@ -4471,25 +4471,25 @@ export type ListRegistryCredentialsRequestTypeList = Array<
 export type ListRegistryCredentialsRequestOwnerIdList = Array<string>;
 export interface ListRegistryCredentialsRequest {
   /** Filter for the name of a credential */
-  name?: ListRegistryCredentialsRequestNameList;
+  name?: ListRegistryCredentialsRequestNameList | undefined;
   /** Filter for the username of a credential */
-  username?: ListRegistryCredentialsRequestUsernameList;
+  username?: ListRegistryCredentialsRequestUsernameList | undefined;
   /** Filter for the registry type for the credential */
-  type?: ListRegistryCredentialsRequestTypeList;
+  type?: ListRegistryCredentialsRequestTypeList | undefined;
   /** Filter for services created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for services created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for services updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for services updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListRegistryCredentialsRequestOwnerIdList;
+  ownerId?: ListRegistryCredentialsRequestOwnerIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListRegistryCredentialsResponseBodyList = Array<RegistryCredential>;
 export type ListRegistryCredentialsResponse = ListRegistryCredentialsResponseBodyList;
@@ -4503,25 +4503,25 @@ export type ListResourceLogStreamsRequestSettingList = Array<
 >;
 export interface ListResourceLogStreamsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListResourceLogStreamsRequestOwnerIdList;
+  ownerId?: ListResourceLogStreamsRequestOwnerIdList | undefined;
   /** Filter log streams by their id. */
-  logStreamId?: ListResourceLogStreamsRequestLogStreamIdList;
+  logStreamId?: ListResourceLogStreamsRequestLogStreamIdList | undefined;
   /** IDs of resources (server, cron job, postgres, or redis) to filter by */
-  resourceId?: ListResourceLogStreamsRequestResourceIdList;
+  resourceId?: ListResourceLogStreamsRequestResourceIdList | undefined;
   /** Filter log streams by their setting. */
-  setting?: ListResourceLogStreamsRequestSettingList;
+  setting?: ListResourceLogStreamsRequestSettingList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Resource log stream overrides */
 export interface Schema9 {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
 }
 export type ListResourceLogStreamsResponseBodyList = Array<Schema9>;
 export type ListResourceLogStreamsResponse = ListResourceLogStreamsResponseBodyList;
@@ -4533,15 +4533,15 @@ export interface ListRoutesRequest {
   /** The ID of the service */
   serviceId: string;
   /** Filter for the type of route rule */
-  type?: ListRoutesRequestTypeList;
+  type?: ListRoutesRequestTypeList | undefined;
   /** Filter for the source path of the route */
-  source?: ListRoutesRequestSourceList;
+  source?: ListRoutesRequestSourceList | undefined;
   /** Filter for the destination path of the route */
-  destination?: ListRoutesRequestDestinationList;
+  destination?: ListRoutesRequestDestinationList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface RouteWithCursor {
   route: Route;
@@ -4552,9 +4552,9 @@ export type ListRoutesResponse = ListRoutesResponseBodyList;
 export interface ListSecretFilesForBuildSourceRequest {
   buildSourceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface SecretFileWithCursor {
   secretFile: SecretFile;
@@ -4566,9 +4566,9 @@ export interface ListSecretFilesForServiceRequest {
   /** The ID of the service */
   serviceId: string;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListSecretFilesForServiceResponseBodyList = Array<SecretFileWithCursor>;
 export type ListSecretFilesForServiceResponse = ListSecretFilesForServiceResponseBodyList;
@@ -4584,33 +4584,33 @@ export type ListServicesRequestSuspendedList = Array<
 export type ListServicesRequestOwnerIdList = Array<string>;
 export interface ListServicesRequest {
   /** Filter by name */
-  name?: ListServicesRequestNameList;
+  name?: ListServicesRequestNameList | undefined;
   /** Filter for types of services */
-  type?: ListServicesRequestTypeList;
+  type?: ListServicesRequestTypeList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListServicesRequestEnvironmentIdList;
+  environmentId?: ListServicesRequestEnvironmentIdList | undefined;
   /** Filter for environments (runtimes) of services (deprecated; use `runtime` instead) */
-  env?: ListServicesRequestEnvList;
+  env?: ListServicesRequestEnvList | undefined;
   /** Filter by resource region */
-  region?: ListServicesRequestRegionList;
+  region?: ListServicesRequestRegionList | undefined;
   /** Filter resources based on whether they're suspended or not suspended */
-  suspended?: ListServicesRequestSuspendedList;
+  suspended?: ListServicesRequestSuspendedList | undefined;
   /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListServicesRequestOwnerIdList;
+  ownerId?: ListServicesRequestOwnerIdList | undefined;
   /** Include previews in the response */
-  includePreviews?: boolean;
+  includePreviews?: boolean | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ServiceWithCursor {
   service: Service;
@@ -4623,9 +4623,9 @@ export interface ListSnapshotsRequest {
   diskId: string;
 }
 export interface DiskSnapshot {
-  createdAt?: string;
-  snapshotKey?: string;
-  instanceId?: string;
+  createdAt?: string | undefined;
+  snapshotKey?: string | undefined;
+  instanceId?: string | undefined;
 }
 export type ListSnapshotsResponseBodyList = Array<DiskSnapshot>;
 export type ListSnapshotsResponse = ListSnapshotsResponseBodyList;
@@ -4636,19 +4636,19 @@ export type ListTaskRunsRequestWorkflowVersionIdList = Array<string>;
 export type ListTaskRunsRequestWorkflowIdList = Array<string>;
 export interface ListTaskRunsRequest {
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** An array of task slugs in the format workflow-slug/task-name. An optional version can be appended (workflow-slug/task-name:version). If no version is provided, the latest version is used. */
-  taskSlug?: ListTaskRunsRequestTaskSlugList;
+  taskSlug?: ListTaskRunsRequestTaskSlugList | undefined;
   /** An array of root task run IDs to filter on */
-  rootTaskRunId?: ListTaskRunsRequestRootTaskRunIdList;
+  rootTaskRunId?: ListTaskRunsRequestRootTaskRunIdList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListTaskRunsRequestOwnerIdList;
+  ownerId?: ListTaskRunsRequestOwnerIdList | undefined;
   /** An array of workflow version IDs */
-  workflowVersionId?: ListTaskRunsRequestWorkflowVersionIdList;
+  workflowVersionId?: ListTaskRunsRequestWorkflowVersionIdList | undefined;
   /** An array of workflow IDs */
-  workflowId?: ListTaskRunsRequestWorkflowIdList;
+  workflowId?: ListTaskRunsRequestWorkflowIdList | undefined;
 }
 export type SchemaAttemptsItem = CreateTaskResponseAttemptsItem;
 export type SchemaAttemptsList = Array<CreateTaskResponseAttemptsItem>;
@@ -4656,11 +4656,11 @@ export interface Schema18 {
   id: string;
   taskId: string;
   status: Status2;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
   parentTaskRunId: string;
   /** The 0-indexed attempt of the parent task run that spawned this task run. Omitted for root task runs and for task runs created before this field was introduced. */
-  parentTaskAttempt?: number;
+  parentTaskAttempt?: number | undefined;
   rootTaskRunId: string;
   retries: number;
   attempts: SchemaAttemptsList;
@@ -4677,24 +4677,24 @@ export type ListTasksRequestWorkflowVersionIdList = Array<string>;
 export type ListTasksRequestWorkflowIdList = Array<string>;
 export interface ListTasksRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListTasksRequestOwnerIdList;
+  ownerId?: ListTasksRequestOwnerIdList | undefined;
   /** An array of task slugs in the format workflow-slug/task-name. An optional version can be appended (workflow-slug/task-name:version). If no version is provided, the latest version is used. */
-  taskSlug?: ListTasksRequestTaskSlugList;
+  taskSlug?: ListTasksRequestTaskSlugList | undefined;
   /** An array of workflow version IDs */
-  workflowVersionId?: ListTasksRequestWorkflowVersionIdList;
+  workflowVersionId?: ListTasksRequestWorkflowVersionIdList | undefined;
   /** An array of workflow IDs */
-  workflowId?: ListTasksRequestWorkflowIdList;
+  workflowId?: ListTasksRequestWorkflowIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface Schema17 {
   id: string;
   name: string;
   createdAt: string;
-  workflowId?: string;
-  workflowVersionId?: string;
+  workflowId?: string | undefined;
+  workflowVersionId?: string | undefined;
 }
 export interface TaskWithCursor {
   task: Schema17;
@@ -4706,13 +4706,13 @@ export interface ListWebhookEventsRequest {
   /** Unique identifier for the webhook */
   webhookId: string;
   /** Filter events sent before this time (specified as an ISO 8601 timestamp) */
-  sentBefore?: string;
+  sentBefore?: string | undefined;
   /** Filter for resources sent after a certain time (specified as an ISO 8601 timestamp) */
-  sentAfter?: string;
+  sentAfter?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface WebhookEventWithCursorWebhookEvent {
   /** the id of the webhook event */
@@ -4721,10 +4721,10 @@ export interface WebhookEventWithCursorWebhookEvent {
   eventId: string;
   eventType: Type;
   sentAt: string;
-  statusCode?: number;
-  responseBody?: string;
+  statusCode?: number | undefined;
+  responseBody?: string | undefined;
   /** error is populated when an error occurs without a response such as a timeout */
-  error?: string;
+  error?: string | undefined;
 }
 export interface WebhookEventWithCursor {
   webhookEvent: WebhookEventWithCursorWebhookEvent;
@@ -4735,11 +4735,11 @@ export type ListWebhookEventsResponse = ListWebhookEventsResponseBodyList;
 export type ListWebhooksRequestOwnerIdList = Array<string>;
 export interface ListWebhooksRequest {
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWebhooksRequestOwnerIdList;
+  ownerId?: ListWebhooksRequestOwnerIdList | undefined;
 }
 export interface WebhookWithCursor {
   webhook: Schema14;
@@ -4753,17 +4753,17 @@ export type ListWorkflowsRequestWorkflowIDList = Array<string>;
 export type ListWorkflowsRequestEnvironmentIdList = Array<string>;
 export interface ListWorkflowsRequest {
   /** Filter by name */
-  name?: ListWorkflowsRequestNameList;
+  name?: ListWorkflowsRequestNameList | undefined;
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWorkflowsRequestOwnerIdList;
+  ownerId?: ListWorkflowsRequestOwnerIdList | undefined;
   /** The IDs of the workflows to return resources for */
-  workflowID?: ListWorkflowsRequestWorkflowIDList;
+  workflowID?: ListWorkflowsRequestWorkflowIDList | undefined;
   /** Filter for resources that belong to an environment */
-  environmentId?: ListWorkflowsRequestEnvironmentIdList;
+  environmentId?: ListWorkflowsRequestEnvironmentIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface WorkflowWithCursor {
   workflow: Schema15;
@@ -4776,15 +4776,15 @@ export type ListWorkflowVersionsRequestWorkflowIDList = Array<string>;
 export type ListWorkflowVersionsRequestWorkflowVersionIdList = Array<string>;
 export interface ListWorkflowVersionsRequest {
   /** The ID of the workspaces to return resources for */
-  ownerId?: ListWorkflowVersionsRequestOwnerIdList;
+  ownerId?: ListWorkflowVersionsRequestOwnerIdList | undefined;
   /** The IDs of the workflows to return resources for */
-  workflowID?: ListWorkflowVersionsRequestWorkflowIDList;
+  workflowID?: ListWorkflowVersionsRequestWorkflowIDList | undefined;
   /** The IDs of the workflow versions to return resources for */
-  workflowVersionId?: ListWorkflowVersionsRequestWorkflowVersionIdList;
+  workflowVersionId?: ListWorkflowVersionsRequestWorkflowVersionIdList | undefined;
   /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SchemaStatus =
   | "created"
@@ -4810,9 +4810,12 @@ export type PatchOwnerNotificationSettingsRequestNotificationsToSend = "none" | 
 export interface PatchOwnerNotificationSettingsRequest {
   /** The ID of the workspace to return resources for */
   ownerId: string;
-  emailEnabled?: boolean;
-  previewNotificationsEnabled?: boolean;
-  notificationsToSend?: PatchOwnerNotificationSettingsRequestNotificationsToSend | (string & {});
+  emailEnabled?: boolean | undefined;
+  previewNotificationsEnabled?: boolean | undefined;
+  notificationsToSend?:
+    | PatchOwnerNotificationSettingsRequestNotificationsToSend
+    | (string & {})
+    | undefined;
 }
 export interface Schema3 {
   ownerId: string;
@@ -4830,7 +4833,7 @@ export interface PatchRouteRequest {
   priority: number;
 }
 export interface PatchRouteResponse {
-  headers?: Route;
+  headers?: Route | undefined;
 }
 export type PatchServiceNotificationOverridesRequestPreviewNotificationsEnabled =
   | "default"
@@ -4846,8 +4849,12 @@ export interface PatchServiceNotificationOverridesRequest {
   serviceId: string;
   previewNotificationsEnabled?:
     | PatchServiceNotificationOverridesRequestPreviewNotificationsEnabled
-    | (string & {});
-  notificationsToSend?: PatchServiceNotificationOverridesRequestNotificationsToSend | (string & {});
+    | (string & {})
+    | undefined;
+  notificationsToSend?:
+    | PatchServiceNotificationOverridesRequestNotificationsToSend
+    | (string & {})
+    | undefined;
 }
 export interface Schema4 {
   serviceId: string;
@@ -4858,17 +4865,17 @@ export interface PostJobRequest {
   /** The ID of the service */
   serviceId: string;
   startCommand: string;
-  planId?: string;
+  planId?: string | undefined;
 }
 export interface PostJobResponse {
   id: string;
   serviceId: string;
   startCommand: string;
   planId: string;
-  status?: Items2;
+  status?: Items2 | undefined;
   createdAt: string;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface PreviewServiceRequest {
   /** The ID of the service */
@@ -4876,8 +4883,8 @@ export interface PreviewServiceRequest {
   /** Must be either a full URL or the relative path to an image. If a relative path, Render uses the base service's image URL as its root. For example, if the base service's image URL is `docker.io/library/nginx:latest`, then valid values are: `docker.io/library/nginx:<any tag or SHA>`, `library/nginx:<any tag or SHA>`, or `nginx:<any tag or SHA>`. Note that the path must match (only the tag or SHA can vary). */
   imagePath: string;
   /** A name for the service preview instance. If not specified, Render generates the name using the base service's name and the specified tag or SHA. */
-  name?: string;
-  plan?: Plan | (string & {});
+  name?: string | undefined;
+  plan?: Plan | (string & {}) | undefined;
 }
 export interface PurgeCacheRequest {
   /** The ID of the service */
@@ -4900,17 +4907,17 @@ export type PutRoutesResponse = PutRoutesResponseBodyList;
 export interface RecoverPostgresRequest {
   postgresId: string;
   /** Name of the new database. */
-  restoreName?: string;
+  restoreName?: string | undefined;
   /** The point in time to restore the database to. See `/recovery-info` for restore availability */
-  restoreTime?: string;
+  restoreTime?: string | undefined;
   /** Datadog API key to use for monitoring the new database. Defaults to the API key of the original database. Use an empty string to prevent copying of the API key to the new database. */
-  datadogApiKey?: string;
+  datadogApiKey?: string | undefined;
   /** Datadog region code to use for monitoring the new database. Defaults to the region code of the original database. Use an empty string to prevent copying of the region code to the new database. */
-  datadogSite?: string;
+  datadogSite?: string | undefined;
   /** The plan to use for the new database. Defaults to the same plan as the original database. Cannot be a lower tier plan than the original database. */
-  plan?: string;
+  plan?: string | undefined;
   /** The environment to create the new database in. Defaults to the environment of the original database. */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export interface RefreshCustomDomainRequest {
   /** The ID of the service */
@@ -4945,7 +4952,7 @@ export interface RestoreSnapshotRequest {
   /** The ID of the disk */
   diskId: string;
   snapshotKey: string;
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export interface ResumeKeyValueRequest {
   redisId: string;
@@ -4970,12 +4977,12 @@ export interface CronJobRun {
   /** The ID of the run */
   id: string;
   status: CronJobRunStatus;
-  startedAt?: string;
-  finishedAt?: string;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
   /** user who triggered the cron job run */
-  triggeredBy?: string;
+  triggeredBy?: string | undefined;
   /** user who cancelled the cron job run */
-  canceledBy?: string;
+  canceledBy?: string | undefined;
 }
 export interface ScaleServiceRequest {
   /** The ID of the service */
@@ -5006,37 +5013,37 @@ export interface SubscribeLogsRequest {
   /** The ID of the workspace to return logs for */
   ownerId: string;
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Epoch/Unix timestamp of end of time range to return. Defaults to `now()`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The direction to query logs for. Backward will return most recent logs first. Forward will start with the oldest logs in the time range. */
-  direction?: SubscribeLogsRequestDirection | (string & {});
+  direction?: SubscribeLogsRequestDirection | (string & {}) | undefined;
   /** Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. */
   resource: SubscribeLogsRequestResourceList;
   /** Filter logs by the instance they were emitted from. An instance is the id of a specific running server. */
-  instance?: SubscribeLogsRequestInstanceList;
+  instance?: SubscribeLogsRequestInstanceList | undefined;
   /** Filter request logs by their host. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  host?: SubscribeLogsRequestHostList;
+  host?: SubscribeLogsRequestHostList | undefined;
   /** Filter request logs by their status code. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  statusCode?: SubscribeLogsRequestStatusCodeList;
+  statusCode?: SubscribeLogsRequestStatusCodeList | undefined;
   /** Filter request logs by their requests method. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  method?: SubscribeLogsRequestMethodList;
+  method?: SubscribeLogsRequestMethodList | undefined;
   /** Filter logs by their task(s) */
-  task?: SubscribeLogsRequestTaskList;
+  task?: SubscribeLogsRequestTaskList | undefined;
   /** Filter logs by their task run id(s) */
-  taskRun?: SubscribeLogsRequestTaskRunList;
+  taskRun?: SubscribeLogsRequestTaskRunList | undefined;
   /** Filter logs by sandbox ID. */
-  sandbox?: SubscribeLogsRequestSandboxList;
+  sandbox?: SubscribeLogsRequestSandboxList | undefined;
   /** Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  level?: SubscribeLogsRequestLevelList;
+  level?: SubscribeLogsRequestLevelList | undefined;
   /** Filter logs by their type. Types include `app` for application logs, `request` for request logs, and `build` for build logs. You can find the full set of types available for a query by using the `GET /logs/values` endpoint. */
-  type?: SubscribeLogsRequestTypeList;
+  type?: SubscribeLogsRequestTypeList | undefined;
   /** Filter by the text of the logs. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  text?: SubscribeLogsRequestTextList;
+  text?: SubscribeLogsRequestTextList | undefined;
   /** Filter request logs by their path. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported. */
-  path?: SubscribeLogsRequestPathList;
+  path?: SubscribeLogsRequestPathList | undefined;
   /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface SubscribeLogsResponse {}
 export interface SuspendKeyValueRequest {
@@ -5073,12 +5080,12 @@ export type TriggerBuildSourceBuildResponseBuildRunRuntime =
 /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
 export interface TriggerBuildSourceBuildResponseBuildRun {
   id: string;
-  status?: TriggerBuildSourceBuildResponseBuildRunStatus;
-  buildStartedAt?: string;
-  buildFinishedAt?: string;
-  runtime?: TriggerBuildSourceBuildResponseBuildRunRuntime;
-  commitId?: string;
-  commitUrl?: string;
+  status?: TriggerBuildSourceBuildResponseBuildRunStatus | undefined;
+  buildStartedAt?: string | undefined;
+  buildFinishedAt?: string | undefined;
+  runtime?: TriggerBuildSourceBuildResponseBuildRunRuntime | undefined;
+  commitId?: string | undefined;
+  commitUrl?: string | undefined;
 }
 /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
 export type TriggerBuildSourceBuildResponseImage = SchemaImage;
@@ -5086,12 +5093,12 @@ export interface TriggerBuildSourceBuildResponse {
   id: string;
   buildSourceId: string;
   /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
-  buildRun?: TriggerBuildSourceBuildResponseBuildRun;
+  buildRun?: TriggerBuildSourceBuildResponseBuildRun | undefined;
   /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
-  image?: SchemaImage;
+  image?: SchemaImage | undefined;
   createdAt: string;
   updatedAt: string;
-  assetsDeletedAt?: string;
+  assetsDeletedAt?: string | undefined;
 }
 export interface TriggerMaintenanceRequest {
   maintenanceRunID: string;
@@ -5111,11 +5118,11 @@ export interface UnlinkServiceFromEnvGroupResponse {}
 export interface UpdateBlueprintRequest {
   /** The ID of the Blueprint */
   blueprintId: string;
-  name?: string;
+  name?: string | undefined;
   /** Configuration value that controls whether or not this blueprint will be re-synced on each git push to the configured branch. Even when true, autoSync will not apply when the blueprint has the Created status, which indicates its first sync has not yet been approved. Other conditions, such as a locked workspace, can also prevent automatic syncing even when this is true. */
-  autoSync?: boolean;
+  autoSync?: boolean | undefined;
   /** Path to the Blueprint file in the repository */
-  path?: string;
+  path?: string | undefined;
 }
 export interface UpdateBlueprintResponse {
   id: string;
@@ -5125,7 +5132,7 @@ export interface UpdateBlueprintResponse {
   repo: string;
   branch: string;
   path: string;
-  lastSync?: string;
+  lastSync?: string | undefined;
 }
 export type UpdateBuildSourceRequestGitBuildFilterPathsList = Array<string>;
 export type UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList = Array<string>;
@@ -5151,33 +5158,33 @@ export type UpdateBuildSourceRequestGitRegion =
   | "singapore"
   | "virginia";
 export interface UpdateBuildSourceRequestGit {
-  baseDir?: string;
-  branch?: string;
-  buildCommand?: string;
+  baseDir?: string | undefined;
+  branch?: string | undefined;
+  buildCommand?: string | undefined;
   /** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
-  buildFilter?: UpdateBuildSourceRequestGitBuildFilter;
-  dockerfilePath?: string;
+  buildFilter?: UpdateBuildSourceRequestGitBuildFilter | undefined;
+  dockerfilePath?: string | undefined;
   /** Build runtime for the build source. Static sites are not supported for build sources. */
-  runtime?: UpdateBuildSourceRequestGitRuntime | (string & {});
+  runtime?: UpdateBuildSourceRequestGitRuntime | (string & {}) | undefined;
   /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
   /** Region for the build. Honored only when this PATCH performs an image->build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to "oregon" for first-time builds. */
-  region?: UpdateBuildSourceRequestGitRegion | (string & {});
-  repoUrl?: string;
-  rootDir?: string;
+  region?: UpdateBuildSourceRequestGitRegion | (string & {}) | undefined;
+  repoUrl?: string | undefined;
+  rootDir?: string | undefined;
 }
 /** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted -- a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
 export interface UpdateBuildSourceRequestImage {
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Optional reference to the registry credential passed to the image repository to retrieve this image. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
 }
 export interface UpdateBuildSourceRequest {
   buildSourceId: string;
-  name?: string;
-  git?: UpdateBuildSourceRequestGit;
+  name?: string | undefined;
+  git?: UpdateBuildSourceRequestGit | undefined;
   /** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted -- a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
-  image?: UpdateBuildSourceRequestImage;
+  image?: UpdateBuildSourceRequestImage | undefined;
 }
 export interface EnvVarValue {
   value: string;
@@ -5196,16 +5203,16 @@ export type UpdateDedicatedIpRequestEnvironmentIdsList = Array<string>;
 export interface UpdateDedicatedIpRequest {
   /** The ID of the dedicated IP set */
   dedicatedIpId: string;
-  name?: string;
-  description?: string;
-  environmentIds?: UpdateDedicatedIpRequestEnvironmentIdsList;
+  name?: string | undefined;
+  description?: string | undefined;
+  environmentIds?: UpdateDedicatedIpRequestEnvironmentIdsList | undefined;
 }
 export interface UpdateDiskRequest {
   /** The ID of the disk */
   diskId: string;
-  name?: string;
-  sizeGB?: number;
-  mountPath?: string;
+  name?: string | undefined;
+  sizeGB?: number | undefined;
+  mountPath?: string | undefined;
 }
 export interface UpdateEnvGroupRequest {
   envGroupId: string;
@@ -5223,7 +5230,7 @@ export interface UpdateEnvGroupResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupResponseEnvVarsList;
   secretFiles: UpdateEnvGroupResponseSecretFilesList;
 }
@@ -5246,14 +5253,14 @@ export interface UpdateEnvGroupEnvVarResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupEnvVarResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupEnvVarResponseEnvVarsList;
   secretFiles: UpdateEnvGroupEnvVarResponseSecretFilesList;
 }
 export interface UpdateEnvGroupSecretFileRequest {
   envGroupId: string;
   envVarKey: string;
-  content?: string;
+  content?: string | undefined;
 }
 /** List of serviceIds linked to the envGroup */
 export type UpdateEnvGroupSecretFileResponseServiceLinksList = Array<EnvGroupLink>;
@@ -5267,17 +5274,17 @@ export interface UpdateEnvGroupSecretFileResponse {
   updatedAt: string;
   /** List of serviceIds linked to the envGroup */
   serviceLinks: UpdateEnvGroupSecretFileResponseServiceLinksList;
-  environmentId?: string;
+  environmentId?: string | undefined;
   envVars: UpdateEnvGroupSecretFileResponseEnvVarsList;
   secretFiles: UpdateEnvGroupSecretFileResponseSecretFilesList;
 }
 export type UpdateEnvironmentRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export interface UpdateEnvironmentRequest {
   environmentId: string;
-  name?: string;
-  networkIsolationEnabled?: boolean;
-  protectedStatus?: ProtectedStatus | (string & {});
-  ipAllowList?: UpdateEnvironmentRequestIpAllowListList;
+  name?: string | undefined;
+  networkIsolationEnabled?: boolean | undefined;
+  protectedStatus?: ProtectedStatus | (string & {}) | undefined;
+  ipAllowList?: UpdateEnvironmentRequestIpAllowListList | undefined;
 }
 export interface UpdateEnvVarRequest {
   /** The ID of the service */
@@ -5315,16 +5322,16 @@ export type UpdateKeyValueRequestIpAllowListList = Array<CidrBlockAndDescription
 export interface UpdateKeyValueRequest {
   redisId: string;
   /** The name of the Key Value instance */
-  name?: string;
-  plan?: KeyValuePlan | (string & {});
-  maxmemoryPolicy?: MaxmemoryPolicy | (string & {});
-  persistenceMode?: PersistenceMode | (string & {});
-  ipAllowList?: UpdateKeyValueRequestIpAllowListList;
+  name?: string | undefined;
+  plan?: KeyValuePlan | (string & {}) | undefined;
+  maxmemoryPolicy?: MaxmemoryPolicy | (string & {}) | undefined;
+  persistenceMode?: PersistenceMode | (string & {}) | undefined;
+  ipAllowList?: UpdateKeyValueRequestIpAllowListList | undefined;
 }
 export interface UpdateMaintenanceRequest {
   maintenanceRunID: string;
   /** The date-time at which the maintenance is scheduled to start. This must be before the pendingMaintenanceBy date-time. */
-  scheduledAt?: string;
+  scheduledAt?: string | undefined;
 }
 export interface UpdateMaintenanceResponse {}
 /** Whether to send logs or drop them. */
@@ -5333,40 +5340,40 @@ export interface UpdateOwnerLogStreamRequest {
   /** The ID of the workspace to update log stream information for */
   ownerId: string;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The optional token to authenticate the log stream. */
-  token?: string;
+  token?: string | undefined;
   /** Whether to send logs or drop them. */
   preview: UpdateOwnerLogStreamRequestPreview | (string & {});
 }
 export interface UpdateOwnerLogStreamResponse {
   /** The ID of the owner. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The endpoint to stream logs to. */
-  endpoint?: string;
-  preview?: Preview;
+  endpoint?: string | undefined;
+  preview?: Preview | undefined;
 }
 export type UpdatePostgresRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export interface UpdatePostgresRequest {
   postgresId: string;
-  name?: string;
-  plan?: Plan2 | (string & {});
+  name?: string | undefined;
+  plan?: Plan2 | (string & {}) | undefined;
   /** The number of gigabytes of disk space to allocate for the database */
-  diskSizeGB?: number;
-  enableDiskAutoscaling?: boolean;
+  diskSizeGB?: number | undefined;
+  enableDiskAutoscaling?: boolean | undefined;
   /** What connection pool to use (if any) out of 'pgbouncer' and 'none' */
-  connectionPool?: string;
-  enableHighAvailability?: boolean;
+  connectionPool?: string | undefined;
+  enableHighAvailability?: boolean | undefined;
   /** The Datadog API key for the Datadog agent to monitor the database. Pass empty string to remove. Restarts Postgres on change. */
-  datadogAPIKey?: string;
+  datadogAPIKey?: string | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
-  datadogSite?: string;
-  ipAllowList?: UpdatePostgresRequestIpAllowListList;
-  readReplicas?: ReadReplicasInput;
+  datadogSite?: string | undefined;
+  ipAllowList?: UpdatePostgresRequestIpAllowListList | undefined;
+  readReplicas?: ReadReplicasInput | undefined;
 }
 export interface UpdateProjectRequest {
   projectId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateRegistryCredentialRequest {
   /** The ID of the registry credential */
@@ -5379,16 +5386,16 @@ export interface UpdateRegistryCredentialRequest {
 export interface UpdateResourceLogStreamRequest {
   /** The ID of the resource (server, cron job, postgres, or redis) to update log stream override information for */
   resourceId: string;
-  endpoint?: string;
-  token?: string;
+  endpoint?: string | undefined;
+  token?: string | undefined;
   setting: Items3 | (string & {});
 }
 export interface UpdateResourceLogStreamResponse {
   /** The ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint to stream logs to. Must be present if setting is send. Cannot be present if setting is drop. */
-  endpoint?: string;
-  setting?: Items3;
+  endpoint?: string | undefined;
+  setting?: Items3 | undefined;
 }
 export type UpdateSecretFilesForBuildSourceRequestBodyList = Array<Items>;
 export interface UpdateSecretFilesForBuildSourceRequest {
@@ -5409,55 +5416,55 @@ export type UpdateSecretFilesForServiceResponseBodyList = Array<SecretFileWithCu
 export type UpdateSecretFilesForServiceResponse = UpdateSecretFilesForServiceResponseBodyList;
 export type StaticSiteDetailsPATCHIpAllowListList = Array<CidrBlockAndDescription>;
 export interface StaticSiteDetailsPATCH {
-  buildCommand?: string;
-  publishPath?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: StaticSiteDetailsPATCHIpAllowListList;
+  buildCommand?: string | undefined;
+  publishPath?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: StaticSiteDetailsPATCHIpAllowListList | undefined;
 }
 export interface DockerDetailsPATCH {
-  dockerCommand?: string;
-  dockerContext?: string;
-  dockerfilePath?: string;
+  dockerCommand?: string | undefined;
+  dockerContext?: string | undefined;
+  dockerfilePath?: string | undefined;
   /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
-  registryCredentialId?: string;
+  registryCredentialId?: string | undefined;
 }
 export interface NativeEnvironmentDetailsPATCH {
-  buildCommand?: string;
-  startCommand?: string;
+  buildCommand?: string | undefined;
+  startCommand?: string | undefined;
 }
 export type EnvSpecificDetailsPATCH = DockerDetailsPATCH | NativeEnvironmentDetailsPATCH;
 export type WebServiceDetailsPATCHIpAllowListList = Array<CidrBlockAndDescription>;
 export interface WebServiceDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  healthCheckPath?: string;
-  maintenanceMode?: MaintenanceMode;
-  plan?: Plan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  runtime?: ServiceRuntime | (string & {});
-  maxShutdownDelaySeconds?: number;
-  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {});
-  ipAllowList?: WebServiceDetailsPATCHIpAllowListList;
-  cache?: Cache;
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  healthCheckPath?: string | undefined;
+  maintenanceMode?: MaintenanceMode | undefined;
+  plan?: Plan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
+  renderSubdomainPolicy?: RenderSubdomainPolicy | (string & {}) | undefined;
+  ipAllowList?: WebServiceDetailsPATCHIpAllowListList | undefined;
+  cache?: Cache | undefined;
 }
 export interface PrivateServiceDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  plan?: PaidPlan | (string & {});
-  preDeployCommand?: string;
-  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {});
-  previews?: Previews;
-  runtime?: ServiceRuntime | (string & {});
-  maxShutdownDelaySeconds?: number;
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  preDeployCommand?: string | undefined;
+  pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled | (string & {}) | undefined;
+  previews?: Previews | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
+  maxShutdownDelaySeconds?: number | undefined;
 }
 export type BackgroundWorkerDetailsPATCH = PrivateServiceDetailsPATCH;
 export interface CronJobDetailsPATCH {
-  envSpecificDetails?: EnvSpecificDetailsPATCH;
-  plan?: PaidPlan | (string & {});
-  schedule?: string;
-  runtime?: ServiceRuntime | (string & {});
+  envSpecificDetails?: EnvSpecificDetailsPATCH | undefined;
+  plan?: PaidPlan | (string & {}) | undefined;
+  schedule?: string | undefined;
+  runtime?: ServiceRuntime | (string & {}) | undefined;
 }
 export type UpdateServiceRequestServiceDetails =
   | StaticSiteDetailsPATCH
@@ -5469,50 +5476,50 @@ export interface UpdateServiceRequest {
   /** The ID of the service */
   serviceId: string;
   /** The ID of the Build Source to attach this service to. Cannot be combined with other build-configuration changes. Attaching to a Build Source with no builds triggers one. */
-  buildSourceId?: string;
-  buildId?: string;
-  autoDeploy?: AutoDeploy | (string & {});
-  autoDeployTrigger?: AutoDeployTrigger | (string & {});
-  repo?: string;
-  branch?: string;
-  image?: Image;
-  name?: string;
-  buildFilter?: BuildFilter;
-  rootDir?: string;
-  serviceDetails?: UpdateServiceRequestServiceDetails;
+  buildSourceId?: string | undefined;
+  buildId?: string | undefined;
+  autoDeploy?: AutoDeploy | (string & {}) | undefined;
+  autoDeployTrigger?: AutoDeployTrigger | (string & {}) | undefined;
+  repo?: string | undefined;
+  branch?: string | undefined;
+  image?: Image | undefined;
+  name?: string | undefined;
+  buildFilter?: BuildFilter | undefined;
+  rootDir?: string | undefined;
+  serviceDetails?: UpdateServiceRequestServiceDetails | undefined;
 }
 export interface UpdateWebhookRequest {
   /** Unique identifier for the webhook */
   webhookId: string;
-  name?: string;
-  url?: string;
-  enabled?: boolean;
-  eventFilter?: EventFilter;
+  name?: string | undefined;
+  url?: string | undefined;
+  enabled?: boolean | undefined;
+  eventFilter?: EventFilter | undefined;
 }
 /** The runtime environment for the workflow (e.g., node, python, etc.). */
 export type UpdateWorkflowRequestBuildConfigRuntime = "elixir" | "go" | "node" | "python" | "ruby";
 /** A partial update to a workflow's build config. Every field is optional; omitted fields are left unchanged. */
 export interface UpdateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
-  branch?: string;
+  branch?: string | undefined;
   /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** The repository URL to use for the build. Cannot be blank. */
-  repo?: string;
+  repo?: string | undefined;
   /** The root directory of the repository to use for the build, if applicable. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   /** The runtime environment for the workflow (e.g., node, python, etc.). */
-  runtime?: UpdateWorkflowRequestBuildConfigRuntime | (string & {});
+  runtime?: UpdateWorkflowRequestBuildConfigRuntime | (string & {}) | undefined;
 }
 export interface UpdateWorkflowRequest {
   /** The ID of the workflow */
   workflowId: string;
-  name?: string;
+  name?: string | undefined;
   /** A partial update to a workflow's build config. Every field is optional; omitted fields are left unchanged. */
-  buildConfig?: UpdateWorkflowRequestBuildConfig;
+  buildConfig?: UpdateWorkflowRequestBuildConfig | undefined;
   /** The command to run the workflow. Cannot be blank. */
-  runCommand?: string;
-  autoDeployTrigger?: AutoDeployTrigger2 | (string & {});
+  runCommand?: string | undefined;
+  autoDeployTrigger?: AutoDeployTrigger2 | (string & {}) | undefined;
 }
 export interface UpdateWorkspaceMemberRequest {
   /** The ID of the workspace to return resources for */
@@ -5536,11 +5543,11 @@ export interface UpsertOwnerMetricsStreamRequest {
   /** The ID of the workspace to return metrics stream information for */
   ownerId: string;
   /** Provider to send metrics to */
-  provider?: UpsertOwnerMetricsStreamRequestProvider | (string & {});
+  provider?: UpsertOwnerMetricsStreamRequestProvider | (string & {}) | undefined;
   /** The endpoint URL to stream metrics to */
-  url?: string;
+  url?: string | undefined;
   /** Authentication token for the metrics stream */
-  token?: string;
+  token?: string | undefined;
 }
 export interface UpsertOwnerMetricsStreamResponse {
   /** The ID of the owner */
@@ -5557,13 +5564,13 @@ export interface ValidateBlueprintRequest {
 }
 export interface ValidateBlueprintResponseErrorsItem {
   /** The path to the field with the error (e.g., `services[0].plan`) */
-  path?: string;
+  path?: string | undefined;
   /** The error message */
   error: string;
   /** The line number in the YAML file (1-indexed) */
-  line?: number;
+  line?: number | undefined;
   /** The column number in the YAML file (1-indexed) */
-  column?: number;
+  column?: number | undefined;
 }
 /** A list of validation errors. Only present if `valid` is `false`. */
 export type ValidateBlueprintResponseErrorsList = Array<ValidateBlueprintResponseErrorsItem>;
@@ -5580,25 +5587,25 @@ export type ValidateBlueprintResponsePlanWorkflowsList = Array<string>;
 /** A summary of the resources that would be created as part of the Blueprint. Only present if `valid` is `true`. */
 export interface ValidateBlueprintResponsePlan {
   /** The names of services that would be created as part of the Blueprint. */
-  services?: ValidateBlueprintResponsePlanServicesList;
+  services?: ValidateBlueprintResponsePlanServicesList | undefined;
   /** The names of Render Postgres databases that would be created as part of the Blueprint. */
-  databases?: ValidateBlueprintResponsePlanDatabasesList;
+  databases?: ValidateBlueprintResponsePlanDatabasesList | undefined;
   /** The names of Render Key Value instances that would be created as part of the Blueprint. */
-  keyValue?: ValidateBlueprintResponsePlanKeyValueList;
+  keyValue?: ValidateBlueprintResponsePlanKeyValueList | undefined;
   /** The names of environment groups that would be created as part of the Blueprint. */
-  envGroups?: ValidateBlueprintResponsePlanEnvGroupsList;
+  envGroups?: ValidateBlueprintResponsePlanEnvGroupsList | undefined;
   /** The names of workflows that would be created as part of the Blueprint. */
-  workflows?: ValidateBlueprintResponsePlanWorkflowsList;
+  workflows?: ValidateBlueprintResponsePlanWorkflowsList | undefined;
   /** The total number of actions that would be performed by the Blueprint. In addition to created resources, this includes modifications to individual configuration fields. */
-  totalActions?: number;
+  totalActions?: number | undefined;
 }
 export interface ValidateBlueprintResponse {
   /** If `true`, the Blueprint validated successfully. If `false`, at least one validation error occurred. */
   valid: boolean;
   /** A list of validation errors. Only present if `valid` is `false`. */
-  errors?: ValidateBlueprintResponseErrorsList;
+  errors?: ValidateBlueprintResponseErrorsList | undefined;
   /** A summary of the resources that would be created as part of the Blueprint. Only present if `valid` is `true`. */
-  plan?: ValidateBlueprintResponsePlan;
+  plan?: ValidateBlueprintResponsePlan | undefined;
 }
 export type AddDiskError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Add disk Attach a persistent disk to a web service, private service, or background worker. The service must be redeployed for the disk to be attached. */

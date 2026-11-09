@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -199,29 +200,29 @@ export type BandwidthAllocation = number;
 export type DialingCapacity = number;
 export interface ProgressiveDialerConfig {
   bandwidthAllocation: number;
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export interface PredictiveDialerConfig {
   bandwidthAllocation: number;
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export interface AgentlessDialerConfig {
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export type DialerConfig =
   | {
       progressiveDialerConfig: ProgressiveDialerConfig;
-      predictiveDialerConfig?: never;
-      agentlessDialerConfig?: never;
+      predictiveDialerConfig?: undefined;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
       predictiveDialerConfig: PredictiveDialerConfig;
-      agentlessDialerConfig?: never;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
-      predictiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
+      predictiveDialerConfig?: undefined;
       agentlessDialerConfig: AgentlessDialerConfig;
     };
 export type ContactFlowId = string;
@@ -229,13 +230,13 @@ export type SourcePhoneNumber = string;
 export type QueueId = string;
 export interface AnswerMachineDetectionConfig {
   enableAnswerMachineDetection: boolean;
-  awaitAnswerMachinePrompt?: boolean;
+  awaitAnswerMachinePrompt?: boolean | undefined;
 }
 export interface OutboundCallConfig {
   connectContactFlowId: string;
-  connectSourcePhoneNumber?: string;
-  connectQueueId?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  connectSourcePhoneNumber?: string | undefined;
+  connectQueueId?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -245,14 +246,14 @@ export interface CreateCampaignRequest {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CampaignId = string;
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
-  id?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCampaignRequest {
   id: string;
@@ -276,36 +277,36 @@ export interface Campaign {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeCampaignResponse {
-  campaign?: Campaign;
+  campaign?: Campaign | undefined;
 }
 export interface GetCampaignStateRequest {
   id: string;
 }
 export type CampaignState = string;
 export interface GetCampaignStateResponse {
-  state?: string;
+  state?: string | undefined;
 }
 export type CampaignIdList = string[];
 export interface GetCampaignStateBatchRequest {
   campaignIds: string[];
 }
 export interface SuccessfulCampaignStateResponse {
-  campaignId?: string;
-  state?: string;
+  campaignId?: string | undefined;
+  state?: string | undefined;
 }
 export type SuccessfulCampaignStateResponseList = SuccessfulCampaignStateResponse[];
 export type GetCampaignStateBatchFailureCode = string;
 export interface FailedCampaignStateResponse {
-  campaignId?: string;
-  failureCode?: string;
+  campaignId?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponse[];
-  failedRequests?: FailedCampaignStateResponse[];
+  successfulRequests?: SuccessfulCampaignStateResponse[] | undefined;
+  failedRequests?: FailedCampaignStateResponse[] | undefined;
 }
 export interface GetConnectInstanceConfigRequest {
   connectInstanceId: string;
@@ -316,8 +317,8 @@ export type EncryptionType = string;
 export type EncryptionKey = string;
 export interface EncryptionConfig {
   enabled: boolean;
-  encryptionType?: string;
-  keyArn?: string;
+  encryptionType?: string | undefined;
+  keyArn?: string | undefined;
 }
 export interface InstanceConfig {
   connectInstanceId: string;
@@ -325,7 +326,7 @@ export interface InstanceConfig {
   encryptionConfig: EncryptionConfig;
 }
 export interface GetConnectInstanceConfigResponse {
-  connectInstanceConfig?: InstanceConfig;
+  connectInstanceConfig?: InstanceConfig | undefined;
 }
 export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
@@ -335,10 +336,10 @@ export type InstanceOnboardingJobFailureCode = string;
 export interface InstanceOnboardingJobStatus {
   connectInstanceId: string;
   status: string;
-  failureCode?: string;
+  failureCode?: string | undefined;
 }
 export interface GetInstanceOnboardingJobStatusResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -348,12 +349,12 @@ export interface InstanceIdFilter {
   operator: string;
 }
 export interface CampaignFilters {
-  instanceIdFilter?: InstanceIdFilter;
+  instanceIdFilter?: InstanceIdFilter | undefined;
 }
 export interface ListCampaignsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: CampaignFilters;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: CampaignFilters | undefined;
 }
 export interface CampaignSummary {
   id: string;
@@ -363,15 +364,15 @@ export interface CampaignSummary {
 }
 export type CampaignSummaryList = CampaignSummary[];
 export interface ListCampaignsResponse {
-  nextToken?: string;
-  campaignSummaryList?: CampaignSummary[];
+  nextToken?: string | undefined;
+  campaignSummaryList?: CampaignSummary[] | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PauseCampaignRequest {
   id: string;
@@ -395,20 +396,20 @@ export interface PutDialRequestBatchRequest {
 }
 export type DialRequestId = string;
 export interface SuccessfulRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulRequestList = SuccessfulRequest[];
 export type FailureCode = string;
 export interface FailedRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedRequestList = FailedRequest[];
 export interface PutDialRequestBatchResponse {
-  successfulRequests?: SuccessfulRequest[];
-  failedRequests?: FailedRequest[];
+  successfulRequests?: SuccessfulRequest[] | undefined;
+  failedRequests?: FailedRequest[] | undefined;
 }
 export interface ResumeCampaignRequest {
   id: string;
@@ -423,7 +424,7 @@ export interface StartInstanceOnboardingJobRequest {
   encryptionConfig: EncryptionConfig;
 }
 export interface StartInstanceOnboardingJobResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export interface StopCampaignRequest {
   id: string;
@@ -452,9 +453,9 @@ export interface UpdateCampaignNameRequest {
 export interface UpdateCampaignNameResponse {}
 export interface UpdateCampaignOutboundCallConfigRequest {
   id: string;
-  connectContactFlowId?: string;
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  connectContactFlowId?: string | undefined;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
 }
 export interface UpdateCampaignOutboundCallConfigResponse {}
 export type XAmazonErrorType = string;
@@ -471,7 +472,7 @@ export type CreateCampaignError =
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -504,7 +505,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from the specified Amazon Connect account.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type DeleteConnectInstanceConfigError =
  * Deletes a connect instance config from the specified AWS account.
  */
 export const deleteConnectInstanceConfig: API.OperationMethod<
-  DeleteConnectInstanceConfigRequest,
+  DeleteConnectInstanceConfigRequest & RegionInput,
   DeleteConnectInstanceConfigResponse,
   DeleteConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -569,7 +570,7 @@ export type DeleteInstanceOnboardingJobError =
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
 export const deleteInstanceOnboardingJob: API.OperationMethod<
-  DeleteInstanceOnboardingJobRequest,
+  DeleteInstanceOnboardingJobRequest & RegionInput,
   DeleteInstanceOnboardingJobResponse,
   DeleteInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -600,7 +601,7 @@ export type DescribeCampaignError =
  * Describes the specific campaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -631,7 +632,7 @@ export type GetCampaignStateError =
  * Get state of a campaign for the specified Amazon Connect account.
  */
 export const getCampaignState: API.OperationMethod<
-  GetCampaignStateRequest,
+  GetCampaignStateRequest & RegionInput,
   GetCampaignStateResponse,
   GetCampaignStateError,
   Credentials | HttpClient.HttpClient
@@ -662,7 +663,7 @@ export type GetCampaignStateBatchError =
  * Get state of campaigns for the specified Amazon Connect account.
  */
 export const getCampaignStateBatch: API.OperationMethod<
-  GetCampaignStateBatchRequest,
+  GetCampaignStateBatchRequest & RegionInput,
   GetCampaignStateBatchResponse,
   GetCampaignStateBatchError,
   Credentials | HttpClient.HttpClient
@@ -692,7 +693,7 @@ export type GetConnectInstanceConfigError =
  * Get the specific Connect instance config.
  */
 export const getConnectInstanceConfig: API.OperationMethod<
-  GetConnectInstanceConfigRequest,
+  GetConnectInstanceConfigRequest & RegionInput,
   GetConnectInstanceConfigResponse,
   GetConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type GetInstanceOnboardingJobStatusError =
  * Get the specific instance onboarding job status.
  */
 export const getInstanceOnboardingJobStatus: API.OperationMethod<
-  GetInstanceOnboardingJobStatusRequest,
+  GetInstanceOnboardingJobStatusRequest & RegionInput,
   GetInstanceOnboardingJobStatusResponse,
   GetInstanceOnboardingJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type ListCampaignsError =
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -784,7 +785,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type PauseCampaignError =
  * Pauses a campaign for the specified Amazon Connect account.
  */
 export const pauseCampaign: API.OperationMethod<
-  PauseCampaignRequest,
+  PauseCampaignRequest & RegionInput,
   PauseCampaignResponse,
   PauseCampaignError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +855,7 @@ export type PutDialRequestBatchError =
  * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
 export const putDialRequestBatch: API.OperationMethod<
-  PutDialRequestBatchRequest,
+  PutDialRequestBatchRequest & RegionInput,
   PutDialRequestBatchResponse,
   PutDialRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -890,7 +891,7 @@ export type ResumeCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const resumeCampaign: API.OperationMethod<
-  ResumeCampaignRequest,
+  ResumeCampaignRequest & RegionInput,
   ResumeCampaignResponse,
   ResumeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -926,7 +927,7 @@ export type StartCampaignError =
  * Starts a campaign for the specified Amazon Connect account.
  */
 export const startCampaign: API.OperationMethod<
-  StartCampaignRequest,
+  StartCampaignRequest & RegionInput,
   StartCampaignResponse,
   StartCampaignError,
   Credentials | HttpClient.HttpClient
@@ -961,7 +962,7 @@ export type StartInstanceOnboardingJobError =
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
 export const startInstanceOnboardingJob: API.OperationMethod<
-  StartInstanceOnboardingJobRequest,
+  StartInstanceOnboardingJobRequest & RegionInput,
   StartInstanceOnboardingJobResponse,
   StartInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type StopCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const stopCampaign: API.OperationMethod<
-  StopCampaignRequest,
+  StopCampaignRequest & RegionInput,
   StopCampaignResponse,
   StopCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1030,7 +1031,7 @@ export type TagResourceError =
  * Tag a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type UntagResourceError =
  * Untag a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1094,7 +1095,7 @@ export type UpdateCampaignDialerConfigError =
  * Updates the dialer config of a campaign. This API is idempotent.
  */
 export const updateCampaignDialerConfig: API.OperationMethod<
-  UpdateCampaignDialerConfigRequest,
+  UpdateCampaignDialerConfigRequest & RegionInput,
   UpdateCampaignDialerConfigResponse,
   UpdateCampaignDialerConfigError,
   Credentials | HttpClient.HttpClient
@@ -1126,7 +1127,7 @@ export type UpdateCampaignNameError =
  * Updates the name of a campaign. This API is idempotent.
  */
 export const updateCampaignName: API.OperationMethod<
-  UpdateCampaignNameRequest,
+  UpdateCampaignNameRequest & RegionInput,
   UpdateCampaignNameResponse,
   UpdateCampaignNameError,
   Credentials | HttpClient.HttpClient
@@ -1159,7 +1160,7 @@ export type UpdateCampaignOutboundCallConfigError =
  * Updates the outbound call config of a campaign. This API is idempotent.
  */
 export const updateCampaignOutboundCallConfig: API.OperationMethod<
-  UpdateCampaignOutboundCallConfigRequest,
+  UpdateCampaignOutboundCallConfigRequest & RegionInput,
   UpdateCampaignOutboundCallConfigResponse,
   UpdateCampaignOutboundCallConfigError,
   Credentials | HttpClient.HttpClient

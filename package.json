@@ -18,6 +18,7 @@
     "bench:runtime": "node --conditions=bun benches/runtime/run.ts",
     "bench:runtime:record": "node --conditions=bun benches/runtime/run.ts --record",
     "bench:bundle": "node benches/bundle/run.ts",
+    "bench:bundlers": "node benches/bundlers/run.ts",
     "bench:typecheck": "node benches/typecheck/run.ts",
     "bench:typecheck:record": "node benches/typecheck/run.ts --record",
     "format": "oxfmt",

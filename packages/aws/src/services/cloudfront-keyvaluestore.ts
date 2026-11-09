@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -205,9 +206,9 @@ export interface DescribeKeyValueStoreResponse {
   KvsARN: string;
   Created: Date;
   ETag: string;
-  LastModified?: Date;
-  Status?: string;
-  FailureReason?: string;
+  LastModified?: Date | undefined;
+  Status?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export interface GetKeyRequest {
   KvsARN: string;
@@ -222,8 +223,8 @@ export interface GetKeyResponse {
 }
 export interface ListKeysRequest {
   KvsARN: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListKeysResponseListItem {
   Key: string;
@@ -231,8 +232,8 @@ export interface ListKeysResponseListItem {
 }
 export type ListKeysResponseList = ListKeysResponseListItem[];
 export interface ListKeysResponse {
-  NextToken?: string;
-  Items?: ListKeysResponseListItem[];
+  NextToken?: string | undefined;
+  Items?: ListKeysResponseListItem[] | undefined;
 }
 export interface PutKeyRequest {
   Key: string;
@@ -257,8 +258,8 @@ export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
-  Puts?: PutKeyRequestListItem[];
-  Deletes?: DeleteKeyRequestListItem[];
+  Puts?: PutKeyRequestListItem[] | undefined;
+  Deletes?: DeleteKeyRequestListItem[] | undefined;
 }
 export interface UpdateKeysResponse {
   ItemCount: number;
@@ -277,7 +278,7 @@ export type DeleteKeyError =
  * Deletes the key value pair specified by the key.
  */
 export const deleteKey: API.OperationMethod<
-  DeleteKeyRequest,
+  DeleteKeyRequest & RegionInput,
   DeleteKeyResponse,
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
@@ -309,7 +310,7 @@ export type DescribeKeyValueStoreError =
  * Returns metadata information about Key Value Store.
  */
 export const describeKeyValueStore: API.OperationMethod<
-  DescribeKeyValueStoreRequest,
+  DescribeKeyValueStoreRequest & RegionInput,
   DescribeKeyValueStoreResponse,
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
@@ -339,7 +340,7 @@ export type GetKeyError =
  * Returns a key value pair.
  */
 export const getKey: API.OperationMethod<
-  GetKeyRequest,
+  GetKeyRequest & RegionInput,
   GetKeyResponse,
   GetKeyError,
   Credentials | HttpClient.HttpClient
@@ -370,7 +371,7 @@ export type ListKeysError =
  * Returns a list of key value pairs.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -410,7 +411,7 @@ export type PutKeyError =
  * Creates a new key value pair or replaces the value of an existing key.
  */
 export const putKey: API.OperationMethod<
-  PutKeyRequest,
+  PutKeyRequest & RegionInput,
   PutKeyResponse,
   PutKeyError,
   Credentials | HttpClient.HttpClient
@@ -444,7 +445,7 @@ export type UpdateKeysError =
  * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
  */
 export const updateKeys: API.OperationMethod<
-  UpdateKeysRequest,
+  UpdateKeysRequest & RegionInput,
   UpdateKeysResponse,
   UpdateKeysError,
   Credentials | HttpClient.HttpClient

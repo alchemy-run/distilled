@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -148,48 +149,48 @@ export type AccountId = string;
 export type Uuid = string;
 export type ReservedInstanceInstanceCount = number;
 export interface AddReservedInstanceAction {
-  reservedInstancesOfferingId?: string;
-  instanceCount?: number;
+  reservedInstancesOfferingId?: string | undefined;
+  instanceCount?: number | undefined;
 }
 export type SavingsPlanCommitment = number;
 export interface AddSavingsPlanAction {
-  savingsPlanOfferingId?: string;
-  commitment?: number;
+  savingsPlanOfferingId?: string | undefined;
+  commitment?: number | undefined;
 }
 export interface NegateReservedInstanceAction {
-  reservedInstancesId?: string;
+  reservedInstancesId?: string | undefined;
 }
 export interface NegateSavingsPlanAction {
-  savingsPlanId?: string;
+  savingsPlanId?: string | undefined;
 }
 export type BillScenarioCommitmentModificationAction =
   | {
       addReservedInstanceAction: AddReservedInstanceAction;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
       addSavingsPlanAction: AddSavingsPlanAction;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
       negateReservedInstanceAction: NegateReservedInstanceAction;
-      negateSavingsPlanAction?: never;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
       negateSavingsPlanAction: NegateSavingsPlanAction;
     };
 export interface BatchCreateBillScenarioCommitmentModificationEntry {
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
   commitmentAction: BillScenarioCommitmentModificationAction;
 }
@@ -199,14 +200,14 @@ export type ClientToken = string;
 export interface BatchCreateBillScenarioCommitmentModificationRequest {
   billScenarioId: string;
   commitmentModifications: BatchCreateBillScenarioCommitmentModificationEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchCreateBillScenarioCommitmentModificationItem {
-  key?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  key?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationItems =
   BatchCreateBillScenarioCommitmentModificationItem[];
@@ -216,15 +217,15 @@ export type BatchCreateBillScenarioCommitmentModificationErrorCode =
   | "INVALID_ACCOUNT"
   | (string & {});
 export interface BatchCreateBillScenarioCommitmentModificationError_ {
-  key?: string;
-  errorMessage?: string;
-  errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode;
+  key?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationErrors =
   BatchCreateBillScenarioCommitmentModificationError_[];
 export interface BatchCreateBillScenarioCommitmentModificationResponse {
-  items?: BatchCreateBillScenarioCommitmentModificationItem[];
-  errors?: BatchCreateBillScenarioCommitmentModificationError_[];
+  items?: BatchCreateBillScenarioCommitmentModificationItem[] | undefined;
+  errors?: BatchCreateBillScenarioCommitmentModificationError_[] | undefined;
 }
 export type ServiceCode = string;
 export type UsageType = string;
@@ -236,29 +237,29 @@ export interface UsageAmount {
 }
 export type UsageAmounts = UsageAmount[];
 export interface BillInterval {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export type ExpressionList = Expression[];
 export type StringList = string[];
 export interface ExpressionFilter {
-  key?: string;
-  matchOptions?: string[];
-  values?: string[];
+  key?: string | undefined;
+  matchOptions?: string[] | undefined;
+  values?: string[] | undefined;
 }
 export interface Expression {
-  and?: Expression[];
-  or?: Expression[];
-  not?: Expression;
-  costCategories?: ExpressionFilter;
-  dimensions?: ExpressionFilter;
-  tags?: ExpressionFilter;
+  and?: Expression[] | undefined;
+  or?: Expression[] | undefined;
+  not?: Expression | undefined;
+  costCategories?: ExpressionFilter | undefined;
+  dimensions?: ExpressionFilter | undefined;
+  tags?: ExpressionFilter | undefined;
 }
 export interface HistoricalUsageEntity {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
+  location?: string | undefined;
   usageAccountId: string;
   billInterval: BillInterval;
   filterExpression: Expression;
@@ -267,38 +268,38 @@ export interface BatchCreateBillScenarioUsageModificationEntry {
   serviceCode: string;
   usageType: string;
   operation: string;
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
-  amounts?: UsageAmount[];
-  historicalUsage?: HistoricalUsageEntity;
+  amounts?: UsageAmount[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationEntries =
   BatchCreateBillScenarioUsageModificationEntry[];
 export interface BatchCreateBillScenarioUsageModificationRequest {
   billScenarioId: string;
   usageModifications: BatchCreateBillScenarioUsageModificationEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UsageQuantity {
-  startHour?: Date;
-  unit?: string;
-  amount?: number;
+  startHour?: Date | undefined;
+  unit?: string | undefined;
+  amount?: number | undefined;
 }
 export type UsageQuantities = UsageQuantity[];
 export interface BatchCreateBillScenarioUsageModificationItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
-  key?: string;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
+  key?: string | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationItems =
   BatchCreateBillScenarioUsageModificationItem[];
@@ -309,35 +310,35 @@ export type BatchCreateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchCreateBillScenarioUsageModificationError_ {
-  key?: string;
-  errorMessage?: string;
-  errorCode?: BatchCreateBillScenarioUsageModificationErrorCode;
+  key?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchCreateBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationErrors =
   BatchCreateBillScenarioUsageModificationError_[];
 export interface BatchCreateBillScenarioUsageModificationResponse {
-  items?: BatchCreateBillScenarioUsageModificationItem[];
-  errors?: BatchCreateBillScenarioUsageModificationError_[];
+  items?: BatchCreateBillScenarioUsageModificationItem[] | undefined;
+  errors?: BatchCreateBillScenarioUsageModificationError_[] | undefined;
 }
 export interface BatchCreateWorkloadEstimateUsageEntry {
   serviceCode: string;
   usageType: string;
   operation: string;
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
   amount: number;
-  historicalUsage?: HistoricalUsageEntity;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageEntries = BatchCreateWorkloadEstimateUsageEntry[];
 export interface BatchCreateWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
   usage: BatchCreateWorkloadEstimateUsageEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface WorkloadEstimateUsageQuantity {
-  unit?: string;
-  amount?: number;
+  unit?: string | undefined;
+  amount?: number | undefined;
 }
 export type CurrencyCode = "USD" | (string & {});
 export type WorkloadEstimateCostStatus = "VALID" | "INVALID" | "STALE" | (string & {});
@@ -345,16 +346,16 @@ export interface BatchCreateWorkloadEstimateUsageItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  quantity?: WorkloadEstimateUsageQuantity;
-  cost?: number;
-  currency?: CurrencyCode;
-  status?: WorkloadEstimateCostStatus;
-  historicalUsage?: HistoricalUsageEntity;
-  key?: string;
+  location?: string | undefined;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  quantity?: WorkloadEstimateUsageQuantity | undefined;
+  cost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  status?: WorkloadEstimateCostStatus | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
+  key?: string | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageItems = BatchCreateWorkloadEstimateUsageItem[];
 export type BatchCreateWorkloadEstimateUsageCode =
@@ -364,14 +365,14 @@ export type BatchCreateWorkloadEstimateUsageCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchCreateWorkloadEstimateUsageError_ {
-  key?: string;
-  errorCode?: BatchCreateWorkloadEstimateUsageCode;
-  errorMessage?: string;
+  key?: string | undefined;
+  errorCode?: BatchCreateWorkloadEstimateUsageCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageErrors = BatchCreateWorkloadEstimateUsageError_[];
 export interface BatchCreateWorkloadEstimateUsageResponse {
-  items?: BatchCreateWorkloadEstimateUsageItem[];
-  errors?: BatchCreateWorkloadEstimateUsageError_[];
+  items?: BatchCreateWorkloadEstimateUsageItem[] | undefined;
+  errors?: BatchCreateWorkloadEstimateUsageError_[] | undefined;
 }
 export type BatchDeleteBillScenarioCommitmentModificationEntries = string[];
 export interface BatchDeleteBillScenarioCommitmentModificationRequest {
@@ -384,14 +385,14 @@ export type BatchDeleteBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteBillScenarioCommitmentModificationError_ {
-  id?: string;
-  errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode;
-  errorMessage?: string;
+  id?: string | undefined;
+  errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchDeleteBillScenarioCommitmentModificationErrors =
   BatchDeleteBillScenarioCommitmentModificationError_[];
 export interface BatchDeleteBillScenarioCommitmentModificationResponse {
-  errors?: BatchDeleteBillScenarioCommitmentModificationError_[];
+  errors?: BatchDeleteBillScenarioCommitmentModificationError_[] | undefined;
 }
 export type BatchDeleteBillScenarioUsageModificationEntries = string[];
 export interface BatchDeleteBillScenarioUsageModificationRequest {
@@ -404,14 +405,14 @@ export type BatchDeleteBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteBillScenarioUsageModificationError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchDeleteBillScenarioUsageModificationErrors =
   BatchDeleteBillScenarioUsageModificationError_[];
 export interface BatchDeleteBillScenarioUsageModificationResponse {
-  errors?: BatchDeleteBillScenarioUsageModificationError_[];
+  errors?: BatchDeleteBillScenarioUsageModificationError_[] | undefined;
 }
 export type BatchDeleteWorkloadEstimateUsageEntries = string[];
 export interface BatchDeleteWorkloadEstimateUsageRequest {
@@ -425,17 +426,17 @@ export type WorkloadEstimateUpdateUsageErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteWorkloadEstimateUsageError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: WorkloadEstimateUpdateUsageErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: WorkloadEstimateUpdateUsageErrorCode | undefined;
 }
 export type BatchDeleteWorkloadEstimateUsageErrors = BatchDeleteWorkloadEstimateUsageError_[];
 export interface BatchDeleteWorkloadEstimateUsageResponse {
-  errors?: BatchDeleteWorkloadEstimateUsageError_[];
+  errors?: BatchDeleteWorkloadEstimateUsageError_[] | undefined;
 }
 export interface BatchUpdateBillScenarioCommitmentModificationEntry {
   id: string;
-  group?: string;
+  group?: string | undefined;
 }
 export type BatchUpdateBillScenarioCommitmentModificationEntries =
   BatchUpdateBillScenarioCommitmentModificationEntry[];
@@ -444,10 +445,10 @@ export interface BatchUpdateBillScenarioCommitmentModificationRequest {
   commitmentModifications: BatchUpdateBillScenarioCommitmentModificationEntry[];
 }
 export interface BillScenarioCommitmentModificationItem {
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BillScenarioCommitmentModificationItems = BillScenarioCommitmentModificationItem[];
 export type BatchUpdateBillScenarioCommitmentModificationErrorCode =
@@ -457,20 +458,20 @@ export type BatchUpdateBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchUpdateBillScenarioCommitmentModificationError_ {
-  id?: string;
-  errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode;
-  errorMessage?: string;
+  id?: string | undefined;
+  errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchUpdateBillScenarioCommitmentModificationErrors =
   BatchUpdateBillScenarioCommitmentModificationError_[];
 export interface BatchUpdateBillScenarioCommitmentModificationResponse {
-  items?: BillScenarioCommitmentModificationItem[];
-  errors?: BatchUpdateBillScenarioCommitmentModificationError_[];
+  items?: BillScenarioCommitmentModificationItem[] | undefined;
+  errors?: BatchUpdateBillScenarioCommitmentModificationError_[] | undefined;
 }
 export interface BatchUpdateBillScenarioUsageModificationEntry {
   id: string;
-  group?: string;
-  amounts?: UsageAmount[];
+  group?: string | undefined;
+  amounts?: UsageAmount[] | undefined;
 }
 export type BatchUpdateBillScenarioUsageModificationEntries =
   BatchUpdateBillScenarioUsageModificationEntry[];
@@ -482,13 +483,13 @@ export interface BillScenarioUsageModificationItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BillScenarioUsageModificationItems = BillScenarioUsageModificationItem[];
 export type BatchUpdateBillScenarioUsageModificationErrorCode =
@@ -498,20 +499,20 @@ export type BatchUpdateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchUpdateBillScenarioUsageModificationError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchUpdateBillScenarioUsageModificationErrors =
   BatchUpdateBillScenarioUsageModificationError_[];
 export interface BatchUpdateBillScenarioUsageModificationResponse {
-  items?: BillScenarioUsageModificationItem[];
-  errors?: BatchUpdateBillScenarioUsageModificationError_[];
+  items?: BillScenarioUsageModificationItem[] | undefined;
+  errors?: BatchUpdateBillScenarioUsageModificationError_[] | undefined;
 }
 export interface BatchUpdateWorkloadEstimateUsageEntry {
   id: string;
-  group?: string;
-  amount?: number;
+  group?: string | undefined;
+  amount?: number | undefined;
 }
 export type BatchUpdateWorkloadEstimateUsageEntries = BatchUpdateWorkloadEstimateUsageEntry[];
 export interface BatchUpdateWorkloadEstimateUsageRequest {
@@ -522,26 +523,26 @@ export interface WorkloadEstimateUsageItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  quantity?: WorkloadEstimateUsageQuantity;
-  cost?: number;
-  currency?: CurrencyCode;
-  status?: WorkloadEstimateCostStatus;
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  quantity?: WorkloadEstimateUsageQuantity | undefined;
+  cost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  status?: WorkloadEstimateCostStatus | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type WorkloadEstimateUsageItems = WorkloadEstimateUsageItem[];
 export interface BatchUpdateWorkloadEstimateUsageError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: WorkloadEstimateUpdateUsageErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: WorkloadEstimateUpdateUsageErrorCode | undefined;
 }
 export type BatchUpdateWorkloadEstimateUsageErrors = BatchUpdateWorkloadEstimateUsageError_[];
 export interface BatchUpdateWorkloadEstimateUsageResponse {
-  items?: WorkloadEstimateUsageItem[];
-  errors?: BatchUpdateWorkloadEstimateUsageError_[];
+  items?: WorkloadEstimateUsageItem[] | undefined;
+  errors?: BatchUpdateWorkloadEstimateUsageError_[] | undefined;
 }
 export type BillEstimateName = string;
 export type ResourceTagKey = string;
@@ -550,57 +551,57 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateBillEstimateRequest {
   billScenarioId: string;
   name: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BillEstimateStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export interface CostAmount {
-  amount?: number;
-  currency?: CurrencyCode;
+  amount?: number | undefined;
+  currency?: CurrencyCode | undefined;
 }
 export interface CostDifference {
-  historicalCost?: CostAmount;
-  estimatedCost?: CostAmount;
+  historicalCost?: CostAmount | undefined;
+  estimatedCost?: CostAmount | undefined;
 }
 export type ServiceCostDifferenceMap = { [key: string]: CostDifference | undefined };
 export interface BillEstimateCostSummary {
-  totalCostDifference?: CostDifference;
-  serviceCostDifferences?: { [key: string]: CostDifference | undefined };
+  totalCostDifference?: CostDifference | undefined;
+  serviceCostDifferences?: { [key: string]: CostDifference | undefined } | undefined;
 }
 export type GroupSharingPreferenceEnum = "OPEN" | "PRIORITIZED" | "RESTRICTED" | (string & {});
 export type CostCategoryArn = string;
 export interface CreateBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export type BillScenarioName = string;
 export interface CreateBillScenarioRequest {
   name: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type BillScenarioStatus = "READY" | "LOCKED" | "FAILED" | "STALE" | (string & {});
 export interface CreateBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type WorkloadEstimateName = string;
 export type WorkloadEstimateRateType =
@@ -610,9 +611,9 @@ export type WorkloadEstimateRateType =
   | (string & {});
 export interface CreateWorkloadEstimateRequest {
   name: string;
-  clientToken?: string;
-  rateType?: WorkloadEstimateRateType;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkloadEstimateStatus =
   | "UPDATING"
@@ -622,15 +623,15 @@ export type WorkloadEstimateStatus =
   | (string & {});
 export interface CreateWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export interface DeleteBillEstimateRequest {
   identifier: string;
@@ -649,30 +650,30 @@ export interface GetBillEstimateRequest {
 }
 export interface GetBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export interface GetBillScenarioRequest {
   identifier: string;
 }
 export interface GetBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface GetPreferencesRequest {}
 export type RateType =
@@ -682,65 +683,65 @@ export type RateType =
   | (string & {});
 export type RateTypes = RateType[];
 export interface GetPreferencesResponse {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface GetWorkloadEstimateRequest {
   identifier: string;
 }
 export interface GetWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type NextPageToken = string;
 export type MaxResults = number;
 export interface ListBillEstimateCommitmentsRequest {
   billEstimateId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PurchaseAgreementType = "SAVINGS_PLANS" | "RESERVED_INSTANCE" | (string & {});
 export interface BillEstimateCommitmentSummary {
-  id?: string;
-  purchaseAgreementType?: PurchaseAgreementType;
-  offeringId?: string;
-  usageAccountId?: string;
-  region?: string;
-  termLength?: string;
-  paymentOption?: string;
-  upfrontPayment?: CostAmount;
-  monthlyPayment?: CostAmount;
+  id?: string | undefined;
+  purchaseAgreementType?: PurchaseAgreementType | undefined;
+  offeringId?: string | undefined;
+  usageAccountId?: string | undefined;
+  region?: string | undefined;
+  termLength?: string | undefined;
+  paymentOption?: string | undefined;
+  upfrontPayment?: CostAmount | undefined;
+  monthlyPayment?: CostAmount | undefined;
 }
 export type BillEstimateCommitmentSummaries = BillEstimateCommitmentSummary[];
 export interface ListBillEstimateCommitmentsResponse {
-  items?: BillEstimateCommitmentSummary[];
-  nextToken?: string;
+  items?: BillEstimateCommitmentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillEstimateInputCommitmentModificationsRequest {
   billEstimateId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateInputCommitmentModificationSummary {
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BillEstimateInputCommitmentModificationSummaries =
   BillEstimateInputCommitmentModificationSummary[];
 export interface ListBillEstimateInputCommitmentModificationsResponse {
-  items?: BillEstimateInputCommitmentModificationSummary[];
-  nextToken?: string;
+  items?: BillEstimateInputCommitmentModificationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListUsageFilterName =
   | "USAGE_ACCOUNT_ID"
@@ -760,32 +761,32 @@ export type MatchOption = "EQUALS" | "STARTS_WITH" | "CONTAINS" | (string & {});
 export interface ListUsageFilter {
   name: ListUsageFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListUsageFilters = ListUsageFilter[];
 export interface ListBillEstimateInputUsageModificationsRequest {
   billEstimateId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateInputUsageModificationSummary {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BillEstimateInputUsageModificationSummaries =
   BillEstimateInputUsageModificationSummary[];
 export interface ListBillEstimateInputUsageModificationsResponse {
-  items?: BillEstimateInputUsageModificationSummary[];
-  nextToken?: string;
+  items?: BillEstimateInputUsageModificationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillEstimateLineItemsFilterName =
   | "USAGE_ACCOUNT_ID"
@@ -799,82 +800,82 @@ export type ListBillEstimateLineItemsFilterValues = string[];
 export interface ListBillEstimateLineItemsFilter {
   name: ListBillEstimateLineItemsFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillEstimateLineItemsFilters = ListBillEstimateLineItemsFilter[];
 export interface ListBillEstimateLineItemsRequest {
   billEstimateId: string;
-  filters?: ListBillEstimateLineItemsFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillEstimateLineItemsFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UsageQuantityResult {
-  amount?: number;
-  unit?: string;
+  amount?: number | undefined;
+  unit?: string | undefined;
 }
 export type SavingsPlanArns = string[];
 export interface BillEstimateLineItemSummary {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  lineItemId?: string;
-  lineItemType?: string;
-  payerAccountId?: string;
-  usageAccountId?: string;
-  estimatedUsageQuantity?: UsageQuantityResult;
-  estimatedCost?: CostAmount;
-  historicalUsageQuantity?: UsageQuantityResult;
-  historicalCost?: CostAmount;
-  savingsPlanArns?: string[];
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  lineItemId?: string | undefined;
+  lineItemType?: string | undefined;
+  payerAccountId?: string | undefined;
+  usageAccountId?: string | undefined;
+  estimatedUsageQuantity?: UsageQuantityResult | undefined;
+  estimatedCost?: CostAmount | undefined;
+  historicalUsageQuantity?: UsageQuantityResult | undefined;
+  historicalCost?: CostAmount | undefined;
+  savingsPlanArns?: string[] | undefined;
 }
 export type BillEstimateLineItemSummaries = BillEstimateLineItemSummary[];
 export interface ListBillEstimateLineItemsResponse {
-  items?: BillEstimateLineItemSummary[];
-  nextToken?: string;
+  items?: BillEstimateLineItemSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillEstimatesFilterName = "STATUS" | "NAME" | (string & {});
 export type ListBillEstimatesFilterValues = string[];
 export interface ListBillEstimatesFilter {
   name: ListBillEstimatesFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillEstimatesFilters = ListBillEstimatesFilter[];
 export interface FilterTimestamp {
-  afterTimestamp?: Date;
-  beforeTimestamp?: Date;
+  afterTimestamp?: Date | undefined;
+  beforeTimestamp?: Date | undefined;
 }
 export interface ListBillEstimatesRequest {
-  filters?: ListBillEstimatesFilter[];
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillEstimatesFilter[] | undefined;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateSummary {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  billInterval?: BillInterval;
-  createdAt?: Date;
-  expiresAt?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  billInterval?: BillInterval | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
 }
 export type BillEstimateSummaries = BillEstimateSummary[];
 export interface ListBillEstimatesResponse {
-  items?: BillEstimateSummary[];
-  nextToken?: string;
+  items?: BillEstimateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillScenarioCommitmentModificationsRequest {
   billScenarioId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListBillScenarioCommitmentModificationsResponse {
-  items?: BillScenarioCommitmentModificationItem[];
-  nextToken?: string;
+  items?: BillScenarioCommitmentModificationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillScenariosFilterName =
   | "STATUS"
@@ -886,91 +887,91 @@ export type ListBillScenariosFilterValues = string[];
 export interface ListBillScenariosFilter {
   name: ListBillScenariosFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillScenariosFilters = ListBillScenariosFilter[];
 export interface ListBillScenariosRequest {
-  filters?: ListBillScenariosFilter[];
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillScenariosFilter[] | undefined;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillScenarioSummary {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type BillScenarioSummaries = BillScenarioSummary[];
 export interface ListBillScenariosResponse {
-  items?: BillScenarioSummary[];
-  nextToken?: string;
+  items?: BillScenarioSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillScenarioUsageModificationsRequest {
   billScenarioId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListBillScenarioUsageModificationsResponse {
-  items?: BillScenarioUsageModificationItem[];
-  nextToken?: string;
+  items?: BillScenarioUsageModificationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListWorkloadEstimatesFilterName = "STATUS" | "NAME" | (string & {});
 export type ListWorkloadEstimatesFilterValues = string[];
 export interface ListWorkloadEstimatesFilter {
   name: ListWorkloadEstimatesFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListWorkloadEstimatesFilters = ListWorkloadEstimatesFilter[];
 export interface ListWorkloadEstimatesRequest {
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  filters?: ListWorkloadEstimatesFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  filters?: ListWorkloadEstimatesFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkloadEstimateSummary {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type WorkloadEstimateSummaries = WorkloadEstimateSummary[];
 export interface ListWorkloadEstimatesResponse {
-  items?: WorkloadEstimateSummary[];
-  nextToken?: string;
+  items?: WorkloadEstimateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type WorkloadEstimateUsageMaxResults = number;
 export interface ListWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListWorkloadEstimateUsageResponse {
-  items?: WorkloadEstimateUsageItem[];
-  nextToken?: string;
+  items?: WorkloadEstimateUsageItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -985,66 +986,66 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateBillEstimateRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface UpdateBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export interface UpdateBillScenarioRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface UpdateBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface UpdatePreferencesRequest {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface UpdatePreferencesResponse {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface UpdateWorkloadEstimateRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface UpdateWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationError =
   | ConflictException
@@ -1057,7 +1058,7 @@ export type BatchCreateBillScenarioCommitmentModificationError =
  * The `BatchCreateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioCommitmentModification` in your policies.
  */
 export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
-  BatchCreateBillScenarioCommitmentModificationRequest,
+  BatchCreateBillScenarioCommitmentModificationRequest & RegionInput,
   BatchCreateBillScenarioCommitmentModificationResponse,
   BatchCreateBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type BatchCreateBillScenarioUsageModificationError =
  * The `BatchCreateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioUsageModification` in your policies.
  */
 export const batchCreateBillScenarioUsageModification: API.OperationMethod<
-  BatchCreateBillScenarioUsageModificationRequest,
+  BatchCreateBillScenarioUsageModificationRequest & RegionInput,
   BatchCreateBillScenarioUsageModificationResponse,
   BatchCreateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1124,7 +1125,7 @@ export type BatchCreateWorkloadEstimateUsageError =
  * The `BatchCreateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateWorkloadEstimateUsage` in your policies.
  */
 export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
-  BatchCreateWorkloadEstimateUsageRequest,
+  BatchCreateWorkloadEstimateUsageRequest & RegionInput,
   BatchCreateWorkloadEstimateUsageResponse,
   BatchCreateWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1155,7 +1156,7 @@ export type BatchDeleteBillScenarioCommitmentModificationError =
  * The `BatchDeleteBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioCommitmentModification` in your policies.
  */
 export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
-  BatchDeleteBillScenarioCommitmentModificationRequest,
+  BatchDeleteBillScenarioCommitmentModificationRequest & RegionInput,
   BatchDeleteBillScenarioCommitmentModificationResponse,
   BatchDeleteBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type BatchDeleteBillScenarioUsageModificationError =
  * The `BatchDeleteBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioUsageModification` in your policies.
  */
 export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
-  BatchDeleteBillScenarioUsageModificationRequest,
+  BatchDeleteBillScenarioUsageModificationRequest & RegionInput,
   BatchDeleteBillScenarioUsageModificationResponse,
   BatchDeleteBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1221,7 +1222,7 @@ export type BatchDeleteWorkloadEstimateUsageError =
  * The `BatchDeleteWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteWorkloadEstimateUsage` in your policies.
  */
 export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
-  BatchDeleteWorkloadEstimateUsageRequest,
+  BatchDeleteWorkloadEstimateUsageRequest & RegionInput,
   BatchDeleteWorkloadEstimateUsageResponse,
   BatchDeleteWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1247,7 +1248,7 @@ export type BatchUpdateBillScenarioCommitmentModificationError =
  * The `BatchUpdateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioCommitmentModification` in your policies.
  */
 export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
-  BatchUpdateBillScenarioCommitmentModificationRequest,
+  BatchUpdateBillScenarioCommitmentModificationRequest & RegionInput,
   BatchUpdateBillScenarioCommitmentModificationResponse,
   BatchUpdateBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type BatchUpdateBillScenarioUsageModificationError =
  * The `BatchUpdateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioUsageModification` in your policies.
  */
 export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
-  BatchUpdateBillScenarioUsageModificationRequest,
+  BatchUpdateBillScenarioUsageModificationRequest & RegionInput,
   BatchUpdateBillScenarioUsageModificationResponse,
   BatchUpdateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type BatchUpdateWorkloadEstimateUsageError =
  * The `BatchUpdateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateWorkloadEstimateUsage` in your policies.
  */
 export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
-  BatchUpdateWorkloadEstimateUsageRequest,
+  BatchUpdateWorkloadEstimateUsageRequest & RegionInput,
   BatchUpdateWorkloadEstimateUsageResponse,
   BatchUpdateWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
@@ -1329,7 +1330,7 @@ export type CreateBillEstimateError =
  * Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
  */
 export const createBillEstimate: API.OperationMethod<
-  CreateBillEstimateRequest,
+  CreateBillEstimateRequest & RegionInput,
   CreateBillEstimateResponse,
   CreateBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1353,7 +1354,7 @@ export type CreateBillScenarioError =
  * Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
  */
 export const createBillScenario: API.OperationMethod<
-  CreateBillScenarioRequest,
+  CreateBillScenarioRequest & RegionInput,
   CreateBillScenarioResponse,
   CreateBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1377,7 +1378,7 @@ export type CreateWorkloadEstimateError =
  * Creates a new workload estimate to model costs for a specific workload.
  */
 export const createWorkloadEstimate: API.OperationMethod<
-  CreateWorkloadEstimateRequest,
+  CreateWorkloadEstimateRequest & RegionInput,
   CreateWorkloadEstimateResponse,
   CreateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1397,7 +1398,7 @@ export type DeleteBillEstimateError = ConflictException | DataUnavailableExcepti
  * Deletes an existing bill estimate.
  */
 export const deleteBillEstimate: API.OperationMethod<
-  DeleteBillEstimateRequest,
+  DeleteBillEstimateRequest & RegionInput,
   DeleteBillEstimateResponse,
   DeleteBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1417,7 +1418,7 @@ export type DeleteBillScenarioError = ConflictException | DataUnavailableExcepti
  * Deletes an existing bill scenario.
  */
 export const deleteBillScenario: API.OperationMethod<
-  DeleteBillScenarioRequest,
+  DeleteBillScenarioRequest & RegionInput,
   DeleteBillScenarioResponse,
   DeleteBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1437,7 +1438,7 @@ export type DeleteWorkloadEstimateError = DataUnavailableException | CommonError
  * Deletes an existing workload estimate.
  */
 export const deleteWorkloadEstimate: API.OperationMethod<
-  DeleteWorkloadEstimateRequest,
+  DeleteWorkloadEstimateRequest & RegionInput,
   DeleteWorkloadEstimateResponse,
   DeleteWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1460,7 +1461,7 @@ export type GetBillEstimateError =
  * Retrieves details of a specific bill estimate.
  */
 export const getBillEstimate: API.OperationMethod<
-  GetBillEstimateRequest,
+  GetBillEstimateRequest & RegionInput,
   GetBillEstimateResponse,
   GetBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type GetBillScenarioError =
  * Retrieves details of a specific bill scenario.
  */
 export const getBillScenario: API.OperationMethod<
-  GetBillScenarioRequest,
+  GetBillScenarioRequest & RegionInput,
   GetBillScenarioResponse,
   GetBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetPreferencesError = DataUnavailableException | CommonErrors;
  * Retrieves the current preferences for Pricing Calculator.
  */
 export const getPreferences: API.OperationMethod<
-  GetPreferencesRequest,
+  GetPreferencesRequest & RegionInput,
   GetPreferencesResponse,
   GetPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1526,7 +1527,7 @@ export type GetWorkloadEstimateError =
  * Retrieves details of a specific workload estimate.
  */
 export const getWorkloadEstimate: API.OperationMethod<
-  GetWorkloadEstimateRequest,
+  GetWorkloadEstimateRequest & RegionInput,
   GetWorkloadEstimateResponse,
   GetWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1549,7 +1550,7 @@ export type ListBillEstimateCommitmentsError =
  * Lists the commitments associated with a bill estimate.
  */
 export const listBillEstimateCommitments: API.PaginatedOperationMethod<
-  ListBillEstimateCommitmentsRequest,
+  ListBillEstimateCommitmentsRequest & RegionInput,
   ListBillEstimateCommitmentsResponse,
   ListBillEstimateCommitmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1579,7 +1580,7 @@ export type ListBillEstimateInputCommitmentModificationsError =
  * Lists the input commitment modifications associated with a bill estimate.
  */
 export const listBillEstimateInputCommitmentModifications: API.PaginatedOperationMethod<
-  ListBillEstimateInputCommitmentModificationsRequest,
+  ListBillEstimateInputCommitmentModificationsRequest & RegionInput,
   ListBillEstimateInputCommitmentModificationsResponse,
   ListBillEstimateInputCommitmentModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1613,7 +1614,7 @@ export type ListBillEstimateInputUsageModificationsError =
  * Lists the input usage modifications associated with a bill estimate.
  */
 export const listBillEstimateInputUsageModifications: API.PaginatedOperationMethod<
-  ListBillEstimateInputUsageModificationsRequest,
+  ListBillEstimateInputUsageModificationsRequest & RegionInput,
   ListBillEstimateInputUsageModificationsResponse,
   ListBillEstimateInputUsageModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1643,7 +1644,7 @@ export type ListBillEstimateLineItemsError =
  * Lists the line items associated with a bill estimate.
  */
 export const listBillEstimateLineItems: API.PaginatedOperationMethod<
-  ListBillEstimateLineItemsRequest,
+  ListBillEstimateLineItemsRequest & RegionInput,
   ListBillEstimateLineItemsResponse,
   ListBillEstimateLineItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1670,7 +1671,7 @@ export type ListBillEstimatesError = DataUnavailableException | CommonErrors;
  * Lists all bill estimates for the account.
  */
 export const listBillEstimates: API.PaginatedOperationMethod<
-  ListBillEstimatesRequest,
+  ListBillEstimatesRequest & RegionInput,
   ListBillEstimatesResponse,
   ListBillEstimatesError,
   Credentials | HttpClient.HttpClient,
@@ -1700,7 +1701,7 @@ export type ListBillScenarioCommitmentModificationsError =
  * Lists the commitment modifications associated with a bill scenario.
  */
 export const listBillScenarioCommitmentModifications: API.PaginatedOperationMethod<
-  ListBillScenarioCommitmentModificationsRequest,
+  ListBillScenarioCommitmentModificationsRequest & RegionInput,
   ListBillScenarioCommitmentModificationsResponse,
   ListBillScenarioCommitmentModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1727,7 +1728,7 @@ export type ListBillScenariosError = DataUnavailableException | CommonErrors;
  * Lists all bill scenarios for the account.
  */
 export const listBillScenarios: API.PaginatedOperationMethod<
-  ListBillScenariosRequest,
+  ListBillScenariosRequest & RegionInput,
   ListBillScenariosResponse,
   ListBillScenariosError,
   Credentials | HttpClient.HttpClient,
@@ -1757,7 +1758,7 @@ export type ListBillScenarioUsageModificationsError =
  * Lists the usage modifications associated with a bill scenario.
  */
 export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
-  ListBillScenarioUsageModificationsRequest,
+  ListBillScenarioUsageModificationsRequest & RegionInput,
   ListBillScenarioUsageModificationsResponse,
   ListBillScenarioUsageModificationsError,
   Credentials | HttpClient.HttpClient,
@@ -1784,7 +1785,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists all tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1805,7 @@ export type ListWorkloadEstimatesError = DataUnavailableException | CommonErrors
  * Lists all workload estimates for the account.
  */
 export const listWorkloadEstimates: API.PaginatedOperationMethod<
-  ListWorkloadEstimatesRequest,
+  ListWorkloadEstimatesRequest & RegionInput,
   ListWorkloadEstimatesResponse,
   ListWorkloadEstimatesError,
   Credentials | HttpClient.HttpClient,
@@ -1834,7 +1835,7 @@ export type ListWorkloadEstimateUsageError =
  * Lists the usage associated with a workload estimate.
  */
 export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
-  ListWorkloadEstimateUsageRequest,
+  ListWorkloadEstimateUsageRequest & RegionInput,
   ListWorkloadEstimateUsageResponse,
   ListWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient,
@@ -1864,7 +1865,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1884,7 +1885,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1908,7 +1909,7 @@ export type UpdateBillEstimateError =
  * Updates an existing bill estimate.
  */
 export const updateBillEstimate: API.OperationMethod<
-  UpdateBillEstimateRequest,
+  UpdateBillEstimateRequest & RegionInput,
   UpdateBillEstimateResponse,
   UpdateBillEstimateError,
   Credentials | HttpClient.HttpClient
@@ -1932,7 +1933,7 @@ export type UpdateBillScenarioError =
  * Updates an existing bill scenario.
  */
 export const updateBillScenario: API.OperationMethod<
-  UpdateBillScenarioRequest,
+  UpdateBillScenarioRequest & RegionInput,
   UpdateBillScenarioResponse,
   UpdateBillScenarioError,
   Credentials | HttpClient.HttpClient
@@ -1955,7 +1956,7 @@ export type UpdatePreferencesError =
  * Updates the preferences for Pricing Calculator.
  */
 export const updatePreferences: API.OperationMethod<
-  UpdatePreferencesRequest,
+  UpdatePreferencesRequest & RegionInput,
   UpdatePreferencesResponse,
   UpdatePreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1979,7 +1980,7 @@ export type UpdateWorkloadEstimateError =
  * Updates an existing workload estimate.
  */
 export const updateWorkloadEstimate: API.OperationMethod<
-  UpdateWorkloadEstimateRequest,
+  UpdateWorkloadEstimateRequest & RegionInput,
   UpdateWorkloadEstimateResponse,
   UpdateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient

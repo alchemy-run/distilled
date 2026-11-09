@@ -1,0 +1,15 @@
+{
+  "description": "signatureSecret on webhook create/update is the HMAC secret deliveries are signed with; the spec carries no sensitive mark. Source: spec/openapi.yml (e2b-dev/E2B, 2026-11-02).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.webhooks#PostEventsWebhooksRequest/members/signatureSecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.webhooks#PatchEventsWebhooksWebhookIDRequest/members/signatureSecret/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

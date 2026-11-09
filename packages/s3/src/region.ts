@@ -1,14 +1,19 @@
 /**
- * The region an operation is dispatched to.
+ * The region an operation is dispatched to. The first of these wins:
  *
- * {@link ResolvedCredentials.region} is where the region normally comes from
- * and it is never absent. {@link Region} is the OVERRIDE on top of that: an
- * optional service that generated operations do NOT list in their
- * requirements. The protocol reads it with `Effect.serviceOption` and uses the
- * credentials' region when nothing provides it.
+ * 1. The call's own `region` ({@link RegionInput}):
+ *    `S3.getObject({ Bucket, Key, region: "eu-west-1" })`.
+ * 2. The {@link Region} layer, for every call in a scope:
+ *    `Effect.provide(Region.of("eu-west-1"))`.
+ * 3. The region of the credentials ({@link ResolvedCredentials.region}),
+ *    which is never absent.
+ *
+ * `Region` is an optional service: generated operations do not list it in
+ * their requirements.
  */
 import * as Context from "effect/Context";
-import type * as Effect from "effect/Effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type { ProviderError } from "./credentials.ts";
 
 // Annotated so the declaration keeps `ProviderError` unevaluated: an
@@ -23,6 +28,18 @@ const RegionService: Context.ServiceClass<
 );
 
 export class Region extends RegionService {}
+
+/** Send the calls in a scope to one region, e.g. `Region.of("us-west-2")`. */
+export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));
+
+/**
+ * The optional `region` every operation input accepts. It sends one call to
+ * that region, over the `Region` layer and the credentials' region. It is
+ * not sent on the wire.
+ */
+export interface RegionInput {
+  readonly region?: RegionName;
+}
 
 export type RegionName =
   | "us-east-1"

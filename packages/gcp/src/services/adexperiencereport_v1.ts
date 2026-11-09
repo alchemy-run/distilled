@@ -68,35 +68,35 @@ export type PlatformSummaryBetterAdsStatusEnum = "UNKNOWN" | "PASSING" | "WARNIN
 /** A site's Ad Experience Report summary on a single platform. */
 export interface PlatformSummary {
   /** Whether the site is currently under review on this platform. */
-  underReview?: boolean;
+  underReview?: boolean | undefined;
   /** The site's regions on this platform. No longer populated, because there is no longer any semantic difference between sites in different regions. */
-  region?: PlatformSummaryRegionItemEnumList;
+  region?: PlatformSummaryRegionItemEnumList | undefined;
   /** A link to the full Ad Experience Report for the site on this platform.. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
+  reportUrl?: string | undefined;
   /** The site's [enforcement status](https://support.google.com/webtools/answer/7308033) on this platform. */
-  filterStatus?: PlatformSummaryFilterStatusEnum;
+  filterStatus?: PlatformSummaryFilterStatusEnum | undefined;
   /** The time at which [enforcement](https://support.google.com/webtools/answer/7308033) against the site began or will begin on this platform. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
+  enforcementTime?: string | undefined;
   /** The site's Ad Experience Report status on this platform. */
-  betterAdsStatus?: PlatformSummaryBetterAdsStatusEnum;
+  betterAdsStatus?: PlatformSummaryBetterAdsStatusEnum | undefined;
   /** The time at which the site's status last changed on this platform. */
-  lastChangeTime?: string;
+  lastChangeTime?: string | undefined;
 }
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
   /** The site's Ad Experience Report summary on mobile. */
-  mobileSummary?: PlatformSummary;
+  mobileSummary?: PlatformSummary | undefined;
   /** The site's Ad Experience Report summary on desktop. */
-  desktopSummary?: PlatformSummary;
+  desktopSummary?: PlatformSummary | undefined;
   /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string;
+  reviewedSite?: string | undefined;
 }
 export interface ListViolatingSitesRequest {}
 export type SiteSummaryResponseList = Array<SiteSummaryResponse>;
 /** Response message for ListViolatingSites. */
 export interface ViolatingSitesResponse {
   /** The list of violating sites. */
-  violatingSites?: SiteSummaryResponseList;
+  violatingSites?: SiteSummaryResponseList | undefined;
 }
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Gets a site's Ad Experience Report summary. */

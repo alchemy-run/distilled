@@ -120,47 +120,47 @@ export interface Empty {}
 /** Timestamps associated with this resource in a particular system. */
 export interface GoogleCloudDatacatalogV1SystemTimestamps {
   /** Creation timestamp of the resource within the given system. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Timestamp of the last modification of the resource or its metadata within a given system. Note: Depending on the source system, not every modification updates this timestamp. For example, BigQuery timestamps every metadata modification but not data or permission changes. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Expiration timestamp of the resource within the given system. Currently only applicable to BigQuery resources. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 /** Entry group metadata. An `EntryGroup` resource represents a logical grouping of zero or more Data Catalog Entry resources. */
 export interface GoogleCloudDatacatalogV1EntryGroup {
   /** Entry group description. Can consist of several sentences or paragraphs that describe the entry group contents. Default value is an empty string. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. The resource name of the entry group in URL format. Note: The entry group itself and its child resources might not be stored in the location specified in its name. */
-  name?: string;
+  name?: string | undefined;
   /** A short name to identify the entry group, for example, "analytics data - jan 2011". Default value is an empty string. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. When set to [true], it means DataCatalog EntryGroup was transferred to Dataplex Universal Catalog. It makes EntryGroup and its Entries to be read-only in DataCatalog. However, new Tags on EntryGroup and its Entries can be created. After setting the flag to [true] it cannot be unset. */
-  transferredToDataplex?: boolean;
+  transferredToDataplex?: boolean | undefined;
   /** Output only. Timestamps of the entry group. Default value is empty. */
-  dataCatalogTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps;
+  dataCatalogTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
 }
 export interface CreateProjectsLocationsEntryGroupsRequest {
   /** Required. The names of the project and location that the new entry group belongs to. Note: The entry group itself and its child resources might not be stored in the location specified in its name. */
   parent: string;
   /** Required. The ID of the entry group to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and must start with a letter or underscore. The maximum size is 64 bytes when encoded in UTF-8. */
-  entryGroupId?: string;
+  entryGroupId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1EntryGroup;
+  body?: GoogleCloudDatacatalogV1EntryGroup | undefined;
 }
 /** Specification that applies to entries that are part `LOOKER` system (user_specified_type) */
 export interface GoogleCloudDatacatalogV1LookerSystemSpec {
   /** ID of the parent Model. Empty if it does not exist. */
-  parentModelId?: string;
+  parentModelId?: string | undefined;
   /** ID of the parent View. Empty if it does not exist. */
-  parentViewId?: string;
+  parentViewId?: string | undefined;
   /** Name of the parent Looker Instance. Empty if it does not exist. */
-  parentInstanceDisplayName?: string;
+  parentInstanceDisplayName?: string | undefined;
   /** Name of the parent View. Empty if it does not exist. */
-  parentViewDisplayName?: string;
+  parentViewDisplayName?: string | undefined;
   /** ID of the parent Looker Instance. Empty if it does not exist. Example value: `someinstance.looker.com` */
-  parentInstanceId?: string;
+  parentInstanceId?: string | undefined;
   /** Name of the parent Model. Empty if it does not exist. */
-  parentModelDisplayName?: string;
+  parentModelDisplayName?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1BigQueryConnectionSpecConnectionTypeEnum =
   | "CONNECTION_TYPE_UNSPECIFIED"
@@ -172,25 +172,28 @@ export type GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpecTypeEnum =
 /** Specification for the BigQuery connection to a Cloud SQL instance. */
 export interface GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec {
   /** Cloud SQL instance ID in the format of `project:location:instance`. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Type of the Cloud SQL database. */
-  type?: GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpecTypeEnum | (string & {});
+  type?: GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpecTypeEnum | (string & {}) | undefined;
   /** Database name. */
-  database?: string;
+  database?: string | undefined;
 }
 /** Specification for the BigQuery connection. */
 export interface GoogleCloudDatacatalogV1BigQueryConnectionSpec {
   /** The type of the BigQuery connection. */
-  connectionType?: GoogleCloudDatacatalogV1BigQueryConnectionSpecConnectionTypeEnum | (string & {});
+  connectionType?:
+    | GoogleCloudDatacatalogV1BigQueryConnectionSpecConnectionTypeEnum
+    | (string & {})
+    | undefined;
   /** Specification for the BigQuery connection to a Cloud SQL instance. */
-  cloudSql?: GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec;
+  cloudSql?: GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec | undefined;
   /** True if there are credentials attached to the BigQuery connection; false otherwise. */
-  hasCredential?: boolean;
+  hasCredential?: boolean | undefined;
 }
 /** Specification that applies to a data source connection. Valid only for entries with the `DATA_SOURCE_CONNECTION` type. Only one of internal specs can be set at the time, and cannot be changed later. */
 export interface GoogleCloudDatacatalogV1DataSourceConnectionSpec {
   /** Output only. Fields specific to BigQuery connections. */
-  bigqueryConnectionSpec?: GoogleCloudDatacatalogV1BigQueryConnectionSpec;
+  bigqueryConnectionSpec?: GoogleCloudDatacatalogV1BigQueryConnectionSpec | undefined;
 }
 export type GoogleCloudDatacatalogV1DataSourceServiceEnum =
   | "SERVICE_UNSPECIFIED"
@@ -200,20 +203,20 @@ export type StringList = Array<string>;
 /** Details the properties of the underlying storage. */
 export interface GoogleCloudDatacatalogV1StorageProperties {
   /** Patterns to identify a set of files for this fileset. Examples of a valid `file_pattern`: * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir` directory * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir` and all subdirectories recursively * `gs://bucket_name/file*`: matches files prefixed by `file` in `bucket_name` * `gs://bucket_name/??.txt`: matches files with two characters followed by `.txt` in `bucket_name` * `gs://bucket_name/[aeiou].txt`: matches files that contain a single vowel character followed by `.txt` in `bucket_name` * `gs://bucket_name/[a-m].txt`: matches files that contain `a`, `b`, ... or `m` followed by `.txt` in `bucket_name` * `gs://bucket_name/a/*\/b`: matches all files in `bucket_name` that match the `a/*\/b` pattern, such as `a/c/b`, `a/d/b` * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt` */
-  filePattern?: StringList;
+  filePattern?: StringList | undefined;
   /** File type in MIME format, for example, `text/plain`. */
-  fileType?: string;
+  fileType?: string | undefined;
 }
 /** Physical location of an entry. */
 export interface GoogleCloudDatacatalogV1DataSource {
   /** Full name of a resource as defined by the service. For example: `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}` */
-  resource?: string;
+  resource?: string | undefined;
   /** Service that physically stores the data. */
-  service?: GoogleCloudDatacatalogV1DataSourceServiceEnum | (string & {});
+  service?: GoogleCloudDatacatalogV1DataSourceServiceEnum | (string & {}) | undefined;
   /** Detailed properties of the underlying storage. */
-  storageProperties?: GoogleCloudDatacatalogV1StorageProperties;
+  storageProperties?: GoogleCloudDatacatalogV1StorageProperties | undefined;
   /** Output only. Data Catalog entry name, if applicable. */
-  sourceEntry?: string;
+  sourceEntry?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1VertexModelSourceInfoSourceTypeEnum =
   | "MODEL_SOURCE_TYPE_UNSPECIFIED"
@@ -227,27 +230,30 @@ export type GoogleCloudDatacatalogV1VertexModelSourceInfoSourceTypeEnum =
 /** Detail description of the source information of a Vertex model. */
 export interface GoogleCloudDatacatalogV1VertexModelSourceInfo {
   /** Type of the model source. */
-  sourceType?: GoogleCloudDatacatalogV1VertexModelSourceInfoSourceTypeEnum | (string & {});
+  sourceType?:
+    | GoogleCloudDatacatalogV1VertexModelSourceInfoSourceTypeEnum
+    | (string & {})
+    | undefined;
   /** If this Model is copy of another Model. If true then source_type pertains to the original. */
-  copy?: boolean;
+  copy?: boolean | undefined;
 }
 /** Specification for vertex model resources. */
 export interface GoogleCloudDatacatalogV1VertexModelSpec {
   /** The description of this version. */
-  versionDescription?: string;
+  versionDescription?: string | undefined;
   /** Source of a Vertex model. */
-  vertexModelSourceInfo?: GoogleCloudDatacatalogV1VertexModelSourceInfo;
+  vertexModelSourceInfo?: GoogleCloudDatacatalogV1VertexModelSourceInfo | undefined;
   /** The version ID of the model. */
-  versionId?: string;
+  versionId?: string | undefined;
   /** User provided version aliases so that a model version can be referenced via alias */
-  versionAliases?: StringList;
+  versionAliases?: StringList | undefined;
   /** URI of the Docker image to be used as the custom container for serving predictions. */
-  containerImageUri?: string;
+  containerImageUri?: string | undefined;
 }
 /** Specification that applies to a model. Valid only for entries with the `MODEL` type. */
 export interface GoogleCloudDatacatalogV1ModelSpec {
   /** Specification for vertex model resources. */
-  vertexModelSpec?: GoogleCloudDatacatalogV1VertexModelSpec;
+  vertexModelSpec?: GoogleCloudDatacatalogV1VertexModelSpec | undefined;
 }
 export type GoogleCloudDatacatalogV1RoutineSpecArgumentModeEnum =
   | "MODE_UNSPECIFIED"
@@ -257,18 +263,18 @@ export type GoogleCloudDatacatalogV1RoutineSpecArgumentModeEnum =
 /** Input or output argument of a function or stored procedure. */
 export interface GoogleCloudDatacatalogV1RoutineSpecArgument {
   /** Type of the argument. The exact value depends on the source system and the language. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the argument. A return argument of a function might not have a name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies whether the argument is input or output. */
-  mode?: GoogleCloudDatacatalogV1RoutineSpecArgumentModeEnum | (string & {});
+  mode?: GoogleCloudDatacatalogV1RoutineSpecArgumentModeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudDatacatalogV1RoutineSpecArgumentList =
   Array<GoogleCloudDatacatalogV1RoutineSpecArgument>;
 /** Fields specific for BigQuery routines. */
 export interface GoogleCloudDatacatalogV1BigQueryRoutineSpec {
   /** Paths of the imported libraries. */
-  importedLibraries?: StringList;
+  importedLibraries?: StringList | undefined;
 }
 export type GoogleCloudDatacatalogV1RoutineSpecRoutineTypeEnum =
   | "ROUTINE_TYPE_UNSPECIFIED"
@@ -277,17 +283,17 @@ export type GoogleCloudDatacatalogV1RoutineSpecRoutineTypeEnum =
 /** Specification that applies to a routine. Valid only for entries with the `ROUTINE` type. */
 export interface GoogleCloudDatacatalogV1RoutineSpec {
   /** The body of the routine. */
-  definitionBody?: string;
+  definitionBody?: string | undefined;
   /** Return type of the argument. The exact value depends on the source system and the language. */
-  returnType?: string;
+  returnType?: string | undefined;
   /** The language the routine is written in. The exact value depends on the source system. For BigQuery routines, possible values are: * `SQL` * `JAVASCRIPT` */
-  language?: string;
+  language?: string | undefined;
   /** Arguments of the routine. */
-  routineArguments?: GoogleCloudDatacatalogV1RoutineSpecArgumentList;
+  routineArguments?: GoogleCloudDatacatalogV1RoutineSpecArgumentList | undefined;
   /** Fields specific for BigQuery routines. */
-  bigqueryRoutineSpec?: GoogleCloudDatacatalogV1BigQueryRoutineSpec;
+  bigqueryRoutineSpec?: GoogleCloudDatacatalogV1BigQueryRoutineSpec | undefined;
   /** The type of the routine. */
-  routineType?: GoogleCloudDatacatalogV1RoutineSpecRoutineTypeEnum | (string & {});
+  routineType?: GoogleCloudDatacatalogV1RoutineSpecRoutineTypeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudDatacatalogV1EntryTypeEnum =
   | "ENTRY_TYPE_UNSPECIFIED"
@@ -315,76 +321,78 @@ export type GoogleCloudDatacatalogV1EntryTypeEnum =
 /** Specification for a group of BigQuery tables with the `[prefix]YYYYMMDD` name pattern. For more information, see [Introduction to partitioned tables] (https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding). */
 export interface GoogleCloudDatacatalogV1BigQueryDateShardedSpec {
   /** Output only. Total number of shards. */
-  shardCount?: string;
+  shardCount?: string | undefined;
   /** Output only. BigQuery resource name of the latest shard. */
-  latestShardResource?: string;
+  latestShardResource?: string | undefined;
   /** Output only. The Data Catalog resource name of the dataset entry the current table belongs to. For example: `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`. */
-  dataset?: string;
+  dataset?: string | undefined;
   /** Output only. The table name prefix of the shards. The name of any given shard is `[table_prefix]YYYYMMDD`. For example, for the `MyTable20180101` shard, the `table_prefix` is `MyTable`. */
-  tablePrefix?: string;
+  tablePrefix?: string | undefined;
 }
 /** A contact person for the entry. */
 export interface GoogleCloudDatacatalogV1ContactsPerson {
   /** Designation of the person, for example, Data Steward. */
-  designation?: string;
+  designation?: string | undefined;
   /** Email of the person in the format of `john.doe@xyz`, ``, or `John Doe`. */
-  email?: string;
+  email?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1ContactsPersonList =
   Array<GoogleCloudDatacatalogV1ContactsPerson>;
 /** Contact people for the entry. */
 export interface GoogleCloudDatacatalogV1Contacts {
   /** The list of contact people for the entry. */
-  people?: GoogleCloudDatacatalogV1ContactsPersonList;
+  people?: GoogleCloudDatacatalogV1ContactsPersonList | undefined;
 }
 /** Entry overview fields for rich text descriptions of entries. */
 export interface GoogleCloudDatacatalogV1EntryOverview {
   /** Entry overview with support for rich text. The overview must only contain Unicode characters, and should be formatted using HTML. The maximum length is 10 MiB as this value holds HTML descriptions including encoded images. The maximum length of the text without images is 100 KiB. */
-  overview?: string;
+  overview?: string | undefined;
 }
 /** Business Context of the entry. */
 export interface GoogleCloudDatacatalogV1BusinessContext {
   /** Contact people for the entry. */
-  contacts?: GoogleCloudDatacatalogV1Contacts;
+  contacts?: GoogleCloudDatacatalogV1Contacts | undefined;
   /** Entry overview fields for rich text descriptions of entries. */
-  entryOverview?: GoogleCloudDatacatalogV1EntryOverview;
+  entryOverview?: GoogleCloudDatacatalogV1EntryOverview | undefined;
 }
 /** Specification of a Spanner primary key. */
 export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey {
   /** Output only. Column names of the primary key. */
-  columns?: StringList;
+  columns?: StringList | undefined;
 }
 /** Column mapping for a Spanner foreign key. */
 export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMapping {
   /** Output only. The column in the referenced table that is part of the foreign key. */
-  referenceColumn?: string;
+  referenceColumn?: string | undefined;
   /** Output only. The column in the current table that is part of the foreign key. */
-  column?: string;
+  column?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMappingList =
   Array<GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMapping>;
 /** Specification of a Spanner foreign key. */
 export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKey {
   /** Output only. The ordered list of column mappings for this foreign key. */
-  columnMappings?: GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMappingList;
+  columnMappings?:
+    | GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMappingList
+    | undefined;
   /** Output only. The table name this foreign key referenced to. Format: `projects/{PROJECT_ID}/locations/{LOCATION}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}` */
-  entry?: string;
+  entry?: string | undefined;
   /** Output only. The constraint_name of the foreign key, for example, FK_CustomerOrder. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyList =
   Array<GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKey>;
 /** Specification of a Spanner table. */
 export interface GoogleCloudDatacatalogV1SpannerTableSpec {
   /** Output only. The primary key of the table. */
-  primaryKey?: GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey;
+  primaryKey?: GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey | undefined;
   /** Output only. The foreign keys of the table. */
-  foreignKeys?: GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyList;
+  foreignKeys?: GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyList | undefined;
 }
 /** Table view specification. */
 export interface GoogleCloudDatacatalogV1ViewSpec {
   /** Output only. The query that defines the table view. */
-  viewQuery?: string;
+  viewQuery?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1BigQueryTableSpecTableSourceTypeEnum =
   | "TABLE_SOURCE_TYPE_UNSPECIFIED"
@@ -394,16 +402,19 @@ export type GoogleCloudDatacatalogV1BigQueryTableSpecTableSourceTypeEnum =
 /** Normal BigQuery table specification. */
 export interface GoogleCloudDatacatalogV1TableSpec {
   /** Output only. If the table is date-sharded, that is, it matches the `[prefix]YYYYMMDD` name pattern, this field is the Data Catalog resource name of the date-sharded grouped entry. For example: `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`. Otherwise, `grouped_entry` is empty. */
-  groupedEntry?: string;
+  groupedEntry?: string | undefined;
 }
 /** Describes a BigQuery table. */
 export interface GoogleCloudDatacatalogV1BigQueryTableSpec {
   /** Table view specification. Populated only if the `table_source_type` is `BIGQUERY_VIEW`. */
-  viewSpec?: GoogleCloudDatacatalogV1ViewSpec;
+  viewSpec?: GoogleCloudDatacatalogV1ViewSpec | undefined;
   /** Output only. The table source type. */
-  tableSourceType?: GoogleCloudDatacatalogV1BigQueryTableSpecTableSourceTypeEnum | (string & {});
+  tableSourceType?:
+    | GoogleCloudDatacatalogV1BigQueryTableSpecTableSourceTypeEnum
+    | (string & {})
+    | undefined;
   /** Specification of a BigQuery table. Populated only if the `table_source_type` is `BIGQUERY_TABLE`. */
-  tableSpec?: GoogleCloudDatacatalogV1TableSpec;
+  tableSpec?: GoogleCloudDatacatalogV1TableSpec | undefined;
 }
 export type GoogleCloudDatacatalogV1ColumnSchemaHighestIndexingTypeEnum =
   | "INDEXING_TYPE_UNSPECIFIED"
@@ -421,43 +432,46 @@ export type GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpecTypeEnum =
 /** Column info specific to Looker System. */
 export interface GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec {
   /** Looker specific column type of this column. */
-  type?: GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpecTypeEnum | (string & {});
+  type?: GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpecTypeEnum | (string & {}) | undefined;
 }
 /** Represents the type of a field element. */
 export interface GoogleCloudDatacatalogV1ColumnSchemaFieldElementType {
   /** Required. The type of a field element. See ColumnSchema.type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A column within a schema. Columns can be nested inside other columns. */
 export interface GoogleCloudDatacatalogV1ColumnSchema {
   /** Optional. A column's mode indicates whether values in this column are required, nullable, or repeated. Only `NULLABLE`, `REQUIRED`, and `REPEATED` values are supported. Default mode is `NULLABLE`. */
-  mode?: string;
+  mode?: string | undefined;
   /** Optional. Description of the column. Default value is an empty string. The description must be a UTF-8 string with the maximum size of 2000 bytes. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Most important inclusion of this column. */
-  highestIndexingType?: GoogleCloudDatacatalogV1ColumnSchemaHighestIndexingTypeEnum | (string & {});
+  highestIndexingType?:
+    | GoogleCloudDatacatalogV1ColumnSchemaHighestIndexingTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Schema of sub-columns. A column can have zero or more sub-columns. */
-  subcolumns?: GoogleCloudDatacatalogV1ColumnSchemaList;
+  subcolumns?: GoogleCloudDatacatalogV1ColumnSchemaList | undefined;
   /** Required. Type of the column. Must be a UTF-8 string with the maximum size of 128 bytes. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Garbage collection policy for the column or column family. Applies to systems like Cloud Bigtable. */
-  gcRule?: string;
+  gcRule?: string | undefined;
   /** Looker specific column info of this column. */
-  lookerColumnSpec?: GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec;
+  lookerColumnSpec?: GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec | undefined;
   /** Optional. The subtype of the RANGE, if the type of this field is RANGE. If the type is RANGE, this field is required. Possible values for the field element type of a RANGE include: * DATE * DATETIME * TIMESTAMP */
-  rangeElementType?: GoogleCloudDatacatalogV1ColumnSchemaFieldElementType;
+  rangeElementType?: GoogleCloudDatacatalogV1ColumnSchemaFieldElementType | undefined;
   /** Required. Name of the column. Must be a UTF-8 string without dots (.). The maximum size is 64 bytes. */
-  column?: string;
+  column?: string | undefined;
   /** Optional. Ordinal position */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
   /** Optional. Default value for the column. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1ColumnSchemaList = Array<GoogleCloudDatacatalogV1ColumnSchema>;
 /** Represents a schema, for example, a BigQuery, GoogleSQL, or Avro schema. */
 export interface GoogleCloudDatacatalogV1Schema {
   /** The unified GoogleSQL-like schema of columns. The overall maximum number of columns and nested columns is 10,000. The maximum nested depth is 15 levels. */
-  columns?: GoogleCloudDatacatalogV1ColumnSchemaList;
+  columns?: GoogleCloudDatacatalogV1ColumnSchemaList | undefined;
 }
 export type GoogleCloudDatacatalogV1EntryIntegratedSystemEnum =
   | "INTEGRATED_SYSTEM_UNSPECIFIED"
@@ -473,7 +487,7 @@ export type GoogleCloudDatacatalogV1EntryIntegratedSystemEnum =
 /** Common statistics on the entry's usage. They can be set on any system. */
 export interface GoogleCloudDatacatalogV1CommonUsageStats {
   /** View count in source system. */
-  viewCount?: string;
+  viewCount?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1CommonUsageStatsMap = {
   [key: string]: GoogleCloudDatacatalogV1CommonUsageStats | undefined;
@@ -481,13 +495,13 @@ export type GoogleCloudDatacatalogV1CommonUsageStatsMap = {
 /** Detailed statistics on the entry's usage. Usage statistics have the following limitations: - Only BigQuery tables have them. - They only include BigQuery query jobs. - They might be underestimated because wildcard table references are not yet counted. For more information, see [Querying multiple tables using a wildcard table] (https://cloud.google.com/bigquery/docs/querying-wildcard-tables) */
 export interface GoogleCloudDatacatalogV1UsageStats {
   /** The number of successful uses of the underlying entry. */
-  totalCompletions?: number;
+  totalCompletions?: number | undefined;
   /** Total time spent only on successful uses, in milliseconds. */
-  totalExecutionTimeForCompletionsMillis?: number;
+  totalExecutionTimeForCompletionsMillis?: number | undefined;
   /** The number of cancelled attempts to use the underlying entry. */
-  totalCancellations?: number;
+  totalCancellations?: number | undefined;
   /** The number of failed attempts to use the underlying entry. */
-  totalFailures?: number;
+  totalFailures?: number | undefined;
 }
 export type GoogleCloudDatacatalogV1UsageStatsMap = {
   [key: string]: GoogleCloudDatacatalogV1UsageStats | undefined;
@@ -495,41 +509,41 @@ export type GoogleCloudDatacatalogV1UsageStatsMap = {
 /** The set of all usage signals that Data Catalog stores. Note: Usually, these signals are updated daily. In rare cases, an update may fail but will be performed again on the next day. */
 export interface GoogleCloudDatacatalogV1UsageSignal {
   /** Common usage statistics over each of the predefined time ranges. Supported time ranges are `{"24H", "7D", "30D", "Lifetime"}`. */
-  commonUsageWithinTimeRange?: GoogleCloudDatacatalogV1CommonUsageStatsMap;
+  commonUsageWithinTimeRange?: GoogleCloudDatacatalogV1CommonUsageStatsMap | undefined;
   /** Output only. BigQuery usage statistics over each of the predefined time ranges. Supported time ranges are `{"24H", "7D", "30D"}`. */
-  usageWithinTimeRange?: GoogleCloudDatacatalogV1UsageStatsMap;
+  usageWithinTimeRange?: GoogleCloudDatacatalogV1UsageStatsMap | undefined;
   /** The end timestamp of the duration of usage statistics. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Favorite count in the source system. */
-  favoriteCount?: string;
+  favoriteCount?: string | undefined;
 }
 /** Specification that applies to entries that are part `SQL_DATABASE` system (user_specified_type) */
 export interface GoogleCloudDatacatalogV1SqlDatabaseSystemSpec {
   /** Host of the SQL database enum InstanceHost { UNDEFINED = 0; SELF_HOSTED = 1; CLOUD_SQL = 2; AMAZON_RDS = 3; AZURE_SQL = 4; } Host of the enclousing database instance. */
-  instanceHost?: string;
+  instanceHost?: string | undefined;
   /** SQL Database Engine. enum SqlEngine { UNDEFINED = 0; MY_SQL = 1; POSTGRE_SQL = 2; SQL_SERVER = 3; } Engine of the enclosing database instance. */
-  sqlEngine?: string;
+  sqlEngine?: string | undefined;
   /** Version of the database engine. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
 }
 /** Entry metadata relevant only to the user and private to them. */
 export interface GoogleCloudDatacatalogV1PersonalDetails {
   /** True if the entry is starred by the user; false otherwise. */
-  starred?: boolean;
+  starred?: boolean | undefined;
   /** Set if the entry is starred; unset otherwise. */
-  starTime?: string;
+  starTime?: string | undefined;
 }
 /** Schema in Thrift format. */
 export interface GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema {
   /** Thrift IDL source of the schema. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Marks an ORC-encoded data source. */
 export interface GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema {}
 /** Schema in protocol buffer format. */
 export interface GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema {
   /** Protocol buffer source of the schema. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Marks a CSV-encoded data source. */
 export type GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema =
@@ -540,33 +554,33 @@ export type GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema =
 /** Schema in Avro JSON format. */
 export interface GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema {
   /** JSON source of the Avro schema. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Native schema used by a resource represented as an entry. Used by query engines for deserializing and parsing source data. */
 export interface GoogleCloudDatacatalogV1PhysicalSchema {
   /** Schema in Thrift format. */
-  thrift?: GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema;
+  thrift?: GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema | undefined;
   /** Marks an ORC-encoded data source. */
-  orc?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema;
+  orc?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema | undefined;
   /** Schema in protocol buffer format. */
-  protobuf?: GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema;
+  protobuf?: GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema | undefined;
   /** Marks a CSV-encoded data source. */
-  csv?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema;
+  csv?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema | undefined;
   /** Marks a Parquet-encoded data source. */
-  parquet?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema;
+  parquet?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema | undefined;
   /** Schema in Avro JSON format. */
-  avro?: GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema;
+  avro?: GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema | undefined;
 }
 /** Common Dataplex Universal Catalog fields. */
 export interface GoogleCloudDatacatalogV1DataplexSpec {
   /** Project ID of the underlying Cloud Storage or BigQuery data. Note that this may not be the same project as the corresponding Dataplex Universal Catalog lake / zone / asset. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Compression format of the data, e.g., zip, gzip etc. */
-  compressionFormat?: string;
+  compressionFormat?: string | undefined;
   /** Fully qualified resource name of an asset in Dataplex Universal Catalog, to which the underlying data source (Cloud Storage bucket or BigQuery dataset) of the entity is attached. */
-  asset?: string;
+  asset?: string | undefined;
   /** Format of the data. */
-  dataFormat?: GoogleCloudDatacatalogV1PhysicalSchema;
+  dataFormat?: GoogleCloudDatacatalogV1PhysicalSchema | undefined;
 }
 export type GoogleCloudDatacatalogV1DataplexExternalTableSystemEnum =
   | "INTEGRATED_SYSTEM_UNSPECIFIED"
@@ -582,24 +596,24 @@ export type GoogleCloudDatacatalogV1DataplexExternalTableSystemEnum =
 /** External table registered by Dataplex Universal Catalog. Dataplex Universal Catalog publishes data discovered from an asset into multiple other systems (BigQuery, DPMS) in form of tables. We call them "external tables". External tables are also synced into the Data Catalog. This message contains pointers to those external tables (fully qualified name, resource name et cetera) within the Data Catalog. */
 export interface GoogleCloudDatacatalogV1DataplexExternalTable {
   /** Name of the Data Catalog entry representing the external table. */
-  dataCatalogEntry?: string;
+  dataCatalogEntry?: string | undefined;
   /** Fully qualified name (FQN) of the external table. */
-  fullyQualifiedName?: string;
+  fullyQualifiedName?: string | undefined;
   /** Google Cloud resource name of the external table. */
-  googleCloudResource?: string;
+  googleCloudResource?: string | undefined;
   /** Service in which the external table is registered. */
-  system?: GoogleCloudDatacatalogV1DataplexExternalTableSystemEnum | (string & {});
+  system?: GoogleCloudDatacatalogV1DataplexExternalTableSystemEnum | (string & {}) | undefined;
 }
 export type GoogleCloudDatacatalogV1DataplexExternalTableList =
   Array<GoogleCloudDatacatalogV1DataplexExternalTable>;
 /** Entry specification for a Dataplex Universal Catalog table. */
 export interface GoogleCloudDatacatalogV1DataplexTableSpec {
   /** Common Dataplex Universal Catalog fields. */
-  dataplexSpec?: GoogleCloudDatacatalogV1DataplexSpec;
+  dataplexSpec?: GoogleCloudDatacatalogV1DataplexSpec | undefined;
   /** Indicates if the table schema is managed by the user or not. */
-  userManaged?: boolean;
+  userManaged?: boolean | undefined;
   /** List of external tables registered by Dataplex Universal Catalog in other systems based on the same underlying data. External tables allow to query this data in those systems. */
-  externalTables?: GoogleCloudDatacatalogV1DataplexExternalTableList;
+  externalTables?: GoogleCloudDatacatalogV1DataplexExternalTableList | undefined;
 }
 export type GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpecViewTypeEnum =
   | "VIEW_TYPE_UNSPECIFIED"
@@ -608,11 +622,14 @@ export type GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpecViewTypeEnu
 /** Specification that applies to database view. */
 export interface GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec {
   /** SQL query used to generate this view. */
-  sqlQuery?: string;
+  sqlQuery?: string | undefined;
   /** Type of this view. */
-  viewType?: GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpecViewTypeEnum | (string & {});
+  viewType?:
+    | GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpecViewTypeEnum
+    | (string & {})
+    | undefined;
   /** Name of a singular table this view reflects one to one. */
-  baseTable?: string;
+  baseTable?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1DatabaseTableSpecTypeEnum =
   | "TABLE_TYPE_UNSPECIFIED"
@@ -621,11 +638,11 @@ export type GoogleCloudDatacatalogV1DatabaseTableSpecTypeEnum =
 /** Specification that applies to a table resource. Valid only for entries with the `TABLE` type. */
 export interface GoogleCloudDatacatalogV1DatabaseTableSpec {
   /** Output only. Fields specific to a Dataplex Universal Catalog table and present only in the Dataplex Universal Catalog table entries. */
-  dataplexTable?: GoogleCloudDatacatalogV1DataplexTableSpec;
+  dataplexTable?: GoogleCloudDatacatalogV1DataplexTableSpec | undefined;
   /** Spec what applies to tables that are actually views. Not set for "real" tables. */
-  databaseViewSpec?: GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec;
+  databaseViewSpec?: GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec | undefined;
   /** Type of this table. */
-  type?: GoogleCloudDatacatalogV1DatabaseTableSpecTypeEnum | (string & {});
+  type?: GoogleCloudDatacatalogV1DatabaseTableSpecTypeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudDatacatalogV1VertexDatasetSpecDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -644,14 +661,14 @@ export type GoogleCloudDatacatalogV1VertexDatasetSpecDataTypeEnum =
 /** Specification for vertex dataset resources. */
 export interface GoogleCloudDatacatalogV1VertexDatasetSpec {
   /** The number of DataItems in this Dataset. Only apply for non-structured Dataset. */
-  dataItemCount?: string;
+  dataItemCount?: string | undefined;
   /** Type of the dataset. */
-  dataType?: GoogleCloudDatacatalogV1VertexDatasetSpecDataTypeEnum | (string & {});
+  dataType?: GoogleCloudDatacatalogV1VertexDatasetSpecDataTypeEnum | (string & {}) | undefined;
 }
 /** Specification that applies to a dataset. Valid only for entries with the `DATASET` type. */
 export interface GoogleCloudDatacatalogV1DatasetSpec {
   /** Vertex AI Dataset specific fields */
-  vertexDatasetSpec?: GoogleCloudDatacatalogV1VertexDatasetSpec;
+  vertexDatasetSpec?: GoogleCloudDatacatalogV1VertexDatasetSpec | undefined;
 }
 export type GoogleCloudDatacatalogV1FeatureOnlineStoreSpecStorageTypeEnum =
   | "STORAGE_TYPE_UNSPECIFIED"
@@ -660,34 +677,37 @@ export type GoogleCloudDatacatalogV1FeatureOnlineStoreSpecStorageTypeEnum =
 /** Detail description of the source information of a Vertex Feature Online Store. */
 export interface GoogleCloudDatacatalogV1FeatureOnlineStoreSpec {
   /** Output only. Type of underlying storage for the FeatureOnlineStore. */
-  storageType?: GoogleCloudDatacatalogV1FeatureOnlineStoreSpecStorageTypeEnum | (string & {});
+  storageType?:
+    | GoogleCloudDatacatalogV1FeatureOnlineStoreSpecStorageTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** Entry specification for a Dataplex Universal Catalog fileset. */
 export interface GoogleCloudDatacatalogV1DataplexFilesetSpec {
   /** Common Dataplex Universal Catalog fields. */
-  dataplexSpec?: GoogleCloudDatacatalogV1DataplexSpec;
+  dataplexSpec?: GoogleCloudDatacatalogV1DataplexSpec | undefined;
 }
 /** Specification that applies to a fileset. Valid only for entries with the 'FILESET' type. */
 export interface GoogleCloudDatacatalogV1FilesetSpec {
   /** Fields specific to a Dataplex Universal Catalog fileset and present only in the Dataplex Universal Catalog fileset entries. */
-  dataplexFileset?: GoogleCloudDatacatalogV1DataplexFilesetSpec;
+  dataplexFileset?: GoogleCloudDatacatalogV1DataplexFilesetSpec | undefined;
 }
 /** Specification of a single file in Cloud Storage. */
 export interface GoogleCloudDatacatalogV1GcsFileSpec {
   /** Output only. Creation, modification, and expiration timestamps of a Cloud Storage file. */
-  gcsTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps;
+  gcsTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
   /** Output only. File size in bytes. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** Required. Full file path. Example: `gs://bucket_name/a/b.txt`. */
-  filePath?: string;
+  filePath?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1GcsFileSpecList = Array<GoogleCloudDatacatalogV1GcsFileSpec>;
 /** Describes a Cloud Storage fileset entry. */
 export interface GoogleCloudDatacatalogV1GcsFilesetSpec {
   /** Required. Patterns to identify a set of files in Google Cloud Storage. For more information, see [Wildcard Names] (https://cloud.google.com/storage/docs/wildcards). Note: Currently, bucket wildcards are not supported. Examples of valid `file_patterns`: * `gs://bucket_name/dir/*`: matches all files in `bucket_name/dir` directory * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir` and all subdirectories * `gs://bucket_name/file*`: matches files prefixed by `file` in `bucket_name` * `gs://bucket_name/??.txt`: matches files with two characters followed by `.txt` in `bucket_name` * `gs://bucket_name/[aeiou].txt`: matches files that contain a single vowel character followed by `.txt` in `bucket_name` * `gs://bucket_name/[a-m].txt`: matches files that contain `a`, `b`, ... or `m` followed by `.txt` in `bucket_name` * `gs://bucket_name/a/*\/b`: matches all files in `bucket_name` that match the `a/*\/b` pattern, such as `a/c/b`, `a/d/b` * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt` You can combine wildcards to match complex sets of files, for example: `gs://bucket_name/[a-m]??.j*g` */
-  filePatterns?: StringList;
+  filePatterns?: StringList | undefined;
   /** Output only. Sample files contained in this fileset, not all files contained in this fileset are represented here. */
-  sampleGcsFileSpecs?: GoogleCloudDatacatalogV1GcsFileSpecList;
+  sampleGcsFileSpecs?: GoogleCloudDatacatalogV1GcsFileSpecList | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableKindEnum =
@@ -697,29 +717,29 @@ export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableKindEnum =
 /** A property declaration. */
 export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableProperty {
   /** Required. Property name. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Property data type. */
-  type?: string;
+  type?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1GraphSpecGraphElementTablePropertyList =
   Array<GoogleCloudDatacatalogV1GraphSpecGraphElementTableProperty>;
 /** The label and its properties. Each label is associated with a set of properties. */
 export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndProperties {
   /** Required. The name of the label. */
-  label?: string;
+  label?: string | undefined;
   /** Optional. The properties associated with the label. */
-  properties?: GoogleCloudDatacatalogV1GraphSpecGraphElementTablePropertyList;
+  properties?: GoogleCloudDatacatalogV1GraphSpecGraphElementTablePropertyList | undefined;
 }
 export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndPropertiesList =
   Array<GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndProperties>;
 /** A reference to a source or destination node in a graph edge. */
 export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference {
   /** Required. The referenced columns of the source node table. */
-  nodeTableColumns?: StringList;
+  nodeTableColumns?: StringList | undefined;
   /** Required. The reference to the source/destination node of the edge. This name must be a valid `alias` of a node element in the same graph. Example, `Person` node can be a source node name of an edge element `Person_to_Address`. */
-  nodeAlias?: string;
+  nodeAlias?: string | undefined;
   /** Required. The referencing columns in the edge table. The size of `edge_table_columns` must be equal to the size of `node_table_columns`. */
-  edgeTableColumns?: StringList;
+  edgeTableColumns?: StringList | undefined;
 }
 export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableInputSourceEnum =
   | "INPUT_SOURCE_UNSPECIFIED"
@@ -728,139 +748,150 @@ export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableInputSourceEnum =
 /** Element table definition. */
 export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTable {
   /** Required. The kind of the graph element. */
-  kind?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableKindEnum | (string & {});
+  kind?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableKindEnum | (string & {}) | undefined;
   /** Required. The labels and their properties for the graph element. */
-  labelAndProperties?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndPropertiesList;
+  labelAndProperties?:
+    | GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndPropertiesList
+    | undefined;
   /** Optional. If set, this is the input column for dynamic label in schemaless data model. */
-  dynamicLabelColumn?: string;
+  dynamicLabelColumn?: string | undefined;
   /** Optional. The destination node reference of the edge. */
-  destinationNodeReference?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference;
+  destinationNodeReference?:
+    | GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference
+    | undefined;
   /** Optional. The source node reference of the edge. */
-  sourceNodeReference?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference;
+  sourceNodeReference?:
+    | GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference
+    | undefined;
   /** Required. The input source of the graph element. */
-  inputSource?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableInputSourceEnum | (string & {});
+  inputSource?:
+    | GoogleCloudDatacatalogV1GraphSpecGraphElementTableInputSourceEnum
+    | (string & {})
+    | undefined;
   /** Required. The name of the keys of the elements in the table. */
-  elementKeys?: StringList;
+  elementKeys?: StringList | undefined;
   /** Required. The alias name of the graph element. */
-  alias?: string;
+  alias?: string | undefined;
   /** Required. The name of the data source. This is either a table name or a view name that is used for graph element input source. E.g. `Person` table or `PersonView` view. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Optional. If set, this is the input column for dynamic properties in schemaless data model. */
-  dynamicPropertiesColumn?: string;
+  dynamicPropertiesColumn?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1GraphSpecGraphElementTableList =
   Array<GoogleCloudDatacatalogV1GraphSpecGraphElementTable>;
 /** Specification that applies to a graph. */
 export interface GoogleCloudDatacatalogV1GraphSpec {
   /** Optional. Edge tables of the graph. */
-  edgeTables?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableList;
+  edgeTables?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableList | undefined;
   /** Required. Node tables of the graph. */
-  nodeTables?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableList;
+  nodeTables?: GoogleCloudDatacatalogV1GraphSpecGraphElementTableList | undefined;
   /** Output only. Fully qualified graph name. e.g. `named_catalog.MyGraph` */
-  name?: string;
+  name?: string | undefined;
 }
 /** Spec that applies to clusters of an Instance of Cloud Bigtable. */
 export interface GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpec {
   /** Type of the resource. For a cluster this would be "CLUSTER". */
-  type?: string;
+  type?: string | undefined;
   /** Name of the cluster. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Location of the cluster, typically a Cloud zone. */
-  location?: string;
+  location?: string | undefined;
   /** A link back to the parent resource, in this case Instance. */
-  linkedResource?: string;
+  linkedResource?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpecList =
   Array<GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpec>;
 /** Specification that applies to Instance entries that are part of `CLOUD_BIGTABLE` system. (user_specified_type) */
 export interface GoogleCloudDatacatalogV1CloudBigtableInstanceSpec {
   /** The list of clusters for the Instance. */
-  cloudBigtableClusterSpecs?: GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpecList;
+  cloudBigtableClusterSpecs?:
+    | GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpecList
+    | undefined;
 }
 /** Specification that applies to a Service resource. Valid only for entries with the `SERVICE` type. */
 export interface GoogleCloudDatacatalogV1ServiceSpec {
   /** Specification that applies to Instance entries of `CLOUD_BIGTABLE` system. */
-  cloudBigtableInstanceSpec?: GoogleCloudDatacatalogV1CloudBigtableInstanceSpec;
+  cloudBigtableInstanceSpec?: GoogleCloudDatacatalogV1CloudBigtableInstanceSpec | undefined;
 }
 /** Specification that applies to all entries that are part of `CLOUD_BIGTABLE` system (user_specified_type) */
 export interface GoogleCloudDatacatalogV1CloudBigtableSystemSpec {
   /** Display name of the Instance. This is user specified and different from the resource name. */
-  instanceDisplayName?: string;
+  instanceDisplayName?: string | undefined;
 }
 /** Entry metadata. A Data Catalog entry represents another resource in Google Cloud Platform (such as a BigQuery dataset or a Pub/Sub topic) or outside of it. You can use the `linked_resource` field in the entry resource to refer to the original resource ID of the source system. An entry resource contains resource details, for example, its schema. Additionally, you can attach flexible metadata to an entry in the form of a Tag. */
 export interface GoogleCloudDatacatalogV1Entry {
   /** Specification that applies to Looker sysstem. Only settable when `user_specified_system` is equal to `LOOKER` */
-  lookerSystemSpec?: GoogleCloudDatacatalogV1LookerSystemSpec;
+  lookerSystemSpec?: GoogleCloudDatacatalogV1LookerSystemSpec | undefined;
   /** Timestamps from the underlying resource, not from the Data Catalog entry. Output only when the entry has a system listed in the `IntegratedSystem` enum. For entries with `user_specified_system`, this field is optional and defaults to an empty timestamp. */
-  sourceSystemTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps;
+  sourceSystemTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
   /** Specification that applies to a data source connection. Valid only for entries with the `DATA_SOURCE_CONNECTION` type. */
-  dataSourceConnectionSpec?: GoogleCloudDatacatalogV1DataSourceConnectionSpec;
+  dataSourceConnectionSpec?: GoogleCloudDatacatalogV1DataSourceConnectionSpec | undefined;
   /** Entry description that can consist of several sentences or paragraphs that describe entry contents. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). The maximum size is 2000 bytes when encoded in UTF-8. Default value is an empty string. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Physical location of the entry. */
-  dataSource?: GoogleCloudDatacatalogV1DataSource;
+  dataSource?: GoogleCloudDatacatalogV1DataSource | undefined;
   /** Model specification. */
-  modelSpec?: GoogleCloudDatacatalogV1ModelSpec;
+  modelSpec?: GoogleCloudDatacatalogV1ModelSpec | undefined;
   /** Specification that applies to a user-defined function or procedure. Valid only for entries with the `ROUTINE` type. */
-  routineSpec?: GoogleCloudDatacatalogV1RoutineSpec;
+  routineSpec?: GoogleCloudDatacatalogV1RoutineSpec | undefined;
   /** The type of the entry. For details, see [`EntryType`](#entrytype). */
-  type?: GoogleCloudDatacatalogV1EntryTypeEnum | (string & {});
+  type?: GoogleCloudDatacatalogV1EntryTypeEnum | (string & {}) | undefined;
   /** Output only. Specification for a group of BigQuery tables with the `[prefix]YYYYMMDD` name pattern. For more information, see [Introduction to partitioned tables] (https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding). */
-  bigqueryDateShardedSpec?: GoogleCloudDatacatalogV1BigQueryDateShardedSpec;
+  bigqueryDateShardedSpec?: GoogleCloudDatacatalogV1BigQueryDateShardedSpec | undefined;
   /** Indicates the entry's source system that Data Catalog doesn't automatically integrate with. The `user_specified_system` string has the following limitations: * Is case insensitive. * Must begin with a letter or underscore. * Can only contain letters, numbers, and underscores. * Must be at least 1 character and at most 64 characters long. */
-  userSpecifiedSystem?: string;
+  userSpecifiedSystem?: string | undefined;
   /** Business Context of the entry. Not supported for BigQuery datasets */
-  businessContext?: GoogleCloudDatacatalogV1BusinessContext;
+  businessContext?: GoogleCloudDatacatalogV1BusinessContext | undefined;
   /** Specification of a Spanner table. */
-  spannerTableSpec?: GoogleCloudDatacatalogV1SpannerTableSpec;
+  spannerTableSpec?: GoogleCloudDatacatalogV1SpannerTableSpec | undefined;
   /** Output only. Specification that applies to a BigQuery table. Valid only for entries with the `TABLE` type. */
-  bigqueryTableSpec?: GoogleCloudDatacatalogV1BigQueryTableSpec;
+  bigqueryTableSpec?: GoogleCloudDatacatalogV1BigQueryTableSpec | undefined;
   /** Schema of the entry. An entry might not have any schema attached to it. */
-  schema?: GoogleCloudDatacatalogV1Schema;
+  schema?: GoogleCloudDatacatalogV1Schema | undefined;
   /** Output only. Indicates the entry's source system that Data Catalog integrates with, such as BigQuery, Pub/Sub, or Dataproc Metastore. */
-  integratedSystem?: GoogleCloudDatacatalogV1EntryIntegratedSystemEnum | (string & {});
+  integratedSystem?: GoogleCloudDatacatalogV1EntryIntegratedSystemEnum | (string & {}) | undefined;
   /** Resource usage statistics. */
-  usageSignal?: GoogleCloudDatacatalogV1UsageSignal;
+  usageSignal?: GoogleCloudDatacatalogV1UsageSignal | undefined;
   /** Specification that applies to a relational database system. Only settable when `user_specified_system` is equal to `SQL_DATABASE` */
-  sqlDatabaseSystemSpec?: GoogleCloudDatacatalogV1SqlDatabaseSystemSpec;
+  sqlDatabaseSystemSpec?: GoogleCloudDatacatalogV1SqlDatabaseSystemSpec | undefined;
   /** Output only. Additional information related to the entry. Private to the current user. */
-  personalDetails?: GoogleCloudDatacatalogV1PersonalDetails;
+  personalDetails?: GoogleCloudDatacatalogV1PersonalDetails | undefined;
   /** The resource this metadata entry refers to. For Google Cloud Platform resources, `linked_resource` is the [Full Resource Name] (https://cloud.google.com/apis/design/resource_names#full_resource_name). For example, the `linked_resource` for a table resource from BigQuery is: `//bigquery.googleapis.com/projects/{PROJECT_ID}/datasets/{DATASET_ID}/tables/{TABLE_ID}` Output only when the entry is one of the types in the `EntryType` enum. For entries with a `user_specified_type`, this field is optional and defaults to an empty string. The resource string must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), periods (.), colons (:), slashes (/), dashes (-), and hashes (#). The maximum size is 200 bytes when encoded in UTF-8. */
-  linkedResource?: string;
+  linkedResource?: string | undefined;
   /** Specification that applies to a table resource. Valid only for entries with the `TABLE` or `EXPLORE` type. */
-  databaseTableSpec?: GoogleCloudDatacatalogV1DatabaseTableSpec;
+  databaseTableSpec?: GoogleCloudDatacatalogV1DatabaseTableSpec | undefined;
   /** Specification that applies to a dataset. */
-  datasetSpec?: GoogleCloudDatacatalogV1DatasetSpec;
+  datasetSpec?: GoogleCloudDatacatalogV1DatasetSpec | undefined;
   /** FeatureonlineStore spec for Vertex AI Feature Store. */
-  featureOnlineStoreSpec?: GoogleCloudDatacatalogV1FeatureOnlineStoreSpec;
+  featureOnlineStoreSpec?: GoogleCloudDatacatalogV1FeatureOnlineStoreSpec | undefined;
   /** Specification that applies to a fileset resource. Valid only for entries with the `FILESET` type. */
-  filesetSpec?: GoogleCloudDatacatalogV1FilesetSpec;
+  filesetSpec?: GoogleCloudDatacatalogV1FilesetSpec | undefined;
   /** Custom entry type that doesn't match any of the values allowed for input and listed in the `EntryType` enum. When creating an entry, first check the type values in the enum. If there are no appropriate types for the new entry, provide a custom value, for example, `my_special_type`. The `user_specified_type` string has the following limitations: * Is case insensitive. * Must begin with a letter or underscore. * Can only contain letters, numbers, and underscores. * Must be at least 1 character and at most 64 characters long. */
-  userSpecifiedType?: string;
+  userSpecifiedType?: string | undefined;
   /** Specification that applies to a Cloud Storage fileset. Valid only for entries with the `FILESET` type. */
-  gcsFilesetSpec?: GoogleCloudDatacatalogV1GcsFilesetSpec;
+  gcsFilesetSpec?: GoogleCloudDatacatalogV1GcsFilesetSpec | undefined;
   /** Cloud labels attached to the entry. In Data Catalog, you can create and modify labels attached only to custom entries. Synced entries have unmodifiable labels that come from the source system. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Display name of an entry. The maximum size is 500 bytes when encoded in UTF-8. Default value is an empty string. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Identifier. The resource name of an entry in URL format. Note: The entry itself and its child resources might not be stored in the location specified in its name. */
-  name?: string;
+  name?: string | undefined;
   /** Spec for graph. */
-  graphSpec?: GoogleCloudDatacatalogV1GraphSpec;
+  graphSpec?: GoogleCloudDatacatalogV1GraphSpec | undefined;
   /** Specification that applies to a Service resource. */
-  serviceSpec?: GoogleCloudDatacatalogV1ServiceSpec;
+  serviceSpec?: GoogleCloudDatacatalogV1ServiceSpec | undefined;
   /** [Fully Qualified Name (FQN)](https://cloud.google.com//data-catalog/docs/fully-qualified-names) of the resource. Set automatically for entries representing resources from synced systems. Settable only during creation, and read-only later. Can be used for search and lookup of the entries. */
-  fullyQualifiedName?: string;
+  fullyQualifiedName?: string | undefined;
   /** Specification that applies to Cloud Bigtable system. Only settable when `integrated_system` is equal to `CLOUD_BIGTABLE` */
-  cloudBigtableSystemSpec?: GoogleCloudDatacatalogV1CloudBigtableSystemSpec;
+  cloudBigtableSystemSpec?: GoogleCloudDatacatalogV1CloudBigtableSystemSpec | undefined;
 }
 export interface CreateProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry group this entry belongs to. Note: The entry itself and its child resources might not be stored in the location specified in its name. */
   parent: string;
   /** Required. The ID of the entry to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), and underscores (_). The maximum size is 64 bytes when encoded in UTF-8. */
-  entryId?: string;
+  entryId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Entry;
+  body?: GoogleCloudDatacatalogV1Entry | undefined;
 }
 export type GoogleCloudDatacatalogV1TagDataplexTransferStatusEnum =
   | "DATAPLEX_TRANSFER_STATUS_UNSPECIFIED"
@@ -869,26 +900,26 @@ export type GoogleCloudDatacatalogV1TagDataplexTransferStatusEnum =
 /** An enum value. */
 export interface GoogleCloudDatacatalogV1TagFieldEnumValue {
   /** The display name of the enum value. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Contains the value and additional information on a field within a Tag. */
 export interface GoogleCloudDatacatalogV1TagField {
   /** The value of a tag field with a double type. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** Output only. The order of this field with respect to other fields in this tag. Can be set by Tag. For example, a higher value can indicate a more important field. The value can be negative. Multiple fields can have the same order, and field orders within a tag don't have to be sequential. */
-  order?: number;
+  order?: number | undefined;
   /** The value of a tag field with an enum type. This value must be one of the allowed values listed in this enum. */
-  enumValue?: GoogleCloudDatacatalogV1TagFieldEnumValue;
+  enumValue?: GoogleCloudDatacatalogV1TagFieldEnumValue | undefined;
   /** Output only. The display name of this field. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The value of a tag field with a timestamp type. */
-  timestampValue?: string;
+  timestampValue?: string | undefined;
   /** The value of a tag field with a rich text type. The maximum length is 10 MiB as this value holds HTML descriptions including encoded images. The maximum length of the text without images is 100 KiB. */
-  richtextValue?: string;
+  richtextValue?: string | undefined;
   /** The value of a tag field with a boolean type. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** The value of a tag field with a string type. The maximum length is 2000 UTF-8 characters. */
-  stringValue?: string;
+  stringValue?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1TagFieldMap = {
   [key: string]: GoogleCloudDatacatalogV1TagField | undefined;
@@ -896,29 +927,32 @@ export type GoogleCloudDatacatalogV1TagFieldMap = {
 /** Tags contain custom metadata and are attached to Data Catalog resources. Tags conform with the specification of their tag template. See [Data Catalog IAM](https://cloud.google.com/data-catalog/docs/concepts/iam) for information on the permissions needed to create or view tags. */
 export interface GoogleCloudDatacatalogV1Tag {
   /** Output only. The display name of the tag template. */
-  templateDisplayName?: string;
+  templateDisplayName?: string | undefined;
   /** Required. The resource name of the tag template this tag uses. Example: `projects/{PROJECT_ID}/locations/{LOCATION}/tagTemplates/{TAG_TEMPLATE_ID}` This field cannot be modified after creation. */
-  template?: string;
+  template?: string | undefined;
   /** Identifier. The resource name of the tag in URL format where tag ID is a system-generated identifier. Note: The tag itself might not be stored in the location specified in its name. */
-  name?: string;
+  name?: string | undefined;
   /** Resources like entry can have schemas associated with them. This scope allows you to attach tags to an individual column based on that schema. To attach a tag to a nested column, separate column names with a dot (`.`). Example: `column.nested_column`. */
-  column?: string;
+  column?: string | undefined;
   /** Output only. Denotes the transfer status of the Tag Template. */
-  dataplexTransferStatus?: GoogleCloudDatacatalogV1TagDataplexTransferStatusEnum | (string & {});
+  dataplexTransferStatus?:
+    | GoogleCloudDatacatalogV1TagDataplexTransferStatusEnum
+    | (string & {})
+    | undefined;
   /** Required. Maps the ID of a tag field to its value and additional information about that field. Tag template defines valid field IDs. A tag must have at least 1 field and at most 500 fields. */
-  fields?: GoogleCloudDatacatalogV1TagFieldMap;
+  fields?: GoogleCloudDatacatalogV1TagFieldMap | undefined;
 }
 export interface CreateProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. The name of the resource to attach this tag to. Tags can be attached to entries or entry groups. An entry can have up to 1000 attached tags. Note: The tag and its child resources might not be stored in the location specified in its name. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Tag;
+  body?: GoogleCloudDatacatalogV1Tag | undefined;
 }
 export interface CreateProjectsLocationsEntryGroupsTagsRequest {
   /** Required. The name of the resource to attach this tag to. Tags can be attached to entries or entry groups. An entry can have up to 1000 attached tags. Note: The tag and its child resources might not be stored in the location specified in its name. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Tag;
+  body?: GoogleCloudDatacatalogV1Tag | undefined;
 }
 export type GoogleCloudDatacatalogV1FieldTypePrimitiveTypeEnum =
   | "PRIMITIVE_TYPE_UNSPECIFIED"
@@ -929,34 +963,34 @@ export type GoogleCloudDatacatalogV1FieldTypePrimitiveTypeEnum =
   | "RICHTEXT";
 export interface GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValue {
   /** Required. The display name of the enum value. Must not be an empty string. The name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and can't start or end with spaces. The maximum length is 200 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValueList =
   Array<GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValue>;
 export interface GoogleCloudDatacatalogV1FieldTypeEnumType {
   /** The set of allowed values for this enum. This set must not be empty and can include up to 100 allowed values. The display names of the values in this set must not be empty and must be case-insensitively unique within this set. The order of items in this set is preserved. This field can be used to create, remove, and reorder enum values. To rename enum values, use the `RenameTagTemplateFieldEnumValue` method. */
-  allowedValues?: GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValueList;
+  allowedValues?: GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValueList | undefined;
 }
 export interface GoogleCloudDatacatalogV1FieldType {
   /** Primitive types, such as string, boolean, etc. */
-  primitiveType?: GoogleCloudDatacatalogV1FieldTypePrimitiveTypeEnum | (string & {});
+  primitiveType?: GoogleCloudDatacatalogV1FieldTypePrimitiveTypeEnum | (string & {}) | undefined;
   /** An enum type. */
-  enumType?: GoogleCloudDatacatalogV1FieldTypeEnumType;
+  enumType?: GoogleCloudDatacatalogV1FieldTypeEnumType | undefined;
 }
 /** The template for an individual field within a tag template. */
 export interface GoogleCloudDatacatalogV1TagTemplateField {
   /** Required. The type of value this tag field can contain. */
-  type?: GoogleCloudDatacatalogV1FieldType;
+  type?: GoogleCloudDatacatalogV1FieldType | undefined;
   /** The order of this field with respect to other fields in this tag template. For example, a higher value can indicate a more important field. The value can be negative. Multiple fields can have the same order and field orders within a tag don't have to be sequential. */
-  order?: number;
+  order?: number | undefined;
   /** Identifier. The resource name of the tag template field in URL format. Example: `projects/{PROJECT_ID}/locations/{LOCATION}/tagTemplates/{TAG_TEMPLATE}/fields/{FIELD}` Note: The tag template field itself might not be stored in the location specified in its name. The name must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_), and must start with a letter or underscore. The maximum length is 64 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The display name for this field. Defaults to an empty string. The name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and can't start or end with spaces. The maximum length is 200 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** If true, this field is required. Defaults to false. */
-  isRequired?: boolean;
+  isRequired?: boolean | undefined;
   /** The description for this field. Defaults to an empty string. */
-  description?: string;
+  description?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1TagTemplateFieldMap = {
   [key: string]: GoogleCloudDatacatalogV1TagTemplateField | undefined;
@@ -968,33 +1002,34 @@ export type GoogleCloudDatacatalogV1TagTemplateDataplexTransferStatusEnum =
 /** A tag template defines a tag that can have one or more typed fields. The template is used to create tags that are attached to Google Cloud resources. [Tag template roles] (https://cloud.google.com/iam/docs/roles-permissions/datacatalog) provide permissions to create, edit, and use the template. For example, see the [TagTemplate User] (https://cloud.google.com/data-catalog/docs/how-to/template-user) role that includes a permission to use the tag template to tag resources. */
 export interface GoogleCloudDatacatalogV1TagTemplate {
   /** Identifier. The resource name of the tag template in URL format. Note: The tag template itself and its child resources might not be stored in the location specified in its name. */
-  name?: string;
+  name?: string | undefined;
   /** Display name for this template. Defaults to an empty string. The name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and can't start or end with spaces. The maximum length is 200 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Map of tag template field IDs to the settings for the field. This map is an exhaustive list of the allowed fields. The map must contain at least one field and at most 500 fields. The keys to this map are tag template field IDs. The IDs have the following limitations: * Can contain uppercase and lowercase letters, numbers (0-9) and underscores (_). * Must be at least 1 character and at most 64 characters long. * Must start with a letter or underscore. */
-  fields?: GoogleCloudDatacatalogV1TagTemplateFieldMap;
+  fields?: GoogleCloudDatacatalogV1TagTemplateFieldMap | undefined;
   /** Indicates whether tags created with this template are public. Public tags do not require tag template access to appear in ListTags API response. Additionally, you can search for a public tag by value with a simple search query in addition to using a ``tag:`` predicate. */
-  isPubliclyReadable?: boolean;
+  isPubliclyReadable?: boolean | undefined;
   /** Optional. Transfer status of the TagTemplate */
   dataplexTransferStatus?:
     | GoogleCloudDatacatalogV1TagTemplateDataplexTransferStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface CreateProjectsLocationsTagTemplatesRequest {
   /** Required. The ID of the tag template to create. The ID must contain only lowercase letters (a-z), numbers (0-9), or underscores (_), and must start with a letter or underscore. The maximum size is 64 bytes when encoded in UTF-8. */
-  tagTemplateId?: string;
+  tagTemplateId?: string | undefined;
   /** Required. The name of the project and the template location [region](https://cloud.google.com/data-catalog/docs/concepts/regions). */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1TagTemplate;
+  body?: GoogleCloudDatacatalogV1TagTemplate | undefined;
 }
 export interface CreateProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The ID of the tag template field to create. Note: Adding a required field to an existing template is *not* allowed. Field IDs can contain letters (both uppercase and lowercase), numbers (0-9), underscores (_) and dashes (-). Field IDs must be at least 1 character long and at most 128 characters long. Field IDs must also be unique within their template. */
-  tagTemplateFieldId?: string;
+  tagTemplateFieldId?: string | undefined;
   /** Required. The name of the project and the template location [region](https://cloud.google.com/data-catalog/docs/concepts/regions). */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1TagTemplateField;
+  body?: GoogleCloudDatacatalogV1TagTemplateField | undefined;
 }
 export type GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnum =
   | "POLICY_TYPE_UNSPECIFIED"
@@ -1009,57 +1044,59 @@ export type GoogleCloudDatacatalogV1TaxonomyServiceNameEnum =
 /** The source system of the Taxonomy. */
 export interface GoogleCloudDatacatalogV1TaxonomyService {
   /** The Google Cloud service name. */
-  name?: GoogleCloudDatacatalogV1TaxonomyServiceNameEnum | (string & {});
+  name?: GoogleCloudDatacatalogV1TaxonomyServiceNameEnum | (string & {}) | undefined;
   /** The service agent for the service. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** A taxonomy is a collection of hierarchical policy tags that classify data along a common axis. For example, a "data sensitivity" taxonomy might contain the following policy tags: ``` + PII + Account number + Age + SSN + Zipcode + Financials + Revenue ``` A "data origin" taxonomy might contain the following policy tags: ``` + User data + Employee data + Partner data + Public data ``` */
 export interface GoogleCloudDatacatalogV1Taxonomy {
   /** Output only. Number of policy tags in this taxonomy. */
-  policyTagCount?: number;
+  policyTagCount?: number | undefined;
   /** Optional. A list of policy types that are activated for this taxonomy. If not set, defaults to an empty list. */
-  activatedPolicyTypes?: GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnumList;
+  activatedPolicyTypes?:
+    | GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnumList
+    | undefined;
   /** Required. User-defined name of this taxonomy. The name can't start or end with spaces, must contain only Unicode letters, numbers, underscores, dashes, and spaces, and be at most 200 bytes long when encoded in UTF-8. The taxonomy display name must be unique within an organization. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Creation and modification timestamps of this taxonomy. */
-  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps;
+  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Identity of the service which owns the Taxonomy. This field is only populated when the taxonomy is created by a Google Cloud service. Currently only 'DATAPLEX' is supported. */
-  service?: GoogleCloudDatacatalogV1TaxonomyService;
+  service?: GoogleCloudDatacatalogV1TaxonomyService | undefined;
   /** Optional. Description of this taxonomy. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns, and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the project that the taxonomy will belong to. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy;
+  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
 }
 /** Denotes one policy tag in a taxonomy, for example, SSN. Policy tags can be defined in a hierarchy. For example: ``` + Geolocation + LatLong + City + ZipCode ``` Where the "Geolocation" policy tag contains three children. */
 export interface GoogleCloudDatacatalogV1PolicyTag {
   /** Description of this policy tag. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
-  description?: string;
+  description?: string | undefined;
   /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
-  parentPolicyTag?: string;
+  parentPolicyTag?: string | undefined;
   /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Resource names of child policy tags of this policy tag. */
-  childPolicyTags?: StringList;
+  childPolicyTags?: StringList | undefined;
   /** Required. User-defined name of this policy tag. The name can't start or end with spaces and must be unique within the parent taxonomy, contain only Unicode letters, numbers, underscores, dashes and spaces, and be at most 200 bytes long when encoded in UTF-8. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the taxonomy that the policy tag will belong to. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag;
+  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
 }
 export interface DeleteProjectsLocationsEntryGroupsRequest {
   /** Required. The name of the entry group to delete. */
   name: string;
   /** Optional. If true, deletes all entries in the entry group. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to delete. */
@@ -1079,7 +1116,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsTagTemplatesRequest {
   /** Required. If true, deletes all tags that use this template. Currently, `true` is the only supported value. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. The name of the tag template to delete. */
   name: string;
 }
@@ -1087,7 +1124,7 @@ export interface DeleteProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field to delete. */
   name: string;
   /** Required. If true, deletes this field from any tags that use it. Currently, `true` is the only supported value. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to delete. Note: All policy tags in this taxonomy are also deleted. */
@@ -1099,11 +1136,11 @@ export interface DeleteProjectsLocationsTaxonomiesPolicyTagsRequest {
 }
 export interface ExportProjectsLocationsTaxonomiesRequest {
   /** Serialized export taxonomies that contain all the policy tags as nested protocol buffers. */
-  serializedTaxonomies?: boolean;
+  serializedTaxonomies?: boolean | undefined;
   /** Required. Resource name of the project that the exported taxonomies belong to. */
   parent: string;
   /** Required. Resource names of the taxonomies to export. */
-  taxonomies?: StringList;
+  taxonomies?: StringList | undefined;
 }
 export type GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEnum =
   | "POLICY_TYPE_UNSPECIFIED"
@@ -1114,33 +1151,35 @@ export type GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEn
 /** A nested protocol buffer that represents a policy tag and all its descendants. */
 export interface GoogleCloudDatacatalogV1SerializedPolicyTag {
   /** Required. Display name of the policy tag. At most 200 bytes when encoded in UTF-8. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Children of the policy tag, if any. */
-  childPolicyTags?: GoogleCloudDatacatalogV1SerializedPolicyTagList;
+  childPolicyTags?: GoogleCloudDatacatalogV1SerializedPolicyTagList | undefined;
   /** Description of the serialized policy tag. At most 2000 bytes when encoded in UTF-8. If not set, defaults to an empty description. */
-  description?: string;
+  description?: string | undefined;
   /** Resource name of the policy tag. This field is ignored when calling `ImportTaxonomies`. */
-  policyTag?: string;
+  policyTag?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1SerializedPolicyTagList =
   Array<GoogleCloudDatacatalogV1SerializedPolicyTag>;
 /** A nested protocol buffer that represents a taxonomy and the hierarchy of its policy tags. Used for taxonomy replacement, import, and export. */
 export interface GoogleCloudDatacatalogV1SerializedTaxonomy {
   /** Required. Display name of the taxonomy. At most 200 bytes when encoded in UTF-8. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A list of policy types that are activated per taxonomy. */
-  activatedPolicyTypes?: GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEnumList;
+  activatedPolicyTypes?:
+    | GoogleCloudDatacatalogV1SerializedTaxonomyActivatedPolicyTypesItemEnumList
+    | undefined;
   /** Description of the serialized taxonomy. At most 2000 bytes when encoded in UTF-8. If not set, defaults to an empty description. */
-  description?: string;
+  description?: string | undefined;
   /** Top level policy tags associated with the taxonomy, if any. */
-  policyTags?: GoogleCloudDatacatalogV1SerializedPolicyTagList;
+  policyTags?: GoogleCloudDatacatalogV1SerializedPolicyTagList | undefined;
 }
 export type GoogleCloudDatacatalogV1SerializedTaxonomyList =
   Array<GoogleCloudDatacatalogV1SerializedTaxonomy>;
 /** Response message for ExportTaxonomies. */
 export interface GoogleCloudDatacatalogV1ExportTaxonomiesResponse {
   /** List of taxonomies and policy tags as nested protocol buffers. */
-  taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList;
+  taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList | undefined;
 }
 export interface GetConfigOrganizationsLocationsRequest {
   /** Required. The organization whose config is being retrieved. */
@@ -1157,11 +1196,13 @@ export type GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum =
 /** The configuration related to the migration to Dataplex Universal Catalog applied to an organization or project. It is the response message for SetConfig and RetrieveEffectiveConfig. */
 export interface GoogleCloudDatacatalogV1MigrationConfig {
   /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
-  catalogUiExperience?: GoogleCloudDatacatalogV1MigrationConfigCatalogUiExperienceEnum;
+  catalogUiExperience?: GoogleCloudDatacatalogV1MigrationConfigCatalogUiExperienceEnum | undefined;
   /** Opt-in status for the migration of Tag Templates to Dataplex Universal Catalog. */
-  tagTemplateMigration?: GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum;
+  tagTemplateMigration?:
+    | GoogleCloudDatacatalogV1MigrationConfigTagTemplateMigrationEnum
+    | undefined;
   /** The time when the Tag Template migration was enabled. If the Tag Template migration is not enabled, this field is not set. */
-  templateMigrationEnabledTime?: string;
+  templateMigrationEnabledTime?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1MigrationConfigMap = {
   [key: string]: GoogleCloudDatacatalogV1MigrationConfig | undefined;
@@ -1169,7 +1210,7 @@ export type GoogleCloudDatacatalogV1MigrationConfigMap = {
 /** The configuration related to the migration from Data Catalog to Dataplex Universal Catalog that has been applied to an organization and any projects under it. It is the response message for RetrieveConfig. */
 export interface GoogleCloudDatacatalogV1OrganizationConfig {
   /** Map of organizations and project resource names and their configuration. The format for the map keys is `organizations/{organizationId}` or `projects/{projectId}`. */
-  config?: GoogleCloudDatacatalogV1MigrationConfigMap;
+  config?: GoogleCloudDatacatalogV1MigrationConfigMap | undefined;
 }
 export interface GetEffectiveConfigOrganizationsLocationsRequest {
   /** Required. The resource whose effective config is being retrieved. */
@@ -1182,76 +1223,76 @@ export interface GetEffectiveConfigProjectsLocationsRequest {
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 /** Request message for `GetIamPolicy` method. */
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetProjectsLocationsEntryGroupsRequest {
   /** The fields to return. If empty or omitted, all fields are returned. */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Required. The name of the entry group to get. */
   name: string;
 }
@@ -1268,24 +1309,24 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsTagTemplatesRequest {
   /** Required. The name of the tag template to get. */
@@ -1302,50 +1343,50 @@ export interface GetProjectsLocationsTaxonomiesPolicyTagsRequest {
 /** Request message for ImportEntries method. */
 export interface GoogleCloudDatacatalogV1ImportEntriesRequest {
   /** Optional. (Optional) Dataplex Universal Catalog task job id, if specified will be used as part of ImportEntries LRO ID */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Path to a Cloud Storage bucket that contains a dump ready for ingestion. */
-  gcsBucketPath?: string;
+  gcsBucketPath?: string | undefined;
 }
 export interface ImportProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. Target entry group for ingested entries. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ImportEntriesRequest;
+  body?: GoogleCloudDatacatalogV1ImportEntriesRequest | undefined;
 }
 /** Inline source containing taxonomies to import. */
 export interface GoogleCloudDatacatalogV1InlineSource {
   /** Required. Taxonomies to import. */
-  taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList;
+  taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList | undefined;
 }
 /** Cross-regional source used to import an existing taxonomy into a different region. */
 export interface GoogleCloudDatacatalogV1CrossRegionalSource {
   /** Required. The resource name of the source taxonomy to import. */
-  taxonomy?: string;
+  taxonomy?: string | undefined;
 }
 /** Request message for ImportTaxonomies. */
 export interface GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
   /** Inline source taxonomy to import. */
-  inlineSource?: GoogleCloudDatacatalogV1InlineSource;
+  inlineSource?: GoogleCloudDatacatalogV1InlineSource | undefined;
   /** Cross-regional source taxonomy to import. */
-  crossRegionalSource?: GoogleCloudDatacatalogV1CrossRegionalSource;
+  crossRegionalSource?: GoogleCloudDatacatalogV1CrossRegionalSource | undefined;
 }
 export interface ImportProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of project that the imported taxonomies will belong to. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ImportTaxonomiesRequest;
+  body?: GoogleCloudDatacatalogV1ImportTaxonomiesRequest | undefined;
 }
 export type GoogleCloudDatacatalogV1TaxonomyList = Array<GoogleCloudDatacatalogV1Taxonomy>;
 /** Response message for ImportTaxonomies. */
 export interface GoogleCloudDatacatalogV1ImportTaxonomiesResponse {
   /** Imported taxonomies. */
-  taxonomies?: GoogleCloudDatacatalogV1TaxonomyList;
+  taxonomies?: GoogleCloudDatacatalogV1TaxonomyList | undefined;
 }
 export interface ListProjectsLocationsEntryGroupsRequest {
   /** Optional. Pagination token that specifies the next page to return. If empty, returns the first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of items to return. Default is 10. Maximum limit is 1000. Throws an invalid argument if `page_size` is greater than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the location that contains the entry groups to list. Can be provided as a URL. */
   parent: string;
 }
@@ -1353,33 +1394,33 @@ export type GoogleCloudDatacatalogV1EntryGroupList = Array<GoogleCloudDatacatalo
 /** Response message for ListEntryGroups. */
 export interface GoogleCloudDatacatalogV1ListEntryGroupsResponse {
   /** Entry group details. */
-  entryGroups?: GoogleCloudDatacatalogV1EntryGroupList;
+  entryGroups?: GoogleCloudDatacatalogV1EntryGroupList | undefined;
   /** Pagination token to specify in the next call to retrieve the next page of results. Empty if there are no more items. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsEntryGroupsEntriesRequest {
   /** Pagination token that specifies the next page to return. If empty, the first page is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the entry group that contains the entries to list. Can be provided in URL format. */
   parent: string;
   /** The maximum number of items to return. Default is 10. Maximum limit is 1000. Throws an invalid argument if `page_size` is more than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The fields to return for each entry. If empty or omitted, all fields are returned. For example, to return a list of entries with only the `name` field, set `read_mask` to only one path with the `name` value. */
-  readMask?: string;
+  readMask?: string | undefined;
 }
 export type GoogleCloudDatacatalogV1EntryList = Array<GoogleCloudDatacatalogV1Entry>;
 /** Response message for ListEntries. */
 export interface GoogleCloudDatacatalogV1ListEntriesResponse {
   /** Pagination token of the next results page. Empty if there are no more items in results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Entry details. */
-  entries?: GoogleCloudDatacatalogV1EntryList;
+  entries?: GoogleCloudDatacatalogV1EntryList | undefined;
 }
 export interface ListProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Pagination token that specifies the next page to return. If empty, the first page is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of tags to return. Default is 10. Maximum limit is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the Data Catalog resource to list the tags of. The resource can be an Entry or an EntryGroup (without `/entries/{entries}` at the end). */
   parent: string;
 }
@@ -1387,251 +1428,251 @@ export type GoogleCloudDatacatalogV1TagList = Array<GoogleCloudDatacatalogV1Tag>
 /** Response message for ListTags. */
 export interface GoogleCloudDatacatalogV1ListTagsResponse {
   /** Tag details. */
-  tags?: GoogleCloudDatacatalogV1TagList;
+  tags?: GoogleCloudDatacatalogV1TagList | undefined;
   /** Pagination token of the next results page. Empty if there are no more items in results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsEntryGroupsTagsRequest {
   /** Pagination token that specifies the next page to return. If empty, the first page is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the Data Catalog resource to list the tags of. The resource can be an Entry or an EntryGroup (without `/entries/{entries}` at the end). */
   parent: string;
   /** The maximum number of tags to return. Default is 10. Maximum limit is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTaxonomiesRequest {
   /** The pagination token of the next results page. If not set, the first page is returned. The token is returned in the response to a previous list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Supported field for filter is 'service' and value is 'dataplex'. Eg: service=dataplex. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of items to return. Must be a value between 1 and 1000 inclusively. If not set, defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Resource name of the project to list the taxonomies of. */
   parent: string;
 }
 /** Response message for ListTaxonomies. */
 export interface GoogleCloudDatacatalogV1ListTaxonomiesResponse {
   /** Pagination token of the next results page. Empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Taxonomies that the project contains. */
-  taxonomies?: GoogleCloudDatacatalogV1TaxonomyList;
+  taxonomies?: GoogleCloudDatacatalogV1TaxonomyList | undefined;
 }
 export interface ListProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** The pagination token of the next results page. If not set, returns the first page. The token is returned in the response to a previous list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Resource name of the taxonomy to list the policy tags of. */
   parent: string;
   /** The maximum number of items to return. Must be a value between 1 and 1000 inclusively. If not set, defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDatacatalogV1PolicyTagList = Array<GoogleCloudDatacatalogV1PolicyTag>;
 /** Response message for ListPolicyTags. */
 export interface GoogleCloudDatacatalogV1ListPolicyTagsResponse {
   /** The policy tags that belong to the taxonomy. */
-  policyTags?: GoogleCloudDatacatalogV1PolicyTagList;
+  policyTags?: GoogleCloudDatacatalogV1PolicyTagList | undefined;
   /** Pagination token of the next results page. Empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface LookupEntriesRequest {
   /** Project where the lookup should be performed. Required to lookup entry that is not a part of `DPMS` or `DATAPLEX` `integrated_system` using its `fully_qualified_name`. Ignored in other cases. */
-  project?: string;
+  project?: string | undefined;
   /** [Fully Qualified Name (FQN)](https://cloud.google.com//data-catalog/docs/fully-qualified-names) of the resource. FQNs take two forms: * For non-regionalized resources: `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` * For regionalized resources: `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` Example for a DPMS table: `dataproc_metastore:{PROJECT_ID}.{LOCATION_ID}.{INSTANCE_ID}.{DATABASE_ID}.{TABLE_ID}` */
-  fullyQualifiedName?: string;
+  fullyQualifiedName?: string | undefined;
   /** Location where the lookup should be performed. Required to lookup entry that is not a part of `DPMS` or `DATAPLEX` `integrated_system` using its `fully_qualified_name`. Ignored in other cases. */
-  location?: string;
+  location?: string | undefined;
   /** The full name of the Google Cloud Platform resource the Data Catalog entry represents. For more information, see [Full Resource Name] (https://cloud.google.com/apis/design/resource_names#full_resource_name). Full names are case-sensitive. For example: * `//bigquery.googleapis.com/projects/{PROJECT_ID}/datasets/{DATASET_ID}/tables/{TABLE_ID}` * `//pubsub.googleapis.com/projects/{PROJECT_ID}/topics/{TOPIC_ID}` */
-  linkedResource?: string;
+  linkedResource?: string | undefined;
   /** The SQL name of the entry. SQL names are case-sensitive. Examples: * `pubsub.topic.{PROJECT_ID}.{TOPIC_ID}` * `pubsub.topic.{PROJECT_ID}.`\``{TOPIC.ID.SEPARATED.WITH.DOTS}`\` * `bigquery.table.{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}` * `bigquery.dataset.{PROJECT_ID}.{DATASET_ID}` * `datacatalog.entry.{PROJECT_ID}.{LOCATION_ID}.{ENTRY_GROUP_ID}.{ENTRY_ID}` Identifiers (`*_ID`) should comply with the [Lexical structure in GoogleSQL] (https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical). */
-  sqlResource?: string;
+  sqlResource?: string | undefined;
 }
 /** Request message for ModifyEntryContacts. */
 export interface GoogleCloudDatacatalogV1ModifyEntryContactsRequest {
   /** Required. The new value for the Contacts. */
-  contacts?: GoogleCloudDatacatalogV1Contacts;
+  contacts?: GoogleCloudDatacatalogV1Contacts | undefined;
 }
 export interface ModifyEntryContactsProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The full resource name of the entry. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ModifyEntryContactsRequest;
+  body?: GoogleCloudDatacatalogV1ModifyEntryContactsRequest | undefined;
 }
 /** Request message for ModifyEntryOverview. */
 export interface GoogleCloudDatacatalogV1ModifyEntryOverviewRequest {
   /** Required. The new value for the Entry Overview. */
-  entryOverview?: GoogleCloudDatacatalogV1EntryOverview;
+  entryOverview?: GoogleCloudDatacatalogV1EntryOverview | undefined;
 }
 export interface ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The full resource name of the entry. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ModifyEntryOverviewRequest;
+  body?: GoogleCloudDatacatalogV1ModifyEntryOverviewRequest | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsRequest {
   /** Identifier. The resource name of the entry group in URL format. Note: The entry group itself and its child resources might not be stored in the location specified in its name. */
   name: string;
   /** Names of fields whose values to overwrite on an entry group. If this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1EntryGroup;
+  body?: GoogleCloudDatacatalogV1EntryGroup | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
   /** Output only. Identifier. The resource name of an entry in URL format. Note: The entry itself and its child resources might not be stored in the location specified in its name. */
   name: string;
   /** Names of fields whose values to overwrite on an entry. If this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied. You can modify only the fields listed below. For entries with type `DATA_STREAM`: * `schema` For entries with type `FILESET`: * `schema` * `display_name` * `description` * `gcs_fileset_spec` * `gcs_fileset_spec.file_patterns` For entries with `user_specified_type`: * `schema` * `display_name` * `description` * `user_specified_type` * `user_specified_system` * `linked_resource` * `source_system_timestamps` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Entry;
+  body?: GoogleCloudDatacatalogV1Entry | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Identifier. The resource name of the tag in URL format where tag ID is a system-generated identifier. Note: The tag itself might not be stored in the location specified in its name. */
   name: string;
   /** Names of fields whose values to overwrite on a tag. Currently, a tag has the only modifiable field with the name `fields`. In general, if this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Tag;
+  body?: GoogleCloudDatacatalogV1Tag | undefined;
 }
 export interface PatchProjectsLocationsEntryGroupsTagsRequest {
   /** Names of fields whose values to overwrite on a tag. Currently, a tag has the only modifiable field with the name `fields`. In general, if this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the tag in URL format where tag ID is a system-generated identifier. Note: The tag itself might not be stored in the location specified in its name. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Tag;
+  body?: GoogleCloudDatacatalogV1Tag | undefined;
 }
 export interface PatchProjectsLocationsTagTemplatesRequest {
   /** Identifier. The resource name of the tag template in URL format. Note: The tag template itself and its child resources might not be stored in the location specified in its name. */
   name: string;
   /** Names of fields whose values to overwrite on a tag template. Currently, only `display_name` and `is_publicly_readable` can be overwritten. If this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied. Note: Updating the `is_publicly_readable` field may require up to 12 hours to take effect in search results. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1TagTemplate;
+  body?: GoogleCloudDatacatalogV1TagTemplate | undefined;
 }
 export interface PatchProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field. */
   name: string;
   /** Optional. Names of fields whose values to overwrite on an individual field of a tag template. The following fields are modifiable: * `display_name` * `type.enum_type` * `is_required` If this parameter is absent or empty, all modifiable fields are overwritten. If such fields are non-required and omitted in the request body, their values are emptied with one exception: when updating an enum type, the provided values are merged with the existing values. Therefore, enum values can only be added, existing enum values cannot be deleted or renamed. Additionally, updating a template field from optional to required is *not* allowed. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1TagTemplateField;
+  body?: GoogleCloudDatacatalogV1TagTemplateField | undefined;
 }
 export interface PatchProjectsLocationsTaxonomiesRequest {
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
   name: string;
   /** Specifies fields to update. If not set, defaults to all fields you can update. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy;
+  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
 }
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
   name: string;
   /** Specifies the fields to update. You can update only display name, description, and parent policy tag. If not set, defaults to all updatable fields. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag;
+  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
 }
 /** Request message for ReconcileTags. */
 export interface GoogleCloudDatacatalogV1ReconcileTagsRequest {
   /** A list of tags to apply to an entry. A tag can specify a tag template, which must be the template specified in the `ReconcileTagsRequest`. The sole entry and each of its columns must be mentioned at most once. */
-  tags?: GoogleCloudDatacatalogV1TagList;
-  forceDeleteMissing?: boolean;
+  tags?: GoogleCloudDatacatalogV1TagList | undefined;
+  forceDeleteMissing?: boolean | undefined;
   /** Required. The name of the tag template, which is used for reconciliation. */
-  tagTemplate?: string;
+  tagTemplate?: string | undefined;
 }
 export interface ReconcileProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. Name of Entry to be tagged. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ReconcileTagsRequest;
+  body?: GoogleCloudDatacatalogV1ReconcileTagsRequest | undefined;
 }
 /** Request message for RenameTagTemplateField. */
 export interface GoogleCloudDatacatalogV1RenameTagTemplateFieldRequest {
   /** Required. The new ID of this tag template field. For example, `my_new_field`. */
-  newTagTemplateFieldId?: string;
+  newTagTemplateFieldId?: string | undefined;
 }
 export interface RenameProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1RenameTagTemplateFieldRequest;
+  body?: GoogleCloudDatacatalogV1RenameTagTemplateFieldRequest | undefined;
 }
 /** Request message for RenameTagTemplateFieldEnumValue. */
 export interface GoogleCloudDatacatalogV1RenameTagTemplateFieldEnumValueRequest {
   /** Required. The new display name of the enum value. For example, `my_new_enum_value`. */
-  newEnumValueDisplayName?: string;
+  newEnumValueDisplayName?: string | undefined;
 }
 export interface RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest {
   /** Required. The name of the enum field value. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1RenameTagTemplateFieldEnumValueRequest;
+  body?: GoogleCloudDatacatalogV1RenameTagTemplateFieldEnumValueRequest | undefined;
 }
 /** Request message for ReplaceTaxonomy. */
 export interface GoogleCloudDatacatalogV1ReplaceTaxonomyRequest {
   /** Required. Taxonomy to update along with its child policy tags. */
-  serializedTaxonomy?: GoogleCloudDatacatalogV1SerializedTaxonomy;
+  serializedTaxonomy?: GoogleCloudDatacatalogV1SerializedTaxonomy | undefined;
 }
 export interface ReplaceProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to update. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1ReplaceTaxonomyRequest;
+  body?: GoogleCloudDatacatalogV1ReplaceTaxonomyRequest | undefined;
 }
 /** The criteria that select the subspace used for query matching. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequestScope {
   /** The list of organization IDs to search within. To find your organization ID, follow the steps from [Creating and managing organizations] (/resource-manager/docs/creating-managing-organization). */
-  includeOrgIds?: StringList;
+  includeOrgIds?: StringList | undefined;
   /** Optional. This field is deprecated. The search mechanism for public and private tag templates is the same. */
-  includePublicTagTemplates?: boolean;
+  includePublicTagTemplates?: boolean | undefined;
   /** The list of project IDs to search within. For more information on the distinction between project names, IDs, and numbers, see [Projects](/docs/overview/#projects). */
-  includeProjectIds?: StringList;
+  includeProjectIds?: StringList | undefined;
   /** Optional. The list of locations to search within. If empty, all locations are searched. Returns an error if any location in the list isn't one of the [Supported regions](https://cloud.google.com/data-catalog/docs/concepts/regions#supported_regions). If a location is unreachable, its name is returned in the `SearchCatalogResponse.unreachable` field. To get additional information on the error, repeat the search request and set the location name as the value of this parameter. */
-  restrictedLocations?: StringList;
+  restrictedLocations?: StringList | undefined;
   /** If `true`, include Google Cloud public datasets in search results. By default, they are excluded. See [Google Cloud Public Datasets](/public-datasets) for more information. */
-  includeGcpPublicDatasets?: boolean;
+  includeGcpPublicDatasets?: boolean | undefined;
   /** Optional. If `true`, search only among starred entries. By default, all results are returned, starred or not. */
-  starredOnly?: boolean;
+  starredOnly?: boolean | undefined;
 }
 /** Request message for SearchCatalog. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequest {
   /** Optional. If set, use searchAll permission granted on organizations from `include_org_ids` and projects from `include_project_ids` instead of the fine grained per resource permissions when filtering the search results. The only allowed `order_by` criteria for admin_search mode is `default`. Using this flags guarantees a full recall of the search results. */
-  adminSearch?: boolean;
+  adminSearch?: boolean | undefined;
   /** Upper bound on the number of results you can get in a single response. Can't be negative or 0, defaults to 10 in this case. The maximum number is 1000. If exceeded, throws an "invalid argument" exception. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The scope of this search request. The `scope` is invalid if `include_org_ids`, `include_project_ids` are empty AND `include_gcp_public_datasets` is set to `false`. In this case, the request returns an error. */
-  scope?: GoogleCloudDatacatalogV1SearchCatalogRequestScope;
+  scope?: GoogleCloudDatacatalogV1SearchCatalogRequestScope | undefined;
   /** Specifies the order of results. Currently supported case-sensitive values are: * `relevance` that can only be descending * `last_modified_timestamp [asc|desc]` with descending (`desc`) as default * `default` that can only be descending Search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. If you are experiencing recall issues and you don't have to fetch the results in any specific order, consider setting this parameter to `default`. If this parameter is omitted, it defaults to the descending `relevance`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The query string with a minimum of 3 characters and specific syntax. For more information, see [Data Catalog search syntax](https://cloud.google.com/data-catalog/docs/how-to/search-reference). An empty query string returns all data assets (in the specified scope) that you have access to. A query string can be a simple `xyz` or qualified by predicates: * `name:x` * `column:y` * `description:z` */
-  query?: string;
+  query?: string | undefined;
   /** Optional. Pagination token that, if specified, returns the next page of search results. If empty, returns the first page. This token is returned in the SearchCatalogResponse.next_page_token field of the response to a previous SearchCatalogRequest call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface SearchCatalogRequest {
   /** Request body */
-  body?: GoogleCloudDatacatalogV1SearchCatalogRequest;
+  body?: GoogleCloudDatacatalogV1SearchCatalogRequest | undefined;
 }
 export type GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum =
   | "SEARCH_RESULT_TYPE_UNSPECIFIED"
@@ -1652,38 +1693,38 @@ export type GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum =
 /** Result in the response to a search request. Each result captures details of one entry that matches the search. */
 export interface GoogleCloudDatacatalogV1SearchCatalogResult {
   /** Entry description that can consist of several sentences or paragraphs that describe entry contents. */
-  description?: string;
+  description?: string | undefined;
   /** The last modification timestamp of the entry in the source system. */
-  modifyTime?: string;
+  modifyTime?: string | undefined;
   /** Custom source system that you can manually integrate Data Catalog with. */
-  userSpecifiedSystem?: string;
+  userSpecifiedSystem?: string | undefined;
   /** The full name of the Google Cloud resource the entry belongs to. For more information, see [Full Resource Name] (/apis/design/resource_names#full_resource_name). Example: `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID` */
-  linkedResource?: string;
+  linkedResource?: string | undefined;
   /** The relative name of the resource in URL format. Examples: * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}` * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}` */
-  relativeResourceName?: string;
+  relativeResourceName?: string | undefined;
   /** The display name of the result. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Sub-type of the search result. A dot-delimited full type of the resource. The same type you specify in the `type` search predicate. Examples: `entry.table`, `entry.dataStream`, `tagTemplate`. */
-  searchResultSubtype?: string;
+  searchResultSubtype?: string | undefined;
   /** Fully qualified name (FQN) of the resource. FQNs take two forms: * For non-regionalized resources: `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` * For regionalized resources: `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` Example for a DPMS table: `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID` */
-  fullyQualifiedName?: string;
+  fullyQualifiedName?: string | undefined;
   /** Type of the search result. You can use this field to determine which get method to call to fetch the full resource. */
-  searchResultType?: GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum;
+  searchResultType?: GoogleCloudDatacatalogV1SearchCatalogResultSearchResultTypeEnum | undefined;
   /** Output only. The source system that Data Catalog automatically integrates with, such as BigQuery, Cloud Pub/Sub, or Dataproc Metastore. */
-  integratedSystem?: GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum;
+  integratedSystem?: GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum | undefined;
 }
 export type GoogleCloudDatacatalogV1SearchCatalogResultList =
   Array<GoogleCloudDatacatalogV1SearchCatalogResult>;
 /** Response message for SearchCatalog. */
 export interface GoogleCloudDatacatalogV1SearchCatalogResponse {
   /** Search results. */
-  results?: GoogleCloudDatacatalogV1SearchCatalogResultList;
+  results?: GoogleCloudDatacatalogV1SearchCatalogResultList | undefined;
   /** The approximate total number of entries matched by the query. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Pagination token that can be used in subsequent calls to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable locations. Search results don't include data from those locations. To get additional information on an error, repeat the search request and restrict it to specific locations by setting the `SearchCatalogRequest.scope.restricted_locations` parameter. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum =
   | "CATALOG_UI_EXPERIENCE_UNSPECIFIED"
@@ -1698,52 +1739,54 @@ export interface GoogleCloudDatacatalogV1SetConfigRequest {
   /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
   catalogUiExperience?:
     | GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Opt-in status for the migration of Tag Templates to Dataplex Universal Catalog. */
   tagTemplateMigration?:
     | GoogleCloudDatacatalogV1SetConfigRequestTagTemplateMigrationEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface SetConfigOrganizationsLocationsRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest;
+  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
 }
 export interface SetConfigProjectsLocationsRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest;
+  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for StarEntry. */
 export type GoogleCloudDatacatalogV1StarEntryRequest =
@@ -1752,49 +1795,49 @@ export interface StarProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to mark as starred. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema;
+  body?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema | undefined;
 }
 /** Response message for StarEntry. Empty for now */
 export interface GoogleCloudDatacatalogV1StarEntryResponse {}
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for UnstarEntry. */
 export type GoogleCloudDatacatalogV1UnstarEntryRequest =
@@ -1803,7 +1846,7 @@ export interface UnstarProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to mark as **not** starred. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema;
+  body?: GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema | undefined;
 }
 /** Response message for UnstarEntry. Empty for now */
 export interface GoogleCloudDatacatalogV1UnstarEntryResponse {}

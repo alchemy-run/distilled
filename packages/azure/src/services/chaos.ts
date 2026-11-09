@@ -42,9 +42,9 @@ export interface CancelExperimentRequest {
 }
 export interface CancelExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Model that represents the Capability properties model. */
 export interface CapabilityPropertiesInput {}
@@ -64,7 +64,7 @@ export interface CapabilitiesCreateOrUpdateRequest {
   /** String that represents a Capability resource name. */
   capabilityName: string;
   /** The properties of a capability resource. */
-  properties?: CapabilityPropertiesInput;
+  properties?: CapabilityPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -73,42 +73,42 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Model that represents the Capability properties model. */
 export interface CapabilityProperties {
   /** String of the Publisher that this Capability extends. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** String of the Target Type that this Capability extends. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Capability parameters. */
-  parametersSchema?: string;
+  parametersSchema?: string | undefined;
   /** String of the URN for this Capability Type. */
-  urn?: string;
+  urn?: string | undefined;
 }
 export interface CapabilitiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
 }
 export interface DeleteCapabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -137,9 +137,9 @@ export interface DeleteExperimentRequest {
 }
 export interface DeleteExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -173,7 +173,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ExperimentsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Enum union of Chaos experiment action types. */
 export type ExperimentActionType = "delay" | "discrete" | "continuous";
@@ -192,11 +192,11 @@ export interface ChaosExperimentAction {
   /** Chaos experiment action discriminator type */
   type: ExperimentActionType | (string & {});
   /** ISO8601 duration of the action (continuous and delay actions). */
-  duration?: string;
+  duration?: string | undefined;
   /** Key/value settings of the action (continuous and discrete actions). */
-  parameters?: KeyValuePairList;
+  parameters?: KeyValuePairList | undefined;
   /** ID of the selector the action targets (continuous and discrete actions). */
-  selectorId?: string;
+  selectorId?: string | undefined;
 }
 /** List of actions. */
 export type ChaosExperimentBranchActionsList = Array<ChaosExperimentAction>;
@@ -226,14 +226,14 @@ export type StringList = Array<string>;
 /** Parameters of a `Simple` target filter. */
 export interface ChaosTargetSimpleFilterParameters {
   /** Availability zones to filter targets by. */
-  zones?: StringList;
+  zones?: StringList | undefined;
 }
 /** Model that represents available filter types that can be applied to a targets list. */
 export interface ChaosTargetFilter {
   /** Chaos target filter discriminator type */
   type: FilterType | (string & {});
   /** Parameters of a `Simple` filter. */
-  parameters?: ChaosTargetSimpleFilterParameters;
+  parameters?: ChaosTargetSimpleFilterParameters | undefined;
 }
 /** Model that represents a reference to a Target in the selector. */
 export interface TargetReference {
@@ -250,13 +250,13 @@ export interface ChaosTargetSelector {
   /** Chaos target selector discriminator type */
   type: SelectorType | (string & {});
   /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: ChaosTargetFilter;
+  filter?: ChaosTargetFilter | undefined;
   /** Targets of a `List` selector. */
-  targets?: TargetReferenceList;
+  targets?: TargetReferenceList | undefined;
   /** Azure Resource Graph query of a `Query` selector. */
-  queryString?: string;
+  queryString?: string | undefined;
   /** Subscriptions a `Query` selector runs against. */
-  subscriptionIds?: StringList;
+  subscriptionIds?: StringList | undefined;
 }
 /** List of selectors. */
 export type ExperimentPropertiesInputSelectorsList = Array<ChaosTargetSelector>;
@@ -275,11 +275,11 @@ export interface ExperimentsCreateOrUpdateRequest {
   /** String that represents a Experiment resource name. */
   experimentName: string;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateRequestTagsMap;
+  tags?: ExperimentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateRequestIdentity;
+  identity?: ExperimentsCreateOrUpdateRequestIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentPropertiesInput;
 }
@@ -288,20 +288,20 @@ export type ExperimentsCreateOrUpdateResponseTagsMap = { [key: string]: string |
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ExperimentsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** Current provisioning state for a given Azure Chaos resource. */
 export type ProvisioningState =
@@ -318,7 +318,7 @@ export type ExperimentPropertiesSelectorsList = Array<ChaosTargetSelector>;
 /** Model that represents the Experiment properties model. */
 export interface ExperimentProperties {
   /** Most recent provisioning state for the given experiment resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of steps. */
   steps: ExperimentPropertiesStepsList;
   /** List of selectors. */
@@ -326,25 +326,25 @@ export interface ExperimentProperties {
 }
 export interface ExperimentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateResponseTagsMap;
+  tags?: ExperimentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentsCreateOrUpdateResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExperimentsExecutionDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -359,98 +359,98 @@ export interface ExperimentsExecutionDetailsRequest {
 /** Model that represents the Experiment action target details error model. */
 export interface ExperimentExecutionActionTargetDetailsError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Model that represents the Experiment action target details properties model. */
 export interface ExperimentExecutionActionTargetDetailsProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** The target for the action. */
-  target?: string;
+  target?: string | undefined;
   /** String that represents the failed date time. */
-  targetFailedTime?: string;
+  targetFailedTime?: string | undefined;
   /** String that represents the completed date time. */
-  targetCompletedTime?: string;
+  targetCompletedTime?: string | undefined;
   /** The error of the action. */
-  error?: ExperimentExecutionActionTargetDetailsError;
+  error?: ExperimentExecutionActionTargetDetailsError | undefined;
 }
 /** The array of targets. */
 export type ActionStatusTargetsList = Array<ExperimentExecutionActionTargetDetailsProperties>;
 /** Model that represents the an action and its status. */
 export interface ActionStatus {
   /** The name of the action status. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** The id of the action status. */
-  actionId?: string;
+  actionId?: string | undefined;
   /** The status of the action. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start time of the action. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** String that represents the end time of the action. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The array of targets. */
-  targets?: ActionStatusTargetsList;
+  targets?: ActionStatusTargetsList | undefined;
 }
 /** The array of actions. */
 export type BranchStatusActionsList = Array<ActionStatus>;
 /** Model that represents the a list of actions and action statuses. */
 export interface BranchStatus {
   /** The name of the branch status. */
-  branchName?: string;
+  branchName?: string | undefined;
   /** The id of the branch status. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** The status of the branch. */
-  status?: string;
+  status?: string | undefined;
   /** The array of actions. */
-  actions?: BranchStatusActionsList;
+  actions?: BranchStatusActionsList | undefined;
 }
 /** The array of branches. */
 export type StepStatusBranchesList = Array<BranchStatus>;
 /** Model that represents the a list of branches and branch statuses. */
 export interface StepStatus {
   /** The name of the step. */
-  stepName?: string;
+  stepName?: string | undefined;
   /** The id of the step. */
-  stepId?: string;
+  stepId?: string | undefined;
   /** The value of the status of the step. */
-  status?: string;
+  status?: string | undefined;
   /** The array of branches. */
-  branches?: StepStatusBranchesList;
+  branches?: StepStatusBranchesList | undefined;
 }
 /** The steps of the experiment run. */
 export type ExperimentExecutionDetailsPropertiesRunInformationStepsList = Array<StepStatus>;
 /** The information of the experiment run. */
 export interface ExperimentExecutionDetailsPropertiesRunInformation {
   /** The steps of the experiment run. */
-  steps?: ExperimentExecutionDetailsPropertiesRunInformationStepsList;
+  steps?: ExperimentExecutionDetailsPropertiesRunInformationStepsList | undefined;
 }
 /** Model that represents the extended properties of an experiment execution. */
 export interface ExperimentExecutionDetailsProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start date time. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** String that represents the stop date time. */
-  stoppedAt?: string;
+  stoppedAt?: string | undefined;
   /** The reason why the execution failed. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** String that represents the last action date time. */
-  lastActionAt?: string;
+  lastActionAt?: string | undefined;
   /** The information of the experiment run. */
-  runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
+  runInformation?: ExperimentExecutionDetailsPropertiesRunInformation | undefined;
 }
 /** Model that represents the execution details of an Experiment. */
 export interface ExperimentExecutionDetails {
   /** String of the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** String of the fully qualified resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** String of the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The properties of the experiment execution details. */
-  properties?: ExperimentExecutionDetailsProperties;
+  properties?: ExperimentExecutionDetailsProperties | undefined;
 }
 export interface GetCapabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -470,15 +470,15 @@ export interface GetCapabilityRequest {
 }
 export interface GetCapabilityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
 }
 export interface GetCapabilityTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -499,44 +499,46 @@ export type CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList = Array<s
 /** Runtime properties of this Capability Type. */
 export interface CapabilityTypePropertiesRuntimeProperties {
   /** String of the kind of the resource's action type (continuous or discrete). */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Model that represents the Capability Type properties model. */
 export interface CapabilityTypeProperties {
   /** String of the Publisher that this Capability Type extends. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** String of the Target Type that this Capability Type extends. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** Localized string of the display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Capability Type parameters. */
-  parametersSchema?: string;
+  parametersSchema?: string | undefined;
   /** String of the URN for this Capability Type. */
-  urn?: string;
+  urn?: string | undefined;
   /** String of the kind of this Capability Type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Control plane actions necessary to execute capability type. */
-  azureRbacActions?: CapabilityTypePropertiesAzureRbacActionsList;
+  azureRbacActions?: CapabilityTypePropertiesAzureRbacActionsList | undefined;
   /** Data plane actions necessary to execute capability type. */
-  azureRbacDataActions?: CapabilityTypePropertiesAzureRbacDataActionsList;
+  azureRbacDataActions?: CapabilityTypePropertiesAzureRbacDataActionsList | undefined;
   /** Required Azure Role Definition Ids to execute capability type. */
-  requiredAzureRoleDefinitionIds?: CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList;
+  requiredAzureRoleDefinitionIds?:
+    | CapabilityTypePropertiesRequiredAzureRoleDefinitionIdsList
+    | undefined;
   /** Runtime properties of this Capability Type. */
-  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
+  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties | undefined;
 }
 export interface GetCapabilityTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the capability type resource. */
-  properties?: CapabilityTypeProperties;
+  properties?: CapabilityTypeProperties | undefined;
 }
 export interface GetExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -552,19 +554,19 @@ export type GetExperimentResponseTagsMap = { [key: string]: string | undefined }
 export type GetExperimentResponseIdentity = ExperimentsCreateOrUpdateResponseIdentity;
 export interface GetExperimentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetExperimentResponseTagsMap;
+  tags?: GetExperimentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentsCreateOrUpdateResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
 }
@@ -581,23 +583,23 @@ export interface GetExperimentExecutionRequest {
 /** Model that represents the execution properties of an Experiment. */
 export interface ExperimentExecutionProperties {
   /** The status of the execution. */
-  status?: string;
+  status?: string | undefined;
   /** String that represents the start date time. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** String that represents the stop date time. */
-  stoppedAt?: string;
+  stoppedAt?: string | undefined;
 }
 export interface GetExperimentExecutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of experiment execution status. */
-  properties?: ExperimentExecutionProperties;
+  properties?: ExperimentExecutionProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -614,67 +616,67 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface GetTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -694,17 +696,17 @@ export interface GetTargetRequest {
 export type GetTargetResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: GetTargetResponsePropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetTargetTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -719,23 +721,23 @@ export type TargetTypePropertiesResourceTypesList = Array<string>;
 /** Model that represents the base Target Type properties model. */
 export interface TargetTypeProperties {
   /** Localized string of the display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized string of the description. */
-  description?: string;
+  description?: string | undefined;
   /** URL to retrieve JSON schema of the Target Type properties. */
-  propertiesSchema?: string;
+  propertiesSchema?: string | undefined;
   /** List of resource types this Target Type can extend. */
-  resourceTypes?: TargetTypePropertiesResourceTypesList;
+  resourceTypes?: TargetTypePropertiesResourceTypesList | undefined;
 }
 export interface GetTargetTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target type resource. */
   properties: TargetTypeProperties;
 }
@@ -753,20 +755,20 @@ export interface ListCapabilitiesRequest {
   /** String that represents a Target resource name. */
   targetName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Capability resource. */
 export interface Capability {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
+  properties?: CapabilityProperties | undefined;
 }
 /** The Capability items on this page */
 export type CapabilityListResultValueList = Array<Capability>;
@@ -775,7 +777,7 @@ export interface CapabilityListResult {
   /** The Capability items on this page */
   value: CapabilityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapabilityTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -785,20 +787,20 @@ export interface ListCapabilityTypesRequest {
   /** String that represents a Target Type resource name. */
   targetTypeName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Capability Type resource. */
 export interface CapabilityType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the capability type resource. */
-  properties?: CapabilityTypeProperties;
+  properties?: CapabilityTypeProperties | undefined;
 }
 /** The CapabilityType items on this page */
 export type CapabilityTypeListResultValueList = Array<CapabilityType>;
@@ -807,15 +809,15 @@ export interface CapabilityTypeListResult {
   /** The CapabilityType items on this page */
   value: CapabilityTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExperimentAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
+  running?: boolean | undefined;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Resource tags. */
 export type ExperimentTagsMap = { [key: string]: string | undefined };
@@ -824,19 +826,19 @@ export type ExperimentIdentity = ExperimentsCreateOrUpdateResponseIdentity;
 /** Model that represents a Experiment resource. */
 export interface Experiment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExperimentTagsMap;
+  tags?: ExperimentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentsCreateOrUpdateResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
 }
@@ -847,7 +849,7 @@ export interface ExperimentListResult {
   /** The Experiment items on this page */
   value: ExperimentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExperimentAllExecutionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -860,15 +862,15 @@ export interface ListExperimentAllExecutionsRequest {
 /** Model that represents the execution of a Experiment. */
 export interface ExperimentExecution {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of experiment execution status. */
-  properties?: ExperimentExecutionProperties;
+  properties?: ExperimentExecutionProperties | undefined;
 }
 /** The ExperimentExecution items on this page */
 export type ExperimentExecutionListResultValueList = Array<ExperimentExecution>;
@@ -877,7 +879,7 @@ export interface ExperimentExecutionListResult {
   /** The ExperimentExecution items on this page */
   value: ExperimentExecutionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExperimentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -885,21 +887,21 @@ export interface ListExperimentsRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
+  running?: boolean | undefined;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface ListOperationAllRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -908,23 +910,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationAllResponseValueList = Array<Operation>;
 export interface ListOperationAllResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationAllResponseValueList;
+  value?: ListOperationAllResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -938,24 +940,24 @@ export interface ListTargetsRequest {
   /** The parent resource name. */
   parentResourceName: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** The properties of the target resource. */
 export type TargetPropertiesMap = { [key: string]: unknown | undefined };
 /** Model that represents a Target resource. */
 export interface Target {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: TargetPropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Target items on this page */
 export type TargetListResultValueList = Array<Target>;
@@ -964,7 +966,7 @@ export interface TargetListResult {
   /** The Target items on this page */
   value: TargetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -972,18 +974,18 @@ export interface ListTargetTypesRequest {
   /** The name of the Azure region. */
   location: string;
   /** String that sets the continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Model that represents a Target Type resource. */
 export interface TargetType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target type resource. */
   properties: TargetTypeProperties;
 }
@@ -994,7 +996,7 @@ export interface TargetTypeListResult {
   /** The TargetType items on this page */
   value: TargetTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface StartExperimentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1006,9 +1008,9 @@ export interface StartExperimentRequest {
 }
 export interface StartExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of the target resource. */
 export type TargetsCreateOrUpdateRequestPropertiesMap = { [key: string]: unknown | undefined };
@@ -1028,23 +1030,23 @@ export interface TargetsCreateOrUpdateRequest {
   /** The properties of the target resource. */
   properties: TargetsCreateOrUpdateRequestPropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of the target resource. */
 export type TargetsCreateOrUpdateResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface TargetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the target resource. */
   properties: TargetsCreateOrUpdateResponsePropertiesMap;
   /** Azure resource location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentRequestTagsMap = { [key: string]: string | undefined };
@@ -1058,9 +1060,9 @@ export interface UpdateExperimentRequest {
   /** String that represents a Experiment resource name. */
   experimentName: string;
   /** Resource tags. */
-  tags?: UpdateExperimentRequestTagsMap;
+  tags?: UpdateExperimentRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateRequestIdentity;
+  identity?: ExperimentsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentResponseTagsMap = { [key: string]: string | undefined };
@@ -1068,25 +1070,25 @@ export type UpdateExperimentResponseTagsMap = { [key: string]: string | undefine
 export type UpdateExperimentResponseIdentity = ExperimentsCreateOrUpdateResponseIdentity;
 export interface UpdateExperimentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateExperimentResponseTagsMap;
+  tags?: UpdateExperimentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ExperimentsCreateOrUpdateResponseIdentity;
+  identity?: ExperimentsCreateOrUpdateResponseIdentity | undefined;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CancelExperimentError = AzureOpError;
 /** Cancel a running Experiment resource. */

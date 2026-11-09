@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -190,9 +191,9 @@ export type ResourceStatus =
   | "MAINTENANCE_IN_PROGRESS"
   | (string & {});
 export interface AssociateVirtualMachinesToExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export type ResourceDisplayName = string;
@@ -203,16 +204,16 @@ export type DatabaseEdition = "STANDARD_EDITION" | "ENTERPRISE_EDITION" | (strin
 export type StandbyAllowlistedIpsSource = "PRIMARY" | "SEPARATE" | "NOT_APPLICABLE" | (string & {});
 export type AutonomousMaintenanceScheduleType = "EARLY" | "REGULAR" | (string & {});
 export interface CustomerContact {
-  email?: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomerContacts = CustomerContact[];
 export interface ResourcePoolSummary {
-  isDisabled?: boolean;
-  poolSize?: number;
-  poolStorageSizeInTBs?: number;
-  availableStorageCapacityInTBs?: number;
-  totalComputeCapacity?: number;
-  availableComputeCapacity?: number;
+  isDisabled?: boolean | undefined;
+  poolSize?: number | undefined;
+  poolStorageSizeInTBs?: number | undefined;
+  availableStorageCapacityInTBs?: number | undefined;
+  totalComputeCapacity?: number | undefined;
+  availableComputeCapacity?: number | undefined;
 }
 export type DayOfWeekName =
   | "MONDAY"
@@ -224,23 +225,23 @@ export type DayOfWeekName =
   | "SUNDAY"
   | (string & {});
 export interface DayOfWeek {
-  name?: DayOfWeekName;
+  name?: DayOfWeekName | undefined;
 }
 export interface ScheduledOperationDetails {
   dayOfWeek: DayOfWeek;
-  scheduledStartTime?: string;
-  scheduledStopTime?: string;
+  scheduledStartTime?: string | undefined;
+  scheduledStopTime?: string | undefined;
 }
 export type ScheduledOperationDetailsList = ScheduledOperationDetails[];
 export type StringList = string[];
 export interface TransportableTablespace {
-  ttsBundleUrl?: string;
+  ttsBundleUrl?: string | undefined;
 }
 export interface DatabaseTool {
-  isEnabled?: boolean;
-  name?: string;
-  computeCount?: number;
-  maxIdleTimeInMinutes?: number;
+  isEnabled?: boolean | undefined;
+  name?: string | undefined;
+  computeCount?: number | undefined;
+  maxIdleTimeInMinutes?: number | undefined;
 }
 export type DatabaseToolList = DatabaseTool[];
 export type SourceType =
@@ -261,14 +262,14 @@ export type IntegerList = number[];
 export interface RestoreFromBackupConfiguration {
   autonomousDatabaseBackupId: string;
   cloneType: CloneType;
-  cloneTableSpaceList?: number[];
+  cloneTableSpaceList?: number[] | undefined;
 }
 export interface PointInTimeRestoreConfiguration {
   sourceAutonomousDatabaseId: string;
   cloneType: CloneType;
-  timestamp?: Date;
-  useLatestAvailableBackupTimestamp?: boolean;
-  cloneTableSpaceList?: number[];
+  timestamp?: Date | undefined;
+  useLatestAvailableBackupTimestamp?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
 }
 export interface CrossRegionDataGuardConfiguration {
   sourceAutonomousDatabaseArn: string;
@@ -277,75 +278,75 @@ export type DisasterRecoveryType = "ADG" | "BACKUP_BASED" | (string & {});
 export interface CrossRegionDisasterRecoveryConfiguration {
   sourceAutonomousDatabaseArn: string;
   remoteDisasterRecoveryType: DisasterRecoveryType;
-  isReplicateAutomaticBackups?: boolean;
+  isReplicateAutomaticBackups?: boolean | undefined;
 }
 export type RefreshableMode = "AUTOMATIC" | "MANUAL" | (string & {});
 export type OpenMode = "READ_ONLY" | "READ_WRITE" | (string & {});
 export interface CloneToRefreshableConfiguration {
   sourceAutonomousDatabaseId: string;
-  refreshableMode?: RefreshableMode;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  timeOfAutoRefreshStart?: Date;
-  openMode?: OpenMode;
-  cloneType?: CloneType;
+  refreshableMode?: RefreshableMode | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  openMode?: OpenMode | undefined;
+  cloneType?: CloneType | undefined;
 }
 export type SourceConfiguration =
   | {
       databaseClone: DatabaseCloneConfiguration;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
+      databaseClone?: undefined;
       restoreFromBackup: RestoreFromBackupConfiguration;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
       pointInTimeRestore: PointInTimeRestoreConfiguration;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
       crossRegionDataGuard: CrossRegionDataGuardConfiguration;
-      crossRegionDisasterRecovery?: never;
-      cloneToRefreshable?: never;
+      crossRegionDisasterRecovery?: undefined;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
       crossRegionDisasterRecovery: CrossRegionDisasterRecoveryConfiguration;
-      cloneToRefreshable?: never;
+      cloneToRefreshable?: undefined;
     }
   | {
-      databaseClone?: never;
-      restoreFromBackup?: never;
-      pointInTimeRestore?: never;
-      crossRegionDataGuard?: never;
-      crossRegionDisasterRecovery?: never;
+      databaseClone?: undefined;
+      restoreFromBackup?: undefined;
+      pointInTimeRestore?: undefined;
+      crossRegionDataGuard?: undefined;
+      crossRegionDisasterRecovery?: undefined;
       cloneToRefreshable: CloneToRefreshableConfiguration;
     };
 export type EncryptionKeyProviderInput = "ORACLE_MANAGED" | "AWS_KMS" | (string & {});
 export type ExternalIdType = "database_ocid" | "compartment_ocid" | "tenant_ocid" | (string & {});
 export type KmsKeyIdOrArn = string;
 export interface AwsEncryptionKeyConfigurationInput {
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
-  kmsKeyId?: string;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type EncryptionKeyConfigurationInput = {
   awsEncryptionKey: AwsEncryptionKeyConfigurationInput;
@@ -356,9 +357,9 @@ export type AdminPasswordSource =
   | (string & {});
 export type SecretIdOrArn = string;
 export interface CustomerManagedAwsSecretConfigurationInput {
-  secretId?: string;
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
+  secretId?: string | undefined;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
 }
 export type AdminPasswordSourceConfigurationInput = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput;
@@ -368,47 +369,47 @@ export type TagKey = string;
 export type TagValue = string;
 export type RequestTagMap = { [key: string]: string | undefined };
 export interface CreateAutonomousDatabaseInput {
-  odbNetworkId?: string;
-  displayName?: string;
-  dbName?: string;
-  adminPassword?: string | redacted.Redacted<string>;
-  computeCount?: number;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  dbWorkload?: DbWorkload;
-  isAutoScalingEnabled?: boolean;
-  isAutoScalingForStorageEnabled?: boolean;
-  licenseModel?: LicenseModel;
-  characterSet?: string;
-  ncharacterSet?: string;
-  dbVersion?: string;
-  databaseEdition?: DatabaseEdition;
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  backupRetentionPeriodInDays?: number;
-  byolComputeCountLimit?: number;
-  cpuCoreCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  resourcePoolLeaderId?: string;
-  resourcePoolSummary?: ResourcePoolSummary;
-  scheduledOperations?: ScheduledOperationDetails[];
-  standbyAllowlistedIps?: string[];
-  allowlistedIps?: string[];
-  transportableTablespace?: TransportableTablespace;
-  isBackupRetentionLocked?: boolean;
-  isLocalDataGuardEnabled?: boolean;
-  isMtlsConnectionRequired?: boolean;
-  dbToolsDetails?: DatabaseTool[];
-  source?: SourceType;
-  sourceConfiguration?: SourceConfiguration;
-  encryptionKeyProvider?: EncryptionKeyProviderInput;
-  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  odbNetworkId?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  adminPassword?: string | redacted.Redacted<string> | undefined;
+  computeCount?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  dbVersion?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  byolComputeCountLimit?: number | undefined;
+  cpuCoreCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  allowlistedIps?: string[] | undefined;
+  transportableTablespace?: TransportableTablespace | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  source?: SourceType | undefined;
+  sourceConfiguration?: SourceConfiguration | undefined;
+  encryptionKeyProvider?: EncryptionKeyProviderInput | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput | undefined;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AutonomousDatabaseResourceStatus =
   | "AVAILABLE"
@@ -436,21 +437,21 @@ export type AutonomousDatabaseResourceStatus =
   | (string & {});
 export interface CreateAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface CreateAutonomousDatabaseBackupInput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  retentionPeriodInDays?: number;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  displayName?: string | undefined;
+  retentionPeriodInDays?: number | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAutonomousDatabaseBackupOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   autonomousDatabaseBackupId: string;
 }
 export type WalletType = "REGIONAL" | "INSTANCE" | (string & {});
@@ -463,11 +464,11 @@ export type WalletPasswordSourceConfigurationInput = {
 };
 export interface CreateAutonomousDatabaseWalletInput {
   autonomousDatabaseId: string;
-  walletType?: WalletType;
-  password?: string | redacted.Redacted<string>;
-  passwordSource?: WalletPasswordSource;
-  passwordSourceConfiguration?: WalletPasswordSourceConfigurationInput;
-  clientToken?: string;
+  walletType?: WalletType | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  passwordSource?: WalletPasswordSource | undefined;
+  passwordSourceConfiguration?: WalletPasswordSourceConfigurationInput | undefined;
+  clientToken?: string | undefined;
 }
 export type AutonomousDatabaseWalletFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface CreateAutonomousDatabaseWalletOutput {
@@ -490,75 +491,75 @@ export type MonthName =
   | "DECEMBER"
   | (string & {});
 export interface Month {
-  name?: MonthName;
+  name?: MonthName | undefined;
 }
 export type Months = Month[];
 export type PatchingModeType = "ROLLING" | "NONROLLING" | (string & {});
 export type PreferenceType = "NO_PREFERENCE" | "CUSTOM_PREFERENCE" | (string & {});
 export type WeeksOfMonth = number[];
 export interface MaintenanceWindow {
-  customActionTimeoutInMins?: number;
-  daysOfWeek?: DayOfWeek[];
-  hoursOfDay?: number[];
-  isCustomActionTimeoutEnabled?: boolean;
-  leadTimeInWeeks?: number;
-  months?: Month[];
-  patchingMode?: PatchingModeType;
-  preference?: PreferenceType;
-  skipRu?: boolean;
-  weeksOfMonth?: number[];
+  customActionTimeoutInMins?: number | undefined;
+  daysOfWeek?: DayOfWeek[] | undefined;
+  hoursOfDay?: number[] | undefined;
+  isCustomActionTimeoutEnabled?: boolean | undefined;
+  leadTimeInWeeks?: number | undefined;
+  months?: Month[] | undefined;
+  patchingMode?: PatchingModeType | undefined;
+  preference?: PreferenceType | undefined;
+  skipRu?: boolean | undefined;
+  weeksOfMonth?: number[] | undefined;
 }
 export interface CreateCloudAutonomousVmClusterInput {
   cloudExadataInfrastructureId: string;
   odbNetworkId: string;
   displayName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   autonomousDataStorageSizeInTBs: number;
   cpuCoreCountPerNode: number;
-  dbServers?: string[];
-  description?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   memoryPerOracleComputeUnitInGBs: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
   totalContainerDatabases: number;
 }
 export interface CreateCloudAutonomousVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudAutonomousVmClusterId: string;
 }
 export interface CreateCloudExadataInfrastructureInput {
   displayName: string;
   shape: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  tags?: { [key: string]: string | undefined };
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   computeCount: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  maintenanceWindow?: MaintenanceWindow;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   storageCount: number;
-  clientToken?: string;
-  databaseServerType?: string;
-  storageServerType?: string;
+  clientToken?: string | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
 }
 export interface CreateCloudExadataInfrastructureOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudExadataInfrastructureId: string;
 }
 export type Hostname = string;
 export type ClusterName = string;
 export interface DataCollectionOptions {
-  isDiagnosticsEventsEnabled?: boolean;
-  isHealthMonitoringEnabled?: boolean;
-  isIncidentLogsEnabled?: boolean;
+  isDiagnosticsEventsEnabled?: boolean | undefined;
+  isHealthMonitoringEnabled?: boolean | undefined;
+  isIncidentLogsEnabled?: boolean | undefined;
 }
 export interface CreateCloudVmClusterInput {
   cloudExadataInfrastructureId: string;
@@ -568,25 +569,25 @@ export interface CreateCloudVmClusterInput {
   hostname: string;
   sshPublicKeys: string[];
   odbNetworkId: string;
-  clusterName?: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  tags?: { [key: string]: string | undefined };
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  licenseModel?: LicenseModel;
-  memorySizeInGBs?: number;
-  systemVersion?: string;
-  timeZone?: string;
-  clientToken?: string;
-  scanListenerPortTcp?: number;
+  clusterName?: string | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  memorySizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
+  scanListenerPortTcp?: number | undefined;
 }
 export interface CreateCloudVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudVmClusterId: string;
 }
 export type ShapeAttribute = "SMART_STORAGE" | "BLOCK_STORAGE" | (string & {});
@@ -602,67 +603,67 @@ export interface CreateExadbVmClusterInput {
   sshPublicKeys: string[];
   totalEcpuCount: number;
   vmFileSystemStorageTotalSizeInGBs: number;
-  clusterName?: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  licenseModel?: LicenseModel;
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shapeAttribute?: ShapeAttribute;
-  systemVersion?: string;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
-  clientToken?: string;
+  clusterName?: string | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  licenseModel?: LicenseModel | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  systemVersion?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export interface CreateExascaleDbStorageVaultInput {
   displayName: string;
   highCapacityDatabaseStorageTotalSizeInGBs: number;
-  additionalFlashCacheInPercent?: number;
-  autoscaleLimitInGBs?: number;
-  availabilityZoneId?: string;
-  availabilityZone?: string;
-  description?: string;
-  isAutoscaleEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
-  timeZone?: string;
-  clientToken?: string;
+  additionalFlashCacheInPercent?: number | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  availabilityZoneId?: string | undefined;
+  availabilityZone?: string | undefined;
+  description?: string | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timeZone?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateExascaleDbStorageVaultOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exascaleDbStorageVaultId: string;
 }
 export type Access = "ENABLED" | "DISABLED" | (string & {});
 export type PolicyDocument = string;
 export interface CreateOdbNetworkInput {
   displayName: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
   clientSubnetCidr: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  clientToken?: string;
-  s3Access?: Access;
-  zeroEtlAccess?: Access;
-  stsAccess?: Access;
-  kmsAccess?: Access;
-  s3PolicyDocument?: string;
-  stsPolicyDocument?: string;
-  kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: string[];
-  tags?: { [key: string]: string | undefined };
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  clientToken?: string | undefined;
+  s3Access?: Access | undefined;
+  zeroEtlAccess?: Access | undefined;
+  stsAccess?: Access | undefined;
+  kmsAccess?: Access | undefined;
+  s3PolicyDocument?: string | undefined;
+  stsPolicyDocument?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
+  crossRegionS3RestoreSourcesToEnable?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateOdbNetworkOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbNetworkId: string;
 }
 export type PeeredCidr = string;
@@ -672,16 +673,16 @@ export type PeerNetworkRouteTableIdList = string[];
 export interface CreateOdbPeeringConnectionInput {
   odbNetworkId: string;
   peerNetworkId: string;
-  displayName?: string;
-  peerNetworkCidrsToBeAdded?: string[];
-  peerNetworkRouteTableIds?: string[];
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  displayName?: string | undefined;
+  peerNetworkCidrsToBeAdded?: string[] | undefined;
+  peerNetworkRouteTableIds?: string[] | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateOdbPeeringConnectionOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbPeeringConnectionId: string;
 }
 export interface DeleteAutonomousDatabaseInput {
@@ -734,21 +735,21 @@ export interface DisassociateVirtualMachinesFromExadbVmClusterInput {
   dbNodeIds: string[];
 }
 export interface DisassociateVirtualMachinesFromExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export type ResourceArn = string;
 export interface FailoverAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  peerDbArn?: string;
+  peerDbArn?: string | undefined;
 }
 export interface FailoverAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface GetAutonomousDatabaseInput {
   autonomousDatabaseId: string;
@@ -758,39 +759,39 @@ export type PermissionLevel = "RESTRICTED" | "UNRESTRICTED" | (string & {});
 export type NetServicesArchitecture = "DEDICATED" | "SHARED" | (string & {});
 export type DatabaseConnectionStringMap = { [key: string]: string | undefined };
 export interface DatabaseConnectionStringProfile {
-  consumerGroup?: string;
-  displayName?: string;
-  hostFormat?: string;
-  isRegional?: boolean;
-  protocol?: string;
-  sessionMode?: string;
-  syntaxFormat?: string;
-  tlsAuthentication?: string;
-  value?: string;
+  consumerGroup?: string | undefined;
+  displayName?: string | undefined;
+  hostFormat?: string | undefined;
+  isRegional?: boolean | undefined;
+  protocol?: string | undefined;
+  sessionMode?: string | undefined;
+  syntaxFormat?: string | undefined;
+  tlsAuthentication?: string | undefined;
+  value?: string | undefined;
 }
 export type DatabaseConnectionStringProfileList = DatabaseConnectionStringProfile[];
 export interface AutonomousDatabaseConnectionStrings {
-  allConnectionStrings?: { [key: string]: string | undefined };
-  dedicated?: string;
-  high?: string;
-  medium?: string;
-  low?: string;
-  profiles?: DatabaseConnectionStringProfile[];
+  allConnectionStrings?: { [key: string]: string | undefined } | undefined;
+  dedicated?: string | undefined;
+  high?: string | undefined;
+  medium?: string | undefined;
+  low?: string | undefined;
+  profiles?: DatabaseConnectionStringProfile[] | undefined;
 }
 export interface AutonomousDatabaseApex {
-  apexVersion?: string;
-  ordsVersion?: string;
+  apexVersion?: string | undefined;
+  ordsVersion?: string | undefined;
 }
 export interface DatabaseStandbySummary {
-  availabilityDomain?: string;
-  lagTimeInSeconds?: number;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  maintenanceTargetComponent?: string;
-  timeDataGuardRoleChanged?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
+  availabilityDomain?: string | undefined;
+  lagTimeInSeconds?: number | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
 }
 export type DataSafeStatus =
   | "REGISTERING"
@@ -816,15 +817,15 @@ export type OperationsInsightsStatus =
   | "FAILED_DISABLING"
   | (string & {});
 export interface AutonomousDatabaseConnectionUrls {
-  apexUrl?: string;
-  databaseTransformsUrl?: string;
-  graphStudioUrl?: string;
-  machineLearningNotebookUrl?: string;
-  machineLearningUserManagementUrl?: string;
-  mongoDbUrl?: string;
-  ordsUrl?: string;
-  spatialStudioUrl?: string;
-  sqlDevWebUrl?: string;
+  apexUrl?: string | undefined;
+  databaseTransformsUrl?: string | undefined;
+  graphStudioUrl?: string | undefined;
+  machineLearningNotebookUrl?: string | undefined;
+  machineLearningUserManagementUrl?: string | undefined;
+  mongoDbUrl?: string | undefined;
+  ordsUrl?: string | undefined;
+  spatialStudioUrl?: string | undefined;
+  sqlDevWebUrl?: string | undefined;
 }
 export type ComputeModel = "ECPU" | "OCPU" | (string & {});
 export type DataGuardRole =
@@ -835,24 +836,24 @@ export type DataGuardRole =
   | "SNAPSHOT_STANDBY"
   | (string & {});
 export interface DisasterRecoveryConfiguration {
-  disasterRecoveryType?: DisasterRecoveryType;
-  isReplicateAutomaticBackups?: boolean;
-  isSnapshotStandby?: boolean;
-  timeSnapshotStandbyEnabledTill?: Date;
+  disasterRecoveryType?: DisasterRecoveryType | undefined;
+  isReplicateAutomaticBackups?: boolean | undefined;
+  isSnapshotStandby?: boolean | undefined;
+  timeSnapshotStandbyEnabledTill?: Date | undefined;
 }
 export type RefreshableStatus = "REFRESHING" | "NOT_REFRESHING" | (string & {});
 export type RepeatCadence = "ONE_TIME" | "WEEKLY" | "MONTHLY" | "YEARLY" | (string & {});
 export interface LongTermBackupSchedule {
-  isDisabled?: boolean;
-  repeatCadence?: RepeatCadence;
-  retentionPeriodInDays?: number;
-  timeOfBackup?: Date;
+  isDisabled?: boolean | undefined;
+  repeatCadence?: RepeatCadence | undefined;
+  retentionPeriodInDays?: number | undefined;
+  timeOfBackup?: Date | undefined;
 }
 export type EncryptionKeyProvider = "ORACLE_MANAGED" | "AWS_KMS" | "OKV" | "OCI" | (string & {});
 export interface AwsEncryptionKeyConfiguration {
-  iamRoleArn?: string;
-  externalIdType?: ExternalIdType;
-  kmsKeyId?: string;
+  iamRoleArn?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface OciEncryptionKeyConfiguration {
   kmsKeyId: string;
@@ -860,7 +861,7 @@ export interface OciEncryptionKeyConfiguration {
 }
 export interface OkvEncryptionKeyConfiguration {
   certificateDirectoryName: string;
-  certificateId?: string;
+  certificateId?: string | undefined;
   directoryName: string;
   okvKmsKey: string;
   okvUri: string;
@@ -868,140 +869,140 @@ export interface OkvEncryptionKeyConfiguration {
 export type EncryptionKeyConfiguration =
   | {
       awsEncryptionKey: AwsEncryptionKeyConfiguration;
-      ociEncryptionKey?: never;
-      okvEncryptionKey?: never;
+      ociEncryptionKey?: undefined;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
       ociEncryptionKey: OciEncryptionKeyConfiguration;
-      okvEncryptionKey?: never;
+      okvEncryptionKey?: undefined;
     }
   | {
-      awsEncryptionKey?: never;
-      ociEncryptionKey?: never;
+      awsEncryptionKey?: undefined;
+      ociEncryptionKey?: undefined;
       okvEncryptionKey: OkvEncryptionKeyConfiguration;
     };
 export interface EncryptionSummary {
-  encryptionKeyProvider?: EncryptionKeyProvider;
-  encryptionKeyConfiguration?: EncryptionKeyConfiguration;
+  encryptionKeyProvider?: EncryptionKeyProvider | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfiguration | undefined;
 }
 export interface CustomerManagedAwsSecretConfiguration {
-  iamRoleArn?: string;
-  secretId?: string;
-  externalIdType?: ExternalIdType;
+  iamRoleArn?: string | undefined;
+  secretId?: string | undefined;
+  externalIdType?: ExternalIdType | undefined;
 }
 export type AdminPasswordSourceConfiguration = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
 };
 export interface AdminPasswordSourceSummary {
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfiguration;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfiguration | undefined;
 }
 export interface AutonomousDatabase {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  ocid?: string;
-  ociUrl?: string;
-  displayName?: string;
-  dbName?: string;
-  sourceId?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  databaseType?: DatabaseType;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  characterSet?: string;
-  ncharacterSet?: string;
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  isMtlsConnectionRequired?: boolean;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  netServicesArchitecture?: NetServicesArchitecture;
-  availableUpgradeVersions?: string[];
-  byolComputeCountLimit?: number;
-  connectionStringDetails?: AutonomousDatabaseConnectionStrings;
-  serviceConsoleUrl?: string;
-  sqlWebDeveloperUrl?: string;
-  customerContacts?: CustomerContact[];
-  apexDetails?: AutonomousDatabaseApex;
-  standbyDb?: DatabaseStandbySummary;
-  localStandbyDb?: DatabaseStandbySummary;
-  dataSafeStatus?: DataSafeStatus;
-  databaseManagementStatus?: DatabaseManagementStatus;
-  operationsInsightsStatus?: OperationsInsightsStatus;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  maintenanceTargetComponent?: string;
-  connectionUrls?: AutonomousDatabaseConnectionUrls;
-  dbToolsDetails?: DatabaseTool[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  resourcePoolLeaderId?: string;
-  computeCount?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  provisionableCpus?: number[];
-  isAutoScalingEnabled?: boolean;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  usedDataStorageSizeInTBs?: number;
-  usedDataStorageSizeInGBs?: number;
-  actualUsedDataStorageSizeInTBs?: number;
-  allocatedStorageSizeInTBs?: number;
-  inMemoryAreaInGBs?: number;
-  isAutoScalingForStorageEnabled?: boolean;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  privateEndpoint?: string;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  allowlistedIps?: string[];
-  standbyAllowlistedIps?: string[];
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  isLocalDataGuardEnabled?: boolean;
-  isRemoteDataGuardEnabled?: boolean;
-  localDisasterRecoveryType?: DisasterRecoveryType;
-  role?: DataGuardRole;
-  peerDbIds?: string[];
-  failedDataRecoveryInSeconds?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration;
-  isRefreshableClone?: boolean;
-  refreshableMode?: RefreshableMode;
-  refreshableStatus?: RefreshableStatus;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  isReconnectCloneEnabled?: boolean;
-  cloneTableSpaceList?: number[];
-  backupRetentionPeriodInDays?: number;
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  isBackupRetentionLocked?: boolean;
-  totalBackupStorageSizeInGBs?: number;
-  resourcePoolSummary?: ResourcePoolSummary;
-  encryptionSummary?: EncryptionSummary;
-  createdAt?: Date;
-  timeOfLastBackup?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
-  timeLocalDataGuardEnabled?: Date;
-  timeDataGuardRoleChanged?: Date;
-  timeOfLastSwitchover?: Date;
-  timeOfLastFailover?: Date;
-  timeOfLastRefresh?: Date;
-  timeOfLastRefreshPoint?: Date;
-  timeOfNextRefresh?: Date;
-  timeOfAutoRefreshStart?: Date;
-  timeDeletionOfFreeAutonomousDatabase?: Date;
-  timeReclamationOfFreeAutonomousDatabase?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeUntilReconnectCloneEnabled?: Date;
-  nextLongTermBackupTimeStamp?: Date;
-  timeUndeleted?: Date;
-  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  sourceId?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  databaseType?: DatabaseType | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  netServicesArchitecture?: NetServicesArchitecture | undefined;
+  availableUpgradeVersions?: string[] | undefined;
+  byolComputeCountLimit?: number | undefined;
+  connectionStringDetails?: AutonomousDatabaseConnectionStrings | undefined;
+  serviceConsoleUrl?: string | undefined;
+  sqlWebDeveloperUrl?: string | undefined;
+  customerContacts?: CustomerContact[] | undefined;
+  apexDetails?: AutonomousDatabaseApex | undefined;
+  standbyDb?: DatabaseStandbySummary | undefined;
+  localStandbyDb?: DatabaseStandbySummary | undefined;
+  dataSafeStatus?: DataSafeStatus | undefined;
+  databaseManagementStatus?: DatabaseManagementStatus | undefined;
+  operationsInsightsStatus?: OperationsInsightsStatus | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  computeCount?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  provisionableCpus?: number[] | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  usedDataStorageSizeInTBs?: number | undefined;
+  usedDataStorageSizeInGBs?: number | undefined;
+  actualUsedDataStorageSizeInTBs?: number | undefined;
+  allocatedStorageSizeInTBs?: number | undefined;
+  inMemoryAreaInGBs?: number | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  privateEndpoint?: string | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  allowlistedIps?: string[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isRemoteDataGuardEnabled?: boolean | undefined;
+  localDisasterRecoveryType?: DisasterRecoveryType | undefined;
+  role?: DataGuardRole | undefined;
+  peerDbIds?: string[] | undefined;
+  failedDataRecoveryInSeconds?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration | undefined;
+  isRefreshableClone?: boolean | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  refreshableStatus?: RefreshableStatus | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  isReconnectCloneEnabled?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  totalBackupStorageSizeInGBs?: number | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  encryptionSummary?: EncryptionSummary | undefined;
+  createdAt?: Date | undefined;
+  timeOfLastBackup?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
+  timeLocalDataGuardEnabled?: Date | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeOfLastSwitchover?: Date | undefined;
+  timeOfLastFailover?: Date | undefined;
+  timeOfLastRefresh?: Date | undefined;
+  timeOfLastRefreshPoint?: Date | undefined;
+  timeOfNextRefresh?: Date | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  timeDeletionOfFreeAutonomousDatabase?: Date | undefined;
+  timeReclamationOfFreeAutonomousDatabase?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeUntilReconnectCloneEnabled?: Date | undefined;
+  nextLongTermBackupTimeStamp?: Date | undefined;
+  timeUndeleted?: Date | undefined;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary | undefined;
 }
 export interface GetAutonomousDatabaseOutput {
   autonomousDatabase: AutonomousDatabase;
@@ -1025,24 +1026,24 @@ export type AutonomousDatabaseBackupType =
   | "ROLL_FORWARD_IMAGE_COPY"
   | (string & {});
 export interface AutonomousDatabaseBackup {
-  autonomousDatabaseBackupId?: string;
-  autonomousDatabaseBackupArn?: string;
-  autonomousDatabaseId?: string;
-  ocid?: string;
-  displayName?: string;
-  dbVersion?: string;
-  status?: AutonomousDatabaseBackupStatus;
-  statusReason?: string;
-  isAutomatic?: boolean;
-  retentionPeriodInDays?: number;
-  sizeInTBs?: number;
-  timeAvailableTill?: Date;
-  timeStarted?: Date;
-  timeEnded?: Date;
-  type?: AutonomousDatabaseBackupType;
+  autonomousDatabaseBackupId?: string | undefined;
+  autonomousDatabaseBackupArn?: string | undefined;
+  autonomousDatabaseId?: string | undefined;
+  ocid?: string | undefined;
+  displayName?: string | undefined;
+  dbVersion?: string | undefined;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  statusReason?: string | undefined;
+  isAutomatic?: boolean | undefined;
+  retentionPeriodInDays?: number | undefined;
+  sizeInTBs?: number | undefined;
+  timeAvailableTill?: Date | undefined;
+  timeStarted?: Date | undefined;
+  timeEnded?: Date | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export interface GetAutonomousDatabaseBackupOutput {
-  autonomousDatabaseBackup?: AutonomousDatabaseBackup;
+  autonomousDatabaseBackup?: AutonomousDatabaseBackup | undefined;
 }
 export interface GetAutonomousDatabaseWalletDetailsInput {
   autonomousDatabaseId: string;
@@ -1052,13 +1053,13 @@ export type WalletPasswordSourceConfiguration = {
   customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
 };
 export interface WalletPasswordSourceSummary {
-  passwordSource?: WalletPasswordSource;
-  passwordSourceConfiguration?: WalletPasswordSourceConfiguration;
+  passwordSource?: WalletPasswordSource | undefined;
+  passwordSourceConfiguration?: WalletPasswordSourceConfiguration | undefined;
 }
 export interface AutonomousDatabaseWalletDetails {
-  status?: AutonomousDatabaseWalletStatus;
-  timeRotated?: Date;
-  passwordSourceSummary?: WalletPasswordSourceSummary;
+  status?: AutonomousDatabaseWalletStatus | undefined;
+  timeRotated?: Date | undefined;
+  passwordSourceSummary?: WalletPasswordSourceSummary | undefined;
 }
 export interface GetAutonomousDatabaseWalletDetailsOutput {
   autonomousDatabaseWalletDetails: AutonomousDatabaseWalletDetails;
@@ -1076,144 +1077,146 @@ export type IamRoleStatus =
   | "UNKNOWN"
   | (string & {});
 export interface IamRole {
-  iamRoleArn?: string;
-  status?: IamRoleStatus;
-  statusReason?: string;
-  awsIntegration?: SupportedAwsIntegration;
+  iamRoleArn?: string | undefined;
+  status?: IamRoleStatus | undefined;
+  statusReason?: string | undefined;
+  awsIntegration?: SupportedAwsIntegration | undefined;
 }
 export type IamRoleList = IamRole[];
 export interface CloudAutonomousVmCluster {
   cloudAutonomousVmClusterId: string;
-  cloudAutonomousVmClusterArn?: string;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  autonomousDataStoragePercentage?: number;
-  autonomousDataStorageSizeInTBs?: number;
-  availableAutonomousDataStorageSizeInTBs?: number;
-  availableContainerDatabases?: number;
-  availableCpus?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  cpuCoreCountPerNode?: number;
-  cpuPercentage?: number;
-  dataStorageSizeInGBs?: number;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  description?: string;
-  domain?: string;
-  exadataStorageInTBsLowestScaledValue?: number;
-  hostname?: string;
-  ocid?: string;
-  ociUrl?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
-  maxAcdsLowestScaledValue?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  nonProvisionableAutonomousContainerDatabases?: number;
-  provisionableAutonomousContainerDatabases?: number;
-  provisionedAutonomousContainerDatabases?: number;
-  provisionedCpus?: number;
-  reclaimableCpus?: number;
-  reservedCpus?: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  shape?: string;
-  createdAt?: Date;
-  timeDatabaseSslCertificateExpires?: Date;
-  timeOrdsCertificateExpires?: Date;
-  timeZone?: string;
-  totalContainerDatabases?: number;
-  iamRoles?: IamRole[];
+  cloudAutonomousVmClusterArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  autonomousDataStoragePercentage?: number | undefined;
+  autonomousDataStorageSizeInTBs?: number | undefined;
+  availableAutonomousDataStorageSizeInTBs?: number | undefined;
+  availableContainerDatabases?: number | undefined;
+  availableCpus?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  cpuCoreCountPerNode?: number | undefined;
+  cpuPercentage?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  exadataStorageInTBsLowestScaledValue?: number | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxAcdsLowestScaledValue?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  nonProvisionableAutonomousContainerDatabases?: number | undefined;
+  provisionableAutonomousContainerDatabases?: number | undefined;
+  provisionedAutonomousContainerDatabases?: number | undefined;
+  provisionedCpus?: number | undefined;
+  reclaimableCpus?: number | undefined;
+  reservedCpus?: number | undefined;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  timeDatabaseSslCertificateExpires?: Date | undefined;
+  timeOrdsCertificateExpires?: Date | undefined;
+  timeZone?: string | undefined;
+  totalContainerDatabases?: number | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export interface GetCloudAutonomousVmClusterOutput {
-  cloudAutonomousVmCluster?: CloudAutonomousVmCluster;
+  cloudAutonomousVmCluster?: CloudAutonomousVmCluster | undefined;
 }
 export interface GetCloudExadataInfrastructureInput {
   cloudExadataInfrastructureId: string;
 }
 export interface CloudExadataInfrastructure {
   cloudExadataInfrastructureId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureArn?: string;
-  activatedStorageCount?: number;
-  additionalStorageCount?: number;
-  availableStorageSizeInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  computeCount?: number;
-  cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerVersion?: string;
-  lastMaintenanceRunId?: string;
-  maintenanceWindow?: MaintenanceWindow;
-  maxCpuCount?: number;
-  maxDataStorageInTBs?: number;
-  maxDbNodeStorageSizeInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  monthlyDbServerVersion?: string;
-  monthlyStorageServerVersion?: string;
-  nextMaintenanceRunId?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  ocid?: string;
-  shape?: string;
-  storageCount?: number;
-  storageServerVersion?: string;
-  createdAt?: Date;
-  totalStorageSizeInGBs?: number;
-  percentProgress?: number;
-  databaseServerType?: string;
-  storageServerType?: string;
-  computeModel?: ComputeModel;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  activatedStorageCount?: number | undefined;
+  additionalStorageCount?: number | undefined;
+  availableStorageSizeInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  computeCount?: number | undefined;
+  cpuCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerVersion?: string | undefined;
+  lastMaintenanceRunId?: string | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxCpuCount?: number | undefined;
+  maxDataStorageInTBs?: number | undefined;
+  maxDbNodeStorageSizeInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  monthlyDbServerVersion?: string | undefined;
+  monthlyStorageServerVersion?: string | undefined;
+  nextMaintenanceRunId?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  ocid?: string | undefined;
+  shape?: string | undefined;
+  storageCount?: number | undefined;
+  storageServerVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  totalStorageSizeInGBs?: number | undefined;
+  percentProgress?: number | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
+  computeModel?: ComputeModel | undefined;
 }
 export interface GetCloudExadataInfrastructureOutput {
-  cloudExadataInfrastructure?: CloudExadataInfrastructure;
+  cloudExadataInfrastructure?: CloudExadataInfrastructure | undefined;
 }
 export interface GetCloudExadataInfrastructureUnallocatedResourcesInput {
   cloudExadataInfrastructureId: string;
-  dbServers?: string[];
+  dbServers?: string[] | undefined;
 }
 export interface CloudAutonomousVmClusterResourceDetails {
-  cloudAutonomousVmClusterId?: string;
-  unallocatedAdbStorageInTBs?: number;
+  cloudAutonomousVmClusterId?: string | undefined;
+  unallocatedAdbStorageInTBs?: number | undefined;
 }
 export type CloudAutonomousVmClusterResourceDetailsList = CloudAutonomousVmClusterResourceDetails[];
 export interface CloudExadataInfrastructureUnallocatedResources {
-  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetails[];
-  cloudExadataInfrastructureDisplayName?: string;
-  exadataStorageInTBs?: number;
-  cloudExadataInfrastructureId?: string;
-  localStorageInGBs?: number;
-  memoryInGBs?: number;
-  ocpus?: number;
+  cloudAutonomousVmClusters?: CloudAutonomousVmClusterResourceDetails[] | undefined;
+  cloudExadataInfrastructureDisplayName?: string | undefined;
+  exadataStorageInTBs?: number | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  localStorageInGBs?: number | undefined;
+  memoryInGBs?: number | undefined;
+  ocpus?: number | undefined;
 }
 export interface GetCloudExadataInfrastructureUnallocatedResourcesOutput {
-  cloudExadataInfrastructureUnallocatedResources?: CloudExadataInfrastructureUnallocatedResources;
+  cloudExadataInfrastructureUnallocatedResources?:
+    | CloudExadataInfrastructureUnallocatedResources
+    | undefined;
 }
 export interface GetCloudVmClusterInput {
   cloudVmClusterId: string;
 }
 export type DiskRedundancy = "HIGH" | "NORMAL" | (string & {});
 export interface DbIormConfig {
-  dbName?: string;
-  flashCacheLimit?: string;
-  share?: number;
+  dbName?: string | undefined;
+  flashCacheLimit?: string | undefined;
+  share?: number | undefined;
 }
 export type DbIormConfigList = DbIormConfig[];
 export type IormLifecycleState =
@@ -1231,63 +1234,63 @@ export type Objective =
   | "LOW_LATENCY"
   | (string & {});
 export interface ExadataIormConfig {
-  dbPlans?: DbIormConfig[];
-  lifecycleDetails?: string;
-  lifecycleState?: IormLifecycleState;
-  objective?: Objective;
+  dbPlans?: DbIormConfig[] | undefined;
+  lifecycleDetails?: string | undefined;
+  lifecycleState?: IormLifecycleState | undefined;
+  objective?: Objective | undefined;
 }
 export type SensitiveStringList = (string | redacted.Redacted<string>)[];
 export interface CloudVmCluster {
   cloudVmClusterId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudVmClusterArn?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  clusterName?: string;
-  cpuCoreCount?: number;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  diskRedundancy?: DiskRedundancy;
-  giVersion?: string;
-  hostname?: string;
-  iormConfigCache?: ExadataIormConfig;
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  domain?: string;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  shape?: string;
-  sshPublicKeys?: (string | redacted.Redacted<string>)[];
-  storageSizeInGBs?: number;
-  systemVersion?: string;
-  createdAt?: Date;
-  timeZone?: string;
-  vipIds?: string[];
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  percentProgress?: number;
-  computeModel?: ComputeModel;
-  iamRoles?: IamRole[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  clusterName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  diskRedundancy?: DiskRedundancy | undefined;
+  giVersion?: string | undefined;
+  hostname?: string | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  domain?: string | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  shape?: string | undefined;
+  sshPublicKeys?: (string | redacted.Redacted<string>)[] | undefined;
+  storageSizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  timeZone?: string | undefined;
+  vipIds?: string[] | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  percentProgress?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export interface GetCloudVmClusterOutput {
-  cloudVmCluster?: CloudVmCluster;
+  cloudVmCluster?: CloudVmCluster | undefined;
 }
 export interface GetDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export type DbNodeResourceStatus =
@@ -1303,37 +1306,37 @@ export type DbNodeResourceStatus =
   | (string & {});
 export type DbNodeMaintenanceType = "VMDB_REBOOT_MIGRATION" | (string & {});
 export interface DbNode {
-  dbNodeId?: string;
-  dbNodeArn?: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
-  additionalDetails?: string;
-  backupIpId?: string;
-  backupVnic2Id?: string;
-  backupVnicId?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerId?: string;
-  dbSystemId?: string;
-  faultDomain?: string;
-  hostIpId?: string;
-  hostname?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maintenanceType?: DbNodeMaintenanceType;
-  memorySizeInGBs?: number;
-  softwareStorageSizeInGB?: number;
-  createdAt?: Date;
-  timeMaintenanceWindowEnd?: string;
-  timeMaintenanceWindowStart?: string;
-  totalCpuCoreCount?: number;
-  vnic2Id?: string;
-  vnicId?: string;
-  privateIpAddress?: string;
-  floatingIpAddress?: string;
+  dbNodeId?: string | undefined;
+  dbNodeArn?: string | undefined;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
+  additionalDetails?: string | undefined;
+  backupIpId?: string | undefined;
+  backupVnic2Id?: string | undefined;
+  backupVnicId?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerId?: string | undefined;
+  dbSystemId?: string | undefined;
+  faultDomain?: string | undefined;
+  hostIpId?: string | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maintenanceType?: DbNodeMaintenanceType | undefined;
+  memorySizeInGBs?: number | undefined;
+  softwareStorageSizeInGB?: number | undefined;
+  createdAt?: Date | undefined;
+  timeMaintenanceWindowEnd?: string | undefined;
+  timeMaintenanceWindowStart?: string | undefined;
+  totalCpuCoreCount?: number | undefined;
+  vnic2Id?: string | undefined;
+  vnicId?: string | undefined;
+  privateIpAddress?: string | undefined;
+  floatingIpAddress?: string | undefined;
 }
 export interface GetDbNodeOutput {
-  dbNode?: DbNode;
+  dbNode?: DbNode | undefined;
 }
 export interface GetDbServerInput {
   cloudExadataInfrastructureId: string;
@@ -1346,88 +1349,88 @@ export type DbServerPatchingStatus =
   | "SCHEDULED"
   | (string & {});
 export interface DbServerPatchingDetails {
-  estimatedPatchDuration?: number;
-  patchingStatus?: DbServerPatchingStatus;
-  timePatchingEnded?: string;
-  timePatchingStarted?: string;
+  estimatedPatchDuration?: number | undefined;
+  patchingStatus?: DbServerPatchingStatus | undefined;
+  timePatchingEnded?: string | undefined;
+  timePatchingStarted?: string | undefined;
 }
 export interface DbServer {
-  dbServerId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerPatchingDetails?: DbServerPatchingDetails;
-  displayName?: string;
-  exadataInfrastructureId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maxCpuCount?: number;
-  maxDbNodeStorageInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  shape?: string;
-  createdAt?: Date;
-  vmClusterIds?: string[];
-  computeModel?: ComputeModel;
-  autonomousVmClusterIds?: string[];
-  autonomousVirtualMachineIds?: string[];
+  dbServerId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerPatchingDetails?: DbServerPatchingDetails | undefined;
+  displayName?: string | undefined;
+  exadataInfrastructureId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maxCpuCount?: number | undefined;
+  maxDbNodeStorageInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  vmClusterIds?: string[] | undefined;
+  computeModel?: ComputeModel | undefined;
+  autonomousVmClusterIds?: string[] | undefined;
+  autonomousVirtualMachineIds?: string[] | undefined;
 }
 export interface GetDbServerOutput {
-  dbServer?: DbServer;
+  dbServer?: DbServer | undefined;
 }
 export interface GetExadbVmClusterInput {
   exadbVmClusterId: string;
 }
 export type GridImageType = "RELEASE_UPDATE" | "CUSTOM_IMAGE" | (string & {});
 export interface ExadbVmClusterStorageDetails {
-  totalSizeInGBs?: number;
+  totalSizeInGBs?: number | undefined;
 }
 export interface ExadbVmCluster {
   exadbVmClusterId: string;
-  clusterName?: string;
-  createdAt?: Date;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  domain?: string;
-  enabledEcpuCount?: number;
-  exadbVmClusterArn?: string;
-  exascaleDbStorageVaultArn?: string;
-  exascaleDbStorageVaultId?: string;
-  giVersion?: string;
-  gridImageId?: string;
-  gridImageType?: GridImageType;
-  hostname?: string;
-  iamRoles?: IamRole[];
-  iormConfigCache?: ExadataIormConfig;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  odbNetworkArn?: string;
-  odbNetworkId?: string;
-  percentProgress?: number;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shape?: string;
-  shapeAttribute?: ShapeAttribute;
-  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-  sshPublicKeys?: string[];
-  status?: ResourceStatus;
-  statusReason?: string;
-  systemVersion?: string;
-  timeZone?: string;
-  totalEcpuCount?: number;
-  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-  vipIds?: string[];
-  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+  clusterName?: string | undefined;
+  createdAt?: Date | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  domain?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  exadbVmClusterArn?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  giVersion?: string | undefined;
+  gridImageId?: string | undefined;
+  gridImageType?: GridImageType | undefined;
+  hostname?: string | undefined;
+  iamRoles?: IamRole[] | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  percentProgress?: number | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shape?: string | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  sshPublicKeys?: string[] | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  vipIds?: string[] | undefined;
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
 }
 export interface GetExadbVmClusterOutput {
   exadbVmCluster: ExadbVmCluster;
@@ -1438,32 +1441,32 @@ export interface GetExascaleDbStorageVaultInput {
 export type ShapeAttributeList = ShapeAttribute[];
 export type ResourceArnList = string[];
 export interface ExascaleDbStorageDetails {
-  availableSizeInGBs?: number;
-  totalSizeInGBs?: number;
+  availableSizeInGBs?: number | undefined;
+  totalSizeInGBs?: number | undefined;
 }
 export interface ExascaleDbStorageVault {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  attachedShapeAttributes?: ShapeAttribute[];
-  autoscaleLimitInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  createdAt?: Date;
-  description?: string;
-  displayName?: string;
-  vmClusterArns?: string[];
-  vmClusterCount?: number;
-  vmClusterIds?: string[];
-  exascaleDbStorageVaultArn?: string;
-  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-  isAutoscaleEnabled?: boolean;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  percentProgress?: number;
-  status?: ResourceStatus;
-  statusReason?: string;
-  timeZone?: string;
+  additionalFlashCacheInPercent?: number | undefined;
+  attachedShapeAttributes?: ShapeAttribute[] | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  vmClusterArns?: string[] | undefined;
+  vmClusterCount?: number | undefined;
+  vmClusterIds?: string[] | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  percentProgress?: number | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  timeZone?: string | undefined;
 }
 export interface GetExascaleDbStorageVaultOutput {
   exascaleDbStorageVault: ExascaleDbStorageVault;
@@ -1484,12 +1487,12 @@ export type OciOnboardingStatus =
   | "CANCELED"
   | (string & {});
 export interface OciIdentityDomain {
-  ociIdentityDomainId?: string;
-  ociIdentityDomainResourceUrl?: string;
-  ociIdentityDomainUrl?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  accountSetupCloudFormationUrl?: string;
+  ociIdentityDomainId?: string | undefined;
+  ociIdentityDomainResourceUrl?: string | undefined;
+  ociIdentityDomainUrl?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  accountSetupCloudFormationUrl?: string | undefined;
 }
 export type OciAwsIntegration = "KmsTde" | "SecretsManager" | (string & {});
 export type OciIamRoleStatus =
@@ -1500,38 +1503,38 @@ export type OciIamRoleStatus =
   | "TERMINATE_FAILED"
   | (string & {});
 export interface OciIamRole {
-  iamRoleArn?: string;
-  awsIntegration?: OciAwsIntegration;
-  status?: OciIamRoleStatus;
-  statusReason?: string;
+  iamRoleArn?: string | undefined;
+  awsIntegration?: OciAwsIntegration | undefined;
+  status?: OciIamRoleStatus | undefined;
+  statusReason?: string | undefined;
 }
 export type OciIamRoleList = OciIamRole[];
 export interface SubscriptionError {
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type SubscriptionErrors = SubscriptionError[];
 export interface GetOciOnboardingStatusOutput {
-  status?: OciOnboardingStatus;
-  existingTenancyActivationLink?: string;
-  newTenancyActivationLink?: string;
-  ociIdentityDomain?: OciIdentityDomain;
-  autonomousDatabaseOciIntegrationIamRoles?: OciIamRole[];
-  linkedOciTenancyId?: string;
-  linkedOciCompartmentId?: string;
-  subscriptionErrors?: SubscriptionError[];
+  status?: OciOnboardingStatus | undefined;
+  existingTenancyActivationLink?: string | undefined;
+  newTenancyActivationLink?: string | undefined;
+  ociIdentityDomain?: OciIdentityDomain | undefined;
+  autonomousDatabaseOciIntegrationIamRoles?: OciIamRole[] | undefined;
+  linkedOciTenancyId?: string | undefined;
+  linkedOciCompartmentId?: string | undefined;
+  subscriptionErrors?: SubscriptionError[] | undefined;
 }
 export interface GetOdbNetworkInput {
   odbNetworkId: string;
 }
 export interface OciDnsForwardingConfig {
-  domainName?: string;
-  ociDnsListenerIp?: string;
+  domainName?: string | undefined;
+  ociDnsListenerIp?: string | undefined;
 }
 export type OciDnsForwardingConfigList = OciDnsForwardingConfig[];
 export type VpcEndpointType = "SERVICENETWORK" | (string & {});
 export interface ServiceNetworkEndpoint {
-  vpcEndpointId?: string;
-  vpcEndpointType?: VpcEndpointType;
+  vpcEndpointId?: string | undefined;
+  vpcEndpointType?: VpcEndpointType | undefined;
 }
 export type ManagedResourceStatus =
   | "ENABLED"
@@ -1540,815 +1543,815 @@ export type ManagedResourceStatus =
   | "DISABLING"
   | (string & {});
 export interface ManagedS3BackupAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
 }
 export interface ZeroEtlAccess {
-  status?: ManagedResourceStatus;
-  cidr?: string;
+  status?: ManagedResourceStatus | undefined;
+  cidr?: string | undefined;
 }
 export interface S3Access {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  s3PolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  s3PolicyDocument?: string | undefined;
 }
 export interface StsAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  stsPolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  stsPolicyDocument?: string | undefined;
 }
 export interface KmsAccess {
-  status?: ManagedResourceStatus;
-  ipv4Addresses?: string[];
-  domainName?: string;
-  kmsPolicyDocument?: string;
+  status?: ManagedResourceStatus | undefined;
+  ipv4Addresses?: string[] | undefined;
+  domainName?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
 }
 export interface CrossRegionS3RestoreSourcesAccess {
-  region?: string;
-  ipv4Addresses?: string[];
-  status?: ManagedResourceStatus;
+  region?: string | undefined;
+  ipv4Addresses?: string[] | undefined;
+  status?: ManagedResourceStatus | undefined;
 }
 export type CrossRegionS3RestoreSourcesAccessList = CrossRegionS3RestoreSourcesAccess[];
 export interface ManagedServices {
-  serviceNetworkArn?: string;
-  resourceGatewayArn?: string;
-  managedServicesIpv4Cidrs?: string[];
-  serviceNetworkEndpoint?: ServiceNetworkEndpoint;
-  managedS3BackupAccess?: ManagedS3BackupAccess;
-  zeroEtlAccess?: ZeroEtlAccess;
-  s3Access?: S3Access;
-  stsAccess?: StsAccess;
-  kmsAccess?: KmsAccess;
-  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccess[];
+  serviceNetworkArn?: string | undefined;
+  resourceGatewayArn?: string | undefined;
+  managedServicesIpv4Cidrs?: string[] | undefined;
+  serviceNetworkEndpoint?: ServiceNetworkEndpoint | undefined;
+  managedS3BackupAccess?: ManagedS3BackupAccess | undefined;
+  zeroEtlAccess?: ZeroEtlAccess | undefined;
+  s3Access?: S3Access | undefined;
+  stsAccess?: StsAccess | undefined;
+  kmsAccess?: KmsAccess | undefined;
+  crossRegionS3RestoreSourcesAccess?: CrossRegionS3RestoreSourcesAccess[] | undefined;
 }
 export interface OdbNetwork {
   odbNetworkId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbNetworkArn?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  clientSubnetCidr?: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  peeredCidrs?: string[];
-  ociNetworkAnchorId?: string;
-  ociNetworkAnchorUrl?: string;
-  ociResourceAnchorName?: string;
-  ociVcnId?: string;
-  ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
-  createdAt?: Date;
-  percentProgress?: number;
-  managedServices?: ManagedServices;
-  ec2PlacementGroupIds?: string[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  clientSubnetCidr?: string | undefined;
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  peeredCidrs?: string[] | undefined;
+  ociNetworkAnchorId?: string | undefined;
+  ociNetworkAnchorUrl?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociVcnId?: string | undefined;
+  ociVcnUrl?: string | undefined;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
+  managedServices?: ManagedServices | undefined;
+  ec2PlacementGroupIds?: string[] | undefined;
 }
 export interface GetOdbNetworkOutput {
-  odbNetwork?: OdbNetwork;
+  odbNetwork?: OdbNetwork | undefined;
 }
 export interface GetOdbPeeringConnectionInput {
   odbPeeringConnectionId: string;
 }
 export interface OdbPeeringConnection {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbPeeringConnectionArn?: string;
-  odbNetworkArn?: string;
-  peerNetworkArn?: string;
-  odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: string[];
-  createdAt?: Date;
-  percentProgress?: number;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbPeeringConnectionArn?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  peerNetworkArn?: string | undefined;
+  odbPeeringConnectionType?: string | undefined;
+  peerNetworkCidrs?: string[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
 }
 export interface GetOdbPeeringConnectionOutput {
-  odbPeeringConnection?: OdbPeeringConnection;
+  odbPeeringConnection?: OdbPeeringConnection | undefined;
 }
 export interface InitializeServiceInput {
-  ociIdentityDomain?: boolean;
-  autonomousDatabaseOciAwsSecretsManagerIntegration?: Access;
+  ociIdentityDomain?: boolean | undefined;
+  autonomousDatabaseOciAwsSecretsManagerIntegration?: Access | undefined;
 }
 export interface InitializeServiceOutput {}
 export interface ListAutonomousDatabaseBackupsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
-  status?: AutonomousDatabaseBackupStatus;
-  type?: AutonomousDatabaseBackupType;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export interface AutonomousDatabaseBackupSummary {
-  autonomousDatabaseBackupId?: string;
-  autonomousDatabaseBackupArn?: string;
-  autonomousDatabaseId?: string;
-  ocid?: string;
-  displayName?: string;
-  dbVersion?: string;
-  status?: AutonomousDatabaseBackupStatus;
-  statusReason?: string;
-  isAutomatic?: boolean;
-  retentionPeriodInDays?: number;
-  sizeInTBs?: number;
-  timeAvailableTill?: Date;
-  timeStarted?: Date;
-  timeEnded?: Date;
-  type?: AutonomousDatabaseBackupType;
+  autonomousDatabaseBackupId?: string | undefined;
+  autonomousDatabaseBackupArn?: string | undefined;
+  autonomousDatabaseId?: string | undefined;
+  ocid?: string | undefined;
+  displayName?: string | undefined;
+  dbVersion?: string | undefined;
+  status?: AutonomousDatabaseBackupStatus | undefined;
+  statusReason?: string | undefined;
+  isAutomatic?: boolean | undefined;
+  retentionPeriodInDays?: number | undefined;
+  sizeInTBs?: number | undefined;
+  timeAvailableTill?: Date | undefined;
+  timeStarted?: Date | undefined;
+  timeEnded?: Date | undefined;
+  type?: AutonomousDatabaseBackupType | undefined;
 }
 export type AutonomousDatabaseBackupList = AutonomousDatabaseBackupSummary[];
 export interface ListAutonomousDatabaseBackupsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseBackups: AutonomousDatabaseBackupSummary[];
 }
 export type CharacterSetType = "DATABASE" | "NATIONAL" | (string & {});
 export interface ListAutonomousDatabaseCharacterSetsInput {
-  maxResults?: number;
-  nextToken?: string;
-  characterSetType?: CharacterSetType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  characterSetType?: CharacterSetType | undefined;
 }
 export interface AutonomousDatabaseCharacterSetSummary {
-  characterSet?: string;
+  characterSet?: string | undefined;
 }
 export type AutonomousDatabaseCharacterSetList = AutonomousDatabaseCharacterSetSummary[];
 export interface ListAutonomousDatabaseCharacterSetsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSetSummary[];
 }
 export interface ListAutonomousDatabaseClonesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
 }
 export interface AutonomousDatabaseSummary {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  ocid?: string;
-  ociUrl?: string;
-  displayName?: string;
-  dbName?: string;
-  sourceId?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
-  databaseType?: DatabaseType;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  characterSet?: string;
-  ncharacterSet?: string;
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  isMtlsConnectionRequired?: boolean;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  netServicesArchitecture?: NetServicesArchitecture;
-  availableUpgradeVersions?: string[];
-  byolComputeCountLimit?: number;
-  connectionStringDetails?: AutonomousDatabaseConnectionStrings;
-  serviceConsoleUrl?: string;
-  sqlWebDeveloperUrl?: string;
-  customerContacts?: CustomerContact[];
-  apexDetails?: AutonomousDatabaseApex;
-  standbyDb?: DatabaseStandbySummary;
-  localStandbyDb?: DatabaseStandbySummary;
-  dataSafeStatus?: DataSafeStatus;
-  databaseManagementStatus?: DatabaseManagementStatus;
-  operationsInsightsStatus?: OperationsInsightsStatus;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  maintenanceTargetComponent?: string;
-  connectionUrls?: AutonomousDatabaseConnectionUrls;
-  dbToolsDetails?: DatabaseTool[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  resourcePoolLeaderId?: string;
-  computeCount?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  provisionableCpus?: number[];
-  isAutoScalingEnabled?: boolean;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  usedDataStorageSizeInTBs?: number;
-  usedDataStorageSizeInGBs?: number;
-  actualUsedDataStorageSizeInTBs?: number;
-  allocatedStorageSizeInTBs?: number;
-  inMemoryAreaInGBs?: number;
-  isAutoScalingForStorageEnabled?: boolean;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  privateEndpoint?: string;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  allowlistedIps?: string[];
-  standbyAllowlistedIps?: string[];
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  isLocalDataGuardEnabled?: boolean;
-  isRemoteDataGuardEnabled?: boolean;
-  localDisasterRecoveryType?: DisasterRecoveryType;
-  role?: DataGuardRole;
-  peerDbIds?: string[];
-  failedDataRecoveryInSeconds?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration;
-  isRefreshableClone?: boolean;
-  refreshableMode?: RefreshableMode;
-  refreshableStatus?: RefreshableStatus;
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  isReconnectCloneEnabled?: boolean;
-  cloneTableSpaceList?: number[];
-  backupRetentionPeriodInDays?: number;
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  isBackupRetentionLocked?: boolean;
-  totalBackupStorageSizeInGBs?: number;
-  resourcePoolSummary?: ResourcePoolSummary;
-  encryptionSummary?: EncryptionSummary;
-  createdAt?: Date;
-  timeOfLastBackup?: Date;
-  timeMaintenanceBegin?: Date;
-  timeMaintenanceEnd?: Date;
-  timeLocalDataGuardEnabled?: Date;
-  timeDataGuardRoleChanged?: Date;
-  timeOfLastSwitchover?: Date;
-  timeOfLastFailover?: Date;
-  timeOfLastRefresh?: Date;
-  timeOfLastRefreshPoint?: Date;
-  timeOfNextRefresh?: Date;
-  timeOfAutoRefreshStart?: Date;
-  timeDeletionOfFreeAutonomousDatabase?: Date;
-  timeReclamationOfFreeAutonomousDatabase?: Date;
-  timeDisasterRecoveryRoleChanged?: Date;
-  timeUntilReconnectCloneEnabled?: Date;
-  nextLongTermBackupTimeStamp?: Date;
-  timeUndeleted?: Date;
-  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  sourceId?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  databaseType?: DatabaseType | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  characterSet?: string | undefined;
+  ncharacterSet?: string | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  netServicesArchitecture?: NetServicesArchitecture | undefined;
+  availableUpgradeVersions?: string[] | undefined;
+  byolComputeCountLimit?: number | undefined;
+  connectionStringDetails?: AutonomousDatabaseConnectionStrings | undefined;
+  serviceConsoleUrl?: string | undefined;
+  sqlWebDeveloperUrl?: string | undefined;
+  customerContacts?: CustomerContact[] | undefined;
+  apexDetails?: AutonomousDatabaseApex | undefined;
+  standbyDb?: DatabaseStandbySummary | undefined;
+  localStandbyDb?: DatabaseStandbySummary | undefined;
+  dataSafeStatus?: DataSafeStatus | undefined;
+  databaseManagementStatus?: DatabaseManagementStatus | undefined;
+  operationsInsightsStatus?: OperationsInsightsStatus | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  maintenanceTargetComponent?: string | undefined;
+  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  computeCount?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  provisionableCpus?: number[] | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  usedDataStorageSizeInTBs?: number | undefined;
+  usedDataStorageSizeInGBs?: number | undefined;
+  actualUsedDataStorageSizeInTBs?: number | undefined;
+  allocatedStorageSizeInTBs?: number | undefined;
+  inMemoryAreaInGBs?: number | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  privateEndpoint?: string | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  allowlistedIps?: string[] | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isRemoteDataGuardEnabled?: boolean | undefined;
+  localDisasterRecoveryType?: DisasterRecoveryType | undefined;
+  role?: DataGuardRole | undefined;
+  peerDbIds?: string[] | undefined;
+  failedDataRecoveryInSeconds?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfiguration | undefined;
+  isRefreshableClone?: boolean | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  refreshableStatus?: RefreshableStatus | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  isReconnectCloneEnabled?: boolean | undefined;
+  cloneTableSpaceList?: number[] | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  totalBackupStorageSizeInGBs?: number | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  encryptionSummary?: EncryptionSummary | undefined;
+  createdAt?: Date | undefined;
+  timeOfLastBackup?: Date | undefined;
+  timeMaintenanceBegin?: Date | undefined;
+  timeMaintenanceEnd?: Date | undefined;
+  timeLocalDataGuardEnabled?: Date | undefined;
+  timeDataGuardRoleChanged?: Date | undefined;
+  timeOfLastSwitchover?: Date | undefined;
+  timeOfLastFailover?: Date | undefined;
+  timeOfLastRefresh?: Date | undefined;
+  timeOfLastRefreshPoint?: Date | undefined;
+  timeOfNextRefresh?: Date | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  timeDeletionOfFreeAutonomousDatabase?: Date | undefined;
+  timeReclamationOfFreeAutonomousDatabase?: Date | undefined;
+  timeDisasterRecoveryRoleChanged?: Date | undefined;
+  timeUntilReconnectCloneEnabled?: Date | undefined;
+  nextLongTermBackupTimeStamp?: Date | undefined;
+  timeUndeleted?: Date | undefined;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary | undefined;
 }
 export type AutonomousDatabaseList = AutonomousDatabaseSummary[];
 export interface ListAutonomousDatabaseClonesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseClones: AutonomousDatabaseSummary[];
 }
 export interface ListAutonomousDatabasePeersInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   autonomousDatabaseId: string;
 }
 export interface AutonomousDatabasePeerSummary {
-  autonomousDatabaseId?: string;
-  autonomousDatabaseArn?: string;
-  ocid?: string;
-  region?: string;
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ocid?: string | undefined;
+  region?: string | undefined;
 }
 export type AutonomousDatabasePeerList = AutonomousDatabasePeerSummary[];
 export interface ListAutonomousDatabasePeersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabasePeers: AutonomousDatabasePeerSummary[];
 }
 export interface ListAutonomousDatabasesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutonomousDatabasesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabases: AutonomousDatabaseSummary[];
 }
 export interface ListAutonomousDatabaseVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  dbWorkload?: DbWorkload;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
 }
 export interface AutonomousDatabaseVersionSummary {
-  dbWorkload?: DbWorkload;
-  details?: string;
-  version?: string;
+  dbWorkload?: DbWorkload | undefined;
+  details?: string | undefined;
+  version?: string | undefined;
 }
 export type AutonomousDatabaseVersionList = AutonomousDatabaseVersionSummary[];
 export interface ListAutonomousDatabaseVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousDatabaseVersions: AutonomousDatabaseVersionSummary[];
 }
 export interface ListAutonomousVirtualMachinesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   cloudAutonomousVmClusterId: string;
 }
 export interface AutonomousVirtualMachineSummary {
-  autonomousVirtualMachineId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  vmName?: string;
-  dbServerId?: string;
-  dbServerDisplayName?: string;
-  cpuCoreCount?: number;
-  memorySizeInGBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  clientIpAddress?: string;
-  cloudAutonomousVmClusterId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
+  autonomousVirtualMachineId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  vmName?: string | undefined;
+  dbServerId?: string | undefined;
+  dbServerDisplayName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  clientIpAddress?: string | undefined;
+  cloudAutonomousVmClusterId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
 }
 export type AutonomousVirtualMachineList = AutonomousVirtualMachineSummary[];
 export interface ListAutonomousVirtualMachinesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   autonomousVirtualMachines: AutonomousVirtualMachineSummary[];
 }
 export interface ListCloudAutonomousVmClustersInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudExadataInfrastructureId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
 }
 export interface CloudAutonomousVmClusterSummary {
   cloudAutonomousVmClusterId: string;
-  cloudAutonomousVmClusterArn?: string;
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  ociResourceAnchorName?: string;
-  percentProgress?: number;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  autonomousDataStoragePercentage?: number;
-  autonomousDataStorageSizeInTBs?: number;
-  availableAutonomousDataStorageSizeInTBs?: number;
-  availableContainerDatabases?: number;
-  availableCpus?: number;
-  computeModel?: ComputeModel;
-  cpuCoreCount?: number;
-  cpuCoreCountPerNode?: number;
-  cpuPercentage?: number;
-  dataStorageSizeInGBs?: number;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  description?: string;
-  domain?: string;
-  exadataStorageInTBsLowestScaledValue?: number;
-  hostname?: string;
-  ocid?: string;
-  ociUrl?: string;
-  isMtlsEnabledVmCluster?: boolean;
-  licenseModel?: LicenseModel;
-  maintenanceWindow?: MaintenanceWindow;
-  maxAcdsLowestScaledValue?: number;
-  memoryPerOracleComputeUnitInGBs?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  nonProvisionableAutonomousContainerDatabases?: number;
-  provisionableAutonomousContainerDatabases?: number;
-  provisionedAutonomousContainerDatabases?: number;
-  provisionedCpus?: number;
-  reclaimableCpus?: number;
-  reservedCpus?: number;
-  scanListenerPortNonTls?: number;
-  scanListenerPortTls?: number;
-  shape?: string;
-  createdAt?: Date;
-  timeDatabaseSslCertificateExpires?: Date;
-  timeOrdsCertificateExpires?: Date;
-  timeZone?: string;
-  totalContainerDatabases?: number;
-  iamRoles?: IamRole[];
+  cloudAutonomousVmClusterArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  percentProgress?: number | undefined;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  autonomousDataStoragePercentage?: number | undefined;
+  autonomousDataStorageSizeInTBs?: number | undefined;
+  availableAutonomousDataStorageSizeInTBs?: number | undefined;
+  availableContainerDatabases?: number | undefined;
+  availableCpus?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  cpuCoreCount?: number | undefined;
+  cpuCoreCountPerNode?: number | undefined;
+  cpuPercentage?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  exadataStorageInTBsLowestScaledValue?: number | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociUrl?: string | undefined;
+  isMtlsEnabledVmCluster?: boolean | undefined;
+  licenseModel?: LicenseModel | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxAcdsLowestScaledValue?: number | undefined;
+  memoryPerOracleComputeUnitInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  nonProvisionableAutonomousContainerDatabases?: number | undefined;
+  provisionableAutonomousContainerDatabases?: number | undefined;
+  provisionedAutonomousContainerDatabases?: number | undefined;
+  provisionedCpus?: number | undefined;
+  reclaimableCpus?: number | undefined;
+  reservedCpus?: number | undefined;
+  scanListenerPortNonTls?: number | undefined;
+  scanListenerPortTls?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  timeDatabaseSslCertificateExpires?: Date | undefined;
+  timeOrdsCertificateExpires?: Date | undefined;
+  timeZone?: string | undefined;
+  totalContainerDatabases?: number | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export type CloudAutonomousVmClusterList = CloudAutonomousVmClusterSummary[];
 export interface ListCloudAutonomousVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudAutonomousVmClusters: CloudAutonomousVmClusterSummary[];
 }
 export interface ListCloudExadataInfrastructuresInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface CloudExadataInfrastructureSummary {
   cloudExadataInfrastructureId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudExadataInfrastructureArn?: string;
-  activatedStorageCount?: number;
-  additionalStorageCount?: number;
-  availableStorageSizeInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  computeCount?: number;
-  cpuCount?: number;
-  customerContactsToSendToOCI?: CustomerContact[];
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerVersion?: string;
-  lastMaintenanceRunId?: string;
-  maintenanceWindow?: MaintenanceWindow;
-  maxCpuCount?: number;
-  maxDataStorageInTBs?: number;
-  maxDbNodeStorageSizeInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  monthlyDbServerVersion?: string;
-  monthlyStorageServerVersion?: string;
-  nextMaintenanceRunId?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  ocid?: string;
-  shape?: string;
-  storageCount?: number;
-  storageServerVersion?: string;
-  createdAt?: Date;
-  totalStorageSizeInGBs?: number;
-  percentProgress?: number;
-  databaseServerType?: string;
-  storageServerType?: string;
-  computeModel?: ComputeModel;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  activatedStorageCount?: number | undefined;
+  additionalStorageCount?: number | undefined;
+  availableStorageSizeInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  computeCount?: number | undefined;
+  cpuCount?: number | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerVersion?: string | undefined;
+  lastMaintenanceRunId?: string | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  maxCpuCount?: number | undefined;
+  maxDataStorageInTBs?: number | undefined;
+  maxDbNodeStorageSizeInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  monthlyDbServerVersion?: string | undefined;
+  monthlyStorageServerVersion?: string | undefined;
+  nextMaintenanceRunId?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  ocid?: string | undefined;
+  shape?: string | undefined;
+  storageCount?: number | undefined;
+  storageServerVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  totalStorageSizeInGBs?: number | undefined;
+  percentProgress?: number | undefined;
+  databaseServerType?: string | undefined;
+  storageServerType?: string | undefined;
+  computeModel?: ComputeModel | undefined;
 }
 export type CloudExadataInfrastructureList = CloudExadataInfrastructureSummary[];
 export interface ListCloudExadataInfrastructuresOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudExadataInfrastructures: CloudExadataInfrastructureSummary[];
 }
 export interface ListCloudVmClustersInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudExadataInfrastructureId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
 }
 export interface CloudVmClusterSummary {
   cloudVmClusterId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cloudVmClusterArn?: string;
-  cloudExadataInfrastructureId?: string;
-  cloudExadataInfrastructureArn?: string;
-  clusterName?: string;
-  cpuCoreCount?: number;
-  dataCollectionOptions?: DataCollectionOptions;
-  dataStorageSizeInTBs?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServers?: string[];
-  diskRedundancy?: DiskRedundancy;
-  giVersion?: string;
-  hostname?: string;
-  iormConfigCache?: ExadataIormConfig;
-  isLocalBackupEnabled?: boolean;
-  isSparseDiskgroupEnabled?: boolean;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  domain?: string;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  shape?: string;
-  sshPublicKeys?: (string | redacted.Redacted<string>)[];
-  storageSizeInGBs?: number;
-  systemVersion?: string;
-  createdAt?: Date;
-  timeZone?: string;
-  vipIds?: string[];
-  odbNetworkId?: string;
-  odbNetworkArn?: string;
-  percentProgress?: number;
-  computeModel?: ComputeModel;
-  iamRoles?: IamRole[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cloudVmClusterArn?: string | undefined;
+  cloudExadataInfrastructureId?: string | undefined;
+  cloudExadataInfrastructureArn?: string | undefined;
+  clusterName?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServers?: string[] | undefined;
+  diskRedundancy?: DiskRedundancy | undefined;
+  giVersion?: string | undefined;
+  hostname?: string | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  isLocalBackupEnabled?: boolean | undefined;
+  isSparseDiskgroupEnabled?: boolean | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  domain?: string | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  shape?: string | undefined;
+  sshPublicKeys?: (string | redacted.Redacted<string>)[] | undefined;
+  storageSizeInGBs?: number | undefined;
+  systemVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  timeZone?: string | undefined;
+  vipIds?: string[] | undefined;
+  odbNetworkId?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  percentProgress?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  iamRoles?: IamRole[] | undefined;
 }
 export type CloudVmClusterList = CloudVmClusterSummary[];
 export interface ListCloudVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cloudVmClusters: CloudVmClusterSummary[];
 }
 export interface ListDbNodesInput {
-  maxResults?: number;
-  nextToken?: string;
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
 }
 export interface DbNodeSummary {
-  dbNodeId?: string;
-  dbNodeArn?: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
-  additionalDetails?: string;
-  backupIpId?: string;
-  backupVnic2Id?: string;
-  backupVnicId?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerId?: string;
-  dbSystemId?: string;
-  faultDomain?: string;
-  hostIpId?: string;
-  hostname?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maintenanceType?: DbNodeMaintenanceType;
-  memorySizeInGBs?: number;
-  softwareStorageSizeInGB?: number;
-  createdAt?: Date;
-  timeMaintenanceWindowEnd?: string;
-  timeMaintenanceWindowStart?: string;
-  totalCpuCoreCount?: number;
-  vnic2Id?: string;
-  vnicId?: string;
+  dbNodeId?: string | undefined;
+  dbNodeArn?: string | undefined;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
+  additionalDetails?: string | undefined;
+  backupIpId?: string | undefined;
+  backupVnic2Id?: string | undefined;
+  backupVnicId?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerId?: string | undefined;
+  dbSystemId?: string | undefined;
+  faultDomain?: string | undefined;
+  hostIpId?: string | undefined;
+  hostname?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maintenanceType?: DbNodeMaintenanceType | undefined;
+  memorySizeInGBs?: number | undefined;
+  softwareStorageSizeInGB?: number | undefined;
+  createdAt?: Date | undefined;
+  timeMaintenanceWindowEnd?: string | undefined;
+  timeMaintenanceWindowStart?: string | undefined;
+  totalCpuCoreCount?: number | undefined;
+  vnic2Id?: string | undefined;
+  vnicId?: string | undefined;
 }
 export type DbNodeList = DbNodeSummary[];
 export interface ListDbNodesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbNodes: DbNodeSummary[];
 }
 export interface ListDbServersInput {
   cloudExadataInfrastructureId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DbServerSummary {
-  dbServerId?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  cpuCoreCount?: number;
-  dbNodeStorageSizeInGBs?: number;
-  dbServerPatchingDetails?: DbServerPatchingDetails;
-  displayName?: string;
-  exadataInfrastructureId?: string;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  maxCpuCount?: number;
-  maxDbNodeStorageInGBs?: number;
-  maxMemoryInGBs?: number;
-  memorySizeInGBs?: number;
-  shape?: string;
-  createdAt?: Date;
-  vmClusterIds?: string[];
-  computeModel?: ComputeModel;
-  autonomousVmClusterIds?: string[];
-  autonomousVirtualMachineIds?: string[];
+  dbServerId?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  cpuCoreCount?: number | undefined;
+  dbNodeStorageSizeInGBs?: number | undefined;
+  dbServerPatchingDetails?: DbServerPatchingDetails | undefined;
+  displayName?: string | undefined;
+  exadataInfrastructureId?: string | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  maxCpuCount?: number | undefined;
+  maxDbNodeStorageInGBs?: number | undefined;
+  maxMemoryInGBs?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  shape?: string | undefined;
+  createdAt?: Date | undefined;
+  vmClusterIds?: string[] | undefined;
+  computeModel?: ComputeModel | undefined;
+  autonomousVmClusterIds?: string[] | undefined;
+  autonomousVirtualMachineIds?: string[] | undefined;
 }
 export type DbServerList = DbServerSummary[];
 export interface ListDbServersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbServers: DbServerSummary[];
 }
 export interface ListDbSystemShapesInput {
-  maxResults?: number;
-  nextToken?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  shapeFamily?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  shapeFamily?: string | undefined;
 }
 export type ShapeType = "AMD" | "INTEL" | "INTEL_FLEX_X9" | "AMPERE_FLEX_A1" | (string & {});
 export interface DbSystemShapeSummary {
-  availableCoreCount?: number;
-  availableCoreCountPerNode?: number;
-  availableDataStorageInTBs?: number;
-  availableDataStoragePerServerInTBs?: number;
-  availableDbNodePerNodeInGBs?: number;
-  availableDbNodeStorageInGBs?: number;
-  availableMemoryInGBs?: number;
-  availableMemoryPerNodeInGBs?: number;
-  coreCountIncrement?: number;
-  maxStorageCount?: number;
-  maximumNodeCount?: number;
-  minCoreCountPerNode?: number;
-  minDataStorageInTBs?: number;
-  minDbNodeStoragePerNodeInGBs?: number;
-  minMemoryPerNodeInGBs?: number;
-  minStorageCount?: number;
-  minimumCoreCount?: number;
-  minimumNodeCount?: number;
-  runtimeMinimumCoreCount?: number;
-  shapeFamily?: string;
-  shapeType?: ShapeType;
-  shapeAttributes?: ShapeAttribute[];
-  name?: string;
-  computeModel?: ComputeModel;
-  areServerTypesSupported?: boolean;
+  availableCoreCount?: number | undefined;
+  availableCoreCountPerNode?: number | undefined;
+  availableDataStorageInTBs?: number | undefined;
+  availableDataStoragePerServerInTBs?: number | undefined;
+  availableDbNodePerNodeInGBs?: number | undefined;
+  availableDbNodeStorageInGBs?: number | undefined;
+  availableMemoryInGBs?: number | undefined;
+  availableMemoryPerNodeInGBs?: number | undefined;
+  coreCountIncrement?: number | undefined;
+  maxStorageCount?: number | undefined;
+  maximumNodeCount?: number | undefined;
+  minCoreCountPerNode?: number | undefined;
+  minDataStorageInTBs?: number | undefined;
+  minDbNodeStoragePerNodeInGBs?: number | undefined;
+  minMemoryPerNodeInGBs?: number | undefined;
+  minStorageCount?: number | undefined;
+  minimumCoreCount?: number | undefined;
+  minimumNodeCount?: number | undefined;
+  runtimeMinimumCoreCount?: number | undefined;
+  shapeFamily?: string | undefined;
+  shapeType?: ShapeType | undefined;
+  shapeAttributes?: ShapeAttribute[] | undefined;
+  name?: string | undefined;
+  computeModel?: ComputeModel | undefined;
+  areServerTypesSupported?: boolean | undefined;
 }
 export type DbSystemShapeList = DbSystemShapeSummary[];
 export interface ListDbSystemShapesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dbSystemShapes: DbSystemShapeSummary[];
 }
 export interface ListExadbVmClustersInput {
-  exascaleDbStorageVaultId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  exascaleDbStorageVaultId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExadbVmClusterSummary {
   exadbVmClusterId: string;
-  clusterName?: string;
-  createdAt?: Date;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  domain?: string;
-  enabledEcpuCount?: number;
-  exadbVmClusterArn?: string;
-  exascaleDbStorageVaultArn?: string;
-  exascaleDbStorageVaultId?: string;
-  giVersion?: string;
-  gridImageId?: string;
-  gridImageType?: GridImageType;
-  hostname?: string;
-  iamRoles?: IamRole[];
-  iormConfigCache?: ExadataIormConfig;
-  lastUpdateHistoryEntryId?: string;
-  licenseModel?: LicenseModel;
-  listenerPort?: number;
-  memorySizeInGBs?: number;
-  nodeCount?: number;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  odbNetworkArn?: string;
-  odbNetworkId?: string;
-  percentProgress?: number;
-  scanDnsName?: string;
-  scanDnsRecordId?: string;
-  scanIpIds?: string[];
-  scanListenerPortTcp?: number;
-  scanListenerPortTcpSsl?: number;
-  shape?: string;
-  shapeAttribute?: ShapeAttribute;
-  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-  sshPublicKeys?: string[];
-  status?: ResourceStatus;
-  statusReason?: string;
-  systemVersion?: string;
-  timeZone?: string;
-  totalEcpuCount?: number;
-  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-  vipIds?: string[];
-  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+  clusterName?: string | undefined;
+  createdAt?: Date | undefined;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  domain?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  exadbVmClusterArn?: string | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  exascaleDbStorageVaultId?: string | undefined;
+  giVersion?: string | undefined;
+  gridImageId?: string | undefined;
+  gridImageType?: GridImageType | undefined;
+  hostname?: string | undefined;
+  iamRoles?: IamRole[] | undefined;
+  iormConfigCache?: ExadataIormConfig | undefined;
+  lastUpdateHistoryEntryId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  listenerPort?: number | undefined;
+  memorySizeInGBs?: number | undefined;
+  nodeCount?: number | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  odbNetworkId?: string | undefined;
+  percentProgress?: number | undefined;
+  scanDnsName?: string | undefined;
+  scanDnsRecordId?: string | undefined;
+  scanIpIds?: string[] | undefined;
+  scanListenerPortTcp?: number | undefined;
+  scanListenerPortTcpSsl?: number | undefined;
+  shape?: string | undefined;
+  shapeAttribute?: ShapeAttribute | undefined;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  sshPublicKeys?: string[] | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  systemVersion?: string | undefined;
+  timeZone?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  vipIds?: string[] | undefined;
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
 }
 export type ExadbVmClusterList = ExadbVmClusterSummary[];
 export interface ListExadbVmClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   exadbVmClusters: ExadbVmClusterSummary[];
 }
 export interface ListExascaleDbStorageVaultsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExascaleDbStorageVaultSummary {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  attachedShapeAttributes?: ShapeAttribute[];
-  autoscaleLimitInGBs?: number;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  createdAt?: Date;
-  description?: string;
-  displayName?: string;
-  vmClusterArns?: string[];
-  vmClusterCount?: number;
-  vmClusterIds?: string[];
-  exascaleDbStorageVaultArn?: string;
-  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-  isAutoscaleEnabled?: boolean;
-  ocid?: string;
-  ociResourceAnchorName?: string;
-  ociUrl?: string;
-  percentProgress?: number;
-  status?: ResourceStatus;
-  statusReason?: string;
-  timeZone?: string;
+  additionalFlashCacheInPercent?: number | undefined;
+  attachedShapeAttributes?: ShapeAttribute[] | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  vmClusterArns?: string[] | undefined;
+  vmClusterCount?: number | undefined;
+  vmClusterIds?: string[] | undefined;
+  exascaleDbStorageVaultArn?: string | undefined;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
+  ocid?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociUrl?: string | undefined;
+  percentProgress?: number | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  timeZone?: string | undefined;
 }
 export type ExascaleDbStorageVaultList = ExascaleDbStorageVaultSummary[];
 export interface ListExascaleDbStorageVaultsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   exascaleDbStorageVaults: ExascaleDbStorageVaultSummary[];
 }
 export interface ListFlexComponentsInput {
-  maxResults?: number;
-  nextToken?: string;
-  shape?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shape?: string | undefined;
 }
 export type HardwareType = "COMPUTE" | "CELL" | (string & {});
 export interface FlexComponentSummary {
-  availableCoreCount?: number;
-  availableDbStorageInGBs?: number;
-  availableLocalStorageInGBs?: number;
-  availableMemoryInGBs?: number;
-  computeModel?: ComputeModel;
-  descriptionSummary?: string;
-  hardwareType?: HardwareType;
-  minimumCoreCount?: number;
-  name?: string;
-  runtimeMinimumCoreCount?: number;
-  shape?: string;
+  availableCoreCount?: number | undefined;
+  availableDbStorageInGBs?: number | undefined;
+  availableLocalStorageInGBs?: number | undefined;
+  availableMemoryInGBs?: number | undefined;
+  computeModel?: ComputeModel | undefined;
+  descriptionSummary?: string | undefined;
+  hardwareType?: HardwareType | undefined;
+  minimumCoreCount?: number | undefined;
+  name?: string | undefined;
+  runtimeMinimumCoreCount?: number | undefined;
+  shape?: string | undefined;
 }
 export type FlexComponentList = FlexComponentSummary[];
 export interface ListFlexComponentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   flexComponents: FlexComponentSummary[];
 }
 export interface ListGiMinorVersionsInput {
   giVersion: string;
-  maxResults?: number;
-  nextToken?: string;
-  shapeFamily?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shapeFamily?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
 }
 export interface GiMinorVersionSummary {
   version: string;
-  gridImageId?: string;
+  gridImageId?: string | undefined;
 }
 export type GiMinorVersionList = GiMinorVersionSummary[];
 export interface ListGiMinorVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   giMinorVersions: GiMinorVersionSummary[];
 }
 export interface ListGiVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  shape?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  shape?: string | undefined;
 }
 export interface GiVersionSummary {
-  version?: string;
+  version?: string | undefined;
 }
 export type GiVersionList = GiVersionSummary[];
 export interface ListGiVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   giVersions: GiVersionSummary[];
 }
 export interface ListOdbNetworksInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface OdbNetworkSummary {
   odbNetworkId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbNetworkArn?: string;
-  availabilityZone?: string;
-  availabilityZoneId?: string;
-  clientSubnetCidr?: string;
-  backupSubnetCidr?: string;
-  customDomainName?: string;
-  defaultDnsPrefix?: string;
-  peeredCidrs?: string[];
-  ociNetworkAnchorId?: string;
-  ociNetworkAnchorUrl?: string;
-  ociResourceAnchorName?: string;
-  ociVcnId?: string;
-  ociVcnUrl?: string;
-  ociDnsForwardingConfigs?: OciDnsForwardingConfig[];
-  createdAt?: Date;
-  percentProgress?: number;
-  managedServices?: ManagedServices;
-  ec2PlacementGroupIds?: string[];
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  availabilityZone?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  clientSubnetCidr?: string | undefined;
+  backupSubnetCidr?: string | undefined;
+  customDomainName?: string | undefined;
+  defaultDnsPrefix?: string | undefined;
+  peeredCidrs?: string[] | undefined;
+  ociNetworkAnchorId?: string | undefined;
+  ociNetworkAnchorUrl?: string | undefined;
+  ociResourceAnchorName?: string | undefined;
+  ociVcnId?: string | undefined;
+  ociVcnUrl?: string | undefined;
+  ociDnsForwardingConfigs?: OciDnsForwardingConfig[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
+  managedServices?: ManagedServices | undefined;
+  ec2PlacementGroupIds?: string[] | undefined;
 }
 export type OdbNetworkList = OdbNetworkSummary[];
 export interface ListOdbNetworksOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   odbNetworks: OdbNetworkSummary[];
 }
 export interface ListOdbPeeringConnectionsInput {
-  maxResults?: number;
-  nextToken?: string;
-  odbNetworkId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  odbNetworkId?: string | undefined;
 }
 export interface OdbPeeringConnectionSummary {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
-  odbPeeringConnectionArn?: string;
-  odbNetworkArn?: string;
-  peerNetworkArn?: string;
-  odbPeeringConnectionType?: string;
-  peerNetworkCidrs?: string[];
-  createdAt?: Date;
-  percentProgress?: number;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
+  odbPeeringConnectionArn?: string | undefined;
+  odbNetworkArn?: string | undefined;
+  peerNetworkArn?: string | undefined;
+  odbPeeringConnectionType?: string | undefined;
+  peerNetworkCidrs?: string[] | undefined;
+  createdAt?: Date | undefined;
+  percentProgress?: number | undefined;
 }
 export type OdbPeeringConnectionList = OdbPeeringConnectionSummary[];
 export interface ListOdbPeeringConnectionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   odbPeeringConnections: OdbPeeringConnectionSummary[];
 }
 export interface ListSystemVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   giVersion: string;
   shape: string;
 }
 export interface SystemVersionSummary {
-  giVersion?: string;
-  shape?: string;
-  systemVersions?: string[];
+  giVersion?: string | undefined;
+  shape?: string | undefined;
+  systemVersions?: string[] | undefined;
 }
 export type SystemVersionList = SystemVersionSummary[];
 export interface ListSystemVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   systemVersions: SystemVersionSummary[];
 }
 export interface ListTagsForResourceRequest {
@@ -2356,27 +2359,27 @@ export interface ListTagsForResourceRequest {
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RebootAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  isOnlineReboot?: boolean;
+  isOnlineReboot?: boolean | undefined;
 }
 export interface RebootAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface RebootDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface RebootDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface RestoreAutonomousDatabaseInput {
   autonomousDatabaseId: string;
@@ -2384,66 +2387,66 @@ export interface RestoreAutonomousDatabaseInput {
 }
 export interface RestoreAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface ShrinkAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface ShrinkAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StartAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface StartAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StartDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface StartDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StopAutonomousDatabaseInput {
   autonomousDatabaseId: string;
 }
 export interface StopAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface StopDbNodeInput {
-  cloudVmClusterId?: string;
-  exadbVmClusterId?: string;
+  cloudVmClusterId?: string | undefined;
+  exadbVmClusterId?: string | undefined;
   dbNodeId: string;
 }
 export interface StopDbNodeOutput {
   dbNodeId: string;
-  status?: DbNodeResourceStatus;
-  statusReason?: string;
+  status?: DbNodeResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface SwitchoverAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  peerDbArn?: string;
+  peerDbArn?: string | undefined;
 }
 export interface SwitchoverAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -2458,75 +2461,75 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAutonomousDatabaseInput {
   autonomousDatabaseId: string;
-  adminPassword?: string | redacted.Redacted<string>;
-  computeCount?: number;
-  cpuCoreCount?: number;
-  dataStorageSizeInTBs?: number;
-  dataStorageSizeInGBs?: number;
-  displayName?: string;
-  dbName?: string;
-  dbVersion?: string;
-  dbWorkload?: DbWorkload;
-  dbToolsDetails?: DatabaseTool[];
-  databaseEdition?: DatabaseEdition;
-  licenseModel?: LicenseModel;
-  isAutoScalingEnabled?: boolean;
-  isAutoScalingForStorageEnabled?: boolean;
-  isBackupRetentionLocked?: boolean;
-  isLocalDataGuardEnabled?: boolean;
-  isMtlsConnectionRequired?: boolean;
-  isRefreshableClone?: boolean;
-  isDisconnectPeer?: boolean;
-  backupRetentionPeriodInDays?: number;
-  byolComputeCountLimit?: number;
-  localAdgAutoFailoverMaxDataLossLimit?: number;
-  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
-  customerContactsToSendToOCI?: CustomerContact[];
-  scheduledOperations?: ScheduledOperationDetails[];
-  longTermBackupSchedule?: LongTermBackupSchedule;
-  openMode?: OpenMode;
-  permissionLevel?: PermissionLevel;
-  refreshableMode?: RefreshableMode;
-  privateEndpointIp?: string;
-  privateEndpointLabel?: string;
-  peerDbId?: string;
-  resourcePoolLeaderId?: string;
-  resourcePoolSummary?: ResourcePoolSummary;
-  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource;
-  standbyAllowlistedIps?: string[];
-  allowlistedIps?: string[];
-  autoRefreshFrequencyInSeconds?: number;
-  autoRefreshPointLagInSeconds?: number;
-  timeOfAutoRefreshStart?: Date;
-  encryptionKeyProvider?: EncryptionKeyProviderInput;
-  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
-  adminPasswordSource?: AdminPasswordSource;
-  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
+  adminPassword?: string | redacted.Redacted<string> | undefined;
+  computeCount?: number | undefined;
+  cpuCoreCount?: number | undefined;
+  dataStorageSizeInTBs?: number | undefined;
+  dataStorageSizeInGBs?: number | undefined;
+  displayName?: string | undefined;
+  dbName?: string | undefined;
+  dbVersion?: string | undefined;
+  dbWorkload?: DbWorkload | undefined;
+  dbToolsDetails?: DatabaseTool[] | undefined;
+  databaseEdition?: DatabaseEdition | undefined;
+  licenseModel?: LicenseModel | undefined;
+  isAutoScalingEnabled?: boolean | undefined;
+  isAutoScalingForStorageEnabled?: boolean | undefined;
+  isBackupRetentionLocked?: boolean | undefined;
+  isLocalDataGuardEnabled?: boolean | undefined;
+  isMtlsConnectionRequired?: boolean | undefined;
+  isRefreshableClone?: boolean | undefined;
+  isDisconnectPeer?: boolean | undefined;
+  backupRetentionPeriodInDays?: number | undefined;
+  byolComputeCountLimit?: number | undefined;
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType | undefined;
+  customerContactsToSendToOCI?: CustomerContact[] | undefined;
+  scheduledOperations?: ScheduledOperationDetails[] | undefined;
+  longTermBackupSchedule?: LongTermBackupSchedule | undefined;
+  openMode?: OpenMode | undefined;
+  permissionLevel?: PermissionLevel | undefined;
+  refreshableMode?: RefreshableMode | undefined;
+  privateEndpointIp?: string | undefined;
+  privateEndpointLabel?: string | undefined;
+  peerDbId?: string | undefined;
+  resourcePoolLeaderId?: string | undefined;
+  resourcePoolSummary?: ResourcePoolSummary | undefined;
+  standbyAllowlistedIpsSource?: StandbyAllowlistedIpsSource | undefined;
+  standbyAllowlistedIps?: string[] | undefined;
+  allowlistedIps?: string[] | undefined;
+  autoRefreshFrequencyInSeconds?: number | undefined;
+  autoRefreshPointLagInSeconds?: number | undefined;
+  timeOfAutoRefreshStart?: Date | undefined;
+  encryptionKeyProvider?: EncryptionKeyProviderInput | undefined;
+  encryptionKeyConfiguration?: EncryptionKeyConfigurationInput | undefined;
+  adminPasswordSource?: AdminPasswordSource | undefined;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput | undefined;
 }
 export interface UpdateAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
-  displayName?: string;
-  status?: AutonomousDatabaseResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface UpdateAutonomousDatabaseBackupInput {
   autonomousDatabaseBackupId: string;
-  retentionPeriodInDays?: number;
+  retentionPeriodInDays?: number | undefined;
 }
 export interface UpdateAutonomousDatabaseBackupOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   autonomousDatabaseBackupId: string;
 }
 export interface UpdateCloudExadataInfrastructureInput {
   cloudExadataInfrastructureId: string;
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
 }
 export interface UpdateCloudExadataInfrastructureOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   cloudExadataInfrastructureId: string;
 }
 export type UpdateAction =
@@ -2537,69 +2540,69 @@ export type UpdateAction =
   | (string & {});
 export interface UpdateExadbVmClusterInput {
   exadbVmClusterId: string;
-  dataCollectionOptions?: DataCollectionOptions;
-  displayName?: string;
-  enabledEcpuCount?: number;
-  gridImageId?: string;
-  licenseModel?: LicenseModel;
-  sshPublicKeys?: string[];
-  systemVersion?: string;
-  totalEcpuCount?: number;
-  updateAction?: UpdateAction;
-  vmFileSystemStorageTotalSizeInGBs?: number;
+  dataCollectionOptions?: DataCollectionOptions | undefined;
+  displayName?: string | undefined;
+  enabledEcpuCount?: number | undefined;
+  gridImageId?: string | undefined;
+  licenseModel?: LicenseModel | undefined;
+  sshPublicKeys?: string[] | undefined;
+  systemVersion?: string | undefined;
+  totalEcpuCount?: number | undefined;
+  updateAction?: UpdateAction | undefined;
+  vmFileSystemStorageTotalSizeInGBs?: number | undefined;
 }
 export interface UpdateExadbVmClusterOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exadbVmClusterId: string;
 }
 export interface UpdateExascaleDbStorageVaultInput {
   exascaleDbStorageVaultId: string;
-  additionalFlashCacheInPercent?: number;
-  autoscaleLimitInGBs?: number;
-  description?: string;
-  displayName?: string;
-  highCapacityDatabaseStorageTotalSizeInGBs?: number;
-  isAutoscaleEnabled?: boolean;
+  additionalFlashCacheInPercent?: number | undefined;
+  autoscaleLimitInGBs?: number | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  highCapacityDatabaseStorageTotalSizeInGBs?: number | undefined;
+  isAutoscaleEnabled?: boolean | undefined;
 }
 export interface UpdateExascaleDbStorageVaultOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   exascaleDbStorageVaultId: string;
 }
 export interface UpdateOdbNetworkInput {
   odbNetworkId: string;
-  displayName?: string;
-  peeredCidrsToBeAdded?: string[];
-  peeredCidrsToBeRemoved?: string[];
-  s3Access?: Access;
-  zeroEtlAccess?: Access;
-  stsAccess?: Access;
-  kmsAccess?: Access;
-  s3PolicyDocument?: string;
-  stsPolicyDocument?: string;
-  kmsPolicyDocument?: string;
-  crossRegionS3RestoreSourcesToEnable?: string[];
-  crossRegionS3RestoreSourcesToDisable?: string[];
+  displayName?: string | undefined;
+  peeredCidrsToBeAdded?: string[] | undefined;
+  peeredCidrsToBeRemoved?: string[] | undefined;
+  s3Access?: Access | undefined;
+  zeroEtlAccess?: Access | undefined;
+  stsAccess?: Access | undefined;
+  kmsAccess?: Access | undefined;
+  s3PolicyDocument?: string | undefined;
+  stsPolicyDocument?: string | undefined;
+  kmsPolicyDocument?: string | undefined;
+  crossRegionS3RestoreSourcesToEnable?: string[] | undefined;
+  crossRegionS3RestoreSourcesToDisable?: string[] | undefined;
 }
 export interface UpdateOdbNetworkOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbNetworkId: string;
 }
 export interface UpdateOdbPeeringConnectionInput {
   odbPeeringConnectionId: string;
-  displayName?: string;
-  peerNetworkCidrsToBeAdded?: string[];
-  peerNetworkCidrsToBeRemoved?: string[];
+  displayName?: string | undefined;
+  peerNetworkCidrsToBeAdded?: string[] | undefined;
+  peerNetworkCidrsToBeRemoved?: string[] | undefined;
 }
 export interface UpdateOdbPeeringConnectionOutput {
-  displayName?: string;
-  status?: ResourceStatus;
-  statusReason?: string;
+  displayName?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusReason?: string | undefined;
   odbPeeringConnectionId: string;
 }
 export type ValidationExceptionReason =
@@ -2624,7 +2627,7 @@ export type AcceptMarketplaceRegistrationError =
  * Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
  */
 export const acceptMarketplaceRegistration: API.OperationMethod<
-  AcceptMarketplaceRegistrationInput,
+  AcceptMarketplaceRegistrationInput & RegionInput,
   AcceptMarketplaceRegistrationOutput,
   AcceptMarketplaceRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2660,7 @@ export type AssociateIamRoleToResourceError =
  * Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
  */
 export const associateIamRoleToResource: API.OperationMethod<
-  AssociateIamRoleToResourceInput,
+  AssociateIamRoleToResourceInput & RegionInput,
   AssociateIamRoleToResourceOutput,
   AssociateIamRoleToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2692,7 +2695,7 @@ export type AssociateVirtualMachinesToExadbVmClusterError =
  * Adds virtual machines to the specified Exascale VM cluster.
  */
 export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
-  AssociateVirtualMachinesToExadbVmClusterInput,
+  AssociateVirtualMachinesToExadbVmClusterInput & RegionInput,
   AssociateVirtualMachinesToExadbVmClusterOutput,
   AssociateVirtualMachinesToExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2728,7 +2731,7 @@ export type CreateAutonomousDatabaseError =
  * Creates a new Autonomous Database.
  */
 export const createAutonomousDatabase: API.OperationMethod<
-  CreateAutonomousDatabaseInput,
+  CreateAutonomousDatabaseInput & RegionInput,
   CreateAutonomousDatabaseOutput,
   CreateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2764,7 +2767,7 @@ export type CreateAutonomousDatabaseBackupError =
  * Creates a new backup of the specified Autonomous Database.
  */
 export const createAutonomousDatabaseBackup: API.OperationMethod<
-  CreateAutonomousDatabaseBackupInput,
+  CreateAutonomousDatabaseBackupInput & RegionInput,
   CreateAutonomousDatabaseBackupOutput,
   CreateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2801,7 @@ export type CreateAutonomousDatabaseWalletError =
  * Creates a new wallet for the specified Autonomous Database.
  */
 export const createAutonomousDatabaseWallet: API.OperationMethod<
-  CreateAutonomousDatabaseWalletInput,
+  CreateAutonomousDatabaseWalletInput & RegionInput,
   CreateAutonomousDatabaseWalletOutput,
   CreateAutonomousDatabaseWalletError,
   Credentials | HttpClient.HttpClient
@@ -2832,7 +2835,7 @@ export type CreateCloudAutonomousVmClusterError =
  * Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
  */
 export const createCloudAutonomousVmCluster: API.OperationMethod<
-  CreateCloudAutonomousVmClusterInput,
+  CreateCloudAutonomousVmClusterInput & RegionInput,
   CreateCloudAutonomousVmClusterOutput,
   CreateCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2867,7 +2870,7 @@ export type CreateCloudExadataInfrastructureError =
  * Creates an Exadata infrastructure.
  */
 export const createCloudExadataInfrastructure: API.OperationMethod<
-  CreateCloudExadataInfrastructureInput,
+  CreateCloudExadataInfrastructureInput & RegionInput,
   CreateCloudExadataInfrastructureOutput,
   CreateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -2902,7 +2905,7 @@ export type CreateCloudVmClusterError =
  * Creates a VM cluster on the specified Exadata infrastructure.
  */
 export const createCloudVmCluster: API.OperationMethod<
-  CreateCloudVmClusterInput,
+  CreateCloudVmClusterInput & RegionInput,
   CreateCloudVmClusterOutput,
   CreateCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2938,7 +2941,7 @@ export type CreateExadbVmClusterError =
  * Creates an Exascale VM cluster.
  */
 export const createExadbVmCluster: API.OperationMethod<
-  CreateExadbVmClusterInput,
+  CreateExadbVmClusterInput & RegionInput,
   CreateExadbVmClusterOutput,
   CreateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -2973,7 +2976,7 @@ export type CreateExascaleDbStorageVaultError =
  * Creates an Exascale storage vault.
  */
 export const createExascaleDbStorageVault: API.OperationMethod<
-  CreateExascaleDbStorageVaultInput,
+  CreateExascaleDbStorageVaultInput & RegionInput,
   CreateExascaleDbStorageVaultOutput,
   CreateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -3007,7 +3010,7 @@ export type CreateOdbNetworkError =
  * Creates an ODB network.
  */
 export const createOdbNetwork: API.OperationMethod<
-  CreateOdbNetworkInput,
+  CreateOdbNetworkInput & RegionInput,
   CreateOdbNetworkOutput,
   CreateOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3046,7 @@ export type CreateOdbPeeringConnectionError =
  * A peering connection enables private connectivity between the networks for application-tier communication.
  */
 export const createOdbPeeringConnection: API.OperationMethod<
-  CreateOdbPeeringConnectionInput,
+  CreateOdbPeeringConnectionInput & RegionInput,
   CreateOdbPeeringConnectionOutput,
   CreateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3080,7 @@ export type DeleteAutonomousDatabaseError =
  * Deletes the specified Autonomous Database.
  */
 export const deleteAutonomousDatabase: API.OperationMethod<
-  DeleteAutonomousDatabaseInput,
+  DeleteAutonomousDatabaseInput & RegionInput,
   DeleteAutonomousDatabaseOutput,
   DeleteAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3114,7 @@ export type DeleteAutonomousDatabaseBackupError =
  * Deletes the specified Autonomous Database backup.
  */
 export const deleteAutonomousDatabaseBackup: API.OperationMethod<
-  DeleteAutonomousDatabaseBackupInput,
+  DeleteAutonomousDatabaseBackupInput & RegionInput,
   DeleteAutonomousDatabaseBackupOutput,
   DeleteAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -3144,7 +3147,7 @@ export type DeleteCloudAutonomousVmClusterError =
  * Deletes an Autonomous VM cluster.
  */
 export const deleteCloudAutonomousVmCluster: API.OperationMethod<
-  DeleteCloudAutonomousVmClusterInput,
+  DeleteCloudAutonomousVmClusterInput & RegionInput,
   DeleteCloudAutonomousVmClusterOutput,
   DeleteCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3177,7 +3180,7 @@ export type DeleteCloudExadataInfrastructureError =
  * Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
  */
 export const deleteCloudExadataInfrastructure: API.OperationMethod<
-  DeleteCloudExadataInfrastructureInput,
+  DeleteCloudExadataInfrastructureInput & RegionInput,
   DeleteCloudExadataInfrastructureOutput,
   DeleteCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3213,7 @@ export type DeleteCloudVmClusterError =
  * Deletes the specified VM cluster.
  */
 export const deleteCloudVmCluster: API.OperationMethod<
-  DeleteCloudVmClusterInput,
+  DeleteCloudVmClusterInput & RegionInput,
   DeleteCloudVmClusterOutput,
   DeleteCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3243,7 +3246,7 @@ export type DeleteExadbVmClusterError =
  * Deletes the specified Exascale VM cluster.
  */
 export const deleteExadbVmCluster: API.OperationMethod<
-  DeleteExadbVmClusterInput,
+  DeleteExadbVmClusterInput & RegionInput,
   DeleteExadbVmClusterOutput,
   DeleteExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3277,7 +3280,7 @@ export type DeleteExascaleDbStorageVaultError =
  * Deletes the specified Exascale storage vault.
  */
 export const deleteExascaleDbStorageVault: API.OperationMethod<
-  DeleteExascaleDbStorageVaultInput,
+  DeleteExascaleDbStorageVaultInput & RegionInput,
   DeleteExascaleDbStorageVaultOutput,
   DeleteExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -3310,7 +3313,7 @@ export type DeleteOdbNetworkError =
  * Deletes the specified ODB network.
  */
 export const deleteOdbNetwork: API.OperationMethod<
-  DeleteOdbNetworkInput,
+  DeleteOdbNetworkInput & RegionInput,
   DeleteOdbNetworkOutput,
   DeleteOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3344,7 +3347,7 @@ export type DeleteOdbPeeringConnectionError =
  * When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
  */
 export const deleteOdbPeeringConnection: API.OperationMethod<
-  DeleteOdbPeeringConnectionInput,
+  DeleteOdbPeeringConnectionInput & RegionInput,
   DeleteOdbPeeringConnectionOutput,
   DeleteOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3377,7 +3380,7 @@ export type DisassociateIamRoleFromResourceError =
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
  */
 export const disassociateIamRoleFromResource: API.OperationMethod<
-  DisassociateIamRoleFromResourceInput,
+  DisassociateIamRoleFromResourceInput & RegionInput,
   DisassociateIamRoleFromResourceOutput,
   DisassociateIamRoleFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3411,7 +3414,7 @@ export type DisassociateVirtualMachinesFromExadbVmClusterError =
  * Removes virtual machines from the specified Exascale VM cluster.
  */
 export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
-  DisassociateVirtualMachinesFromExadbVmClusterInput,
+  DisassociateVirtualMachinesFromExadbVmClusterInput & RegionInput,
   DisassociateVirtualMachinesFromExadbVmClusterOutput,
   DisassociateVirtualMachinesFromExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3449,7 +3452,7 @@ export type FailoverAutonomousDatabaseError =
  * Initiates a failover of the specified Autonomous Database to a standby peer database.
  */
 export const failoverAutonomousDatabase: API.OperationMethod<
-  FailoverAutonomousDatabaseInput,
+  FailoverAutonomousDatabaseInput & RegionInput,
   FailoverAutonomousDatabaseOutput,
   FailoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3482,7 +3485,7 @@ export type GetAutonomousDatabaseError =
  * Gets information about a specific Autonomous Database.
  */
 export const getAutonomousDatabase: API.OperationMethod<
-  GetAutonomousDatabaseInput,
+  GetAutonomousDatabaseInput & RegionInput,
   GetAutonomousDatabaseOutput,
   GetAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -3514,7 +3517,7 @@ export type GetAutonomousDatabaseBackupError =
  * Gets information about a specific Autonomous Database backup.
  */
 export const getAutonomousDatabaseBackup: API.OperationMethod<
-  GetAutonomousDatabaseBackupInput,
+  GetAutonomousDatabaseBackupInput & RegionInput,
   GetAutonomousDatabaseBackupOutput,
   GetAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -3546,7 +3549,7 @@ export type GetAutonomousDatabaseWalletDetailsError =
  * Gets the wallet details for the specified Autonomous Database.
  */
 export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
-  GetAutonomousDatabaseWalletDetailsInput,
+  GetAutonomousDatabaseWalletDetailsInput & RegionInput,
   GetAutonomousDatabaseWalletDetailsOutput,
   GetAutonomousDatabaseWalletDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3578,7 +3581,7 @@ export type GetCloudAutonomousVmClusterError =
  * Gets information about a specific Autonomous VM cluster.
  */
 export const getCloudAutonomousVmCluster: API.OperationMethod<
-  GetCloudAutonomousVmClusterInput,
+  GetCloudAutonomousVmClusterInput & RegionInput,
   GetCloudAutonomousVmClusterOutput,
   GetCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3610,7 +3613,7 @@ export type GetCloudExadataInfrastructureError =
  * Returns information about the specified Exadata infrastructure.
  */
 export const getCloudExadataInfrastructure: API.OperationMethod<
-  GetCloudExadataInfrastructureInput,
+  GetCloudExadataInfrastructureInput & RegionInput,
   GetCloudExadataInfrastructureOutput,
   GetCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -3642,7 +3645,7 @@ export type GetCloudExadataInfrastructureUnallocatedResourcesError =
  * Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
  */
 export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMethod<
-  GetCloudExadataInfrastructureUnallocatedResourcesInput,
+  GetCloudExadataInfrastructureUnallocatedResourcesInput & RegionInput,
   GetCloudExadataInfrastructureUnallocatedResourcesOutput,
   GetCloudExadataInfrastructureUnallocatedResourcesError,
   Credentials | HttpClient.HttpClient
@@ -3682,7 +3685,7 @@ export type GetCloudVmClusterError =
  * Returns information about the specified VM cluster.
  */
 export const getCloudVmCluster: API.OperationMethod<
-  GetCloudVmClusterInput,
+  GetCloudVmClusterInput & RegionInput,
   GetCloudVmClusterOutput,
   GetCloudVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3714,7 +3717,7 @@ export type GetDbNodeError =
  * Returns information about the specified DB node.
  */
 export const getDbNode: API.OperationMethod<
-  GetDbNodeInput,
+  GetDbNodeInput & RegionInput,
   GetDbNodeOutput,
   GetDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3749,7 @@ export type GetDbServerError =
  * Returns information about the specified database server.
  */
 export const getDbServer: API.OperationMethod<
-  GetDbServerInput,
+  GetDbServerInput & RegionInput,
   GetDbServerOutput,
   GetDbServerError,
   Credentials | HttpClient.HttpClient
@@ -3778,7 +3781,7 @@ export type GetExadbVmClusterError =
  * Returns information about the specified Exascale VM cluster.
  */
 export const getExadbVmCluster: API.OperationMethod<
-  GetExadbVmClusterInput,
+  GetExadbVmClusterInput & RegionInput,
   GetExadbVmClusterOutput,
   GetExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -3810,7 +3813,7 @@ export type GetExascaleDbStorageVaultError =
  * Returns information about the specified Exascale storage vault.
  */
 export const getExascaleDbStorageVault: API.OperationMethod<
-  GetExascaleDbStorageVaultInput,
+  GetExascaleDbStorageVaultInput & RegionInput,
   GetExascaleDbStorageVaultOutput,
   GetExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -3841,7 +3844,7 @@ export type GetOciOnboardingStatusError =
  * Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
  */
 export const getOciOnboardingStatus: API.OperationMethod<
-  GetOciOnboardingStatusInput,
+  GetOciOnboardingStatusInput & RegionInput,
   GetOciOnboardingStatusOutput,
   GetOciOnboardingStatusError,
   Credentials | HttpClient.HttpClient
@@ -3872,7 +3875,7 @@ export type GetOdbNetworkError =
  * Returns information about the specified ODB network.
  */
 export const getOdbNetwork: API.OperationMethod<
-  GetOdbNetworkInput,
+  GetOdbNetworkInput & RegionInput,
   GetOdbNetworkOutput,
   GetOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3904,7 +3907,7 @@ export type GetOdbPeeringConnectionError =
  * Retrieves information about an ODB peering connection.
  */
 export const getOdbPeeringConnection: API.OperationMethod<
-  GetOdbPeeringConnectionInput,
+  GetOdbPeeringConnectionInput & RegionInput,
   GetOdbPeeringConnectionOutput,
   GetOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3935,7 +3938,7 @@ export type InitializeServiceError =
  * Initializes the ODB service for the first time in an account.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceInput,
+  InitializeServiceInput & RegionInput,
   InitializeServiceOutput,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -3966,7 +3969,7 @@ export type ListAutonomousDatabaseBackupsError =
  * Lists the backups of the specified Autonomous Database.
  */
 export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseBackupsInput,
+  ListAutonomousDatabaseBackupsInput & RegionInput,
   ListAutonomousDatabaseBackupsOutput,
   ListAutonomousDatabaseBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -4004,7 +4007,7 @@ export type ListAutonomousDatabaseCharacterSetsError =
  * Lists the available character sets for Autonomous Databases.
  */
 export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseCharacterSetsInput,
+  ListAutonomousDatabaseCharacterSetsInput & RegionInput,
   ListAutonomousDatabaseCharacterSetsOutput,
   ListAutonomousDatabaseCharacterSetsError,
   Credentials | HttpClient.HttpClient,
@@ -4042,7 +4045,7 @@ export type ListAutonomousDatabaseClonesError =
  * Lists the clones of the specified Autonomous Database.
  */
 export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseClonesInput,
+  ListAutonomousDatabaseClonesInput & RegionInput,
   ListAutonomousDatabaseClonesOutput,
   ListAutonomousDatabaseClonesError,
   Credentials | HttpClient.HttpClient,
@@ -4081,7 +4084,7 @@ export type ListAutonomousDatabasePeersError =
  * Lists the peer databases of the specified Autonomous Database.
  */
 export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
-  ListAutonomousDatabasePeersInput,
+  ListAutonomousDatabasePeersInput & RegionInput,
   ListAutonomousDatabasePeersOutput,
   ListAutonomousDatabasePeersError,
   Credentials | HttpClient.HttpClient,
@@ -4119,7 +4122,7 @@ export type ListAutonomousDatabasesError =
  * Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region.
  */
 export const listAutonomousDatabases: API.PaginatedOperationMethod<
-  ListAutonomousDatabasesInput,
+  ListAutonomousDatabasesInput & RegionInput,
   ListAutonomousDatabasesOutput,
   ListAutonomousDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -4156,7 +4159,7 @@ export type ListAutonomousDatabaseVersionsError =
  * Lists the available Oracle Database software versions for Autonomous Databases.
  */
 export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
-  ListAutonomousDatabaseVersionsInput,
+  ListAutonomousDatabaseVersionsInput & RegionInput,
   ListAutonomousDatabaseVersionsOutput,
   ListAutonomousDatabaseVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4194,7 +4197,7 @@ export type ListAutonomousVirtualMachinesError =
  * Lists all Autonomous VMs in an Autonomous VM cluster.
  */
 export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
-  ListAutonomousVirtualMachinesInput,
+  ListAutonomousVirtualMachinesInput & RegionInput,
   ListAutonomousVirtualMachinesOutput,
   ListAutonomousVirtualMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -4233,7 +4236,7 @@ export type ListCloudAutonomousVmClustersError =
  * Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
  */
 export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
-  ListCloudAutonomousVmClustersInput,
+  ListCloudAutonomousVmClustersInput & RegionInput,
   ListCloudAutonomousVmClustersOutput,
   ListCloudAutonomousVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4271,7 +4274,7 @@ export type ListCloudExadataInfrastructuresError =
  * Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
  */
 export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
-  ListCloudExadataInfrastructuresInput,
+  ListCloudExadataInfrastructuresInput & RegionInput,
   ListCloudExadataInfrastructuresOutput,
   ListCloudExadataInfrastructuresError,
   Credentials | HttpClient.HttpClient,
@@ -4309,7 +4312,7 @@ export type ListCloudVmClustersError =
  * Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
  */
 export const listCloudVmClusters: API.PaginatedOperationMethod<
-  ListCloudVmClustersInput,
+  ListCloudVmClustersInput & RegionInput,
   ListCloudVmClustersOutput,
   ListCloudVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4348,7 +4351,7 @@ export type ListDbNodesError =
  * Returns information about the DB nodes for the specified VM cluster.
  */
 export const listDbNodes: API.PaginatedOperationMethod<
-  ListDbNodesInput,
+  ListDbNodesInput & RegionInput,
   ListDbNodesOutput,
   ListDbNodesError,
   Credentials | HttpClient.HttpClient,
@@ -4387,7 +4390,7 @@ export type ListDbServersError =
  * Returns information about the database servers that belong to the specified Exadata infrastructure.
  */
 export const listDbServers: API.PaginatedOperationMethod<
-  ListDbServersInput,
+  ListDbServersInput & RegionInput,
   ListDbServersOutput,
   ListDbServersError,
   Credentials | HttpClient.HttpClient,
@@ -4425,7 +4428,7 @@ export type ListDbSystemShapesError =
  * Returns information about the shapes that are available for an Exadata infrastructure.
  */
 export const listDbSystemShapes: API.PaginatedOperationMethod<
-  ListDbSystemShapesInput,
+  ListDbSystemShapesInput & RegionInput,
   ListDbSystemShapesOutput,
   ListDbSystemShapesError,
   Credentials | HttpClient.HttpClient,
@@ -4463,7 +4466,7 @@ export type ListExadbVmClustersError =
  * Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
  */
 export const listExadbVmClusters: API.PaginatedOperationMethod<
-  ListExadbVmClustersInput,
+  ListExadbVmClustersInput & RegionInput,
   ListExadbVmClustersOutput,
   ListExadbVmClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4501,7 +4504,7 @@ export type ListExascaleDbStorageVaultsError =
  * Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
  */
 export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
-  ListExascaleDbStorageVaultsInput,
+  ListExascaleDbStorageVaultsInput & RegionInput,
   ListExascaleDbStorageVaultsOutput,
   ListExascaleDbStorageVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -4538,7 +4541,7 @@ export type ListFlexComponentsError =
  * Returns information about the flex components that are available for an Exadata infrastructure.
  */
 export const listFlexComponents: API.PaginatedOperationMethod<
-  ListFlexComponentsInput,
+  ListFlexComponentsInput & RegionInput,
   ListFlexComponentsOutput,
   ListFlexComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -4575,7 +4578,7 @@ export type ListGiMinorVersionsError =
  * Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
  */
 export const listGiMinorVersions: API.PaginatedOperationMethod<
-  ListGiMinorVersionsInput,
+  ListGiMinorVersionsInput & RegionInput,
   ListGiMinorVersionsOutput,
   ListGiMinorVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4612,7 +4615,7 @@ export type ListGiVersionsError =
  * Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
  */
 export const listGiVersions: API.PaginatedOperationMethod<
-  ListGiVersionsInput,
+  ListGiVersionsInput & RegionInput,
   ListGiVersionsOutput,
   ListGiVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4649,7 +4652,7 @@ export type ListOdbNetworksError =
  * Returns information about the ODB networks owned by your Amazon Web Services account.
  */
 export const listOdbNetworks: API.PaginatedOperationMethod<
-  ListOdbNetworksInput,
+  ListOdbNetworksInput & RegionInput,
   ListOdbNetworksOutput,
   ListOdbNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -4687,7 +4690,7 @@ export type ListOdbPeeringConnectionsError =
  * Lists all ODB peering connections or those associated with a specific ODB network.
  */
 export const listOdbPeeringConnections: API.PaginatedOperationMethod<
-  ListOdbPeeringConnectionsInput,
+  ListOdbPeeringConnectionsInput & RegionInput,
   ListOdbPeeringConnectionsOutput,
   ListOdbPeeringConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4726,7 +4729,7 @@ export type ListSystemVersionsError =
  * Returns information about the system versions that are available for a VM cluster for the specified `giVersion` and `shape`.
  */
 export const listSystemVersions: API.PaginatedOperationMethod<
-  ListSystemVersionsInput,
+  ListSystemVersionsInput & RegionInput,
   ListSystemVersionsOutput,
   ListSystemVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4759,7 +4762,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Returns information about the tags applied to this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4786,7 +4789,7 @@ export type RebootAutonomousDatabaseError =
  * Reboots the specified Autonomous Database.
  */
 export const rebootAutonomousDatabase: API.OperationMethod<
-  RebootAutonomousDatabaseInput,
+  RebootAutonomousDatabaseInput & RegionInput,
   RebootAutonomousDatabaseOutput,
   RebootAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4819,7 +4822,7 @@ export type RebootDbNodeError =
  * Reboots the specified DB node in a VM cluster.
  */
 export const rebootDbNode: API.OperationMethod<
-  RebootDbNodeInput,
+  RebootDbNodeInput & RegionInput,
   RebootDbNodeOutput,
   RebootDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -4852,7 +4855,7 @@ export type RestoreAutonomousDatabaseError =
  * Restores the specified Autonomous Database to a point in time.
  */
 export const restoreAutonomousDatabase: API.OperationMethod<
-  RestoreAutonomousDatabaseInput,
+  RestoreAutonomousDatabaseInput & RegionInput,
   RestoreAutonomousDatabaseOutput,
   RestoreAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4886,7 +4889,7 @@ export type ShrinkAutonomousDatabaseError =
  * Shrinks the storage of the specified Autonomous Database to reclaim unused space.
  */
 export const shrinkAutonomousDatabase: API.OperationMethod<
-  ShrinkAutonomousDatabaseInput,
+  ShrinkAutonomousDatabaseInput & RegionInput,
   ShrinkAutonomousDatabaseOutput,
   ShrinkAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4920,7 +4923,7 @@ export type StartAutonomousDatabaseError =
  * Starts the specified Autonomous Database.
  */
 export const startAutonomousDatabase: API.OperationMethod<
-  StartAutonomousDatabaseInput,
+  StartAutonomousDatabaseInput & RegionInput,
   StartAutonomousDatabaseOutput,
   StartAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -4953,7 +4956,7 @@ export type StartDbNodeError =
  * Starts the specified DB node in a VM cluster.
  */
 export const startDbNode: API.OperationMethod<
-  StartDbNodeInput,
+  StartDbNodeInput & RegionInput,
   StartDbNodeOutput,
   StartDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -4986,7 +4989,7 @@ export type StopAutonomousDatabaseError =
  * Stops the specified Autonomous Database.
  */
 export const stopAutonomousDatabase: API.OperationMethod<
-  StopAutonomousDatabaseInput,
+  StopAutonomousDatabaseInput & RegionInput,
   StopAutonomousDatabaseOutput,
   StopAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -5019,7 +5022,7 @@ export type StopDbNodeError =
  * Stops the specified DB node in a VM cluster.
  */
 export const stopDbNode: API.OperationMethod<
-  StopDbNodeInput,
+  StopDbNodeInput & RegionInput,
   StopDbNodeOutput,
   StopDbNodeError,
   Credentials | HttpClient.HttpClient
@@ -5052,7 +5055,7 @@ export type SwitchoverAutonomousDatabaseError =
  * Performs a switchover of the specified Autonomous Database to a standby peer database.
  */
 export const switchoverAutonomousDatabase: API.OperationMethod<
-  SwitchoverAutonomousDatabaseInput,
+  SwitchoverAutonomousDatabaseInput & RegionInput,
   SwitchoverAutonomousDatabaseOutput,
   SwitchoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -5082,7 +5085,7 @@ export type TagResourceError =
  * Applies tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5102,7 +5105,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5129,7 +5132,7 @@ export type UpdateAutonomousDatabaseError =
  * Updates the properties of an Autonomous Database.
  */
 export const updateAutonomousDatabase: API.OperationMethod<
-  UpdateAutonomousDatabaseInput,
+  UpdateAutonomousDatabaseInput & RegionInput,
   UpdateAutonomousDatabaseOutput,
   UpdateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -5163,7 +5166,7 @@ export type UpdateAutonomousDatabaseBackupError =
  * Updates the properties of an Autonomous Database backup.
  */
 export const updateAutonomousDatabaseBackup: API.OperationMethod<
-  UpdateAutonomousDatabaseBackupInput,
+  UpdateAutonomousDatabaseBackupInput & RegionInput,
   UpdateAutonomousDatabaseBackupOutput,
   UpdateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
@@ -5197,7 +5200,7 @@ export type UpdateCloudExadataInfrastructureError =
  * Updates the properties of an Exadata infrastructure resource.
  */
 export const updateCloudExadataInfrastructure: API.OperationMethod<
-  UpdateCloudExadataInfrastructureInput,
+  UpdateCloudExadataInfrastructureInput & RegionInput,
   UpdateCloudExadataInfrastructureOutput,
   UpdateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
@@ -5231,7 +5234,7 @@ export type UpdateExadbVmClusterError =
  * Updates the specified Exascale VM cluster.
  */
 export const updateExadbVmCluster: API.OperationMethod<
-  UpdateExadbVmClusterInput,
+  UpdateExadbVmClusterInput & RegionInput,
   UpdateExadbVmClusterOutput,
   UpdateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
@@ -5265,7 +5268,7 @@ export type UpdateExascaleDbStorageVaultError =
  * Updates the specified Exascale storage vault.
  */
 export const updateExascaleDbStorageVault: API.OperationMethod<
-  UpdateExascaleDbStorageVaultInput,
+  UpdateExascaleDbStorageVaultInput & RegionInput,
   UpdateExascaleDbStorageVaultOutput,
   UpdateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
@@ -5299,7 +5302,7 @@ export type UpdateOdbNetworkError =
  * Updates properties of a specified ODB network.
  */
 export const updateOdbNetwork: API.OperationMethod<
-  UpdateOdbNetworkInput,
+  UpdateOdbNetworkInput & RegionInput,
   UpdateOdbNetworkOutput,
   UpdateOdbNetworkError,
   Credentials | HttpClient.HttpClient
@@ -5333,7 +5336,7 @@ export type UpdateOdbPeeringConnectionError =
  * Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
  */
 export const updateOdbPeeringConnection: API.OperationMethod<
-  UpdateOdbPeeringConnectionInput,
+  UpdateOdbPeeringConnectionInput & RegionInput,
   UpdateOdbPeeringConnectionOutput,
   UpdateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient

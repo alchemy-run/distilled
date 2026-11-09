@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -561,7 +562,7 @@ export type RepositoryName = string;
 export type BatchedOperationLayerDigest = string;
 export type BatchedOperationLayerDigestList = string[];
 export interface BatchCheckLayerAvailabilityRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   layerDigests: string[];
 }
@@ -570,33 +571,33 @@ export type LayerAvailability = "AVAILABLE" | "UNAVAILABLE" | "ARCHIVED" | (stri
 export type LayerSizeInBytes = number;
 export type MediaType = string;
 export interface Layer {
-  layerDigest?: string;
-  layerAvailability?: LayerAvailability;
-  layerSize?: number;
-  mediaType?: string;
+  layerDigest?: string | undefined;
+  layerAvailability?: LayerAvailability | undefined;
+  layerSize?: number | undefined;
+  mediaType?: string | undefined;
 }
 export type LayerList = Layer[];
 export type LayerFailureCode = "InvalidLayerDigest" | "MissingLayerDigest" | (string & {});
 export type LayerFailureReason = string;
 export interface LayerFailure {
-  layerDigest?: string;
-  failureCode?: LayerFailureCode;
-  failureReason?: string;
+  layerDigest?: string | undefined;
+  failureCode?: LayerFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type LayerFailureList = LayerFailure[];
 export interface BatchCheckLayerAvailabilityResponse {
-  layers?: Layer[];
-  failures?: LayerFailure[];
+  layers?: Layer[] | undefined;
+  failures?: LayerFailure[] | undefined;
 }
 export type ImageDigest = string;
 export type ImageTag = string;
 export interface ImageIdentifier {
-  imageDigest?: string;
-  imageTag?: string;
+  imageDigest?: string | undefined;
+  imageTag?: string | undefined;
 }
 export type ImageIdentifierList = ImageIdentifier[];
 export interface BatchDeleteImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageIds: ImageIdentifier[];
 }
@@ -615,34 +616,34 @@ export type ImageFailureCode =
   | (string & {});
 export type ImageFailureReason = string;
 export interface ImageFailure {
-  imageId?: ImageIdentifier;
-  failureCode?: ImageFailureCode;
-  failureReason?: string;
+  imageId?: ImageIdentifier | undefined;
+  failureCode?: ImageFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type ImageFailureList = ImageFailure[];
 export interface BatchDeleteImageResponse {
-  imageIds?: ImageIdentifier[];
-  failures?: ImageFailure[];
+  imageIds?: ImageIdentifier[] | undefined;
+  failures?: ImageFailure[] | undefined;
 }
 export type MediaTypeList = string[];
 export interface BatchGetImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageIds: ImageIdentifier[];
-  acceptedMediaTypes?: string[];
+  acceptedMediaTypes?: string[] | undefined;
 }
 export type ImageManifest = string;
 export interface Image {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageManifest?: string;
-  imageManifestMediaType?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageManifest?: string | undefined;
+  imageManifestMediaType?: string | undefined;
 }
 export type ImageList = Image[];
 export interface BatchGetImageResponse {
-  images?: Image[];
-  failures?: ImageFailure[];
+  images?: Image[] | undefined;
+  failures?: ImageFailure[] | undefined;
 }
 export type ScanningConfigurationRepositoryNameList = string[];
 export interface BatchGetRepositoryScanningConfigurationRequest {
@@ -659,38 +660,38 @@ export interface ScanningRepositoryFilter {
 }
 export type ScanningRepositoryFilterList = ScanningRepositoryFilter[];
 export interface RepositoryScanningConfiguration {
-  repositoryArn?: string;
-  repositoryName?: string;
-  scanOnPush?: boolean;
-  scanFrequency?: ScanFrequency;
-  appliedScanFilters?: ScanningRepositoryFilter[];
+  repositoryArn?: string | undefined;
+  repositoryName?: string | undefined;
+  scanOnPush?: boolean | undefined;
+  scanFrequency?: ScanFrequency | undefined;
+  appliedScanFilters?: ScanningRepositoryFilter[] | undefined;
 }
 export type RepositoryScanningConfigurationList = RepositoryScanningConfiguration[];
 export type ScanningConfigurationFailureCode = "REPOSITORY_NOT_FOUND" | (string & {});
 export type ScanningConfigurationFailureReason = string;
 export interface RepositoryScanningConfigurationFailure {
-  repositoryName?: string;
-  failureCode?: ScanningConfigurationFailureCode;
-  failureReason?: string;
+  repositoryName?: string | undefined;
+  failureCode?: ScanningConfigurationFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type RepositoryScanningConfigurationFailureList = RepositoryScanningConfigurationFailure[];
 export interface BatchGetRepositoryScanningConfigurationResponse {
-  scanningConfigurations?: RepositoryScanningConfiguration[];
-  failures?: RepositoryScanningConfigurationFailure[];
+  scanningConfigurations?: RepositoryScanningConfiguration[] | undefined;
+  failures?: RepositoryScanningConfigurationFailure[] | undefined;
 }
 export type UploadId = string;
 export type LayerDigestList = string[];
 export interface CompleteLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   layerDigests: string[];
 }
 export interface CompleteLayerUploadResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  layerDigest?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  layerDigest?: string | undefined;
 }
 export type PullThroughCacheRuleRepositoryPrefix = string;
 export type Url = string;
@@ -710,22 +711,22 @@ export type CustomRoleArn = string;
 export interface CreatePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
   upstreamRegistryUrl: string;
-  registryId?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  registryId?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export type CreationTimestamp = Date;
 export interface CreatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -748,43 +749,43 @@ export interface ImageTagMutabilityExclusionFilter {
 }
 export type ImageTagMutabilityExclusionFilters = ImageTagMutabilityExclusionFilter[];
 export interface ImageScanningConfiguration {
-  scanOnPush?: boolean;
+  scanOnPush?: boolean | undefined;
 }
 export type EncryptionType = "AES256" | "KMS" | "KMS_DSSE" | (string & {});
 export type KmsKey = string;
 export interface EncryptionConfiguration {
   encryptionType: EncryptionType;
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export interface CreateRepositoryRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  tags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface Repository {
-  repositoryArn?: string;
-  registryId?: string;
-  repositoryName?: string;
-  repositoryUri?: string;
-  createdAt?: Date;
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  repositoryArn?: string | undefined;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  repositoryUri?: string | undefined;
+  createdAt?: Date | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface CreateRepositoryResponse {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export type Prefix = string;
 export type RepositoryTemplateDescription = string;
 export type KmsKeyForRepositoryCreationTemplate = string;
 export interface EncryptionConfigurationForRepositoryCreationTemplate {
   encryptionType: EncryptionType;
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type RepositoryPolicyText = string;
 export type LifecyclePolicyTextForRepositoryCreationTemplate = string;
@@ -792,89 +793,89 @@ export type RCTAppliedFor = "REPLICATION" | "PULL_THROUGH_CACHE" | "CREATE_ON_PU
 export type RCTAppliedForList = RCTAppliedFor[];
 export interface CreateRepositoryCreationTemplateRequest {
   prefix: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
   appliedFor: RCTAppliedFor[];
-  customRoleArn?: string;
+  customRoleArn?: string | undefined;
 }
 export interface RepositoryCreationTemplate {
-  prefix?: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
-  appliedFor?: RCTAppliedFor[];
-  customRoleArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  prefix?: string | undefined;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
+  appliedFor?: RCTAppliedFor[] | undefined;
+  customRoleArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export interface DeleteLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type LifecyclePolicyText = string;
 export type EvaluationTimestamp = Date;
 export interface DeleteLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  lastEvaluatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  lastEvaluatedAt?: Date | undefined;
 }
 export interface DeletePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export interface DeletePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export interface DeleteRegistryPolicyRequest {}
 export type RegistryPolicyText = string;
 export interface DeleteRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export type ForceFlag = boolean;
 export interface DeleteRepositoryRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteRepositoryResponse {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export interface DeleteRepositoryCreationTemplateRequest {
   prefix: string;
 }
 export interface DeleteRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export interface DeleteRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface DeleteRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface DeleteSigningConfigurationRequest {}
 export type SigningProfileArn = string;
@@ -887,58 +888,58 @@ export interface SigningRepositoryFilter {
 export type SigningRepositoryFilterList = SigningRepositoryFilter[];
 export interface SigningRule {
   signingProfileArn: string;
-  repositoryFilters?: SigningRepositoryFilter[];
+  repositoryFilters?: SigningRepositoryFilter[] | undefined;
 }
 export type SigningRuleList = SigningRule[];
 export interface SigningConfiguration {
   rules: SigningRule[];
 }
 export interface DeleteSigningConfigurationResponse {
-  registryId?: string;
-  signingConfiguration?: SigningConfiguration;
+  registryId?: string | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export type PrincipalArn = string;
 export interface DeregisterPullTimeUpdateExclusionRequest {
   principalArn: string;
 }
 export interface DeregisterPullTimeUpdateExclusionResponse {
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export interface DescribeImageReplicationStatusRequest {
   repositoryName: string;
   imageId: ImageIdentifier;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type Region = string;
 export type ReplicationStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export type ReplicationError = string;
 export interface ImageReplicationStatus {
-  region?: string;
-  registryId?: string;
-  status?: ReplicationStatus;
-  failureCode?: string;
+  region?: string | undefined;
+  registryId?: string | undefined;
+  status?: ReplicationStatus | undefined;
+  failureCode?: string | undefined;
 }
 export type ImageReplicationStatusList = ImageReplicationStatus[];
 export interface DescribeImageReplicationStatusResponse {
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  replicationStatuses?: ImageReplicationStatus[];
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  replicationStatuses?: ImageReplicationStatus[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export type TagStatus = "TAGGED" | "UNTAGGED" | "ANY" | (string & {});
 export type ImageStatusFilter = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | "ANY" | (string & {});
 export interface DescribeImagesFilter {
-  tagStatus?: TagStatus;
-  imageStatus?: ImageStatusFilter;
+  tagStatus?: TagStatus | undefined;
+  imageStatus?: ImageStatusFilter | undefined;
 }
 export interface DescribeImagesRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
-  maxResults?: number;
-  filter?: DescribeImagesFilter;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: DescribeImagesFilter | undefined;
 }
 export type ImageTagList = string[];
 export type ImageSizeInBytes = number;
@@ -957,8 +958,8 @@ export type ScanStatus =
   | (string & {});
 export type ScanStatusDescription = string;
 export interface ImageScanStatus {
-  status?: ScanStatus;
-  description?: string;
+  status?: ScanStatus | undefined;
+  description?: string | undefined;
 }
 export type ScanTimestamp = Date;
 export type VulnerabilitySourceUpdateTimestamp = Date;
@@ -971,44 +972,44 @@ export type FindingSeverity =
   | "UNDEFINED"
   | (string & {});
 export type SeverityCount = number;
-export type FindingSeverityCounts = { [key in FindingSeverity]?: number };
+export type FindingSeverityCounts = { [key in FindingSeverity]?: number | undefined };
 export interface ImageScanFindingsSummary {
-  imageScanCompletedAt?: Date;
-  vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number | undefined };
+  imageScanCompletedAt?: Date | undefined;
+  vulnerabilitySourceUpdatedAt?: Date | undefined;
+  findingSeverityCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type RecordedPullTimestamp = Date;
 export type ImageStatus = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | (string & {});
 export type LastArchivedAtTimestamp = Date;
 export type LastActivatedAtTimestamp = Date;
 export interface ImageDetail {
-  registryId?: string;
-  repositoryName?: string;
-  imageDigest?: string;
-  imageTags?: string[];
-  imageSizeInBytes?: number;
-  imagePushedAt?: Date;
-  imageScanStatus?: ImageScanStatus;
-  imageScanFindingsSummary?: ImageScanFindingsSummary;
-  imageManifestMediaType?: string;
-  artifactMediaType?: string;
-  lastRecordedPullTime?: Date;
-  subjectManifestDigest?: string;
-  imageStatus?: ImageStatus;
-  lastArchivedAt?: Date;
-  lastActivatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageDigest?: string | undefined;
+  imageTags?: string[] | undefined;
+  imageSizeInBytes?: number | undefined;
+  imagePushedAt?: Date | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
+  imageScanFindingsSummary?: ImageScanFindingsSummary | undefined;
+  imageManifestMediaType?: string | undefined;
+  artifactMediaType?: string | undefined;
+  lastRecordedPullTime?: Date | undefined;
+  subjectManifestDigest?: string | undefined;
+  imageStatus?: ImageStatus | undefined;
+  lastArchivedAt?: Date | undefined;
+  lastActivatedAt?: Date | undefined;
 }
 export type ImageDetailList = ImageDetail[];
 export interface DescribeImagesResponse {
-  imageDetails?: ImageDetail[];
-  nextToken?: string;
+  imageDetails?: ImageDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImageScanFindingsRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FindingName = string;
 export type FindingDescription = string;
@@ -1016,15 +1017,15 @@ export type AttributeKey = string;
 export type AttributeValue = string;
 export interface Attribute {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type AttributeList = Attribute[];
 export interface ImageScanFinding {
-  name?: string;
-  description?: string;
-  uri?: string;
-  severity?: FindingSeverity;
-  attributes?: Attribute[];
+  name?: string | undefined;
+  description?: string | undefined;
+  uri?: string | undefined;
+  severity?: FindingSeverity | undefined;
+  attributes?: Attribute[] | undefined;
 }
 export type ImageScanFindingList = ImageScanFinding[];
 export type FindingArn = string;
@@ -1033,10 +1034,10 @@ export type ScoringVector = string;
 export type Source = string;
 export type Version = string;
 export interface CvssScore {
-  baseScore?: number;
-  scoringVector?: string;
-  source?: string;
-  version?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
+  source?: string | undefined;
+  version?: string | undefined;
 }
 export type CvssScoreList = CvssScore[];
 export type ReferenceUrlsList = string[];
@@ -1053,167 +1054,167 @@ export type Release = string;
 export type SourceLayerHash = string;
 export type FixedInVersion = string;
 export interface VulnerablePackage {
-  arch?: string;
-  epoch?: number;
-  filePath?: string;
-  name?: string;
-  packageManager?: string;
-  release?: string;
-  sourceLayerHash?: string;
-  version?: string;
-  fixedInVersion?: string;
+  arch?: string | undefined;
+  epoch?: number | undefined;
+  filePath?: string | undefined;
+  name?: string | undefined;
+  packageManager?: string | undefined;
+  release?: string | undefined;
+  sourceLayerHash?: string | undefined;
+  version?: string | undefined;
+  fixedInVersion?: string | undefined;
 }
 export type VulnerablePackagesList = VulnerablePackage[];
 export interface PackageVulnerabilityDetails {
-  cvss?: CvssScore[];
-  referenceUrls?: string[];
-  relatedVulnerabilities?: string[];
-  source?: string;
-  sourceUrl?: string;
-  vendorCreatedAt?: Date;
-  vendorSeverity?: string;
-  vendorUpdatedAt?: Date;
-  vulnerabilityId?: string;
-  vulnerablePackages?: VulnerablePackage[];
+  cvss?: CvssScore[] | undefined;
+  referenceUrls?: string[] | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  source?: string | undefined;
+  sourceUrl?: string | undefined;
+  vendorCreatedAt?: Date | undefined;
+  vendorSeverity?: string | undefined;
+  vendorUpdatedAt?: Date | undefined;
+  vulnerabilityId?: string | undefined;
+  vulnerablePackages?: VulnerablePackage[] | undefined;
 }
 export type RecommendationText = string;
 export interface Recommendation {
-  url?: string;
-  text?: string;
+  url?: string | undefined;
+  text?: string | undefined;
 }
 export interface Remediation {
-  recommendation?: Recommendation;
+  recommendation?: Recommendation | undefined;
 }
 export type Author = string;
 export type ImageTagsList = string[];
 export type Platform = string;
 export type InUseCount = number;
 export interface AwsEcrContainerImageDetails {
-  architecture?: string;
-  author?: string;
-  imageHash?: string;
-  imageTags?: string[];
-  platform?: string;
-  pushedAt?: Date;
-  lastInUseAt?: Date;
-  inUseCount?: number;
-  registry?: string;
-  repositoryName?: string;
+  architecture?: string | undefined;
+  author?: string | undefined;
+  imageHash?: string | undefined;
+  imageTags?: string[] | undefined;
+  platform?: string | undefined;
+  pushedAt?: Date | undefined;
+  lastInUseAt?: Date | undefined;
+  inUseCount?: number | undefined;
+  registry?: string | undefined;
+  repositoryName?: string | undefined;
 }
 export interface ResourceDetails {
-  awsEcrContainerImage?: AwsEcrContainerImageDetails;
+  awsEcrContainerImage?: AwsEcrContainerImageDetails | undefined;
 }
 export type ResourceId = string;
 export type Tags = { [key: string]: string | undefined };
 export type Type = string;
 export interface Resource {
-  details?: ResourceDetails;
-  id?: string;
-  tags?: { [key: string]: string | undefined };
-  type?: string;
+  details?: ResourceDetails | undefined;
+  id?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  type?: string | undefined;
 }
 export type ResourceList = Resource[];
 export type Score = number;
 export type Metric = string;
 export type Reason = string;
 export interface CvssScoreAdjustment {
-  metric?: string;
-  reason?: string;
+  metric?: string | undefined;
+  reason?: string | undefined;
 }
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export interface CvssScoreDetails {
-  adjustments?: CvssScoreAdjustment[];
-  score?: number;
-  scoreSource?: string;
-  scoringVector?: string;
-  version?: string;
+  adjustments?: CvssScoreAdjustment[] | undefined;
+  score?: number | undefined;
+  scoreSource?: string | undefined;
+  scoringVector?: string | undefined;
+  version?: string | undefined;
 }
 export interface ScoreDetails {
-  cvss?: CvssScoreDetails;
+  cvss?: CvssScoreDetails | undefined;
 }
 export type Status = string;
 export type Title = string;
 export type FixAvailable = string;
 export type ExploitAvailable = string;
 export interface EnhancedImageScanFinding {
-  awsAccountId?: string;
-  description?: string;
-  findingArn?: string;
-  firstObservedAt?: Date;
-  lastObservedAt?: Date;
-  packageVulnerabilityDetails?: PackageVulnerabilityDetails;
-  remediation?: Remediation;
-  resources?: Resource[];
-  score?: number;
-  scoreDetails?: ScoreDetails;
-  severity?: string;
-  status?: string;
-  title?: string;
-  type?: string;
-  updatedAt?: Date;
-  fixAvailable?: string;
-  exploitAvailable?: string;
+  awsAccountId?: string | undefined;
+  description?: string | undefined;
+  findingArn?: string | undefined;
+  firstObservedAt?: Date | undefined;
+  lastObservedAt?: Date | undefined;
+  packageVulnerabilityDetails?: PackageVulnerabilityDetails | undefined;
+  remediation?: Remediation | undefined;
+  resources?: Resource[] | undefined;
+  score?: number | undefined;
+  scoreDetails?: ScoreDetails | undefined;
+  severity?: string | undefined;
+  status?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  updatedAt?: Date | undefined;
+  fixAvailable?: string | undefined;
+  exploitAvailable?: string | undefined;
 }
 export type EnhancedImageScanFindingList = EnhancedImageScanFinding[];
 export interface ImageScanFindings {
-  imageScanCompletedAt?: Date;
-  vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number | undefined };
-  findings?: ImageScanFinding[];
-  enhancedFindings?: EnhancedImageScanFinding[];
+  imageScanCompletedAt?: Date | undefined;
+  vulnerabilitySourceUpdatedAt?: Date | undefined;
+  findingSeverityCounts?: { [key: string]: number | undefined } | undefined;
+  findings?: ImageScanFinding[] | undefined;
+  enhancedFindings?: EnhancedImageScanFinding[] | undefined;
 }
 export interface DescribeImageScanFindingsResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageScanStatus?: ImageScanStatus;
-  imageScanFindings?: ImageScanFindings;
-  nextToken?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
+  imageScanFindings?: ImageScanFindings | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImageSigningStatusRequest {
   repositoryName: string;
   imageId: ImageIdentifier;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type SigningStatusFailureCode = string;
 export type SigningStatusFailureReason = string;
 export type SigningStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export interface ImageSigningStatus {
-  signingProfileArn?: string;
-  failureCode?: string;
-  failureReason?: string;
-  status?: SigningStatus;
+  signingProfileArn?: string | undefined;
+  failureCode?: string | undefined;
+  failureReason?: string | undefined;
+  status?: SigningStatus | undefined;
 }
 export type ImageSigningStatusList = ImageSigningStatus[];
 export interface DescribeImageSigningStatusResponse {
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  registryId?: string;
-  signingStatuses?: ImageSigningStatus[];
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  registryId?: string | undefined;
+  signingStatuses?: ImageSigningStatus[] | undefined;
 }
 export type PullThroughCacheRuleRepositoryPrefixList = string[];
 export interface DescribePullThroughCacheRulesRequest {
-  registryId?: string;
-  ecrRepositoryPrefixes?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  registryId?: string | undefined;
+  ecrRepositoryPrefixes?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type UpdatedTimestamp = Date;
 export interface PullThroughCacheRule {
-  ecrRepositoryPrefix?: string;
-  upstreamRegistryUrl?: string;
-  createdAt?: Date;
-  registryId?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
-  upstreamRegistry?: UpstreamRegistry;
-  updatedAt?: Date;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  createdAt?: Date | undefined;
+  registryId?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
+  upstreamRegistry?: UpstreamRegistry | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PullThroughCacheRuleList = PullThroughCacheRule[];
 export interface DescribePullThroughCacheRulesResponse {
-  pullThroughCacheRules?: PullThroughCacheRule[];
-  nextToken?: string;
+  pullThroughCacheRules?: PullThroughCacheRule[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeRegistryRequest {}
 export interface ReplicationDestination {
@@ -1230,94 +1231,94 @@ export interface RepositoryFilter {
 export type RepositoryFilterList = RepositoryFilter[];
 export interface ReplicationRule {
   destinations: ReplicationDestination[];
-  repositoryFilters?: RepositoryFilter[];
+  repositoryFilters?: RepositoryFilter[] | undefined;
 }
 export type ReplicationRuleList = ReplicationRule[];
 export interface ReplicationConfiguration {
   rules: ReplicationRule[];
 }
 export interface DescribeRegistryResponse {
-  registryId?: string;
-  replicationConfiguration?: ReplicationConfiguration;
+  registryId?: string | undefined;
+  replicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export type RepositoryNameList = string[];
 export interface DescribeRepositoriesRequest {
-  registryId?: string;
-  repositoryNames?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  registryId?: string | undefined;
+  repositoryNames?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RepositoryList = Repository[];
 export interface DescribeRepositoriesResponse {
-  repositories?: Repository[];
-  nextToken?: string;
+  repositories?: Repository[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PrefixList = string[];
 export interface DescribeRepositoryCreationTemplatesRequest {
-  prefixes?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  prefixes?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RepositoryCreationTemplateList = RepositoryCreationTemplate[];
 export interface DescribeRepositoryCreationTemplatesResponse {
-  registryId?: string;
-  repositoryCreationTemplates?: RepositoryCreationTemplate[];
-  nextToken?: string;
+  registryId?: string | undefined;
+  repositoryCreationTemplates?: RepositoryCreationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountSettingName = string;
 export interface GetAccountSettingRequest {
   name: string;
 }
 export interface GetAccountSettingResponse {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type GetAuthorizationTokenRegistryIdList = string[];
 export interface GetAuthorizationTokenRequest {
-  registryIds?: string[];
+  registryIds?: string[] | undefined;
 }
 export type Base64 = string;
 export type ExpirationTimestamp = Date;
 export type ProxyEndpoint = string;
 export interface AuthorizationData {
-  authorizationToken?: string | redacted.Redacted<string>;
-  expiresAt?: Date;
-  proxyEndpoint?: string;
+  authorizationToken?: string | redacted.Redacted<string> | undefined;
+  expiresAt?: Date | undefined;
+  proxyEndpoint?: string | undefined;
 }
 export type AuthorizationDataList = AuthorizationData[];
 export interface GetAuthorizationTokenResponse {
-  authorizationData?: AuthorizationData[];
+  authorizationData?: AuthorizationData[] | undefined;
 }
 export interface GetDownloadUrlForLayerRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   layerDigest: string;
 }
 export interface GetDownloadUrlForLayerResponse {
-  downloadUrl?: string;
-  layerDigest?: string;
+  downloadUrl?: string | undefined;
+  layerDigest?: string | undefined;
 }
 export interface GetLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  lastEvaluatedAt?: Date;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  lastEvaluatedAt?: Date | undefined;
 }
 export type LifecyclePreviewMaxResults = number;
 export interface LifecyclePolicyPreviewFilter {
-  tagStatus?: TagStatus;
+  tagStatus?: TagStatus | undefined;
 }
 export interface GetLifecyclePolicyPreviewRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
-  maxResults?: number;
-  filter?: LifecyclePolicyPreviewFilter;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: LifecyclePolicyPreviewFilter | undefined;
 }
 export type LifecyclePolicyPreviewStatus =
   | "IN_PROGRESS"
@@ -1328,43 +1329,43 @@ export type LifecyclePolicyPreviewStatus =
 export type ImageActionType = "EXPIRE" | "TRANSITION" | (string & {});
 export type LifecyclePolicyTargetStorageClass = "ARCHIVE" | (string & {});
 export interface LifecyclePolicyRuleAction {
-  type?: ImageActionType;
-  targetStorageClass?: LifecyclePolicyTargetStorageClass;
+  type?: ImageActionType | undefined;
+  targetStorageClass?: LifecyclePolicyTargetStorageClass | undefined;
 }
 export type LifecyclePolicyRulePriority = number;
 export type LifecyclePolicyStorageClass = "ARCHIVE" | "STANDARD" | (string & {});
 export interface LifecyclePolicyPreviewResult {
-  imageTags?: string[];
-  imageDigest?: string;
-  imagePushedAt?: Date;
-  action?: LifecyclePolicyRuleAction;
-  appliedRulePriority?: number;
-  storageClass?: LifecyclePolicyStorageClass;
+  imageTags?: string[] | undefined;
+  imageDigest?: string | undefined;
+  imagePushedAt?: Date | undefined;
+  action?: LifecyclePolicyRuleAction | undefined;
+  appliedRulePriority?: number | undefined;
+  storageClass?: LifecyclePolicyStorageClass | undefined;
 }
 export type LifecyclePolicyPreviewResultList = LifecyclePolicyPreviewResult[];
 export type ImageCount = number;
 export interface TransitioningImageTotalCount {
-  targetStorageClass?: LifecyclePolicyTargetStorageClass;
-  imageTotalCount?: number;
+  targetStorageClass?: LifecyclePolicyTargetStorageClass | undefined;
+  imageTotalCount?: number | undefined;
 }
 export type TransitioningImageTotalCounts = TransitioningImageTotalCount[];
 export interface LifecyclePolicyPreviewSummary {
-  expiringImageTotalCount?: number;
-  transitioningImageTotalCounts?: TransitioningImageTotalCount[];
+  expiringImageTotalCount?: number | undefined;
+  transitioningImageTotalCounts?: TransitioningImageTotalCount[] | undefined;
 }
 export interface GetLifecyclePolicyPreviewResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  status?: LifecyclePolicyPreviewStatus;
-  nextToken?: string;
-  previewResults?: LifecyclePolicyPreviewResult[];
-  summary?: LifecyclePolicyPreviewSummary;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  status?: LifecyclePolicyPreviewStatus | undefined;
+  nextToken?: string | undefined;
+  previewResults?: LifecyclePolicyPreviewResult[] | undefined;
+  summary?: LifecyclePolicyPreviewSummary | undefined;
 }
 export interface GetRegistryPolicyRequest {}
 export interface GetRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface GetRegistryScanningConfigurationRequest {}
 export type ScanType = "BASIC" | "ENHANCED" | (string & {});
@@ -1374,35 +1375,35 @@ export interface RegistryScanningRule {
 }
 export type RegistryScanningRuleList = RegistryScanningRule[];
 export interface RegistryScanningConfiguration {
-  scanType?: ScanType;
-  rules?: RegistryScanningRule[];
+  scanType?: ScanType | undefined;
+  rules?: RegistryScanningRule[] | undefined;
 }
 export interface GetRegistryScanningConfigurationResponse {
-  registryId?: string;
-  scanningConfiguration?: RegistryScanningConfiguration;
+  registryId?: string | undefined;
+  scanningConfiguration?: RegistryScanningConfiguration | undefined;
 }
 export interface GetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface GetSigningConfigurationRequest {}
 export interface GetSigningConfigurationResponse {
-  registryId?: string;
-  signingConfiguration?: SigningConfiguration;
+  registryId?: string | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export interface InitiateLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type PartSize = number;
 export interface InitiateLayerUploadResponse {
-  uploadId?: string;
-  partSize?: number;
+  uploadId?: string | undefined;
+  partSize?: number | undefined;
 }
 export interface SubjectIdentifier {
   imageDigest: string;
@@ -1411,62 +1412,62 @@ export type ArtifactType = string;
 export type ArtifactTypeList = string[];
 export type ArtifactStatusFilter = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | "ANY" | (string & {});
 export interface ListImageReferrersFilter {
-  artifactTypes?: string[];
-  artifactStatus?: ArtifactStatusFilter;
+  artifactTypes?: string[] | undefined;
+  artifactStatus?: ArtifactStatusFilter | undefined;
 }
 export type FiftyMaxResults = number;
 export interface ListImageReferrersRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   subjectId: SubjectIdentifier;
-  filter?: ListImageReferrersFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ListImageReferrersFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Annotations = { [key: string]: string | undefined };
 export type ArtifactStatus = "ACTIVE" | "ARCHIVED" | "ACTIVATING" | (string & {});
 export interface ImageReferrer {
   digest: string;
   mediaType: string;
-  artifactType?: string;
+  artifactType?: string | undefined;
   size: number;
-  annotations?: { [key: string]: string | undefined };
-  artifactStatus?: ArtifactStatus;
+  annotations?: { [key: string]: string | undefined } | undefined;
+  artifactStatus?: ArtifactStatus | undefined;
 }
 export type ImageReferrerList = ImageReferrer[];
 export interface ListImageReferrersResponse {
-  referrers?: ImageReferrer[];
-  nextToken?: string;
+  referrers?: ImageReferrer[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagesFilter {
-  tagStatus?: TagStatus;
-  imageStatus?: ImageStatusFilter;
+  tagStatus?: TagStatus | undefined;
+  imageStatus?: ImageStatusFilter | undefined;
 }
 export interface ListImagesRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: ListImagesFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: ListImagesFilter | undefined;
 }
 export interface ListImagesResponse {
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPullTimeUpdateExclusionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PullTimeUpdateExclusionList = string[];
 export interface ListPullTimeUpdateExclusionsResponse {
-  pullTimeUpdateExclusions?: string[];
-  nextToken?: string;
+  pullTimeUpdateExclusions?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type AccountSettingValue = string;
 export interface PutAccountSettingRequest {
@@ -1474,117 +1475,117 @@ export interface PutAccountSettingRequest {
   value: string;
 }
 export interface PutAccountSettingResponse {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export interface PutImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageManifest: string;
-  imageManifestMediaType?: string;
-  imageTag?: string;
-  imageDigest?: string;
+  imageManifestMediaType?: string | undefined;
+  imageTag?: string | undefined;
+  imageDigest?: string | undefined;
 }
 export interface PutImageResponse {
-  image?: Image;
+  image?: Image | undefined;
 }
 export interface PutImageScanningConfigurationRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageScanningConfiguration: ImageScanningConfiguration;
 }
 export interface PutImageScanningConfigurationResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageScanningConfiguration?: ImageScanningConfiguration;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
 }
 export interface PutImageTagMutabilityRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageTagMutability: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
 }
 export interface PutImageTagMutabilityResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
 }
 export interface PutLifecyclePolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   lifecyclePolicyText: string;
 }
 export interface PutLifecyclePolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
 }
 export interface PutRegistryPolicyRequest {
   policyText: string;
 }
 export interface PutRegistryPolicyResponse {
-  registryId?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface PutRegistryScanningConfigurationRequest {
-  scanType?: ScanType;
-  rules?: RegistryScanningRule[];
+  scanType?: ScanType | undefined;
+  rules?: RegistryScanningRule[] | undefined;
 }
 export interface PutRegistryScanningConfigurationResponse {
-  registryScanningConfiguration?: RegistryScanningConfiguration;
+  registryScanningConfiguration?: RegistryScanningConfiguration | undefined;
 }
 export interface PutReplicationConfigurationRequest {
   replicationConfiguration: ReplicationConfiguration;
 }
 export interface PutReplicationConfigurationResponse {
-  replicationConfiguration?: ReplicationConfiguration;
+  replicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export interface PutSigningConfigurationRequest {
   signingConfiguration: SigningConfiguration;
 }
 export interface PutSigningConfigurationResponse {
-  signingConfiguration?: SigningConfiguration;
+  signingConfiguration?: SigningConfiguration | undefined;
 }
 export interface RegisterPullTimeUpdateExclusionRequest {
   principalArn: string;
 }
 export interface RegisterPullTimeUpdateExclusionResponse {
-  principalArn?: string;
-  createdAt?: Date;
+  principalArn?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export interface SetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   policyText: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface SetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface StartImageScanRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
 }
 export interface StartImageScanResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageScanStatus?: ImageScanStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageScanStatus?: ImageScanStatus | undefined;
 }
 export interface StartLifecyclePolicyPreviewRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  lifecyclePolicyText?: string;
+  lifecyclePolicyText?: string | undefined;
 }
 export interface StartLifecyclePolicyPreviewResponse {
-  registryId?: string;
-  repositoryName?: string;
-  lifecyclePolicyText?: string;
-  status?: LifecyclePolicyPreviewStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  lifecyclePolicyText?: string | undefined;
+  status?: LifecyclePolicyPreviewStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1599,50 +1600,50 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type TargetStorageClass = "STANDARD" | "ARCHIVE" | (string & {});
 export interface UpdateImageStorageClassRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageId: ImageIdentifier;
   targetStorageClass: TargetStorageClass;
 }
 export interface UpdateImageStorageClassResponse {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageStatus?: ImageStatus;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageStatus?: ImageStatus | undefined;
 }
 export interface UpdatePullThroughCacheRuleRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   ecrRepositoryPrefix: string;
-  credentialArn?: string;
-  customRoleArn?: string;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
 }
 export interface UpdatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  registryId?: string;
-  updatedAt?: Date;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  registryId?: string | undefined;
+  updatedAt?: Date | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
 }
 export interface UpdateRepositoryCreationTemplateRequest {
   prefix: string;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate;
-  resourceTags?: Tag[];
-  imageTagMutability?: ImageTagMutability;
-  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[];
-  repositoryPolicy?: string;
-  lifecyclePolicy?: string;
-  appliedFor?: RCTAppliedFor[];
-  customRoleArn?: string;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfigurationForRepositoryCreationTemplate | undefined;
+  resourceTags?: Tag[] | undefined;
+  imageTagMutability?: ImageTagMutability | undefined;
+  imageTagMutabilityExclusionFilters?: ImageTagMutabilityExclusionFilter[] | undefined;
+  repositoryPolicy?: string | undefined;
+  lifecyclePolicy?: string | undefined;
+  appliedFor?: RCTAppliedFor[] | undefined;
+  customRoleArn?: string | undefined;
 }
 export interface UpdateRepositoryCreationTemplateResponse {
-  registryId?: string;
-  repositoryCreationTemplate?: RepositoryCreationTemplate;
+  registryId?: string | undefined;
+  repositoryCreationTemplate?: RepositoryCreationTemplate | undefined;
 }
 export type LayerPartBlob = Uint8Array;
 export interface UploadLayerPartRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   partFirstByte: number;
@@ -1650,26 +1651,26 @@ export interface UploadLayerPartRequest {
   layerPartBlob: Uint8Array;
 }
 export interface UploadLayerPartResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  lastByteReceived?: number;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  lastByteReceived?: number | undefined;
 }
 export interface ValidatePullThroughCacheRuleRequest {
   ecrRepositoryPrefix: string;
-  registryId?: string;
+  registryId?: string | undefined;
 }
 export type IsPTCRuleValid = boolean;
 export type PTCValidateFailure = string;
 export interface ValidatePullThroughCacheRuleResponse {
-  ecrRepositoryPrefix?: string;
-  registryId?: string;
-  upstreamRegistryUrl?: string;
-  credentialArn?: string;
-  customRoleArn?: string;
-  upstreamRepositoryPrefix?: string;
-  isValid?: boolean;
-  failure?: string;
+  ecrRepositoryPrefix?: string | undefined;
+  registryId?: string | undefined;
+  upstreamRegistryUrl?: string | undefined;
+  credentialArn?: string | undefined;
+  customRoleArn?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
+  isValid?: boolean | undefined;
+  failure?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type KmsError = string;
@@ -1689,7 +1690,7 @@ export type BatchCheckLayerAvailabilityError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const batchCheckLayerAvailability: API.OperationMethod<
-  BatchCheckLayerAvailabilityRequest,
+  BatchCheckLayerAvailabilityRequest & RegionInput,
   BatchCheckLayerAvailabilityResponse,
   BatchCheckLayerAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -1720,7 +1721,7 @@ export type BatchDeleteImageError =
  * digest in your request.
  */
 export const batchDeleteImage: API.OperationMethod<
-  BatchDeleteImageRequest,
+  BatchDeleteImageRequest & RegionInput,
   BatchDeleteImageResponse,
   BatchDeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -1750,7 +1751,7 @@ export type BatchGetImageError =
  * manifest.
  */
 export const batchGetImage: API.OperationMethod<
-  BatchGetImageRequest,
+  BatchGetImageRequest & RegionInput,
   BatchGetImageResponse,
   BatchGetImageError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1782,7 @@ export type BatchGetRepositoryScanningConfigurationError =
  * Gets the scanning configuration for one or more repositories.
  */
 export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
-  BatchGetRepositoryScanningConfigurationRequest,
+  BatchGetRepositoryScanningConfigurationRequest & RegionInput,
   BatchGetRepositoryScanningConfigurationResponse,
   BatchGetRepositoryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type CompleteLayerUploadError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const completeLayerUpload: API.OperationMethod<
-  CompleteLayerUploadRequest,
+  CompleteLayerUploadRequest & RegionInput,
   CompleteLayerUploadResponse,
   CompleteLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -1867,7 +1868,7 @@ export type CreatePullThroughCacheRuleError =
  * rules in the *Amazon Elastic Container Registry User Guide*.
  */
 export const createPullThroughCacheRule: API.OperationMethod<
-  CreatePullThroughCacheRuleRequest,
+  CreatePullThroughCacheRuleRequest & RegionInput,
   CreatePullThroughCacheRuleResponse,
   CreatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type CreateRepositoryError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResponse,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1944,7 +1945,7 @@ export type CreateRepositoryCreationTemplateError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const createRepositoryCreationTemplate: API.OperationMethod<
-  CreateRepositoryCreationTemplateRequest,
+  CreateRepositoryCreationTemplateRequest & RegionInput,
   CreateRepositoryCreationTemplateResponse,
   CreateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1976,7 +1977,7 @@ export type DeleteLifecyclePolicyError =
  * Deletes the lifecycle policy associated with the specified repository.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2007,7 +2008,7 @@ export type DeletePullThroughCacheRuleError =
  * Deletes a pull through cache rule.
  */
 export const deletePullThroughCacheRule: API.OperationMethod<
-  DeletePullThroughCacheRuleRequest,
+  DeletePullThroughCacheRuleRequest & RegionInput,
   DeletePullThroughCacheRuleResponse,
   DeletePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -2037,7 +2038,7 @@ export type DeleteRegistryPolicyError =
  * Deletes the registry permissions policy.
  */
 export const deleteRegistryPolicy: API.OperationMethod<
-  DeleteRegistryPolicyRequest,
+  DeleteRegistryPolicyRequest & RegionInput,
   DeleteRegistryPolicyResponse,
   DeleteRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2070,7 +2071,7 @@ export type DeleteRepositoryError =
  * and have Amazon ECR delete all of its contents on your behalf.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResponse,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2101,7 +2102,7 @@ export type DeleteRepositoryCreationTemplateError =
  * Deletes a repository creation template.
  */
 export const deleteRepositoryCreationTemplate: API.OperationMethod<
-  DeleteRepositoryCreationTemplateRequest,
+  DeleteRepositoryCreationTemplateRequest & RegionInput,
   DeleteRepositoryCreationTemplateResponse,
   DeleteRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2131,7 +2132,7 @@ export type DeleteRepositoryPolicyError =
  * Deletes the repository policy associated with the specified repository.
  */
 export const deleteRepositoryPolicy: API.OperationMethod<
-  DeleteRepositoryPolicyRequest,
+  DeleteRepositoryPolicyRequest & RegionInput,
   DeleteRepositoryPolicyResponse,
   DeleteRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2166,7 +2167,7 @@ export type DeleteSigningConfigurationError =
  * Deleting the signing configuration does not affect existing image signatures.
  */
 export const deleteSigningConfiguration: API.OperationMethod<
-  DeleteSigningConfigurationRequest,
+  DeleteSigningConfigurationRequest & RegionInput,
   DeleteSigningConfigurationResponse,
   DeleteSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2193,7 @@ export type DeregisterPullTimeUpdateExclusionError =
  * Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
  */
 export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
-  DeregisterPullTimeUpdateExclusionRequest,
+  DeregisterPullTimeUpdateExclusionRequest & RegionInput,
   DeregisterPullTimeUpdateExclusionResponse,
   DeregisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type DescribeImageReplicationStatusError =
  * Returns the replication status for a specified image.
  */
 export const describeImageReplicationStatus: API.OperationMethod<
-  DescribeImageReplicationStatusRequest,
+  DescribeImageReplicationStatusRequest & RegionInput,
   DescribeImageReplicationStatusResponse,
   DescribeImageReplicationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2266,7 +2267,7 @@ export type DescribeImagesError =
  * images for software vulnerabilities in Amazon ECR.
  */
 export const describeImages: API.PaginatedOperationMethod<
-  DescribeImagesRequest,
+  DescribeImagesRequest & RegionInput,
   DescribeImagesResponse,
   DescribeImagesError,
   Credentials | HttpClient.HttpClient,
@@ -2305,7 +2306,7 @@ export type DescribeImageScanFindingsError =
  * Returns the scan findings for the specified image.
  */
 export const describeImageScanFindings: API.PaginatedOperationMethod<
-  DescribeImageScanFindingsRequest,
+  DescribeImageScanFindingsRequest & RegionInput,
   DescribeImageScanFindingsResponse,
   DescribeImageScanFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -2349,7 +2350,7 @@ export type DescribeImageSigningStatusError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const describeImageSigningStatus: API.OperationMethod<
-  DescribeImageSigningStatusRequest,
+  DescribeImageSigningStatusRequest & RegionInput,
   DescribeImageSigningStatusResponse,
   DescribeImageSigningStatusError,
   Credentials | HttpClient.HttpClient
@@ -2380,7 +2381,7 @@ export type DescribePullThroughCacheRulesError =
  * Returns the pull through cache rules for a registry.
  */
 export const describePullThroughCacheRules: API.PaginatedOperationMethod<
-  DescribePullThroughCacheRulesRequest,
+  DescribePullThroughCacheRulesRequest & RegionInput,
   DescribePullThroughCacheRulesResponse,
   DescribePullThroughCacheRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2418,7 +2419,7 @@ export type DescribeRegistryError =
  * action.
  */
 export const describeRegistry: API.OperationMethod<
-  DescribeRegistryRequest,
+  DescribeRegistryRequest & RegionInput,
   DescribeRegistryResponse,
   DescribeRegistryError,
   Credentials | HttpClient.HttpClient
@@ -2442,7 +2443,7 @@ export type DescribeRepositoriesError =
  * Describes image repositories in a registry.
  */
 export const describeRepositories: API.PaginatedOperationMethod<
-  DescribeRepositoriesRequest,
+  DescribeRepositoriesRequest & RegionInput,
   DescribeRepositoriesResponse,
   DescribeRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2475,7 +2476,7 @@ export type DescribeRepositoryCreationTemplatesError =
  * specific repository creation template.
  */
 export const describeRepositoryCreationTemplates: API.PaginatedOperationMethod<
-  DescribeRepositoryCreationTemplatesRequest,
+  DescribeRepositoryCreationTemplatesRequest & RegionInput,
   DescribeRepositoryCreationTemplatesResponse,
   DescribeRepositoryCreationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2506,7 +2507,7 @@ export type GetAccountSettingError =
  * Retrieves the account setting value for the specified setting name.
  */
 export const getAccountSetting: API.OperationMethod<
-  GetAccountSettingRequest,
+  GetAccountSettingRequest & RegionInput,
   GetAccountSettingResponse,
   GetAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2535,7 @@ export type GetAuthorizationTokenError = InvalidParameterException | ServerExcep
  * authentication in the *Amazon Elastic Container Registry User Guide*.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResponse,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -2568,7 +2569,7 @@ export type GetDownloadUrlForLayerError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const getDownloadUrlForLayer: API.OperationMethod<
-  GetDownloadUrlForLayerRequest,
+  GetDownloadUrlForLayerRequest & RegionInput,
   GetDownloadUrlForLayerResponse,
   GetDownloadUrlForLayerError,
   Credentials | HttpClient.HttpClient
@@ -2601,7 +2602,7 @@ export type GetLifecyclePolicyError =
  * Retrieves the lifecycle policy for the specified repository.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2634,7 +2635,7 @@ export type GetLifecyclePolicyPreviewError =
  * repository.
  */
 export const getLifecyclePolicyPreview: API.PaginatedOperationMethod<
-  GetLifecyclePolicyPreviewRequest,
+  GetLifecyclePolicyPreviewRequest & RegionInput,
   GetLifecyclePolicyPreviewResponse,
   GetLifecyclePolicyPreviewError,
   Credentials | HttpClient.HttpClient,
@@ -2672,7 +2673,7 @@ export type GetRegistryPolicyError =
  * Retrieves the permissions policy for a registry.
  */
 export const getRegistryPolicy: API.OperationMethod<
-  GetRegistryPolicyRequest,
+  GetRegistryPolicyRequest & RegionInput,
   GetRegistryPolicyResponse,
   GetRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2701,7 +2702,7 @@ export type GetRegistryScanningConfigurationError =
  * Retrieves the scanning configuration for a registry.
  */
 export const getRegistryScanningConfiguration: API.OperationMethod<
-  GetRegistryScanningConfigurationRequest,
+  GetRegistryScanningConfigurationRequest & RegionInput,
   GetRegistryScanningConfigurationResponse,
   GetRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2726,7 +2727,7 @@ export type GetRepositoryPolicyError =
  * Retrieves the repository policy for the specified repository.
  */
 export const getRepositoryPolicy: API.OperationMethod<
-  GetRepositoryPolicyRequest,
+  GetRepositoryPolicyRequest & RegionInput,
   GetRepositoryPolicyResponse,
   GetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2760,7 +2761,7 @@ export type GetSigningConfigurationError =
  * *Amazon Elastic Container Registry User Guide*.
  */
 export const getSigningConfiguration: API.OperationMethod<
-  GetSigningConfigurationRequest,
+  GetSigningConfigurationRequest & RegionInput,
   GetSigningConfigurationResponse,
   GetSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2797,7 +2798,7 @@ export type InitiateLayerUploadError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const initiateLayerUpload: API.OperationMethod<
-  InitiateLayerUploadRequest,
+  InitiateLayerUploadRequest & RegionInput,
   InitiateLayerUploadResponse,
   InitiateLayerUploadError,
   Credentials | HttpClient.HttpClient
@@ -2825,7 +2826,7 @@ export type ListImageReferrersError =
  * The IAM principal invoking this operation must have the `ecr:BatchGetImage` permission.
  */
 export const listImageReferrers: API.OperationMethod<
-  ListImageReferrersRequest,
+  ListImageReferrersRequest & RegionInput,
   ListImageReferrersResponse,
   ListImageReferrersError,
   Credentials | HttpClient.HttpClient
@@ -2862,7 +2863,7 @@ export type ListImagesError =
  * repository.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -2894,7 +2895,7 @@ export type ListPullTimeUpdateExclusionsError =
  * Lists the IAM principals that are excluded from having their image pull times recorded.
  */
 export const listPullTimeUpdateExclusions: API.OperationMethod<
-  ListPullTimeUpdateExclusionsRequest,
+  ListPullTimeUpdateExclusionsRequest & RegionInput,
   ListPullTimeUpdateExclusionsResponse,
   ListPullTimeUpdateExclusionsError,
   Credentials | HttpClient.HttpClient
@@ -2918,7 +2919,7 @@ export type ListTagsForResourceError =
  * List the tags for an Amazon ECR resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2944,7 @@ export type PutAccountSettingError =
  * Allows you to change the basic scan type version or registry policy scope.
  */
 export const putAccountSetting: API.OperationMethod<
-  PutAccountSettingRequest,
+  PutAccountSettingRequest & RegionInput,
   PutAccountSettingResponse,
   PutAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type PutImageError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const putImage: API.OperationMethod<
-  PutImageRequest,
+  PutImageRequest & RegionInput,
   PutImageResponse,
   PutImageError,
   Credentials | HttpClient.HttpClient
@@ -3021,7 +3022,7 @@ export type PutImageScanningConfigurationError =
  * Updates the image scanning configuration for the specified repository.
  */
 export const putImageScanningConfiguration: API.OperationMethod<
-  PutImageScanningConfigurationRequest,
+  PutImageScanningConfigurationRequest & RegionInput,
   PutImageScanningConfigurationResponse,
   PutImageScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3052,7 +3053,7 @@ export type PutImageTagMutabilityError =
  * mutability in the *Amazon Elastic Container Registry User Guide*.
  */
 export const putImageTagMutability: API.OperationMethod<
-  PutImageTagMutabilityRequest,
+  PutImageTagMutabilityRequest & RegionInput,
   PutImageTagMutabilityResponse,
   PutImageTagMutabilityError,
   Credentials | HttpClient.HttpClient
@@ -3079,7 +3080,7 @@ export type PutLifecyclePolicyError =
  * template.
  */
 export const putLifecyclePolicy: API.OperationMethod<
-  PutLifecyclePolicyRequest,
+  PutLifecyclePolicyRequest & RegionInput,
   PutLifecyclePolicyResponse,
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type PutRegistryPolicyError =
  * when configuring cross-account replication. For more information, see Registry permissions in the *Amazon Elastic Container Registry User Guide*.
  */
 export const putRegistryPolicy: API.OperationMethod<
-  PutRegistryPolicyRequest,
+  PutRegistryPolicyRequest & RegionInput,
   PutRegistryPolicyResponse,
   PutRegistryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type PutRegistryScanningConfigurationError =
  * Creates or updates the scanning configuration for your private registry.
  */
 export const putRegistryScanningConfiguration: API.OperationMethod<
-  PutRegistryScanningConfigurationRequest,
+  PutRegistryScanningConfigurationRequest & RegionInput,
   PutRegistryScanningConfigurationResponse,
   PutRegistryScanningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type PutReplicationConfigurationError =
  * registry permissions policy. For more information, see PutRegistryPolicy.
  */
 export const putReplicationConfiguration: API.OperationMethod<
-  PutReplicationConfigurationRequest,
+  PutReplicationConfigurationRequest & RegionInput,
   PutReplicationConfigurationResponse,
   PutReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3206,7 +3207,7 @@ export type PutSigningConfigurationError =
  * configuration.
  */
 export const putSigningConfiguration: API.OperationMethod<
-  PutSigningConfigurationRequest,
+  PutSigningConfigurationRequest & RegionInput,
   PutSigningConfigurationResponse,
   PutSigningConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3232,7 +3233,7 @@ export type RegisterPullTimeUpdateExclusionError =
  * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
  */
 export const registerPullTimeUpdateExclusion: API.OperationMethod<
-  RegisterPullTimeUpdateExclusionRequest,
+  RegisterPullTimeUpdateExclusionRequest & RegionInput,
   RegisterPullTimeUpdateExclusionResponse,
   RegisterPullTimeUpdateExclusionError,
   Credentials | HttpClient.HttpClient
@@ -3264,7 +3265,7 @@ export type SetRepositoryPolicyError =
  * policies in the *Amazon Elastic Container Registry User Guide*.
  */
 export const setRepositoryPolicy: API.OperationMethod<
-  SetRepositoryPolicyRequest,
+  SetRepositoryPolicyRequest & RegionInput,
   SetRepositoryPolicyResponse,
   SetRepositoryPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3298,7 +3299,7 @@ export type StartImageScanError =
  * initiated by the StartImageScan API. For more information, see Basic scanning in the *Amazon Elastic Container Registry User Guide*.
  */
 export const startImageScan: API.OperationMethod<
-  StartImageScanRequest,
+  StartImageScanRequest & RegionInput,
   StartImageScanResponse,
   StartImageScanError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type StartLifecyclePolicyPreviewError =
  * to see the results before associating the lifecycle policy with the repository.
  */
 export const startLifecyclePolicyPreview: API.OperationMethod<
-  StartLifecyclePolicyPreviewRequest,
+  StartLifecyclePolicyPreviewRequest & RegionInput,
   StartLifecyclePolicyPreviewResponse,
   StartLifecyclePolicyPreviewError,
   Credentials | HttpClient.HttpClient
@@ -3369,7 +3370,7 @@ export type TagResourceError =
  * are not changed if they are not specified in the request parameters.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3401,7 +3402,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3434,7 +3435,7 @@ export type UpdateImageStorageClassError =
  * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
  */
 export const updateImageStorageClass: API.OperationMethod<
-  UpdateImageStorageClassRequest,
+  UpdateImageStorageClassRequest & RegionInput,
   UpdateImageStorageClassResponse,
   UpdateImageStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -3469,7 +3470,7 @@ export type UpdatePullThroughCacheRuleError =
  * Updates an existing pull through cache rule.
  */
 export const updatePullThroughCacheRule: API.OperationMethod<
-  UpdatePullThroughCacheRuleRequest,
+  UpdatePullThroughCacheRuleRequest & RegionInput,
   UpdatePullThroughCacheRuleResponse,
   UpdatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient
@@ -3502,7 +3503,7 @@ export type UpdateRepositoryCreationTemplateError =
  * Updates an existing repository creation template.
  */
 export const updateRepositoryCreationTemplate: API.OperationMethod<
-  UpdateRepositoryCreationTemplateRequest,
+  UpdateRepositoryCreationTemplateRequest & RegionInput,
   UpdateRepositoryCreationTemplateResponse,
   UpdateRepositoryCreationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3542,7 +3543,7 @@ export type UploadLayerPartError =
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
 export const uploadLayerPart: API.OperationMethod<
-  UploadLayerPartRequest,
+  UploadLayerPartRequest & RegionInput,
   UploadLayerPartResponse,
   UploadLayerPartError,
   Credentials | HttpClient.HttpClient
@@ -3578,7 +3579,7 @@ export type ValidatePullThroughCacheRuleError =
  * successful.
  */
 export const validatePullThroughCacheRule: API.OperationMethod<
-  ValidatePullThroughCacheRuleRequest,
+  ValidatePullThroughCacheRuleRequest & RegionInput,
   ValidatePullThroughCacheRuleResponse,
   ValidatePullThroughCacheRuleError,
   Credentials | HttpClient.HttpClient

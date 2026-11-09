@@ -29,7 +29,7 @@ export interface TagDefinition {
   /** Tag identifier */
   name: string;
   /** Description to help the LLM classify */
-  description?: string;
+  description?: string | undefined;
 }
 /** Available tags the LLM can assign */
 export type LLMTaggerConfigTagsList = Array<TagDefinition>;
@@ -39,9 +39,9 @@ export interface LLMTaggerConfig {
   /** Available tags the LLM can assign */
   tags: LLMTaggerConfigTagsList;
   /** Minimum number of tags to apply */
-  min_tags?: number;
+  min_tags?: number | undefined;
   /** Maximum number of tags to apply (null = no limit) */
-  max_tags?: number | null;
+  max_tags?: number | null | undefined;
 }
 /** Optional tag whitelist. Leave empty to allow any tag returned by the Hog code. */
 export type HogTaggerConfigTagsList = Array<TagDefinition>;
@@ -49,7 +49,7 @@ export interface HogTaggerConfig {
   /** Hog source code to classify a generation into tags. */
   source: string;
   /** Optional tag whitelist. Leave empty to allow any tag returned by the Hog code. */
-  tags?: HogTaggerConfigTagsList;
+  tags?: HogTaggerConfigTagsList | undefined;
 }
 export type TaggerConfig = LLMTaggerConfig | HogTaggerConfig;
 export type TaggerConditionPropertiesItemMap = { [key: string]: unknown | undefined };
@@ -59,9 +59,9 @@ export interface TaggerCondition {
   /** Stable identifier for this condition */
   id: string;
   /** Percentage of matching events to apply this condition to */
-  rollout_percentage?: number;
+  rollout_percentage?: number | undefined;
   /** Property filters that scope when this condition fires */
-  properties?: TaggerConditionPropertiesList;
+  properties?: TaggerConditionPropertiesList | undefined;
 }
 /** Conditions that scope when the tagger runs */
 export type CreateTaggerRequestConditionsList = Array<TaggerCondition>;
@@ -83,20 +83,20 @@ export interface TaggerModelConfigurationWrite {
   /** Provider model identifier to use for this tagger. */
   model: string;
   /** Existing LLM provider key UUID for the current project. Do not invent this value; use a real provider key ID returned by PostHog, or omit/null when no provider key should be pinned. */
-  provider_key_id?: string | null;
+  provider_key_id?: string | null | undefined;
 }
 export interface CreateTaggerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
-  description?: string;
-  enabled?: boolean;
-  tagger_type?: TaggerTypeEnum | (string & {});
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  tagger_type?: TaggerTypeEnum | (string & {}) | undefined;
   /** Tagger configuration. For tagger_type 'llm': {prompt, tags, min_tags?, max_tags?}. For tagger_type 'hog': {source, tags?}. */
   tagger_config: TaggerConfig;
   /** Conditions that scope when the tagger runs */
-  conditions?: CreateTaggerRequestConditionsList;
-  model_configuration?: TaggerModelConfigurationWrite | null;
+  conditions?: CreateTaggerRequestConditionsList | undefined;
+  model_configuration?: TaggerModelConfigurationWrite | null | undefined;
 }
 /** Conditions that scope when the tagger runs */
 export type TaggerConditionsList = Array<TaggerCondition>;
@@ -107,7 +107,7 @@ export interface TaggerModelConfiguration {
   /** Provider model identifier to use for this tagger. */
   model: string;
   /** Existing LLM provider key UUID for the current project. Do not invent this value; use a real provider key ID returned by PostHog, or omit/null when no provider key should be pinned. */
-  provider_key_id?: string | null;
+  provider_key_id?: string | null | undefined;
   provider_key_name: string | null;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
@@ -125,37 +125,37 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface Tagger {
   id: string;
   name: string;
-  description?: string;
-  enabled?: boolean;
-  tagger_type?: TaggerTypeEnum;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  tagger_type?: TaggerTypeEnum | undefined;
   /** Tagger configuration. For tagger_type 'llm': {prompt, tags, min_tags?, max_tags?}. For tagger_type 'hog': {source, tags?}. */
   tagger_config: TaggerConfig;
   /** Conditions that scope when the tagger runs */
-  conditions?: TaggerConditionsList;
-  model_configuration?: TaggerModelConfiguration | null;
+  conditions?: TaggerConditionsList | undefined;
+  model_configuration?: TaggerModelConfiguration | null | undefined;
   created_at: string;
   updated_at: string;
   created_by: UserBasic;
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface TestHogTaggerTag {
   /** Tag identifier to allow in Hog test results. */
   name: string;
   /** Optional description for the tag. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Optional tag whitelist. Returned tags outside this list are filtered out. */
 export type CreateTaggersTestHogRequestTagsList = Array<TestHogTaggerTag>;
@@ -165,9 +165,9 @@ export interface CreateTaggersTestHogRequest {
   /** Hog source code to test. Return a tag name string, a list of tag name strings, or null. */
   source: string;
   /** Number of recent $ai_generation events to test against (1-10, default 5). */
-  sample_count?: number;
+  sample_count?: number | undefined;
   /** Optional tag whitelist. Returned tags outside this list are filtered out. */
-  tags?: CreateTaggersTestHogRequestTagsList;
+  tags?: CreateTaggersTestHogRequestTagsList | undefined;
 }
 /** Tag names returned by the Hog code. */
 export type TestHogTaggerResultItemTagsList = Array<string>;
@@ -175,7 +175,7 @@ export interface TestHogTaggerResultItem {
   /** UUID of the sampled $ai_generation event. */
   event_uuid: string;
   /** Trace ID if available. */
-  trace_id?: string | null;
+  trace_id?: string | null | undefined;
   /** First 200 characters of the generation input. */
   input_preview: string;
   /** First 200 characters of the generation output. */
@@ -185,7 +185,7 @@ export interface TestHogTaggerResultItem {
   /** Text written to stdout by the Hog code. */
   reasoning: string;
   /** Error message if the Hog code failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 /** Per-event Hog tagger test results. */
 export type TestHogTaggerResponseResultsList = Array<TestHogTaggerResultItem>;
@@ -193,7 +193,7 @@ export interface TestHogTaggerResponse {
   /** Per-event Hog tagger test results. */
   results: TestHogTaggerResponseResultsList;
   /** Optional message, for example when no recent AI events were found. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetTaggerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -214,23 +214,23 @@ export interface ListTaggersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by enabled status */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Multiple values may be separated by commas. */
-  id__in?: ListTaggersRequestIdInList;
+  id__in?: ListTaggersRequestIdInList | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Ordering * `created_at` - Created At * `-created_at` - Created At (descending) * `updated_at` - Updated At * `-updated_at` - Updated At (descending) * `name` - Name * `-name` - Name (descending) */
-  order_by?: ListTaggersRequestOrderByList;
+  order_by?: ListTaggersRequestOrderByList | undefined;
   /** Search in name or description */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedTaggerListResultsList = Array<Tagger>;
 export interface PaginatedTaggerList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaggerListResultsList;
 }
 export interface TaggersDestroyRequest {
@@ -248,15 +248,15 @@ export interface UpdateTaggerRequest {
   /** A UUID string identifying this tagger. */
   id: string;
   name: string;
-  description?: string;
-  enabled?: boolean;
-  tagger_type?: TaggerTypeEnum | (string & {});
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  tagger_type?: TaggerTypeEnum | (string & {}) | undefined;
   /** Tagger configuration. For tagger_type 'llm': {prompt, tags, min_tags?, max_tags?}. For tagger_type 'hog': {source, tags?}. */
   tagger_config: TaggerConfig;
   /** Conditions that scope when the tagger runs */
-  conditions?: UpdateTaggerRequestConditionsList;
-  model_configuration?: TaggerModelConfigurationWrite | null;
-  deleted?: boolean;
+  conditions?: UpdateTaggerRequestConditionsList | undefined;
+  model_configuration?: TaggerModelConfigurationWrite | null | undefined;
+  deleted?: boolean | undefined;
 }
 /** Conditions that scope when the tagger runs */
 export type UpdateTaggersPartialRequestConditionsList = Array<TaggerCondition>;
@@ -265,16 +265,16 @@ export interface UpdateTaggersPartialRequest {
   project_id: string;
   /** A UUID string identifying this tagger. */
   id: string;
-  name?: string;
-  description?: string;
-  enabled?: boolean;
-  tagger_type?: TaggerTypeEnum | (string & {});
+  name?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  tagger_type?: TaggerTypeEnum | (string & {}) | undefined;
   /** Tagger configuration. For tagger_type 'llm': {prompt, tags, min_tags?, max_tags?}. For tagger_type 'hog': {source, tags?}. */
-  tagger_config?: TaggerConfig;
+  tagger_config?: TaggerConfig | undefined;
   /** Conditions that scope when the tagger runs */
-  conditions?: UpdateTaggersPartialRequestConditionsList;
-  model_configuration?: TaggerModelConfigurationWrite | null;
-  deleted?: boolean;
+  conditions?: UpdateTaggersPartialRequestConditionsList | undefined;
+  model_configuration?: TaggerModelConfigurationWrite | null | undefined;
+  deleted?: boolean | undefined;
 }
 export type CreateTaggerError = PosthogOpError;
 export const createTagger: API.OperationMethod<

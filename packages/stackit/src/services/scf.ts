@@ -70,7 +70,7 @@ export interface CreateOrganizationRequest {
   projectId: string;
   region: string;
   name: string;
-  platformId?: string;
+  platformId?: string | undefined;
 }
 export interface OrganizationCreateResponse {
   guid: string;
@@ -104,8 +104,8 @@ export interface CreateOrgRoleRequest {
   region: string;
   organizationId: string;
   type: OrgRoleType | (string & {});
-  userGuid?: string;
-  userName?: string;
+  userGuid?: string | undefined;
+  userName?: string | undefined;
 }
 export interface OrgRoleResponse {
   guid: string;
@@ -142,8 +142,8 @@ export interface CreateSpaceRoleRequest {
   organizationId: string;
   spaceId: string;
   type: SpaceRoleType | (string & {});
-  userGuid?: string;
-  userName?: string;
+  userGuid?: string | undefined;
+  userName?: string | undefined;
 }
 export interface SpaceRoleCreateResponse {
   guid: string;
@@ -240,7 +240,7 @@ export interface Quota {
   domains: QuotaDomains;
   guid: string;
   name: string;
-  orgId?: string;
+  orgId?: string | undefined;
   platformId: string;
   projectId: string;
   region: string;
@@ -292,7 +292,7 @@ export interface GetPlatformRequest {
 }
 export interface Platforms {
   apiUrl: string;
-  consoleUrl?: string;
+  consoleUrl?: string | undefined;
   displayName: string;
   guid: string;
   region: string;
@@ -321,29 +321,29 @@ export interface ListOrganizationsRequest {
   projectId: string;
   region: string;
   /** Adds the details to the response that can be queried from the Cloud Controller API */
-  withDetails?: boolean;
+  withDetails?: boolean | undefined;
   /** In case `withDetails` is enabled, the organization list can be sorted by `name`. In order to sort by `name`, you have to set the value `name`. The default sort ordering is ascending. To specify descending order for `name` field, you have to append ` desc` suffix; for example `name desc`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface Pagination {
-  totalPages?: number;
-  totalResults?: number;
+  totalPages?: number | undefined;
+  totalResults?: number | undefined;
 }
 export interface OrganizationsListItem {
-  createdAt?: string;
+  createdAt?: string | undefined;
   guid: string;
-  name?: string;
+  name?: string | undefined;
   platformId: string;
   projectId: string;
-  quotaId?: string;
+  quotaId?: string | undefined;
   region: string;
   status: string;
-  suspended?: boolean;
-  updatedAt?: string;
+  suspended?: boolean | undefined;
+  updatedAt?: string | undefined;
 }
 export type OrganizationsListResourcesList = Array<OrganizationsListItem>;
 export interface OrganizationsList {
@@ -361,9 +361,9 @@ export interface ListPlatformsRequest {
   projectId: string;
   region: string;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type PlatformListResourcesList = Array<Platforms>;
 export interface PlatformList {
@@ -375,9 +375,9 @@ export interface ListSpacesRequest {
   region: string;
   organizationId: string;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type SpacesListResourcesList = Array<Space>;
 export interface SpacesList {
@@ -388,8 +388,8 @@ export interface UpdateOrganizationRequest {
   projectId: string;
   region: string;
   organizationId: string;
-  name?: string;
-  suspended?: boolean;
+  name?: string | undefined;
+  suspended?: boolean | undefined;
 }
 export interface UpdateSpaceRequest {
   projectId: string;

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -147,8 +148,8 @@ export type Phrase = string;
 export type Weight = number;
 export interface NewCustomVocabularyItem {
   phrase: string;
-  weight?: number;
-  displayAs?: string;
+  weight?: number | undefined;
+  displayAs?: string | undefined;
 }
 export type CreateCustomVocabularyItemsList = NewCustomVocabularyItem[];
 export interface BatchCreateCustomVocabularyItemRequest {
@@ -166,24 +167,24 @@ export type ErrorCode =
   | "INTERNAL_SERVER_FAILURE"
   | (string & {});
 export interface FailedCustomVocabularyItem {
-  itemId?: string;
-  errorMessage?: string;
-  errorCode?: ErrorCode;
+  itemId?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: ErrorCode | undefined;
 }
 export type FailedCustomVocabularyItems = FailedCustomVocabularyItem[];
 export interface CustomVocabularyItem {
   itemId: string;
   phrase: string;
-  weight?: number;
-  displayAs?: string;
+  weight?: number | undefined;
+  displayAs?: string | undefined;
 }
 export type CustomVocabularyItems = CustomVocabularyItem[];
 export interface BatchCreateCustomVocabularyItemResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  errors?: FailedCustomVocabularyItem[];
-  resources?: CustomVocabularyItem[];
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  errors?: FailedCustomVocabularyItem[] | undefined;
+  resources?: CustomVocabularyItem[] | undefined;
 }
 export interface CustomVocabularyEntryId {
   itemId: string;
@@ -196,11 +197,11 @@ export interface BatchDeleteCustomVocabularyItemRequest {
   customVocabularyItemList: CustomVocabularyEntryId[];
 }
 export interface BatchDeleteCustomVocabularyItemResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  errors?: FailedCustomVocabularyItem[];
-  resources?: CustomVocabularyItem[];
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  errors?: FailedCustomVocabularyItem[] | undefined;
+  resources?: CustomVocabularyItem[] | undefined;
 }
 export type UpdateCustomVocabularyItemsList = CustomVocabularyItem[];
 export interface BatchUpdateCustomVocabularyItemRequest {
@@ -210,11 +211,11 @@ export interface BatchUpdateCustomVocabularyItemRequest {
   customVocabularyItemList: CustomVocabularyItem[];
 }
 export interface BatchUpdateCustomVocabularyItemResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  errors?: FailedCustomVocabularyItem[];
-  resources?: CustomVocabularyItem[];
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  errors?: FailedCustomVocabularyItem[] | undefined;
+  resources?: CustomVocabularyItem[] | undefined;
 }
 export type DraftBotVersion = string;
 export interface BuildBotLocaleRequest {
@@ -234,11 +235,11 @@ export type BotLocaleStatus =
   | "Processing"
   | (string & {});
 export interface BuildBotLocaleResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botLocaleStatus?: BotLocaleStatus;
-  lastBuildSubmittedDateTime?: Date;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
+  lastBuildSubmittedDateTime?: Date | undefined;
 }
 export type Name = string;
 export type Description = string;
@@ -268,15 +269,15 @@ export interface ErrorLogSettings {
 }
 export interface CreateBotRequest {
   botName: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   dataPrivacy: DataPrivacy;
   idleSessionTTLInSeconds: number;
-  botTags?: { [key: string]: string | undefined };
-  testBotAliasTags?: { [key: string]: string | undefined };
-  botType?: BotType;
-  botMembers?: BotMember[];
-  errorLogSettings?: ErrorLogSettings;
+  botTags?: { [key: string]: string | undefined } | undefined;
+  testBotAliasTags?: { [key: string]: string | undefined } | undefined;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
+  errorLogSettings?: ErrorLogSettings | undefined;
 }
 export type BotStatus =
   | "Creating"
@@ -289,19 +290,19 @@ export type BotStatus =
   | "Updating"
   | (string & {});
 export interface CreateBotResponse {
-  botId?: string;
-  botName?: string;
-  description?: string;
-  roleArn?: string;
-  dataPrivacy?: DataPrivacy;
-  idleSessionTTLInSeconds?: number;
-  botStatus?: BotStatus;
-  creationDateTime?: Date;
-  botTags?: { [key: string]: string | undefined };
-  testBotAliasTags?: { [key: string]: string | undefined };
-  botType?: BotType;
-  botMembers?: BotMember[];
-  errorLogSettings?: ErrorLogSettings;
+  botId?: string | undefined;
+  botName?: string | undefined;
+  description?: string | undefined;
+  roleArn?: string | undefined;
+  dataPrivacy?: DataPrivacy | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  botStatus?: BotStatus | undefined;
+  creationDateTime?: Date | undefined;
+  botTags?: { [key: string]: string | undefined } | undefined;
+  testBotAliasTags?: { [key: string]: string | undefined } | undefined;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
+  errorLogSettings?: ErrorLogSettings | undefined;
 }
 export type NumericalBotVersion = string;
 export type LambdaARN = string;
@@ -315,7 +316,7 @@ export interface CodeHookSpecification {
 }
 export interface BotAliasLocaleSettings {
   enabled: boolean;
-  codeHookSpecification?: CodeHookSpecification;
+  codeHookSpecification?: CodeHookSpecification | undefined;
 }
 export type BotAliasLocaleSettingsMap = { [key: string]: BotAliasLocaleSettings | undefined };
 export type CloudWatchLogGroupArn = string;
@@ -330,13 +331,13 @@ export interface TextLogDestination {
 export interface TextLogSetting {
   enabled: boolean;
   destination: TextLogDestination;
-  selectiveLoggingEnabled?: boolean;
+  selectiveLoggingEnabled?: boolean | undefined;
 }
 export type TextLogSettingsList = TextLogSetting[];
 export type KmsKeyArn = string;
 export type S3BucketArn = string;
 export interface S3BucketLogDestination {
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   s3BucketArn: string;
   logPrefix: string;
 }
@@ -346,51 +347,51 @@ export interface AudioLogDestination {
 export interface AudioLogSetting {
   enabled: boolean;
   destination: AudioLogDestination;
-  selectiveLoggingEnabled?: boolean;
+  selectiveLoggingEnabled?: boolean | undefined;
 }
 export type AudioLogSettingsList = AudioLogSetting[];
 export interface ConversationLogSettings {
-  textLogSettings?: TextLogSetting[];
-  audioLogSettings?: AudioLogSetting[];
+  textLogSettings?: TextLogSetting[] | undefined;
+  audioLogSettings?: AudioLogSetting[] | undefined;
 }
 export interface SentimentAnalysisSettings {
   detectSentiment: boolean;
 }
 export interface CreateBotAliasRequest {
   botAliasName: string;
-  description?: string;
-  botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined };
-  conversationLogSettings?: ConversationLogSettings;
-  sentimentAnalysisSettings?: SentimentAnalysisSettings;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined } | undefined;
+  conversationLogSettings?: ConversationLogSettings | undefined;
+  sentimentAnalysisSettings?: SentimentAnalysisSettings | undefined;
   botId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BotAliasStatus = "Creating" | "Available" | "Deleting" | "Failed" | (string & {});
 export interface CreateBotAliasResponse {
-  botAliasId?: string;
-  botAliasName?: string;
-  description?: string;
-  botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined };
-  conversationLogSettings?: ConversationLogSettings;
-  sentimentAnalysisSettings?: SentimentAnalysisSettings;
-  botAliasStatus?: BotAliasStatus;
-  botId?: string;
-  creationDateTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  botAliasId?: string | undefined;
+  botAliasName?: string | undefined;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined } | undefined;
+  conversationLogSettings?: ConversationLogSettings | undefined;
+  sentimentAnalysisSettings?: SentimentAnalysisSettings | undefined;
+  botAliasStatus?: BotAliasStatus | undefined;
+  botId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfidenceThreshold = number;
 export type VoiceEngine = "standard" | "neural" | "long-form" | "generative" | (string & {});
 export type VoiceId = string;
 export interface VoiceSettings {
-  engine?: VoiceEngine;
+  engine?: VoiceEngine | undefined;
   voiceId: string;
 }
 export type BedrockModelArn = string;
 export interface SpeechFoundationModel {
   modelArn: string;
-  voiceId?: string;
+  voiceId?: string | undefined;
 }
 export interface UnifiedSpeechSettings {
   speechFoundationModel: SpeechFoundationModel;
@@ -408,25 +409,25 @@ export type AudioFillerDelayInMilliseconds = number;
 export type AudioFillerDurationInMilliseconds = number;
 export type AudioFillerDeliveryDelayInMilliseconds = number;
 export interface AudioFillerSettings {
-  enabled?: boolean;
-  audioType?: AudioFillerType;
-  startDelayInMilliseconds?: number;
-  minimumPlayDurationInMilliseconds?: number;
-  responseDeliveryDelayInMilliseconds?: number;
+  enabled?: boolean | undefined;
+  audioType?: AudioFillerType | undefined;
+  startDelayInMilliseconds?: number | undefined;
+  minimumPlayDurationInMilliseconds?: number | undefined;
+  responseDeliveryDelayInMilliseconds?: number | undefined;
 }
 export type SpeechModelPreference = "Standard" | "Neural" | "Deepgram" | "Advanced" | (string & {});
 export type SecretsManagerSecretArn = string;
 export type DeepgramModelId = string;
 export interface DeepgramSpeechModelConfig {
   apiTokenSecretArn: string;
-  modelId?: string;
+  modelId?: string | undefined;
 }
 export interface SpeechModelConfig {
-  deepgramConfig?: DeepgramSpeechModelConfig;
+  deepgramConfig?: DeepgramSpeechModelConfig | undefined;
 }
 export interface SpeechRecognitionSettings {
-  speechModelPreference?: SpeechModelPreference;
-  speechModelConfig?: SpeechModelConfig;
+  speechModelPreference?: SpeechModelPreference | undefined;
+  speechModelConfig?: SpeechModelConfig | undefined;
 }
 export type Enabled = boolean;
 export type BedrockGuardrailIdentifier = string;
@@ -439,46 +440,46 @@ export type BedrockTraceStatus = "ENABLED" | "DISABLED" | (string & {});
 export type BedrockModelCustomPrompt = string;
 export interface BedrockModelSpecification {
   modelArn: string;
-  guardrail?: BedrockGuardrailConfiguration;
-  traceStatus?: BedrockTraceStatus;
-  customPrompt?: string;
+  guardrail?: BedrockGuardrailConfiguration | undefined;
+  traceStatus?: BedrockTraceStatus | undefined;
+  customPrompt?: string | undefined;
 }
 export interface SlotResolutionImprovementSpecification {
   enabled: boolean;
-  bedrockModelSpecification?: BedrockModelSpecification;
+  bedrockModelSpecification?: BedrockModelSpecification | undefined;
 }
 export type AssistedNluMode = "Primary" | "Fallback" | (string & {});
 export type MaxDisambiguationIntents = number;
 export type CustomDisambiguationMessage = string;
 export interface IntentDisambiguationSettings {
   enabled: boolean;
-  maxDisambiguationIntents?: number;
-  customDisambiguationMessage?: string;
+  maxDisambiguationIntents?: number | undefined;
+  customDisambiguationMessage?: string | undefined;
 }
 export interface NluImprovementSpecification {
   enabled: boolean;
-  assistedNluMode?: AssistedNluMode;
-  intentDisambiguationSettings?: IntentDisambiguationSettings;
+  assistedNluMode?: AssistedNluMode | undefined;
+  intentDisambiguationSettings?: IntentDisambiguationSettings | undefined;
 }
 export interface RuntimeSettings {
-  slotResolutionImprovement?: SlotResolutionImprovementSpecification;
-  nluImprovement?: NluImprovementSpecification;
+  slotResolutionImprovement?: SlotResolutionImprovementSpecification | undefined;
+  nluImprovement?: NluImprovementSpecification | undefined;
 }
 export interface DescriptiveBotBuilderSpecification {
   enabled: boolean;
-  bedrockModelSpecification?: BedrockModelSpecification;
+  bedrockModelSpecification?: BedrockModelSpecification | undefined;
 }
 export interface SampleUtteranceGenerationSpecification {
   enabled: boolean;
-  bedrockModelSpecification?: BedrockModelSpecification;
+  bedrockModelSpecification?: BedrockModelSpecification | undefined;
 }
 export interface BuildtimeSettings {
-  descriptiveBotBuilder?: DescriptiveBotBuilderSpecification;
-  sampleUtteranceGeneration?: SampleUtteranceGenerationSpecification;
+  descriptiveBotBuilder?: DescriptiveBotBuilderSpecification | undefined;
+  sampleUtteranceGeneration?: SampleUtteranceGenerationSpecification | undefined;
 }
 export interface GenerativeAISettings {
-  runtimeSettings?: RuntimeSettings;
-  buildtimeSettings?: BuildtimeSettings;
+  runtimeSettings?: RuntimeSettings | undefined;
+  buildtimeSettings?: BuildtimeSettings | undefined;
 }
 export type SpeechDetectionSensitivity =
   | "Default"
@@ -492,33 +493,33 @@ export interface CreateBotLocaleRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  description?: string;
+  description?: string | undefined;
   nluIntentConfidenceThreshold: number;
-  voiceSettings?: VoiceSettings;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  generativeAISettings?: GenerativeAISettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  voiceSettings?: VoiceSettings | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  generativeAISettings?: GenerativeAISettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export type LocaleName = string;
 export interface CreateBotLocaleResponse {
-  botId?: string;
-  botVersion?: string;
-  localeName?: string;
-  localeId?: string;
-  description?: string;
-  nluIntentConfidenceThreshold?: number;
-  voiceSettings?: VoiceSettings;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  botLocaleStatus?: BotLocaleStatus;
-  creationDateTime?: Date;
-  generativeAISettings?: GenerativeAISettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeName?: string | undefined;
+  localeId?: string | undefined;
+  description?: string | undefined;
+  nluIntentConfidenceThreshold?: number | undefined;
+  voiceSettings?: VoiceSettings | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
+  creationDateTime?: Date | undefined;
+  generativeAISettings?: GenerativeAISettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export type ReplicaRegion = string;
 export interface CreateBotReplicaRequest {
@@ -527,11 +528,11 @@ export interface CreateBotReplicaRequest {
 }
 export type BotReplicaStatus = "Enabling" | "Enabled" | "Deleting" | "Failed" | (string & {});
 export interface CreateBotReplicaResponse {
-  botId?: string;
-  replicaRegion?: string;
-  sourceRegion?: string;
-  creationDateTime?: Date;
-  botReplicaStatus?: BotReplicaStatus;
+  botId?: string | undefined;
+  replicaRegion?: string | undefined;
+  sourceRegion?: string | undefined;
+  creationDateTime?: Date | undefined;
+  botReplicaStatus?: BotReplicaStatus | undefined;
 }
 export interface BotVersionLocaleDetails {
   sourceBotVersion: string;
@@ -539,16 +540,18 @@ export interface BotVersionLocaleDetails {
 export type BotVersionLocaleSpecification = { [key: string]: BotVersionLocaleDetails | undefined };
 export interface CreateBotVersionRequest {
   botId: string;
-  description?: string;
+  description?: string | undefined;
   botVersionLocaleSpecification: { [key: string]: BotVersionLocaleDetails | undefined };
 }
 export interface CreateBotVersionResponse {
-  botId?: string;
-  description?: string;
-  botVersion?: string;
-  botVersionLocaleSpecification?: { [key: string]: BotVersionLocaleDetails | undefined };
-  botStatus?: BotStatus;
-  creationDateTime?: Date;
+  botId?: string | undefined;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botVersionLocaleSpecification?:
+    | { [key: string]: BotVersionLocaleDetails | undefined }
+    | undefined;
+  botStatus?: BotStatus | undefined;
+  creationDateTime?: Date | undefined;
 }
 export interface BotExportSpecification {
   botId: string;
@@ -568,25 +571,25 @@ export interface TestSetExportSpecification {
   testSetId: string;
 }
 export interface ExportResourceSpecification {
-  botExportSpecification?: BotExportSpecification;
-  botLocaleExportSpecification?: BotLocaleExportSpecification;
-  customVocabularyExportSpecification?: CustomVocabularyExportSpecification;
-  testSetExportSpecification?: TestSetExportSpecification;
+  botExportSpecification?: BotExportSpecification | undefined;
+  botLocaleExportSpecification?: BotLocaleExportSpecification | undefined;
+  customVocabularyExportSpecification?: CustomVocabularyExportSpecification | undefined;
+  testSetExportSpecification?: TestSetExportSpecification | undefined;
 }
 export type ImportExportFileFormat = "LexJson" | "TSV" | "CSV" | (string & {});
 export type ImportExportFilePassword = string | redacted.Redacted<string>;
 export interface CreateExportRequest {
   resourceSpecification: ExportResourceSpecification;
   fileFormat: ImportExportFileFormat;
-  filePassword?: string | redacted.Redacted<string>;
+  filePassword?: string | redacted.Redacted<string> | undefined;
 }
 export type ExportStatus = "InProgress" | "Completed" | "Failed" | "Deleting" | (string & {});
 export interface CreateExportResponse {
-  exportId?: string;
-  resourceSpecification?: ExportResourceSpecification;
-  fileFormat?: ImportExportFileFormat;
-  exportStatus?: ExportStatus;
-  creationDateTime?: Date;
+  exportId?: string | undefined;
+  resourceSpecification?: ExportResourceSpecification | undefined;
+  fileFormat?: ImportExportFileFormat | undefined;
+  exportStatus?: ExportStatus | undefined;
+  creationDateTime?: Date | undefined;
 }
 export type DisplayName = string;
 export type IntentSignature = string;
@@ -621,25 +624,25 @@ export interface Button {
 export type ButtonsList = Button[];
 export interface ImageResponseCard {
   title: string;
-  subtitle?: string;
-  imageUrl?: string;
-  buttons?: Button[];
+  subtitle?: string | undefined;
+  imageUrl?: string | undefined;
+  buttons?: Button[] | undefined;
 }
 export interface Message {
-  plainTextMessage?: PlainTextMessage;
-  customPayload?: CustomPayload;
-  ssmlMessage?: SSMLMessage;
-  imageResponseCard?: ImageResponseCard;
+  plainTextMessage?: PlainTextMessage | undefined;
+  customPayload?: CustomPayload | undefined;
+  ssmlMessage?: SSMLMessage | undefined;
+  imageResponseCard?: ImageResponseCard | undefined;
 }
 export type MessageVariationsList = Message[];
 export interface MessageGroup {
   message: Message;
-  variations?: Message[];
+  variations?: Message[] | undefined;
 }
 export type MessageGroupsList = MessageGroup[];
 export interface ResponseSpecification {
   messageGroups: MessageGroup[];
-  allowInterrupt?: boolean;
+  allowInterrupt?: boolean | undefined;
 }
 export type DialogActionType =
   | "ElicitIntent"
@@ -654,30 +657,30 @@ export type DialogActionType =
   | (string & {});
 export interface DialogAction {
   type: DialogActionType;
-  slotToElicit?: string;
-  suppressNextMessage?: boolean;
+  slotToElicit?: string | undefined;
+  suppressNextMessage?: boolean | undefined;
 }
 export type SlotShape = "Scalar" | "List" | (string & {});
 export type NonEmptyString = string;
 export interface SlotValue {
-  interpretedValue?: string;
+  interpretedValue?: string | undefined;
 }
 export type SlotValues = SlotValueOverride[];
 export interface SlotValueOverride {
-  shape?: SlotShape;
-  value?: SlotValue;
-  values?: SlotValueOverride[];
+  shape?: SlotShape | undefined;
+  value?: SlotValue | undefined;
+  values?: SlotValueOverride[] | undefined;
 }
 export type SlotValueOverrideMap = { [key: string]: SlotValueOverride | undefined };
 export interface IntentOverride {
-  name?: string;
-  slots?: { [key: string]: SlotValueOverride | undefined };
+  name?: string | undefined;
+  slots?: { [key: string]: SlotValueOverride | undefined } | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface DialogState {
-  dialogAction?: DialogAction;
-  intent?: IntentOverride;
-  sessionAttributes?: { [key: string]: string | undefined };
+  dialogAction?: DialogAction | undefined;
+  intent?: IntentOverride | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ConditionExpression = string;
 export interface Condition {
@@ -687,12 +690,12 @@ export interface ConditionalBranch {
   name: string;
   condition: Condition;
   nextStep: DialogState;
-  response?: ResponseSpecification;
+  response?: ResponseSpecification | undefined;
 }
 export type ConditionalBranches = ConditionalBranch[];
 export interface DefaultConditionalBranch {
-  nextStep?: DialogState;
-  response?: ResponseSpecification;
+  nextStep?: DialogState | undefined;
+  response?: ResponseSpecification | undefined;
 }
 export interface ConditionalSpecification {
   active: boolean;
@@ -700,40 +703,40 @@ export interface ConditionalSpecification {
   defaultBranch: DefaultConditionalBranch;
 }
 export interface PostFulfillmentStatusSpecification {
-  successResponse?: ResponseSpecification;
-  failureResponse?: ResponseSpecification;
-  timeoutResponse?: ResponseSpecification;
-  successNextStep?: DialogState;
-  successConditional?: ConditionalSpecification;
-  failureNextStep?: DialogState;
-  failureConditional?: ConditionalSpecification;
-  timeoutNextStep?: DialogState;
-  timeoutConditional?: ConditionalSpecification;
+  successResponse?: ResponseSpecification | undefined;
+  failureResponse?: ResponseSpecification | undefined;
+  timeoutResponse?: ResponseSpecification | undefined;
+  successNextStep?: DialogState | undefined;
+  successConditional?: ConditionalSpecification | undefined;
+  failureNextStep?: DialogState | undefined;
+  failureConditional?: ConditionalSpecification | undefined;
+  timeoutNextStep?: DialogState | undefined;
+  timeoutConditional?: ConditionalSpecification | undefined;
 }
 export type FulfillmentStartResponseDelay = number;
 export interface FulfillmentStartResponseSpecification {
   delayInSeconds: number;
   messageGroups: MessageGroup[];
-  allowInterrupt?: boolean;
+  allowInterrupt?: boolean | undefined;
 }
 export type FulfillmentUpdateResponseFrequency = number;
 export interface FulfillmentUpdateResponseSpecification {
   frequencyInSeconds: number;
   messageGroups: MessageGroup[];
-  allowInterrupt?: boolean;
+  allowInterrupt?: boolean | undefined;
 }
 export type FulfillmentTimeout = number;
 export interface FulfillmentUpdatesSpecification {
   active: boolean;
-  startResponse?: FulfillmentStartResponseSpecification;
-  updateResponse?: FulfillmentUpdateResponseSpecification;
-  timeoutInSeconds?: number;
+  startResponse?: FulfillmentStartResponseSpecification | undefined;
+  updateResponse?: FulfillmentUpdateResponseSpecification | undefined;
+  timeoutInSeconds?: number | undefined;
 }
 export interface FulfillmentCodeHookSettings {
   enabled: boolean;
-  postFulfillmentStatusSpecification?: PostFulfillmentStatusSpecification;
-  fulfillmentUpdatesSpecification?: FulfillmentUpdatesSpecification;
-  active?: boolean;
+  postFulfillmentStatusSpecification?: PostFulfillmentStatusSpecification | undefined;
+  fulfillmentUpdatesSpecification?: FulfillmentUpdatesSpecification | undefined;
+  active?: boolean | undefined;
 }
 export type PromptMaxRetries = number;
 export type MessageSelectionStrategy = "Random" | "Ordered" | (string & {});
@@ -764,69 +767,71 @@ export interface DTMFSpecification {
 }
 export interface AudioAndDTMFInputSpecification {
   startTimeoutMs: number;
-  audioSpecification?: AudioSpecification;
-  dtmfSpecification?: DTMFSpecification;
+  audioSpecification?: AudioSpecification | undefined;
+  dtmfSpecification?: DTMFSpecification | undefined;
 }
 export interface TextInputSpecification {
   startTimeoutMs: number;
 }
 export interface PromptAttemptSpecification {
-  allowInterrupt?: boolean;
+  allowInterrupt?: boolean | undefined;
   allowedInputTypes: AllowedInputTypes;
-  audioAndDTMFInputSpecification?: AudioAndDTMFInputSpecification;
-  textInputSpecification?: TextInputSpecification;
+  audioAndDTMFInputSpecification?: AudioAndDTMFInputSpecification | undefined;
+  textInputSpecification?: TextInputSpecification | undefined;
 }
 export type PromptAttemptsSpecificationMap = {
-  [key in PromptAttempt]?: PromptAttemptSpecification;
+  [key in PromptAttempt]?: PromptAttemptSpecification | undefined;
 };
 export interface PromptSpecification {
   messageGroups: MessageGroup[];
   maxRetries: number;
-  allowInterrupt?: boolean;
-  messageSelectionStrategy?: MessageSelectionStrategy;
-  promptAttemptsSpecification?: { [key: string]: PromptAttemptSpecification | undefined };
+  allowInterrupt?: boolean | undefined;
+  messageSelectionStrategy?: MessageSelectionStrategy | undefined;
+  promptAttemptsSpecification?:
+    | { [key: string]: PromptAttemptSpecification | undefined }
+    | undefined;
 }
 export interface PostDialogCodeHookInvocationSpecification {
-  successResponse?: ResponseSpecification;
-  successNextStep?: DialogState;
-  successConditional?: ConditionalSpecification;
-  failureResponse?: ResponseSpecification;
-  failureNextStep?: DialogState;
-  failureConditional?: ConditionalSpecification;
-  timeoutResponse?: ResponseSpecification;
-  timeoutNextStep?: DialogState;
-  timeoutConditional?: ConditionalSpecification;
+  successResponse?: ResponseSpecification | undefined;
+  successNextStep?: DialogState | undefined;
+  successConditional?: ConditionalSpecification | undefined;
+  failureResponse?: ResponseSpecification | undefined;
+  failureNextStep?: DialogState | undefined;
+  failureConditional?: ConditionalSpecification | undefined;
+  timeoutResponse?: ResponseSpecification | undefined;
+  timeoutNextStep?: DialogState | undefined;
+  timeoutConditional?: ConditionalSpecification | undefined;
 }
 export interface DialogCodeHookInvocationSetting {
   enableCodeHookInvocation: boolean;
   active: boolean;
-  invocationLabel?: string;
+  invocationLabel?: string | undefined;
   postCodeHookSpecification: PostDialogCodeHookInvocationSpecification;
 }
 export interface ElicitationCodeHookInvocationSetting {
   enableCodeHookInvocation: boolean;
-  invocationLabel?: string;
+  invocationLabel?: string | undefined;
 }
 export interface IntentConfirmationSetting {
   promptSpecification: PromptSpecification;
-  declinationResponse?: ResponseSpecification;
-  active?: boolean;
-  confirmationResponse?: ResponseSpecification;
-  confirmationNextStep?: DialogState;
-  confirmationConditional?: ConditionalSpecification;
-  declinationNextStep?: DialogState;
-  declinationConditional?: ConditionalSpecification;
-  failureResponse?: ResponseSpecification;
-  failureNextStep?: DialogState;
-  failureConditional?: ConditionalSpecification;
-  codeHook?: DialogCodeHookInvocationSetting;
-  elicitationCodeHook?: ElicitationCodeHookInvocationSetting;
+  declinationResponse?: ResponseSpecification | undefined;
+  active?: boolean | undefined;
+  confirmationResponse?: ResponseSpecification | undefined;
+  confirmationNextStep?: DialogState | undefined;
+  confirmationConditional?: ConditionalSpecification | undefined;
+  declinationNextStep?: DialogState | undefined;
+  declinationConditional?: ConditionalSpecification | undefined;
+  failureResponse?: ResponseSpecification | undefined;
+  failureNextStep?: DialogState | undefined;
+  failureConditional?: ConditionalSpecification | undefined;
+  codeHook?: DialogCodeHookInvocationSetting | undefined;
+  elicitationCodeHook?: ElicitationCodeHookInvocationSetting | undefined;
 }
 export interface IntentClosingSetting {
-  closingResponse?: ResponseSpecification;
-  active?: boolean;
-  nextStep?: DialogState;
-  conditional?: ConditionalSpecification;
+  closingResponse?: ResponseSpecification | undefined;
+  active?: boolean | undefined;
+  nextStep?: DialogState | undefined;
+  conditional?: ConditionalSpecification | undefined;
 }
 export interface InputContext {
   name: string;
@@ -844,14 +849,14 @@ export type KendraIndexArn = string;
 export type QueryFilterString = string;
 export interface KendraConfiguration {
   kendraIndex: string;
-  queryFilterStringEnabled?: boolean;
-  queryFilterString?: string;
+  queryFilterStringEnabled?: boolean | undefined;
+  queryFilterString?: string | undefined;
 }
 export interface InitialResponseSetting {
-  initialResponse?: ResponseSpecification;
-  nextStep?: DialogState;
-  conditional?: ConditionalSpecification;
-  codeHook?: DialogCodeHookInvocationSetting;
+  initialResponse?: ResponseSpecification | undefined;
+  nextStep?: DialogState | undefined;
+  conditional?: ConditionalSpecification | undefined;
+  codeHook?: DialogCodeHookInvocationSetting | undefined;
 }
 export type DomainEndpoint = string;
 export type OSIndexName = string;
@@ -866,82 +871,82 @@ export type OSIncludeFields = string[];
 export interface OpensearchConfiguration {
   domainEndpoint: string;
   indexName: string;
-  exactResponse?: boolean;
-  exactResponseFields?: ExactResponseFields;
-  includeFields?: string[];
+  exactResponse?: boolean | undefined;
+  exactResponseFields?: ExactResponseFields | undefined;
+  includeFields?: string[] | undefined;
 }
 export interface QnAKendraConfiguration {
   kendraIndex: string;
-  queryFilterStringEnabled?: boolean;
-  queryFilterString?: string;
-  exactResponse?: boolean;
+  queryFilterStringEnabled?: boolean | undefined;
+  queryFilterString?: string | undefined;
+  exactResponse?: boolean | undefined;
 }
 export type BedrockKnowledgeBaseArn = string;
 export interface BedrockKnowledgeStoreExactResponseFields {
-  answerField?: string;
+  answerField?: string | undefined;
 }
 export interface BedrockKnowledgeStoreConfiguration {
   bedrockKnowledgeBaseArn: string;
-  exactResponse?: boolean;
-  exactResponseFields?: BedrockKnowledgeStoreExactResponseFields;
+  exactResponse?: boolean | undefined;
+  exactResponseFields?: BedrockKnowledgeStoreExactResponseFields | undefined;
 }
 export interface DataSourceConfiguration {
-  opensearchConfiguration?: OpensearchConfiguration;
-  kendraConfiguration?: QnAKendraConfiguration;
-  bedrockKnowledgeStoreConfiguration?: BedrockKnowledgeStoreConfiguration;
+  opensearchConfiguration?: OpensearchConfiguration | undefined;
+  kendraConfiguration?: QnAKendraConfiguration | undefined;
+  bedrockKnowledgeStoreConfiguration?: BedrockKnowledgeStoreConfiguration | undefined;
 }
 export interface QnAIntentConfiguration {
-  dataSourceConfiguration?: DataSourceConfiguration;
-  bedrockModelConfiguration?: BedrockModelSpecification;
+  dataSourceConfiguration?: DataSourceConfiguration | undefined;
+  bedrockModelConfiguration?: BedrockModelSpecification | undefined;
 }
 export type QInConnectAssistantARN = string;
 export interface QInConnectAssistantConfiguration {
   assistantArn: string;
 }
 export interface QInConnectIntentConfiguration {
-  qInConnectAssistantConfiguration?: QInConnectAssistantConfiguration;
+  qInConnectAssistantConfiguration?: QInConnectAssistantConfiguration | undefined;
 }
 export interface CreateIntentRequest {
   intentName: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  sampleUtterances?: SampleUtterance[];
-  dialogCodeHook?: DialogCodeHookSettings;
-  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
-  intentConfirmationSetting?: IntentConfirmationSetting;
-  intentClosingSetting?: IntentClosingSetting;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  kendraConfiguration?: KendraConfiguration;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  dialogCodeHook?: DialogCodeHookSettings | undefined;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings | undefined;
+  intentConfirmationSetting?: IntentConfirmationSetting | undefined;
+  intentClosingSetting?: IntentClosingSetting | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  kendraConfiguration?: KendraConfiguration | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
-  initialResponseSetting?: InitialResponseSetting;
-  qnAIntentConfiguration?: QnAIntentConfiguration;
-  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  initialResponseSetting?: InitialResponseSetting | undefined;
+  qnAIntentConfiguration?: QnAIntentConfiguration | undefined;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration | undefined;
 }
 export interface CreateIntentResponse {
-  intentId?: string;
-  intentName?: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  sampleUtterances?: SampleUtterance[];
-  dialogCodeHook?: DialogCodeHookSettings;
-  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
-  intentConfirmationSetting?: IntentConfirmationSetting;
-  intentClosingSetting?: IntentClosingSetting;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  kendraConfiguration?: KendraConfiguration;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  initialResponseSetting?: InitialResponseSetting;
-  qnAIntentConfiguration?: QnAIntentConfiguration;
-  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  intentId?: string | undefined;
+  intentName?: string | undefined;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  dialogCodeHook?: DialogCodeHookSettings | undefined;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings | undefined;
+  intentConfirmationSetting?: IntentConfirmationSetting | undefined;
+  intentClosingSetting?: IntentClosingSetting | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  kendraConfiguration?: KendraConfiguration | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  initialResponseSetting?: InitialResponseSetting | undefined;
+  qnAIntentConfiguration?: QnAIntentConfiguration | undefined;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration | undefined;
 }
 export type AmazonResourceName = string;
 export type Policy = string;
@@ -951,15 +956,15 @@ export interface CreateResourcePolicyRequest {
 }
 export type RevisionId = string;
 export interface CreateResourcePolicyResponse {
-  resourceArn?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export type Effect = "Allow" | "Deny" | (string & {});
 export type ServicePrincipal = string;
 export type PrincipalArn = string;
 export interface Principal {
-  service?: string;
-  arn?: string;
+  service?: string | undefined;
+  arn?: string | undefined;
 }
 export type PrincipalList = Principal[];
 export type Operation = string;
@@ -975,12 +980,12 @@ export interface CreateResourcePolicyStatementRequest {
   effect: Effect;
   principal: Principal[];
   action: string[];
-  condition?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  expectedRevisionId?: string;
+  condition?: { [key: string]: { [key: string]: string | undefined } | undefined } | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface CreateResourcePolicyStatementResponse {
-  resourceArn?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export type BuiltInOrCustomSlotTypeId = string;
 export type SlotDefaultValueString = string;
@@ -998,50 +1003,50 @@ export interface StillWaitingResponseSpecification {
   messageGroups: MessageGroup[];
   frequencyInSeconds: number;
   timeoutInSeconds: number;
-  allowInterrupt?: boolean;
+  allowInterrupt?: boolean | undefined;
 }
 export interface WaitAndContinueSpecification {
   waitingResponse: ResponseSpecification;
   continueResponse: ResponseSpecification;
-  stillWaitingResponse?: StillWaitingResponseSpecification;
-  active?: boolean;
+  stillWaitingResponse?: StillWaitingResponseSpecification | undefined;
+  active?: boolean | undefined;
 }
 export interface SlotCaptureSetting {
-  captureResponse?: ResponseSpecification;
-  captureNextStep?: DialogState;
-  captureConditional?: ConditionalSpecification;
-  failureResponse?: ResponseSpecification;
-  failureNextStep?: DialogState;
-  failureConditional?: ConditionalSpecification;
-  codeHook?: DialogCodeHookInvocationSetting;
-  elicitationCodeHook?: ElicitationCodeHookInvocationSetting;
+  captureResponse?: ResponseSpecification | undefined;
+  captureNextStep?: DialogState | undefined;
+  captureConditional?: ConditionalSpecification | undefined;
+  failureResponse?: ResponseSpecification | undefined;
+  failureNextStep?: DialogState | undefined;
+  failureConditional?: ConditionalSpecification | undefined;
+  codeHook?: DialogCodeHookInvocationSetting | undefined;
+  elicitationCodeHook?: ElicitationCodeHookInvocationSetting | undefined;
 }
 export type SlotResolutionStrategy = "EnhancedFallback" | "Default" | (string & {});
 export interface SlotResolutionSetting {
   slotResolutionStrategy: SlotResolutionStrategy;
 }
 export interface SlotValueElicitationSetting {
-  defaultValueSpecification?: SlotDefaultValueSpecification;
+  defaultValueSpecification?: SlotDefaultValueSpecification | undefined;
   slotConstraint: SlotConstraint;
-  promptSpecification?: PromptSpecification;
-  sampleUtterances?: SampleUtterance[];
-  waitAndContinueSpecification?: WaitAndContinueSpecification;
-  slotCaptureSetting?: SlotCaptureSetting;
-  slotResolutionSetting?: SlotResolutionSetting;
+  promptSpecification?: PromptSpecification | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  waitAndContinueSpecification?: WaitAndContinueSpecification | undefined;
+  slotCaptureSetting?: SlotCaptureSetting | undefined;
+  slotResolutionSetting?: SlotResolutionSetting | undefined;
 }
 export type ObfuscationSettingType = "None" | "DefaultObfuscation" | (string & {});
 export interface ObfuscationSetting {
   obfuscationSettingType: ObfuscationSettingType;
 }
 export interface MultipleValuesSetting {
-  allowMultipleValues?: boolean;
+  allowMultipleValues?: boolean | undefined;
 }
 export type SubSlotExpression = string;
 export interface SubSlotValueElicitationSetting {
-  defaultValueSpecification?: SlotDefaultValueSpecification;
+  defaultValueSpecification?: SlotDefaultValueSpecification | undefined;
   promptSpecification: PromptSpecification;
-  sampleUtterances?: SampleUtterance[];
-  waitAndContinueSpecification?: WaitAndContinueSpecification;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  waitAndContinueSpecification?: WaitAndContinueSpecification | undefined;
 }
 export interface Specifications {
   slotTypeId: string;
@@ -1049,36 +1054,36 @@ export interface Specifications {
 }
 export type SubSlotSpecificationMap = { [key: string]: Specifications | undefined };
 export interface SubSlotSetting {
-  expression?: string;
-  slotSpecifications?: { [key: string]: Specifications | undefined };
+  expression?: string | undefined;
+  slotSpecifications?: { [key: string]: Specifications | undefined } | undefined;
 }
 export interface CreateSlotRequest {
   slotName: string;
-  description?: string;
-  slotTypeId?: string;
+  description?: string | undefined;
+  slotTypeId?: string | undefined;
   valueElicitationSetting: SlotValueElicitationSetting;
-  obfuscationSetting?: ObfuscationSetting;
+  obfuscationSetting?: ObfuscationSetting | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
   intentId: string;
-  multipleValuesSetting?: MultipleValuesSetting;
-  subSlotSetting?: SubSlotSetting;
+  multipleValuesSetting?: MultipleValuesSetting | undefined;
+  subSlotSetting?: SubSlotSetting | undefined;
 }
 export interface CreateSlotResponse {
-  slotId?: string;
-  slotName?: string;
-  description?: string;
-  slotTypeId?: string;
-  valueElicitationSetting?: SlotValueElicitationSetting;
-  obfuscationSetting?: ObfuscationSetting;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentId?: string;
-  creationDateTime?: Date;
-  multipleValuesSetting?: MultipleValuesSetting;
-  subSlotSetting?: SubSlotSetting;
+  slotId?: string | undefined;
+  slotName?: string | undefined;
+  description?: string | undefined;
+  slotTypeId?: string | undefined;
+  valueElicitationSetting?: SlotValueElicitationSetting | undefined;
+  obfuscationSetting?: ObfuscationSetting | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  multipleValuesSetting?: MultipleValuesSetting | undefined;
+  subSlotSetting?: SubSlotSetting | undefined;
 }
 export type Value = string;
 export interface SampleValue {
@@ -1086,8 +1091,8 @@ export interface SampleValue {
 }
 export type SynonymList = SampleValue[];
 export interface SlotTypeValue {
-  sampleValue?: SampleValue;
-  synonyms?: SampleValue[];
+  sampleValue?: SampleValue | undefined;
+  synonyms?: SampleValue[] | undefined;
 }
 export type SlotTypeValues = SlotTypeValue[];
 export type SlotValueResolutionStrategy =
@@ -1101,12 +1106,12 @@ export interface SlotValueRegexFilter {
 }
 export type AudioRecognitionStrategy = "UseSlotValuesAsCustomVocabulary" | (string & {});
 export interface AdvancedRecognitionSetting {
-  audioRecognitionStrategy?: AudioRecognitionStrategy;
+  audioRecognitionStrategy?: AudioRecognitionStrategy | undefined;
 }
 export interface SlotValueSelectionSetting {
   resolutionStrategy: SlotValueResolutionStrategy;
-  regexFilter?: SlotValueRegexFilter;
-  advancedRecognitionSetting?: AdvancedRecognitionSetting;
+  regexFilter?: SlotValueRegexFilter | undefined;
+  advancedRecognitionSetting?: AdvancedRecognitionSetting | undefined;
 }
 export type SlotTypeSignature = string;
 export type S3BucketName = string;
@@ -1114,13 +1119,13 @@ export type S3ObjectPath = string;
 export interface GrammarSlotTypeSource {
   s3BucketName: string;
   s3ObjectKey: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface GrammarSlotTypeSetting {
-  source?: GrammarSlotTypeSource;
+  source?: GrammarSlotTypeSource | undefined;
 }
 export interface ExternalSourceSetting {
-  grammarSlotTypeSetting?: GrammarSlotTypeSetting;
+  grammarSlotTypeSetting?: GrammarSlotTypeSetting | undefined;
 }
 export interface SubSlotTypeComposition {
   name: string;
@@ -1128,33 +1133,33 @@ export interface SubSlotTypeComposition {
 }
 export type SubSlotTypeList = SubSlotTypeComposition[];
 export interface CompositeSlotTypeSetting {
-  subSlots?: SubSlotTypeComposition[];
+  subSlots?: SubSlotTypeComposition[] | undefined;
 }
 export interface CreateSlotTypeRequest {
   slotTypeName: string;
-  description?: string;
-  slotTypeValues?: SlotTypeValue[];
-  valueSelectionSetting?: SlotValueSelectionSetting;
-  parentSlotTypeSignature?: string;
+  description?: string | undefined;
+  slotTypeValues?: SlotTypeValue[] | undefined;
+  valueSelectionSetting?: SlotValueSelectionSetting | undefined;
+  parentSlotTypeSignature?: string | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
-  externalSourceSetting?: ExternalSourceSetting;
-  compositeSlotTypeSetting?: CompositeSlotTypeSetting;
+  externalSourceSetting?: ExternalSourceSetting | undefined;
+  compositeSlotTypeSetting?: CompositeSlotTypeSetting | undefined;
 }
 export interface CreateSlotTypeResponse {
-  slotTypeId?: string;
-  slotTypeName?: string;
-  description?: string;
-  slotTypeValues?: SlotTypeValue[];
-  valueSelectionSetting?: SlotValueSelectionSetting;
-  parentSlotTypeSignature?: string;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  externalSourceSetting?: ExternalSourceSetting;
-  compositeSlotTypeSetting?: CompositeSlotTypeSetting;
+  slotTypeId?: string | undefined;
+  slotTypeName?: string | undefined;
+  description?: string | undefined;
+  slotTypeValues?: SlotTypeValue[] | undefined;
+  valueSelectionSetting?: SlotValueSelectionSetting | undefined;
+  parentSlotTypeSignature?: string | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  externalSourceSetting?: ExternalSourceSetting | undefined;
+  compositeSlotTypeSetting?: CompositeSlotTypeSetting | undefined;
 }
 export interface TestSetDiscrepancyReportBotAliasTarget {
   botId: string;
@@ -1162,42 +1167,42 @@ export interface TestSetDiscrepancyReportBotAliasTarget {
   localeId: string;
 }
 export interface TestSetDiscrepancyReportResourceTarget {
-  botAliasTarget?: TestSetDiscrepancyReportBotAliasTarget;
+  botAliasTarget?: TestSetDiscrepancyReportBotAliasTarget | undefined;
 }
 export interface CreateTestSetDiscrepancyReportRequest {
   testSetId: string;
   target: TestSetDiscrepancyReportResourceTarget;
 }
 export interface CreateTestSetDiscrepancyReportResponse {
-  testSetDiscrepancyReportId?: string;
-  creationDateTime?: Date;
-  testSetId?: string;
-  target?: TestSetDiscrepancyReportResourceTarget;
+  testSetDiscrepancyReportId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  testSetId?: string | undefined;
+  target?: TestSetDiscrepancyReportResourceTarget | undefined;
 }
 export interface CreateUploadUrlRequest {}
 export type PresignedS3Url = string;
 export interface CreateUploadUrlResponse {
-  importId?: string;
-  uploadUrl?: string;
+  importId?: string | undefined;
+  uploadUrl?: string | undefined;
 }
 export type SkipResourceInUseCheck = boolean;
 export interface DeleteBotRequest {
   botId: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteBotResponse {
-  botId?: string;
-  botStatus?: BotStatus;
+  botId?: string | undefined;
+  botStatus?: BotStatus | undefined;
 }
 export interface DeleteBotAliasRequest {
   botAliasId: string;
   botId: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteBotAliasResponse {
-  botAliasId?: string;
-  botId?: string;
-  botAliasStatus?: BotAliasStatus;
+  botAliasId?: string | undefined;
+  botId?: string | undefined;
+  botAliasStatus?: BotAliasStatus | undefined;
 }
 export type UUID = string;
 export interface DeleteBotAnalyzerRecommendationRequest {
@@ -1211,29 +1216,29 @@ export interface DeleteBotLocaleRequest {
   localeId: string;
 }
 export interface DeleteBotLocaleResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botLocaleStatus?: BotLocaleStatus;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
 }
 export interface DeleteBotReplicaRequest {
   botId: string;
   replicaRegion: string;
 }
 export interface DeleteBotReplicaResponse {
-  botId?: string;
-  replicaRegion?: string;
-  botReplicaStatus?: BotReplicaStatus;
+  botId?: string | undefined;
+  replicaRegion?: string | undefined;
+  botReplicaStatus?: BotReplicaStatus | undefined;
 }
 export interface DeleteBotVersionRequest {
   botId: string;
   botVersion: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteBotVersionResponse {
-  botId?: string;
-  botVersion?: string;
-  botStatus?: BotStatus;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  botStatus?: BotStatus | undefined;
 }
 export interface DeleteCustomVocabularyRequest {
   botId: string;
@@ -1248,25 +1253,25 @@ export type CustomVocabularyStatus =
   | "Creating"
   | (string & {});
 export interface DeleteCustomVocabularyResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  customVocabularyStatus?: CustomVocabularyStatus;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  customVocabularyStatus?: CustomVocabularyStatus | undefined;
 }
 export interface DeleteExportRequest {
   exportId: string;
 }
 export interface DeleteExportResponse {
-  exportId?: string;
-  exportStatus?: ExportStatus;
+  exportId?: string | undefined;
+  exportStatus?: ExportStatus | undefined;
 }
 export interface DeleteImportRequest {
   importId: string;
 }
 export type ImportStatus = "InProgress" | "Completed" | "Failed" | "Deleting" | (string & {});
 export interface DeleteImportResponse {
-  importId?: string;
-  importStatus?: ImportStatus;
+  importId?: string | undefined;
+  importStatus?: ImportStatus | undefined;
 }
 export interface DeleteIntentRequest {
   intentId: string;
@@ -1277,20 +1282,20 @@ export interface DeleteIntentRequest {
 export interface DeleteIntentResponse {}
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
-  expectedRevisionId?: string;
+  expectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {
-  resourceArn?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyStatementRequest {
   resourceArn: string;
   statementId: string;
-  expectedRevisionId?: string;
+  expectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyStatementResponse {
-  resourceArn?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface DeleteSlotRequest {
   slotId: string;
@@ -1305,7 +1310,7 @@ export interface DeleteSlotTypeRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteSlotTypeResponse {}
 export interface DeleteTestSetRequest {
@@ -1315,8 +1320,8 @@ export interface DeleteTestSetResponse {}
 export type SessionId = string;
 export interface DeleteUtterancesRequest {
   botId: string;
-  localeId?: string;
-  sessionId?: string;
+  localeId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export interface DeleteUtterancesResponse {}
 export interface DescribeBotRequest {
@@ -1325,28 +1330,28 @@ export interface DescribeBotRequest {
 export type FailureReason = string;
 export type FailureReasons = string[];
 export interface DescribeBotResponse {
-  botId?: string;
-  botName?: string;
-  description?: string;
-  roleArn?: string;
-  dataPrivacy?: DataPrivacy;
-  idleSessionTTLInSeconds?: number;
-  botStatus?: BotStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  botType?: BotType;
-  botMembers?: BotMember[];
-  failureReasons?: string[];
-  errorLogSettings?: ErrorLogSettings;
+  botId?: string | undefined;
+  botName?: string | undefined;
+  description?: string | undefined;
+  roleArn?: string | undefined;
+  dataPrivacy?: DataPrivacy | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  botStatus?: BotStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
+  failureReasons?: string[] | undefined;
+  errorLogSettings?: ErrorLogSettings | undefined;
 }
 export interface DescribeBotAliasRequest {
   botAliasId: string;
   botId: string;
 }
 export interface BotAliasHistoryEvent {
-  botVersion?: string;
-  startDate?: Date;
-  endDate?: Date;
+  botVersion?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export type BotAliasHistoryEventsList = BotAliasHistoryEvent[];
 export interface ParentBotNetwork {
@@ -1355,27 +1360,27 @@ export interface ParentBotNetwork {
 }
 export type ParentBotNetworks = ParentBotNetwork[];
 export interface DescribeBotAliasResponse {
-  botAliasId?: string;
-  botAliasName?: string;
-  description?: string;
-  botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined };
-  conversationLogSettings?: ConversationLogSettings;
-  sentimentAnalysisSettings?: SentimentAnalysisSettings;
-  botAliasHistoryEvents?: BotAliasHistoryEvent[];
-  botAliasStatus?: BotAliasStatus;
-  botId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  parentBotNetworks?: ParentBotNetwork[];
+  botAliasId?: string | undefined;
+  botAliasName?: string | undefined;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined } | undefined;
+  conversationLogSettings?: ConversationLogSettings | undefined;
+  sentimentAnalysisSettings?: SentimentAnalysisSettings | undefined;
+  botAliasHistoryEvents?: BotAliasHistoryEvent[] | undefined;
+  botAliasStatus?: BotAliasStatus | undefined;
+  botId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  parentBotNetworks?: ParentBotNetwork[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeBotAnalyzerRecommendationRequest {
   botId: string;
   botAnalyzerRequestId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BotAnalyzerStatus =
   | "Processing"
@@ -1385,9 +1390,9 @@ export type BotAnalyzerStatus =
   | "Stopped"
   | (string & {});
 export interface IssueLocation {
-  botLocale?: string;
-  intentId?: string;
-  slotId?: string;
+  botLocale?: string | undefined;
+  intentId?: string | undefined;
+  slotId?: string | undefined;
 }
 export type Priority = "High" | "Medium" | "Low" | (string & {});
 export interface BotAnalyzerRecommendation {
@@ -1398,13 +1403,13 @@ export interface BotAnalyzerRecommendation {
 }
 export type BotAnalyzerRecommendationList = BotAnalyzerRecommendation[];
 export interface DescribeBotAnalyzerRecommendationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botAnalyzerStatus?: BotAnalyzerStatus;
-  creationDateTime?: Date;
-  botAnalyzerRecommendationList?: BotAnalyzerRecommendation[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botAnalyzerStatus?: BotAnalyzerStatus | undefined;
+  creationDateTime?: Date | undefined;
+  botAnalyzerRecommendationList?: BotAnalyzerRecommendation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeBotLocaleRequest {
   botId: string;
@@ -1421,28 +1426,28 @@ export type BotLocaleHistoryEventsList = BotLocaleHistoryEvent[];
 export type RecommendedAction = string;
 export type RecommendedActions = string[];
 export interface DescribeBotLocaleResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  localeName?: string;
-  description?: string;
-  nluIntentConfidenceThreshold?: number;
-  voiceSettings?: VoiceSettings;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  intentsCount?: number;
-  slotTypesCount?: number;
-  botLocaleStatus?: BotLocaleStatus;
-  failureReasons?: string[];
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  lastBuildSubmittedDateTime?: Date;
-  botLocaleHistoryEvents?: BotLocaleHistoryEvent[];
-  recommendedActions?: string[];
-  generativeAISettings?: GenerativeAISettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  localeName?: string | undefined;
+  description?: string | undefined;
+  nluIntentConfidenceThreshold?: number | undefined;
+  voiceSettings?: VoiceSettings | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  intentsCount?: number | undefined;
+  slotTypesCount?: number | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
+  failureReasons?: string[] | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  lastBuildSubmittedDateTime?: Date | undefined;
+  botLocaleHistoryEvents?: BotLocaleHistoryEvent[] | undefined;
+  recommendedActions?: string[] | undefined;
+  generativeAISettings?: GenerativeAISettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export interface DescribeBotRecommendationRequest {
   botId: string;
@@ -1464,7 +1469,7 @@ export type BotRecommendationStatus =
 export type ObjectPrefix = string;
 export type ObjectPrefixes = string[];
 export interface PathFormat {
-  objectPrefixes?: string[];
+  objectPrefixes?: string[] | undefined;
 }
 export type TranscriptFormat = "Lex" | (string & {});
 export interface DateRangeFilter {
@@ -1472,67 +1477,67 @@ export interface DateRangeFilter {
   endDateTime: Date;
 }
 export interface LexTranscriptFilter {
-  dateRangeFilter?: DateRangeFilter;
+  dateRangeFilter?: DateRangeFilter | undefined;
 }
 export interface TranscriptFilter {
-  lexTranscriptFilter?: LexTranscriptFilter;
+  lexTranscriptFilter?: LexTranscriptFilter | undefined;
 }
 export interface S3BucketTranscriptSource {
   s3BucketName: string;
-  pathFormat?: PathFormat;
+  pathFormat?: PathFormat | undefined;
   transcriptFormat: TranscriptFormat;
-  transcriptFilter?: TranscriptFilter;
-  kmsKeyArn?: string;
+  transcriptFilter?: TranscriptFilter | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface TranscriptSourceSetting {
-  s3BucketTranscriptSource?: S3BucketTranscriptSource;
+  s3BucketTranscriptSource?: S3BucketTranscriptSource | undefined;
 }
 export type FilePassword = string | redacted.Redacted<string>;
 export interface EncryptionSetting {
-  kmsKeyArn?: string;
-  botLocaleExportPassword?: string | redacted.Redacted<string>;
-  associatedTranscriptsPassword?: string | redacted.Redacted<string>;
+  kmsKeyArn?: string | undefined;
+  botLocaleExportPassword?: string | redacted.Redacted<string> | undefined;
+  associatedTranscriptsPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type Count = number;
 export interface IntentStatistics {
-  discoveredIntentCount?: number;
+  discoveredIntentCount?: number | undefined;
 }
 export interface SlotTypeStatistics {
-  discoveredSlotTypeCount?: number;
+  discoveredSlotTypeCount?: number | undefined;
 }
 export interface BotRecommendationResultStatistics {
-  intents?: IntentStatistics;
-  slotTypes?: SlotTypeStatistics;
+  intents?: IntentStatistics | undefined;
+  slotTypes?: SlotTypeStatistics | undefined;
 }
 export interface BotRecommendationResults {
-  botLocaleExportUrl?: string;
-  associatedTranscriptsUrl?: string;
-  statistics?: BotRecommendationResultStatistics;
+  botLocaleExportUrl?: string | undefined;
+  associatedTranscriptsUrl?: string | undefined;
+  statistics?: BotRecommendationResultStatistics | undefined;
 }
 export interface DescribeBotRecommendationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationStatus?: BotRecommendationStatus;
-  botRecommendationId?: string;
-  failureReasons?: string[];
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  transcriptSourceSetting?: TranscriptSourceSetting;
-  encryptionSetting?: EncryptionSetting;
-  botRecommendationResults?: BotRecommendationResults;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationStatus?: BotRecommendationStatus | undefined;
+  botRecommendationId?: string | undefined;
+  failureReasons?: string[] | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  transcriptSourceSetting?: TranscriptSourceSetting | undefined;
+  encryptionSetting?: EncryptionSetting | undefined;
+  botRecommendationResults?: BotRecommendationResults | undefined;
 }
 export interface DescribeBotReplicaRequest {
   botId: string;
   replicaRegion: string;
 }
 export interface DescribeBotReplicaResponse {
-  botId?: string;
-  replicaRegion?: string;
-  sourceRegion?: string;
-  creationDateTime?: Date;
-  botReplicaStatus?: BotReplicaStatus;
-  failureReasons?: string[];
+  botId?: string | undefined;
+  replicaRegion?: string | undefined;
+  sourceRegion?: string | undefined;
+  creationDateTime?: Date | undefined;
+  botReplicaStatus?: BotReplicaStatus | undefined;
+  failureReasons?: string[] | undefined;
 }
 export interface DescribeBotResourceGenerationRequest {
   botId: string;
@@ -1543,36 +1548,36 @@ export interface DescribeBotResourceGenerationRequest {
 export type GenerationStatus = "Failed" | "Complete" | "InProgress" | (string & {});
 export type GenerationInput = string;
 export interface DescribeBotResourceGenerationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  generationId?: string;
-  failureReasons?: string[];
-  generationStatus?: GenerationStatus;
-  generationInputPrompt?: string;
-  generatedBotLocaleUrl?: string;
-  creationDateTime?: Date;
-  modelArn?: string;
-  lastUpdatedDateTime?: Date;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  generationId?: string | undefined;
+  failureReasons?: string[] | undefined;
+  generationStatus?: GenerationStatus | undefined;
+  generationInputPrompt?: string | undefined;
+  generatedBotLocaleUrl?: string | undefined;
+  creationDateTime?: Date | undefined;
+  modelArn?: string | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeBotVersionRequest {
   botId: string;
   botVersion: string;
 }
 export interface DescribeBotVersionResponse {
-  botId?: string;
-  botName?: string;
-  botVersion?: string;
-  description?: string;
-  roleArn?: string;
-  dataPrivacy?: DataPrivacy;
-  idleSessionTTLInSeconds?: number;
-  botStatus?: BotStatus;
-  failureReasons?: string[];
-  creationDateTime?: Date;
-  parentBotNetworks?: ParentBotNetwork[];
-  botType?: BotType;
-  botMembers?: BotMember[];
+  botId?: string | undefined;
+  botName?: string | undefined;
+  botVersion?: string | undefined;
+  description?: string | undefined;
+  roleArn?: string | undefined;
+  dataPrivacy?: DataPrivacy | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  botStatus?: BotStatus | undefined;
+  failureReasons?: string[] | undefined;
+  creationDateTime?: Date | undefined;
+  parentBotNetworks?: ParentBotNetwork[] | undefined;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
 }
 export interface DescribeCustomVocabularyMetadataRequest {
   botId: string;
@@ -1580,25 +1585,25 @@ export interface DescribeCustomVocabularyMetadataRequest {
   localeId: string;
 }
 export interface DescribeCustomVocabularyMetadataResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  customVocabularyStatus?: CustomVocabularyStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  customVocabularyStatus?: CustomVocabularyStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeExportRequest {
   exportId: string;
 }
 export interface DescribeExportResponse {
-  exportId?: string;
-  resourceSpecification?: ExportResourceSpecification;
-  fileFormat?: ImportExportFileFormat;
-  exportStatus?: ExportStatus;
-  failureReasons?: string[];
-  downloadUrl?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  exportId?: string | undefined;
+  resourceSpecification?: ExportResourceSpecification | undefined;
+  fileFormat?: ImportExportFileFormat | undefined;
+  exportStatus?: ExportStatus | undefined;
+  failureReasons?: string[] | undefined;
+  downloadUrl?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeImportRequest {
   importId: string;
@@ -1607,22 +1612,22 @@ export interface BotImportSpecification {
   botName: string;
   roleArn: string;
   dataPrivacy: DataPrivacy;
-  errorLogSettings?: ErrorLogSettings;
-  idleSessionTTLInSeconds?: number;
-  botTags?: { [key: string]: string | undefined };
-  testBotAliasTags?: { [key: string]: string | undefined };
+  errorLogSettings?: ErrorLogSettings | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  botTags?: { [key: string]: string | undefined } | undefined;
+  testBotAliasTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface BotLocaleImportSpecification {
   botId: string;
   botVersion: string;
   localeId: string;
-  nluIntentConfidenceThreshold?: number;
-  voiceSettings?: VoiceSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  nluIntentConfidenceThreshold?: number | undefined;
+  voiceSettings?: VoiceSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export interface CustomVocabularyImportSpecification {
   botId: string;
@@ -1632,7 +1637,7 @@ export interface CustomVocabularyImportSpecification {
 export interface TestSetStorageLocation {
   s3BucketName: string;
   s3Path: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface TestSetImportInputLocation {
   s3BucketName: string;
@@ -1641,31 +1646,31 @@ export interface TestSetImportInputLocation {
 export type TestSetModality = "Text" | "Audio" | (string & {});
 export interface TestSetImportResourceSpecification {
   testSetName: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   storageLocation: TestSetStorageLocation;
   importInputLocation: TestSetImportInputLocation;
   modality: TestSetModality;
-  testSetTags?: { [key: string]: string | undefined };
+  testSetTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ImportResourceSpecification {
-  botImportSpecification?: BotImportSpecification;
-  botLocaleImportSpecification?: BotLocaleImportSpecification;
-  customVocabularyImportSpecification?: CustomVocabularyImportSpecification;
-  testSetImportResourceSpecification?: TestSetImportResourceSpecification;
+  botImportSpecification?: BotImportSpecification | undefined;
+  botLocaleImportSpecification?: BotLocaleImportSpecification | undefined;
+  customVocabularyImportSpecification?: CustomVocabularyImportSpecification | undefined;
+  testSetImportResourceSpecification?: TestSetImportResourceSpecification | undefined;
 }
 export type ImportedResourceId = string;
 export type MergeStrategy = "Overwrite" | "FailOnConflict" | "Append" | (string & {});
 export interface DescribeImportResponse {
-  importId?: string;
-  resourceSpecification?: ImportResourceSpecification;
-  importedResourceId?: string;
-  importedResourceName?: string;
-  mergeStrategy?: MergeStrategy;
-  importStatus?: ImportStatus;
-  failureReasons?: string[];
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  importId?: string | undefined;
+  resourceSpecification?: ImportResourceSpecification | undefined;
+  importedResourceId?: string | undefined;
+  importedResourceName?: string | undefined;
+  mergeStrategy?: MergeStrategy | undefined;
+  importStatus?: ImportStatus | undefined;
+  failureReasons?: string[] | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeIntentRequest {
   intentId: string;
@@ -1680,36 +1685,36 @@ export interface SlotPriority {
 }
 export type SlotPrioritiesList = SlotPriority[];
 export interface DescribeIntentResponse {
-  intentId?: string;
-  intentName?: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  sampleUtterances?: SampleUtterance[];
-  dialogCodeHook?: DialogCodeHookSettings;
-  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
-  slotPriorities?: SlotPriority[];
-  intentConfirmationSetting?: IntentConfirmationSetting;
-  intentClosingSetting?: IntentClosingSetting;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  kendraConfiguration?: KendraConfiguration;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  initialResponseSetting?: InitialResponseSetting;
-  qnAIntentConfiguration?: QnAIntentConfiguration;
-  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  intentId?: string | undefined;
+  intentName?: string | undefined;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  dialogCodeHook?: DialogCodeHookSettings | undefined;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings | undefined;
+  slotPriorities?: SlotPriority[] | undefined;
+  intentConfirmationSetting?: IntentConfirmationSetting | undefined;
+  intentClosingSetting?: IntentClosingSetting | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  kendraConfiguration?: KendraConfiguration | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  initialResponseSetting?: InitialResponseSetting | undefined;
+  qnAIntentConfiguration?: QnAIntentConfiguration | undefined;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration | undefined;
 }
 export interface DescribeResourcePolicyRequest {
   resourceArn: string;
 }
 export interface DescribeResourcePolicyResponse {
-  resourceArn?: string;
-  policy?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  policy?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface DescribeSlotRequest {
   slotId: string;
@@ -1719,20 +1724,20 @@ export interface DescribeSlotRequest {
   intentId: string;
 }
 export interface DescribeSlotResponse {
-  slotId?: string;
-  slotName?: string;
-  description?: string;
-  slotTypeId?: string;
-  valueElicitationSetting?: SlotValueElicitationSetting;
-  obfuscationSetting?: ObfuscationSetting;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  multipleValuesSetting?: MultipleValuesSetting;
-  subSlotSetting?: SubSlotSetting;
+  slotId?: string | undefined;
+  slotName?: string | undefined;
+  description?: string | undefined;
+  slotTypeId?: string | undefined;
+  valueElicitationSetting?: SlotValueElicitationSetting | undefined;
+  obfuscationSetting?: ObfuscationSetting | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  multipleValuesSetting?: MultipleValuesSetting | undefined;
+  subSlotSetting?: SubSlotSetting | undefined;
 }
 export interface DescribeSlotTypeRequest {
   slotTypeId: string;
@@ -1741,19 +1746,19 @@ export interface DescribeSlotTypeRequest {
   localeId: string;
 }
 export interface DescribeSlotTypeResponse {
-  slotTypeId?: string;
-  slotTypeName?: string;
-  description?: string;
-  slotTypeValues?: SlotTypeValue[];
-  valueSelectionSetting?: SlotValueSelectionSetting;
-  parentSlotTypeSignature?: string;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  externalSourceSetting?: ExternalSourceSetting;
-  compositeSlotTypeSetting?: CompositeSlotTypeSetting;
+  slotTypeId?: string | undefined;
+  slotTypeName?: string | undefined;
+  description?: string | undefined;
+  slotTypeValues?: SlotTypeValue[] | undefined;
+  valueSelectionSetting?: SlotValueSelectionSetting | undefined;
+  parentSlotTypeSignature?: string | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  externalSourceSetting?: ExternalSourceSetting | undefined;
+  compositeSlotTypeSetting?: CompositeSlotTypeSetting | undefined;
 }
 export interface DescribeTestExecutionRequest {
   testExecutionId: string;
@@ -1773,21 +1778,21 @@ export interface BotAliasTestExecutionTarget {
   localeId: string;
 }
 export interface TestExecutionTarget {
-  botAliasTarget?: BotAliasTestExecutionTarget;
+  botAliasTarget?: BotAliasTestExecutionTarget | undefined;
 }
 export type TestExecutionApiMode = "Streaming" | "NonStreaming" | (string & {});
 export type TestExecutionModality = "Text" | "Audio" | (string & {});
 export interface DescribeTestExecutionResponse {
-  testExecutionId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  testExecutionStatus?: TestExecutionStatus;
-  testSetId?: string;
-  testSetName?: string;
-  target?: TestExecutionTarget;
-  apiMode?: TestExecutionApiMode;
-  testExecutionModality?: TestExecutionModality;
-  failureReasons?: string[];
+  testExecutionId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  testExecutionStatus?: TestExecutionStatus | undefined;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  target?: TestExecutionTarget | undefined;
+  apiMode?: TestExecutionApiMode | undefined;
+  testExecutionModality?: TestExecutionModality | undefined;
+  failureReasons?: string[] | undefined;
 }
 export interface DescribeTestSetRequest {
   testSetId: string;
@@ -1800,16 +1805,16 @@ export type TestSetStatus =
   | "Ready"
   | (string & {});
 export interface DescribeTestSetResponse {
-  testSetId?: string;
-  testSetName?: string;
-  description?: string;
-  modality?: TestSetModality;
-  status?: TestSetStatus;
-  roleArn?: string;
-  numTurns?: number;
-  storageLocation?: TestSetStorageLocation;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  description?: string | undefined;
+  modality?: TestSetModality | undefined;
+  status?: TestSetStatus | undefined;
+  roleArn?: string | undefined;
+  numTurns?: number | undefined;
+  storageLocation?: TestSetStorageLocation | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface DescribeTestSetDiscrepancyReportRequest {
   testSetDiscrepancyReportId: string;
@@ -1831,15 +1836,15 @@ export interface TestSetDiscrepancyErrors {
   slotDiscrepancies: TestSetSlotDiscrepancyItem[];
 }
 export interface DescribeTestSetDiscrepancyReportResponse {
-  testSetDiscrepancyReportId?: string;
-  testSetId?: string;
-  creationDateTime?: Date;
-  target?: TestSetDiscrepancyReportResourceTarget;
-  testSetDiscrepancyReportStatus?: TestSetDiscrepancyReportStatus;
-  lastUpdatedDataTime?: Date;
-  testSetDiscrepancyTopErrors?: TestSetDiscrepancyErrors;
-  testSetDiscrepancyRawOutputUrl?: string;
-  failureReasons?: string[];
+  testSetDiscrepancyReportId?: string | undefined;
+  testSetId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  target?: TestSetDiscrepancyReportResourceTarget | undefined;
+  testSetDiscrepancyReportStatus?: TestSetDiscrepancyReportStatus | undefined;
+  lastUpdatedDataTime?: Date | undefined;
+  testSetDiscrepancyTopErrors?: TestSetDiscrepancyErrors | undefined;
+  testSetDiscrepancyRawOutputUrl?: string | undefined;
+  failureReasons?: string[] | undefined;
 }
 export interface DescribeTestSetGenerationRequest {
   testSetGenerationId: string;
@@ -1858,20 +1863,20 @@ export interface ConversationLogsDataSource {
   filter: ConversationLogsDataSourceFilterBy;
 }
 export interface TestSetGenerationDataSource {
-  conversationLogsDataSource?: ConversationLogsDataSource;
+  conversationLogsDataSource?: ConversationLogsDataSource | undefined;
 }
 export interface DescribeTestSetGenerationResponse {
-  testSetGenerationId?: string;
-  testSetGenerationStatus?: TestSetGenerationStatus;
-  failureReasons?: string[];
-  testSetId?: string;
-  testSetName?: string;
-  description?: string;
-  storageLocation?: TestSetStorageLocation;
-  generationDataSource?: TestSetGenerationDataSource;
-  roleArn?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  testSetGenerationId?: string | undefined;
+  testSetGenerationStatus?: TestSetGenerationStatus | undefined;
+  failureReasons?: string[] | undefined;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  description?: string | undefined;
+  storageLocation?: TestSetStorageLocation | undefined;
+  generationDataSource?: TestSetGenerationDataSource | undefined;
+  roleArn?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface GenerateBotElementRequest {
   intentId: string;
@@ -1880,18 +1885,18 @@ export interface GenerateBotElementRequest {
   localeId: string;
 }
 export interface GenerateBotElementResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentId?: string;
-  sampleUtterances?: SampleUtterance[];
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentId?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
 }
 export interface GetTestExecutionArtifactsUrlRequest {
   testExecutionId: string;
 }
 export interface GetTestExecutionArtifactsUrlResponse {
-  testExecutionId?: string;
-  downloadArtifactsUrl?: string;
+  testExecutionId?: string | undefined;
+  downloadArtifactsUrl?: string | undefined;
 }
 export type TimeDimension = "Hours" | "Days" | "Weeks" | (string & {});
 export type TimeValue = number;
@@ -1920,63 +1925,63 @@ export interface AggregatedUtterancesFilter {
 export type AggregatedUtterancesFilters = AggregatedUtterancesFilter[];
 export interface ListAggregatedUtterancesRequest {
   botId: string;
-  botAliasId?: string;
-  botVersion?: string;
+  botAliasId?: string | undefined;
+  botVersion?: string | undefined;
   localeId: string;
   aggregationDuration: UtteranceAggregationDuration;
-  sortBy?: AggregatedUtterancesSortBy;
-  filters?: AggregatedUtterancesFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: AggregatedUtterancesSortBy | undefined;
+  filters?: AggregatedUtterancesFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type HitCount = number;
 export type MissedCount = number;
 export interface AggregatedUtterancesSummary {
-  utterance?: string;
-  hitCount?: number;
-  missedCount?: number;
-  utteranceFirstRecordedInAggregationDuration?: Date;
-  utteranceLastRecordedInAggregationDuration?: Date;
-  containsDataFromDeletedResources?: boolean;
+  utterance?: string | undefined;
+  hitCount?: number | undefined;
+  missedCount?: number | undefined;
+  utteranceFirstRecordedInAggregationDuration?: Date | undefined;
+  utteranceLastRecordedInAggregationDuration?: Date | undefined;
+  containsDataFromDeletedResources?: boolean | undefined;
 }
 export type AggregatedUtterancesSummaryList = AggregatedUtterancesSummary[];
 export interface ListAggregatedUtterancesResponse {
-  botId?: string;
-  botAliasId?: string;
-  botVersion?: string;
-  localeId?: string;
-  aggregationDuration?: UtteranceAggregationDuration;
-  aggregationWindowStartTime?: Date;
-  aggregationWindowEndTime?: Date;
-  aggregationLastRefreshedDateTime?: Date;
-  aggregatedUtterancesSummaries?: AggregatedUtterancesSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botAliasId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  aggregationDuration?: UtteranceAggregationDuration | undefined;
+  aggregationWindowStartTime?: Date | undefined;
+  aggregationWindowEndTime?: Date | undefined;
+  aggregationLastRefreshedDateTime?: Date | undefined;
+  aggregatedUtterancesSummaries?: AggregatedUtterancesSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBotAliasesRequest {
   botId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BotAliasSummary {
-  botAliasId?: string;
-  botAliasName?: string;
-  description?: string;
-  botVersion?: string;
-  botAliasStatus?: BotAliasStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  botAliasId?: string | undefined;
+  botAliasName?: string | undefined;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasStatus?: BotAliasStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type BotAliasSummaryList = BotAliasSummary[];
 export interface ListBotAliasesResponse {
-  botAliasSummaries?: BotAliasSummary[];
-  nextToken?: string;
-  botId?: string;
+  botAliasSummaries?: BotAliasSummary[] | undefined;
+  nextToken?: string | undefined;
+  botId?: string | undefined;
 }
 export interface ListBotAliasReplicasRequest {
   botId: string;
   replicaRegion: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type BotAliasReplicationStatus =
   | "Creating"
@@ -1986,40 +1991,40 @@ export type BotAliasReplicationStatus =
   | "Failed"
   | (string & {});
 export interface BotAliasReplicaSummary {
-  botAliasId?: string;
-  botAliasReplicationStatus?: BotAliasReplicationStatus;
-  botVersion?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  failureReasons?: string[];
+  botAliasId?: string | undefined;
+  botAliasReplicationStatus?: BotAliasReplicationStatus | undefined;
+  botVersion?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  failureReasons?: string[] | undefined;
 }
 export type BotAliasReplicaSummaryList = BotAliasReplicaSummary[];
 export interface ListBotAliasReplicasResponse {
-  botId?: string;
-  sourceRegion?: string;
-  replicaRegion?: string;
-  botAliasReplicaSummaries?: BotAliasReplicaSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  sourceRegion?: string | undefined;
+  replicaRegion?: string | undefined;
+  botAliasReplicaSummaries?: BotAliasReplicaSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBotAnalyzerHistoryRequest {
   botId: string;
-  localeId?: string;
-  botVersion?: string;
-  nextToken?: string;
-  maxResults?: number;
+  localeId?: string | undefined;
+  botVersion?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BotAnalyzerHistorySummary {
   botAnalyzerStatus: BotAnalyzerStatus;
-  creationDateTime?: Date;
+  creationDateTime?: Date | undefined;
   botAnalyzerRequestId: string;
 }
 export type BotAnalyzerHistoryList = BotAnalyzerHistorySummary[];
 export interface ListBotAnalyzerHistoryResponse {
-  botId?: string;
-  localeId?: string;
-  botVersion?: string;
-  botAnalyzerHistoryList?: BotAnalyzerHistorySummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  localeId?: string | undefined;
+  botVersion?: string | undefined;
+  botAnalyzerHistoryList?: BotAnalyzerHistorySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BotLocaleSortAttribute = "BotLocaleName" | (string & {});
 export interface BotLocaleSortBy {
@@ -2037,61 +2042,61 @@ export type BotLocaleFilters = BotLocaleFilter[];
 export interface ListBotLocalesRequest {
   botId: string;
   botVersion: string;
-  sortBy?: BotLocaleSortBy;
-  filters?: BotLocaleFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: BotLocaleSortBy | undefined;
+  filters?: BotLocaleFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BotLocaleSummary {
-  localeId?: string;
-  localeName?: string;
-  description?: string;
-  botLocaleStatus?: BotLocaleStatus;
-  lastUpdatedDateTime?: Date;
-  lastBuildSubmittedDateTime?: Date;
+  localeId?: string | undefined;
+  localeName?: string | undefined;
+  description?: string | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  lastBuildSubmittedDateTime?: Date | undefined;
 }
 export type BotLocaleSummaryList = BotLocaleSummary[];
 export interface ListBotLocalesResponse {
-  botId?: string;
-  botVersion?: string;
-  nextToken?: string;
-  botLocaleSummaries?: BotLocaleSummary[];
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  nextToken?: string | undefined;
+  botLocaleSummaries?: BotLocaleSummary[] | undefined;
 }
 export interface ListBotRecommendationsRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BotRecommendationSummary {
   botRecommendationStatus: BotRecommendationStatus;
   botRecommendationId: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type BotRecommendationSummaryList = BotRecommendationSummary[];
 export interface ListBotRecommendationsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationSummaries?: BotRecommendationSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationSummaries?: BotRecommendationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBotReplicasRequest {
   botId: string;
 }
 export interface BotReplicaSummary {
-  replicaRegion?: string;
-  creationDateTime?: Date;
-  botReplicaStatus?: BotReplicaStatus;
-  failureReasons?: string[];
+  replicaRegion?: string | undefined;
+  creationDateTime?: Date | undefined;
+  botReplicaStatus?: BotReplicaStatus | undefined;
+  failureReasons?: string[] | undefined;
 }
 export type BotReplicaSummaryList = BotReplicaSummary[];
 export interface ListBotReplicasResponse {
-  botId?: string;
-  sourceRegion?: string;
-  botReplicaSummaries?: BotReplicaSummary[];
+  botId?: string | undefined;
+  sourceRegion?: string | undefined;
+  botReplicaSummaries?: BotReplicaSummary[] | undefined;
 }
 export type GenerationSortByAttribute = "creationStartTime" | "lastUpdatedTime" | (string & {});
 export interface GenerationSortBy {
@@ -2102,23 +2107,23 @@ export interface ListBotResourceGenerationsRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  sortBy?: GenerationSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: GenerationSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GenerationSummary {
-  generationId?: string;
-  generationStatus?: GenerationStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  generationId?: string | undefined;
+  generationStatus?: GenerationStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type GenerationSummaryList = GenerationSummary[];
 export interface ListBotResourceGenerationsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  generationSummaries?: GenerationSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  generationSummaries?: GenerationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BotSortAttribute = "BotName" | (string & {});
 export interface BotSortBy {
@@ -2134,24 +2139,24 @@ export interface BotFilter {
 }
 export type BotFilters = BotFilter[];
 export interface ListBotsRequest {
-  sortBy?: BotSortBy;
-  filters?: BotFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: BotSortBy | undefined;
+  filters?: BotFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BotSummary {
-  botId?: string;
-  botName?: string;
-  description?: string;
-  botStatus?: BotStatus;
-  latestBotVersion?: string;
-  lastUpdatedDateTime?: Date;
-  botType?: BotType;
+  botId?: string | undefined;
+  botName?: string | undefined;
+  description?: string | undefined;
+  botStatus?: BotStatus | undefined;
+  latestBotVersion?: string | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  botType?: BotType | undefined;
 }
 export type BotSummaryList = BotSummary[];
 export interface ListBotsResponse {
-  botSummaries?: BotSummary[];
-  nextToken?: string;
+  botSummaries?: BotSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BotVersionReplicaSortAttribute = "BotVersion" | (string & {});
 export interface BotVersionReplicaSortBy {
@@ -2161,9 +2166,9 @@ export interface BotVersionReplicaSortBy {
 export interface ListBotVersionReplicasRequest {
   botId: string;
   replicaRegion: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: BotVersionReplicaSortBy;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: BotVersionReplicaSortBy | undefined;
 }
 export type BotVersionReplicationStatus =
   | "Creating"
@@ -2172,18 +2177,18 @@ export type BotVersionReplicationStatus =
   | "Failed"
   | (string & {});
 export interface BotVersionReplicaSummary {
-  botVersion?: string;
-  botVersionReplicationStatus?: BotVersionReplicationStatus;
-  creationDateTime?: Date;
-  failureReasons?: string[];
+  botVersion?: string | undefined;
+  botVersionReplicationStatus?: BotVersionReplicationStatus | undefined;
+  creationDateTime?: Date | undefined;
+  failureReasons?: string[] | undefined;
 }
 export type BotVersionReplicaSummaryList = BotVersionReplicaSummary[];
 export interface ListBotVersionReplicasResponse {
-  botId?: string;
-  sourceRegion?: string;
-  replicaRegion?: string;
-  botVersionReplicaSummaries?: BotVersionReplicaSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  sourceRegion?: string | undefined;
+  replicaRegion?: string | undefined;
+  botVersionReplicaSummaries?: BotVersionReplicaSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BotVersionSortAttribute = "BotVersion" | (string & {});
 export interface BotVersionSortBy {
@@ -2192,22 +2197,22 @@ export interface BotVersionSortBy {
 }
 export interface ListBotVersionsRequest {
   botId: string;
-  sortBy?: BotVersionSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: BotVersionSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BotVersionSummary {
-  botName?: string;
-  botVersion?: string;
-  description?: string;
-  botStatus?: BotStatus;
-  creationDateTime?: Date;
+  botName?: string | undefined;
+  botVersion?: string | undefined;
+  description?: string | undefined;
+  botStatus?: BotStatus | undefined;
+  creationDateTime?: Date | undefined;
 }
 export type BotVersionSummaryList = BotVersionSummary[];
 export interface ListBotVersionsResponse {
-  botId?: string;
-  botVersionSummaries?: BotVersionSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersionSummaries?: BotVersionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BuiltInIntentSortAttribute = "IntentSignature" | (string & {});
 export interface BuiltInIntentSortBy {
@@ -2217,19 +2222,19 @@ export interface BuiltInIntentSortBy {
 export type BuiltInsMaxResults = number;
 export interface ListBuiltInIntentsRequest {
   localeId: string;
-  sortBy?: BuiltInIntentSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: BuiltInIntentSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BuiltInIntentSummary {
-  intentSignature?: string;
-  description?: string;
+  intentSignature?: string | undefined;
+  description?: string | undefined;
 }
 export type BuiltInIntentSummaryList = BuiltInIntentSummary[];
 export interface ListBuiltInIntentsResponse {
-  builtInIntentSummaries?: BuiltInIntentSummary[];
-  nextToken?: string;
-  localeId?: string;
+  builtInIntentSummaries?: BuiltInIntentSummary[] | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export type BuiltInSlotTypeSortAttribute = "SlotTypeSignature" | (string & {});
 export interface BuiltInSlotTypeSortBy {
@@ -2238,33 +2243,33 @@ export interface BuiltInSlotTypeSortBy {
 }
 export interface ListBuiltInSlotTypesRequest {
   localeId: string;
-  sortBy?: BuiltInSlotTypeSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: BuiltInSlotTypeSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BuiltInSlotTypeSummary {
-  slotTypeSignature?: string;
-  description?: string;
+  slotTypeSignature?: string | undefined;
+  description?: string | undefined;
 }
 export type BuiltInSlotTypeSummaryList = BuiltInSlotTypeSummary[];
 export interface ListBuiltInSlotTypesResponse {
-  builtInSlotTypeSummaries?: BuiltInSlotTypeSummary[];
-  nextToken?: string;
-  localeId?: string;
+  builtInSlotTypeSummaries?: BuiltInSlotTypeSummary[] | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export interface ListCustomVocabularyItemsRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomVocabularyItemsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  customVocabularyItems?: CustomVocabularyItem[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  customVocabularyItems?: CustomVocabularyItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportSortAttribute = "LastUpdatedDateTime" | (string & {});
 export interface ExportSortBy {
@@ -2280,29 +2285,29 @@ export interface ExportFilter {
 }
 export type ExportFilters = ExportFilter[];
 export interface ListExportsRequest {
-  botId?: string;
-  botVersion?: string;
-  sortBy?: ExportSortBy;
-  filters?: ExportFilter[];
-  maxResults?: number;
-  nextToken?: string;
-  localeId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  sortBy?: ExportSortBy | undefined;
+  filters?: ExportFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export interface ExportSummary {
-  exportId?: string;
-  resourceSpecification?: ExportResourceSpecification;
-  fileFormat?: ImportExportFileFormat;
-  exportStatus?: ExportStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  exportId?: string | undefined;
+  resourceSpecification?: ExportResourceSpecification | undefined;
+  fileFormat?: ImportExportFileFormat | undefined;
+  exportStatus?: ExportStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type ExportSummaryList = ExportSummary[];
 export interface ListExportsResponse {
-  botId?: string;
-  botVersion?: string;
-  exportSummaries?: ExportSummary[];
-  nextToken?: string;
-  localeId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  exportSummaries?: ExportSummary[] | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export type ImportSortAttribute = "LastUpdatedDateTime" | (string & {});
 export interface ImportSortBy {
@@ -2318,13 +2323,13 @@ export interface ImportFilter {
 }
 export type ImportFilters = ImportFilter[];
 export interface ListImportsRequest {
-  botId?: string;
-  botVersion?: string;
-  sortBy?: ImportSortBy;
-  filters?: ImportFilter[];
-  maxResults?: number;
-  nextToken?: string;
-  localeId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  sortBy?: ImportSortBy | undefined;
+  filters?: ImportFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export type ImportResourceType =
   | "Bot"
@@ -2333,22 +2338,22 @@ export type ImportResourceType =
   | "TestSet"
   | (string & {});
 export interface ImportSummary {
-  importId?: string;
-  importedResourceId?: string;
-  importedResourceName?: string;
-  importStatus?: ImportStatus;
-  mergeStrategy?: MergeStrategy;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  importedResourceType?: ImportResourceType;
+  importId?: string | undefined;
+  importedResourceId?: string | undefined;
+  importedResourceName?: string | undefined;
+  importStatus?: ImportStatus | undefined;
+  mergeStrategy?: MergeStrategy | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  importedResourceType?: ImportResourceType | undefined;
 }
 export type ImportSummaryList = ImportSummary[];
 export interface ListImportsResponse {
-  botId?: string;
-  botVersion?: string;
-  importSummaries?: ImportSummary[];
-  nextToken?: string;
-  localeId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  importSummaries?: ImportSummary[] | undefined;
+  nextToken?: string | undefined;
+  localeId?: string | undefined;
 }
 export type AnalyticsIntentMetricName =
   | "Count"
@@ -2362,7 +2367,7 @@ export type AnalyticsSortOrder = "Ascending" | "Descending" | (string & {});
 export interface AnalyticsIntentMetric {
   name: AnalyticsIntentMetricName;
   statistic: AnalyticsMetricStatistic;
-  order?: AnalyticsSortOrder;
+  order?: AnalyticsSortOrder | undefined;
 }
 export type AnalyticsIntentMetrics = AnalyticsIntentMetric[];
 export type AnalyticsBinByName = "ConversationStartTime" | "UtteranceTimestamp" | (string & {});
@@ -2370,7 +2375,7 @@ export type AnalyticsInterval = "OneHour" | "OneDay" | (string & {});
 export interface AnalyticsBinBySpecification {
   name: AnalyticsBinByName;
   interval: AnalyticsInterval;
-  order?: AnalyticsSortOrder;
+  order?: AnalyticsSortOrder | undefined;
 }
 export type AnalyticsBinByList = AnalyticsBinBySpecification[];
 export type AnalyticsIntentField = "IntentName" | "IntentEndState" | "IntentLevel" | (string & {});
@@ -2403,41 +2408,41 @@ export interface ListIntentMetricsRequest {
   startDateTime: Date;
   endDateTime: Date;
   metrics: AnalyticsIntentMetric[];
-  binBy?: AnalyticsBinBySpecification[];
-  groupBy?: AnalyticsIntentGroupBySpecification[];
-  filters?: AnalyticsIntentFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  binBy?: AnalyticsBinBySpecification[] | undefined;
+  groupBy?: AnalyticsIntentGroupBySpecification[] | undefined;
+  filters?: AnalyticsIntentFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsBinValue = number;
 export interface AnalyticsBinKey {
-  name?: AnalyticsBinByName;
-  value?: number;
+  name?: AnalyticsBinByName | undefined;
+  value?: number | undefined;
 }
 export type AnalyticsBinKeys = AnalyticsBinKey[];
 export type AnalyticsGroupByValue = string;
 export interface AnalyticsIntentGroupByKey {
-  name?: AnalyticsIntentField;
-  value?: string;
+  name?: AnalyticsIntentField | undefined;
+  value?: string | undefined;
 }
 export type AnalyticsIntentGroupByKeys = AnalyticsIntentGroupByKey[];
 export type AnalyticsMetricValue = number;
 export interface AnalyticsIntentMetricResult {
-  name?: AnalyticsIntentMetricName;
-  statistic?: AnalyticsMetricStatistic;
-  value?: number;
+  name?: AnalyticsIntentMetricName | undefined;
+  statistic?: AnalyticsMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type AnalyticsIntentMetricResults = AnalyticsIntentMetricResult[];
 export interface AnalyticsIntentResult {
-  binKeys?: AnalyticsBinKey[];
-  groupByKeys?: AnalyticsIntentGroupByKey[];
-  metricsResults?: AnalyticsIntentMetricResult[];
+  binKeys?: AnalyticsBinKey[] | undefined;
+  groupByKeys?: AnalyticsIntentGroupByKey[] | undefined;
+  metricsResults?: AnalyticsIntentMetricResult[] | undefined;
 }
 export type AnalyticsIntentResults = AnalyticsIntentResult[];
 export interface ListIntentMetricsResponse {
-  botId?: string;
-  results?: AnalyticsIntentResult[];
-  nextToken?: string;
+  botId?: string | undefined;
+  results?: AnalyticsIntentResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsPath = string;
 export type AnalyticsCommonFilterName =
@@ -2458,21 +2463,21 @@ export interface ListIntentPathsRequest {
   startDateTime: Date;
   endDateTime: Date;
   intentPath: string;
-  filters?: AnalyticsPathFilter[];
+  filters?: AnalyticsPathFilter[] | undefined;
 }
 export type AnalyticsNodeCount = number;
 export type AnalyticsNodeLevel = number;
 export type AnalyticsNodeType = "Inner" | "Exit" | (string & {});
 export interface AnalyticsIntentNodeSummary {
-  intentName?: string;
-  intentPath?: string;
-  intentCount?: number;
-  intentLevel?: number;
-  nodeType?: AnalyticsNodeType;
+  intentName?: string | undefined;
+  intentPath?: string | undefined;
+  intentCount?: number | undefined;
+  intentLevel?: number | undefined;
+  nodeType?: AnalyticsNodeType | undefined;
 }
 export type AnalyticsIntentNodeSummaries = AnalyticsIntentNodeSummary[];
 export interface ListIntentPathsResponse {
-  nodeSummaries?: AnalyticsIntentNodeSummary[];
+  nodeSummaries?: AnalyticsIntentNodeSummary[] | undefined;
 }
 export type IntentSortAttribute = "IntentName" | "LastUpdatedDateTime" | (string & {});
 export interface IntentSortBy {
@@ -2491,28 +2496,28 @@ export interface ListIntentsRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  sortBy?: IntentSortBy;
-  filters?: IntentFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: IntentSortBy | undefined;
+  filters?: IntentFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IntentSummary {
-  intentId?: string;
-  intentName?: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  lastUpdatedDateTime?: Date;
+  intentId?: string | undefined;
+  intentName?: string | undefined;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type IntentSummaryList = IntentSummary[];
 export interface ListIntentsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentSummaries?: IntentSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentSummaries?: IntentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsIntentStageMetricName =
   | "Count"
@@ -2524,7 +2529,7 @@ export type AnalyticsIntentStageMetricName =
 export interface AnalyticsIntentStageMetric {
   name: AnalyticsIntentStageMetricName;
   statistic: AnalyticsMetricStatistic;
-  order?: AnalyticsSortOrder;
+  order?: AnalyticsSortOrder | undefined;
 }
 export type AnalyticsIntentStageMetrics = AnalyticsIntentStageMetric[];
 export type AnalyticsIntentStageField = "IntentStageName" | "SwitchedToIntent" | (string & {});
@@ -2554,56 +2559,56 @@ export interface ListIntentStageMetricsRequest {
   startDateTime: Date;
   endDateTime: Date;
   metrics: AnalyticsIntentStageMetric[];
-  binBy?: AnalyticsBinBySpecification[];
-  groupBy?: AnalyticsIntentStageGroupBySpecification[];
-  filters?: AnalyticsIntentStageFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  binBy?: AnalyticsBinBySpecification[] | undefined;
+  groupBy?: AnalyticsIntentStageGroupBySpecification[] | undefined;
+  filters?: AnalyticsIntentStageFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnalyticsIntentStageGroupByKey {
-  name?: AnalyticsIntentStageField;
-  value?: string;
+  name?: AnalyticsIntentStageField | undefined;
+  value?: string | undefined;
 }
 export type AnalyticsIntentStageGroupByKeys = AnalyticsIntentStageGroupByKey[];
 export interface AnalyticsIntentStageMetricResult {
-  name?: AnalyticsIntentStageMetricName;
-  statistic?: AnalyticsMetricStatistic;
-  value?: number;
+  name?: AnalyticsIntentStageMetricName | undefined;
+  statistic?: AnalyticsMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type AnalyticsIntentStageMetricResults = AnalyticsIntentStageMetricResult[];
 export interface AnalyticsIntentStageResult {
-  binKeys?: AnalyticsBinKey[];
-  groupByKeys?: AnalyticsIntentStageGroupByKey[];
-  metricsResults?: AnalyticsIntentStageMetricResult[];
+  binKeys?: AnalyticsBinKey[] | undefined;
+  groupByKeys?: AnalyticsIntentStageGroupByKey[] | undefined;
+  metricsResults?: AnalyticsIntentStageMetricResult[] | undefined;
 }
 export type AnalyticsIntentStageResults = AnalyticsIntentStageResult[];
 export interface ListIntentStageMetricsResponse {
-  botId?: string;
-  results?: AnalyticsIntentStageResult[];
-  nextToken?: string;
+  botId?: string | undefined;
+  results?: AnalyticsIntentStageResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRecommendedIntentsRequest {
   botId: string;
   botVersion: string;
   localeId: string;
   botRecommendationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SampleUtterancesCount = number;
 export interface RecommendedIntentSummary {
-  intentId?: string;
-  intentName?: string;
-  sampleUtterancesCount?: number;
+  intentId?: string | undefined;
+  intentName?: string | undefined;
+  sampleUtterancesCount?: number | undefined;
 }
 export type RecommendedIntentSummaryList = RecommendedIntentSummary[];
 export interface ListRecommendedIntentsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationId?: string;
-  summaryList?: RecommendedIntentSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationId?: string | undefined;
+  summaryList?: RecommendedIntentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsSessionSortByName =
   | "ConversationStartTime"
@@ -2636,10 +2641,10 @@ export interface ListSessionAnalyticsDataRequest {
   botId: string;
   startDateTime: Date;
   endDateTime: Date;
-  sortBy?: SessionDataSortBy;
-  filters?: AnalyticsSessionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SessionDataSortBy | undefined;
+  filters?: AnalyticsSessionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsChannel = string;
 export type AnalyticsSessionId = string;
@@ -2647,30 +2652,30 @@ export type AnalyticsLongValue = number;
 export type ConversationEndState = "Success" | "Failure" | "Dropped" | (string & {});
 export type AnalyticsModality = "Speech" | "Text" | "DTMF" | "MultiMode" | (string & {});
 export interface InvokedIntentSample {
-  intentName?: string;
+  intentName?: string | undefined;
 }
 export type InvokedIntentSamples = InvokedIntentSample[];
 export type AnalyticsOriginatingRequestId = string;
 export interface SessionSpecification {
-  botAliasId?: string;
-  botVersion?: string;
-  localeId?: string;
-  channel?: string;
-  sessionId?: string;
-  conversationStartTime?: Date;
-  conversationEndTime?: Date;
-  conversationDurationSeconds?: number;
-  conversationEndState?: ConversationEndState;
-  mode?: AnalyticsModality;
-  numberOfTurns?: number;
-  invokedIntentSamples?: InvokedIntentSample[];
-  originatingRequestId?: string;
+  botAliasId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  channel?: string | undefined;
+  sessionId?: string | undefined;
+  conversationStartTime?: Date | undefined;
+  conversationEndTime?: Date | undefined;
+  conversationDurationSeconds?: number | undefined;
+  conversationEndState?: ConversationEndState | undefined;
+  mode?: AnalyticsModality | undefined;
+  numberOfTurns?: number | undefined;
+  invokedIntentSamples?: InvokedIntentSample[] | undefined;
+  originatingRequestId?: string | undefined;
 }
 export type SessionSpecifications = SessionSpecification[];
 export interface ListSessionAnalyticsDataResponse {
-  botId?: string;
-  nextToken?: string;
-  sessions?: SessionSpecification[];
+  botId?: string | undefined;
+  nextToken?: string | undefined;
+  sessions?: SessionSpecification[] | undefined;
 }
 export type AnalyticsSessionMetricName =
   | "Count"
@@ -2684,7 +2689,7 @@ export type AnalyticsSessionMetricName =
 export interface AnalyticsSessionMetric {
   name: AnalyticsSessionMetricName;
   statistic: AnalyticsMetricStatistic;
-  order?: AnalyticsSortOrder;
+  order?: AnalyticsSortOrder | undefined;
 }
 export type AnalyticsSessionMetrics = AnalyticsSessionMetric[];
 export type AnalyticsSessionField = "ConversationEndState" | "LocaleId" | (string & {});
@@ -2697,33 +2702,33 @@ export interface ListSessionMetricsRequest {
   startDateTime: Date;
   endDateTime: Date;
   metrics: AnalyticsSessionMetric[];
-  binBy?: AnalyticsBinBySpecification[];
-  groupBy?: AnalyticsSessionGroupBySpecification[];
-  filters?: AnalyticsSessionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  binBy?: AnalyticsBinBySpecification[] | undefined;
+  groupBy?: AnalyticsSessionGroupBySpecification[] | undefined;
+  filters?: AnalyticsSessionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnalyticsSessionGroupByKey {
-  name?: AnalyticsSessionField;
-  value?: string;
+  name?: AnalyticsSessionField | undefined;
+  value?: string | undefined;
 }
 export type AnalyticsSessionGroupByKeys = AnalyticsSessionGroupByKey[];
 export interface AnalyticsSessionMetricResult {
-  name?: AnalyticsSessionMetricName;
-  statistic?: AnalyticsMetricStatistic;
-  value?: number;
+  name?: AnalyticsSessionMetricName | undefined;
+  statistic?: AnalyticsMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type AnalyticsSessionMetricResults = AnalyticsSessionMetricResult[];
 export interface AnalyticsSessionResult {
-  binKeys?: AnalyticsBinKey[];
-  groupByKeys?: AnalyticsSessionGroupByKey[];
-  metricsResults?: AnalyticsSessionMetricResult[];
+  binKeys?: AnalyticsBinKey[] | undefined;
+  groupByKeys?: AnalyticsSessionGroupByKey[] | undefined;
+  metricsResults?: AnalyticsSessionMetricResult[] | undefined;
 }
 export type AnalyticsSessionResults = AnalyticsSessionResult[];
 export interface ListSessionMetricsResponse {
-  botId?: string;
-  results?: AnalyticsSessionResult[];
-  nextToken?: string;
+  botId?: string | undefined;
+  results?: AnalyticsSessionResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SlotSortAttribute = "SlotName" | "LastUpdatedDateTime" | (string & {});
 export interface SlotSortBy {
@@ -2743,28 +2748,28 @@ export interface ListSlotsRequest {
   botVersion: string;
   localeId: string;
   intentId: string;
-  sortBy?: SlotSortBy;
-  filters?: SlotFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SlotSortBy | undefined;
+  filters?: SlotFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SlotSummary {
-  slotId?: string;
-  slotName?: string;
-  description?: string;
-  slotConstraint?: SlotConstraint;
-  slotTypeId?: string;
-  valueElicitationPromptSpecification?: PromptSpecification;
-  lastUpdatedDateTime?: Date;
+  slotId?: string | undefined;
+  slotName?: string | undefined;
+  description?: string | undefined;
+  slotConstraint?: SlotConstraint | undefined;
+  slotTypeId?: string | undefined;
+  valueElicitationPromptSpecification?: PromptSpecification | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type SlotSummaryList = SlotSummary[];
 export interface ListSlotsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentId?: string;
-  slotSummaries?: SlotSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentId?: string | undefined;
+  slotSummaries?: SlotSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SlotTypeSortAttribute = "SlotTypeName" | "LastUpdatedDateTime" | (string & {});
 export interface SlotTypeSortBy {
@@ -2783,10 +2788,10 @@ export interface ListSlotTypesRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  sortBy?: SlotTypeSortBy;
-  filters?: SlotTypeFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: SlotTypeSortBy | undefined;
+  filters?: SlotTypeFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SlotTypeCategory =
   | "Custom"
@@ -2795,26 +2800,26 @@ export type SlotTypeCategory =
   | "Composite"
   | (string & {});
 export interface SlotTypeSummary {
-  slotTypeId?: string;
-  slotTypeName?: string;
-  description?: string;
-  parentSlotTypeSignature?: string;
-  lastUpdatedDateTime?: Date;
-  slotTypeCategory?: SlotTypeCategory;
+  slotTypeId?: string | undefined;
+  slotTypeName?: string | undefined;
+  description?: string | undefined;
+  parentSlotTypeSignature?: string | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  slotTypeCategory?: SlotTypeCategory | undefined;
 }
 export type SlotTypeSummaryList = SlotTypeSummary[];
 export interface ListSlotTypesResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  slotTypeSummaries?: SlotTypeSummary[];
-  nextToken?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  slotTypeSummaries?: SlotTypeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TestResultTypeFilter =
   | "OverallTestResults"
@@ -2825,23 +2830,23 @@ export type TestResultTypeFilter =
   | (string & {});
 export type TestResultMatchStatus = "Matched" | "Mismatched" | "ExecutionError" | (string & {});
 export interface ConversationLevelTestResultsFilterBy {
-  endToEndResult?: TestResultMatchStatus;
+  endToEndResult?: TestResultMatchStatus | undefined;
 }
 export interface TestExecutionResultFilterBy {
   resultTypeFilter: TestResultTypeFilter;
-  conversationLevelTestResultsFilterBy?: ConversationLevelTestResultsFilterBy;
+  conversationLevelTestResultsFilterBy?: ConversationLevelTestResultsFilterBy | undefined;
 }
 export interface ListTestExecutionResultItemsRequest {
   testExecutionId: string;
   resultFilterBy: TestExecutionResultFilterBy;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export type TestResultMatchStatusCountMap = { [key in TestResultMatchStatus]?: number };
+export type TestResultMatchStatusCountMap = { [key in TestResultMatchStatus]?: number | undefined };
 export interface OverallTestResultItem {
   multiTurnConversation: boolean;
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined } | undefined;
   endToEndResultCounts: { [key: string]: number | undefined };
 }
 export type OverallTestResultItemList = OverallTestResultItem[];
@@ -2865,7 +2870,7 @@ export type ConversationLevelSlotResolutionResults = ConversationLevelSlotResolu
 export interface ConversationLevelTestResultItem {
   conversationId: string;
   endToEndResult: TestResultMatchStatus;
-  speechTranscriptionResult?: TestResultMatchStatus;
+  speechTranscriptionResult?: TestResultMatchStatus | undefined;
   intentClassificationResults: ConversationLevelIntentClassificationResultItem[];
   slotResolutionResults: ConversationLevelSlotResolutionResultItem[];
 }
@@ -2875,7 +2880,7 @@ export interface ConversationLevelTestResults {
 }
 export interface IntentClassificationTestResultItemCounts {
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined } | undefined;
   intentMatchResultCounts: { [key: string]: number | undefined };
 }
 export interface IntentClassificationTestResultItem {
@@ -2889,7 +2894,7 @@ export interface IntentClassificationTestResults {
 }
 export interface SlotResolutionTestResultItemCounts {
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined } | undefined;
   slotMatchResultCounts: { [key: string]: number | undefined };
 }
 export interface SlotResolutionTestResultItem {
@@ -2914,10 +2919,10 @@ export interface ExecutionErrorDetails {
 }
 export interface AgentTurnResult {
   expectedAgentPrompt: string;
-  actualAgentPrompt?: string;
-  errorDetails?: ExecutionErrorDetails;
-  actualElicitedSlot?: string;
-  actualIntent?: string;
+  actualAgentPrompt?: string | undefined;
+  errorDetails?: ExecutionErrorDetails | undefined;
+  actualElicitedSlot?: string | undefined;
+  actualIntent?: string | undefined;
 }
 export type TestSetUtteranceText = string;
 export type AudioFileS3Location = string;
@@ -2925,8 +2930,8 @@ export interface UtteranceAudioInputSpecification {
   audioFileS3Location: string;
 }
 export interface UtteranceInputSpecification {
-  textInput?: string;
-  audioInput?: UtteranceAudioInputSpecification;
+  textInput?: string | undefined;
+  audioInput?: UtteranceAudioInputSpecification | undefined;
 }
 export type ActiveContextName = string;
 export interface ActiveContext {
@@ -2939,64 +2944,66 @@ export interface RuntimeHintValue {
 }
 export type RuntimeHintValuesList = RuntimeHintValue[];
 export interface RuntimeHintDetails {
-  runtimeHintValues?: RuntimeHintValue[];
-  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
+  runtimeHintValues?: RuntimeHintValue[] | undefined;
+  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 }
 export type SlotHintsSlotMap = { [key: string]: RuntimeHintDetails | undefined };
 export type SlotHintsIntentMap = {
   [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 };
 export interface RuntimeHints {
-  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined };
+  slotHints?:
+    | { [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined }
+    | undefined;
 }
 export interface InputSessionStateSpecification {
-  sessionAttributes?: { [key: string]: string | undefined };
-  activeContexts?: ActiveContext[];
-  runtimeHints?: RuntimeHints;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  activeContexts?: ActiveContext[] | undefined;
+  runtimeHints?: RuntimeHints | undefined;
 }
 export interface UserTurnInputSpecification {
   utteranceInput: UtteranceInputSpecification;
-  requestAttributes?: { [key: string]: string | undefined };
-  sessionState?: InputSessionStateSpecification;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
+  sessionState?: InputSessionStateSpecification | undefined;
 }
 export type UserTurnSlotOutputList = UserTurnSlotOutput[];
 export interface UserTurnSlotOutput {
-  value?: string;
-  values?: UserTurnSlotOutput[];
-  subSlots?: { [key: string]: UserTurnSlotOutput | undefined };
+  value?: string | undefined;
+  values?: UserTurnSlotOutput[] | undefined;
+  subSlots?: { [key: string]: UserTurnSlotOutput | undefined } | undefined;
 }
 export type UserTurnSlotOutputMap = { [key: string]: UserTurnSlotOutput | undefined };
 export interface UserTurnIntentOutput {
   name: string;
-  slots?: { [key: string]: UserTurnSlotOutput | undefined };
+  slots?: { [key: string]: UserTurnSlotOutput | undefined } | undefined;
 }
 export interface UserTurnOutputSpecification {
   intent: UserTurnIntentOutput;
-  activeContexts?: ActiveContext[];
-  transcript?: string;
+  activeContexts?: ActiveContext[] | undefined;
+  transcript?: string | undefined;
 }
 export interface ConversationLevelResultDetail {
   endToEndResult: TestResultMatchStatus;
-  speechTranscriptionResult?: TestResultMatchStatus;
+  speechTranscriptionResult?: TestResultMatchStatus | undefined;
 }
 export interface UserTurnResult {
   input: UserTurnInputSpecification;
   expectedOutput: UserTurnOutputSpecification;
-  actualOutput?: UserTurnOutputSpecification;
-  errorDetails?: ExecutionErrorDetails;
-  endToEndResult?: TestResultMatchStatus;
-  intentMatchResult?: TestResultMatchStatus;
-  slotMatchResult?: TestResultMatchStatus;
-  speechTranscriptionResult?: TestResultMatchStatus;
-  conversationLevelResult?: ConversationLevelResultDetail;
+  actualOutput?: UserTurnOutputSpecification | undefined;
+  errorDetails?: ExecutionErrorDetails | undefined;
+  endToEndResult?: TestResultMatchStatus | undefined;
+  intentMatchResult?: TestResultMatchStatus | undefined;
+  slotMatchResult?: TestResultMatchStatus | undefined;
+  speechTranscriptionResult?: TestResultMatchStatus | undefined;
+  conversationLevelResult?: ConversationLevelResultDetail | undefined;
 }
 export interface TestSetTurnResult {
-  agent?: AgentTurnResult;
-  user?: UserTurnResult;
+  agent?: AgentTurnResult | undefined;
+  user?: UserTurnResult | undefined;
 }
 export interface UtteranceLevelTestResultItem {
   recordNumber: number;
-  conversationId?: string;
+  conversationId?: string | undefined;
   turnResult: TestSetTurnResult;
 }
 export type UtteranceLevelTestResultItemList = UtteranceLevelTestResultItem[];
@@ -3004,15 +3011,15 @@ export interface UtteranceLevelTestResults {
   items: UtteranceLevelTestResultItem[];
 }
 export interface TestExecutionResultItems {
-  overallTestResults?: OverallTestResults;
-  conversationLevelTestResults?: ConversationLevelTestResults;
-  intentClassificationTestResults?: IntentClassificationTestResults;
-  intentLevelSlotResolutionTestResults?: IntentLevelSlotResolutionTestResults;
-  utteranceLevelTestResults?: UtteranceLevelTestResults;
+  overallTestResults?: OverallTestResults | undefined;
+  conversationLevelTestResults?: ConversationLevelTestResults | undefined;
+  intentClassificationTestResults?: IntentClassificationTestResults | undefined;
+  intentLevelSlotResolutionTestResults?: IntentLevelSlotResolutionTestResults | undefined;
+  utteranceLevelTestResults?: UtteranceLevelTestResults | undefined;
 }
 export interface ListTestExecutionResultItemsResponse {
-  testExecutionResults?: TestExecutionResultItems;
-  nextToken?: string;
+  testExecutionResults?: TestExecutionResultItems | undefined;
+  nextToken?: string | undefined;
 }
 export type TestExecutionSortAttribute = "TestSetName" | "CreationDateTime" | (string & {});
 export interface TestExecutionSortBy {
@@ -3020,30 +3027,30 @@ export interface TestExecutionSortBy {
   order: SortOrder;
 }
 export interface ListTestExecutionsRequest {
-  sortBy?: TestExecutionSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: TestExecutionSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TestExecutionSummary {
-  testExecutionId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  testExecutionStatus?: TestExecutionStatus;
-  testSetId?: string;
-  testSetName?: string;
-  target?: TestExecutionTarget;
-  apiMode?: TestExecutionApiMode;
-  testExecutionModality?: TestExecutionModality;
+  testExecutionId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  testExecutionStatus?: TestExecutionStatus | undefined;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  target?: TestExecutionTarget | undefined;
+  apiMode?: TestExecutionApiMode | undefined;
+  testExecutionModality?: TestExecutionModality | undefined;
 }
 export type TestExecutionSummaryList = TestExecutionSummary[];
 export interface ListTestExecutionsResponse {
-  testExecutions?: TestExecutionSummary[];
-  nextToken?: string;
+  testExecutions?: TestExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTestSetRecordsRequest {
   testSetId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TurnNumber = number;
 export interface AgentTurnSpecification {
@@ -3054,19 +3061,19 @@ export interface UserTurnSpecification {
   expected: UserTurnOutputSpecification;
 }
 export interface TurnSpecification {
-  agentTurn?: AgentTurnSpecification;
-  userTurn?: UserTurnSpecification;
+  agentTurn?: AgentTurnSpecification | undefined;
+  userTurn?: UserTurnSpecification | undefined;
 }
 export interface TestSetTurnRecord {
   recordNumber: number;
-  conversationId?: string;
-  turnNumber?: number;
+  conversationId?: string | undefined;
+  turnNumber?: number | undefined;
   turnSpecification: TurnSpecification;
 }
 export type TestSetTurnRecordList = TestSetTurnRecord[];
 export interface ListTestSetRecordsResponse {
-  testSetRecords?: TestSetTurnRecord[];
-  nextToken?: string;
+  testSetRecords?: TestSetTurnRecord[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TestSetSortAttribute = "TestSetName" | "LastUpdatedDateTime" | (string & {});
 export interface TestSetSortBy {
@@ -3074,26 +3081,26 @@ export interface TestSetSortBy {
   order: SortOrder;
 }
 export interface ListTestSetsRequest {
-  sortBy?: TestSetSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: TestSetSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TestSetSummary {
-  testSetId?: string;
-  testSetName?: string;
-  description?: string;
-  modality?: TestSetModality;
-  status?: TestSetStatus;
-  roleArn?: string;
-  numTurns?: number;
-  storageLocation?: TestSetStorageLocation;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  description?: string | undefined;
+  modality?: TestSetModality | undefined;
+  status?: TestSetStatus | undefined;
+  roleArn?: string | undefined;
+  numTurns?: number | undefined;
+  storageLocation?: TestSetStorageLocation | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type TestSetSummaryList = TestSetSummary[];
 export interface ListTestSetsResponse {
-  testSets?: TestSetSummary[];
-  nextToken?: string;
+  testSets?: TestSetSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyticsUtteranceSortByName = "UtteranceTimestamp" | (string & {});
 export interface UtteranceDataSortBy {
@@ -3121,10 +3128,10 @@ export interface ListUtteranceAnalyticsDataRequest {
   botId: string;
   startDateTime: Date;
   endDateTime: Date;
-  sortBy?: UtteranceDataSortBy;
-  filters?: AnalyticsUtteranceFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  sortBy?: UtteranceDataSortBy | undefined;
+  filters?: AnalyticsUtteranceFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type UtteranceUnderstood = boolean;
 export type IntentState =
@@ -3142,40 +3149,40 @@ export type UtteranceContentType =
   | "ImageResponseCard"
   | (string & {});
 export interface UtteranceBotResponse {
-  content?: string;
-  contentType?: UtteranceContentType;
-  imageResponseCard?: ImageResponseCard;
+  content?: string | undefined;
+  contentType?: UtteranceContentType | undefined;
+  imageResponseCard?: ImageResponseCard | undefined;
 }
 export type UtteranceBotResponses = UtteranceBotResponse[];
 export interface UtteranceSpecification {
-  botAliasId?: string;
-  botVersion?: string;
-  localeId?: string;
-  sessionId?: string;
-  channel?: string;
-  mode?: AnalyticsModality;
-  conversationStartTime?: Date;
-  conversationEndTime?: Date;
-  utterance?: string;
-  utteranceTimestamp?: Date;
-  audioVoiceDurationMillis?: number;
-  utteranceUnderstood?: boolean;
-  inputType?: string;
-  outputType?: string;
-  associatedIntentName?: string;
-  associatedSlotName?: string;
-  intentState?: IntentState;
-  dialogActionType?: string;
-  botResponseAudioVoiceId?: string;
-  slotsFilledInSession?: string;
-  utteranceRequestId?: string;
-  botResponses?: UtteranceBotResponse[];
+  botAliasId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  sessionId?: string | undefined;
+  channel?: string | undefined;
+  mode?: AnalyticsModality | undefined;
+  conversationStartTime?: Date | undefined;
+  conversationEndTime?: Date | undefined;
+  utterance?: string | undefined;
+  utteranceTimestamp?: Date | undefined;
+  audioVoiceDurationMillis?: number | undefined;
+  utteranceUnderstood?: boolean | undefined;
+  inputType?: string | undefined;
+  outputType?: string | undefined;
+  associatedIntentName?: string | undefined;
+  associatedSlotName?: string | undefined;
+  intentState?: IntentState | undefined;
+  dialogActionType?: string | undefined;
+  botResponseAudioVoiceId?: string | undefined;
+  slotsFilledInSession?: string | undefined;
+  utteranceRequestId?: string | undefined;
+  botResponses?: UtteranceBotResponse[] | undefined;
 }
 export type UtteranceSpecifications = UtteranceSpecification[];
 export interface ListUtteranceAnalyticsDataResponse {
-  botId?: string;
-  nextToken?: string;
-  utterances?: UtteranceSpecification[];
+  botId?: string | undefined;
+  nextToken?: string | undefined;
+  utterances?: UtteranceSpecification[] | undefined;
 }
 export type AnalyticsUtteranceMetricName =
   | "Count"
@@ -3186,7 +3193,7 @@ export type AnalyticsUtteranceMetricName =
 export interface AnalyticsUtteranceMetric {
   name: AnalyticsUtteranceMetricName;
   statistic: AnalyticsMetricStatistic;
-  order?: AnalyticsSortOrder;
+  order?: AnalyticsSortOrder | undefined;
 }
 export type AnalyticsUtteranceMetrics = AnalyticsUtteranceMetric[];
 export type AnalyticsUtteranceField = "UtteranceText" | "UtteranceState" | (string & {});
@@ -3204,39 +3211,39 @@ export interface ListUtteranceMetricsRequest {
   startDateTime: Date;
   endDateTime: Date;
   metrics: AnalyticsUtteranceMetric[];
-  binBy?: AnalyticsBinBySpecification[];
-  groupBy?: AnalyticsUtteranceGroupBySpecification[];
-  attributes?: AnalyticsUtteranceAttribute[];
-  filters?: AnalyticsUtteranceFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  binBy?: AnalyticsBinBySpecification[] | undefined;
+  groupBy?: AnalyticsUtteranceGroupBySpecification[] | undefined;
+  attributes?: AnalyticsUtteranceAttribute[] | undefined;
+  filters?: AnalyticsUtteranceFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnalyticsUtteranceGroupByKey {
-  name?: AnalyticsUtteranceField;
-  value?: string;
+  name?: AnalyticsUtteranceField | undefined;
+  value?: string | undefined;
 }
 export type AnalyticsUtteranceGroupByKeys = AnalyticsUtteranceGroupByKey[];
 export interface AnalyticsUtteranceMetricResult {
-  name?: AnalyticsUtteranceMetricName;
-  statistic?: AnalyticsMetricStatistic;
-  value?: number;
+  name?: AnalyticsUtteranceMetricName | undefined;
+  statistic?: AnalyticsMetricStatistic | undefined;
+  value?: number | undefined;
 }
 export type AnalyticsUtteranceMetricResults = AnalyticsUtteranceMetricResult[];
 export interface AnalyticsUtteranceAttributeResult {
-  lastUsedIntent?: string;
+  lastUsedIntent?: string | undefined;
 }
 export type AnalyticsUtteranceAttributeResults = AnalyticsUtteranceAttributeResult[];
 export interface AnalyticsUtteranceResult {
-  binKeys?: AnalyticsBinKey[];
-  groupByKeys?: AnalyticsUtteranceGroupByKey[];
-  metricsResults?: AnalyticsUtteranceMetricResult[];
-  attributeResults?: AnalyticsUtteranceAttributeResult[];
+  binKeys?: AnalyticsBinKey[] | undefined;
+  groupByKeys?: AnalyticsUtteranceGroupByKey[] | undefined;
+  metricsResults?: AnalyticsUtteranceMetricResult[] | undefined;
+  attributeResults?: AnalyticsUtteranceAttributeResult[] | undefined;
 }
 export type AnalyticsUtteranceResults = AnalyticsUtteranceResult[];
 export interface ListUtteranceMetricsResponse {
-  botId?: string;
-  results?: AnalyticsUtteranceResult[];
-  nextToken?: string;
+  botId?: string | undefined;
+  results?: AnalyticsUtteranceResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SearchOrder = "Ascending" | "Descending" | (string & {});
 export type AssociatedTranscriptFilterName = "IntentId" | "SlotTypeId" | (string & {});
@@ -3251,56 +3258,56 @@ export interface SearchAssociatedTranscriptsRequest {
   botVersion: string;
   localeId: string;
   botRecommendationId: string;
-  searchOrder?: SearchOrder;
+  searchOrder?: SearchOrder | undefined;
   filters: AssociatedTranscriptFilter[];
-  maxResults?: number;
-  nextIndex?: number;
+  maxResults?: number | undefined;
+  nextIndex?: number | undefined;
 }
 export type Transcript = string;
 export interface AssociatedTranscript {
-  transcript?: string;
+  transcript?: string | undefined;
 }
 export type AssociatedTranscriptList = AssociatedTranscript[];
 export interface SearchAssociatedTranscriptsResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationId?: string;
-  nextIndex?: number;
-  associatedTranscripts?: AssociatedTranscript[];
-  totalResults?: number;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationId?: string | undefined;
+  nextIndex?: number | undefined;
+  associatedTranscripts?: AssociatedTranscript[] | undefined;
+  totalResults?: number | undefined;
 }
 export type AnalysisScope = "BotLocale" | (string & {});
 export interface StartBotAnalyzerRequest {
   botId: string;
   analysisScope: AnalysisScope;
-  localeId?: string;
-  botVersion?: string;
+  localeId?: string | undefined;
+  botVersion?: string | undefined;
 }
 export interface StartBotAnalyzerResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botAnalyzerStatus?: BotAnalyzerStatus;
-  botAnalyzerRequestId?: string;
-  creationDateTime?: Date;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botAnalyzerStatus?: BotAnalyzerStatus | undefined;
+  botAnalyzerRequestId?: string | undefined;
+  creationDateTime?: Date | undefined;
 }
 export interface StartBotRecommendationRequest {
   botId: string;
   botVersion: string;
   localeId: string;
   transcriptSourceSetting: TranscriptSourceSetting;
-  encryptionSetting?: EncryptionSetting;
+  encryptionSetting?: EncryptionSetting | undefined;
 }
 export interface StartBotRecommendationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationStatus?: BotRecommendationStatus;
-  botRecommendationId?: string;
-  creationDateTime?: Date;
-  transcriptSourceSetting?: TranscriptSourceSetting;
-  encryptionSetting?: EncryptionSetting;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationStatus?: BotRecommendationStatus | undefined;
+  botRecommendationId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  transcriptSourceSetting?: TranscriptSourceSetting | undefined;
+  encryptionSetting?: EncryptionSetting | undefined;
 }
 export interface StartBotResourceGenerationRequest {
   generationInputPrompt: string;
@@ -3309,70 +3316,70 @@ export interface StartBotResourceGenerationRequest {
   localeId: string;
 }
 export interface StartBotResourceGenerationResponse {
-  generationInputPrompt?: string;
-  generationId?: string;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  generationStatus?: GenerationStatus;
-  creationDateTime?: Date;
+  generationInputPrompt?: string | undefined;
+  generationId?: string | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  generationStatus?: GenerationStatus | undefined;
+  creationDateTime?: Date | undefined;
 }
 export interface StartImportRequest {
   importId: string;
   resourceSpecification: ImportResourceSpecification;
   mergeStrategy: MergeStrategy;
-  filePassword?: string | redacted.Redacted<string>;
+  filePassword?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartImportResponse {
-  importId?: string;
-  resourceSpecification?: ImportResourceSpecification;
-  mergeStrategy?: MergeStrategy;
-  importStatus?: ImportStatus;
-  creationDateTime?: Date;
+  importId?: string | undefined;
+  resourceSpecification?: ImportResourceSpecification | undefined;
+  mergeStrategy?: MergeStrategy | undefined;
+  importStatus?: ImportStatus | undefined;
+  creationDateTime?: Date | undefined;
 }
 export interface StartTestExecutionRequest {
   testSetId: string;
   target: TestExecutionTarget;
   apiMode: TestExecutionApiMode;
-  testExecutionModality?: TestExecutionModality;
+  testExecutionModality?: TestExecutionModality | undefined;
 }
 export interface StartTestExecutionResponse {
-  testExecutionId?: string;
-  creationDateTime?: Date;
-  testSetId?: string;
-  target?: TestExecutionTarget;
-  apiMode?: TestExecutionApiMode;
-  testExecutionModality?: TestExecutionModality;
+  testExecutionId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  testSetId?: string | undefined;
+  target?: TestExecutionTarget | undefined;
+  apiMode?: TestExecutionApiMode | undefined;
+  testExecutionModality?: TestExecutionModality | undefined;
 }
 export interface StartTestSetGenerationRequest {
   testSetName: string;
-  description?: string;
+  description?: string | undefined;
   storageLocation: TestSetStorageLocation;
   generationDataSource: TestSetGenerationDataSource;
   roleArn: string;
-  testSetTags?: { [key: string]: string | undefined };
+  testSetTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartTestSetGenerationResponse {
-  testSetGenerationId?: string;
-  creationDateTime?: Date;
-  testSetGenerationStatus?: TestSetGenerationStatus;
-  testSetName?: string;
-  description?: string;
-  storageLocation?: TestSetStorageLocation;
-  generationDataSource?: TestSetGenerationDataSource;
-  roleArn?: string;
-  testSetTags?: { [key: string]: string | undefined };
+  testSetGenerationId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  testSetGenerationStatus?: TestSetGenerationStatus | undefined;
+  testSetName?: string | undefined;
+  description?: string | undefined;
+  storageLocation?: TestSetStorageLocation | undefined;
+  generationDataSource?: TestSetGenerationDataSource | undefined;
+  roleArn?: string | undefined;
+  testSetTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StopBotAnalyzerRequest {
   botId: string;
   botAnalyzerRequestId: string;
 }
 export interface StopBotAnalyzerResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botAnalyzerStatus?: BotAnalyzerStatus;
-  botAnalyzerRequestId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botAnalyzerStatus?: BotAnalyzerStatus | undefined;
+  botAnalyzerRequestId?: string | undefined;
 }
 export interface StopBotRecommendationRequest {
   botId: string;
@@ -3381,11 +3388,11 @@ export interface StopBotRecommendationRequest {
   botRecommendationId: string;
 }
 export interface StopBotRecommendationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationStatus?: BotRecommendationStatus;
-  botRecommendationId?: string;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationStatus?: BotRecommendationStatus | undefined;
+  botRecommendationId?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;
@@ -3401,84 +3408,84 @@ export interface UntagResourceResponse {}
 export interface UpdateBotRequest {
   botId: string;
   botName: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   dataPrivacy: DataPrivacy;
   idleSessionTTLInSeconds: number;
-  botType?: BotType;
-  botMembers?: BotMember[];
-  errorLogSettings?: ErrorLogSettings;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
+  errorLogSettings?: ErrorLogSettings | undefined;
 }
 export interface UpdateBotResponse {
-  botId?: string;
-  botName?: string;
-  description?: string;
-  roleArn?: string;
-  dataPrivacy?: DataPrivacy;
-  idleSessionTTLInSeconds?: number;
-  botStatus?: BotStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  botType?: BotType;
-  botMembers?: BotMember[];
-  errorLogSettings?: ErrorLogSettings;
+  botId?: string | undefined;
+  botName?: string | undefined;
+  description?: string | undefined;
+  roleArn?: string | undefined;
+  dataPrivacy?: DataPrivacy | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  botStatus?: BotStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  botType?: BotType | undefined;
+  botMembers?: BotMember[] | undefined;
+  errorLogSettings?: ErrorLogSettings | undefined;
 }
 export interface UpdateBotAliasRequest {
   botAliasId: string;
   botAliasName: string;
-  description?: string;
-  botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined };
-  conversationLogSettings?: ConversationLogSettings;
-  sentimentAnalysisSettings?: SentimentAnalysisSettings;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined } | undefined;
+  conversationLogSettings?: ConversationLogSettings | undefined;
+  sentimentAnalysisSettings?: SentimentAnalysisSettings | undefined;
   botId: string;
 }
 export interface UpdateBotAliasResponse {
-  botAliasId?: string;
-  botAliasName?: string;
-  description?: string;
-  botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined };
-  conversationLogSettings?: ConversationLogSettings;
-  sentimentAnalysisSettings?: SentimentAnalysisSettings;
-  botAliasStatus?: BotAliasStatus;
-  botId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  botAliasId?: string | undefined;
+  botAliasName?: string | undefined;
+  description?: string | undefined;
+  botVersion?: string | undefined;
+  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings | undefined } | undefined;
+  conversationLogSettings?: ConversationLogSettings | undefined;
+  sentimentAnalysisSettings?: SentimentAnalysisSettings | undefined;
+  botAliasStatus?: BotAliasStatus | undefined;
+  botId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface UpdateBotLocaleRequest {
   botId: string;
   botVersion: string;
   localeId: string;
-  description?: string;
+  description?: string | undefined;
   nluIntentConfidenceThreshold: number;
-  voiceSettings?: VoiceSettings;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  generativeAISettings?: GenerativeAISettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  voiceSettings?: VoiceSettings | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  generativeAISettings?: GenerativeAISettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export interface UpdateBotLocaleResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  localeName?: string;
-  description?: string;
-  nluIntentConfidenceThreshold?: number;
-  voiceSettings?: VoiceSettings;
-  unifiedSpeechSettings?: UnifiedSpeechSettings;
-  audioFillerSettings?: AudioFillerSettings;
-  speechRecognitionSettings?: SpeechRecognitionSettings;
-  botLocaleStatus?: BotLocaleStatus;
-  failureReasons?: string[];
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  recommendedActions?: string[];
-  generativeAISettings?: GenerativeAISettings;
-  speechDetectionSensitivity?: SpeechDetectionSensitivity;
-  speakerDiarizationSettings?: SpeakerDiarizationSettings;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  localeName?: string | undefined;
+  description?: string | undefined;
+  nluIntentConfidenceThreshold?: number | undefined;
+  voiceSettings?: VoiceSettings | undefined;
+  unifiedSpeechSettings?: UnifiedSpeechSettings | undefined;
+  audioFillerSettings?: AudioFillerSettings | undefined;
+  speechRecognitionSettings?: SpeechRecognitionSettings | undefined;
+  botLocaleStatus?: BotLocaleStatus | undefined;
+  failureReasons?: string[] | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  recommendedActions?: string[] | undefined;
+  generativeAISettings?: GenerativeAISettings | undefined;
+  speechDetectionSensitivity?: SpeechDetectionSensitivity | undefined;
+  speakerDiarizationSettings?: SpeakerDiarizationSettings | undefined;
 }
 export interface UpdateBotRecommendationRequest {
   botId: string;
@@ -3488,157 +3495,157 @@ export interface UpdateBotRecommendationRequest {
   encryptionSetting: EncryptionSetting;
 }
 export interface UpdateBotRecommendationResponse {
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  botRecommendationStatus?: BotRecommendationStatus;
-  botRecommendationId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  transcriptSourceSetting?: TranscriptSourceSetting;
-  encryptionSetting?: EncryptionSetting;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  botRecommendationStatus?: BotRecommendationStatus | undefined;
+  botRecommendationId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  transcriptSourceSetting?: TranscriptSourceSetting | undefined;
+  encryptionSetting?: EncryptionSetting | undefined;
 }
 export interface UpdateExportRequest {
   exportId: string;
-  filePassword?: string | redacted.Redacted<string>;
+  filePassword?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateExportResponse {
-  exportId?: string;
-  resourceSpecification?: ExportResourceSpecification;
-  fileFormat?: ImportExportFileFormat;
-  exportStatus?: ExportStatus;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  exportId?: string | undefined;
+  resourceSpecification?: ExportResourceSpecification | undefined;
+  fileFormat?: ImportExportFileFormat | undefined;
+  exportStatus?: ExportStatus | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export interface UpdateIntentRequest {
   intentId: string;
   intentName: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  sampleUtterances?: SampleUtterance[];
-  dialogCodeHook?: DialogCodeHookSettings;
-  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
-  slotPriorities?: SlotPriority[];
-  intentConfirmationSetting?: IntentConfirmationSetting;
-  intentClosingSetting?: IntentClosingSetting;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  kendraConfiguration?: KendraConfiguration;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  dialogCodeHook?: DialogCodeHookSettings | undefined;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings | undefined;
+  slotPriorities?: SlotPriority[] | undefined;
+  intentConfirmationSetting?: IntentConfirmationSetting | undefined;
+  intentClosingSetting?: IntentClosingSetting | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  kendraConfiguration?: KendraConfiguration | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
-  initialResponseSetting?: InitialResponseSetting;
-  qnAIntentConfiguration?: QnAIntentConfiguration;
-  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  initialResponseSetting?: InitialResponseSetting | undefined;
+  qnAIntentConfiguration?: QnAIntentConfiguration | undefined;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration | undefined;
 }
 export interface UpdateIntentResponse {
-  intentId?: string;
-  intentName?: string;
-  intentDisplayName?: string;
-  description?: string;
-  parentIntentSignature?: string;
-  sampleUtterances?: SampleUtterance[];
-  dialogCodeHook?: DialogCodeHookSettings;
-  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
-  slotPriorities?: SlotPriority[];
-  intentConfirmationSetting?: IntentConfirmationSetting;
-  intentClosingSetting?: IntentClosingSetting;
-  inputContexts?: InputContext[];
-  outputContexts?: OutputContext[];
-  kendraConfiguration?: KendraConfiguration;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  initialResponseSetting?: InitialResponseSetting;
-  qnAIntentConfiguration?: QnAIntentConfiguration;
-  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  intentId?: string | undefined;
+  intentName?: string | undefined;
+  intentDisplayName?: string | undefined;
+  description?: string | undefined;
+  parentIntentSignature?: string | undefined;
+  sampleUtterances?: SampleUtterance[] | undefined;
+  dialogCodeHook?: DialogCodeHookSettings | undefined;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings | undefined;
+  slotPriorities?: SlotPriority[] | undefined;
+  intentConfirmationSetting?: IntentConfirmationSetting | undefined;
+  intentClosingSetting?: IntentClosingSetting | undefined;
+  inputContexts?: InputContext[] | undefined;
+  outputContexts?: OutputContext[] | undefined;
+  kendraConfiguration?: KendraConfiguration | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  initialResponseSetting?: InitialResponseSetting | undefined;
+  qnAIntentConfiguration?: QnAIntentConfiguration | undefined;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration | undefined;
 }
 export interface UpdateResourcePolicyRequest {
   resourceArn: string;
   policy: string;
-  expectedRevisionId?: string;
+  expectedRevisionId?: string | undefined;
 }
 export interface UpdateResourcePolicyResponse {
-  resourceArn?: string;
-  revisionId?: string;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface UpdateSlotRequest {
   slotId: string;
   slotName: string;
-  description?: string;
-  slotTypeId?: string;
+  description?: string | undefined;
+  slotTypeId?: string | undefined;
   valueElicitationSetting: SlotValueElicitationSetting;
-  obfuscationSetting?: ObfuscationSetting;
+  obfuscationSetting?: ObfuscationSetting | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
   intentId: string;
-  multipleValuesSetting?: MultipleValuesSetting;
-  subSlotSetting?: SubSlotSetting;
+  multipleValuesSetting?: MultipleValuesSetting | undefined;
+  subSlotSetting?: SubSlotSetting | undefined;
 }
 export interface UpdateSlotResponse {
-  slotId?: string;
-  slotName?: string;
-  description?: string;
-  slotTypeId?: string;
-  valueElicitationSetting?: SlotValueElicitationSetting;
-  obfuscationSetting?: ObfuscationSetting;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  intentId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  multipleValuesSetting?: MultipleValuesSetting;
-  subSlotSetting?: SubSlotSetting;
+  slotId?: string | undefined;
+  slotName?: string | undefined;
+  description?: string | undefined;
+  slotTypeId?: string | undefined;
+  valueElicitationSetting?: SlotValueElicitationSetting | undefined;
+  obfuscationSetting?: ObfuscationSetting | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  intentId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  multipleValuesSetting?: MultipleValuesSetting | undefined;
+  subSlotSetting?: SubSlotSetting | undefined;
 }
 export interface UpdateSlotTypeRequest {
   slotTypeId: string;
   slotTypeName: string;
-  description?: string;
-  slotTypeValues?: SlotTypeValue[];
-  valueSelectionSetting?: SlotValueSelectionSetting;
-  parentSlotTypeSignature?: string;
+  description?: string | undefined;
+  slotTypeValues?: SlotTypeValue[] | undefined;
+  valueSelectionSetting?: SlotValueSelectionSetting | undefined;
+  parentSlotTypeSignature?: string | undefined;
   botId: string;
   botVersion: string;
   localeId: string;
-  externalSourceSetting?: ExternalSourceSetting;
-  compositeSlotTypeSetting?: CompositeSlotTypeSetting;
+  externalSourceSetting?: ExternalSourceSetting | undefined;
+  compositeSlotTypeSetting?: CompositeSlotTypeSetting | undefined;
 }
 export interface UpdateSlotTypeResponse {
-  slotTypeId?: string;
-  slotTypeName?: string;
-  description?: string;
-  slotTypeValues?: SlotTypeValue[];
-  valueSelectionSetting?: SlotValueSelectionSetting;
-  parentSlotTypeSignature?: string;
-  botId?: string;
-  botVersion?: string;
-  localeId?: string;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
-  externalSourceSetting?: ExternalSourceSetting;
-  compositeSlotTypeSetting?: CompositeSlotTypeSetting;
+  slotTypeId?: string | undefined;
+  slotTypeName?: string | undefined;
+  description?: string | undefined;
+  slotTypeValues?: SlotTypeValue[] | undefined;
+  valueSelectionSetting?: SlotValueSelectionSetting | undefined;
+  parentSlotTypeSignature?: string | undefined;
+  botId?: string | undefined;
+  botVersion?: string | undefined;
+  localeId?: string | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
+  externalSourceSetting?: ExternalSourceSetting | undefined;
+  compositeSlotTypeSetting?: CompositeSlotTypeSetting | undefined;
 }
 export interface UpdateTestSetRequest {
   testSetId: string;
   testSetName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateTestSetResponse {
-  testSetId?: string;
-  testSetName?: string;
-  description?: string;
-  modality?: TestSetModality;
-  status?: TestSetStatus;
-  roleArn?: string;
-  numTurns?: number;
-  storageLocation?: TestSetStorageLocation;
-  creationDateTime?: Date;
-  lastUpdatedDateTime?: Date;
+  testSetId?: string | undefined;
+  testSetName?: string | undefined;
+  description?: string | undefined;
+  modality?: TestSetModality | undefined;
+  status?: TestSetStatus | undefined;
+  roleArn?: string | undefined;
+  numTurns?: number | undefined;
+  storageLocation?: TestSetStorageLocation | undefined;
+  creationDateTime?: Date | undefined;
+  lastUpdatedDateTime?: Date | undefined;
 }
 export type ExceptionMessage = string;
 export type RetryAfterSeconds = number;
@@ -3654,7 +3661,7 @@ export type BatchCreateCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchCreateCustomVocabularyItem: API.OperationMethod<
-  BatchCreateCustomVocabularyItemRequest,
+  BatchCreateCustomVocabularyItemRequest & RegionInput,
   BatchCreateCustomVocabularyItemResponse,
   BatchCreateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3694,7 @@ export type BatchDeleteCustomVocabularyItemError =
  * custom vocabulary.
  */
 export const batchDeleteCustomVocabularyItem: API.OperationMethod<
-  BatchDeleteCustomVocabularyItemRequest,
+  BatchDeleteCustomVocabularyItemRequest & RegionInput,
   BatchDeleteCustomVocabularyItemResponse,
   BatchDeleteCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3720,7 +3727,7 @@ export type BatchUpdateCustomVocabularyItemError =
  * vocabulary.
  */
 export const batchUpdateCustomVocabularyItem: API.OperationMethod<
-  BatchUpdateCustomVocabularyItemRequest,
+  BatchUpdateCustomVocabularyItemRequest & RegionInput,
   BatchUpdateCustomVocabularyItemResponse,
   BatchUpdateCustomVocabularyItemError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3762,7 @@ export type BuildBotLocaleError =
  * is used to choose a specific build of the bot.
  */
 export const buildBotLocale: API.OperationMethod<
-  BuildBotLocaleRequest,
+  BuildBotLocaleRequest & RegionInput,
   BuildBotLocaleResponse,
   BuildBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3789,7 +3796,7 @@ export type CreateBotError =
  * Creates an Amazon Lex conversational bot.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -3828,7 +3835,7 @@ export type CreateBotAliasError =
  * applications use to call the Amazon Lex bot.
  */
 export const createBotAlias: API.OperationMethod<
-  CreateBotAliasRequest,
+  CreateBotAliasRequest & RegionInput,
   CreateBotAliasResponse,
   CreateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -3865,7 +3872,7 @@ export type CreateBotLocaleError =
  * you can add intents and slot types to the bot.
  */
 export const createBotLocale: API.OperationMethod<
-  CreateBotLocaleRequest,
+  CreateBotLocaleRequest & RegionInput,
   CreateBotLocaleResponse,
   CreateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -3899,7 +3906,7 @@ export type CreateBotReplicaError =
  * Action to create a replication of the source bot in the secondary region.
  */
 export const createBotReplica: API.OperationMethod<
-  CreateBotReplicaRequest,
+  CreateBotReplicaRequest & RegionInput,
   CreateBotReplicaResponse,
   CreateBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -3937,7 +3944,7 @@ export type CreateBotVersionError =
  * is deleted, that bot version number will not be reused.
  */
 export const createBotVersion: API.OperationMethod<
-  CreateBotVersionRequest,
+  CreateBotVersionRequest & RegionInput,
   CreateBotVersionResponse,
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -3981,7 +3988,7 @@ export type CreateExportError =
  * exporting bots
  */
 export const createExport: API.OperationMethod<
-  CreateExportRequest,
+  CreateExportRequest & RegionInput,
   CreateExportResponse,
   CreateExportError,
   Credentials | HttpClient.HttpClient
@@ -4046,7 +4053,7 @@ export type CreateIntentError =
  * For example, "Do you want a drink with your pizza?"
  */
 export const createIntent: API.OperationMethod<
-  CreateIntentRequest,
+  CreateIntentRequest & RegionInput,
   CreateIntentResponse,
   CreateIntentError,
   Credentials | HttpClient.HttpClient
@@ -4081,7 +4088,7 @@ export type CreateResourcePolicyError =
  * statements.
  */
 export const createResourcePolicy: API.OperationMethod<
-  CreateResourcePolicyRequest,
+  CreateResourcePolicyRequest & RegionInput,
   CreateResourcePolicyResponse,
   CreateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4124,7 +4131,7 @@ export type CreateResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const createResourcePolicyStatement: API.OperationMethod<
-  CreateResourcePolicyStatementRequest,
+  CreateResourcePolicyStatementRequest & RegionInput,
   CreateResourcePolicyStatementResponse,
   CreateResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4163,7 +4170,7 @@ export type CreateSlotError =
  * user.
  */
 export const createSlot: API.OperationMethod<
-  CreateSlotRequest,
+  CreateSlotRequest & RegionInput,
   CreateSlotResponse,
   CreateSlotError,
   Credentials | HttpClient.HttpClient
@@ -4201,7 +4208,7 @@ export type CreateSlotTypeError =
  * assume.
  */
 export const createSlotType: API.OperationMethod<
-  CreateSlotTypeRequest,
+  CreateSlotTypeRequest & RegionInput,
   CreateSlotTypeResponse,
   CreateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4235,7 +4242,7 @@ export type CreateTestSetDiscrepancyReportError =
  * Create a report that describes the differences between the bot and the test set.
  */
 export const createTestSetDiscrepancyReport: API.OperationMethod<
-  CreateTestSetDiscrepancyReportRequest,
+  CreateTestSetDiscrepancyReportRequest & RegionInput,
   CreateTestSetDiscrepancyReportResponse,
   CreateTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -4269,7 +4276,7 @@ export type CreateUploadUrlError =
  * archive when importing a bot or a bot locale.
  */
 export const createUploadUrl: API.OperationMethod<
-  CreateUploadUrlRequest,
+  CreateUploadUrlRequest & RegionInput,
   CreateUploadUrlResponse,
   CreateUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -4313,7 +4320,7 @@ export type DeleteBotError =
  * parameter to `true`.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -4347,7 +4354,7 @@ export type DeleteBotAliasError =
  * Deletes the specified bot alias.
  */
 export const deleteBotAlias: API.OperationMethod<
-  DeleteBotAliasRequest,
+  DeleteBotAliasRequest & RegionInput,
   DeleteBotAliasResponse,
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4388,7 @@ export type DeleteBotAnalyzerRecommendationError =
  * After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a `ResourceNotFoundException`.
  */
 export const deleteBotAnalyzerRecommendation: API.OperationMethod<
-  DeleteBotAnalyzerRecommendationRequest,
+  DeleteBotAnalyzerRecommendationRequest & RegionInput,
   DeleteBotAnalyzerRecommendationResponse,
   DeleteBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4416,7 +4423,7 @@ export type DeleteBotLocaleError =
  * for the locale are also deleted.
  */
 export const deleteBotLocale: API.OperationMethod<
-  DeleteBotLocaleRequest,
+  DeleteBotLocaleRequest & RegionInput,
   DeleteBotLocaleResponse,
   DeleteBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -4450,7 +4457,7 @@ export type DeleteBotReplicaError =
  * The action to delete the replicated bot in the secondary region.
  */
 export const deleteBotReplica: API.OperationMethod<
-  DeleteBotReplicaRequest,
+  DeleteBotReplicaRequest & RegionInput,
   DeleteBotReplicaResponse,
   DeleteBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -4485,7 +4492,7 @@ export type DeleteBotVersionError =
  * use the DeleteBot operation.
  */
 export const deleteBotVersion: API.OperationMethod<
-  DeleteBotVersionRequest,
+  DeleteBotVersionRequest & RegionInput,
   DeleteBotVersionResponse,
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -4520,7 +4527,7 @@ export type DeleteCustomVocabularyError =
  * in the specified bot.
  */
 export const deleteCustomVocabulary: API.OperationMethod<
-  DeleteCustomVocabularyRequest,
+  DeleteCustomVocabularyRequest & RegionInput,
   DeleteCustomVocabularyResponse,
   DeleteCustomVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -4554,7 +4561,7 @@ export type DeleteExportError =
  * bucket.
  */
 export const deleteExport: API.OperationMethod<
-  DeleteExportRequest,
+  DeleteExportRequest & RegionInput,
   DeleteExportResponse,
   DeleteExportError,
   Credentials | HttpClient.HttpClient
@@ -4587,7 +4594,7 @@ export type DeleteImportError =
  * bucket.
  */
 export const deleteImport: API.OperationMethod<
-  DeleteImportRequest,
+  DeleteImportRequest & RegionInput,
   DeleteImportResponse,
   DeleteImportError,
   Credentials | HttpClient.HttpClient
@@ -4623,7 +4630,7 @@ export type DeleteIntentError =
  * intent.
  */
 export const deleteIntent: API.OperationMethod<
-  DeleteIntentRequest,
+  DeleteIntentRequest & RegionInput,
   DeleteIntentResponse,
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
@@ -4656,7 +4663,7 @@ export type DeleteResourcePolicyError =
  * doesn't have a policy attached, Amazon Lex returns an exception.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4693,7 +4700,7 @@ export type DeleteResourcePolicyStatementError =
  * action to the bot role in order to call the API.
  */
 export const deleteResourcePolicyStatement: API.OperationMethod<
-  DeleteResourcePolicyStatementRequest,
+  DeleteResourcePolicyStatementRequest & RegionInput,
   DeleteResourcePolicyStatementResponse,
   DeleteResourcePolicyStatementError,
   Credentials | HttpClient.HttpClient
@@ -4725,7 +4732,7 @@ export type DeleteSlotError =
  * Deletes the specified slot from an intent.
  */
 export const deleteSlot: API.OperationMethod<
-  DeleteSlotRequest,
+  DeleteSlotRequest & RegionInput,
   DeleteSlotResponse,
   DeleteSlotError,
   Credentials | HttpClient.HttpClient
@@ -4764,7 +4771,7 @@ export type DeleteSlotTypeError =
  * `true`.
  */
 export const deleteSlotType: API.OperationMethod<
-  DeleteSlotTypeRequest,
+  DeleteSlotTypeRequest & RegionInput,
   DeleteSlotTypeResponse,
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -4798,7 +4805,7 @@ export type DeleteTestSetError =
  * The action to delete the selected test set.
  */
 export const deleteTestSet: API.OperationMethod<
-  DeleteTestSetRequest,
+  DeleteTestSetRequest & RegionInput,
   DeleteTestSetResponse,
   DeleteTestSetError,
   Credentials | HttpClient.HttpClient
@@ -4842,7 +4849,7 @@ export type DeleteUtterancesError =
  * days.
  */
 export const deleteUtterances: API.OperationMethod<
-  DeleteUtterancesRequest,
+  DeleteUtterancesRequest & RegionInput,
   DeleteUtterancesResponse,
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
@@ -4868,7 +4875,7 @@ export type DescribeBotError =
  * Provides metadata information about a bot.
  */
 export const describeBot: API.OperationMethod<
-  DescribeBotRequest,
+  DescribeBotRequest & RegionInput,
   DescribeBotResponse,
   DescribeBotError,
   Credentials | HttpClient.HttpClient
@@ -4900,7 +4907,7 @@ export type DescribeBotAliasError =
  * Get information about a specific bot alias.
  */
 export const describeBotAlias: API.OperationMethod<
-  DescribeBotAliasRequest,
+  DescribeBotAliasRequest & RegionInput,
   DescribeBotAliasResponse,
   DescribeBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -4933,7 +4940,7 @@ export type DescribeBotAnalyzerRecommendationError =
  * Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
  */
 export const describeBotAnalyzerRecommendation: API.PaginatedOperationMethod<
-  DescribeBotAnalyzerRecommendationRequest,
+  DescribeBotAnalyzerRecommendationRequest & RegionInput,
   DescribeBotAnalyzerRecommendationResponse,
   DescribeBotAnalyzerRecommendationError,
   Credentials | HttpClient.HttpClient,
@@ -4971,7 +4978,7 @@ export type DescribeBotLocaleError =
  * Describes the settings that a bot has for a specific locale.
  */
 export const describeBotLocale: API.OperationMethod<
-  DescribeBotLocaleRequest,
+  DescribeBotLocaleRequest & RegionInput,
   DescribeBotLocaleResponse,
   DescribeBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -5006,7 +5013,7 @@ export type DescribeBotRecommendationError =
  * recommendation.
  */
 export const describeBotRecommendation: API.OperationMethod<
-  DescribeBotRecommendationRequest,
+  DescribeBotRecommendationRequest & RegionInput,
   DescribeBotRecommendationResponse,
   DescribeBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -5037,7 +5044,7 @@ export type DescribeBotReplicaError =
  * Monitors the bot replication status through the UI console.
  */
 export const describeBotReplica: API.OperationMethod<
-  DescribeBotReplicaRequest,
+  DescribeBotReplicaRequest & RegionInput,
   DescribeBotReplicaResponse,
   DescribeBotReplicaError,
   Credentials | HttpClient.HttpClient
@@ -5071,7 +5078,7 @@ export type DescribeBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const describeBotResourceGeneration: API.OperationMethod<
-  DescribeBotResourceGenerationRequest,
+  DescribeBotResourceGenerationRequest & RegionInput,
   DescribeBotResourceGenerationResponse,
   DescribeBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -5102,7 +5109,7 @@ export type DescribeBotVersionError =
  * Provides metadata about a version of a bot.
  */
 export const describeBotVersion: API.OperationMethod<
-  DescribeBotVersionRequest,
+  DescribeBotVersionRequest & RegionInput,
   DescribeBotVersionResponse,
   DescribeBotVersionError,
   Credentials | HttpClient.HttpClient
@@ -5134,7 +5141,7 @@ export type DescribeCustomVocabularyMetadataError =
  * Provides metadata information about a custom vocabulary.
  */
 export const describeCustomVocabularyMetadata: API.OperationMethod<
-  DescribeCustomVocabularyMetadataRequest,
+  DescribeCustomVocabularyMetadataRequest & RegionInput,
   DescribeCustomVocabularyMetadataResponse,
   DescribeCustomVocabularyMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5165,7 +5172,7 @@ export type DescribeExportError =
  * Gets information about a specific export.
  */
 export const describeExport: API.OperationMethod<
-  DescribeExportRequest,
+  DescribeExportRequest & RegionInput,
   DescribeExportResponse,
   DescribeExportError,
   Credentials | HttpClient.HttpClient
@@ -5195,7 +5202,7 @@ export type DescribeImportError =
  * Gets information about a specific import.
  */
 export const describeImport: API.OperationMethod<
-  DescribeImportRequest,
+  DescribeImportRequest & RegionInput,
   DescribeImportResponse,
   DescribeImportError,
   Credentials | HttpClient.HttpClient
@@ -5226,7 +5233,7 @@ export type DescribeIntentError =
  * Returns metadata about an intent.
  */
 export const describeIntent: API.OperationMethod<
-  DescribeIntentRequest,
+  DescribeIntentRequest & RegionInput,
   DescribeIntentResponse,
   DescribeIntentError,
   Credentials | HttpClient.HttpClient
@@ -5257,7 +5264,7 @@ export type DescribeResourcePolicyError =
  * alias.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5283,7 +5290,7 @@ export type DescribeSlotError =
  * Gets metadata information about a slot.
  */
 export const describeSlot: API.OperationMethod<
-  DescribeSlotRequest,
+  DescribeSlotRequest & RegionInput,
   DescribeSlotResponse,
   DescribeSlotError,
   Credentials | HttpClient.HttpClient
@@ -5315,7 +5322,7 @@ export type DescribeSlotTypeError =
  * Gets metadata information about a slot type.
  */
 export const describeSlotType: API.OperationMethod<
-  DescribeSlotTypeRequest,
+  DescribeSlotTypeRequest & RegionInput,
   DescribeSlotTypeResponse,
   DescribeSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -5347,7 +5354,7 @@ export type DescribeTestExecutionError =
  * Gets metadata information about the test execution.
  */
 export const describeTestExecution: API.OperationMethod<
-  DescribeTestExecutionRequest,
+  DescribeTestExecutionRequest & RegionInput,
   DescribeTestExecutionResponse,
   DescribeTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5379,7 +5386,7 @@ export type DescribeTestSetError =
  * Gets metadata information about the test set.
  */
 export const describeTestSet: API.OperationMethod<
-  DescribeTestSetRequest,
+  DescribeTestSetRequest & RegionInput,
   DescribeTestSetResponse,
   DescribeTestSetError,
   Credentials | HttpClient.HttpClient
@@ -5411,7 +5418,7 @@ export type DescribeTestSetDiscrepancyReportError =
  * Gets metadata information about the test set discrepancy report.
  */
 export const describeTestSetDiscrepancyReport: API.OperationMethod<
-  DescribeTestSetDiscrepancyReportRequest,
+  DescribeTestSetDiscrepancyReportRequest & RegionInput,
   DescribeTestSetDiscrepancyReportResponse,
   DescribeTestSetDiscrepancyReportError,
   Credentials | HttpClient.HttpClient
@@ -5443,7 +5450,7 @@ export type DescribeTestSetGenerationError =
  * Gets metadata information about the test set generation.
  */
 export const describeTestSetGeneration: API.OperationMethod<
-  DescribeTestSetGenerationRequest,
+  DescribeTestSetGenerationRequest & RegionInput,
   DescribeTestSetGenerationResponse,
   DescribeTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -5477,7 +5484,7 @@ export type GenerateBotElementError =
  * Generates sample utterances for an intent.
  */
 export const generateBotElement: API.OperationMethod<
-  GenerateBotElementRequest,
+  GenerateBotElementRequest & RegionInput,
   GenerateBotElementResponse,
   GenerateBotElementError,
   Credentials | HttpClient.HttpClient
@@ -5511,7 +5518,7 @@ export type GetTestExecutionArtifactsUrlError =
  * The pre-signed Amazon S3 URL to download the test execution result artifacts.
  */
 export const getTestExecutionArtifactsUrl: API.OperationMethod<
-  GetTestExecutionArtifactsUrlRequest,
+  GetTestExecutionArtifactsUrlRequest & RegionInput,
   GetTestExecutionArtifactsUrlResponse,
   GetTestExecutionArtifactsUrlError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5572,7 @@ export type ListAggregatedUtterancesError =
  * - You opted out of participating in improving Amazon Lex.
  */
 export const listAggregatedUtterances: API.PaginatedOperationMethod<
-  ListAggregatedUtterancesRequest,
+  ListAggregatedUtterancesRequest & RegionInput,
   ListAggregatedUtterancesResponse,
   ListAggregatedUtterancesError,
   Credentials | HttpClient.HttpClient,
@@ -5602,7 +5609,7 @@ export type ListBotAliasesError =
  * Gets a list of aliases for the specified bot.
  */
 export const listBotAliases: API.PaginatedOperationMethod<
-  ListBotAliasesRequest,
+  ListBotAliasesRequest & RegionInput,
   ListBotAliasesResponse,
   ListBotAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -5639,7 +5646,7 @@ export type ListBotAliasReplicasError =
  * The action to list the replicated bots created from the source bot alias.
  */
 export const listBotAliasReplicas: API.PaginatedOperationMethod<
-  ListBotAliasReplicasRequest,
+  ListBotAliasReplicasRequest & RegionInput,
   ListBotAliasReplicasResponse,
   ListBotAliasReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5677,7 +5684,7 @@ export type ListBotAnalyzerHistoryError =
  * The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
  */
 export const listBotAnalyzerHistory: API.PaginatedOperationMethod<
-  ListBotAnalyzerHistoryRequest,
+  ListBotAnalyzerHistoryRequest & RegionInput,
   ListBotAnalyzerHistoryResponse,
   ListBotAnalyzerHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -5714,7 +5721,7 @@ export type ListBotLocalesError =
  * Gets a list of locales for the specified bot.
  */
 export const listBotLocales: API.PaginatedOperationMethod<
-  ListBotLocalesRequest,
+  ListBotLocalesRequest & RegionInput,
   ListBotLocalesResponse,
   ListBotLocalesError,
   Credentials | HttpClient.HttpClient,
@@ -5751,7 +5758,7 @@ export type ListBotRecommendationsError =
  * criteria.
  */
 export const listBotRecommendations: API.PaginatedOperationMethod<
-  ListBotRecommendationsRequest,
+  ListBotRecommendationsRequest & RegionInput,
   ListBotRecommendationsResponse,
   ListBotRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -5787,7 +5794,7 @@ export type ListBotReplicasError =
  * The action to list the replicated bots.
  */
 export const listBotReplicas: API.OperationMethod<
-  ListBotReplicasRequest,
+  ListBotReplicasRequest & RegionInput,
   ListBotReplicasResponse,
   ListBotReplicasError,
   Credentials | HttpClient.HttpClient
@@ -5817,7 +5824,7 @@ export type ListBotResourceGenerationsError =
  * Lists the generation requests made for a bot locale.
  */
 export const listBotResourceGenerations: API.PaginatedOperationMethod<
-  ListBotResourceGenerationsRequest,
+  ListBotResourceGenerationsRequest & RegionInput,
   ListBotResourceGenerationsResponse,
   ListBotResourceGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -5853,7 +5860,7 @@ export type ListBotsError =
  * Gets a list of available bots.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -5889,7 +5896,7 @@ export type ListBotVersionReplicasError =
  * Contains information about all the versions replication statuses applicable for Global Resiliency.
  */
 export const listBotVersionReplicas: API.PaginatedOperationMethod<
-  ListBotVersionReplicasRequest,
+  ListBotVersionReplicasRequest & RegionInput,
   ListBotVersionReplicasResponse,
   ListBotVersionReplicasError,
   Credentials | HttpClient.HttpClient,
@@ -5934,7 +5941,7 @@ export type ListBotVersionsError =
  * one version, the `DRAFT` version.
  */
 export const listBotVersions: API.PaginatedOperationMethod<
-  ListBotVersionsRequest,
+  ListBotVersionsRequest & RegionInput,
   ListBotVersionsResponse,
   ListBotVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5976,7 +5983,7 @@ export type ListBuiltInIntentsError =
  * more information, see CreateIntent.
  */
 export const listBuiltInIntents: API.PaginatedOperationMethod<
-  ListBuiltInIntentsRequest,
+  ListBuiltInIntentsRequest & RegionInput,
   ListBuiltInIntentsResponse,
   ListBuiltInIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6013,7 +6020,7 @@ export type ListBuiltInSlotTypesError =
  * criteria.
  */
 export const listBuiltInSlotTypes: API.PaginatedOperationMethod<
-  ListBuiltInSlotTypesRequest,
+  ListBuiltInSlotTypesRequest & RegionInput,
   ListBuiltInSlotTypesResponse,
   ListBuiltInSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -6051,7 +6058,7 @@ export type ListCustomVocabularyItemsError =
  * custom vocabulary.
  */
 export const listCustomVocabularyItems: API.PaginatedOperationMethod<
-  ListCustomVocabularyItemsRequest,
+  ListCustomVocabularyItemsRequest & RegionInput,
   ListCustomVocabularyItemsResponse,
   ListCustomVocabularyItemsError,
   Credentials | HttpClient.HttpClient,
@@ -6088,7 +6095,7 @@ export type ListExportsError =
  * Exports are kept in the list for 7 days.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -6119,7 +6126,7 @@ export type ListImportsError =
  * Imports are kept in the list for 7 days.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -6163,7 +6170,7 @@ export type ListIntentMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can specify only one `order` in a given request.
  */
 export const listIntentMetrics: API.PaginatedOperationMethod<
-  ListIntentMetricsRequest,
+  ListIntentMetricsRequest & RegionInput,
   ListIntentMetricsResponse,
   ListIntentMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6207,7 +6214,7 @@ export type ListIntentPathsError =
  * Use the optional `filters` field to filter the results.
  */
 export const listIntentPaths: API.OperationMethod<
-  ListIntentPathsRequest,
+  ListIntentPathsRequest & RegionInput,
   ListIntentPathsResponse,
   ListIntentPathsError,
   Credentials | HttpClient.HttpClient
@@ -6239,7 +6246,7 @@ export type ListIntentsError =
  * Get a list of intents that meet the specified criteria.
  */
 export const listIntents: API.PaginatedOperationMethod<
-  ListIntentsRequest,
+  ListIntentsRequest & RegionInput,
   ListIntentsResponse,
   ListIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6289,7 +6296,7 @@ export type ListIntentStageMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. You can only specify one `order` in a given request.
  */
 export const listIntentStageMetrics: API.PaginatedOperationMethod<
-  ListIntentStageMetricsRequest,
+  ListIntentStageMetricsRequest & RegionInput,
   ListIntentStageMetricsResponse,
   ListIntentStageMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6329,7 +6336,7 @@ export type ListRecommendedIntentsError =
  * response are ordered by relevance.
  */
 export const listRecommendedIntents: API.PaginatedOperationMethod<
-  ListRecommendedIntentsRequest,
+  ListRecommendedIntentsRequest & RegionInput,
   ListRecommendedIntentsResponse,
   ListRecommendedIntentsError,
   Credentials | HttpClient.HttpClient,
@@ -6371,7 +6378,7 @@ export type ListSessionAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listSessionAnalyticsData: API.PaginatedOperationMethod<
-  ListSessionAnalyticsDataRequest,
+  ListSessionAnalyticsDataRequest & RegionInput,
   ListSessionAnalyticsDataResponse,
   ListSessionAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6421,7 +6428,7 @@ export type ListSessionMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listSessionMetrics: API.PaginatedOperationMethod<
-  ListSessionMetricsRequest,
+  ListSessionMetricsRequest & RegionInput,
   ListSessionMetricsResponse,
   ListSessionMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6458,7 +6465,7 @@ export type ListSlotsError =
  * Gets a list of slots that match the specified criteria.
  */
 export const listSlots: API.PaginatedOperationMethod<
-  ListSlotsRequest,
+  ListSlotsRequest & RegionInput,
   ListSlotsResponse,
   ListSlotsError,
   Credentials | HttpClient.HttpClient,
@@ -6495,7 +6502,7 @@ export type ListSlotTypesError =
  * Gets a list of slot types that match the specified criteria.
  */
 export const listSlotTypes: API.PaginatedOperationMethod<
-  ListSlotTypesRequest,
+  ListSlotTypesRequest & RegionInput,
   ListSlotTypesResponse,
   ListSlotTypesError,
   Credentials | HttpClient.HttpClient,
@@ -6533,7 +6540,7 @@ export type ListTagsForResourceError =
  * aliases, and bot channels can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6564,7 +6571,7 @@ export type ListTestExecutionResultItemsError =
  * Gets a list of test execution result items.
  */
 export const listTestExecutionResultItems: API.PaginatedOperationMethod<
-  ListTestExecutionResultItemsRequest,
+  ListTestExecutionResultItemsRequest & RegionInput,
   ListTestExecutionResultItemsResponse,
   ListTestExecutionResultItemsError,
   Credentials | HttpClient.HttpClient,
@@ -6601,7 +6608,7 @@ export type ListTestExecutionsError =
  * The list of test set executions.
  */
 export const listTestExecutions: API.PaginatedOperationMethod<
-  ListTestExecutionsRequest,
+  ListTestExecutionsRequest & RegionInput,
   ListTestExecutionsResponse,
   ListTestExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -6638,7 +6645,7 @@ export type ListTestSetRecordsError =
  * The list of test set records.
  */
 export const listTestSetRecords: API.PaginatedOperationMethod<
-  ListTestSetRecordsRequest,
+  ListTestSetRecordsRequest & RegionInput,
   ListTestSetRecordsResponse,
   ListTestSetRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -6675,7 +6682,7 @@ export type ListTestSetsError =
  * The list of the test sets
  */
 export const listTestSets: API.PaginatedOperationMethod<
-  ListTestSetsRequest,
+  ListTestSetsRequest & RegionInput,
   ListTestSetsResponse,
   ListTestSetsError,
   Credentials | HttpClient.HttpClient,
@@ -6725,7 +6732,7 @@ export type ListUtteranceAnalyticsDataError =
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
 export const listUtteranceAnalyticsData: API.PaginatedOperationMethod<
-  ListUtteranceAnalyticsDataRequest,
+  ListUtteranceAnalyticsDataRequest & RegionInput,
   ListUtteranceAnalyticsDataResponse,
   ListUtteranceAnalyticsDataError,
   Credentials | HttpClient.HttpClient,
@@ -6780,7 +6787,7 @@ export type ListUtteranceMetricsError =
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
 export const listUtteranceMetrics: API.PaginatedOperationMethod<
-  ListUtteranceMetricsRequest,
+  ListUtteranceMetricsRequest & RegionInput,
   ListUtteranceMetricsResponse,
   ListUtteranceMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -6819,7 +6826,7 @@ export type SearchAssociatedTranscriptsError =
  * criteria.
  */
 export const searchAssociatedTranscripts: API.OperationMethod<
-  SearchAssociatedTranscriptsRequest,
+  SearchAssociatedTranscriptsRequest & RegionInput,
   SearchAssociatedTranscriptsResponse,
   SearchAssociatedTranscriptsError,
   Credentials | HttpClient.HttpClient
@@ -6853,7 +6860,7 @@ export type StartBotAnalyzerError =
  * The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
  */
 export const startBotAnalyzer: API.OperationMethod<
-  StartBotAnalyzerRequest,
+  StartBotAnalyzerRequest & RegionInput,
   StartBotAnalyzerResponse,
   StartBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -6888,7 +6895,7 @@ export type StartBotRecommendationError =
  * recommendation process.
  */
 export const startBotRecommendation: API.OperationMethod<
-  StartBotRecommendationRequest,
+  StartBotRecommendationRequest & RegionInput,
   StartBotRecommendationResponse,
   StartBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -6927,7 +6934,7 @@ export type StartBotResourceGenerationError =
  * then modify and import this configuration.
  */
 export const startBotResourceGeneration: API.OperationMethod<
-  StartBotResourceGenerationRequest,
+  StartBotResourceGenerationRequest & RegionInput,
   StartBotResourceGenerationResponse,
   StartBotResourceGenerationError,
   Credentials | HttpClient.HttpClient
@@ -6962,7 +6969,7 @@ export type StartImportError =
  * archive that you uploaded to an S3 bucket.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -6996,7 +7003,7 @@ export type StartTestExecutionError =
  * The action to start test set execution.
  */
 export const startTestExecution: API.OperationMethod<
-  StartTestExecutionRequest,
+  StartTestExecutionRequest & RegionInput,
   StartTestExecutionResponse,
   StartTestExecutionError,
   Credentials | HttpClient.HttpClient
@@ -7030,7 +7037,7 @@ export type StartTestSetGenerationError =
  * The action to start the generation of test set.
  */
 export const startTestSetGeneration: API.OperationMethod<
-  StartTestSetGenerationRequest,
+  StartTestSetGenerationRequest & RegionInput,
   StartTestSetGenerationResponse,
   StartTestSetGenerationError,
   Credentials | HttpClient.HttpClient
@@ -7062,7 +7069,7 @@ export type StopBotAnalyzerError =
  * Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
  */
 export const stopBotAnalyzer: API.OperationMethod<
-  StopBotAnalyzerRequest,
+  StopBotAnalyzerRequest & RegionInput,
   StopBotAnalyzerResponse,
   StopBotAnalyzerError,
   Credentials | HttpClient.HttpClient
@@ -7095,7 +7102,7 @@ export type StopBotRecommendationError =
  * Stop an already running Bot Recommendation request.
  */
 export const stopBotRecommendation: API.OperationMethod<
-  StopBotRecommendationRequest,
+  StopBotRecommendationRequest & RegionInput,
   StopBotRecommendationResponse,
   StopBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -7130,7 +7137,7 @@ export type TagResourceError =
  * value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7160,7 +7167,7 @@ export type UntagResourceError =
  * Removes tags from a bot, bot alias, or bot channel.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7192,7 +7199,7 @@ export type UpdateBotError =
  * Updates the configuration of an existing bot.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -7226,7 +7233,7 @@ export type UpdateBotAliasError =
  * Updates the configuration of an existing bot alias.
  */
 export const updateBotAlias: API.OperationMethod<
-  UpdateBotAliasRequest,
+  UpdateBotAliasRequest & RegionInput,
   UpdateBotAliasResponse,
   UpdateBotAliasError,
   Credentials | HttpClient.HttpClient
@@ -7260,7 +7267,7 @@ export type UpdateBotLocaleError =
  * Updates the settings that a bot has for a specific locale.
  */
 export const updateBotLocale: API.OperationMethod<
-  UpdateBotLocaleRequest,
+  UpdateBotLocaleRequest & RegionInput,
   UpdateBotLocaleResponse,
   UpdateBotLocaleError,
   Credentials | HttpClient.HttpClient
@@ -7295,7 +7302,7 @@ export type UpdateBotRecommendationError =
  * Updates an existing bot recommendation request.
  */
 export const updateBotRecommendation: API.OperationMethod<
-  UpdateBotRecommendationRequest,
+  UpdateBotRecommendationRequest & RegionInput,
   UpdateBotRecommendationResponse,
   UpdateBotRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -7335,7 +7342,7 @@ export type UpdateExportError =
  * DescribeExport operation.
  */
 export const updateExport: API.OperationMethod<
-  UpdateExportRequest,
+  UpdateExportRequest & RegionInput,
   UpdateExportResponse,
   UpdateExportError,
   Credentials | HttpClient.HttpClient
@@ -7369,7 +7376,7 @@ export type UpdateIntentError =
  * Updates the settings for an intent.
  */
 export const updateIntent: API.OperationMethod<
-  UpdateIntentRequest,
+  UpdateIntentRequest & RegionInput,
   UpdateIntentResponse,
   UpdateIntentError,
   Credentials | HttpClient.HttpClient
@@ -7405,7 +7412,7 @@ export type UpdateResourcePolicyError =
  * exception.
  */
 export const updateResourcePolicy: API.OperationMethod<
-  UpdateResourcePolicyRequest,
+  UpdateResourcePolicyRequest & RegionInput,
   UpdateResourcePolicyResponse,
   UpdateResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7439,7 +7446,7 @@ export type UpdateSlotError =
  * Updates the settings for a slot.
  */
 export const updateSlot: API.OperationMethod<
-  UpdateSlotRequest,
+  UpdateSlotRequest & RegionInput,
   UpdateSlotResponse,
   UpdateSlotError,
   Credentials | HttpClient.HttpClient
@@ -7473,7 +7480,7 @@ export type UpdateSlotTypeError =
  * Updates the configuration of an existing slot type.
  */
 export const updateSlotType: API.OperationMethod<
-  UpdateSlotTypeRequest,
+  UpdateSlotTypeRequest & RegionInput,
   UpdateSlotTypeResponse,
   UpdateSlotTypeError,
   Credentials | HttpClient.HttpClient
@@ -7507,7 +7514,7 @@ export type UpdateTestSetError =
  * The action to update the test set.
  */
 export const updateTestSet: API.OperationMethod<
-  UpdateTestSetRequest,
+  UpdateTestSetRequest & RegionInput,
   UpdateTestSetResponse,
   UpdateTestSetError,
   Credentials | HttpClient.HttpClient

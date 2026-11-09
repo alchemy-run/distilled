@@ -1,0 +1,20 @@
+{
+  "description": "GET /process/pty/{sessionId}/connect is a WebSocket carrying terminal bytes and JSON control frames. Over plain HTTP it can't run. Remove the operation; `connectPty` and `createPty` in src/toolbox.ts implement it, checked live 2026-11-04.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.daytona.process#Process/operations/6",
+      "value": {
+        "target": "com.daytona.process#ConnectPtySession"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.process#Process/operations/6"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.process#ConnectPtySession"
+    }
+  ]
+}

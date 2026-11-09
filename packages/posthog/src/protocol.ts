@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 /**
  * PosthogProtocol -- hand-written.
@@ -39,7 +40,8 @@ export type PosthogOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated PostHog operation. */
 export type PosthogOpContext = Credentials | HttpClient.HttpClient;

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -181,24 +182,24 @@ export interface BatchAssociateAssessmentReportEvidenceRequest {
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface AssessmentReportEvidenceError {
-  evidenceId?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  evidenceId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type AssessmentReportEvidenceErrors = AssessmentReportEvidenceError[];
 export interface BatchAssociateAssessmentReportEvidenceResponse {
-  evidenceIds?: string[];
-  errors?: AssessmentReportEvidenceError[];
+  evidenceIds?: string[] | undefined;
+  errors?: AssessmentReportEvidenceError[] | undefined;
 }
 export type DelegationComment = string | redacted.Redacted<string>;
 export type ControlSetId = string;
 export type IamArn = string;
 export type RoleType = "PROCESS_OWNER" | "RESOURCE_OWNER" | (string & {});
 export interface CreateDelegationRequest {
-  comment?: string | redacted.Redacted<string>;
-  controlSetId?: string;
-  roleArn?: string;
-  roleType?: RoleType;
+  comment?: string | redacted.Redacted<string> | undefined;
+  controlSetId?: string | undefined;
+  roleArn?: string | undefined;
+  roleType?: RoleType | undefined;
 }
 export type CreateDelegationRequests = CreateDelegationRequest[];
 export interface BatchCreateDelegationByAssessmentRequest {
@@ -209,28 +210,28 @@ export type AssessmentName = string | redacted.Redacted<string>;
 export type DelegationStatus = "IN_PROGRESS" | "UNDER_REVIEW" | "COMPLETE" | (string & {});
 export type CreatedBy = string | redacted.Redacted<string>;
 export interface Delegation {
-  id?: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  assessmentId?: string;
-  status?: DelegationStatus;
-  roleArn?: string;
-  roleType?: RoleType;
-  creationTime?: Date;
-  lastUpdated?: Date;
-  controlSetId?: string;
-  comment?: string | redacted.Redacted<string>;
-  createdBy?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  assessmentId?: string | undefined;
+  status?: DelegationStatus | undefined;
+  roleArn?: string | undefined;
+  roleType?: RoleType | undefined;
+  creationTime?: Date | undefined;
+  lastUpdated?: Date | undefined;
+  controlSetId?: string | undefined;
+  comment?: string | redacted.Redacted<string> | undefined;
+  createdBy?: string | redacted.Redacted<string> | undefined;
 }
 export type Delegations = Delegation[];
 export interface BatchCreateDelegationByAssessmentError_ {
-  createDelegationRequest?: CreateDelegationRequest;
-  errorCode?: string;
-  errorMessage?: string;
+  createDelegationRequest?: CreateDelegationRequest | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchCreateDelegationByAssessmentErrors = BatchCreateDelegationByAssessmentError_[];
 export interface BatchCreateDelegationByAssessmentResponse {
-  delegations?: Delegation[];
-  errors?: BatchCreateDelegationByAssessmentError_[];
+  delegations?: Delegation[] | undefined;
+  errors?: BatchCreateDelegationByAssessmentError_[] | undefined;
 }
 export type DelegationIds = string[];
 export interface BatchDeleteDelegationByAssessmentRequest {
@@ -238,13 +239,13 @@ export interface BatchDeleteDelegationByAssessmentRequest {
   assessmentId: string;
 }
 export interface BatchDeleteDelegationByAssessmentError_ {
-  delegationId?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  delegationId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchDeleteDelegationByAssessmentErrors = BatchDeleteDelegationByAssessmentError_[];
 export interface BatchDeleteDelegationByAssessmentResponse {
-  errors?: BatchDeleteDelegationByAssessmentError_[];
+  errors?: BatchDeleteDelegationByAssessmentError_[] | undefined;
 }
 export interface BatchDisassociateAssessmentReportEvidenceRequest {
   assessmentId: string;
@@ -252,16 +253,16 @@ export interface BatchDisassociateAssessmentReportEvidenceRequest {
   evidenceIds: string[];
 }
 export interface BatchDisassociateAssessmentReportEvidenceResponse {
-  evidenceIds?: string[];
-  errors?: AssessmentReportEvidenceError[];
+  evidenceIds?: string[] | undefined;
+  errors?: AssessmentReportEvidenceError[] | undefined;
 }
 export type S3Url = string;
 export type ManualEvidenceTextResponse = string | redacted.Redacted<string>;
 export type ManualEvidenceLocalFileName = string | redacted.Redacted<string>;
 export interface ManualEvidence {
-  s3ResourcePath?: string;
-  textResponse?: string | redacted.Redacted<string>;
-  evidenceFileName?: string | redacted.Redacted<string>;
+  s3ResourcePath?: string | undefined;
+  textResponse?: string | redacted.Redacted<string> | undefined;
+  evidenceFileName?: string | redacted.Redacted<string> | undefined;
 }
 export type ManualEvidenceList = ManualEvidence[];
 export interface BatchImportEvidenceToAssessmentControlRequest {
@@ -271,38 +272,38 @@ export interface BatchImportEvidenceToAssessmentControlRequest {
   manualEvidence: ManualEvidence[];
 }
 export interface BatchImportEvidenceToAssessmentControlError_ {
-  manualEvidence?: ManualEvidence;
-  errorCode?: string;
-  errorMessage?: string;
+  manualEvidence?: ManualEvidence | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchImportEvidenceToAssessmentControlErrors =
   BatchImportEvidenceToAssessmentControlError_[];
 export interface BatchImportEvidenceToAssessmentControlResponse {
-  errors?: BatchImportEvidenceToAssessmentControlError_[];
+  errors?: BatchImportEvidenceToAssessmentControlError_[] | undefined;
 }
 export type AssessmentDescription = string | redacted.Redacted<string>;
 export type AssessmentReportDestinationType = "S3" | (string & {});
 export interface AssessmentReportsDestination {
-  destinationType?: AssessmentReportDestinationType;
-  destination?: string;
+  destinationType?: AssessmentReportDestinationType | undefined;
+  destination?: string | undefined;
 }
 export type AccountId = string;
 export type EmailAddress = string | redacted.Redacted<string>;
 export type AccountName = string;
 export interface AWSAccount {
-  id?: string;
-  emailAddress?: string | redacted.Redacted<string>;
-  name?: string;
+  id?: string | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  name?: string | undefined;
 }
 export type AWSAccounts = AWSAccount[];
 export type AWSServiceName = string;
 export interface AWSService {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export type AWSServices = AWSService[];
 export interface Scope {
-  awsAccounts?: AWSAccount[];
-  awsServices?: AWSService[];
+  awsAccounts?: AWSAccount[] | undefined;
+  awsServices?: AWSService[] | undefined;
 }
 export interface Role {
   roleType: RoleType;
@@ -314,36 +315,36 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAssessmentRequest {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   assessmentReportsDestination: AssessmentReportsDestination;
   scope: Scope;
   roles: Role[];
   frameworkId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AuditManagerArn = string;
 export type ComplianceType = string | redacted.Redacted<string>;
 export type AssessmentStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface AssessmentMetadata {
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  description?: string | redacted.Redacted<string>;
-  complianceType?: string | redacted.Redacted<string>;
-  status?: AssessmentStatus;
-  assessmentReportsDestination?: AssessmentReportsDestination;
-  scope?: Scope;
-  roles?: Role[];
-  delegations?: Delegation[];
-  creationTime?: Date;
-  lastUpdated?: Date;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
+  status?: AssessmentStatus | undefined;
+  assessmentReportsDestination?: AssessmentReportsDestination | undefined;
+  scope?: Scope | undefined;
+  roles?: Role[] | undefined;
+  delegations?: Delegation[] | undefined;
+  creationTime?: Date | undefined;
+  lastUpdated?: Date | undefined;
 }
 export type AssessmentFrameworkDescription = string;
 export type Filename = string;
 export interface FrameworkMetadata {
-  name?: string | redacted.Redacted<string>;
-  description?: string;
-  logo?: string;
-  complianceType?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | undefined;
+  logo?: string | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
 }
 export type NonEmptyString = string;
 export type ControlSetStatus = "ACTIVE" | "UNDER_REVIEW" | "REVIEWED" | (string & {});
@@ -354,50 +355,50 @@ export type ControlResponse = "MANUAL" | "AUTOMATE" | "DEFER" | "IGNORE" | (stri
 export type Username = string | redacted.Redacted<string>;
 export type ControlCommentBody = string | redacted.Redacted<string>;
 export interface ControlComment {
-  authorName?: string | redacted.Redacted<string>;
-  commentBody?: string | redacted.Redacted<string>;
-  postedDate?: Date;
+  authorName?: string | redacted.Redacted<string> | undefined;
+  commentBody?: string | redacted.Redacted<string> | undefined;
+  postedDate?: Date | undefined;
 }
 export type ControlComments = ControlComment[];
 export type EvidenceSources = string[];
 export interface AssessmentControl {
-  id?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  status?: ControlStatus;
-  response?: ControlResponse;
-  comments?: ControlComment[];
-  evidenceSources?: string[];
-  evidenceCount?: number;
-  assessmentReportEvidenceCount?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: ControlStatus | undefined;
+  response?: ControlResponse | undefined;
+  comments?: ControlComment[] | undefined;
+  evidenceSources?: string[] | undefined;
+  evidenceCount?: number | undefined;
+  assessmentReportEvidenceCount?: number | undefined;
 }
 export type AssessmentControls = AssessmentControl[];
 export interface AssessmentControlSet {
-  id?: string;
-  description?: string;
-  status?: ControlSetStatus;
-  roles?: Role[];
-  controls?: AssessmentControl[];
-  delegations?: Delegation[];
-  systemEvidenceCount?: number;
-  manualEvidenceCount?: number;
+  id?: string | undefined;
+  description?: string | undefined;
+  status?: ControlSetStatus | undefined;
+  roles?: Role[] | undefined;
+  controls?: AssessmentControl[] | undefined;
+  delegations?: Delegation[] | undefined;
+  systemEvidenceCount?: number | undefined;
+  manualEvidenceCount?: number | undefined;
 }
 export type AssessmentControlSets = AssessmentControlSet[];
 export interface AssessmentFramework {
-  id?: string;
-  arn?: string;
-  metadata?: FrameworkMetadata;
-  controlSets?: AssessmentControlSet[];
+  id?: string | undefined;
+  arn?: string | undefined;
+  metadata?: FrameworkMetadata | undefined;
+  controlSets?: AssessmentControlSet[] | undefined;
 }
 export interface Assessment {
-  arn?: string;
-  awsAccount?: AWSAccount;
-  metadata?: AssessmentMetadata;
-  framework?: AssessmentFramework;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  awsAccount?: AWSAccount | undefined;
+  metadata?: AssessmentMetadata | undefined;
+  framework?: AssessmentFramework | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAssessmentResponse {
-  assessment?: Assessment;
+  assessment?: Assessment | undefined;
 }
 export type FrameworkName = string;
 export type FrameworkDescription = string;
@@ -408,15 +409,15 @@ export interface CreateAssessmentFrameworkControl {
 export type CreateAssessmentFrameworkControls = CreateAssessmentFrameworkControl[];
 export interface CreateAssessmentFrameworkControlSet {
   name: string;
-  controls?: CreateAssessmentFrameworkControl[];
+  controls?: CreateAssessmentFrameworkControl[] | undefined;
 }
 export type CreateAssessmentFrameworkControlSets = CreateAssessmentFrameworkControlSet[];
 export interface CreateAssessmentFrameworkRequest {
   name: string;
-  description?: string;
-  complianceType?: string | redacted.Redacted<string>;
+  description?: string | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
   controlSets: CreateAssessmentFrameworkControlSet[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FrameworkType = "Standard" | "Custom" | (string & {});
 export type ControlSources = string;
@@ -442,113 +443,113 @@ export type SourceType =
 export type KeywordInputType = "SELECT_FROM_LIST" | "UPLOAD_FILE" | "INPUT_TEXT" | (string & {});
 export type KeywordValue = string;
 export interface SourceKeyword {
-  keywordInputType?: KeywordInputType;
-  keywordValue?: string;
+  keywordInputType?: KeywordInputType | undefined;
+  keywordValue?: string | undefined;
 }
 export type SourceFrequency = "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export type TroubleshootingText = string | redacted.Redacted<string>;
 export interface ControlMappingSource {
-  sourceId?: string;
-  sourceName?: string;
-  sourceDescription?: string;
-  sourceSetUpOption?: SourceSetUpOption;
-  sourceType?: SourceType;
-  sourceKeyword?: SourceKeyword;
-  sourceFrequency?: SourceFrequency;
-  troubleshootingText?: string | redacted.Redacted<string>;
+  sourceId?: string | undefined;
+  sourceName?: string | undefined;
+  sourceDescription?: string | undefined;
+  sourceSetUpOption?: SourceSetUpOption | undefined;
+  sourceType?: SourceType | undefined;
+  sourceKeyword?: SourceKeyword | undefined;
+  sourceFrequency?: SourceFrequency | undefined;
+  troubleshootingText?: string | redacted.Redacted<string> | undefined;
 }
 export type ControlMappingSources = ControlMappingSource[];
 export type LastUpdatedBy = string | redacted.Redacted<string>;
 export type ControlState = "ACTIVE" | "END_OF_SUPPORT" | (string & {});
 export interface Control {
-  arn?: string;
-  id?: string;
-  type?: ControlType;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  testingInformation?: string | redacted.Redacted<string>;
-  actionPlanTitle?: string | redacted.Redacted<string>;
-  actionPlanInstructions?: string | redacted.Redacted<string>;
-  controlSources?: string;
-  controlMappingSources?: ControlMappingSource[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string | redacted.Redacted<string>;
-  lastUpdatedBy?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
-  state?: ControlState;
+  arn?: string | undefined;
+  id?: string | undefined;
+  type?: ControlType | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  testingInformation?: string | redacted.Redacted<string> | undefined;
+  actionPlanTitle?: string | redacted.Redacted<string> | undefined;
+  actionPlanInstructions?: string | redacted.Redacted<string> | undefined;
+  controlSources?: string | undefined;
+  controlMappingSources?: ControlMappingSource[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | redacted.Redacted<string> | undefined;
+  lastUpdatedBy?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  state?: ControlState | undefined;
 }
 export type Controls = Control[];
 export interface ControlSet {
-  id?: string;
-  name?: string;
-  controls?: Control[];
+  id?: string | undefined;
+  name?: string | undefined;
+  controls?: Control[] | undefined;
 }
 export type ControlSets = ControlSet[];
 export interface Framework {
-  arn?: string;
-  id?: string;
-  name?: string;
-  type?: FrameworkType;
-  complianceType?: string | redacted.Redacted<string>;
-  description?: string;
-  logo?: string;
-  controlSources?: string;
-  controlSets?: ControlSet[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string | redacted.Redacted<string>;
-  lastUpdatedBy?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  type?: FrameworkType | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
+  description?: string | undefined;
+  logo?: string | undefined;
+  controlSources?: string | undefined;
+  controlSets?: ControlSet[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | redacted.Redacted<string> | undefined;
+  lastUpdatedBy?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAssessmentFrameworkResponse {
-  framework?: Framework;
+  framework?: Framework | undefined;
 }
 export type AssessmentReportName = string;
 export type AssessmentReportDescription = string | redacted.Redacted<string>;
 export type QueryStatement = string;
 export interface CreateAssessmentReportRequest {
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   assessmentId: string;
-  queryStatement?: string;
+  queryStatement?: string | undefined;
 }
 export type AssessmentReportStatus = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface AssessmentReport {
-  id?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  awsAccountId?: string;
-  assessmentId?: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  author?: string | redacted.Redacted<string>;
-  status?: AssessmentReportStatus;
-  creationTime?: Date;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  awsAccountId?: string | undefined;
+  assessmentId?: string | undefined;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  author?: string | redacted.Redacted<string> | undefined;
+  status?: AssessmentReportStatus | undefined;
+  creationTime?: Date | undefined;
 }
 export interface CreateAssessmentReportResponse {
-  assessmentReport?: AssessmentReport;
+  assessmentReport?: AssessmentReport | undefined;
 }
 export interface CreateControlMappingSource {
-  sourceName?: string;
-  sourceDescription?: string;
-  sourceSetUpOption?: SourceSetUpOption;
-  sourceType?: SourceType;
-  sourceKeyword?: SourceKeyword;
-  sourceFrequency?: SourceFrequency;
-  troubleshootingText?: string | redacted.Redacted<string>;
+  sourceName?: string | undefined;
+  sourceDescription?: string | undefined;
+  sourceSetUpOption?: SourceSetUpOption | undefined;
+  sourceType?: SourceType | undefined;
+  sourceKeyword?: SourceKeyword | undefined;
+  sourceFrequency?: SourceFrequency | undefined;
+  troubleshootingText?: string | redacted.Redacted<string> | undefined;
 }
 export type CreateControlMappingSources = CreateControlMappingSource[];
 export interface CreateControlRequest {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  testingInformation?: string | redacted.Redacted<string>;
-  actionPlanTitle?: string | redacted.Redacted<string>;
-  actionPlanInstructions?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
+  testingInformation?: string | redacted.Redacted<string> | undefined;
+  actionPlanTitle?: string | redacted.Redacted<string> | undefined;
+  actionPlanInstructions?: string | redacted.Redacted<string> | undefined;
   controlMappingSources: CreateControlMappingSource[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateControlResponse {
-  control?: Control;
+  control?: Control | undefined;
 }
 export interface DeleteAssessmentRequest {
   assessmentId: string;
@@ -576,10 +577,10 @@ export interface DeleteControlResponse {}
 export interface DeregisterAccountRequest {}
 export type AccountStatus = "ACTIVE" | "INACTIVE" | "PENDING_ACTIVATION" | (string & {});
 export interface DeregisterAccountResponse {
-  status?: AccountStatus;
+  status?: AccountStatus | undefined;
 }
 export interface DeregisterOrganizationAdminAccountRequest {
-  adminAccountId?: string;
+  adminAccountId?: string | undefined;
 }
 export interface DeregisterOrganizationAdminAccountResponse {}
 export interface DisassociateAssessmentReportEvidenceFolderRequest {
@@ -589,20 +590,20 @@ export interface DisassociateAssessmentReportEvidenceFolderRequest {
 export interface DisassociateAssessmentReportEvidenceFolderResponse {}
 export interface GetAccountStatusRequest {}
 export interface GetAccountStatusResponse {
-  status?: AccountStatus;
+  status?: AccountStatus | undefined;
 }
 export interface GetAssessmentRequest {
   assessmentId: string;
 }
 export interface GetAssessmentResponse {
-  assessment?: Assessment;
-  userRole?: Role;
+  assessment?: Assessment | undefined;
+  userRole?: Role | undefined;
 }
 export interface GetAssessmentFrameworkRequest {
   frameworkId: string;
 }
 export interface GetAssessmentFrameworkResponse {
-  framework?: Framework;
+  framework?: Framework | undefined;
 }
 export interface GetAssessmentReportUrlRequest {
   assessmentReportId: string;
@@ -611,20 +612,20 @@ export interface GetAssessmentReportUrlRequest {
 export type HyperlinkName = string;
 export type UrlLink = string;
 export interface URL {
-  hyperlinkName?: string;
-  link?: string;
+  hyperlinkName?: string | undefined;
+  link?: string | undefined;
 }
 export interface GetAssessmentReportUrlResponse {
-  preSignedUrl?: URL;
+  preSignedUrl?: URL | undefined;
 }
 export type Token = string;
 export type MaxResults = number;
 export interface GetChangeLogsRequest {
   assessmentId: string;
-  controlSetId?: string;
-  controlId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  controlSetId?: string | undefined;
+  controlId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ObjectTypeEnum =
   | "ASSESSMENT"
@@ -644,40 +645,40 @@ export type ActionEnum =
   | "IMPORT_EVIDENCE"
   | (string & {});
 export interface ChangeLog {
-  objectType?: ObjectTypeEnum;
-  objectName?: string;
-  action?: ActionEnum;
-  createdAt?: Date;
-  createdBy?: string;
+  objectType?: ObjectTypeEnum | undefined;
+  objectName?: string | undefined;
+  action?: ActionEnum | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
 }
 export type ChangeLogs = ChangeLog[];
 export interface GetChangeLogsResponse {
-  changeLogs?: ChangeLog[];
-  nextToken?: string;
+  changeLogs?: ChangeLog[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetControlRequest {
   controlId: string;
 }
 export interface GetControlResponse {
-  control?: Control;
+  control?: Control | undefined;
 }
 export interface GetDelegationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DelegationMetadata {
-  id?: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  assessmentId?: string;
-  status?: DelegationStatus;
-  roleArn?: string;
-  creationTime?: Date;
-  controlSetName?: string;
+  id?: string | undefined;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  assessmentId?: string | undefined;
+  status?: DelegationStatus | undefined;
+  roleArn?: string | undefined;
+  creationTime?: Date | undefined;
+  controlSetName?: string | undefined;
 }
 export type DelegationMetadataList = DelegationMetadata[];
 export interface GetDelegationsResponse {
-  delegations?: DelegationMetadata[];
-  nextToken?: string;
+  delegations?: DelegationMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetEvidenceRequest {
   assessmentId: string;
@@ -688,52 +689,52 @@ export interface GetEvidenceRequest {
 export type EventName = string;
 export type GenericArn = string;
 export interface Resource {
-  arn?: string;
-  value?: string;
-  complianceCheck?: string;
+  arn?: string | undefined;
+  value?: string | undefined;
+  complianceCheck?: string | undefined;
 }
 export type Resources = Resource[];
 export type EvidenceAttributeKey = string;
 export type EvidenceAttributeValue = string;
 export type EvidenceAttributes = { [key: string]: string | undefined };
 export interface Evidence {
-  dataSource?: string;
-  evidenceAwsAccountId?: string;
-  time?: Date;
-  eventSource?: string;
-  eventName?: string;
-  evidenceByType?: string;
-  resourcesIncluded?: Resource[];
-  attributes?: { [key: string]: string | undefined };
-  iamId?: string;
-  complianceCheck?: string;
-  awsOrganization?: string;
-  awsAccountId?: string;
-  evidenceFolderId?: string;
-  id?: string;
-  assessmentReportSelection?: string;
+  dataSource?: string | undefined;
+  evidenceAwsAccountId?: string | undefined;
+  time?: Date | undefined;
+  eventSource?: string | undefined;
+  eventName?: string | undefined;
+  evidenceByType?: string | undefined;
+  resourcesIncluded?: Resource[] | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  iamId?: string | undefined;
+  complianceCheck?: string | undefined;
+  awsOrganization?: string | undefined;
+  awsAccountId?: string | undefined;
+  evidenceFolderId?: string | undefined;
+  id?: string | undefined;
+  assessmentReportSelection?: string | undefined;
 }
 export interface GetEvidenceResponse {
-  evidence?: Evidence;
+  evidence?: Evidence | undefined;
 }
 export interface GetEvidenceByEvidenceFolderRequest {
   assessmentId: string;
   controlSetId: string;
   evidenceFolderId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EvidenceList = Evidence[];
 export interface GetEvidenceByEvidenceFolderResponse {
-  evidence?: Evidence[];
-  nextToken?: string;
+  evidence?: Evidence[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetEvidenceFileUploadUrlRequest {
   fileName: string | redacted.Redacted<string>;
 }
 export interface GetEvidenceFileUploadUrlResponse {
-  evidenceFileName?: string;
-  uploadUrl?: string;
+  evidenceFileName?: string | undefined;
+  uploadUrl?: string | undefined;
 }
 export interface GetEvidenceFolderRequest {
   assessmentId: string;
@@ -742,92 +743,92 @@ export interface GetEvidenceFolderRequest {
 }
 export type AssessmentEvidenceFolderName = string;
 export interface AssessmentEvidenceFolder {
-  name?: string;
-  date?: Date;
-  assessmentId?: string;
-  controlSetId?: string;
-  controlId?: string;
-  id?: string;
-  dataSource?: string;
-  author?: string;
-  totalEvidence?: number;
-  assessmentReportSelectionCount?: number;
-  controlName?: string;
-  evidenceResourcesIncludedCount?: number;
-  evidenceByTypeConfigurationDataCount?: number;
-  evidenceByTypeManualCount?: number;
-  evidenceByTypeComplianceCheckCount?: number;
-  evidenceByTypeComplianceCheckIssuesCount?: number;
-  evidenceByTypeUserActivityCount?: number;
-  evidenceAwsServiceSourceCount?: number;
+  name?: string | undefined;
+  date?: Date | undefined;
+  assessmentId?: string | undefined;
+  controlSetId?: string | undefined;
+  controlId?: string | undefined;
+  id?: string | undefined;
+  dataSource?: string | undefined;
+  author?: string | undefined;
+  totalEvidence?: number | undefined;
+  assessmentReportSelectionCount?: number | undefined;
+  controlName?: string | undefined;
+  evidenceResourcesIncludedCount?: number | undefined;
+  evidenceByTypeConfigurationDataCount?: number | undefined;
+  evidenceByTypeManualCount?: number | undefined;
+  evidenceByTypeComplianceCheckCount?: number | undefined;
+  evidenceByTypeComplianceCheckIssuesCount?: number | undefined;
+  evidenceByTypeUserActivityCount?: number | undefined;
+  evidenceAwsServiceSourceCount?: number | undefined;
 }
 export interface GetEvidenceFolderResponse {
-  evidenceFolder?: AssessmentEvidenceFolder;
+  evidenceFolder?: AssessmentEvidenceFolder | undefined;
 }
 export interface GetEvidenceFoldersByAssessmentRequest {
   assessmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AssessmentEvidenceFolders = AssessmentEvidenceFolder[];
 export interface GetEvidenceFoldersByAssessmentResponse {
-  evidenceFolders?: AssessmentEvidenceFolder[];
-  nextToken?: string;
+  evidenceFolders?: AssessmentEvidenceFolder[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetEvidenceFoldersByAssessmentControlRequest {
   assessmentId: string;
   controlSetId: string;
   controlId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetEvidenceFoldersByAssessmentControlResponse {
-  evidenceFolders?: AssessmentEvidenceFolder[];
-  nextToken?: string;
+  evidenceFolders?: AssessmentEvidenceFolder[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetInsightsRequest {}
 export interface Insights {
-  activeAssessmentsCount?: number;
-  noncompliantEvidenceCount?: number;
-  compliantEvidenceCount?: number;
-  inconclusiveEvidenceCount?: number;
-  assessmentControlsCountByNoncompliantEvidence?: number;
-  totalAssessmentControlsCount?: number;
-  lastUpdated?: Date;
+  activeAssessmentsCount?: number | undefined;
+  noncompliantEvidenceCount?: number | undefined;
+  compliantEvidenceCount?: number | undefined;
+  inconclusiveEvidenceCount?: number | undefined;
+  assessmentControlsCountByNoncompliantEvidence?: number | undefined;
+  totalAssessmentControlsCount?: number | undefined;
+  lastUpdated?: Date | undefined;
 }
 export interface GetInsightsResponse {
-  insights?: Insights;
+  insights?: Insights | undefined;
 }
 export interface GetInsightsByAssessmentRequest {
   assessmentId: string;
 }
 export interface InsightsByAssessment {
-  noncompliantEvidenceCount?: number;
-  compliantEvidenceCount?: number;
-  inconclusiveEvidenceCount?: number;
-  assessmentControlsCountByNoncompliantEvidence?: number;
-  totalAssessmentControlsCount?: number;
-  lastUpdated?: Date;
+  noncompliantEvidenceCount?: number | undefined;
+  compliantEvidenceCount?: number | undefined;
+  inconclusiveEvidenceCount?: number | undefined;
+  assessmentControlsCountByNoncompliantEvidence?: number | undefined;
+  totalAssessmentControlsCount?: number | undefined;
+  lastUpdated?: Date | undefined;
 }
 export interface GetInsightsByAssessmentResponse {
-  insights?: InsightsByAssessment;
+  insights?: InsightsByAssessment | undefined;
 }
 export interface GetOrganizationAdminAccountRequest {}
 export type OrganizationId = string;
 export interface GetOrganizationAdminAccountResponse {
-  adminAccountId?: string;
-  organizationId?: string;
+  adminAccountId?: string | undefined;
+  organizationId?: string | undefined;
 }
 export interface GetServicesInScopeRequest {}
 export interface ServiceMetadata {
-  name?: string;
-  displayName?: string;
-  description?: string;
-  category?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export type ServiceMetadataList = ServiceMetadata[];
 export interface GetServicesInScopeResponse {
-  serviceMetadata?: ServiceMetadata[];
+  serviceMetadata?: ServiceMetadata[] | undefined;
 }
 export type SettingAttribute =
   | "ALL"
@@ -857,86 +858,86 @@ export type EvidenceFinderBackfillStatus =
   | "COMPLETED"
   | (string & {});
 export interface EvidenceFinderEnablement {
-  eventDataStoreArn?: string;
-  enablementStatus?: EvidenceFinderEnablementStatus;
-  backfillStatus?: EvidenceFinderBackfillStatus;
-  error?: string;
+  eventDataStoreArn?: string | undefined;
+  enablementStatus?: EvidenceFinderEnablementStatus | undefined;
+  backfillStatus?: EvidenceFinderBackfillStatus | undefined;
+  error?: string | undefined;
 }
 export type DeleteResources = "ALL" | "DEFAULT" | (string & {});
 export interface DeregistrationPolicy {
-  deleteResources?: DeleteResources;
+  deleteResources?: DeleteResources | undefined;
 }
 export type ExportDestinationType = "S3" | (string & {});
 export interface DefaultExportDestination {
-  destinationType?: ExportDestinationType;
-  destination?: string;
+  destinationType?: ExportDestinationType | undefined;
+  destination?: string | undefined;
 }
 export interface Settings {
-  isAwsOrgEnabled?: boolean;
-  snsTopic?: string | redacted.Redacted<string>;
-  defaultAssessmentReportsDestination?: AssessmentReportsDestination;
-  defaultProcessOwners?: Role[];
-  kmsKey?: string;
-  evidenceFinderEnablement?: EvidenceFinderEnablement;
-  deregistrationPolicy?: DeregistrationPolicy;
-  defaultExportDestination?: DefaultExportDestination;
+  isAwsOrgEnabled?: boolean | undefined;
+  snsTopic?: string | redacted.Redacted<string> | undefined;
+  defaultAssessmentReportsDestination?: AssessmentReportsDestination | undefined;
+  defaultProcessOwners?: Role[] | undefined;
+  kmsKey?: string | undefined;
+  evidenceFinderEnablement?: EvidenceFinderEnablement | undefined;
+  deregistrationPolicy?: DeregistrationPolicy | undefined;
+  defaultExportDestination?: DefaultExportDestination | undefined;
 }
 export interface GetSettingsResponse {
-  settings?: Settings;
+  settings?: Settings | undefined;
 }
 export type ControlDomainId = string;
 export interface ListAssessmentControlInsightsByControlDomainRequest {
   controlDomainId: string;
   assessmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EvidenceInsights {
-  noncompliantEvidenceCount?: number;
-  compliantEvidenceCount?: number;
-  inconclusiveEvidenceCount?: number;
+  noncompliantEvidenceCount?: number | undefined;
+  compliantEvidenceCount?: number | undefined;
+  inconclusiveEvidenceCount?: number | undefined;
 }
 export interface ControlInsightsMetadataByAssessmentItem {
-  name?: string;
-  id?: string;
-  evidenceInsights?: EvidenceInsights;
-  controlSetName?: string;
-  lastUpdated?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  evidenceInsights?: EvidenceInsights | undefined;
+  controlSetName?: string | undefined;
+  lastUpdated?: Date | undefined;
 }
 export type ControlInsightsMetadataByAssessment = ControlInsightsMetadataByAssessmentItem[];
 export interface ListAssessmentControlInsightsByControlDomainResponse {
-  controlInsightsByAssessment?: ControlInsightsMetadataByAssessmentItem[];
-  nextToken?: string;
+  controlInsightsByAssessment?: ControlInsightsMetadataByAssessmentItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssessmentFrameworksRequest {
   frameworkType: FrameworkType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ControlsCount = number;
 export type ControlSetsCount = number;
 export interface AssessmentFrameworkMetadata {
-  arn?: string;
-  id?: string;
-  type?: FrameworkType;
-  name?: string;
-  description?: string;
-  logo?: string;
-  complianceType?: string | redacted.Redacted<string>;
-  controlsCount?: number;
-  controlSetsCount?: number;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  type?: FrameworkType | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  logo?: string | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
+  controlsCount?: number | undefined;
+  controlSetsCount?: number | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type FrameworkMetadataList = AssessmentFrameworkMetadata[];
 export interface ListAssessmentFrameworksResponse {
-  frameworkMetadataList?: AssessmentFrameworkMetadata[];
-  nextToken?: string;
+  frameworkMetadataList?: AssessmentFrameworkMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssessmentFrameworkShareRequestsRequest {
   requestType: ShareRequestType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ShareRequestStatus =
   | "ACTIVE"
@@ -951,127 +952,127 @@ export type ShareRequestStatus =
 export type Region = string;
 export type ShareRequestComment = string;
 export interface AssessmentFrameworkShareRequest {
-  id?: string;
-  frameworkId?: string;
-  frameworkName?: string;
-  frameworkDescription?: string;
-  status?: ShareRequestStatus;
-  sourceAccount?: string;
-  destinationAccount?: string;
-  destinationRegion?: string;
-  expirationTime?: Date;
-  creationTime?: Date;
-  lastUpdated?: Date;
-  comment?: string;
-  standardControlsCount?: number;
-  customControlsCount?: number;
-  complianceType?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  frameworkId?: string | undefined;
+  frameworkName?: string | undefined;
+  frameworkDescription?: string | undefined;
+  status?: ShareRequestStatus | undefined;
+  sourceAccount?: string | undefined;
+  destinationAccount?: string | undefined;
+  destinationRegion?: string | undefined;
+  expirationTime?: Date | undefined;
+  creationTime?: Date | undefined;
+  lastUpdated?: Date | undefined;
+  comment?: string | undefined;
+  standardControlsCount?: number | undefined;
+  customControlsCount?: number | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
 }
 export type AssessmentFrameworkShareRequestList = AssessmentFrameworkShareRequest[];
 export interface ListAssessmentFrameworkShareRequestsResponse {
-  assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequest[];
-  nextToken?: string;
+  assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequest[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssessmentReportsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssessmentReportMetadata {
-  id?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  assessmentId?: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  author?: string | redacted.Redacted<string>;
-  status?: AssessmentReportStatus;
-  creationTime?: Date;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  assessmentId?: string | undefined;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  author?: string | redacted.Redacted<string> | undefined;
+  status?: AssessmentReportStatus | undefined;
+  creationTime?: Date | undefined;
 }
 export type AssessmentReportsMetadata = AssessmentReportMetadata[];
 export interface ListAssessmentReportsResponse {
-  assessmentReports?: AssessmentReportMetadata[];
-  nextToken?: string;
+  assessmentReports?: AssessmentReportMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAssessmentsRequest {
-  status?: AssessmentStatus;
-  nextToken?: string;
-  maxResults?: number;
+  status?: AssessmentStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssessmentMetadataItem {
-  name?: string | redacted.Redacted<string>;
-  id?: string;
-  complianceType?: string | redacted.Redacted<string>;
-  status?: AssessmentStatus;
-  roles?: Role[];
-  delegations?: Delegation[];
-  creationTime?: Date;
-  lastUpdated?: Date;
+  name?: string | redacted.Redacted<string> | undefined;
+  id?: string | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
+  status?: AssessmentStatus | undefined;
+  roles?: Role[] | undefined;
+  delegations?: Delegation[] | undefined;
+  creationTime?: Date | undefined;
+  lastUpdated?: Date | undefined;
 }
 export type ListAssessmentMetadata = AssessmentMetadataItem[];
 export interface ListAssessmentsResponse {
-  assessmentMetadata?: AssessmentMetadataItem[];
-  nextToken?: string;
+  assessmentMetadata?: AssessmentMetadataItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListControlDomainInsightsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ControlDomainInsights {
-  name?: string;
-  id?: string;
-  controlsCountByNoncompliantEvidence?: number;
-  totalControlsCount?: number;
-  evidenceInsights?: EvidenceInsights;
-  lastUpdated?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  controlsCountByNoncompliantEvidence?: number | undefined;
+  totalControlsCount?: number | undefined;
+  evidenceInsights?: EvidenceInsights | undefined;
+  lastUpdated?: Date | undefined;
 }
 export type ControlDomainInsightsList = ControlDomainInsights[];
 export interface ListControlDomainInsightsResponse {
-  controlDomainInsights?: ControlDomainInsights[];
-  nextToken?: string;
+  controlDomainInsights?: ControlDomainInsights[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListControlDomainInsightsByAssessmentRequest {
   assessmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListControlDomainInsightsByAssessmentResponse {
-  controlDomainInsights?: ControlDomainInsights[];
-  nextToken?: string;
+  controlDomainInsights?: ControlDomainInsights[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListControlInsightsByControlDomainRequest {
   controlDomainId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ControlInsightsMetadataItem {
-  name?: string;
-  id?: string;
-  evidenceInsights?: EvidenceInsights;
-  lastUpdated?: Date;
+  name?: string | undefined;
+  id?: string | undefined;
+  evidenceInsights?: EvidenceInsights | undefined;
+  lastUpdated?: Date | undefined;
 }
 export type ControlInsightsMetadata = ControlInsightsMetadataItem[];
 export interface ListControlInsightsByControlDomainResponse {
-  controlInsightsMetadata?: ControlInsightsMetadataItem[];
-  nextToken?: string;
+  controlInsightsMetadata?: ControlInsightsMetadataItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ControlCatalogId = string;
 export interface ListControlsRequest {
   controlType: ControlType;
-  nextToken?: string;
-  maxResults?: number;
-  controlCatalogId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  controlCatalogId?: string | undefined;
 }
 export interface ControlMetadata {
-  arn?: string;
-  id?: string;
-  name?: string;
-  controlSources?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  controlSources?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ControlMetadataList = ControlMetadata[];
 export interface ListControlsResponse {
-  controlMetadataList?: ControlMetadata[];
-  nextToken?: string;
+  controlMetadataList?: ControlMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DataSourceType =
   | "AWS_Cloudtrail"
@@ -1082,62 +1083,62 @@ export type DataSourceType =
   | (string & {});
 export interface ListKeywordsForDataSourceRequest {
   source: DataSourceType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Keywords = string[];
 export interface ListKeywordsForDataSourceResponse {
-  keywords?: string[];
-  nextToken?: string;
+  keywords?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNotificationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TimestampUUID = string;
 export interface Notification {
-  id?: string;
-  assessmentId?: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  controlSetId?: string;
-  controlSetName?: string;
-  description?: string;
-  eventTime?: Date;
-  source?: string;
+  id?: string | undefined;
+  assessmentId?: string | undefined;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  controlSetId?: string | undefined;
+  controlSetName?: string | undefined;
+  description?: string | undefined;
+  eventTime?: Date | undefined;
+  source?: string | undefined;
 }
 export type Notifications = Notification[];
 export interface ListNotificationsResponse {
-  notifications?: Notification[];
-  nextToken?: string;
+  notifications?: Notification[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterAccountRequest {
-  kmsKey?: string;
-  delegatedAdminAccount?: string;
+  kmsKey?: string | undefined;
+  delegatedAdminAccount?: string | undefined;
 }
 export interface RegisterAccountResponse {
-  status?: AccountStatus;
+  status?: AccountStatus | undefined;
 }
 export interface RegisterOrganizationAdminAccountRequest {
   adminAccountId: string;
 }
 export interface RegisterOrganizationAdminAccountResponse {
-  adminAccountId?: string;
-  organizationId?: string;
+  adminAccountId?: string | undefined;
+  organizationId?: string | undefined;
 }
 export interface StartAssessmentFrameworkShareRequest {
   frameworkId: string;
   destinationAccount: string;
   destinationRegion: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface StartAssessmentFrameworkShareResponse {
-  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
+  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1152,24 +1153,24 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAssessmentRequest {
   assessmentId: string;
-  assessmentName?: string | redacted.Redacted<string>;
-  assessmentDescription?: string | redacted.Redacted<string>;
+  assessmentName?: string | redacted.Redacted<string> | undefined;
+  assessmentDescription?: string | redacted.Redacted<string> | undefined;
   scope: Scope;
-  assessmentReportsDestination?: AssessmentReportsDestination;
-  roles?: Role[];
+  assessmentReportsDestination?: AssessmentReportsDestination | undefined;
+  roles?: Role[] | undefined;
 }
 export interface UpdateAssessmentResponse {
-  assessment?: Assessment;
+  assessment?: Assessment | undefined;
 }
 export interface UpdateAssessmentControlRequest {
   assessmentId: string;
   controlSetId: string;
   controlId: string;
-  controlStatus?: ControlStatus;
-  commentBody?: string | redacted.Redacted<string>;
+  controlStatus?: ControlStatus | undefined;
+  commentBody?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateAssessmentControlResponse {
-  control?: AssessmentControl;
+  control?: AssessmentControl | undefined;
 }
 export interface UpdateAssessmentControlSetStatusRequest {
   assessmentId: string;
@@ -1178,10 +1179,10 @@ export interface UpdateAssessmentControlSetStatusRequest {
   comment: string | redacted.Redacted<string>;
 }
 export interface UpdateAssessmentControlSetStatusResponse {
-  controlSet?: AssessmentControlSet;
+  controlSet?: AssessmentControlSet | undefined;
 }
 export interface UpdateAssessmentFrameworkControlSet {
-  id?: string;
+  id?: string | undefined;
   name: string;
   controls: CreateAssessmentFrameworkControl[];
 }
@@ -1189,12 +1190,12 @@ export type UpdateAssessmentFrameworkControlSets = UpdateAssessmentFrameworkCont
 export interface UpdateAssessmentFrameworkRequest {
   frameworkId: string;
   name: string;
-  description?: string;
-  complianceType?: string | redacted.Redacted<string>;
+  description?: string | undefined;
+  complianceType?: string | redacted.Redacted<string> | undefined;
   controlSets: UpdateAssessmentFrameworkControlSet[];
 }
 export interface UpdateAssessmentFrameworkResponse {
-  framework?: Framework;
+  framework?: Framework | undefined;
 }
 export type ShareRequestAction = "ACCEPT" | "DECLINE" | "REVOKE" | (string & {});
 export interface UpdateAssessmentFrameworkShareRequest {
@@ -1203,50 +1204,50 @@ export interface UpdateAssessmentFrameworkShareRequest {
   action: ShareRequestAction;
 }
 export interface UpdateAssessmentFrameworkShareResponse {
-  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
+  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest | undefined;
 }
 export interface UpdateAssessmentStatusRequest {
   assessmentId: string;
   status: AssessmentStatus;
 }
 export interface UpdateAssessmentStatusResponse {
-  assessment?: Assessment;
+  assessment?: Assessment | undefined;
 }
 export interface UpdateControlRequest {
   controlId: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
-  testingInformation?: string | redacted.Redacted<string>;
-  actionPlanTitle?: string | redacted.Redacted<string>;
-  actionPlanInstructions?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
+  testingInformation?: string | redacted.Redacted<string> | undefined;
+  actionPlanTitle?: string | redacted.Redacted<string> | undefined;
+  actionPlanInstructions?: string | redacted.Redacted<string> | undefined;
   controlMappingSources: ControlMappingSource[];
 }
 export interface UpdateControlResponse {
-  control?: Control;
+  control?: Control | undefined;
 }
 export type SnsArn = string;
 export interface UpdateSettingsRequest {
-  snsTopic?: string;
-  defaultAssessmentReportsDestination?: AssessmentReportsDestination;
-  defaultProcessOwners?: Role[];
-  kmsKey?: string;
-  evidenceFinderEnabled?: boolean;
-  deregistrationPolicy?: DeregistrationPolicy;
-  defaultExportDestination?: DefaultExportDestination;
+  snsTopic?: string | undefined;
+  defaultAssessmentReportsDestination?: AssessmentReportsDestination | undefined;
+  defaultProcessOwners?: Role[] | undefined;
+  kmsKey?: string | undefined;
+  evidenceFinderEnabled?: boolean | undefined;
+  deregistrationPolicy?: DeregistrationPolicy | undefined;
+  defaultExportDestination?: DefaultExportDestination | undefined;
 }
 export interface UpdateSettingsResponse {
-  settings?: Settings;
+  settings?: Settings | undefined;
 }
 export interface ValidateAssessmentReportIntegrityRequest {
   s3RelativePath: string;
 }
 export type ValidationErrors = string[];
 export interface ValidateAssessmentReportIntegrityResponse {
-  signatureValid?: boolean;
-  signatureAlgorithm?: string;
-  signatureDateTime?: string;
-  signatureKeyId?: string;
-  validationErrors?: string[];
+  signatureValid?: boolean | undefined;
+  signatureAlgorithm?: string | undefined;
+  signatureDateTime?: string | undefined;
+  signatureKeyId?: string | undefined;
+  validationErrors?: string[] | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"
@@ -1270,7 +1271,7 @@ export type AssociateAssessmentReportEvidenceFolderError =
  * assessment.
  */
 export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
-  AssociateAssessmentReportEvidenceFolderRequest,
+  AssociateAssessmentReportEvidenceFolderRequest & RegionInput,
   AssociateAssessmentReportEvidenceFolderResponse,
   AssociateAssessmentReportEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1302,7 @@ export type BatchAssociateAssessmentReportEvidenceError =
  * assessment.
  */
 export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
-  BatchAssociateAssessmentReportEvidenceRequest,
+  BatchAssociateAssessmentReportEvidenceRequest & RegionInput,
   BatchAssociateAssessmentReportEvidenceResponse,
   BatchAssociateAssessmentReportEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -1331,7 +1332,7 @@ export type BatchCreateDelegationByAssessmentError =
  * Creates a batch of delegations for an assessment in Audit Manager.
  */
 export const batchCreateDelegationByAssessment: API.OperationMethod<
-  BatchCreateDelegationByAssessmentRequest,
+  BatchCreateDelegationByAssessmentRequest & RegionInput,
   BatchCreateDelegationByAssessmentResponse,
   BatchCreateDelegationByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1361,7 +1362,7 @@ export type BatchDeleteDelegationByAssessmentError =
  * Deletes a batch of delegations for an assessment in Audit Manager.
  */
 export const batchDeleteDelegationByAssessment: API.OperationMethod<
-  BatchDeleteDelegationByAssessmentRequest,
+  BatchDeleteDelegationByAssessmentRequest & RegionInput,
   BatchDeleteDelegationByAssessmentResponse,
   BatchDeleteDelegationByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1391,7 +1392,7 @@ export type BatchDisassociateAssessmentReportEvidenceError =
  * Disassociates a list of evidence from an assessment report in Audit Manager.
  */
 export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
-  BatchDisassociateAssessmentReportEvidenceRequest,
+  BatchDisassociateAssessmentReportEvidenceRequest & RegionInput,
   BatchDisassociateAssessmentReportEvidenceResponse,
   BatchDisassociateAssessmentReportEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type BatchImportEvidenceToAssessmentControlError =
  * restrictions for Audit Manager.
  */
 export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
-  BatchImportEvidenceToAssessmentControlRequest,
+  BatchImportEvidenceToAssessmentControlRequest & RegionInput,
   BatchImportEvidenceToAssessmentControlResponse,
   BatchImportEvidenceToAssessmentControlError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type CreateAssessmentError =
  * Creates an assessment in Audit Manager.
  */
 export const createAssessment: API.OperationMethod<
-  CreateAssessmentRequest,
+  CreateAssessmentRequest & RegionInput,
   CreateAssessmentResponse,
   CreateAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1507,7 +1508,7 @@ export type CreateAssessmentFrameworkError =
  * Creates a custom framework in Audit Manager.
  */
 export const createAssessmentFramework: API.OperationMethod<
-  CreateAssessmentFrameworkRequest,
+  CreateAssessmentFrameworkRequest & RegionInput,
   CreateAssessmentFrameworkResponse,
   CreateAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type CreateAssessmentReportError =
  * Creates an assessment report for the specified assessment.
  */
 export const createAssessmentReport: API.OperationMethod<
-  CreateAssessmentReportRequest,
+  CreateAssessmentReportRequest & RegionInput,
   CreateAssessmentReportResponse,
   CreateAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1569,7 +1570,7 @@ export type CreateControlError =
  * Creates a new custom control in Audit Manager.
  */
 export const createControl: API.OperationMethod<
-  CreateControlRequest,
+  CreateControlRequest & RegionInput,
   CreateControlResponse,
   CreateControlError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1601,7 @@ export type DeleteAssessmentError =
  * Deletes an assessment in Audit Manager.
  */
 export const deleteAssessment: API.OperationMethod<
-  DeleteAssessmentRequest,
+  DeleteAssessmentRequest & RegionInput,
   DeleteAssessmentResponse,
   DeleteAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type DeleteAssessmentFrameworkError =
  * Deletes a custom framework in Audit Manager.
  */
 export const deleteAssessmentFramework: API.OperationMethod<
-  DeleteAssessmentFrameworkRequest,
+  DeleteAssessmentFrameworkRequest & RegionInput,
   DeleteAssessmentFrameworkResponse,
   DeleteAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -1660,7 +1661,7 @@ export type DeleteAssessmentFrameworkShareError =
  * Deletes a share request for a custom framework in Audit Manager.
  */
 export const deleteAssessmentFrameworkShare: API.OperationMethod<
-  DeleteAssessmentFrameworkShareRequest,
+  DeleteAssessmentFrameworkShareRequest & RegionInput,
   DeleteAssessmentFrameworkShareResponse,
   DeleteAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type DeleteAssessmentReportError =
  * Reference.
  */
 export const deleteAssessmentReport: API.OperationMethod<
-  DeleteAssessmentReportRequest,
+  DeleteAssessmentReportRequest & RegionInput,
   DeleteAssessmentReportResponse,
   DeleteAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1745,7 +1746,7 @@ export type DeleteControlError =
  * assessments that you previously created before you deleted the custom control.
  */
 export const deleteControl: API.OperationMethod<
-  DeleteControlRequest,
+  DeleteControlRequest & RegionInput,
   DeleteControlResponse,
   DeleteControlError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type DeregisterAccountError =
  * Protection in the *Audit Manager User Guide*.
  */
 export const deregisterAccount: API.OperationMethod<
-  DeregisterAccountRequest,
+  DeregisterAccountRequest & RegionInput,
   DeregisterAccountResponse,
   DeregisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -1865,7 +1866,7 @@ export type DeregisterOrganizationAdminAccountError =
  * time of deregistration.
  */
 export const deregisterOrganizationAdminAccount: API.OperationMethod<
-  DeregisterOrganizationAdminAccountRequest,
+  DeregisterOrganizationAdminAccountRequest & RegionInput,
   DeregisterOrganizationAdminAccountResponse,
   DeregisterOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1895,7 +1896,7 @@ export type DisassociateAssessmentReportEvidenceFolderError =
  * Disassociates an evidence folder from the specified assessment report in Audit Manager.
  */
 export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
-  DisassociateAssessmentReportEvidenceFolderRequest,
+  DisassociateAssessmentReportEvidenceFolderRequest & RegionInput,
   DisassociateAssessmentReportEvidenceFolderResponse,
   DisassociateAssessmentReportEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -1924,7 +1925,7 @@ export type GetAccountStatusError = InternalServerException | CommonErrors;
  * Gets the registration status of an account in Audit Manager.
  */
 export const getAccountStatus: API.OperationMethod<
-  GetAccountStatusRequest,
+  GetAccountStatusRequest & RegionInput,
   GetAccountStatusResponse,
   GetAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -1949,7 +1950,7 @@ export type GetAssessmentError =
  * Gets information about a specified assessment.
  */
 export const getAssessment: API.OperationMethod<
-  GetAssessmentRequest,
+  GetAssessmentRequest & RegionInput,
   GetAssessmentResponse,
   GetAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1979,7 +1980,7 @@ export type GetAssessmentFrameworkError =
  * Gets information about a specified framework.
  */
 export const getAssessmentFramework: API.OperationMethod<
-  GetAssessmentFrameworkRequest,
+  GetAssessmentFrameworkRequest & RegionInput,
   GetAssessmentFrameworkResponse,
   GetAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -2009,7 +2010,7 @@ export type GetAssessmentReportUrlError =
  * Gets the URL of an assessment report in Audit Manager.
  */
 export const getAssessmentReportUrl: API.OperationMethod<
-  GetAssessmentReportUrlRequest,
+  GetAssessmentReportUrlRequest & RegionInput,
   GetAssessmentReportUrlResponse,
   GetAssessmentReportUrlError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2040,7 @@ export type GetChangeLogsError =
  * Gets a list of changelogs from Audit Manager.
  */
 export const getChangeLogs: API.PaginatedOperationMethod<
-  GetChangeLogsRequest,
+  GetChangeLogsRequest & RegionInput,
   GetChangeLogsResponse,
   GetChangeLogsError,
   Credentials | HttpClient.HttpClient,
@@ -2075,7 +2076,7 @@ export type GetControlError =
  * Gets information about a specified control.
  */
 export const getControl: API.OperationMethod<
-  GetControlRequest,
+  GetControlRequest & RegionInput,
   GetControlResponse,
   GetControlError,
   Credentials | HttpClient.HttpClient
@@ -2104,7 +2105,7 @@ export type GetDelegationsError =
  * Gets a list of delegations from an audit owner to a delegate.
  */
 export const getDelegations: API.PaginatedOperationMethod<
-  GetDelegationsRequest,
+  GetDelegationsRequest & RegionInput,
   GetDelegationsResponse,
   GetDelegationsError,
   Credentials | HttpClient.HttpClient,
@@ -2135,7 +2136,7 @@ export type GetEvidenceError =
  * Gets information about a specified evidence item.
  */
 export const getEvidence: API.OperationMethod<
-  GetEvidenceRequest,
+  GetEvidenceRequest & RegionInput,
   GetEvidenceResponse,
   GetEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -2165,7 +2166,7 @@ export type GetEvidenceByEvidenceFolderError =
  * Gets all evidence from a specified evidence folder in Audit Manager.
  */
 export const getEvidenceByEvidenceFolder: API.PaginatedOperationMethod<
-  GetEvidenceByEvidenceFolderRequest,
+  GetEvidenceByEvidenceFolderRequest & RegionInput,
   GetEvidenceByEvidenceFolderResponse,
   GetEvidenceByEvidenceFolderError,
   Credentials | HttpClient.HttpClient,
@@ -2214,7 +2215,7 @@ export type GetEvidenceFileUploadUrlError =
  * restrictions for Audit Manager.
  */
 export const getEvidenceFileUploadUrl: API.OperationMethod<
-  GetEvidenceFileUploadUrlRequest,
+  GetEvidenceFileUploadUrlRequest & RegionInput,
   GetEvidenceFileUploadUrlResponse,
   GetEvidenceFileUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -2244,7 +2245,7 @@ export type GetEvidenceFolderError =
  * Gets an evidence folder from a specified assessment in Audit Manager.
  */
 export const getEvidenceFolder: API.OperationMethod<
-  GetEvidenceFolderRequest,
+  GetEvidenceFolderRequest & RegionInput,
   GetEvidenceFolderResponse,
   GetEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -2274,7 +2275,7 @@ export type GetEvidenceFoldersByAssessmentError =
  * Gets the evidence folders from a specified assessment in Audit Manager.
  */
 export const getEvidenceFoldersByAssessment: API.PaginatedOperationMethod<
-  GetEvidenceFoldersByAssessmentRequest,
+  GetEvidenceFoldersByAssessmentRequest & RegionInput,
   GetEvidenceFoldersByAssessmentResponse,
   GetEvidenceFoldersByAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -2311,7 +2312,7 @@ export type GetEvidenceFoldersByAssessmentControlError =
  * Audit Manager assessment.
  */
 export const getEvidenceFoldersByAssessmentControl: API.PaginatedOperationMethod<
-  GetEvidenceFoldersByAssessmentControlRequest,
+  GetEvidenceFoldersByAssessmentControlRequest & RegionInput,
   GetEvidenceFoldersByAssessmentControlResponse,
   GetEvidenceFoldersByAssessmentControlError,
   Credentials | HttpClient.HttpClient,
@@ -2342,7 +2343,7 @@ export type GetInsightsError = AccessDeniedException | InternalServerException |
  * Gets the latest analytics data for all your current active assessments.
  */
 export const getInsights: API.OperationMethod<
-  GetInsightsRequest,
+  GetInsightsRequest & RegionInput,
   GetInsightsResponse,
   GetInsightsError,
   Credentials | HttpClient.HttpClient
@@ -2367,7 +2368,7 @@ export type GetInsightsByAssessmentError =
  * Gets the latest analytics data for a specific active assessment.
  */
 export const getInsightsByAssessment: API.OperationMethod<
-  GetInsightsByAssessmentRequest,
+  GetInsightsByAssessmentRequest & RegionInput,
   GetInsightsByAssessmentResponse,
   GetInsightsByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2399,7 @@ export type GetOrganizationAdminAccountError =
  * organization.
  */
 export const getOrganizationAdminAccount: API.OperationMethod<
-  GetOrganizationAdminAccountRequest,
+  GetOrganizationAdminAccountRequest & RegionInput,
   GetOrganizationAdminAccountResponse,
   GetOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2438,7 +2439,7 @@ export type GetServicesInScopeError =
  * guide.
  */
 export const getServicesInScope: API.OperationMethod<
-  GetServicesInScopeRequest,
+  GetServicesInScopeRequest & RegionInput,
   GetServicesInScopeResponse,
   GetServicesInScopeError,
   Credentials | HttpClient.HttpClient
@@ -2458,7 +2459,7 @@ export type GetSettingsError = AccessDeniedException | InternalServerException |
  * Gets the settings for a specified Amazon Web Services account.
  */
 export const getSettings: API.OperationMethod<
-  GetSettingsRequest,
+  GetSettingsRequest & RegionInput,
   GetSettingsResponse,
   GetSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2489,7 +2490,7 @@ export type ListAssessmentControlInsightsByControlDomainError =
  * of these conditions are met, no data is listed for that control.
  */
 export const listAssessmentControlInsightsByControlDomain: API.PaginatedOperationMethod<
-  ListAssessmentControlInsightsByControlDomainRequest,
+  ListAssessmentControlInsightsByControlDomainRequest & RegionInput,
   ListAssessmentControlInsightsByControlDomainResponse,
   ListAssessmentControlInsightsByControlDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2529,7 +2530,7 @@ export type ListAssessmentFrameworksError =
  * library.
  */
 export const listAssessmentFrameworks: API.PaginatedOperationMethod<
-  ListAssessmentFrameworksRequest,
+  ListAssessmentFrameworksRequest & RegionInput,
   ListAssessmentFrameworksResponse,
   ListAssessmentFrameworksError,
   Credentials | HttpClient.HttpClient,
@@ -2559,7 +2560,7 @@ export type ListAssessmentFrameworkShareRequestsError =
  * Returns a list of sent or received share requests for custom frameworks in Audit Manager.
  */
 export const listAssessmentFrameworkShareRequests: API.PaginatedOperationMethod<
-  ListAssessmentFrameworkShareRequestsRequest,
+  ListAssessmentFrameworkShareRequestsRequest & RegionInput,
   ListAssessmentFrameworkShareRequestsResponse,
   ListAssessmentFrameworkShareRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -2589,7 +2590,7 @@ export type ListAssessmentReportsError =
  * Returns a list of assessment reports created in Audit Manager.
  */
 export const listAssessmentReports: API.PaginatedOperationMethod<
-  ListAssessmentReportsRequest,
+  ListAssessmentReportsRequest & RegionInput,
   ListAssessmentReportsResponse,
   ListAssessmentReportsError,
   Credentials | HttpClient.HttpClient,
@@ -2619,7 +2620,7 @@ export type ListAssessmentsError =
  * Returns a list of current and past assessments from Audit Manager.
  */
 export const listAssessments: API.PaginatedOperationMethod<
-  ListAssessmentsRequest,
+  ListAssessmentsRequest & RegionInput,
   ListAssessmentsResponse,
   ListAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2663,7 +2664,7 @@ export type ListControlDomainInsightsError =
  * for that control domain.
  */
 export const listControlDomainInsights: API.PaginatedOperationMethod<
-  ListControlDomainInsightsRequest,
+  ListControlDomainInsightsRequest & RegionInput,
   ListControlDomainInsightsResponse,
   ListControlDomainInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2711,7 +2712,7 @@ export type ListControlDomainInsightsByAssessmentError =
  * for that domain.
  */
 export const listControlDomainInsightsByAssessment: API.PaginatedOperationMethod<
-  ListControlDomainInsightsByAssessmentRequest,
+  ListControlDomainInsightsByAssessmentRequest & RegionInput,
   ListControlDomainInsightsByAssessmentResponse,
   ListControlDomainInsightsByAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -2753,7 +2754,7 @@ export type ListControlInsightsByControlDomainError =
  * is listed for that control.
  */
 export const listControlInsightsByControlDomain: API.PaginatedOperationMethod<
-  ListControlInsightsByControlDomainRequest,
+  ListControlInsightsByControlDomainRequest & RegionInput,
   ListControlInsightsByControlDomainResponse,
   ListControlInsightsByControlDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2788,7 +2789,7 @@ export type ListControlsError =
  * Returns a list of controls from Audit Manager.
  */
 export const listControls: API.PaginatedOperationMethod<
-  ListControlsRequest,
+  ListControlsRequest & RegionInput,
   ListControlsResponse,
   ListControlsError,
   Credentials | HttpClient.HttpClient,
@@ -2819,7 +2820,7 @@ export type ListKeywordsForDataSourceError =
  * source.
  */
 export const listKeywordsForDataSource: API.PaginatedOperationMethod<
-  ListKeywordsForDataSourceRequest,
+  ListKeywordsForDataSourceRequest & RegionInput,
   ListKeywordsForDataSourceResponse,
   ListKeywordsForDataSourceError,
   Credentials | HttpClient.HttpClient,
@@ -2849,7 +2850,7 @@ export type ListNotificationsError =
  * Returns a list of all Audit Manager notifications.
  */
 export const listNotifications: API.PaginatedOperationMethod<
-  ListNotificationsRequest,
+  ListNotificationsRequest & RegionInput,
   ListNotificationsResponse,
   ListNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -2879,7 +2880,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for the specified resource in Audit Manager.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2906,7 +2907,7 @@ export type RegisterAccountError =
  * Enables Audit Manager for the specified Amazon Web Services account.
  */
 export const registerAccount: API.OperationMethod<
-  RegisterAccountRequest,
+  RegisterAccountRequest & RegionInput,
   RegisterAccountResponse,
   RegisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type RegisterOrganizationAdminAccountError =
  * administrator for Audit Manager.
  */
 export const registerOrganizationAdminAccount: API.OperationMethod<
-  RegisterOrganizationAdminAccountRequest,
+  RegisterOrganizationAdminAccountRequest & RegionInput,
   RegisterOrganizationAdminAccountResponse,
   RegisterOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -3005,7 +3006,7 @@ export type StartAssessmentFrameworkShareError =
  * Guide.
  */
 export const startAssessmentFrameworkShare: API.OperationMethod<
-  StartAssessmentFrameworkShareRequest,
+  StartAssessmentFrameworkShareRequest & RegionInput,
   StartAssessmentFrameworkShareResponse,
   StartAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -3034,7 +3035,7 @@ export type TagResourceError =
  * Tags the specified resource in Audit Manager.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3058,7 +3059,7 @@ export type UntagResourceError =
  * Removes a tag from a resource in Audit Manager.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3085,7 +3086,7 @@ export type UpdateAssessmentError =
  * Edits an Audit Manager assessment.
  */
 export const updateAssessment: API.OperationMethod<
-  UpdateAssessmentRequest,
+  UpdateAssessmentRequest & RegionInput,
   UpdateAssessmentResponse,
   UpdateAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -3117,7 +3118,7 @@ export type UpdateAssessmentControlError =
  * Updates a control within an assessment in Audit Manager.
  */
 export const updateAssessmentControl: API.OperationMethod<
-  UpdateAssessmentControlRequest,
+  UpdateAssessmentControlRequest & RegionInput,
   UpdateAssessmentControlResponse,
   UpdateAssessmentControlError,
   Credentials | HttpClient.HttpClient
@@ -3147,7 +3148,7 @@ export type UpdateAssessmentControlSetStatusError =
  * Updates the status of a control set in an Audit Manager assessment.
  */
 export const updateAssessmentControlSetStatus: API.OperationMethod<
-  UpdateAssessmentControlSetStatusRequest,
+  UpdateAssessmentControlSetStatusRequest & RegionInput,
   UpdateAssessmentControlSetStatusResponse,
   UpdateAssessmentControlSetStatusError,
   Credentials | HttpClient.HttpClient
@@ -3178,7 +3179,7 @@ export type UpdateAssessmentFrameworkError =
  * Updates a custom framework in Audit Manager.
  */
 export const updateAssessmentFramework: API.OperationMethod<
-  UpdateAssessmentFrameworkRequest,
+  UpdateAssessmentFrameworkRequest & RegionInput,
   UpdateAssessmentFrameworkResponse,
   UpdateAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3211,7 @@ export type UpdateAssessmentFrameworkShareError =
  * Updates a share request for a custom framework in Audit Manager.
  */
 export const updateAssessmentFrameworkShare: API.OperationMethod<
-  UpdateAssessmentFrameworkShareRequest,
+  UpdateAssessmentFrameworkShareRequest & RegionInput,
   UpdateAssessmentFrameworkShareResponse,
   UpdateAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -3242,7 +3243,7 @@ export type UpdateAssessmentStatusError =
  * Updates the status of an assessment in Audit Manager.
  */
 export const updateAssessmentStatus: API.OperationMethod<
-  UpdateAssessmentStatusRequest,
+  UpdateAssessmentStatusRequest & RegionInput,
   UpdateAssessmentStatusResponse,
   UpdateAssessmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -3273,7 +3274,7 @@ export type UpdateControlError =
  * Updates a custom control in Audit Manager.
  */
 export const updateControl: API.OperationMethod<
-  UpdateControlRequest,
+  UpdateControlRequest & RegionInput,
   UpdateControlResponse,
   UpdateControlError,
   Credentials | HttpClient.HttpClient
@@ -3302,7 +3303,7 @@ export type UpdateSettingsError =
  * Updates Audit Manager settings for the current account.
  */
 export const updateSettings: API.OperationMethod<
-  UpdateSettingsRequest,
+  UpdateSettingsRequest & RegionInput,
   UpdateSettingsResponse,
   UpdateSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3327,7 +3328,7 @@ export type ValidateAssessmentReportIntegrityError =
  * Validates the integrity of an assessment report in Audit Manager.
  */
 export const validateAssessmentReportIntegrity: API.OperationMethod<
-  ValidateAssessmentReportIntegrityRequest,
+  ValidateAssessmentReportIntegrityRequest & RegionInput,
   ValidateAssessmentReportIntegrityResponse,
   ValidateAssessmentReportIntegrityError,
   Credentials | HttpClient.HttpClient

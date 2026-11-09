@@ -4,8 +4,7 @@
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Boat has no envelope of its own; the
  * REST-protocol traits (SensitiveValue / RawResponse) come from
- * `core/protocol-rest`, and NdjsonStream (attachCommand's output) from
- * `core/ndjson`.
+ * `core/protocol-rest`.
  */
 export {
   Body,
@@ -43,5 +42,3 @@ export {
   rawResponseSymbol,
   rawResponseRootSymbol,
 } from "@distilled.cloud/core/protocol-rest";
-
-export { NdjsonStream, ndjsonStreamSymbol } from "@distilled.cloud/core/ndjson";

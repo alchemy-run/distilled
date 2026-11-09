@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -145,10 +146,10 @@ export type Sbom = unknown;
 export type OutputFormat = "CYCLONE_DX_1_5" | "INSPECTOR" | "INSPECTOR_ALT" | (string & {});
 export interface ScanSbomRequest {
   sbom: any;
-  outputFormat?: OutputFormat;
+  outputFormat?: OutputFormat | undefined;
 }
 export interface ScanSbomResponse {
-  sbom?: any;
+  sbom?: any | undefined;
 }
 export type InternalServerExceptionReason = "FAILED_TO_GENERATE_SBOM" | "OTHER" | (string & {});
 export type ValidationExceptionReason =
@@ -175,7 +176,7 @@ export type ScanSbomError =
  * The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choosing.
  */
 export const scanSbom: API.OperationMethod<
-  ScanSbomRequest,
+  ScanSbomRequest & RegionInput,
   ScanSbomResponse,
   ScanSbomError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -210,36 +211,36 @@ export type InstanceType = string;
 export type NonNegativeDouble = number;
 export type ThroughputVal = number;
 export interface VolumeSpecification {
-  VolumeType?: string;
-  Iops?: number;
-  SizeInGB?: number;
-  Throughput?: number;
+  VolumeType?: string | undefined;
+  Iops?: number | undefined;
+  SizeInGB?: number | undefined;
+  Throughput?: number | undefined;
 }
 export interface EbsBlockDeviceConfig {
-  VolumeSpecification?: VolumeSpecification;
-  VolumesPerInstance?: number;
+  VolumeSpecification?: VolumeSpecification | undefined;
+  VolumesPerInstance?: number | undefined;
 }
 export type EbsBlockDeviceConfigList = EbsBlockDeviceConfig[];
 export interface EbsConfiguration {
-  EbsBlockDeviceConfigs?: EbsBlockDeviceConfig[];
-  EbsOptimized?: boolean;
+  EbsBlockDeviceConfigs?: EbsBlockDeviceConfig[] | undefined;
+  EbsOptimized?: boolean | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface Configuration {
-  Classification?: string;
-  Configurations?: Configuration[];
-  Properties?: { [key: string]: string | undefined };
+  Classification?: string | undefined;
+  Configurations?: Configuration[] | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfigurationList = Configuration[];
 export interface InstanceTypeConfig {
-  InstanceType?: string;
-  WeightedCapacity?: number;
-  BidPrice?: string;
-  BidPriceAsPercentageOfOnDemandPrice?: number;
-  EbsConfiguration?: EbsConfiguration;
-  Configurations?: Configuration[];
-  CustomAmiId?: string;
-  Priority?: number;
+  InstanceType?: string | undefined;
+  WeightedCapacity?: number | undefined;
+  BidPrice?: string | undefined;
+  BidPriceAsPercentageOfOnDemandPrice?: number | undefined;
+  EbsConfiguration?: EbsConfiguration | undefined;
+  Configurations?: Configuration[] | undefined;
+  CustomAmiId?: string | undefined;
+  Priority?: number | undefined;
 }
 export type InstanceTypeConfigList = InstanceTypeConfig[];
 export type SpotProvisioningTimeoutAction =
@@ -254,10 +255,10 @@ export type SpotProvisioningAllocationStrategy =
   | "capacity-optimized-prioritized"
   | (string & {});
 export interface SpotProvisioningSpecification {
-  TimeoutDurationMinutes?: number;
-  TimeoutAction?: SpotProvisioningTimeoutAction;
-  BlockDurationMinutes?: number;
-  AllocationStrategy?: SpotProvisioningAllocationStrategy;
+  TimeoutDurationMinutes?: number | undefined;
+  TimeoutAction?: SpotProvisioningTimeoutAction | undefined;
+  BlockDurationMinutes?: number | undefined;
+  AllocationStrategy?: SpotProvisioningAllocationStrategy | undefined;
 }
 export type OnDemandProvisioningAllocationStrategy = "lowest-price" | "prioritized" | (string & {});
 export type OnDemandCapacityReservationUsageStrategy =
@@ -265,57 +266,57 @@ export type OnDemandCapacityReservationUsageStrategy =
   | (string & {});
 export type OnDemandCapacityReservationPreference = "open" | "none" | (string & {});
 export interface OnDemandCapacityReservationOptions {
-  UsageStrategy?: OnDemandCapacityReservationUsageStrategy;
-  CapacityReservationPreference?: OnDemandCapacityReservationPreference;
-  CapacityReservationResourceGroupArn?: string;
+  UsageStrategy?: OnDemandCapacityReservationUsageStrategy | undefined;
+  CapacityReservationPreference?: OnDemandCapacityReservationPreference | undefined;
+  CapacityReservationResourceGroupArn?: string | undefined;
 }
 export interface OnDemandProvisioningSpecification {
-  AllocationStrategy?: OnDemandProvisioningAllocationStrategy;
-  CapacityReservationOptions?: OnDemandCapacityReservationOptions;
+  AllocationStrategy?: OnDemandProvisioningAllocationStrategy | undefined;
+  CapacityReservationOptions?: OnDemandCapacityReservationOptions | undefined;
 }
 export interface InstanceFleetProvisioningSpecifications {
-  SpotSpecification?: SpotProvisioningSpecification;
-  OnDemandSpecification?: OnDemandProvisioningSpecification;
+  SpotSpecification?: SpotProvisioningSpecification | undefined;
+  OnDemandSpecification?: OnDemandProvisioningSpecification | undefined;
 }
 export interface SpotResizingSpecification {
-  TimeoutDurationMinutes?: number;
-  AllocationStrategy?: SpotProvisioningAllocationStrategy;
+  TimeoutDurationMinutes?: number | undefined;
+  AllocationStrategy?: SpotProvisioningAllocationStrategy | undefined;
 }
 export interface OnDemandResizingSpecification {
-  TimeoutDurationMinutes?: number;
-  AllocationStrategy?: OnDemandProvisioningAllocationStrategy;
-  CapacityReservationOptions?: OnDemandCapacityReservationOptions;
+  TimeoutDurationMinutes?: number | undefined;
+  AllocationStrategy?: OnDemandProvisioningAllocationStrategy | undefined;
+  CapacityReservationOptions?: OnDemandCapacityReservationOptions | undefined;
 }
 export interface InstanceFleetResizingSpecifications {
-  SpotResizeSpecification?: SpotResizingSpecification;
-  OnDemandResizeSpecification?: OnDemandResizingSpecification;
+  SpotResizeSpecification?: SpotResizingSpecification | undefined;
+  OnDemandResizeSpecification?: OnDemandResizingSpecification | undefined;
 }
 export interface InstanceFleetConfig {
-  Name?: string;
-  InstanceFleetType?: InstanceFleetType;
-  TargetOnDemandCapacity?: number;
-  TargetSpotCapacity?: number;
-  InstanceTypeConfigs?: InstanceTypeConfig[];
-  LaunchSpecifications?: InstanceFleetProvisioningSpecifications;
-  ResizeSpecifications?: InstanceFleetResizingSpecifications;
-  Context?: string;
+  Name?: string | undefined;
+  InstanceFleetType?: InstanceFleetType | undefined;
+  TargetOnDemandCapacity?: number | undefined;
+  TargetSpotCapacity?: number | undefined;
+  InstanceTypeConfigs?: InstanceTypeConfig[] | undefined;
+  LaunchSpecifications?: InstanceFleetProvisioningSpecifications | undefined;
+  ResizeSpecifications?: InstanceFleetResizingSpecifications | undefined;
+  Context?: string | undefined;
 }
 export interface AddInstanceFleetInput {
-  ClusterId?: string;
-  InstanceFleet?: InstanceFleetConfig;
+  ClusterId?: string | undefined;
+  InstanceFleet?: InstanceFleetConfig | undefined;
 }
 export type InstanceFleetId = string;
 export type ArnType = string;
 export interface AddInstanceFleetOutput {
-  ClusterId?: string;
-  InstanceFleetId?: string;
-  ClusterArn?: string;
+  ClusterId?: string | undefined;
+  InstanceFleetId?: string | undefined;
+  ClusterArn?: string | undefined;
 }
 export type MarketType = "ON_DEMAND" | "SPOT" | (string & {});
 export type InstanceRoleType = "MASTER" | "CORE" | "TASK" | (string & {});
 export interface ScalingConstraints {
-  MinCapacity?: number;
-  MaxCapacity?: number;
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
 }
 export type AdjustmentType =
   | "CHANGE_IN_CAPACITY"
@@ -323,13 +324,13 @@ export type AdjustmentType =
   | "EXACT_CAPACITY"
   | (string & {});
 export interface SimpleScalingPolicyConfiguration {
-  AdjustmentType?: AdjustmentType;
-  ScalingAdjustment?: number;
-  CoolDown?: number;
+  AdjustmentType?: AdjustmentType | undefined;
+  ScalingAdjustment?: number | undefined;
+  CoolDown?: number | undefined;
 }
 export interface ScalingAction {
-  Market?: MarketType;
-  SimpleScalingPolicyConfiguration?: SimpleScalingPolicyConfiguration;
+  Market?: MarketType | undefined;
+  SimpleScalingPolicyConfiguration?: SimpleScalingPolicyConfiguration | undefined;
 }
 export type ComparisonOperator =
   | "GREATER_THAN_OR_EQUAL"
@@ -368,57 +369,57 @@ export type Unit =
   | "COUNT_PER_SECOND"
   | (string & {});
 export interface MetricDimension {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type MetricDimensionList = MetricDimension[];
 export interface CloudWatchAlarmDefinition {
-  ComparisonOperator?: ComparisonOperator;
-  EvaluationPeriods?: number;
-  MetricName?: string;
-  Namespace?: string;
-  Period?: number;
-  Statistic?: Statistic;
-  Threshold?: number;
-  Unit?: Unit;
-  Dimensions?: MetricDimension[];
+  ComparisonOperator?: ComparisonOperator | undefined;
+  EvaluationPeriods?: number | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Period?: number | undefined;
+  Statistic?: Statistic | undefined;
+  Threshold?: number | undefined;
+  Unit?: Unit | undefined;
+  Dimensions?: MetricDimension[] | undefined;
 }
 export interface ScalingTrigger {
-  CloudWatchAlarmDefinition?: CloudWatchAlarmDefinition;
+  CloudWatchAlarmDefinition?: CloudWatchAlarmDefinition | undefined;
 }
 export interface ScalingRule {
-  Name?: string;
-  Description?: string;
-  Action?: ScalingAction;
-  Trigger?: ScalingTrigger;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Action?: ScalingAction | undefined;
+  Trigger?: ScalingTrigger | undefined;
 }
 export type ScalingRuleList = ScalingRule[];
 export interface AutoScalingPolicy {
-  Constraints?: ScalingConstraints;
-  Rules?: ScalingRule[];
+  Constraints?: ScalingConstraints | undefined;
+  Rules?: ScalingRule[] | undefined;
 }
 export interface InstanceGroupConfig {
-  Name?: string;
-  Market?: MarketType;
-  InstanceRole?: InstanceRoleType;
-  BidPrice?: string;
-  InstanceType?: string;
-  InstanceCount?: number;
-  Configurations?: Configuration[];
-  EbsConfiguration?: EbsConfiguration;
-  AutoScalingPolicy?: AutoScalingPolicy;
-  CustomAmiId?: string;
+  Name?: string | undefined;
+  Market?: MarketType | undefined;
+  InstanceRole?: InstanceRoleType | undefined;
+  BidPrice?: string | undefined;
+  InstanceType?: string | undefined;
+  InstanceCount?: number | undefined;
+  Configurations?: Configuration[] | undefined;
+  EbsConfiguration?: EbsConfiguration | undefined;
+  AutoScalingPolicy?: AutoScalingPolicy | undefined;
+  CustomAmiId?: string | undefined;
 }
 export type InstanceGroupConfigList = InstanceGroupConfig[];
 export interface AddInstanceGroupsInput {
-  InstanceGroups?: InstanceGroupConfig[];
-  JobFlowId?: string;
+  InstanceGroups?: InstanceGroupConfig[] | undefined;
+  JobFlowId?: string | undefined;
 }
 export type InstanceGroupIdsList = string[];
 export interface AddInstanceGroupsOutput {
-  JobFlowId?: string;
-  InstanceGroupIds?: string[];
-  ClusterArn?: string;
+  JobFlowId?: string | undefined;
+  InstanceGroupIds?: string[] | undefined;
+  ClusterArn?: string | undefined;
 }
 export type ActionOnFailure =
   | "TERMINATE_JOB_FLOW"
@@ -428,88 +429,88 @@ export type ActionOnFailure =
   | (string & {});
 export type XmlString = string;
 export interface KeyValue {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type KeyValueList = KeyValue[];
 export type XmlStringList = string[];
 export interface HadoopJarStepConfig {
-  Properties?: KeyValue[];
-  Jar?: string;
-  MainClass?: string;
-  Args?: string[];
+  Properties?: KeyValue[] | undefined;
+  Jar?: string | undefined;
+  MainClass?: string | undefined;
+  Args?: string[] | undefined;
 }
 export interface S3MonitoringConfiguration {
-  LogUri?: string;
-  EncryptionKeyArn?: string;
+  LogUri?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface StepMonitoringConfiguration {
-  S3MonitoringConfiguration?: S3MonitoringConfiguration;
+  S3MonitoringConfiguration?: S3MonitoringConfiguration | undefined;
 }
 export interface StepConfig {
-  Name?: string;
-  ActionOnFailure?: ActionOnFailure;
-  HadoopJarStep?: HadoopJarStepConfig;
-  StepMonitoringConfiguration?: StepMonitoringConfiguration;
+  Name?: string | undefined;
+  ActionOnFailure?: ActionOnFailure | undefined;
+  HadoopJarStep?: HadoopJarStepConfig | undefined;
+  StepMonitoringConfiguration?: StepMonitoringConfiguration | undefined;
 }
 export type StepConfigList = StepConfig[];
 export interface AddJobFlowStepsInput {
-  JobFlowId?: string;
-  Steps?: StepConfig[];
-  ExecutionRoleArn?: string;
+  JobFlowId?: string | undefined;
+  Steps?: StepConfig[] | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export type StepIdsList = string[];
 export interface AddJobFlowStepsOutput {
-  StepIds?: string[];
+  StepIds?: string[] | undefined;
 }
 export type ResourceId = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type ClusterId = string;
 export interface AddTagsInput {
-  ResourceId?: string;
-  Tags?: Tag[];
-  ClusterId?: string;
+  ResourceId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClusterId?: string | undefined;
 }
 export interface AddTagsOutput {}
 export type StepCancellationOption = "SEND_INTERRUPT" | "TERMINATE_PROCESS" | (string & {});
 export interface CancelStepsInput {
-  ClusterId?: string;
-  StepIds?: string[];
-  StepCancellationOption?: StepCancellationOption;
+  ClusterId?: string | undefined;
+  StepIds?: string[] | undefined;
+  StepCancellationOption?: StepCancellationOption | undefined;
 }
 export type StepId = string;
 export type CancelStepsRequestStatus = "SUBMITTED" | "FAILED" | (string & {});
 export interface CancelStepsInfo {
-  StepId?: string;
-  Status?: CancelStepsRequestStatus;
-  Reason?: string;
+  StepId?: string | undefined;
+  Status?: CancelStepsRequestStatus | undefined;
+  Reason?: string | undefined;
 }
 export type CancelStepsInfoList = CancelStepsInfo[];
 export interface CancelStepsOutput {
-  CancelStepsInfoList?: CancelStepsInfo[];
+  CancelStepsInfoList?: CancelStepsInfo[] | undefined;
 }
 export interface EMRContainersConfig {
-  JobRunId?: string;
+  JobRunId?: string | undefined;
 }
 export type ProfilerType = "SHS" | "TEZUI" | "YTS" | (string & {});
 export interface CreatePersistentAppUIInput {
-  TargetResourceArn?: string;
-  EMRContainersConfig?: EMRContainersConfig;
-  Tags?: Tag[];
-  XReferer?: string;
-  ProfilerType?: ProfilerType;
+  TargetResourceArn?: string | undefined;
+  EMRContainersConfig?: EMRContainersConfig | undefined;
+  Tags?: Tag[] | undefined;
+  XReferer?: string | undefined;
+  ProfilerType?: ProfilerType | undefined;
 }
 export interface CreatePersistentAppUIOutput {
-  PersistentAppUIId?: string;
-  RuntimeRoleEnabledCluster?: boolean;
+  PersistentAppUIId?: string | undefined;
+  RuntimeRoleEnabledCluster?: boolean | undefined;
 }
 export interface CreateSecurityConfigurationInput {
-  Name?: string;
-  SecurityConfiguration?: string;
+  Name?: string | undefined;
+  SecurityConfiguration?: string | undefined;
 }
 export interface CreateSecurityConfigurationOutput {
   Name: string;
@@ -519,54 +520,54 @@ export type AuthMode = "SSO" | "IAM" | (string & {});
 export type SubnetIdList = string[];
 export type IdcUserAssignment = "REQUIRED" | "OPTIONAL" | (string & {});
 export interface CreateStudioInput {
-  Name?: string;
-  Description?: string;
-  AuthMode?: AuthMode;
-  VpcId?: string;
-  SubnetIds?: string[];
-  ServiceRole?: string;
-  UserRole?: string;
-  WorkspaceSecurityGroupId?: string;
-  EngineSecurityGroupId?: string;
-  DefaultS3Location?: string;
-  IdpAuthUrl?: string;
-  IdpRelayStateParameterName?: string;
-  Tags?: Tag[];
-  TrustedIdentityPropagationEnabled?: boolean;
-  IdcUserAssignment?: IdcUserAssignment;
-  IdcInstanceArn?: string;
-  EncryptionKeyArn?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  AuthMode?: AuthMode | undefined;
+  VpcId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  ServiceRole?: string | undefined;
+  UserRole?: string | undefined;
+  WorkspaceSecurityGroupId?: string | undefined;
+  EngineSecurityGroupId?: string | undefined;
+  DefaultS3Location?: string | undefined;
+  IdpAuthUrl?: string | undefined;
+  IdpRelayStateParameterName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  TrustedIdentityPropagationEnabled?: boolean | undefined;
+  IdcUserAssignment?: IdcUserAssignment | undefined;
+  IdcInstanceArn?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface CreateStudioOutput {
-  StudioId?: string;
-  Url?: string;
+  StudioId?: string | undefined;
+  Url?: string | undefined;
 }
 export type IdentityType = "USER" | "GROUP" | (string & {});
 export interface CreateStudioSessionMappingInput {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
-  SessionPolicyArn?: string;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
+  SessionPolicyArn?: string | undefined;
 }
 export interface CreateStudioSessionMappingResponse {}
 export interface DeleteSecurityConfigurationInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteSecurityConfigurationOutput {}
 export interface DeleteStudioInput {
-  StudioId?: string;
+  StudioId?: string | undefined;
 }
 export interface DeleteStudioResponse {}
 export interface DeleteStudioSessionMappingInput {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
 }
 export interface DeleteStudioSessionMappingResponse {}
 export interface DescribeClusterInput {
-  ClusterId?: string;
+  ClusterId?: string | undefined;
 }
 export type ClusterState =
   | "STARTING"
@@ -588,48 +589,48 @@ export type ClusterStateChangeReasonCode =
   | "ALL_STEPS_COMPLETED"
   | (string & {});
 export interface ClusterStateChangeReason {
-  Code?: ClusterStateChangeReasonCode;
-  Message?: string;
+  Code?: ClusterStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface ClusterTimeline {
-  CreationDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
+  CreationDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
 }
 export type ErrorData = { [key: string]: string | undefined }[];
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorData?: { [key: string]: string | undefined }[];
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorData?: { [key: string]: string | undefined }[] | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ErrorDetailList = ErrorDetail[];
 export interface ClusterStatus {
-  State?: ClusterState;
-  StateChangeReason?: ClusterStateChangeReason;
-  Timeline?: ClusterTimeline;
-  ErrorDetails?: ErrorDetail[];
+  State?: ClusterState | undefined;
+  StateChangeReason?: ClusterStateChangeReason | undefined;
+  Timeline?: ClusterTimeline | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
 }
 export type XmlStringMaxLen256List = string[];
 export type StringList = string[];
 export interface Ec2InstanceAttributes {
-  Ec2KeyName?: string;
-  Ec2SubnetId?: string;
-  RequestedEc2SubnetIds?: string[];
-  Ec2AvailabilityZone?: string;
-  RequestedEc2AvailabilityZones?: string[];
-  IamInstanceProfile?: string;
-  EmrManagedMasterSecurityGroup?: string;
-  EmrManagedSlaveSecurityGroup?: string;
-  ServiceAccessSecurityGroup?: string;
-  AdditionalMasterSecurityGroups?: string[];
-  AdditionalSlaveSecurityGroups?: string[];
+  Ec2KeyName?: string | undefined;
+  Ec2SubnetId?: string | undefined;
+  RequestedEc2SubnetIds?: string[] | undefined;
+  Ec2AvailabilityZone?: string | undefined;
+  RequestedEc2AvailabilityZones?: string[] | undefined;
+  IamInstanceProfile?: string | undefined;
+  EmrManagedMasterSecurityGroup?: string | undefined;
+  EmrManagedSlaveSecurityGroup?: string | undefined;
+  ServiceAccessSecurityGroup?: string | undefined;
+  AdditionalMasterSecurityGroups?: string[] | undefined;
+  AdditionalSlaveSecurityGroups?: string[] | undefined;
 }
 export type InstanceCollectionType = "INSTANCE_FLEET" | "INSTANCE_GROUP" | (string & {});
 export interface Application {
-  Name?: string;
-  Version?: string;
-  Args?: string[];
-  AdditionalInfo?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Version?: string | undefined;
+  Args?: string[] | undefined;
+  AdditionalInfo?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationList = Application[];
 export type ScaleDownBehavior =
@@ -638,26 +639,26 @@ export type ScaleDownBehavior =
   | (string & {});
 export type RepoUpgradeOnBoot = "SECURITY" | "NONE" | (string & {});
 export interface KerberosAttributes {
-  Realm?: string;
-  KdcAdminPassword?: string | redacted.Redacted<string>;
-  CrossRealmTrustPrincipalPassword?: string | redacted.Redacted<string>;
-  ADDomainJoinUser?: string;
-  ADDomainJoinPassword?: string | redacted.Redacted<string>;
+  Realm?: string | undefined;
+  KdcAdminPassword?: string | redacted.Redacted<string> | undefined;
+  CrossRealmTrustPrincipalPassword?: string | redacted.Redacted<string> | undefined;
+  ADDomainJoinUser?: string | undefined;
+  ADDomainJoinPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type OptionalArnType = string;
 export type PlacementGroupStrategy = "SPREAD" | "PARTITION" | "CLUSTER" | "NONE" | (string & {});
 export interface PlacementGroupConfig {
-  InstanceRole?: InstanceRoleType;
-  PlacementStrategy?: PlacementGroupStrategy;
+  InstanceRole?: InstanceRoleType | undefined;
+  PlacementStrategy?: PlacementGroupStrategy | undefined;
 }
 export type PlacementGroupConfigList = PlacementGroupConfig[];
 export type LogTypesMap = { [key: string]: string[] | undefined };
 export interface CloudWatchLogConfiguration {
-  Enabled?: boolean;
-  LogGroupName?: string;
-  LogStreamNamePrefix?: string;
-  EncryptionKeyArn?: string;
-  LogTypes?: { [key: string]: string[] | undefined };
+  Enabled?: boolean | undefined;
+  LogGroupName?: string | undefined;
+  LogStreamNamePrefix?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  LogTypes?: { [key: string]: string[] | undefined } | undefined;
 }
 export type LogType = "system-logs" | "application-logs" | "persistent-ui-logs" | (string & {});
 export type LogUploadPolicyValue =
@@ -665,64 +666,66 @@ export type LogUploadPolicyValue =
   | "on-customer-s3only"
   | "disabled"
   | (string & {});
-export type LogTypeMap = { [key in LogType]?: LogUploadPolicyValue };
+export type LogTypeMap = { [key in LogType]?: LogUploadPolicyValue | undefined };
 export interface S3LoggingConfiguration {
-  LogTypeUploadPolicy?: { [key: string]: LogUploadPolicyValue | undefined };
+  LogTypeUploadPolicy?: { [key: string]: LogUploadPolicyValue | undefined } | undefined;
 }
 export interface MonitoringConfiguration {
-  CloudWatchLogConfiguration?: CloudWatchLogConfiguration;
-  S3LoggingConfiguration?: S3LoggingConfiguration;
+  CloudWatchLogConfiguration?: CloudWatchLogConfiguration | undefined;
+  S3LoggingConfiguration?: S3LoggingConfiguration | undefined;
 }
 export interface Cluster {
-  Id?: string;
-  Name?: string;
-  Status?: ClusterStatus;
-  Ec2InstanceAttributes?: Ec2InstanceAttributes;
-  InstanceCollectionType?: InstanceCollectionType;
-  LogUri?: string;
-  LogEncryptionKmsKeyId?: string;
-  RequestedAmiVersion?: string;
-  RunningAmiVersion?: string;
-  ReleaseLabel?: string;
-  AutoTerminate?: boolean;
-  TerminationProtected?: boolean;
-  UnhealthyNodeReplacement?: boolean;
-  VisibleToAllUsers?: boolean;
-  Applications?: Application[];
-  Tags?: Tag[];
-  ServiceRole?: string;
-  NormalizedInstanceHours?: number;
-  MasterPublicDnsName?: string;
-  Configurations?: Configuration[];
-  SecurityConfiguration?: string;
-  AutoScalingRole?: string;
-  ScaleDownBehavior?: ScaleDownBehavior;
-  CustomAmiId?: string;
-  EbsRootVolumeSize?: number;
-  RepoUpgradeOnBoot?: RepoUpgradeOnBoot;
-  KerberosAttributes?: KerberosAttributes;
-  ClusterArn?: string;
-  OutpostArn?: string;
-  StepConcurrencyLevel?: number;
-  PlacementGroups?: PlacementGroupConfig[];
-  OSReleaseLabel?: string;
-  EbsRootVolumeIops?: number;
-  EbsRootVolumeThroughput?: number;
-  ExtendedSupport?: boolean;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  SessionEnabled?: boolean;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: ClusterStatus | undefined;
+  Ec2InstanceAttributes?: Ec2InstanceAttributes | undefined;
+  InstanceCollectionType?: InstanceCollectionType | undefined;
+  LogUri?: string | undefined;
+  LogEncryptionKmsKeyId?: string | undefined;
+  RequestedAmiVersion?: string | undefined;
+  RunningAmiVersion?: string | undefined;
+  ReleaseLabel?: string | undefined;
+  AutoTerminate?: boolean | undefined;
+  TerminationProtected?: boolean | undefined;
+  UnhealthyNodeReplacement?: boolean | undefined;
+  VisibleToAllUsers?: boolean | undefined;
+  Applications?: Application[] | undefined;
+  Tags?: Tag[] | undefined;
+  ServiceRole?: string | undefined;
+  NormalizedInstanceHours?: number | undefined;
+  MasterPublicDnsName?: string | undefined;
+  Configurations?: Configuration[] | undefined;
+  SecurityConfiguration?: string | undefined;
+  AutoScalingRole?: string | undefined;
+  ScaleDownBehavior?: ScaleDownBehavior | undefined;
+  CustomAmiId?: string | undefined;
+  EbsRootVolumeSize?: number | undefined;
+  RepoUpgradeOnBoot?: RepoUpgradeOnBoot | undefined;
+  KerberosAttributes?: KerberosAttributes | undefined;
+  ClusterArn?: string | undefined;
+  OutpostArn?: string | undefined;
+  StepConcurrencyLevel?: number | undefined;
+  PlacementGroups?: PlacementGroupConfig[] | undefined;
+  OSReleaseLabel?: string | undefined;
+  EbsRootVolumeIops?: number | undefined;
+  EbsRootVolumeThroughput?: number | undefined;
+  ExtendedSupport?: boolean | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  SessionEnabled?: boolean | undefined;
 }
 export interface DescribeClusterOutput {
-  Cluster?: Cluster & {
-    KerberosAttributes: KerberosAttributes & {
-      Realm: XmlStringMaxLen256;
-      KdcAdminPassword: XmlStringMaxLen256;
-    };
-    PlacementGroups: (PlacementGroupConfig & { InstanceRole: InstanceRoleType })[];
-    MonitoringConfiguration: MonitoringConfiguration & {
-      CloudWatchLogConfiguration: CloudWatchLogConfiguration & { Enabled: boolean };
-    };
-  };
+  Cluster?:
+    | (Cluster & {
+        KerberosAttributes: KerberosAttributes & {
+          Realm: XmlStringMaxLen256;
+          KdcAdminPassword: XmlStringMaxLen256;
+        };
+        PlacementGroups: (PlacementGroupConfig & { InstanceRole: InstanceRoleType })[];
+        MonitoringConfiguration: MonitoringConfiguration & {
+          CloudWatchLogConfiguration: CloudWatchLogConfiguration & { Enabled: boolean };
+        };
+      })
+    | undefined;
 }
 export type JobFlowExecutionState =
   | "STARTING"
@@ -736,18 +739,18 @@ export type JobFlowExecutionState =
   | (string & {});
 export type JobFlowExecutionStateList = JobFlowExecutionState[];
 export interface DescribeJobFlowsInput {
-  CreatedAfter?: Date;
-  CreatedBefore?: Date;
-  JobFlowIds?: string[];
-  JobFlowStates?: JobFlowExecutionState[];
+  CreatedAfter?: Date | undefined;
+  CreatedBefore?: Date | undefined;
+  JobFlowIds?: string[] | undefined;
+  JobFlowStates?: JobFlowExecutionState[] | undefined;
 }
 export interface JobFlowExecutionStatusDetail {
-  State?: JobFlowExecutionState;
-  CreationDateTime?: Date;
-  StartDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
-  LastStateChangeReason?: string;
+  State?: JobFlowExecutionState | undefined;
+  CreationDateTime?: Date | undefined;
+  StartDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
+  LastStateChangeReason?: string | undefined;
 }
 export type InstanceGroupState =
   | "PROVISIONING"
@@ -763,42 +766,42 @@ export type InstanceGroupState =
   | "ENDED"
   | (string & {});
 export interface InstanceGroupDetail {
-  InstanceGroupId?: string;
-  Name?: string;
-  Market?: MarketType;
-  InstanceRole?: InstanceRoleType;
-  BidPrice?: string;
-  InstanceType?: string;
-  InstanceRequestCount?: number;
-  InstanceRunningCount?: number;
-  State?: InstanceGroupState;
-  LastStateChangeReason?: string;
-  CreationDateTime?: Date;
-  StartDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
-  CustomAmiId?: string;
+  InstanceGroupId?: string | undefined;
+  Name?: string | undefined;
+  Market?: MarketType | undefined;
+  InstanceRole?: InstanceRoleType | undefined;
+  BidPrice?: string | undefined;
+  InstanceType?: string | undefined;
+  InstanceRequestCount?: number | undefined;
+  InstanceRunningCount?: number | undefined;
+  State?: InstanceGroupState | undefined;
+  LastStateChangeReason?: string | undefined;
+  CreationDateTime?: Date | undefined;
+  StartDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
+  CustomAmiId?: string | undefined;
 }
 export type InstanceGroupDetailList = InstanceGroupDetail[];
 export interface PlacementType {
-  AvailabilityZone?: string;
-  AvailabilityZones?: string[];
+  AvailabilityZone?: string | undefined;
+  AvailabilityZones?: string[] | undefined;
 }
 export interface JobFlowInstancesDetail {
-  MasterInstanceType?: string;
-  MasterPublicDnsName?: string;
-  MasterInstanceId?: string;
-  SlaveInstanceType?: string;
-  InstanceCount?: number;
-  InstanceGroups?: InstanceGroupDetail[];
-  NormalizedInstanceHours?: number;
-  Ec2KeyName?: string;
-  Ec2SubnetId?: string;
-  Placement?: PlacementType;
-  KeepJobFlowAliveWhenNoSteps?: boolean;
-  TerminationProtected?: boolean;
-  UnhealthyNodeReplacement?: boolean;
-  HadoopVersion?: string;
+  MasterInstanceType?: string | undefined;
+  MasterPublicDnsName?: string | undefined;
+  MasterInstanceId?: string | undefined;
+  SlaveInstanceType?: string | undefined;
+  InstanceCount?: number | undefined;
+  InstanceGroups?: InstanceGroupDetail[] | undefined;
+  NormalizedInstanceHours?: number | undefined;
+  Ec2KeyName?: string | undefined;
+  Ec2SubnetId?: string | undefined;
+  Placement?: PlacementType | undefined;
+  KeepJobFlowAliveWhenNoSteps?: boolean | undefined;
+  TerminationProtected?: boolean | undefined;
+  UnhealthyNodeReplacement?: boolean | undefined;
+  HadoopVersion?: string | undefined;
 }
 export type StepExecutionState =
   | "PENDING"
@@ -810,98 +813,100 @@ export type StepExecutionState =
   | "INTERRUPTED"
   | (string & {});
 export interface StepExecutionStatusDetail {
-  State?: StepExecutionState;
-  CreationDateTime?: Date;
-  StartDateTime?: Date;
-  EndDateTime?: Date;
-  LastStateChangeReason?: string;
+  State?: StepExecutionState | undefined;
+  CreationDateTime?: Date | undefined;
+  StartDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
+  LastStateChangeReason?: string | undefined;
 }
 export interface StepDetail {
-  StepConfig?: StepConfig;
-  ExecutionStatusDetail?: StepExecutionStatusDetail;
+  StepConfig?: StepConfig | undefined;
+  ExecutionStatusDetail?: StepExecutionStatusDetail | undefined;
 }
 export type StepDetailList = StepDetail[];
 export interface ScriptBootstrapActionConfig {
-  Path?: string;
-  Args?: string[];
+  Path?: string | undefined;
+  Args?: string[] | undefined;
 }
 export interface BootstrapActionConfig {
-  Name?: string;
-  ScriptBootstrapAction?: ScriptBootstrapActionConfig;
+  Name?: string | undefined;
+  ScriptBootstrapAction?: ScriptBootstrapActionConfig | undefined;
 }
 export interface BootstrapActionDetail {
-  BootstrapActionConfig?: BootstrapActionConfig;
+  BootstrapActionConfig?: BootstrapActionConfig | undefined;
 }
 export type BootstrapActionDetailList = BootstrapActionDetail[];
 export type SupportedProductsList = string[];
 export interface JobFlowDetail {
-  JobFlowId?: string;
-  Name?: string;
-  LogUri?: string;
-  LogEncryptionKmsKeyId?: string;
-  AmiVersion?: string;
-  ExecutionStatusDetail?: JobFlowExecutionStatusDetail;
-  Instances?: JobFlowInstancesDetail;
-  Steps?: StepDetail[];
-  BootstrapActions?: BootstrapActionDetail[];
-  SupportedProducts?: string[];
-  VisibleToAllUsers?: boolean;
-  JobFlowRole?: string;
-  ServiceRole?: string;
-  AutoScalingRole?: string;
-  ScaleDownBehavior?: ScaleDownBehavior;
+  JobFlowId?: string | undefined;
+  Name?: string | undefined;
+  LogUri?: string | undefined;
+  LogEncryptionKmsKeyId?: string | undefined;
+  AmiVersion?: string | undefined;
+  ExecutionStatusDetail?: JobFlowExecutionStatusDetail | undefined;
+  Instances?: JobFlowInstancesDetail | undefined;
+  Steps?: StepDetail[] | undefined;
+  BootstrapActions?: BootstrapActionDetail[] | undefined;
+  SupportedProducts?: string[] | undefined;
+  VisibleToAllUsers?: boolean | undefined;
+  JobFlowRole?: string | undefined;
+  ServiceRole?: string | undefined;
+  AutoScalingRole?: string | undefined;
+  ScaleDownBehavior?: ScaleDownBehavior | undefined;
 }
 export type JobFlowDetailList = JobFlowDetail[];
 export interface DescribeJobFlowsOutput {
-  JobFlows?: (JobFlowDetail & {
-    JobFlowId: XmlStringMaxLen256;
-    Name: XmlStringMaxLen256;
-    ExecutionStatusDetail: JobFlowExecutionStatusDetail & {
-      State: JobFlowExecutionState;
-      CreationDateTime: Date;
-    };
-    Instances: JobFlowInstancesDetail & {
-      MasterInstanceType: InstanceType;
-      SlaveInstanceType: InstanceType;
-      InstanceCount: number;
-      InstanceGroups: (InstanceGroupDetail & {
-        Market: MarketType;
-        InstanceRole: InstanceRoleType;
-        InstanceType: InstanceType;
-        InstanceRequestCount: number;
-        InstanceRunningCount: number;
-        State: InstanceGroupState;
-        CreationDateTime: Date;
-      })[];
-    };
-    Steps: (StepDetail & {
-      StepConfig: StepConfig & {
+  JobFlows?:
+    | (JobFlowDetail & {
+        JobFlowId: XmlStringMaxLen256;
         Name: XmlStringMaxLen256;
-        HadoopJarStep: HadoopJarStepConfig & { Jar: XmlString };
-      };
-      ExecutionStatusDetail: StepExecutionStatusDetail & {
-        State: StepExecutionState;
-        CreationDateTime: Date;
-      };
-    })[];
-    BootstrapActions: (BootstrapActionDetail & {
-      BootstrapActionConfig: BootstrapActionConfig & {
-        Name: XmlStringMaxLen256;
-        ScriptBootstrapAction: ScriptBootstrapActionConfig & { Path: XmlString };
-      };
-    })[];
-  })[];
+        ExecutionStatusDetail: JobFlowExecutionStatusDetail & {
+          State: JobFlowExecutionState;
+          CreationDateTime: Date;
+        };
+        Instances: JobFlowInstancesDetail & {
+          MasterInstanceType: InstanceType;
+          SlaveInstanceType: InstanceType;
+          InstanceCount: number;
+          InstanceGroups: (InstanceGroupDetail & {
+            Market: MarketType;
+            InstanceRole: InstanceRoleType;
+            InstanceType: InstanceType;
+            InstanceRequestCount: number;
+            InstanceRunningCount: number;
+            State: InstanceGroupState;
+            CreationDateTime: Date;
+          })[];
+        };
+        Steps: (StepDetail & {
+          StepConfig: StepConfig & {
+            Name: XmlStringMaxLen256;
+            HadoopJarStep: HadoopJarStepConfig & { Jar: XmlString };
+          };
+          ExecutionStatusDetail: StepExecutionStatusDetail & {
+            State: StepExecutionState;
+            CreationDateTime: Date;
+          };
+        })[];
+        BootstrapActions: (BootstrapActionDetail & {
+          BootstrapActionConfig: BootstrapActionConfig & {
+            Name: XmlStringMaxLen256;
+            ScriptBootstrapAction: ScriptBootstrapActionConfig & { Path: XmlString };
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export interface DescribeNotebookExecutionInput {
-  NotebookExecutionId?: string;
+  NotebookExecutionId?: string | undefined;
 }
 export type ExecutionEngineType = "EMR" | (string & {});
 export type IAMRoleArn = string;
 export interface ExecutionEngineConfig {
-  Id?: string;
-  Type?: ExecutionEngineType;
-  MasterInstanceSecurityGroupId?: string;
-  ExecutionRoleArn?: string;
+  Id?: string | undefined;
+  Type?: ExecutionEngineType | undefined;
+  MasterInstanceSecurityGroupId?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export type NotebookExecutionStatus =
   | "START_PENDING"
@@ -917,95 +922,95 @@ export type NotebookExecutionStatus =
   | (string & {});
 export type UriString = string;
 export interface NotebookS3LocationForOutput {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export interface OutputNotebookS3LocationForOutput {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export type OutputNotebookFormat = "HTML" | (string & {});
 export type EnvironmentVariablesMap = { [key: string]: string | undefined };
 export interface NotebookExecution {
-  NotebookExecutionId?: string;
-  EditorId?: string;
-  ExecutionEngine?: ExecutionEngineConfig;
-  NotebookExecutionName?: string;
-  NotebookParams?: string;
-  Status?: NotebookExecutionStatus;
-  StartTime?: Date;
-  EndTime?: Date;
-  Arn?: string;
-  OutputNotebookURI?: string;
-  LastStateChangeReason?: string;
-  NotebookInstanceSecurityGroupId?: string;
-  Tags?: Tag[];
-  NotebookS3Location?: NotebookS3LocationForOutput;
-  OutputNotebookS3Location?: OutputNotebookS3LocationForOutput;
-  OutputNotebookFormat?: OutputNotebookFormat;
-  EnvironmentVariables?: { [key: string]: string | undefined };
+  NotebookExecutionId?: string | undefined;
+  EditorId?: string | undefined;
+  ExecutionEngine?: ExecutionEngineConfig | undefined;
+  NotebookExecutionName?: string | undefined;
+  NotebookParams?: string | undefined;
+  Status?: NotebookExecutionStatus | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Arn?: string | undefined;
+  OutputNotebookURI?: string | undefined;
+  LastStateChangeReason?: string | undefined;
+  NotebookInstanceSecurityGroupId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  NotebookS3Location?: NotebookS3LocationForOutput | undefined;
+  OutputNotebookS3Location?: OutputNotebookS3LocationForOutput | undefined;
+  OutputNotebookFormat?: OutputNotebookFormat | undefined;
+  EnvironmentVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeNotebookExecutionOutput {
-  NotebookExecution?: NotebookExecution & {
-    ExecutionEngine: ExecutionEngineConfig & { Id: XmlStringMaxLen256 };
-  };
+  NotebookExecution?:
+    | (NotebookExecution & { ExecutionEngine: ExecutionEngineConfig & { Id: XmlStringMaxLen256 } })
+    | undefined;
 }
 export interface DescribePersistentAppUIInput {
-  PersistentAppUIId?: string;
+  PersistentAppUIId?: string | undefined;
 }
 export type PersistentAppUIType = "SHS" | "TEZ" | "YTS" | (string & {});
 export type PersistentAppUITypeList = PersistentAppUIType[];
 export interface PersistentAppUI {
-  PersistentAppUIId?: string;
-  PersistentAppUITypeList?: PersistentAppUIType[];
-  PersistentAppUIStatus?: string;
-  AuthorId?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
-  LastStateChangeReason?: string;
-  Tags?: Tag[];
+  PersistentAppUIId?: string | undefined;
+  PersistentAppUITypeList?: PersistentAppUIType[] | undefined;
+  PersistentAppUIStatus?: string | undefined;
+  AuthorId?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastStateChangeReason?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribePersistentAppUIOutput {
-  PersistentAppUI?: PersistentAppUI;
+  PersistentAppUI?: PersistentAppUI | undefined;
 }
 export type MaxResultsNumber = number;
 export interface DescribeReleaseLabelInput {
-  ReleaseLabel?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ReleaseLabel?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SimplifiedApplication {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export type SimplifiedApplicationList = SimplifiedApplication[];
 export interface OSRelease {
-  Label?: string;
+  Label?: string | undefined;
 }
 export type OSReleaseList = OSRelease[];
 export interface DescribeReleaseLabelOutput {
-  ReleaseLabel?: string;
-  Applications?: SimplifiedApplication[];
-  NextToken?: string;
-  AvailableOSReleases?: OSRelease[];
+  ReleaseLabel?: string | undefined;
+  Applications?: SimplifiedApplication[] | undefined;
+  NextToken?: string | undefined;
+  AvailableOSReleases?: OSRelease[] | undefined;
 }
 export interface DescribeSecurityConfigurationInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DescribeSecurityConfigurationOutput {
-  Name?: string;
-  SecurityConfiguration?: string;
-  CreationDateTime?: Date;
+  Name?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  CreationDateTime?: Date | undefined;
 }
 export interface DescribeStepInput {
-  ClusterId?: string;
-  StepId?: string;
+  ClusterId?: string | undefined;
+  StepId?: string | undefined;
 }
 export interface HadoopStepConfig {
-  Jar?: string;
-  Properties?: { [key: string]: string | undefined };
-  MainClass?: string;
-  Args?: string[];
+  Jar?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  MainClass?: string | undefined;
+  Args?: string[] | undefined;
 }
 export type StepState =
   | "PENDING"
@@ -1018,93 +1023,93 @@ export type StepState =
   | (string & {});
 export type StepStateChangeReasonCode = "NONE" | (string & {});
 export interface StepStateChangeReason {
-  Code?: StepStateChangeReasonCode;
-  Message?: string;
+  Code?: StepStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface FailureDetails {
-  Reason?: string;
-  Message?: string;
-  LogFile?: string;
+  Reason?: string | undefined;
+  Message?: string | undefined;
+  LogFile?: string | undefined;
 }
 export interface StepTimeline {
-  CreationDateTime?: Date;
-  StartDateTime?: Date;
-  EndDateTime?: Date;
+  CreationDateTime?: Date | undefined;
+  StartDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
 }
 export interface StepStatus {
-  State?: StepState;
-  StateChangeReason?: StepStateChangeReason;
-  FailureDetails?: FailureDetails;
-  Timeline?: StepTimeline;
+  State?: StepState | undefined;
+  StateChangeReason?: StepStateChangeReason | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  Timeline?: StepTimeline | undefined;
 }
 export interface Step {
-  Id?: string;
-  Name?: string;
-  Config?: HadoopStepConfig;
-  ActionOnFailure?: ActionOnFailure;
-  Status?: StepStatus;
-  ExecutionRoleArn?: string;
-  LogUri?: string;
-  EncryptionKeyArn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Config?: HadoopStepConfig | undefined;
+  ActionOnFailure?: ActionOnFailure | undefined;
+  Status?: StepStatus | undefined;
+  ExecutionRoleArn?: string | undefined;
+  LogUri?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface DescribeStepOutput {
-  Step?: Step;
+  Step?: Step | undefined;
 }
 export interface DescribeStudioInput {
-  StudioId?: string;
+  StudioId?: string | undefined;
 }
 export interface Studio {
-  StudioId?: string;
-  StudioArn?: string;
-  Name?: string;
-  Description?: string;
-  AuthMode?: AuthMode;
-  VpcId?: string;
-  SubnetIds?: string[];
-  ServiceRole?: string;
-  UserRole?: string;
-  WorkspaceSecurityGroupId?: string;
-  EngineSecurityGroupId?: string;
-  Url?: string;
-  CreationTime?: Date;
-  DefaultS3Location?: string;
-  IdpAuthUrl?: string;
-  IdpRelayStateParameterName?: string;
-  Tags?: Tag[];
-  IdcInstanceArn?: string;
-  TrustedIdentityPropagationEnabled?: boolean;
-  IdcUserAssignment?: IdcUserAssignment;
-  EncryptionKeyArn?: string;
+  StudioId?: string | undefined;
+  StudioArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  AuthMode?: AuthMode | undefined;
+  VpcId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  ServiceRole?: string | undefined;
+  UserRole?: string | undefined;
+  WorkspaceSecurityGroupId?: string | undefined;
+  EngineSecurityGroupId?: string | undefined;
+  Url?: string | undefined;
+  CreationTime?: Date | undefined;
+  DefaultS3Location?: string | undefined;
+  IdpAuthUrl?: string | undefined;
+  IdpRelayStateParameterName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  IdcInstanceArn?: string | undefined;
+  TrustedIdentityPropagationEnabled?: boolean | undefined;
+  IdcUserAssignment?: IdcUserAssignment | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface DescribeStudioOutput {
-  Studio?: Studio;
+  Studio?: Studio | undefined;
 }
 export interface GetAutoTerminationPolicyInput {
-  ClusterId?: string;
+  ClusterId?: string | undefined;
 }
 export interface AutoTerminationPolicy {
-  IdleTimeout?: number;
+  IdleTimeout?: number | undefined;
 }
 export interface GetAutoTerminationPolicyOutput {
-  AutoTerminationPolicy?: AutoTerminationPolicy;
+  AutoTerminationPolicy?: AutoTerminationPolicy | undefined;
 }
 export interface GetBlockPublicAccessConfigurationInput {}
 export type Port = number;
 export interface PortRange {
-  MinRange?: number;
-  MaxRange?: number;
+  MinRange?: number | undefined;
+  MaxRange?: number | undefined;
 }
 export type PortRanges = PortRange[];
 export interface BlockPublicAccessConfiguration {
-  BlockPublicSecurityGroupRules?: boolean;
-  PermittedPublicSecurityGroupRuleRanges?: PortRange[];
-  Classification?: string;
-  Configurations?: Configuration[];
-  Properties?: { [key: string]: string | undefined };
+  BlockPublicSecurityGroupRules?: boolean | undefined;
+  PermittedPublicSecurityGroupRuleRanges?: PortRange[] | undefined;
+  Classification?: string | undefined;
+  Configurations?: Configuration[] | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface BlockPublicAccessConfigurationMetadata {
-  CreationDateTime?: Date;
-  CreatedByArn?: string;
+  CreationDateTime?: Date | undefined;
+  CreatedByArn?: string | undefined;
 }
 export interface GetBlockPublicAccessConfigurationOutput {
   BlockPublicAccessConfiguration: BlockPublicAccessConfiguration & {
@@ -1117,44 +1122,46 @@ export interface GetBlockPublicAccessConfigurationOutput {
   };
 }
 export interface GetClusterSessionCredentialsInput {
-  ClusterId?: string;
-  ExecutionRoleArn?: string;
+  ClusterId?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export interface UsernamePassword {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export type Credentials = { UsernamePassword: UsernamePassword };
 export interface GetClusterSessionCredentialsOutput {
-  Credentials?: Credentials;
-  ExpiresAt?: Date;
+  Credentials?: Credentials | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export interface GetManagedScalingPolicyInput {
-  ClusterId?: string;
+  ClusterId?: string | undefined;
 }
 export type ComputeLimitsUnitType = "InstanceFleetUnits" | "Instances" | "VCPU" | (string & {});
 export interface ComputeLimits {
-  UnitType?: ComputeLimitsUnitType;
-  MinimumCapacityUnits?: number;
-  MaximumCapacityUnits?: number;
-  MaximumOnDemandCapacityUnits?: number;
-  MaximumCoreCapacityUnits?: number;
+  UnitType?: ComputeLimitsUnitType | undefined;
+  MinimumCapacityUnits?: number | undefined;
+  MaximumCapacityUnits?: number | undefined;
+  MaximumOnDemandCapacityUnits?: number | undefined;
+  MaximumCoreCapacityUnits?: number | undefined;
 }
 export type UtilizationPerformanceIndexInteger = number;
 export type ScalingStrategy = "DEFAULT" | "ADVANCED" | (string & {});
 export interface ManagedScalingPolicy {
-  ComputeLimits?: ComputeLimits;
-  UtilizationPerformanceIndex?: number;
-  ScalingStrategy?: ScalingStrategy;
+  ComputeLimits?: ComputeLimits | undefined;
+  UtilizationPerformanceIndex?: number | undefined;
+  ScalingStrategy?: ScalingStrategy | undefined;
 }
 export interface GetManagedScalingPolicyOutput {
-  ManagedScalingPolicy?: ManagedScalingPolicy & {
-    ComputeLimits: ComputeLimits & {
-      UnitType: ComputeLimitsUnitType;
-      MinimumCapacityUnits: number;
-      MaximumCapacityUnits: number;
-    };
-  };
+  ManagedScalingPolicy?:
+    | (ManagedScalingPolicy & {
+        ComputeLimits: ComputeLimits & {
+          UnitType: ComputeLimitsUnitType;
+          MinimumCapacityUnits: number;
+          MaximumCapacityUnits: number;
+        };
+      })
+    | undefined;
 }
 export type OnClusterAppUIType =
   | "SparkHistoryServer"
@@ -1165,31 +1172,31 @@ export type OnClusterAppUIType =
   | "ResourceManager"
   | (string & {});
 export interface GetOnClusterAppUIPresignedURLInput {
-  ClusterId?: string;
-  OnClusterAppUIType?: OnClusterAppUIType;
-  ApplicationId?: string;
-  DryRun?: boolean;
-  ExecutionRoleArn?: string;
+  ClusterId?: string | undefined;
+  OnClusterAppUIType?: OnClusterAppUIType | undefined;
+  ApplicationId?: string | undefined;
+  DryRun?: boolean | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export interface GetOnClusterAppUIPresignedURLOutput {
-  PresignedURLReady?: boolean;
-  PresignedURL?: string;
+  PresignedURLReady?: boolean | undefined;
+  PresignedURL?: string | undefined;
 }
 export interface GetPersistentAppUIPresignedURLInput {
-  PersistentAppUIId?: string;
-  PersistentAppUIType?: PersistentAppUIType;
-  ApplicationId?: string;
-  AuthProxyCall?: boolean;
-  ExecutionRoleArn?: string;
+  PersistentAppUIId?: string | undefined;
+  PersistentAppUIType?: PersistentAppUIType | undefined;
+  ApplicationId?: string | undefined;
+  AuthProxyCall?: boolean | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export interface GetPersistentAppUIPresignedURLOutput {
-  PresignedURLReady?: boolean;
-  PresignedURL?: string;
+  PresignedURLReady?: boolean | undefined;
+  PresignedURL?: string | undefined;
 }
 export type SessionId = string;
 export interface GetSessionInput {
-  ClusterId?: string;
-  SessionId?: string;
+  ClusterId?: string | undefined;
+  SessionId?: string | undefined;
 }
 export type SessionState =
   | "SUBMITTED"
@@ -1202,118 +1209,118 @@ export type SessionState =
   | "FAILED"
   | (string & {});
 export interface SessionCloudWatchLoggingConfiguration {
-  Enabled?: boolean;
-  LogGroup?: string;
-  LogStreamNamePrefix?: string;
-  EncryptionKeyArn?: string;
-  LogTypes?: { [key: string]: string[] | undefined };
+  Enabled?: boolean | undefined;
+  LogGroup?: string | undefined;
+  LogStreamNamePrefix?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  LogTypes?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface SessionManagedLoggingConfiguration {
-  Enabled?: boolean;
-  EncryptionKeyArn?: string;
+  Enabled?: boolean | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface SessionS3LoggingConfiguration {
-  Enabled?: boolean;
-  LogUri?: string;
-  EncryptionKeyArn?: string;
-  LogTypes?: { [key: string]: string[] | undefined };
+  Enabled?: boolean | undefined;
+  LogUri?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  LogTypes?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface SessionMonitoringConfiguration {
-  CloudWatchLoggingConfiguration?: SessionCloudWatchLoggingConfiguration;
-  ManagedLoggingConfiguration?: SessionManagedLoggingConfiguration;
-  S3LoggingConfiguration?: SessionS3LoggingConfiguration;
+  CloudWatchLoggingConfiguration?: SessionCloudWatchLoggingConfiguration | undefined;
+  ManagedLoggingConfiguration?: SessionManagedLoggingConfiguration | undefined;
+  S3LoggingConfiguration?: SessionS3LoggingConfiguration | undefined;
 }
 export interface Session {
-  Id?: string;
-  ClusterId?: string;
-  Name?: string;
-  Arn?: string;
-  State?: SessionState;
-  StateChangeReason?: string;
-  ReleaseLabel?: string;
-  ExecutionRoleArn?: string;
-  AccountId?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  StartedAt?: Date;
-  EndedAt?: Date;
-  IdleSince?: Date;
-  EngineConfigurations?: Configuration[];
-  MonitoringConfiguration?: SessionMonitoringConfiguration;
-  SessionIdleTimeoutInMinutes?: number;
-  ServerUrl?: string;
-  Tags?: Tag[];
+  Id?: string | undefined;
+  ClusterId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  State?: SessionState | undefined;
+  StateChangeReason?: string | undefined;
+  ReleaseLabel?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  AccountId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  IdleSince?: Date | undefined;
+  EngineConfigurations?: Configuration[] | undefined;
+  MonitoringConfiguration?: SessionMonitoringConfiguration | undefined;
+  SessionIdleTimeoutInMinutes?: number | undefined;
+  ServerUrl?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetSessionOutput {
   Session: Session & { Id: SessionId; ClusterId: ClusterId; Arn: ArnType; State: SessionState };
 }
 export interface GetSessionEndpointInput {
-  ClusterId?: string;
-  SessionId?: string;
+  ClusterId?: string | undefined;
+  SessionId?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetSessionEndpointOutput {
   Endpoint: string;
-  AuthToken?: string | redacted.Redacted<string>;
-  AuthTokenExpirationTime?: Date;
-  Credentials?: Credentials;
+  AuthToken?: string | redacted.Redacted<string> | undefined;
+  AuthTokenExpirationTime?: Date | undefined;
+  Credentials?: Credentials | undefined;
 }
 export interface GetStudioSessionMappingInput {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
 }
 export interface SessionMappingDetail {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
-  SessionPolicyArn?: string;
-  CreationTime?: Date;
-  LastModifiedTime?: Date;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
+  SessionPolicyArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface GetStudioSessionMappingOutput {
-  SessionMapping?: SessionMappingDetail;
+  SessionMapping?: SessionMappingDetail | undefined;
 }
 export type Marker = string;
 export interface ListBootstrapActionsInput {
-  ClusterId?: string;
-  Marker?: string;
+  ClusterId?: string | undefined;
+  Marker?: string | undefined;
 }
 export interface Command {
-  Name?: string;
-  ScriptPath?: string;
-  Args?: string[];
+  Name?: string | undefined;
+  ScriptPath?: string | undefined;
+  Args?: string[] | undefined;
 }
 export type CommandList = Command[];
 export interface ListBootstrapActionsOutput {
-  BootstrapActions?: Command[];
-  Marker?: string;
+  BootstrapActions?: Command[] | undefined;
+  Marker?: string | undefined;
 }
 export type ClusterStateList = ClusterState[];
 export interface ListClustersInput {
-  CreatedAfter?: Date;
-  CreatedBefore?: Date;
-  ClusterStates?: ClusterState[];
-  Marker?: string;
+  CreatedAfter?: Date | undefined;
+  CreatedBefore?: Date | undefined;
+  ClusterStates?: ClusterState[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ClusterSummary {
-  Id?: string;
-  Name?: string;
-  Status?: ClusterStatus;
-  NormalizedInstanceHours?: number;
-  ClusterArn?: string;
-  OutpostArn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: ClusterStatus | undefined;
+  NormalizedInstanceHours?: number | undefined;
+  ClusterArn?: string | undefined;
+  OutpostArn?: string | undefined;
 }
 export type ClusterSummaryList = ClusterSummary[];
 export interface ListClustersOutput {
-  Clusters?: ClusterSummary[];
-  Marker?: string;
+  Clusters?: ClusterSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceFleetsInput {
-  ClusterId?: string;
-  Marker?: string;
+  ClusterId?: string | undefined;
+  Marker?: string | undefined;
 }
 export type InstanceFleetState =
   | "PROVISIONING"
@@ -1332,73 +1339,75 @@ export type InstanceFleetStateChangeReasonCode =
   | "CLUSTER_TERMINATED"
   | (string & {});
 export interface InstanceFleetStateChangeReason {
-  Code?: InstanceFleetStateChangeReasonCode;
-  Message?: string;
+  Code?: InstanceFleetStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface InstanceFleetTimeline {
-  CreationDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
+  CreationDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
 }
 export interface InstanceFleetStatus {
-  State?: InstanceFleetState;
-  StateChangeReason?: InstanceFleetStateChangeReason;
-  Timeline?: InstanceFleetTimeline;
+  State?: InstanceFleetState | undefined;
+  StateChangeReason?: InstanceFleetStateChangeReason | undefined;
+  Timeline?: InstanceFleetTimeline | undefined;
 }
 export interface EbsBlockDevice {
-  VolumeSpecification?: VolumeSpecification;
-  Device?: string;
+  VolumeSpecification?: VolumeSpecification | undefined;
+  Device?: string | undefined;
 }
 export type EbsBlockDeviceList = EbsBlockDevice[];
 export interface InstanceTypeSpecification {
-  InstanceType?: string;
-  WeightedCapacity?: number;
-  BidPrice?: string;
-  BidPriceAsPercentageOfOnDemandPrice?: number;
-  Configurations?: Configuration[];
-  EbsBlockDevices?: EbsBlockDevice[];
-  EbsOptimized?: boolean;
-  CustomAmiId?: string;
-  Priority?: number;
+  InstanceType?: string | undefined;
+  WeightedCapacity?: number | undefined;
+  BidPrice?: string | undefined;
+  BidPriceAsPercentageOfOnDemandPrice?: number | undefined;
+  Configurations?: Configuration[] | undefined;
+  EbsBlockDevices?: EbsBlockDevice[] | undefined;
+  EbsOptimized?: boolean | undefined;
+  CustomAmiId?: string | undefined;
+  Priority?: number | undefined;
 }
 export type InstanceTypeSpecificationList = InstanceTypeSpecification[];
 export interface InstanceFleet {
-  Id?: string;
-  Name?: string;
-  Status?: InstanceFleetStatus;
-  InstanceFleetType?: InstanceFleetType;
-  TargetOnDemandCapacity?: number;
-  TargetSpotCapacity?: number;
-  ProvisionedOnDemandCapacity?: number;
-  ProvisionedSpotCapacity?: number;
-  InstanceTypeSpecifications?: InstanceTypeSpecification[];
-  LaunchSpecifications?: InstanceFleetProvisioningSpecifications;
-  ResizeSpecifications?: InstanceFleetResizingSpecifications;
-  Context?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: InstanceFleetStatus | undefined;
+  InstanceFleetType?: InstanceFleetType | undefined;
+  TargetOnDemandCapacity?: number | undefined;
+  TargetSpotCapacity?: number | undefined;
+  ProvisionedOnDemandCapacity?: number | undefined;
+  ProvisionedSpotCapacity?: number | undefined;
+  InstanceTypeSpecifications?: InstanceTypeSpecification[] | undefined;
+  LaunchSpecifications?: InstanceFleetProvisioningSpecifications | undefined;
+  ResizeSpecifications?: InstanceFleetResizingSpecifications | undefined;
+  Context?: string | undefined;
 }
 export type InstanceFleetList = InstanceFleet[];
 export interface ListInstanceFleetsOutput {
-  InstanceFleets?: (InstanceFleet & {
-    InstanceTypeSpecifications: (InstanceTypeSpecification & {
-      EbsBlockDevices: (EbsBlockDevice & {
-        VolumeSpecification: VolumeSpecification & { VolumeType: string; SizeInGB: number };
-      })[];
-    })[];
-    LaunchSpecifications: InstanceFleetProvisioningSpecifications & {
-      SpotSpecification: SpotProvisioningSpecification & {
-        TimeoutDurationMinutes: WholeNumber;
-        TimeoutAction: SpotProvisioningTimeoutAction;
-      };
-      OnDemandSpecification: OnDemandProvisioningSpecification & {
-        AllocationStrategy: OnDemandProvisioningAllocationStrategy;
-      };
-    };
-  })[];
-  Marker?: string;
+  InstanceFleets?:
+    | (InstanceFleet & {
+        InstanceTypeSpecifications: (InstanceTypeSpecification & {
+          EbsBlockDevices: (EbsBlockDevice & {
+            VolumeSpecification: VolumeSpecification & { VolumeType: string; SizeInGB: number };
+          })[];
+        })[];
+        LaunchSpecifications: InstanceFleetProvisioningSpecifications & {
+          SpotSpecification: SpotProvisioningSpecification & {
+            TimeoutDurationMinutes: WholeNumber;
+            TimeoutAction: SpotProvisioningTimeoutAction;
+          };
+          OnDemandSpecification: OnDemandProvisioningSpecification & {
+            AllocationStrategy: OnDemandProvisioningAllocationStrategy;
+          };
+        };
+      })[]
+    | undefined;
+  Marker?: string | undefined;
 }
 export interface ListInstanceGroupsInput {
-  ClusterId?: string;
-  Marker?: string;
+  ClusterId?: string | undefined;
+  Marker?: string | undefined;
 }
 export type InstanceGroupId = string;
 export type InstanceGroupType = "MASTER" | "CORE" | "TASK" | (string & {});
@@ -1409,29 +1418,29 @@ export type InstanceGroupStateChangeReasonCode =
   | "CLUSTER_TERMINATED"
   | (string & {});
 export interface InstanceGroupStateChangeReason {
-  Code?: InstanceGroupStateChangeReasonCode;
-  Message?: string;
+  Code?: InstanceGroupStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface InstanceGroupTimeline {
-  CreationDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
+  CreationDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
 }
 export interface InstanceGroupStatus {
-  State?: InstanceGroupState;
-  StateChangeReason?: InstanceGroupStateChangeReason;
-  Timeline?: InstanceGroupTimeline;
+  State?: InstanceGroupState | undefined;
+  StateChangeReason?: InstanceGroupStateChangeReason | undefined;
+  Timeline?: InstanceGroupTimeline | undefined;
 }
 export type InstanceId = string;
 export type EC2InstanceIdsList = string[];
 export interface InstanceResizePolicy {
-  InstancesToTerminate?: string[];
-  InstancesToProtect?: string[];
-  InstanceTerminationTimeout?: number;
+  InstancesToTerminate?: string[] | undefined;
+  InstancesToProtect?: string[] | undefined;
+  InstanceTerminationTimeout?: number | undefined;
 }
 export interface ShrinkPolicy {
-  DecommissionTimeout?: number;
-  InstanceResizePolicy?: InstanceResizePolicy;
+  DecommissionTimeout?: number | undefined;
+  InstanceResizePolicy?: InstanceResizePolicy | undefined;
 }
 export type AutoScalingPolicyState =
   | "PENDING"
@@ -1447,65 +1456,67 @@ export type AutoScalingPolicyStateChangeReasonCode =
   | "CLEANUP_FAILURE"
   | (string & {});
 export interface AutoScalingPolicyStateChangeReason {
-  Code?: AutoScalingPolicyStateChangeReasonCode;
-  Message?: string;
+  Code?: AutoScalingPolicyStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface AutoScalingPolicyStatus {
-  State?: AutoScalingPolicyState;
-  StateChangeReason?: AutoScalingPolicyStateChangeReason;
+  State?: AutoScalingPolicyState | undefined;
+  StateChangeReason?: AutoScalingPolicyStateChangeReason | undefined;
 }
 export interface AutoScalingPolicyDescription {
-  Status?: AutoScalingPolicyStatus;
-  Constraints?: ScalingConstraints;
-  Rules?: ScalingRule[];
+  Status?: AutoScalingPolicyStatus | undefined;
+  Constraints?: ScalingConstraints | undefined;
+  Rules?: ScalingRule[] | undefined;
 }
 export interface InstanceGroup {
-  Id?: string;
-  Name?: string;
-  Market?: MarketType;
-  InstanceGroupType?: InstanceGroupType;
-  BidPrice?: string;
-  InstanceType?: string;
-  RequestedInstanceCount?: number;
-  RunningInstanceCount?: number;
-  Status?: InstanceGroupStatus;
-  Configurations?: Configuration[];
-  ConfigurationsVersion?: number;
-  LastSuccessfullyAppliedConfigurations?: Configuration[];
-  LastSuccessfullyAppliedConfigurationsVersion?: number;
-  EbsBlockDevices?: EbsBlockDevice[];
-  EbsOptimized?: boolean;
-  ShrinkPolicy?: ShrinkPolicy;
-  AutoScalingPolicy?: AutoScalingPolicyDescription;
-  CustomAmiId?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Market?: MarketType | undefined;
+  InstanceGroupType?: InstanceGroupType | undefined;
+  BidPrice?: string | undefined;
+  InstanceType?: string | undefined;
+  RequestedInstanceCount?: number | undefined;
+  RunningInstanceCount?: number | undefined;
+  Status?: InstanceGroupStatus | undefined;
+  Configurations?: Configuration[] | undefined;
+  ConfigurationsVersion?: number | undefined;
+  LastSuccessfullyAppliedConfigurations?: Configuration[] | undefined;
+  LastSuccessfullyAppliedConfigurationsVersion?: number | undefined;
+  EbsBlockDevices?: EbsBlockDevice[] | undefined;
+  EbsOptimized?: boolean | undefined;
+  ShrinkPolicy?: ShrinkPolicy | undefined;
+  AutoScalingPolicy?: AutoScalingPolicyDescription | undefined;
+  CustomAmiId?: string | undefined;
 }
 export type InstanceGroupList = InstanceGroup[];
 export interface ListInstanceGroupsOutput {
-  InstanceGroups?: (InstanceGroup & {
-    EbsBlockDevices: (EbsBlockDevice & {
-      VolumeSpecification: VolumeSpecification & { VolumeType: string; SizeInGB: number };
-    })[];
-    AutoScalingPolicy: AutoScalingPolicyDescription & {
-      Constraints: ScalingConstraints & { MinCapacity: number; MaxCapacity: number };
-      Rules: (ScalingRule & {
-        Name: string;
-        Action: ScalingAction & {
-          SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration & {
-            ScalingAdjustment: number;
-          };
+  InstanceGroups?:
+    | (InstanceGroup & {
+        EbsBlockDevices: (EbsBlockDevice & {
+          VolumeSpecification: VolumeSpecification & { VolumeType: string; SizeInGB: number };
+        })[];
+        AutoScalingPolicy: AutoScalingPolicyDescription & {
+          Constraints: ScalingConstraints & { MinCapacity: number; MaxCapacity: number };
+          Rules: (ScalingRule & {
+            Name: string;
+            Action: ScalingAction & {
+              SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration & {
+                ScalingAdjustment: number;
+              };
+            };
+            Trigger: ScalingTrigger & {
+              CloudWatchAlarmDefinition: CloudWatchAlarmDefinition & {
+                ComparisonOperator: ComparisonOperator;
+                MetricName: string;
+                Period: number;
+                Threshold: NonNegativeDouble;
+              };
+            };
+          })[];
         };
-        Trigger: ScalingTrigger & {
-          CloudWatchAlarmDefinition: CloudWatchAlarmDefinition & {
-            ComparisonOperator: ComparisonOperator;
-            MetricName: string;
-            Period: number;
-            Threshold: NonNegativeDouble;
-          };
-        };
-      })[];
-    };
-  })[];
-  Marker?: string;
+      })[]
+    | undefined;
+  Marker?: string | undefined;
 }
 export type InstanceGroupTypeList = InstanceGroupType[];
 export type InstanceState =
@@ -1517,13 +1528,13 @@ export type InstanceState =
   | (string & {});
 export type InstanceStateList = InstanceState[];
 export interface ListInstancesInput {
-  ClusterId?: string;
-  InstanceGroupId?: string;
-  InstanceGroupTypes?: InstanceGroupType[];
-  InstanceFleetId?: string;
-  InstanceFleetType?: InstanceFleetType;
-  InstanceStates?: InstanceState[];
-  Marker?: string;
+  ClusterId?: string | undefined;
+  InstanceGroupId?: string | undefined;
+  InstanceGroupTypes?: InstanceGroupType[] | undefined;
+  InstanceFleetId?: string | undefined;
+  InstanceFleetType?: InstanceFleetType | undefined;
+  InstanceStates?: InstanceState[] | undefined;
+  Marker?: string | undefined;
 }
 export type InstanceStateChangeReasonCode =
   | "INTERNAL_ERROR"
@@ -1533,429 +1544,428 @@ export type InstanceStateChangeReasonCode =
   | "CLUSTER_TERMINATED"
   | (string & {});
 export interface InstanceStateChangeReason {
-  Code?: InstanceStateChangeReasonCode;
-  Message?: string;
+  Code?: InstanceStateChangeReasonCode | undefined;
+  Message?: string | undefined;
 }
 export interface InstanceTimeline {
-  CreationDateTime?: Date;
-  ReadyDateTime?: Date;
-  EndDateTime?: Date;
+  CreationDateTime?: Date | undefined;
+  ReadyDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
 }
 export interface InstanceStatus {
-  State?: InstanceState;
-  StateChangeReason?: InstanceStateChangeReason;
-  Timeline?: InstanceTimeline;
+  State?: InstanceState | undefined;
+  StateChangeReason?: InstanceStateChangeReason | undefined;
+  Timeline?: InstanceTimeline | undefined;
 }
 export interface EbsVolume {
-  Device?: string;
-  VolumeId?: string;
+  Device?: string | undefined;
+  VolumeId?: string | undefined;
 }
 export type EbsVolumeList = EbsVolume[];
 export interface Instance {
-  Id?: string;
-  Ec2InstanceId?: string;
-  PublicDnsName?: string;
-  PublicIpAddress?: string;
-  PrivateDnsName?: string;
-  PrivateIpAddress?: string;
-  Status?: InstanceStatus;
-  InstanceGroupId?: string;
-  InstanceFleetId?: string;
-  Market?: MarketType;
-  InstanceType?: string;
-  EbsVolumes?: EbsVolume[];
+  Id?: string | undefined;
+  Ec2InstanceId?: string | undefined;
+  PublicDnsName?: string | undefined;
+  PublicIpAddress?: string | undefined;
+  PrivateDnsName?: string | undefined;
+  PrivateIpAddress?: string | undefined;
+  Status?: InstanceStatus | undefined;
+  InstanceGroupId?: string | undefined;
+  InstanceFleetId?: string | undefined;
+  Market?: MarketType | undefined;
+  InstanceType?: string | undefined;
+  EbsVolumes?: EbsVolume[] | undefined;
 }
 export type InstanceList = Instance[];
 export interface ListInstancesOutput {
-  Instances?: Instance[];
-  Marker?: string;
+  Instances?: Instance[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListNotebookExecutionsInput {
-  EditorId?: string;
-  Status?: NotebookExecutionStatus;
-  From?: Date;
-  To?: Date;
-  Marker?: string;
-  ExecutionEngineId?: string;
+  EditorId?: string | undefined;
+  Status?: NotebookExecutionStatus | undefined;
+  From?: Date | undefined;
+  To?: Date | undefined;
+  Marker?: string | undefined;
+  ExecutionEngineId?: string | undefined;
 }
 export interface NotebookExecutionSummary {
-  NotebookExecutionId?: string;
-  EditorId?: string;
-  NotebookExecutionName?: string;
-  Status?: NotebookExecutionStatus;
-  StartTime?: Date;
-  EndTime?: Date;
-  NotebookS3Location?: NotebookS3LocationForOutput;
-  ExecutionEngineId?: string;
+  NotebookExecutionId?: string | undefined;
+  EditorId?: string | undefined;
+  NotebookExecutionName?: string | undefined;
+  Status?: NotebookExecutionStatus | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NotebookS3Location?: NotebookS3LocationForOutput | undefined;
+  ExecutionEngineId?: string | undefined;
 }
 export type NotebookExecutionSummaryList = NotebookExecutionSummary[];
 export interface ListNotebookExecutionsOutput {
-  NotebookExecutions?: NotebookExecutionSummary[];
-  Marker?: string;
+  NotebookExecutions?: NotebookExecutionSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ReleaseLabelFilter {
-  Prefix?: string;
-  Application?: string;
+  Prefix?: string | undefined;
+  Application?: string | undefined;
 }
 export interface ListReleaseLabelsInput {
-  Filters?: ReleaseLabelFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ReleaseLabelFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListReleaseLabelsOutput {
-  ReleaseLabels?: string[];
-  NextToken?: string;
+  ReleaseLabels?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSecurityConfigurationsInput {
-  Marker?: string;
+  Marker?: string | undefined;
 }
 export interface SecurityConfigurationSummary {
-  Name?: string;
-  CreationDateTime?: Date;
+  Name?: string | undefined;
+  CreationDateTime?: Date | undefined;
 }
 export type SecurityConfigurationList = SecurityConfigurationSummary[];
 export interface ListSecurityConfigurationsOutput {
-  SecurityConfigurations?: SecurityConfigurationSummary[];
-  Marker?: string;
+  SecurityConfigurations?: SecurityConfigurationSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export type SessionStateList = SessionState[];
 export interface ListSessionsInput {
-  ClusterId?: string;
-  SessionStates?: SessionState[];
-  NextToken?: string;
-  MaxResults?: number;
+  ClusterId?: string | undefined;
+  SessionStates?: SessionState[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SessionList = Session[];
 export interface ListSessionsOutput {
-  Sessions?: (Session & {
-    Id: SessionId;
-    ClusterId: ClusterId;
-    Arn: ArnType;
-    State: SessionState;
-  })[];
-  NextToken?: string;
+  Sessions?:
+    | (Session & { Id: SessionId; ClusterId: ClusterId; Arn: ArnType; State: SessionState })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type StepStateList = StepState[];
 export interface ListStepsInput {
-  ClusterId?: string;
-  StepStates?: StepState[];
-  StepIds?: string[];
-  Marker?: string;
+  ClusterId?: string | undefined;
+  StepStates?: StepState[] | undefined;
+  StepIds?: string[] | undefined;
+  Marker?: string | undefined;
 }
 export interface StepSummary {
-  Id?: string;
-  Name?: string;
-  Config?: HadoopStepConfig;
-  ActionOnFailure?: ActionOnFailure;
-  Status?: StepStatus;
-  LogUri?: string;
-  EncryptionKeyArn?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Config?: HadoopStepConfig | undefined;
+  ActionOnFailure?: ActionOnFailure | undefined;
+  Status?: StepStatus | undefined;
+  LogUri?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export type StepSummaryList = StepSummary[];
 export interface ListStepsOutput {
-  Steps?: StepSummary[];
-  Marker?: string;
+  Steps?: StepSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListStudiosInput {
-  Marker?: string;
+  Marker?: string | undefined;
 }
 export interface StudioSummary {
-  StudioId?: string;
-  Name?: string;
-  VpcId?: string;
-  Description?: string;
-  Url?: string;
-  AuthMode?: AuthMode;
-  CreationTime?: Date;
+  StudioId?: string | undefined;
+  Name?: string | undefined;
+  VpcId?: string | undefined;
+  Description?: string | undefined;
+  Url?: string | undefined;
+  AuthMode?: AuthMode | undefined;
+  CreationTime?: Date | undefined;
 }
 export type StudioSummaryList = StudioSummary[];
 export interface ListStudiosOutput {
-  Studios?: StudioSummary[];
-  Marker?: string;
+  Studios?: StudioSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListStudioSessionMappingsInput {
-  StudioId?: string;
-  IdentityType?: IdentityType;
-  Marker?: string;
+  StudioId?: string | undefined;
+  IdentityType?: IdentityType | undefined;
+  Marker?: string | undefined;
 }
 export interface SessionMappingSummary {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
-  SessionPolicyArn?: string;
-  CreationTime?: Date;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
+  SessionPolicyArn?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export type SessionMappingSummaryList = SessionMappingSummary[];
 export interface ListStudioSessionMappingsOutput {
-  SessionMappings?: SessionMappingSummary[];
-  Marker?: string;
+  SessionMappings?: SessionMappingSummary[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListSupportedInstanceTypesInput {
-  ReleaseLabel?: string;
-  Marker?: string;
+  ReleaseLabel?: string | undefined;
+  Marker?: string | undefined;
 }
 export interface SupportedInstanceType {
-  Type?: string;
-  MemoryGB?: number;
-  StorageGB?: number;
-  VCPU?: number;
-  Is64BitsOnly?: boolean;
-  InstanceFamilyId?: string;
-  EbsOptimizedAvailable?: boolean;
-  EbsOptimizedByDefault?: boolean;
-  NumberOfDisks?: number;
-  EbsStorageOnly?: boolean;
-  Architecture?: string;
+  Type?: string | undefined;
+  MemoryGB?: number | undefined;
+  StorageGB?: number | undefined;
+  VCPU?: number | undefined;
+  Is64BitsOnly?: boolean | undefined;
+  InstanceFamilyId?: string | undefined;
+  EbsOptimizedAvailable?: boolean | undefined;
+  EbsOptimizedByDefault?: boolean | undefined;
+  NumberOfDisks?: number | undefined;
+  EbsStorageOnly?: boolean | undefined;
+  Architecture?: string | undefined;
 }
 export type SupportedInstanceTypesList = SupportedInstanceType[];
 export interface ListSupportedInstanceTypesOutput {
-  SupportedInstanceTypes?: SupportedInstanceType[];
-  Marker?: string;
+  SupportedInstanceTypes?: SupportedInstanceType[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ModifyClusterInput {
-  ClusterId?: string;
-  StepConcurrencyLevel?: number;
-  ExtendedSupport?: boolean;
+  ClusterId?: string | undefined;
+  StepConcurrencyLevel?: number | undefined;
+  ExtendedSupport?: boolean | undefined;
 }
 export interface ModifyClusterOutput {
-  StepConcurrencyLevel?: number;
-  ExtendedSupport?: boolean;
+  StepConcurrencyLevel?: number | undefined;
+  ExtendedSupport?: boolean | undefined;
 }
 export interface InstanceFleetModifyConfig {
-  InstanceFleetId?: string;
-  TargetOnDemandCapacity?: number;
-  TargetSpotCapacity?: number;
-  ResizeSpecifications?: InstanceFleetResizingSpecifications;
-  InstanceTypeConfigs?: InstanceTypeConfig[];
-  Context?: string;
+  InstanceFleetId?: string | undefined;
+  TargetOnDemandCapacity?: number | undefined;
+  TargetSpotCapacity?: number | undefined;
+  ResizeSpecifications?: InstanceFleetResizingSpecifications | undefined;
+  InstanceTypeConfigs?: InstanceTypeConfig[] | undefined;
+  Context?: string | undefined;
 }
 export interface ModifyInstanceFleetInput {
-  ClusterId?: string;
-  InstanceFleet?: InstanceFleetModifyConfig;
+  ClusterId?: string | undefined;
+  InstanceFleet?: InstanceFleetModifyConfig | undefined;
 }
 export interface ModifyInstanceFleetResponse {}
 export type EC2InstanceIdsToTerminateList = string[];
 export type ReconfigurationType = "OVERWRITE" | "MERGE" | (string & {});
 export interface InstanceGroupModifyConfig {
-  InstanceGroupId?: string;
-  InstanceCount?: number;
-  EC2InstanceIdsToTerminate?: string[];
-  ShrinkPolicy?: ShrinkPolicy;
-  ReconfigurationType?: ReconfigurationType;
-  Configurations?: Configuration[];
+  InstanceGroupId?: string | undefined;
+  InstanceCount?: number | undefined;
+  EC2InstanceIdsToTerminate?: string[] | undefined;
+  ShrinkPolicy?: ShrinkPolicy | undefined;
+  ReconfigurationType?: ReconfigurationType | undefined;
+  Configurations?: Configuration[] | undefined;
 }
 export type InstanceGroupModifyConfigList = InstanceGroupModifyConfig[];
 export interface ModifyInstanceGroupsInput {
-  ClusterId?: string;
-  InstanceGroups?: InstanceGroupModifyConfig[];
+  ClusterId?: string | undefined;
+  InstanceGroups?: InstanceGroupModifyConfig[] | undefined;
 }
 export interface ModifyInstanceGroupsResponse {}
 export interface PutAutoScalingPolicyInput {
-  ClusterId?: string;
-  InstanceGroupId?: string;
-  AutoScalingPolicy?: AutoScalingPolicy;
+  ClusterId?: string | undefined;
+  InstanceGroupId?: string | undefined;
+  AutoScalingPolicy?: AutoScalingPolicy | undefined;
 }
 export interface PutAutoScalingPolicyOutput {
-  ClusterId?: string;
-  InstanceGroupId?: string;
-  AutoScalingPolicy?: AutoScalingPolicyDescription & {
-    Constraints: ScalingConstraints & { MinCapacity: number; MaxCapacity: number };
-    Rules: (ScalingRule & {
-      Name: string;
-      Action: ScalingAction & {
-        SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration & {
-          ScalingAdjustment: number;
-        };
-      };
-      Trigger: ScalingTrigger & {
-        CloudWatchAlarmDefinition: CloudWatchAlarmDefinition & {
-          ComparisonOperator: ComparisonOperator;
-          MetricName: string;
-          Period: number;
-          Threshold: NonNegativeDouble;
-        };
-      };
-    })[];
-  };
-  ClusterArn?: string;
+  ClusterId?: string | undefined;
+  InstanceGroupId?: string | undefined;
+  AutoScalingPolicy?:
+    | (AutoScalingPolicyDescription & {
+        Constraints: ScalingConstraints & { MinCapacity: number; MaxCapacity: number };
+        Rules: (ScalingRule & {
+          Name: string;
+          Action: ScalingAction & {
+            SimpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration & {
+              ScalingAdjustment: number;
+            };
+          };
+          Trigger: ScalingTrigger & {
+            CloudWatchAlarmDefinition: CloudWatchAlarmDefinition & {
+              ComparisonOperator: ComparisonOperator;
+              MetricName: string;
+              Period: number;
+              Threshold: NonNegativeDouble;
+            };
+          };
+        })[];
+      })
+    | undefined;
+  ClusterArn?: string | undefined;
 }
 export interface PutAutoTerminationPolicyInput {
-  ClusterId?: string;
-  AutoTerminationPolicy?: AutoTerminationPolicy;
+  ClusterId?: string | undefined;
+  AutoTerminationPolicy?: AutoTerminationPolicy | undefined;
 }
 export interface PutAutoTerminationPolicyOutput {}
 export interface PutBlockPublicAccessConfigurationInput {
-  BlockPublicAccessConfiguration?: BlockPublicAccessConfiguration;
+  BlockPublicAccessConfiguration?: BlockPublicAccessConfiguration | undefined;
 }
 export interface PutBlockPublicAccessConfigurationOutput {}
 export interface PutManagedScalingPolicyInput {
-  ClusterId?: string;
-  ManagedScalingPolicy?: ManagedScalingPolicy;
+  ClusterId?: string | undefined;
+  ManagedScalingPolicy?: ManagedScalingPolicy | undefined;
 }
 export interface PutManagedScalingPolicyOutput {}
 export interface RemoveAutoScalingPolicyInput {
-  ClusterId?: string;
-  InstanceGroupId?: string;
+  ClusterId?: string | undefined;
+  InstanceGroupId?: string | undefined;
 }
 export interface RemoveAutoScalingPolicyOutput {}
 export interface RemoveAutoTerminationPolicyInput {
-  ClusterId?: string;
+  ClusterId?: string | undefined;
 }
 export interface RemoveAutoTerminationPolicyOutput {}
 export interface RemoveManagedScalingPolicyInput {
-  ClusterId?: string;
+  ClusterId?: string | undefined;
 }
 export interface RemoveManagedScalingPolicyOutput {}
 export interface RemoveTagsInput {
-  ResourceId?: string;
-  TagKeys?: string[];
-  ClusterId?: string;
+  ResourceId?: string | undefined;
+  TagKeys?: string[] | undefined;
+  ClusterId?: string | undefined;
 }
 export interface RemoveTagsOutput {}
 export type InstanceFleetConfigList = InstanceFleetConfig[];
 export type SecurityGroupsList = string[];
 export interface JobFlowInstancesConfig {
-  MasterInstanceType?: string;
-  SlaveInstanceType?: string;
-  InstanceCount?: number;
-  InstanceGroups?: InstanceGroupConfig[];
-  InstanceFleets?: InstanceFleetConfig[];
-  Ec2KeyName?: string;
-  Placement?: PlacementType;
-  KeepJobFlowAliveWhenNoSteps?: boolean;
-  TerminationProtected?: boolean;
-  UnhealthyNodeReplacement?: boolean;
-  HadoopVersion?: string;
-  Ec2SubnetId?: string;
-  Ec2SubnetIds?: string[];
-  EmrManagedMasterSecurityGroup?: string;
-  EmrManagedSlaveSecurityGroup?: string;
-  ServiceAccessSecurityGroup?: string;
-  AdditionalMasterSecurityGroups?: string[];
-  AdditionalSlaveSecurityGroups?: string[];
+  MasterInstanceType?: string | undefined;
+  SlaveInstanceType?: string | undefined;
+  InstanceCount?: number | undefined;
+  InstanceGroups?: InstanceGroupConfig[] | undefined;
+  InstanceFleets?: InstanceFleetConfig[] | undefined;
+  Ec2KeyName?: string | undefined;
+  Placement?: PlacementType | undefined;
+  KeepJobFlowAliveWhenNoSteps?: boolean | undefined;
+  TerminationProtected?: boolean | undefined;
+  UnhealthyNodeReplacement?: boolean | undefined;
+  HadoopVersion?: string | undefined;
+  Ec2SubnetId?: string | undefined;
+  Ec2SubnetIds?: string[] | undefined;
+  EmrManagedMasterSecurityGroup?: string | undefined;
+  EmrManagedSlaveSecurityGroup?: string | undefined;
+  ServiceAccessSecurityGroup?: string | undefined;
+  AdditionalMasterSecurityGroups?: string[] | undefined;
+  AdditionalSlaveSecurityGroups?: string[] | undefined;
 }
 export type BootstrapActionConfigList = BootstrapActionConfig[];
 export interface SupportedProductConfig {
-  Name?: string;
-  Args?: string[];
+  Name?: string | undefined;
+  Args?: string[] | undefined;
 }
 export type NewSupportedProductsList = SupportedProductConfig[];
 export interface RunJobFlowInput {
-  Name?: string;
-  LogUri?: string;
-  LogEncryptionKmsKeyId?: string;
-  AdditionalInfo?: string;
-  AmiVersion?: string;
-  ReleaseLabel?: string;
-  Instances?: JobFlowInstancesConfig;
-  Steps?: StepConfig[];
-  StepExecutionRoleArn?: string;
-  BootstrapActions?: BootstrapActionConfig[];
-  SupportedProducts?: string[];
-  NewSupportedProducts?: SupportedProductConfig[];
-  Applications?: Application[];
-  Configurations?: Configuration[];
-  VisibleToAllUsers?: boolean;
-  JobFlowRole?: string;
-  ServiceRole?: string;
-  Tags?: Tag[];
-  SecurityConfiguration?: string;
-  AutoScalingRole?: string;
-  ScaleDownBehavior?: ScaleDownBehavior;
-  CustomAmiId?: string;
-  EbsRootVolumeSize?: number;
-  RepoUpgradeOnBoot?: RepoUpgradeOnBoot;
-  KerberosAttributes?: KerberosAttributes;
-  StepConcurrencyLevel?: number;
-  ManagedScalingPolicy?: ManagedScalingPolicy;
-  PlacementGroupConfigs?: PlacementGroupConfig[];
-  AutoTerminationPolicy?: AutoTerminationPolicy;
-  OSReleaseLabel?: string;
-  EbsRootVolumeIops?: number;
-  EbsRootVolumeThroughput?: number;
-  ExtendedSupport?: boolean;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  SessionEnabled?: boolean;
+  Name?: string | undefined;
+  LogUri?: string | undefined;
+  LogEncryptionKmsKeyId?: string | undefined;
+  AdditionalInfo?: string | undefined;
+  AmiVersion?: string | undefined;
+  ReleaseLabel?: string | undefined;
+  Instances?: JobFlowInstancesConfig | undefined;
+  Steps?: StepConfig[] | undefined;
+  StepExecutionRoleArn?: string | undefined;
+  BootstrapActions?: BootstrapActionConfig[] | undefined;
+  SupportedProducts?: string[] | undefined;
+  NewSupportedProducts?: SupportedProductConfig[] | undefined;
+  Applications?: Application[] | undefined;
+  Configurations?: Configuration[] | undefined;
+  VisibleToAllUsers?: boolean | undefined;
+  JobFlowRole?: string | undefined;
+  ServiceRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SecurityConfiguration?: string | undefined;
+  AutoScalingRole?: string | undefined;
+  ScaleDownBehavior?: ScaleDownBehavior | undefined;
+  CustomAmiId?: string | undefined;
+  EbsRootVolumeSize?: number | undefined;
+  RepoUpgradeOnBoot?: RepoUpgradeOnBoot | undefined;
+  KerberosAttributes?: KerberosAttributes | undefined;
+  StepConcurrencyLevel?: number | undefined;
+  ManagedScalingPolicy?: ManagedScalingPolicy | undefined;
+  PlacementGroupConfigs?: PlacementGroupConfig[] | undefined;
+  AutoTerminationPolicy?: AutoTerminationPolicy | undefined;
+  OSReleaseLabel?: string | undefined;
+  EbsRootVolumeIops?: number | undefined;
+  EbsRootVolumeThroughput?: number | undefined;
+  ExtendedSupport?: boolean | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  SessionEnabled?: boolean | undefined;
 }
 export interface RunJobFlowOutput {
-  JobFlowId?: string;
-  ClusterArn?: string;
+  JobFlowId?: string | undefined;
+  ClusterArn?: string | undefined;
 }
 export interface SetKeepJobFlowAliveWhenNoStepsInput {
-  JobFlowIds?: string[];
-  KeepJobFlowAliveWhenNoSteps?: boolean;
+  JobFlowIds?: string[] | undefined;
+  KeepJobFlowAliveWhenNoSteps?: boolean | undefined;
 }
 export interface SetKeepJobFlowAliveWhenNoStepsResponse {}
 export interface SetTerminationProtectionInput {
-  JobFlowIds?: string[];
-  TerminationProtected?: boolean;
+  JobFlowIds?: string[] | undefined;
+  TerminationProtected?: boolean | undefined;
 }
 export interface SetTerminationProtectionResponse {}
 export interface SetUnhealthyNodeReplacementInput {
-  JobFlowIds?: string[];
-  UnhealthyNodeReplacement?: boolean;
+  JobFlowIds?: string[] | undefined;
+  UnhealthyNodeReplacement?: boolean | undefined;
 }
 export interface SetUnhealthyNodeReplacementResponse {}
 export interface SetVisibleToAllUsersInput {
-  JobFlowIds?: string[];
-  VisibleToAllUsers?: boolean;
+  JobFlowIds?: string[] | undefined;
+  VisibleToAllUsers?: boolean | undefined;
 }
 export interface SetVisibleToAllUsersResponse {}
 export interface NotebookS3LocationFromInput {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export interface OutputNotebookS3LocationFromInput {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export interface StartNotebookExecutionInput {
-  EditorId?: string;
-  RelativePath?: string;
-  NotebookExecutionName?: string;
-  NotebookParams?: string;
-  ExecutionEngine?: ExecutionEngineConfig;
-  ServiceRole?: string;
-  NotebookInstanceSecurityGroupId?: string;
-  Tags?: Tag[];
-  NotebookS3Location?: NotebookS3LocationFromInput;
-  OutputNotebookS3Location?: OutputNotebookS3LocationFromInput;
-  OutputNotebookFormat?: OutputNotebookFormat;
-  EnvironmentVariables?: { [key: string]: string | undefined };
+  EditorId?: string | undefined;
+  RelativePath?: string | undefined;
+  NotebookExecutionName?: string | undefined;
+  NotebookParams?: string | undefined;
+  ExecutionEngine?: ExecutionEngineConfig | undefined;
+  ServiceRole?: string | undefined;
+  NotebookInstanceSecurityGroupId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  NotebookS3Location?: NotebookS3LocationFromInput | undefined;
+  OutputNotebookS3Location?: OutputNotebookS3LocationFromInput | undefined;
+  OutputNotebookFormat?: OutputNotebookFormat | undefined;
+  EnvironmentVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartNotebookExecutionOutput {
-  NotebookExecutionId?: string;
+  NotebookExecutionId?: string | undefined;
 }
 export type ClientRequestToken = string;
 export interface StartSessionInput {
-  Name?: string;
-  ClusterId?: string;
-  ExecutionRoleArn?: string;
-  EngineConfigurations?: Configuration[];
-  MonitoringConfiguration?: SessionMonitoringConfiguration;
-  SessionIdleTimeoutInMinutes?: number;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  ClusterId?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  EngineConfigurations?: Configuration[] | undefined;
+  MonitoringConfiguration?: SessionMonitoringConfiguration | undefined;
+  SessionIdleTimeoutInMinutes?: number | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartSessionOutput {
   Id: string;
-  ClusterId?: string;
-  Arn?: string;
-  AccountId?: string;
-  State?: SessionState;
+  ClusterId?: string | undefined;
+  Arn?: string | undefined;
+  AccountId?: string | undefined;
+  State?: SessionState | undefined;
 }
 export interface StopNotebookExecutionInput {
-  NotebookExecutionId?: string;
+  NotebookExecutionId?: string | undefined;
 }
 export interface StopNotebookExecutionResponse {}
 export interface TerminateJobFlowsInput {
-  JobFlowIds?: string[];
+  JobFlowIds?: string[] | undefined;
 }
 export interface TerminateJobFlowsResponse {}
 export interface TerminateSessionInput {
-  ClusterId?: string;
-  SessionId?: string;
+  ClusterId?: string | undefined;
+  SessionId?: string | undefined;
 }
 export interface TerminateSessionOutput {
   ClusterId: string;
@@ -1963,20 +1973,20 @@ export interface TerminateSessionOutput {
   State: SessionState;
 }
 export interface UpdateStudioInput {
-  StudioId?: string;
-  Name?: string;
-  Description?: string;
-  SubnetIds?: string[];
-  DefaultS3Location?: string;
-  EncryptionKeyArn?: string;
+  StudioId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  DefaultS3Location?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
 }
 export interface UpdateStudioResponse {}
 export interface UpdateStudioSessionMappingInput {
-  StudioId?: string;
-  IdentityId?: string;
-  IdentityName?: string;
-  IdentityType?: IdentityType;
-  SessionPolicyArn?: string;
+  StudioId?: string | undefined;
+  IdentityId?: string | undefined;
+  IdentityName?: string | undefined;
+  IdentityType?: IdentityType | undefined;
+  SessionPolicyArn?: string | undefined;
 }
 export interface UpdateStudioSessionMappingResponse {}
 export type ErrorMessage = string;
@@ -1992,7 +2002,7 @@ export type AddInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x.
  */
 export const addInstanceFleet: API.OperationMethod<
-  AddInstanceFleetInput,
+  AddInstanceFleetInput & RegionInput,
   AddInstanceFleetOutput,
   AddInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -2012,7 +2022,7 @@ export type AddInstanceGroupsError = InternalServerError | CommonErrors;
  * Adds one or more instance groups to a running cluster.
  */
 export const addInstanceGroups: API.OperationMethod<
-  AddInstanceGroupsInput,
+  AddInstanceGroupsInput & RegionInput,
   AddInstanceGroupsOutput,
   AddInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -2053,7 +2063,7 @@ export type AddJobFlowStepsError = InternalServerError | CommonErrors;
  * of 10240 characters.
  */
 export const addJobFlowSteps: API.OperationMethod<
-  AddJobFlowStepsInput,
+  AddJobFlowStepsInput & RegionInput,
   AddJobFlowStepsOutput,
   AddJobFlowStepsError,
   Creds | HttpClient.HttpClient
@@ -2077,7 +2087,7 @@ export type AddTagsError = InternalServerException | InvalidRequestException | C
  * Clusters.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Creds | HttpClient.HttpClient
@@ -2101,7 +2111,7 @@ export type CancelStepsError = InternalServerError | InvalidRequestException | C
  * `PENDING` or `RUNNING` state. In earlier versions of Amazon EMR, you can only cancel steps that are in a `PENDING` state.
  */
 export const cancelSteps: API.OperationMethod<
-  CancelStepsInput,
+  CancelStepsInput & RegionInput,
   CancelStepsOutput,
   CancelStepsError,
   Creds | HttpClient.HttpClient
@@ -2124,7 +2134,7 @@ export type CreatePersistentAppUIError =
  * Creates a persistent application user interface.
  */
 export const createPersistentAppUI: API.OperationMethod<
-  CreatePersistentAppUIInput,
+  CreatePersistentAppUIInput & RegionInput,
   CreatePersistentAppUIOutput,
   CreatePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2149,7 +2159,7 @@ export type CreateSecurityConfigurationError =
  * when a cluster is created.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationInput,
+  CreateSecurityConfigurationInput & RegionInput,
   CreateSecurityConfigurationOutput,
   CreateSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2174,7 +2184,7 @@ export type CreateStudioError =
  * Creates a new Amazon EMR Studio.
  */
 export const createStudio: API.OperationMethod<
-  CreateStudioInput,
+  CreateStudioInput & RegionInput,
   CreateStudioOutput,
   CreateStudioError,
   Creds | HttpClient.HttpClient
@@ -2206,7 +2216,7 @@ export type CreateStudioSessionMappingError =
  * Studio when you use IAM authentication, see Assign a user or group to your EMR Studio.
  */
 export const createStudioSessionMapping: API.OperationMethod<
-  CreateStudioSessionMappingInput,
+  CreateStudioSessionMappingInput & RegionInput,
   CreateStudioSessionMappingResponse,
   CreateStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2230,7 +2240,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationInput,
+  DeleteSecurityConfigurationInput & RegionInput,
   DeleteSecurityConfigurationOutput,
   DeleteSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2254,7 +2264,7 @@ export type DeleteStudioError =
  * Removes an Amazon EMR Studio from the Studio metadata store.
  */
 export const deleteStudio: API.OperationMethod<
-  DeleteStudioInput,
+  DeleteStudioInput & RegionInput,
   DeleteStudioResponse,
   DeleteStudioError,
   Creds | HttpClient.HttpClient
@@ -2277,7 +2287,7 @@ export type DeleteStudioSessionMappingError =
  * Removes a user or group from an Amazon EMR Studio.
  */
 export const deleteStudioSessionMapping: API.OperationMethod<
-  DeleteStudioSessionMappingInput,
+  DeleteStudioSessionMappingInput & RegionInput,
   DeleteStudioSessionMappingResponse,
   DeleteStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2302,7 +2312,7 @@ export type DescribeClusterError =
  * VPC settings, and so on.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterInput,
+  DescribeClusterInput & RegionInput,
   DescribeClusterOutput,
   DescribeClusterError,
   Creds | HttpClient.HttpClient
@@ -2341,7 +2351,7 @@ export type DescribeJobFlowsError = InternalServerError | CommonErrors;
  * Amazon EMR can return a maximum of 512 job flow descriptions.
  */
 export const describeJobFlows: API.OperationMethod<
-  DescribeJobFlowsInput,
+  DescribeJobFlowsInput & RegionInput,
   DescribeJobFlowsOutput,
   DescribeJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -2364,7 +2374,7 @@ export type DescribeNotebookExecutionError =
  * Provides details of a notebook execution.
  */
 export const describeNotebookExecution: API.OperationMethod<
-  DescribeNotebookExecutionInput,
+  DescribeNotebookExecutionInput & RegionInput,
   DescribeNotebookExecutionOutput,
   DescribeNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -2387,7 +2397,7 @@ export type DescribePersistentAppUIError =
  * Describes a persistent application user interface.
  */
 export const describePersistentAppUI: API.OperationMethod<
-  DescribePersistentAppUIInput,
+  DescribePersistentAppUIInput & RegionInput,
   DescribePersistentAppUIOutput,
   DescribePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2412,7 +2422,7 @@ export type DescribeReleaseLabelError =
  * specified version of Spark.
  */
 export const describeReleaseLabel: API.OperationMethod<
-  DescribeReleaseLabelInput,
+  DescribeReleaseLabelInput & RegionInput,
   DescribeReleaseLabelOutput,
   DescribeReleaseLabelError,
   Creds | HttpClient.HttpClient
@@ -2437,7 +2447,7 @@ export type DescribeSecurityConfigurationError =
  * JSON.
  */
 export const describeSecurityConfiguration: API.OperationMethod<
-  DescribeSecurityConfigurationInput,
+  DescribeSecurityConfigurationInput & RegionInput,
   DescribeSecurityConfigurationOutput,
   DescribeSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2457,7 +2467,7 @@ export type DescribeStepError = InternalServerException | InvalidRequestExceptio
  * Provides more detail about the cluster step.
  */
 export const describeStep: API.OperationMethod<
-  DescribeStepInput,
+  DescribeStepInput & RegionInput,
   DescribeStepOutput,
   DescribeStepError,
   Creds | HttpClient.HttpClient
@@ -2482,7 +2492,7 @@ export type DescribeStudioError =
  * Studio access URL, and so on.
  */
 export const describeStudio: API.OperationMethod<
-  DescribeStudioInput,
+  DescribeStudioInput & RegionInput,
   DescribeStudioOutput,
   DescribeStudioError,
   Creds | HttpClient.HttpClient
@@ -2502,7 +2512,7 @@ export type GetAutoTerminationPolicyError = CommonErrors;
  * Returns the auto-termination policy for an Amazon EMR cluster.
  */
 export const getAutoTerminationPolicy: API.OperationMethod<
-  GetAutoTerminationPolicyInput,
+  GetAutoTerminationPolicyInput & RegionInput,
   GetAutoTerminationPolicyOutput,
   GetAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -2527,7 +2537,7 @@ export type GetBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const getBlockPublicAccessConfiguration: API.OperationMethod<
-  GetBlockPublicAccessConfigurationInput,
+  GetBlockPublicAccessConfigurationInput & RegionInput,
   GetBlockPublicAccessConfigurationOutput,
   GetBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2553,7 +2563,7 @@ export type GetClusterSessionCredentialsError =
  * username and password authentication.
  */
 export const getClusterSessionCredentials: API.OperationMethod<
-  GetClusterSessionCredentialsInput,
+  GetClusterSessionCredentialsInput & RegionInput,
   GetClusterSessionCredentialsOutput,
   GetClusterSessionCredentialsError,
   Creds | HttpClient.HttpClient
@@ -2573,7 +2583,7 @@ export type GetManagedScalingPolicyError = CommonErrors;
  * Fetches the attached managed scaling policy for an Amazon EMR cluster.
  */
 export const getManagedScalingPolicy: API.OperationMethod<
-  GetManagedScalingPolicyInput,
+  GetManagedScalingPolicyInput & RegionInput,
   GetManagedScalingPolicyOutput,
   GetManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -2596,7 +2606,7 @@ export type GetOnClusterAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getOnClusterAppUIPresignedURL: API.OperationMethod<
-  GetOnClusterAppUIPresignedURLInput,
+  GetOnClusterAppUIPresignedURLInput & RegionInput,
   GetOnClusterAppUIPresignedURLOutput,
   GetOnClusterAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2619,7 +2629,7 @@ export type GetPersistentAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getPersistentAppUIPresignedURL: API.OperationMethod<
-  GetPersistentAppUIPresignedURLInput,
+  GetPersistentAppUIPresignedURLInput & RegionInput,
   GetPersistentAppUIPresignedURLOutput,
   GetPersistentAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2639,7 +2649,7 @@ export type GetSessionError = InternalServerException | InvalidRequestException 
  * Returns detailed information about a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionInput,
+  GetSessionInput & RegionInput,
   GetSessionOutput,
   GetSessionError,
   Creds | HttpClient.HttpClient
@@ -2662,7 +2672,7 @@ export type GetSessionEndpointError =
  * Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointInput,
+  GetSessionEndpointInput & RegionInput,
   GetSessionEndpointOutput,
   GetSessionEndpointError,
   Creds | HttpClient.HttpClient
@@ -2686,7 +2696,7 @@ export type GetStudioSessionMappingError =
  * or group).
  */
 export const getStudioSessionMapping: API.OperationMethod<
-  GetStudioSessionMappingInput,
+  GetStudioSessionMappingInput & RegionInput,
   GetStudioSessionMappingOutput,
   GetStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2709,7 +2719,7 @@ export type ListBootstrapActionsError =
  * Provides information about the bootstrap actions associated with a cluster.
  */
 export const listBootstrapActions: API.PaginatedOperationMethod<
-  ListBootstrapActionsInput,
+  ListBootstrapActionsInput & RegionInput,
   ListBootstrapActionsOutput,
   ListBootstrapActionsError,
   Creds | HttpClient.HttpClient,
@@ -2735,7 +2745,7 @@ export type ListClustersError = InternalServerException | InvalidRequestExceptio
  * across multiple ListClusters calls.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Creds | HttpClient.HttpClient,
@@ -2763,7 +2773,7 @@ export type ListInstanceFleetsError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const listInstanceFleets: API.PaginatedOperationMethod<
-  ListInstanceFleetsInput,
+  ListInstanceFleetsInput & RegionInput,
   ListInstanceFleetsOutput,
   ListInstanceFleetsError,
   Creds | HttpClient.HttpClient,
@@ -2788,7 +2798,7 @@ export type ListInstanceGroupsError =
  * Provides all available details about the instance groups in a cluster.
  */
 export const listInstanceGroups: API.PaginatedOperationMethod<
-  ListInstanceGroupsInput,
+  ListInstanceGroupsInput & RegionInput,
   ListInstanceGroupsOutput,
   ListInstanceGroupsError,
   Creds | HttpClient.HttpClient,
@@ -2813,7 +2823,7 @@ export type ListInstancesError = InternalServerException | InvalidRequestExcepti
  * PROVISIONING, BOOTSTRAPPING, RUNNING.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesInput,
+  ListInstancesInput & RegionInput,
   ListInstancesOutput,
   ListInstancesError,
   Creds | HttpClient.HttpClient,
@@ -2841,7 +2851,7 @@ export type ListNotebookExecutionsError =
  * multiple `ListNotebookExecutions` calls.
  */
 export const listNotebookExecutions: API.PaginatedOperationMethod<
-  ListNotebookExecutionsInput,
+  ListNotebookExecutionsInput & RegionInput,
   ListNotebookExecutionsOutput,
   ListNotebookExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -2867,7 +2877,7 @@ export type ListReleaseLabelsError =
  * called.
  */
 export const listReleaseLabels: API.PaginatedOperationMethod<
-  ListReleaseLabelsInput,
+  ListReleaseLabelsInput & RegionInput,
   ListReleaseLabelsOutput,
   ListReleaseLabelsError,
   Creds | HttpClient.HttpClient,
@@ -2899,7 +2909,7 @@ export type ListSecurityConfigurationsError =
  * ListSecurityConfigurations calls.
  */
 export const listSecurityConfigurations: API.PaginatedOperationMethod<
-  ListSecurityConfigurationsInput,
+  ListSecurityConfigurationsInput & RegionInput,
   ListSecurityConfigurationsOutput,
   ListSecurityConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -2925,7 +2935,7 @@ export type ListSessionsError = InternalServerException | InvalidRequestExceptio
  * Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsInput,
+  ListSessionsInput & RegionInput,
   ListSessionsOutput,
   ListSessionsError,
   Creds | HttpClient.HttpClient,
@@ -2952,7 +2962,7 @@ export type ListStepsError = InternalServerException | InvalidRequestException |
  * that indicates the next set of steps to retrieve.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsInput,
+  ListStepsInput & RegionInput,
   ListStepsOutput,
   ListStepsError,
   Creds | HttpClient.HttpClient,
@@ -2975,7 +2985,7 @@ export type ListStudiosError = InternalServerException | InvalidRequestException
  * creation time for each Studio.
  */
 export const listStudios: API.PaginatedOperationMethod<
-  ListStudiosInput,
+  ListStudiosInput & RegionInput,
   ListStudiosOutput,
   ListStudiosError,
   Creds | HttpClient.HttpClient,
@@ -3001,7 +3011,7 @@ export type ListStudioSessionMappingsError =
  * specified by `StudioId`.
  */
 export const listStudioSessionMappings: API.PaginatedOperationMethod<
-  ListStudioSessionMappingsInput,
+  ListStudioSessionMappingsInput & RegionInput,
   ListStudioSessionMappingsOutput,
   ListStudioSessionMappingsError,
   Creds | HttpClient.HttpClient,
@@ -3027,7 +3037,7 @@ export type ListSupportedInstanceTypesError =
  * list by Amazon Web Services Region and Amazon EMR release.
  */
 export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
-  ListSupportedInstanceTypesInput,
+  ListSupportedInstanceTypesInput & RegionInput,
   ListSupportedInstanceTypesOutput,
   ListSupportedInstanceTypesError,
   Creds | HttpClient.HttpClient,
@@ -3050,7 +3060,7 @@ export type ModifyClusterError = InternalServerError | InvalidRequestException |
  * using ClusterID.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterInput,
+  ModifyClusterInput & RegionInput,
   ModifyClusterOutput,
   ModifyClusterError,
   Creds | HttpClient.HttpClient
@@ -3078,7 +3088,7 @@ export type ModifyInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const modifyInstanceFleet: API.OperationMethod<
-  ModifyInstanceFleetInput,
+  ModifyInstanceFleetInput & RegionInput,
   ModifyInstanceFleetResponse,
   ModifyInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -3100,7 +3110,7 @@ export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
  * and the instance group ID. The call will either succeed or fail atomically.
  */
 export const modifyInstanceGroups: API.OperationMethod<
-  ModifyInstanceGroupsInput,
+  ModifyInstanceGroupsInput & RegionInput,
   ModifyInstanceGroupsResponse,
   ModifyInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -3123,7 +3133,7 @@ export type PutAutoScalingPolicyError = CommonErrors;
  * to the value of a CloudWatch metric.
  */
 export const putAutoScalingPolicy: API.OperationMethod<
-  PutAutoScalingPolicyInput,
+  PutAutoScalingPolicyInput & RegionInput,
   PutAutoScalingPolicyOutput,
   PutAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3150,7 +3160,7 @@ export type PutAutoTerminationPolicyError = CommonErrors;
  * cluster termination.
  */
 export const putAutoTerminationPolicy: API.OperationMethod<
-  PutAutoTerminationPolicyInput,
+  PutAutoTerminationPolicyInput & RegionInput,
   PutAutoTerminationPolicyOutput,
   PutAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3176,7 +3186,7 @@ export type PutBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const putBlockPublicAccessConfiguration: API.OperationMethod<
-  PutBlockPublicAccessConfigurationInput,
+  PutBlockPublicAccessConfigurationInput & RegionInput,
   PutBlockPublicAccessConfigurationOutput,
   PutBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -3199,7 +3209,7 @@ export type PutManagedScalingPolicyError = CommonErrors;
  * core and task nodes. The master node cannot be scaled after initial configuration.
  */
 export const putManagedScalingPolicy: API.OperationMethod<
-  PutManagedScalingPolicyInput,
+  PutManagedScalingPolicyInput & RegionInput,
   PutManagedScalingPolicyOutput,
   PutManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3219,7 +3229,7 @@ export type RemoveAutoScalingPolicyError = CommonErrors;
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
 export const removeAutoScalingPolicy: API.OperationMethod<
-  RemoveAutoScalingPolicyInput,
+  RemoveAutoScalingPolicyInput & RegionInput,
   RemoveAutoScalingPolicyOutput,
   RemoveAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3239,7 +3249,7 @@ export type RemoveAutoTerminationPolicyError = CommonErrors;
  * Removes an auto-termination policy from an Amazon EMR cluster.
  */
 export const removeAutoTerminationPolicy: API.OperationMethod<
-  RemoveAutoTerminationPolicyInput,
+  RemoveAutoTerminationPolicyInput & RegionInput,
   RemoveAutoTerminationPolicyOutput,
   RemoveAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3259,7 +3269,7 @@ export type RemoveManagedScalingPolicyError = CommonErrors;
  * Removes a managed scaling policy from a specified Amazon EMR cluster.
  */
 export const removeManagedScalingPolicy: API.OperationMethod<
-  RemoveManagedScalingPolicyInput,
+  RemoveManagedScalingPolicyInput & RegionInput,
   RemoveManagedScalingPolicyOutput,
   RemoveManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3284,7 +3294,7 @@ export type RemoveTagsError = InternalServerException | InvalidRequestException 
  * The following example removes the stack tag with value Prod from a cluster:
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Creds | HttpClient.HttpClient
@@ -3328,7 +3338,7 @@ export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady |
  * InstanceFleets parameters or InstanceGroups parameters, but not both.
  */
 export const runJobFlow: API.OperationMethod<
-  RunJobFlowInput,
+  RunJobFlowInput & RegionInput,
   RunJobFlowOutput,
   RunJobFlowError,
   Creds | HttpClient.HttpClient
@@ -3352,7 +3362,7 @@ export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonEr
  * For more information, see Managing Cluster Termination in the *Amazon EMR Management Guide*.
  */
 export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
-  SetKeepJobFlowAliveWhenNoStepsInput,
+  SetKeepJobFlowAliveWhenNoStepsInput & RegionInput,
   SetKeepJobFlowAliveWhenNoStepsResponse,
   SetKeepJobFlowAliveWhenNoStepsError,
   Creds | HttpClient.HttpClient
@@ -3390,7 +3400,7 @@ export type SetTerminationProtectionError = InternalServerError | JobFlowNotFoun
  * Termination in the *Amazon EMR Management Guide*.
  */
 export const setTerminationProtection: API.OperationMethod<
-  SetTerminationProtectionInput,
+  SetTerminationProtectionInput & RegionInput,
   SetTerminationProtectionResponse,
   SetTerminationProtectionError,
   Creds | HttpClient.HttpClient
@@ -3423,7 +3433,7 @@ export type SetUnhealthyNodeReplacementError = InternalServerError | CommonError
  * node replacement in the *Amazon EMR Management Guide*.
  */
 export const setUnhealthyNodeReplacement: API.OperationMethod<
-  SetUnhealthyNodeReplacementInput,
+  SetUnhealthyNodeReplacementInput & RegionInput,
   SetUnhealthyNodeReplacementResponse,
   SetUnhealthyNodeReplacementError,
   Creds | HttpClient.HttpClient
@@ -3456,7 +3466,7 @@ export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
  * *Amazon EMR Management Guide*.
  */
 export const setVisibleToAllUsers: API.OperationMethod<
-  SetVisibleToAllUsersInput,
+  SetVisibleToAllUsersInput & RegionInput,
   SetVisibleToAllUsersResponse,
   SetVisibleToAllUsersError,
   Creds | HttpClient.HttpClient
@@ -3479,7 +3489,7 @@ export type StartNotebookExecutionError =
  * Starts a notebook execution.
  */
 export const startNotebookExecution: API.OperationMethod<
-  StartNotebookExecutionInput,
+  StartNotebookExecutionInput & RegionInput,
   StartNotebookExecutionOutput,
   StartNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3499,7 +3509,7 @@ export type StartSessionError = InternalServerException | InvalidRequestExceptio
  * Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the `RUNNING` or `WAITING` state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
  */
 export const startSession: API.OperationMethod<
-  StartSessionInput,
+  StartSessionInput & RegionInput,
   StartSessionOutput,
   StartSessionError,
   Creds | HttpClient.HttpClient
@@ -3522,7 +3532,7 @@ export type StopNotebookExecutionError =
  * Stops a notebook execution.
  */
 export const stopNotebookExecution: API.OperationMethod<
-  StopNotebookExecutionInput,
+  StopNotebookExecutionInput & RegionInput,
   StopNotebookExecutionResponse,
   StopNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3549,7 +3559,7 @@ export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | Com
  * Amazon EC2 instances.
  */
 export const terminateJobFlows: API.OperationMethod<
-  TerminateJobFlowsInput,
+  TerminateJobFlowsInput & RegionInput,
   TerminateJobFlowsResponse,
   TerminateJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -3572,7 +3582,7 @@ export type TerminateSessionError =
  * Terminates an active session. After you call this operation, the session enters the `TERMINATING` state and then transitions to `TERMINATED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionInput,
+  TerminateSessionInput & RegionInput,
   TerminateSessionOutput,
   TerminateSessionError,
   Creds | HttpClient.HttpClient
@@ -3597,7 +3607,7 @@ export type UpdateStudioError =
  * description, and subnets.
  */
 export const updateStudio: API.OperationMethod<
-  UpdateStudioInput,
+  UpdateStudioInput & RegionInput,
   UpdateStudioResponse,
   UpdateStudioError,
   Creds | HttpClient.HttpClient
@@ -3620,7 +3630,7 @@ export type UpdateStudioSessionMappingError =
  * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
  */
 export const updateStudioSessionMapping: API.OperationMethod<
-  UpdateStudioSessionMappingInput,
+  UpdateStudioSessionMappingInput & RegionInput,
   UpdateStudioSessionMappingResponse,
   UpdateStudioSessionMappingError,
   Creds | HttpClient.HttpClient

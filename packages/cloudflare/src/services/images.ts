@@ -113,35 +113,35 @@ export interface CreateV1Request {
   /** Account identifier tag. */
   accountId: string;
   /** An optional custom unique identifier for your image. */
-  id?: string;
+  id?: string | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string;
+  creator?: string | undefined;
   /** An image binary data. Only needed when type is uploading a file. */
-  file?: unknown;
+  file?: unknown | undefined;
   /** User modifiable key-value store. Can use used for keeping references to another system of record for managing images. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Indicates whether the image requires a signature token for the access. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
   /** A URL to fetch an image from origin. Only needed when type is uploading from a URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export type V1CreateResponseVariantsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateV1Response {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** Image file name. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** When the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** Object specifying available variants for an image. */
-  variants?: V1CreateResponseVariantsList | null;
+  variants?: V1CreateResponseVariantsList | null | undefined;
 }
 export type V1VariantsCreateRequestOptionsFit = "scale-down" | "contain" | "cover" | "crop" | "pad";
 export type V1VariantsCreateRequestOptionsMetadata = "keep" | "copyright" | "none";
@@ -162,7 +162,7 @@ export interface CreateV1VariantRequest {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsCreateRequestOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean;
+  neverRequireSignedURLs?: boolean | undefined;
 }
 export type V1VariantsCreateResponseVariantOptionsFit =
   | "scale-down"
@@ -186,32 +186,32 @@ export interface V1VariantsCreateResponseVariant {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsCreateResponseVariantOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean | null;
+  neverRequireSignedURLs?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateV1VariantResponse {
-  variant?: V1VariantsCreateResponseVariant | null;
+  variant?: V1VariantsCreateResponseVariant | null | undefined;
 }
 export interface CreateV2DirectUploadRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Optional Image Custom ID. Up to 1024 chars. Can include any number of subpaths, and utf8 characters. Cannot start nor end with a / (forward slash). Cannot be a UUID. */
-  id?: string;
+  id?: string | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string;
+  creator?: string | undefined;
   /** The date after which the upload will not be accepted. Minimum: Now + 2 minutes. Maximum: Now + 6 hours. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record, for managing images. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Indicates whether the image requires a signature token to be accessed. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateV2DirectUploadResponse {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The URL the unauthenticated upload can be performed to using a single HTTP POST (multipart/form-data) request. */
-  uploadURL?: string | null;
+  uploadURL?: string | null | undefined;
 }
 export interface DeleteV1Request {
   /** Account identifier tag. */
@@ -227,14 +227,14 @@ export interface DeleteV1KeyRequest {
 }
 export interface V1KeysDeleteResponseKeysItem {
   /** Key name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Key value. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type V1KeysDeleteResponseKeysList = Array<V1KeysDeleteResponseKeysItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteV1KeyResponse {
-  keys?: V1KeysDeleteResponseKeysList | null;
+  keys?: V1KeysDeleteResponseKeysList | null | undefined;
 }
 export interface DeleteV1VariantRequest {
   /** Account identifier tag. */
@@ -252,19 +252,19 @@ export type V1GetResponseVariantsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetV1Response {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** Image file name. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** When the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** Object specifying available variants for an image. */
-  variants?: V1GetResponseVariantsList | null;
+  variants?: V1GetResponseVariantsList | null | undefined;
 }
 export interface GetV1BlobRequest {
   /** Account identifier tag. */
@@ -279,13 +279,13 @@ export interface GetV1StatRequest {
 }
 export interface V1StatsGetResponseCount {
   /** Cloudflare Images allowed usage. */
-  allowed?: number | null;
+  allowed?: number | null | undefined;
   /** Cloudflare Images current usage. */
-  current?: number | null;
+  current?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetV1StatResponse {
-  count?: V1StatsGetResponseCount | null;
+  count?: V1StatsGetResponseCount | null | undefined;
 }
 export interface GetV1VariantRequest {
   /** Account identifier tag. */
@@ -314,11 +314,11 @@ export interface V1VariantsGetResponseVariant {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsGetResponseVariantOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean | null;
+  neverRequireSignedURLs?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetV1VariantResponse {
-  variant?: V1VariantsGetResponseVariant | null;
+  variant?: V1VariantsGetResponseVariant | null | undefined;
 }
 export interface ListV1KeysRequest {
   /** Account identifier tag. */
@@ -328,39 +328,39 @@ export type V1KeysListResponseKeysItem = V1KeysDeleteResponseKeysItem;
 export type V1KeysListResponseKeysList = Array<V1KeysDeleteResponseKeysItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListV1KeysResponse {
-  keys?: V1KeysListResponseKeysList | null;
+  keys?: V1KeysListResponseKeysList | null | undefined;
 }
 export interface ListV1sRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set */
-  creator?: string;
+  creator?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type V1ListResponseImagesItemVariantsList = Array<string>;
 export interface V1ListResponseImagesItem {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** Image file name. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** When the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** Object specifying available variants for an image. */
-  variants?: V1ListResponseImagesItemVariantsList | null;
+  variants?: V1ListResponseImagesItemVariantsList | null | undefined;
 }
 export type V1ListResponseImagesList = Array<V1ListResponseImagesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListV1sResponse {
-  images?: V1ListResponseImagesList | null;
+  images?: V1ListResponseImagesList | null | undefined;
 }
 export interface ListV1VariantsRequest {
   /** Account identifier tag. */
@@ -388,56 +388,56 @@ export interface V1VariantsListResponseVariantsHero {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsListResponseVariantsHeroOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean | null;
+  neverRequireSignedURLs?: boolean | null | undefined;
 }
 export interface V1VariantsListResponseVariants {
-  hero?: V1VariantsListResponseVariantsHero | null;
+  hero?: V1VariantsListResponseVariantsHero | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListV1VariantsResponse {
-  variants?: V1VariantsListResponseVariants | null;
+  variants?: V1VariantsListResponseVariants | null | undefined;
 }
 export interface V2ListRequestMeta {
   /** Optional metadata filter(s). Multiple filters can be combined with AND logic. */
-  ltFieldGtLtOperatorGt__?: string;
+  ltFieldGtLtOperatorGt__?: string | undefined;
 }
 export type V2ListRequestSortOrder = "asc" | "desc";
 export interface ListV2sRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Internal user ID set within the creator field. Setting to empty string "" will return images where creator field is not set */
-  creator?: string;
-  meta?: V2ListRequestMeta;
+  creator?: string | undefined;
+  meta?: V2ListRequestMeta | undefined;
   /** Number of items per page */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Sorting order by upload time */
-  sortOrder?: V2ListRequestSortOrder | (string & {});
+  sortOrder?: V2ListRequestSortOrder | (string & {}) | undefined;
 }
 export type V2ListResponseImagesItemVariantsList = Array<string>;
 export interface V2ListResponseImagesItem {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** Image file name. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** When the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** Object specifying available variants for an image. */
-  variants?: V2ListResponseImagesItemVariantsList | null;
+  variants?: V2ListResponseImagesItemVariantsList | null | undefined;
 }
 export type V2ListResponseImagesList = Array<V2ListResponseImagesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListV2sResponse {
   /** Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint. */
-  continuationToken?: string | null;
-  images?: V2ListResponseImagesList | null;
+  continuationToken?: string | null | undefined;
+  images?: V2ListResponseImagesList | null | undefined;
 }
 export interface PatchV1Request {
   /** Account identifier tag. */
@@ -445,29 +445,29 @@ export interface PatchV1Request {
   /** Image unique identifier. */
   imageId: string;
   /** Can set the creator field with an internal user ID. */
-  creator?: string;
+  creator?: string | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified. */
-  requireSignedURLs?: boolean;
+  requireSignedURLs?: boolean | undefined;
 }
 export type V1EditResponseVariantsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchV1Response {
   /** Image unique identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Can set the creator field with an internal user ID. */
-  creator?: string | null;
+  creator?: string | null | undefined;
   /** Image file name. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** User modifiable key-value store. Can be used for keeping references to another system of record for managing images. Metadata must not exceed 1024 bytes. */
-  meta?: unknown | null;
+  meta?: unknown | null | undefined;
   /** Indicates whether the image can be a accessed only using it's UID. If set to true, a signed token needs to be generated with a signing key to view the image. */
-  requireSignedURLs?: boolean | null;
+  requireSignedURLs?: boolean | null | undefined;
   /** When the media item was uploaded. */
-  uploaded?: string | null;
+  uploaded?: string | null | undefined;
   /** Object specifying available variants for an image. */
-  variants?: V1EditResponseVariantsList | null;
+  variants?: V1EditResponseVariantsList | null | undefined;
 }
 export type V1VariantsEditRequestOptionsFit = "scale-down" | "contain" | "cover" | "crop" | "pad";
 export type V1VariantsEditRequestOptionsMetadata = "keep" | "copyright" | "none";
@@ -488,7 +488,7 @@ export interface PatchV1VariantRequest {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsEditRequestOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean;
+  neverRequireSignedURLs?: boolean | undefined;
 }
 export type V1VariantsEditResponseVariantOptionsFit =
   | "scale-down"
@@ -512,11 +512,11 @@ export interface V1VariantsEditResponseVariant {
   /** Allows you to define image resizing sizes for different use cases. */
   options: V1VariantsEditResponseVariantOptions;
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
-  neverRequireSignedURLs?: boolean | null;
+  neverRequireSignedURLs?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchV1VariantResponse {
-  variant?: V1VariantsEditResponseVariant | null;
+  variant?: V1VariantsEditResponseVariant | null | undefined;
 }
 export interface PutV1KeyRequest {
   /** Account identifier tag. */
@@ -527,7 +527,7 @@ export type V1KeysUpdateResponseKeysItem = V1KeysDeleteResponseKeysItem;
 export type V1KeysUpdateResponseKeysList = Array<V1KeysDeleteResponseKeysItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutV1KeyResponse {
-  keys?: V1KeysUpdateResponseKeysList | null;
+  keys?: V1KeysUpdateResponseKeysList | null | undefined;
 }
 export type CreateV1Error = ImagesAccessNotEnabled | CloudflareOpError;
 /** Upload an image to CF Images. Images up to 10 Megabytes can be uploaded using a single HTTP POST (multipart/form-data) request by sending an image file or passing a URL accessible to the API. */

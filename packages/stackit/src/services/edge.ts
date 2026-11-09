@@ -58,7 +58,7 @@ export interface CreateInstanceRequest {
   /** The STACKIT region the instance is part of. */
   regionId: string;
   /** A user chosen description to distinguish multiple instances. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple instances. */
   displayName: string;
   /** Service Plan configures the size of the Instance. */
@@ -66,29 +66,29 @@ export interface CreateInstanceRequest {
 }
 export interface IpAllowListEntry {
   /** ISO-8601 timestamp of when the entry was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Some description of the entry. */
-  description?: string;
+  description?: string | undefined;
   /** The IP CIDR range for the ACL entry. */
   ipRange: string;
   /** ISO-8601 timestamp of when the entry was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The unique identifier for the ipAllowListEntry entry. This value is immutable, used to identify entries for updates, and cannot be changed after creation. */
   uuid: string;
 }
 export type AclIpAllowListList = Array<IpAllowListEntry>;
 /** The ACL config for the instances API. */
 export interface Acl {
-  ipAllowList?: AclIpAllowListList;
+  ipAllowList?: AclIpAllowListList | undefined;
 }
 /** The current status of the instance. */
 export type InstanceStatus = "error" | "reconciling" | "active" | "deleting";
 export interface Instance {
-  acl?: Acl;
+  acl?: Acl | undefined;
   /** The date and time the creation of the instance was triggered. */
   created: string;
   /** A user chosen description to distinguish multiple instances. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the instance. */
   displayName: string;
   /** URL to the Management UI of the Instance. */
@@ -142,7 +142,7 @@ export interface GetKubeconfigByInstanceIdRequest {
   /** The full ID of the instance, <display_name>-<project_hash>. */
   instanceId: string;
   /** Expiration of the included token in seconds */
-  expirationSeconds?: number;
+  expirationSeconds?: number | undefined;
 }
 /** The kubeconfig for the instance. */
 export type KubeconfigRaw = { [key: string]: unknown | undefined };
@@ -157,7 +157,7 @@ export interface GetKubeconfigByInstanceNameRequest {
   /** The instance display name. */
   displayName: string;
   /** Expiration of the included token in seconds */
-  expirationSeconds?: number;
+  expirationSeconds?: number | undefined;
 }
 export interface GetTokenByInstanceIdRequest {
   /** The STACKIT portal project UUID the instance is part of. */
@@ -167,7 +167,7 @@ export interface GetTokenByInstanceIdRequest {
   /** The instance UUID. */
   instanceId: string;
   /** Expiration of the token in seconds */
-  expirationSeconds?: number;
+  expirationSeconds?: number | undefined;
 }
 export interface Token {
   token: string;
@@ -180,7 +180,7 @@ export interface GetTokenByInstanceNameRequest {
   /** The instance display name. */
   displayName: string;
   /** Expiration of the included token in seconds */
-  expirationSeconds?: number;
+  expirationSeconds?: number | undefined;
 }
 export interface ListCompatibleKubernetesReleasesRequest {
   /** The name of the Talos release. */
@@ -209,19 +209,19 @@ export interface ListPlansProjectRequest {
 }
 export interface Plan {
   /** Description */
-  description?: string;
+  description?: string | undefined;
   /** Service Plan Identifier */
-  id?: string;
+  id?: string | undefined;
   /** Maximum number of EdgeHosts */
-  maxEdgeHosts?: number;
+  maxEdgeHosts?: number | undefined;
   /** Minimum number of EdgeHosts charged */
-  minEdgeHosts?: number;
+  minEdgeHosts?: number | undefined;
   /** Service Plan Name */
-  name?: string;
+  name?: string | undefined;
 }
 export type PlanListValidPlansList = Array<Plan>;
 export interface PlanList {
-  validPlans?: PlanListValidPlansList;
+  validPlans?: PlanListValidPlansList | undefined;
 }
 export interface UpdateInstanceRequest {
   /** The STACKIT portal project UUID the instance is part of. */
@@ -231,9 +231,9 @@ export interface UpdateInstanceRequest {
   /** The full ID of the instance, <display_name>-<project_hash>. */
   instanceId: string;
   /** A user chosen description to distinguish multiple instances. */
-  description?: string;
+  description?: string | undefined;
   /** Service Plan configures the size of the Instance. */
-  planId?: string;
+  planId?: string | undefined;
 }
 export interface UpdateInstanceResponse {}
 export interface UpdateInstanceByNameRequest {
@@ -244,9 +244,9 @@ export interface UpdateInstanceByNameRequest {
   /** The instance display name. */
   displayName: string;
   /** A user chosen description to distinguish multiple instances. */
-  description?: string;
+  description?: string | undefined;
   /** Service Plan configures the size of the Instance. */
-  planId?: string;
+  planId?: string | undefined;
 }
 export interface UpdateInstanceByNameResponse {}
 export type CreateInstanceError = BadRequest | Conflict | StackitOpError;

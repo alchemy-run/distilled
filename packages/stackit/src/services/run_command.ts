@@ -52,10 +52,10 @@ export interface CreateCommandRequest {
   /** Server ID of the machine */
   serverId: string;
   commandTemplateName: string;
-  parameters?: CreateCommandRequestParametersMap;
+  parameters?: CreateCommandRequestParametersMap | undefined;
 }
 export interface NewCommandResponse {
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetCommandRequest {
   /** ID of the project */
@@ -69,15 +69,15 @@ export interface GetCommandRequest {
 }
 export type CommandDetailsStatus = "pending" | "running" | "completed" | "failed";
 export interface CommandDetails {
-  commandTemplateName?: string;
-  commandTemplateTitle?: string;
-  exitCode?: number;
-  finishedAt?: string;
-  id?: number;
-  output?: string;
-  script?: string;
-  startedAt?: string;
-  status?: CommandDetailsStatus;
+  commandTemplateName?: string | undefined;
+  commandTemplateTitle?: string | undefined;
+  exitCode?: number | undefined;
+  finishedAt?: string | undefined;
+  id?: number | undefined;
+  output?: string | undefined;
+  script?: string | undefined;
+  startedAt?: string | undefined;
+  status?: CommandDetailsStatus | undefined;
 }
 export interface GetCommandTemplateRequest {
   /** ID of the project */
@@ -91,32 +91,32 @@ export interface GetCommandTemplateRequest {
 }
 export type CommandTemplateSchemaOsTypeList = Array<string>;
 export interface Field {
-  default?: string;
-  description?: string;
-  maxLen?: number;
-  minLen?: number;
-  readOnly?: boolean;
-  title?: string;
-  type?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  maxLen?: number | undefined;
+  minLen?: number | undefined;
+  readOnly?: boolean | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
 }
 export type PropertiesRequiredList = Array<string>;
 export interface Properties {
-  ConfirmPassword?: Field;
-  Password?: Field;
-  Script?: Field;
-  Username?: Field;
-  required?: PropertiesRequiredList;
-  type?: string;
+  ConfirmPassword?: Field | undefined;
+  Password?: Field | undefined;
+  Script?: Field | undefined;
+  Username?: Field | undefined;
+  required?: PropertiesRequiredList | undefined;
+  type?: string | undefined;
 }
 export interface ParametersSchema {
-  properties?: Properties;
+  properties?: Properties | undefined;
 }
 export interface CommandTemplateSchema {
-  description?: string;
-  name?: string;
-  osType?: CommandTemplateSchemaOsTypeList;
-  parametersSchema?: ParametersSchema;
-  title?: string;
+  description?: string | undefined;
+  name?: string | undefined;
+  osType?: CommandTemplateSchemaOsTypeList | undefined;
+  parametersSchema?: ParametersSchema | undefined;
+  title?: string | undefined;
 }
 export interface ListCommandsRequest {
   /** ID of the project */
@@ -128,30 +128,30 @@ export interface ListCommandsRequest {
 }
 export type CommandsStatus = "pending" | "running" | "completed" | "failed";
 export interface Commands {
-  commandTemplateName?: string;
-  commandTemplateTitle?: string;
-  finishedAt?: string;
-  id?: number;
-  startedAt?: string;
-  status?: CommandsStatus;
+  commandTemplateName?: string | undefined;
+  commandTemplateTitle?: string | undefined;
+  finishedAt?: string | undefined;
+  id?: number | undefined;
+  startedAt?: string | undefined;
+  status?: CommandsStatus | undefined;
 }
 export type GetCommandsResponseItemsList = Array<Commands>;
 export interface GetCommandsResponse {
-  items?: GetCommandsResponseItemsList;
+  items?: GetCommandsResponseItemsList | undefined;
 }
 export interface ListCommandTemplatesRequest {
   /** The type of the Operating System (windows or linux). If not provided will return data for all OS types. */
-  osType?: string;
+  osType?: string | undefined;
 }
 export type CommandTemplateOsTypeList = Array<string>;
 export interface CommandTemplate {
-  name?: string;
-  osType?: CommandTemplateOsTypeList;
-  title?: string;
+  name?: string | undefined;
+  osType?: CommandTemplateOsTypeList | undefined;
+  title?: string | undefined;
 }
 export type CommandTemplateResponseItemsList = Array<CommandTemplate>;
 export interface CommandTemplateResponse {
-  items?: CommandTemplateResponseItemsList;
+  items?: CommandTemplateResponseItemsList | undefined;
 }
 export type CreateCommandError = BadRequest | NotFound | StackitOpError;
 /** Creates a new command for execution */

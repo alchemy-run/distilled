@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -169,17 +170,17 @@ export interface AutoScaling {
   maxWorkerCount: number;
   mcuCount: number;
   minWorkerCount: number;
-  scaleInPolicy?: ScaleInPolicy;
-  scaleOutPolicy?: ScaleOutPolicy;
-  maxAutoscalingTaskCount?: number;
+  scaleInPolicy?: ScaleInPolicy | undefined;
+  scaleOutPolicy?: ScaleOutPolicy | undefined;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacity {
   mcuCount: number;
   workerCount: number;
 }
 export interface Capacity {
-  autoScaling?: AutoScaling;
-  provisionedCapacity?: ProvisionedCapacity;
+  autoScaling?: AutoScaling | undefined;
+  provisionedCapacity?: ProvisionedCapacity | undefined;
 }
 export type ConnectorConfiguration = { [key: string]: string | undefined };
 export type __stringMax1024 = string;
@@ -187,7 +188,7 @@ export type __stringMin1Max128 = string;
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c24, 0);
 export interface Vpc {
-  securityGroups?: string[];
+  securityGroups?: string[] | undefined;
   subnets: string[];
 }
 export interface ApacheKafkaCluster {
@@ -207,21 +208,21 @@ export interface KafkaClusterEncryptionInTransit {
 }
 export interface CloudWatchLogsLogDelivery {
   enabled: boolean;
-  logGroup?: string;
+  logGroup?: string | undefined;
 }
 export interface FirehoseLogDelivery {
-  deliveryStream?: string;
+  deliveryStream?: string | undefined;
   enabled: boolean;
 }
 export interface S3LogDelivery {
-  bucket?: string;
+  bucket?: string | undefined;
   enabled: boolean;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface WorkerLogDelivery {
-  cloudWatchLogs?: CloudWatchLogsLogDelivery;
-  firehose?: FirehoseLogDelivery;
-  s3?: S3LogDelivery;
+  cloudWatchLogs?: CloudWatchLogsLogDelivery | undefined;
+  firehose?: FirehoseLogDelivery | undefined;
+  s3?: S3LogDelivery | undefined;
 }
 export interface LogDelivery {
   workerLogDelivery: WorkerLogDelivery;
@@ -247,190 +248,190 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateConnectorRequest {
   capacity: Capacity;
   connectorConfiguration: { [key: string]: string | undefined };
-  connectorDescription?: string;
+  connectorDescription?: string | undefined;
   connectorName: string;
   kafkaCluster: KafkaCluster;
   kafkaClusterClientAuthentication: KafkaClusterClientAuthentication;
   kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit;
   kafkaConnectVersion: string;
-  logDelivery?: LogDelivery;
-  networkType?: string;
+  logDelivery?: LogDelivery | undefined;
+  networkType?: string | undefined;
   plugins: Plugin[];
   serviceExecutionRoleArn: string;
-  workerConfiguration?: WorkerConfiguration;
-  tags?: { [key: string]: string | undefined };
+  workerConfiguration?: WorkerConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectorState = string;
 export interface CreateConnectorResponse {
-  connectorArn?: string;
-  connectorName?: string;
-  connectorState?: string;
+  connectorArn?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
 }
 export type CustomPluginContentType = string;
 export interface S3Location {
   bucketArn: string;
   fileKey: string;
-  objectVersion?: string;
+  objectVersion?: string | undefined;
 }
 export interface CustomPluginLocation {
   s3Location: S3Location;
 }
 export interface CreateCustomPluginRequest {
   contentType: string;
-  description?: string;
+  description?: string | undefined;
   location: CustomPluginLocation;
   name: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CustomPluginState = string;
 export interface CreateCustomPluginResponse {
-  customPluginArn?: string;
-  customPluginState?: string;
-  name?: string;
-  revision?: number;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  name?: string | undefined;
+  revision?: number | undefined;
 }
 export type __sensitiveString = string | redacted.Redacted<string>;
 export interface CreateWorkerConfigurationRequest {
-  description?: string;
+  description?: string | undefined;
   name: string;
   propertiesFileContent: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface WorkerConfigurationRevisionSummary {
-  creationTime?: Date;
-  description?: string;
-  revision?: number;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  revision?: number | undefined;
 }
 export type WorkerConfigurationState = string;
 export interface CreateWorkerConfigurationResponse {
-  creationTime?: Date;
-  latestRevision?: WorkerConfigurationRevisionSummary;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  latestRevision?: WorkerConfigurationRevisionSummary | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export interface DeleteConnectorRequest {
   connectorArn: string;
-  currentVersion?: string;
+  currentVersion?: string | undefined;
 }
 export interface DeleteConnectorResponse {
-  connectorArn?: string;
-  connectorState?: string;
+  connectorArn?: string | undefined;
+  connectorState?: string | undefined;
 }
 export interface DeleteCustomPluginRequest {
   customPluginArn: string;
 }
 export interface DeleteCustomPluginResponse {
-  customPluginArn?: string;
-  customPluginState?: string;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
 }
 export interface DeleteWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
 export interface DeleteWorkerConfigurationResponse {
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export interface DescribeConnectorRequest {
   connectorArn: string;
 }
 export interface ScaleInPolicyDescription {
-  cpuUtilizationPercentage?: number;
+  cpuUtilizationPercentage?: number | undefined;
 }
 export interface ScaleOutPolicyDescription {
-  cpuUtilizationPercentage?: number;
+  cpuUtilizationPercentage?: number | undefined;
 }
 export interface AutoScalingDescription {
-  maxWorkerCount?: number;
-  mcuCount?: number;
-  minWorkerCount?: number;
-  scaleInPolicy?: ScaleInPolicyDescription;
-  scaleOutPolicy?: ScaleOutPolicyDescription;
-  maxAutoscalingTaskCount?: number;
+  maxWorkerCount?: number | undefined;
+  mcuCount?: number | undefined;
+  minWorkerCount?: number | undefined;
+  scaleInPolicy?: ScaleInPolicyDescription | undefined;
+  scaleOutPolicy?: ScaleOutPolicyDescription | undefined;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacityDescription {
-  mcuCount?: number;
-  workerCount?: number;
+  mcuCount?: number | undefined;
+  workerCount?: number | undefined;
 }
 export interface CapacityDescription {
-  autoScaling?: AutoScalingDescription;
-  provisionedCapacity?: ProvisionedCapacityDescription;
+  autoScaling?: AutoScalingDescription | undefined;
+  provisionedCapacity?: ProvisionedCapacityDescription | undefined;
 }
 export interface VpcDescription {
-  securityGroups?: string[];
-  subnets?: string[];
+  securityGroups?: string[] | undefined;
+  subnets?: string[] | undefined;
 }
 export interface ApacheKafkaClusterDescription {
-  bootstrapServers?: string;
-  vpc?: VpcDescription;
+  bootstrapServers?: string | undefined;
+  vpc?: VpcDescription | undefined;
 }
 export interface KafkaClusterDescription {
-  apacheKafkaCluster?: ApacheKafkaClusterDescription;
+  apacheKafkaCluster?: ApacheKafkaClusterDescription | undefined;
 }
 export interface KafkaClusterClientAuthenticationDescription {
-  authenticationType?: string;
+  authenticationType?: string | undefined;
 }
 export interface KafkaClusterEncryptionInTransitDescription {
-  encryptionType?: string;
+  encryptionType?: string | undefined;
 }
 export interface CloudWatchLogsLogDeliveryDescription {
-  enabled?: boolean;
-  logGroup?: string;
+  enabled?: boolean | undefined;
+  logGroup?: string | undefined;
 }
 export interface FirehoseLogDeliveryDescription {
-  deliveryStream?: string;
-  enabled?: boolean;
+  deliveryStream?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export interface S3LogDeliveryDescription {
-  bucket?: string;
-  enabled?: boolean;
-  prefix?: string;
+  bucket?: string | undefined;
+  enabled?: boolean | undefined;
+  prefix?: string | undefined;
 }
 export interface WorkerLogDeliveryDescription {
-  cloudWatchLogs?: CloudWatchLogsLogDeliveryDescription;
-  firehose?: FirehoseLogDeliveryDescription;
-  s3?: S3LogDeliveryDescription;
+  cloudWatchLogs?: CloudWatchLogsLogDeliveryDescription | undefined;
+  firehose?: FirehoseLogDeliveryDescription | undefined;
+  s3?: S3LogDeliveryDescription | undefined;
 }
 export interface LogDeliveryDescription {
-  workerLogDelivery?: WorkerLogDeliveryDescription;
+  workerLogDelivery?: WorkerLogDeliveryDescription | undefined;
 }
 export interface CustomPluginDescription {
-  customPluginArn?: string;
-  revision?: number;
+  customPluginArn?: string | undefined;
+  revision?: number | undefined;
 }
 export interface PluginDescription {
-  customPlugin?: CustomPluginDescription;
+  customPlugin?: CustomPluginDescription | undefined;
 }
 export type __listOfPluginDescription = PluginDescription[];
 const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c8, 12);
 export interface WorkerConfigurationDescription {
-  revision?: number;
-  workerConfigurationArn?: string;
+  revision?: number | undefined;
+  workerConfigurationArn?: string | undefined;
 }
 export interface StateDescription {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface DescribeConnectorResponse {
-  capacity?: CapacityDescription;
-  connectorArn?: string;
-  connectorConfiguration?: { [key: string]: string | undefined };
-  connectorDescription?: string;
-  connectorName?: string;
-  connectorState?: string;
-  creationTime?: Date;
-  currentVersion?: string;
-  kafkaCluster?: KafkaClusterDescription;
-  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription;
-  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription;
-  kafkaConnectVersion?: string;
-  logDelivery?: LogDeliveryDescription;
-  networkType?: string;
-  plugins?: PluginDescription[];
-  serviceExecutionRoleArn?: string;
-  workerConfiguration?: WorkerConfigurationDescription;
-  stateDescription?: StateDescription;
+  capacity?: CapacityDescription | undefined;
+  connectorArn?: string | undefined;
+  connectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  connectorDescription?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
+  creationTime?: Date | undefined;
+  currentVersion?: string | undefined;
+  kafkaCluster?: KafkaClusterDescription | undefined;
+  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription | undefined;
+  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription | undefined;
+  kafkaConnectVersion?: string | undefined;
+  logDelivery?: LogDeliveryDescription | undefined;
+  networkType?: string | undefined;
+  plugins?: PluginDescription[] | undefined;
+  serviceExecutionRoleArn?: string | undefined;
+  workerConfiguration?: WorkerConfigurationDescription | undefined;
+  stateDescription?: StateDescription | undefined;
 }
 export interface DescribeConnectorOperationRequest {
   connectorOperationArn: string;
@@ -440,176 +441,176 @@ export type ConnectorOperationType = string;
 export type ConnectorOperationStepType = string;
 export type ConnectorOperationStepState = string;
 export interface ConnectorOperationStep {
-  stepType?: string;
-  stepState?: string;
+  stepType?: string | undefined;
+  stepState?: string | undefined;
 }
 export type __listOfConnectorOperationStep = ConnectorOperationStep[];
 const __listOfConnectorOperationStep = /*@__PURE__*/ __L.at(__c9, 2);
 export interface WorkerSetting {
-  capacity?: CapacityDescription;
+  capacity?: CapacityDescription | undefined;
 }
 export interface DescribeConnectorOperationResponse {
-  connectorArn?: string;
-  connectorOperationArn?: string;
-  connectorOperationState?: string;
-  connectorOperationType?: string;
-  operationSteps?: ConnectorOperationStep[];
-  originWorkerSetting?: WorkerSetting;
-  originConnectorConfiguration?: { [key: string]: string | undefined };
-  targetWorkerSetting?: WorkerSetting;
-  targetConnectorConfiguration?: { [key: string]: string | undefined };
-  errorInfo?: StateDescription;
-  creationTime?: Date;
-  endTime?: Date;
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
+  connectorOperationState?: string | undefined;
+  connectorOperationType?: string | undefined;
+  operationSteps?: ConnectorOperationStep[] | undefined;
+  originWorkerSetting?: WorkerSetting | undefined;
+  originConnectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  targetWorkerSetting?: WorkerSetting | undefined;
+  targetConnectorConfiguration?: { [key: string]: string | undefined } | undefined;
+  errorInfo?: StateDescription | undefined;
+  creationTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface DescribeCustomPluginRequest {
   customPluginArn: string;
 }
 export interface CustomPluginFileDescription {
-  fileMd5?: string;
-  fileSize?: number;
+  fileMd5?: string | undefined;
+  fileSize?: number | undefined;
 }
 export interface S3LocationDescription {
-  bucketArn?: string;
-  fileKey?: string;
-  objectVersion?: string;
+  bucketArn?: string | undefined;
+  fileKey?: string | undefined;
+  objectVersion?: string | undefined;
 }
 export interface CustomPluginLocationDescription {
-  s3Location?: S3LocationDescription;
+  s3Location?: S3LocationDescription | undefined;
 }
 export interface CustomPluginRevisionSummary {
-  contentType?: string;
-  creationTime?: Date;
-  description?: string;
-  fileDescription?: CustomPluginFileDescription;
-  location?: CustomPluginLocationDescription;
-  revision?: number;
+  contentType?: string | undefined;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  fileDescription?: CustomPluginFileDescription | undefined;
+  location?: CustomPluginLocationDescription | undefined;
+  revision?: number | undefined;
 }
 export interface DescribeCustomPluginResponse {
-  creationTime?: Date;
-  customPluginArn?: string;
-  customPluginState?: string;
-  description?: string;
-  latestRevision?: CustomPluginRevisionSummary;
-  name?: string;
-  stateDescription?: StateDescription;
+  creationTime?: Date | undefined;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  description?: string | undefined;
+  latestRevision?: CustomPluginRevisionSummary | undefined;
+  name?: string | undefined;
+  stateDescription?: StateDescription | undefined;
 }
 export interface DescribeWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
 export interface WorkerConfigurationRevisionDescription {
-  creationTime?: Date;
-  description?: string;
-  propertiesFileContent?: string | redacted.Redacted<string>;
-  revision?: number;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  propertiesFileContent?: string | redacted.Redacted<string> | undefined;
+  revision?: number | undefined;
 }
 export interface DescribeWorkerConfigurationResponse {
-  creationTime?: Date;
-  description?: string;
-  latestRevision?: WorkerConfigurationRevisionDescription;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  latestRevision?: WorkerConfigurationRevisionDescription | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListConnectorOperationsRequest {
   connectorArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConnectorOperationSummary {
-  connectorOperationArn?: string;
-  connectorOperationType?: string;
-  connectorOperationState?: string;
-  creationTime?: Date;
-  endTime?: Date;
+  connectorOperationArn?: string | undefined;
+  connectorOperationType?: string | undefined;
+  connectorOperationState?: string | undefined;
+  creationTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type __listOfConnectorOperationSummary = ConnectorOperationSummary[];
 const __listOfConnectorOperationSummary = /*@__PURE__*/ __L.at(__c13, 2);
 export interface ListConnectorOperationsResponse {
-  connectorOperations?: ConnectorOperationSummary[];
-  nextToken?: string;
+  connectorOperations?: ConnectorOperationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListConnectorsRequest {
-  connectorNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectorNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConnectorSummary {
-  capacity?: CapacityDescription;
-  connectorArn?: string;
-  connectorDescription?: string;
-  connectorName?: string;
-  connectorState?: string;
-  creationTime?: Date;
-  currentVersion?: string;
-  kafkaCluster?: KafkaClusterDescription;
-  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription;
-  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription;
-  kafkaConnectVersion?: string;
-  logDelivery?: LogDeliveryDescription;
-  networkType?: string;
-  plugins?: PluginDescription[];
-  serviceExecutionRoleArn?: string;
-  workerConfiguration?: WorkerConfigurationDescription;
+  capacity?: CapacityDescription | undefined;
+  connectorArn?: string | undefined;
+  connectorDescription?: string | undefined;
+  connectorName?: string | undefined;
+  connectorState?: string | undefined;
+  creationTime?: Date | undefined;
+  currentVersion?: string | undefined;
+  kafkaCluster?: KafkaClusterDescription | undefined;
+  kafkaClusterClientAuthentication?: KafkaClusterClientAuthenticationDescription | undefined;
+  kafkaClusterEncryptionInTransit?: KafkaClusterEncryptionInTransitDescription | undefined;
+  kafkaConnectVersion?: string | undefined;
+  logDelivery?: LogDeliveryDescription | undefined;
+  networkType?: string | undefined;
+  plugins?: PluginDescription[] | undefined;
+  serviceExecutionRoleArn?: string | undefined;
+  workerConfiguration?: WorkerConfigurationDescription | undefined;
 }
 export type __listOfConnectorSummary = ConnectorSummary[];
 const __listOfConnectorSummary = /*@__PURE__*/ __L.at(__c14, 2);
 export interface ListConnectorsResponse {
-  connectors?: ConnectorSummary[];
-  nextToken?: string;
+  connectors?: ConnectorSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomPluginsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namePrefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namePrefix?: string | undefined;
 }
 export interface CustomPluginSummary {
-  creationTime?: Date;
-  customPluginArn?: string;
-  customPluginState?: string;
-  description?: string;
-  latestRevision?: CustomPluginRevisionSummary;
-  name?: string;
+  creationTime?: Date | undefined;
+  customPluginArn?: string | undefined;
+  customPluginState?: string | undefined;
+  description?: string | undefined;
+  latestRevision?: CustomPluginRevisionSummary | undefined;
+  name?: string | undefined;
 }
 export type __listOfCustomPluginSummary = CustomPluginSummary[];
 const __listOfCustomPluginSummary = /*@__PURE__*/ __L.at(__c15, 2);
 export interface ListCustomPluginsResponse {
-  customPlugins?: CustomPluginSummary[];
-  nextToken?: string;
+  customPlugins?: CustomPluginSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWorkerConfigurationsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namePrefix?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namePrefix?: string | undefined;
 }
 export interface WorkerConfigurationSummary {
-  creationTime?: Date;
-  description?: string;
-  latestRevision?: WorkerConfigurationRevisionSummary;
-  name?: string;
-  workerConfigurationArn?: string;
-  workerConfigurationState?: string;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  latestRevision?: WorkerConfigurationRevisionSummary | undefined;
+  name?: string | undefined;
+  workerConfigurationArn?: string | undefined;
+  workerConfigurationState?: string | undefined;
 }
 export type __listOfWorkerConfigurationSummary = WorkerConfigurationSummary[];
 const __listOfWorkerConfigurationSummary = /*@__PURE__*/ __L.at(__c17, 2);
 export interface ListWorkerConfigurationsResponse {
-  nextToken?: string;
-  workerConfigurations?: WorkerConfigurationSummary[];
+  nextToken?: string | undefined;
+  workerConfigurations?: WorkerConfigurationSummary[] | undefined;
 }
 export interface RestartConnectorRequest {
   connectorArn: string;
-  onlyFailedTasks?: boolean;
+  onlyFailedTasks?: boolean | undefined;
 }
 export interface RestartConnectorResponse {
-  connectorArn?: string;
-  connectorOperationArn?: string;
+  connectorArn?: string | undefined;
+  connectorOperationArn?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -635,27 +636,27 @@ export interface AutoScalingUpdate {
   minWorkerCount: number;
   scaleInPolicy: ScaleInPolicyUpdate;
   scaleOutPolicy: ScaleOutPolicyUpdate;
-  maxAutoscalingTaskCount?: number;
+  maxAutoscalingTaskCount?: number | undefined;
 }
 export interface ProvisionedCapacityUpdate {
   mcuCount: number;
   workerCount: number;
 }
 export interface CapacityUpdate {
-  autoScaling?: AutoScalingUpdate;
-  provisionedCapacity?: ProvisionedCapacityUpdate;
+  autoScaling?: AutoScalingUpdate | undefined;
+  provisionedCapacity?: ProvisionedCapacityUpdate | undefined;
 }
 export type ConnectorConfigurationUpdate = { [key: string]: string | undefined };
 export interface UpdateConnectorRequest {
-  capacity?: CapacityUpdate;
-  connectorConfiguration?: { [key: string]: string | undefined };
+  capacity?: CapacityUpdate | undefined;
+  connectorConfiguration?: { [key: string]: string | undefined } | undefined;
   connectorArn: string;
   currentVersion: string;
 }
 export interface UpdateConnectorResponse {
-  connectorArn?: string;
-  connectorState?: string;
-  connectorOperationArn?: string;
+  connectorArn?: string | undefined;
+  connectorState?: string | undefined;
+  connectorOperationArn?: string | undefined;
 }
 export type CreateConnectorError =
   | BadRequestException
@@ -671,7 +672,7 @@ export type CreateConnectorError =
  * Creates a connector using the specified properties.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -709,7 +710,7 @@ export type CreateCustomPluginError =
  * Creates a custom plugin using the specified properties.
  */
 export const createCustomPlugin: API.OperationMethod<
-  CreateCustomPluginRequest,
+  CreateCustomPluginRequest & RegionInput,
   CreateCustomPluginResponse,
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -747,7 +748,7 @@ export type CreateWorkerConfigurationError =
  * Creates a worker configuration using the specified properties.
  */
 export const createWorkerConfiguration: API.OperationMethod<
-  CreateWorkerConfigurationRequest,
+  CreateWorkerConfigurationRequest & RegionInput,
   CreateWorkerConfigurationResponse,
   CreateWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -784,7 +785,7 @@ export type DeleteConnectorError =
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type DeleteCustomPluginError =
  * Deletes a custom plugin.
  */
 export const deleteCustomPlugin: API.OperationMethod<
-  DeleteCustomPluginRequest,
+  DeleteCustomPluginRequest & RegionInput,
   DeleteCustomPluginResponse,
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type DeleteWorkerConfigurationError =
  * Deletes the specified worker configuration.
  */
 export const deleteWorkerConfiguration: API.OperationMethod<
-  DeleteWorkerConfigurationRequest,
+  DeleteWorkerConfigurationRequest & RegionInput,
   DeleteWorkerConfigurationResponse,
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -892,7 +893,7 @@ export type DescribeConnectorError =
  * Returns summary information about the connector.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type DescribeConnectorOperationError =
  * Returns information about the specified connector's operations.
  */
 export const describeConnectorOperation: API.OperationMethod<
-  DescribeConnectorOperationRequest,
+  DescribeConnectorOperationRequest & RegionInput,
   DescribeConnectorOperationResponse,
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
@@ -964,7 +965,7 @@ export type DescribeCustomPluginError =
  * A summary description of the custom plugin.
  */
 export const describeCustomPlugin: API.OperationMethod<
-  DescribeCustomPluginRequest,
+  DescribeCustomPluginRequest & RegionInput,
   DescribeCustomPluginResponse,
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
@@ -1000,7 +1001,7 @@ export type DescribeWorkerConfigurationError =
  * Returns information about a worker configuration.
  */
 export const describeWorkerConfiguration: API.OperationMethod<
-  DescribeWorkerConfigurationRequest,
+  DescribeWorkerConfigurationRequest & RegionInput,
   DescribeWorkerConfigurationResponse,
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1036,7 +1037,7 @@ export type ListConnectorOperationsError =
  * Lists information about a connector's operation(s).
  */
 export const listConnectorOperations: API.PaginatedOperationMethod<
-  ListConnectorOperationsRequest,
+  ListConnectorOperationsRequest & RegionInput,
   ListConnectorOperationsResponse,
   ListConnectorOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1079,7 +1080,7 @@ export type ListConnectorsError =
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1122,7 +1123,7 @@ export type ListCustomPluginsError =
  * Returns a list of all of the custom plugins in this account and Region.
  */
 export const listCustomPlugins: API.PaginatedOperationMethod<
-  ListCustomPluginsRequest,
+  ListCustomPluginsRequest & RegionInput,
   ListCustomPluginsResponse,
   ListCustomPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -1165,7 +1166,7 @@ export type ListTagsForResourceError =
  * Lists all the tags attached to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type ListWorkerConfigurationsError =
  * Returns a list of all of the worker configurations in this account and Region.
  */
 export const listWorkerConfigurations: API.PaginatedOperationMethod<
-  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsRequest & RegionInput,
   ListWorkerConfigurationsResponse,
   ListWorkerConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1244,7 +1245,7 @@ export type RestartConnectorError =
  * Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to `DescribeConnectorOperation` to track the state of the restart.
  */
 export const restartConnector: API.OperationMethod<
-  RestartConnectorRequest,
+  RestartConnectorRequest & RegionInput,
   RestartConnectorResponse,
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1281,7 +1282,7 @@ export type TagResourceError =
  * Attaches tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1318,7 +1319,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1354,7 +1355,7 @@ export type UpdateConnectorError =
  * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -190,78 +191,78 @@ export type TagKey = string;
 export type TagValue = string;
 export interface TagCondition {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type AndConditions = TagCondition[];
 export type OrCondition =
-  | { andConditions: TagCondition[]; tagCondition?: never }
-  | { andConditions?: never; tagCondition: TagCondition };
+  | { andConditions: TagCondition[]; tagCondition?: undefined }
+  | { andConditions?: undefined; tagCondition: TagCondition };
 export type OrConditions = OrCondition[];
 export type TagFilter =
-  | { tagCondition: TagCondition; andConditions?: never; orConditions?: never }
-  | { tagCondition?: never; andConditions: TagCondition[]; orConditions?: never }
-  | { tagCondition?: never; andConditions?: never; orConditions: OrCondition[] };
+  | { tagCondition: TagCondition; andConditions?: undefined; orConditions?: undefined }
+  | { tagCondition?: undefined; andConditions: TagCondition[]; orConditions?: undefined }
+  | { tagCondition?: undefined; andConditions?: undefined; orConditions: OrCondition[] };
 export type MaxResults = number;
 export type KnowledgeBaseSearchType = string;
 export interface KnowledgeBaseAssociationConfigurationData {
-  contentTagFilter?: TagFilter;
-  maxResults?: number;
-  overrideKnowledgeBaseSearchType?: string;
+  contentTagFilter?: TagFilter | undefined;
+  maxResults?: number | undefined;
+  overrideKnowledgeBaseSearchType?: string | undefined;
 }
 export type AssociationConfigurationData = {
   knowledgeBaseAssociationConfigurationData: KnowledgeBaseAssociationConfigurationData;
 };
 export interface AssociationConfiguration {
-  associationId?: string;
-  associationType?: string;
-  associationConfigurationData?: AssociationConfigurationData;
+  associationId?: string | undefined;
+  associationType?: string | undefined;
+  associationConfigurationData?: AssociationConfigurationData | undefined;
 }
 export type AssociationConfigurationList = AssociationConfiguration[];
 export type NonEmptyString = string;
 export interface ManualSearchAIAgentConfiguration {
-  answerGenerationAIPromptId?: string;
-  answerGenerationAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfiguration[];
-  locale?: string;
+  answerGenerationAIPromptId?: string | undefined;
+  answerGenerationAIGuardrailId?: string | undefined;
+  associationConfigurations?: AssociationConfiguration[] | undefined;
+  locale?: string | undefined;
 }
 export type NonEmptySensitiveString = string | redacted.Redacted<string>;
 export type SuggestedMessagesList = (string | redacted.Redacted<string>)[];
 export interface AnswerRecommendationAIAgentConfiguration {
-  intentLabelingGenerationAIPromptId?: string;
-  queryReformulationAIPromptId?: string;
-  answerGenerationAIPromptId?: string;
-  answerGenerationAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfiguration[];
-  locale?: string;
-  suggestedMessages?: (string | redacted.Redacted<string>)[];
+  intentLabelingGenerationAIPromptId?: string | undefined;
+  queryReformulationAIPromptId?: string | undefined;
+  answerGenerationAIPromptId?: string | undefined;
+  answerGenerationAIGuardrailId?: string | undefined;
+  associationConfigurations?: AssociationConfiguration[] | undefined;
+  locale?: string | undefined;
+  suggestedMessages?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SelfServiceAIAgentConfiguration {
-  selfServicePreProcessingAIPromptId?: string;
-  selfServiceAnswerGenerationAIPromptId?: string;
-  selfServiceAIGuardrailId?: string;
-  associationConfigurations?: AssociationConfiguration[];
+  selfServicePreProcessingAIPromptId?: string | undefined;
+  selfServiceAnswerGenerationAIPromptId?: string | undefined;
+  selfServiceAIGuardrailId?: string | undefined;
+  associationConfigurations?: AssociationConfiguration[] | undefined;
 }
 export interface EmailResponseAIAgentConfiguration {
-  emailResponseAIPromptId?: string;
-  emailQueryReformulationAIPromptId?: string;
-  locale?: string;
-  associationConfigurations?: AssociationConfiguration[];
+  emailResponseAIPromptId?: string | undefined;
+  emailQueryReformulationAIPromptId?: string | undefined;
+  locale?: string | undefined;
+  associationConfigurations?: AssociationConfiguration[] | undefined;
 }
 export interface EmailOverviewAIAgentConfiguration {
-  emailOverviewAIPromptId?: string;
-  locale?: string;
+  emailOverviewAIPromptId?: string | undefined;
+  locale?: string | undefined;
 }
 export interface EmailGenerativeAnswerAIAgentConfiguration {
-  emailGenerativeAnswerAIPromptId?: string;
-  emailQueryReformulationAIPromptId?: string;
-  locale?: string;
-  associationConfigurations?: AssociationConfiguration[];
+  emailGenerativeAnswerAIPromptId?: string | undefined;
+  emailQueryReformulationAIPromptId?: string | undefined;
+  locale?: string | undefined;
+  associationConfigurations?: AssociationConfiguration[] | undefined;
 }
 export type ToolType = string;
 export type ToolExampleList = string[];
 export interface ToolInstruction {
-  instruction?: string;
-  examples?: string[];
+  instruction?: string | undefined;
+  examples?: string[] | undefined;
 }
 export type ToolOverrideInputValueType = string;
 export interface ToolOverrideConstantInputValue {
@@ -275,193 +276,199 @@ export interface ToolOverrideInputValue {
 }
 export type ToolOverrideInputValueList = ToolOverrideInputValue[];
 export interface ToolOutputConfiguration {
-  outputVariableNameOverride?: string;
-  sessionDataNamespace?: string;
+  outputVariableNameOverride?: string | undefined;
+  sessionDataNamespace?: string | undefined;
 }
 export interface ToolOutputFilter {
   jsonPath: string;
-  outputConfiguration?: ToolOutputConfiguration;
+  outputConfiguration?: ToolOutputConfiguration | undefined;
 }
 export type ToolOutputFilterList = ToolOutputFilter[];
 export type JSONDocument = unknown;
 export interface Annotation {
-  title?: string;
-  destructiveHint?: boolean;
+  title?: string | undefined;
+  destructiveHint?: boolean | undefined;
 }
 export interface UserInteractionConfiguration {
-  isUserConfirmationRequired?: boolean;
+  isUserConfirmationRequired?: boolean | undefined;
 }
 export interface ToolConfiguration {
   toolName: string;
   toolType: string;
-  title?: string | redacted.Redacted<string>;
-  toolId?: string;
-  description?: string | redacted.Redacted<string>;
-  instruction?: ToolInstruction;
-  overrideInputValues?: ToolOverrideInputValue[];
-  outputFilters?: ToolOutputFilter[];
-  inputSchema?: any;
-  outputSchema?: any;
-  annotations?: Annotation;
-  userInteractionConfiguration?: UserInteractionConfiguration;
+  title?: string | redacted.Redacted<string> | undefined;
+  toolId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  instruction?: ToolInstruction | undefined;
+  overrideInputValues?: ToolOverrideInputValue[] | undefined;
+  outputFilters?: ToolOutputFilter[] | undefined;
+  inputSchema?: any | undefined;
+  outputSchema?: any | undefined;
+  annotations?: Annotation | undefined;
+  userInteractionConfiguration?: UserInteractionConfiguration | undefined;
 }
 export type ToolConfigurationList = ToolConfiguration[];
 export type AgentTarget =
-  | { aiAgentId: string; applicationId?: never }
-  | { aiAgentId?: never; applicationId: string };
+  | { aiAgentId: string; applicationId?: undefined }
+  | { aiAgentId?: undefined; applicationId: string };
 export type MultiAgentExampleList = string[];
 export interface MultiAgentInstruction {
-  instruction?: string;
-  examples?: string[];
+  instruction?: string | undefined;
+  examples?: string[] | undefined;
 }
 export interface DelegateAgentConfiguration {
   agentTarget: AgentTarget;
-  instruction?: MultiAgentInstruction;
+  instruction?: MultiAgentInstruction | undefined;
 }
 export interface HandoffAgentConfiguration {
   agentTarget: AgentTarget;
-  instruction?: MultiAgentInstruction;
-  audioStreamingEnabled?: boolean;
-  immediateHandoff?: boolean;
+  instruction?: MultiAgentInstruction | undefined;
+  audioStreamingEnabled?: boolean | undefined;
+  immediateHandoff?: boolean | undefined;
 }
 export type MultiAgentConfiguration =
-  | { delegateAgentConfiguration: DelegateAgentConfiguration; handoffAgentConfiguration?: never }
-  | { delegateAgentConfiguration?: never; handoffAgentConfiguration: HandoffAgentConfiguration };
+  | {
+      delegateAgentConfiguration: DelegateAgentConfiguration;
+      handoffAgentConfiguration?: undefined;
+    }
+  | {
+      delegateAgentConfiguration?: undefined;
+      handoffAgentConfiguration: HandoffAgentConfiguration;
+    };
 export type MultiAgentConfigurationList = MultiAgentConfiguration[];
 export type GenericArn = string;
 export type JSONDocumentList = any[];
 export interface OrchestrationAIAgentConfiguration {
-  orchestrationAIPromptId?: string;
-  orchestrationAIGuardrailId?: string;
-  toolConfigurations?: ToolConfiguration[];
-  multiAgentConfigurations?: MultiAgentConfiguration[];
-  connectInstanceArn?: string;
-  locale?: string;
-  inputSchemas?: any[];
-  outputSchemas?: any[];
+  orchestrationAIPromptId?: string | undefined;
+  orchestrationAIGuardrailId?: string | undefined;
+  toolConfigurations?: ToolConfiguration[] | undefined;
+  multiAgentConfigurations?: MultiAgentConfiguration[] | undefined;
+  connectInstanceArn?: string | undefined;
+  locale?: string | undefined;
+  inputSchemas?: any[] | undefined;
+  outputSchemas?: any[] | undefined;
 }
 export interface NoteTakingAIAgentConfiguration {
-  noteTakingAIPromptId?: string;
-  noteTakingAIGuardrailId?: string;
-  locale?: string;
+  noteTakingAIPromptId?: string | undefined;
+  noteTakingAIGuardrailId?: string | undefined;
+  locale?: string | undefined;
 }
 export interface CaseSummarizationAIAgentConfiguration {
-  caseSummarizationAIPromptId?: string;
-  caseSummarizationAIGuardrailId?: string;
-  locale?: string;
+  caseSummarizationAIPromptId?: string | undefined;
+  caseSummarizationAIGuardrailId?: string | undefined;
+  locale?: string | undefined;
 }
 export type AIAgentConfiguration =
   | {
       manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
       answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
       selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
       emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
       emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
       emailGenerativeAnswerAIAgentConfiguration: EmailGenerativeAnswerAIAgentConfiguration;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
       orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration;
-      noteTakingAIAgentConfiguration?: never;
-      caseSummarizationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: undefined;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
       noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration;
-      caseSummarizationAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: undefined;
     }
   | {
-      manualSearchAIAgentConfiguration?: never;
-      answerRecommendationAIAgentConfiguration?: never;
-      selfServiceAIAgentConfiguration?: never;
-      emailResponseAIAgentConfiguration?: never;
-      emailOverviewAIAgentConfiguration?: never;
-      emailGenerativeAnswerAIAgentConfiguration?: never;
-      orchestrationAIAgentConfiguration?: never;
-      noteTakingAIAgentConfiguration?: never;
+      manualSearchAIAgentConfiguration?: undefined;
+      answerRecommendationAIAgentConfiguration?: undefined;
+      selfServiceAIAgentConfiguration?: undefined;
+      emailResponseAIAgentConfiguration?: undefined;
+      emailOverviewAIAgentConfiguration?: undefined;
+      emailGenerativeAnswerAIAgentConfiguration?: undefined;
+      orchestrationAIAgentConfiguration?: undefined;
+      noteTakingAIAgentConfiguration?: undefined;
       caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration;
     };
 export type VisibilityStatus = string;
 export type Tags = { [key: string]: string | undefined };
 export type Description = string;
 export interface CreateAIAgentRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   name: string;
   type: string;
   configuration: AIAgentConfiguration;
   visibilityStatus: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
 }
 export type Arn = string;
 export type Origin = string;
@@ -474,25 +481,25 @@ export interface AIAgentData {
   name: string;
   type: string;
   configuration: AIAgentConfiguration;
-  modifiedTime?: Date;
-  description?: string;
+  modifiedTime?: Date | undefined;
+  description?: string | undefined;
   visibilityStatus: string;
-  tags?: { [key: string]: string | undefined };
-  origin?: string;
-  status?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  origin?: string | undefined;
+  status?: string | undefined;
 }
 export interface CreateAIAgentResponse {
-  aiAgent?: AIAgentData;
+  aiAgent?: AIAgentData | undefined;
 }
 export interface CreateAIAgentVersionRequest {
   assistantId: string;
   aiAgentId: string;
-  modifiedTime?: Date;
-  clientToken?: string;
+  modifiedTime?: Date | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateAIAgentVersionResponse {
-  aiAgent?: AIAgentData;
-  versionNumber?: number;
+  aiAgent?: AIAgentData | undefined;
+  versionNumber?: number | undefined;
 }
 export type AIGuardrailBlockedMessaging = string | redacted.Redacted<string>;
 export type AIGuardrailDescription = string | redacted.Redacted<string>;
@@ -504,7 +511,7 @@ export type GuardrailTopicType = string | redacted.Redacted<string>;
 export interface GuardrailTopicConfig {
   name: string | redacted.Redacted<string>;
   definition: string | redacted.Redacted<string>;
-  examples?: (string | redacted.Redacted<string>)[];
+  examples?: (string | redacted.Redacted<string>)[] | undefined;
   type: string | redacted.Redacted<string>;
 }
 export type GuardrailTopicsConfig = GuardrailTopicConfig[];
@@ -533,8 +540,8 @@ export interface GuardrailManagedWordsConfig {
 }
 export type GuardrailManagedWordListsConfig = GuardrailManagedWordsConfig[];
 export interface AIGuardrailWordPolicyConfig {
-  wordsConfig?: GuardrailWordConfig[];
-  managedWordListsConfig?: GuardrailManagedWordsConfig[];
+  wordsConfig?: GuardrailWordConfig[] | undefined;
+  managedWordListsConfig?: GuardrailManagedWordsConfig[] | undefined;
 }
 export type GuardrailPiiEntityType = string | redacted.Redacted<string>;
 export type GuardrailSensitiveInformationAction = string | redacted.Redacted<string>;
@@ -548,14 +555,14 @@ export type GuardrailRegexDescription = string | redacted.Redacted<string>;
 export type GuardrailRegexPattern = string | redacted.Redacted<string>;
 export interface GuardrailRegexConfig {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   pattern: string | redacted.Redacted<string>;
   action: string | redacted.Redacted<string>;
 }
 export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export interface AIGuardrailSensitiveInformationPolicyConfig {
-  piiEntitiesConfig?: GuardrailPiiEntityConfig[];
-  regexesConfig?: GuardrailRegexConfig[];
+  piiEntitiesConfig?: GuardrailPiiEntityConfig[] | undefined;
+  regexesConfig?: GuardrailRegexConfig[] | undefined;
 }
 export type GuardrailContextualGroundingFilterType = string | redacted.Redacted<string>;
 export type GuardrailContextualGroundingFilterThreshold = number;
@@ -568,19 +575,19 @@ export interface AIGuardrailContextualGroundingPolicyConfig {
   filtersConfig: GuardrailContextualGroundingFilterConfig[];
 }
 export interface CreateAIGuardrailRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   name: string;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
   visibilityStatus: string;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
-  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
-  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig | undefined;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig | undefined;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig | undefined;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig | undefined;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AIGuardrailData {
   assistantId: string;
@@ -591,28 +598,28 @@ export interface AIGuardrailData {
   visibilityStatus: string;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
-  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
-  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
-  tags?: { [key: string]: string | undefined };
-  status?: string;
-  modifiedTime?: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig | undefined;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig | undefined;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig | undefined;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig | undefined;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  status?: string | undefined;
+  modifiedTime?: Date | undefined;
 }
 export interface CreateAIGuardrailResponse {
-  aiGuardrail?: AIGuardrailData;
+  aiGuardrail?: AIGuardrailData | undefined;
 }
 export interface CreateAIGuardrailVersionRequest {
   assistantId: string;
   aiGuardrailId: string;
-  modifiedTime?: Date;
-  clientToken?: string;
+  modifiedTime?: Date | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateAIGuardrailVersionResponse {
-  aiGuardrail?: AIGuardrailData;
-  versionNumber?: number;
+  aiGuardrail?: AIGuardrailData | undefined;
+  versionNumber?: number | undefined;
 }
 export type AIPromptType = string;
 export type TextAIPrompt = string | redacted.Redacted<string>;
@@ -629,13 +636,13 @@ export type Probability = number;
 export type TopK = number;
 export type MaxTokensToSample = number;
 export interface AIPromptInferenceConfiguration {
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  maxTokensToSample?: number;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  maxTokensToSample?: number | undefined;
 }
 export interface CreateAIPromptRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   name: string;
   type: string;
@@ -644,9 +651,9 @@ export interface CreateAIPromptRequest {
   templateType: string;
   modelId: string;
   apiFormat: string;
-  tags?: { [key: string]: string | undefined };
-  description?: string;
-  inferenceConfiguration?: AIPromptInferenceConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  description?: string | undefined;
+  inferenceConfiguration?: AIPromptInferenceConfiguration | undefined;
 }
 export interface AIPromptData {
   assistantId: string;
@@ -659,54 +666,54 @@ export interface AIPromptData {
   modelId: string;
   apiFormat: string;
   templateConfiguration: AIPromptTemplateConfiguration;
-  inferenceConfiguration?: AIPromptInferenceConfiguration;
-  modifiedTime?: Date;
-  description?: string;
+  inferenceConfiguration?: AIPromptInferenceConfiguration | undefined;
+  modifiedTime?: Date | undefined;
+  description?: string | undefined;
   visibilityStatus: string;
-  tags?: { [key: string]: string | undefined };
-  origin?: string;
-  status?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  origin?: string | undefined;
+  status?: string | undefined;
 }
 export interface CreateAIPromptResponse {
-  aiPrompt?: AIPromptData;
+  aiPrompt?: AIPromptData | undefined;
 }
 export interface CreateAIPromptVersionRequest {
   assistantId: string;
   aiPromptId: string;
-  modifiedTime?: Date;
-  clientToken?: string;
+  modifiedTime?: Date | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateAIPromptVersionResponse {
-  aiPrompt?: AIPromptData;
-  versionNumber?: number;
+  aiPrompt?: AIPromptData | undefined;
+  versionNumber?: number | undefined;
 }
 export type AssistantType = string;
 export interface ServerSideEncryptionConfiguration {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateAssistantRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   type: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
 }
 export type AssistantStatus = string;
 export interface AssistantIntegrationConfiguration {
-  topicIntegrationArn?: string;
+  topicIntegrationArn?: string | undefined;
 }
 export type AssistantCapabilityType = string;
 export interface AssistantCapabilityConfiguration {
-  type?: string;
+  type?: string | undefined;
 }
 export interface AIAgentConfigurationData {
   aiAgentId: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type AIAgentConfigurationMap = { [key: string]: AIAgentConfigurationData | undefined };
 export interface OrchestratorConfigurationEntry {
-  aiAgentId?: string;
+  aiAgentId?: string | undefined;
   orchestratorUseCase: string;
 }
 export type OrchestratorConfigurationList = OrchestratorConfigurationEntry[];
@@ -716,16 +723,16 @@ export interface AssistantData {
   name: string;
   type: string;
   status: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  integrationConfiguration?: AssistantIntegrationConfiguration;
-  capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  integrationConfiguration?: AssistantIntegrationConfiguration | undefined;
+  capabilityConfiguration?: AssistantCapabilityConfiguration | undefined;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined } | undefined;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[] | undefined;
 }
 export interface CreateAssistantResponse {
-  assistant?: AssistantData;
+  assistant?: AssistantData | undefined;
 }
 export type AssociationType = string;
 export type BedrockKnowledgeBaseArn = string;
@@ -735,29 +742,29 @@ export interface ExternalBedrockKnowledgeBaseConfig {
   accessRoleArn: string;
 }
 export type AssistantAssociationInputData =
-  | { knowledgeBaseId: string; externalBedrockKnowledgeBaseConfig?: never }
+  | { knowledgeBaseId: string; externalBedrockKnowledgeBaseConfig?: undefined }
   | {
-      knowledgeBaseId?: never;
+      knowledgeBaseId?: undefined;
       externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
     };
 export interface CreateAssistantAssociationRequest {
   assistantId: string;
   associationType: string;
   association: AssistantAssociationInputData;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface KnowledgeBaseAssociationData {
-  knowledgeBaseId?: string;
-  knowledgeBaseArn?: string;
+  knowledgeBaseId?: string | undefined;
+  knowledgeBaseArn?: string | undefined;
 }
 export type AssistantAssociationOutputData =
   | {
       knowledgeBaseAssociation: KnowledgeBaseAssociationData;
-      externalBedrockKnowledgeBaseConfig?: never;
+      externalBedrockKnowledgeBaseConfig?: undefined;
     }
   | {
-      knowledgeBaseAssociation?: never;
+      knowledgeBaseAssociation?: undefined;
       externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
     };
 export interface AssistantAssociationData {
@@ -767,10 +774,10 @@ export interface AssistantAssociationData {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAssistantAssociationResponse {
-  assistantAssociation?: AssistantAssociationData;
+  assistantAssociation?: AssistantAssociationData | undefined;
 }
 export type ContentTitle = string;
 export type Uri = string;
@@ -779,12 +786,12 @@ export type UploadId = string;
 export interface CreateContentRequest {
   knowledgeBaseId: string;
   name: string;
-  title?: string;
-  overrideLinkOutUri?: string;
-  metadata?: { [key: string]: string | undefined };
+  title?: string | undefined;
+  overrideLinkOutUri?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
   uploadId: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContentType = string;
 export type ContentStatus = string;
@@ -800,28 +807,28 @@ export interface ContentData {
   contentType: string;
   status: string;
   metadata: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  linkOutUri?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  linkOutUri?: string | undefined;
   url: string | redacted.Redacted<string>;
   urlExpiry: Date;
 }
 export interface CreateContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export type ContentAssociationType = string;
 export interface AmazonConnectGuideAssociationData {
-  flowId?: string;
+  flowId?: string | undefined;
 }
 export type ContentAssociationContents = {
   amazonConnectGuideAssociation: AmazonConnectGuideAssociationData;
 };
 export interface CreateContentAssociationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   knowledgeBaseId: string;
   contentId: string;
   associationType: string;
   association: ContentAssociationContents;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ContentAssociationData {
   knowledgeBaseId: string;
@@ -832,44 +839,44 @@ export interface ContentAssociationData {
   contentAssociationArn: string;
   associationType: string;
   associationData: ContentAssociationContents;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateContentAssociationResponse {
-  contentAssociation?: ContentAssociationData;
+  contentAssociation?: ContentAssociationData | undefined;
 }
 export type KnowledgeBaseType = string;
 export type ObjectFieldsList = string[];
 export interface AppIntegrationsConfiguration {
   appIntegrationArn: string;
-  objectFields?: string[];
+  objectFields?: string[] | undefined;
 }
 export type WebUrl = string;
 export interface SeedUrl {
-  url?: string;
+  url?: string | undefined;
 }
 export type SeedUrls = SeedUrl[];
 export interface UrlConfiguration {
-  seedUrls?: SeedUrl[];
+  seedUrls?: SeedUrl[] | undefined;
 }
 export interface WebCrawlerLimits {
-  rateLimit?: number;
+  rateLimit?: number | undefined;
 }
 export type UrlFilterPattern = string | redacted.Redacted<string>;
 export type UrlFilterList = (string | redacted.Redacted<string>)[];
 export type WebScopeType = string;
 export interface WebCrawlerConfiguration {
   urlConfiguration: UrlConfiguration;
-  crawlerLimits?: WebCrawlerLimits;
-  inclusionFilters?: (string | redacted.Redacted<string>)[];
-  exclusionFilters?: (string | redacted.Redacted<string>)[];
-  scope?: string;
+  crawlerLimits?: WebCrawlerLimits | undefined;
+  inclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
+  exclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
+  scope?: string | undefined;
 }
 export type ManagedSourceConfiguration = { webCrawlerConfiguration: WebCrawlerConfiguration };
 export type SourceConfiguration =
-  | { appIntegrations: AppIntegrationsConfiguration; managedSourceConfiguration?: never }
-  | { appIntegrations?: never; managedSourceConfiguration: ManagedSourceConfiguration };
+  | { appIntegrations: AppIntegrationsConfiguration; managedSourceConfiguration?: undefined }
+  | { appIntegrations?: undefined; managedSourceConfiguration: ManagedSourceConfiguration };
 export interface RenderingConfiguration {
-  templateUri?: string;
+  templateUri?: string | undefined;
 }
 export type ChunkingStrategy = string;
 export interface FixedSizeChunkingConfiguration {
@@ -891,9 +898,9 @@ export interface SemanticChunkingConfiguration {
 }
 export interface ChunkingConfiguration {
   chunkingStrategy: string;
-  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration;
-  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration;
-  semanticChunkingConfiguration?: SemanticChunkingConfiguration;
+  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration | undefined;
+  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration | undefined;
+  semanticChunkingConfiguration?: SemanticChunkingConfiguration | undefined;
 }
 export type ParsingStrategy = string;
 export type BedrockModelArnForParsing = string;
@@ -903,26 +910,26 @@ export interface ParsingPrompt {
 }
 export interface BedrockFoundationModelConfigurationForParsing {
   modelArn: string;
-  parsingPrompt?: ParsingPrompt;
+  parsingPrompt?: ParsingPrompt | undefined;
 }
 export interface ParsingConfiguration {
   parsingStrategy: string;
-  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfigurationForParsing;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfigurationForParsing | undefined;
 }
 export interface VectorIngestionConfiguration {
-  chunkingConfiguration?: ChunkingConfiguration;
-  parsingConfiguration?: ParsingConfiguration;
+  chunkingConfiguration?: ChunkingConfiguration | undefined;
+  parsingConfiguration?: ParsingConfiguration | undefined;
 }
 export interface CreateKnowledgeBaseRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   knowledgeBaseType: string;
-  sourceConfiguration?: SourceConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  sourceConfiguration?: SourceConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KnowledgeBaseStatus = string;
 export type SyncStatus = string;
@@ -933,101 +940,106 @@ export interface KnowledgeBaseData {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  lastContentModificationTime?: Date;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  sourceConfiguration?: SourceConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  ingestionStatus?: string;
-  ingestionFailureReasons?: string[];
+  lastContentModificationTime?: Date | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
+  sourceConfiguration?: SourceConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  ingestionStatus?: string | undefined;
+  ingestionFailureReasons?: string[] | undefined;
 }
 export interface CreateKnowledgeBaseResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export type NonEmptyUnlimitedString = string | redacted.Redacted<string>;
 export type MessageTemplateBodyContentProvider = { content: string | redacted.Redacted<string> };
 export interface EmailMessageTemplateContentBody {
-  plainText?: MessageTemplateBodyContentProvider;
-  html?: MessageTemplateBodyContentProvider;
+  plainText?: MessageTemplateBodyContentProvider | undefined;
+  html?: MessageTemplateBodyContentProvider | undefined;
 }
 export type EmailHeaderKey = string;
 export type EmailHeaderValue = string | redacted.Redacted<string>;
 export interface EmailHeader {
-  name?: string;
-  value?: string | redacted.Redacted<string>;
+  name?: string | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
 }
 export type EmailHeaders = EmailHeader[];
 export interface EmailMessageTemplateContent {
-  subject?: string | redacted.Redacted<string>;
-  body?: EmailMessageTemplateContentBody;
-  headers?: EmailHeader[];
+  subject?: string | redacted.Redacted<string> | undefined;
+  body?: EmailMessageTemplateContentBody | undefined;
+  headers?: EmailHeader[] | undefined;
 }
 export interface SMSMessageTemplateContentBody {
-  plainText?: MessageTemplateBodyContentProvider;
+  plainText?: MessageTemplateBodyContentProvider | undefined;
 }
 export interface SMSMessageTemplateContent {
-  body?: SMSMessageTemplateContentBody;
+  body?: SMSMessageTemplateContentBody | undefined;
 }
 export type WhatsAppMessageTemplateContentData = string;
 export interface WhatsAppMessageTemplateContent {
-  data?: string;
+  data?: string | undefined;
 }
 export type PushMessageAction = string;
 export interface PushADMMessageTemplateContent {
-  title?: string | redacted.Redacted<string>;
-  body?: MessageTemplateBodyContentProvider;
-  action?: string;
-  sound?: string | redacted.Redacted<string>;
-  url?: string | redacted.Redacted<string>;
-  imageUrl?: string | redacted.Redacted<string>;
-  imageIconUrl?: string | redacted.Redacted<string>;
-  smallImageIconUrl?: string | redacted.Redacted<string>;
-  rawContent?: MessageTemplateBodyContentProvider;
+  title?: string | redacted.Redacted<string> | undefined;
+  body?: MessageTemplateBodyContentProvider | undefined;
+  action?: string | undefined;
+  sound?: string | redacted.Redacted<string> | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  imageUrl?: string | redacted.Redacted<string> | undefined;
+  imageIconUrl?: string | redacted.Redacted<string> | undefined;
+  smallImageIconUrl?: string | redacted.Redacted<string> | undefined;
+  rawContent?: MessageTemplateBodyContentProvider | undefined;
 }
 export interface PushAPNSMessageTemplateContent {
-  title?: string | redacted.Redacted<string>;
-  body?: MessageTemplateBodyContentProvider;
-  action?: string;
-  sound?: string | redacted.Redacted<string>;
-  url?: string | redacted.Redacted<string>;
-  mediaUrl?: string | redacted.Redacted<string>;
-  rawContent?: MessageTemplateBodyContentProvider;
+  title?: string | redacted.Redacted<string> | undefined;
+  body?: MessageTemplateBodyContentProvider | undefined;
+  action?: string | undefined;
+  sound?: string | redacted.Redacted<string> | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  mediaUrl?: string | redacted.Redacted<string> | undefined;
+  rawContent?: MessageTemplateBodyContentProvider | undefined;
 }
 export interface PushFCMMessageTemplateContent {
-  title?: string | redacted.Redacted<string>;
-  body?: MessageTemplateBodyContentProvider;
-  action?: string;
-  sound?: string | redacted.Redacted<string>;
-  url?: string | redacted.Redacted<string>;
-  imageUrl?: string | redacted.Redacted<string>;
-  imageIconUrl?: string | redacted.Redacted<string>;
-  smallImageIconUrl?: string | redacted.Redacted<string>;
-  rawContent?: MessageTemplateBodyContentProvider;
+  title?: string | redacted.Redacted<string> | undefined;
+  body?: MessageTemplateBodyContentProvider | undefined;
+  action?: string | undefined;
+  sound?: string | redacted.Redacted<string> | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  imageUrl?: string | redacted.Redacted<string> | undefined;
+  imageIconUrl?: string | redacted.Redacted<string> | undefined;
+  smallImageIconUrl?: string | redacted.Redacted<string> | undefined;
+  rawContent?: MessageTemplateBodyContentProvider | undefined;
 }
 export interface PushBaiduMessageTemplateContent {
-  title?: string | redacted.Redacted<string>;
-  body?: MessageTemplateBodyContentProvider;
-  action?: string;
-  sound?: string | redacted.Redacted<string>;
-  url?: string | redacted.Redacted<string>;
-  imageUrl?: string | redacted.Redacted<string>;
-  imageIconUrl?: string | redacted.Redacted<string>;
-  smallImageIconUrl?: string | redacted.Redacted<string>;
-  rawContent?: MessageTemplateBodyContentProvider;
+  title?: string | redacted.Redacted<string> | undefined;
+  body?: MessageTemplateBodyContentProvider | undefined;
+  action?: string | undefined;
+  sound?: string | redacted.Redacted<string> | undefined;
+  url?: string | redacted.Redacted<string> | undefined;
+  imageUrl?: string | redacted.Redacted<string> | undefined;
+  imageIconUrl?: string | redacted.Redacted<string> | undefined;
+  smallImageIconUrl?: string | redacted.Redacted<string> | undefined;
+  rawContent?: MessageTemplateBodyContentProvider | undefined;
 }
 export interface PushMessageTemplateContent {
-  adm?: PushADMMessageTemplateContent;
-  apns?: PushAPNSMessageTemplateContent;
-  fcm?: PushFCMMessageTemplateContent;
-  baidu?: PushBaiduMessageTemplateContent;
+  adm?: PushADMMessageTemplateContent | undefined;
+  apns?: PushAPNSMessageTemplateContent | undefined;
+  fcm?: PushFCMMessageTemplateContent | undefined;
+  baidu?: PushBaiduMessageTemplateContent | undefined;
 }
 export type MessageTemplateContentProvider =
-  | { email: EmailMessageTemplateContent; sms?: never; whatsApp?: never; push?: never }
-  | { email?: never; sms: SMSMessageTemplateContent; whatsApp?: never; push?: never }
-  | { email?: never; sms?: never; whatsApp: WhatsAppMessageTemplateContent; push?: never }
-  | { email?: never; sms?: never; whatsApp?: never; push: PushMessageTemplateContent };
+  | { email: EmailMessageTemplateContent; sms?: undefined; whatsApp?: undefined; push?: undefined }
+  | { email?: undefined; sms: SMSMessageTemplateContent; whatsApp?: undefined; push?: undefined }
+  | {
+      email?: undefined;
+      sms?: undefined;
+      whatsApp: WhatsAppMessageTemplateContent;
+      push?: undefined;
+    }
+  | { email?: undefined; sms?: undefined; whatsApp?: undefined; push: PushMessageTemplateContent };
 export type ChannelSubtype = string;
 export type LanguageCode = string;
 export type WhatsAppBusinessAccountId = string;
@@ -1037,111 +1049,111 @@ export type WhatsAppMessageTemplateComponents = string[];
 export interface WhatsAppMessageTemplateSourceConfiguration {
   businessAccountId: string;
   templateId: string;
-  components?: string[];
+  components?: string[] | undefined;
 }
 export type MessageTemplateSourceConfiguration = {
   whatsApp: WhatsAppMessageTemplateSourceConfiguration;
 };
 export type MessageTemplateAttributeValue = string | redacted.Redacted<string>;
 export interface SystemEndpointAttributes {
-  address?: string | redacted.Redacted<string>;
+  address?: string | redacted.Redacted<string> | undefined;
 }
 export interface SystemAttributes {
-  name?: string | redacted.Redacted<string>;
-  customerEndpoint?: SystemEndpointAttributes;
-  systemEndpoint?: SystemEndpointAttributes;
+  name?: string | redacted.Redacted<string> | undefined;
+  customerEndpoint?: SystemEndpointAttributes | undefined;
+  systemEndpoint?: SystemEndpointAttributes | undefined;
 }
 export interface AgentAttributes {
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
 }
 export type MessageTemplateAttributeKey = string;
 export type CustomAttributes = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface CustomerProfileAttributes {
-  profileId?: string | redacted.Redacted<string>;
-  profileARN?: string | redacted.Redacted<string>;
-  firstName?: string | redacted.Redacted<string>;
-  middleName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  accountNumber?: string | redacted.Redacted<string>;
-  emailAddress?: string | redacted.Redacted<string>;
-  phoneNumber?: string | redacted.Redacted<string>;
-  additionalInformation?: string | redacted.Redacted<string>;
-  partyType?: string | redacted.Redacted<string>;
-  businessName?: string | redacted.Redacted<string>;
-  birthDate?: string | redacted.Redacted<string>;
-  gender?: string | redacted.Redacted<string>;
-  mobilePhoneNumber?: string | redacted.Redacted<string>;
-  homePhoneNumber?: string | redacted.Redacted<string>;
-  businessPhoneNumber?: string | redacted.Redacted<string>;
-  businessEmailAddress?: string | redacted.Redacted<string>;
-  address1?: string | redacted.Redacted<string>;
-  address2?: string | redacted.Redacted<string>;
-  address3?: string | redacted.Redacted<string>;
-  address4?: string | redacted.Redacted<string>;
-  city?: string | redacted.Redacted<string>;
-  county?: string | redacted.Redacted<string>;
-  country?: string | redacted.Redacted<string>;
-  postalCode?: string | redacted.Redacted<string>;
-  province?: string | redacted.Redacted<string>;
-  state?: string | redacted.Redacted<string>;
-  shippingAddress1?: string | redacted.Redacted<string>;
-  shippingAddress2?: string | redacted.Redacted<string>;
-  shippingAddress3?: string | redacted.Redacted<string>;
-  shippingAddress4?: string | redacted.Redacted<string>;
-  shippingCity?: string | redacted.Redacted<string>;
-  shippingCounty?: string | redacted.Redacted<string>;
-  shippingCountry?: string | redacted.Redacted<string>;
-  shippingPostalCode?: string | redacted.Redacted<string>;
-  shippingProvince?: string | redacted.Redacted<string>;
-  shippingState?: string | redacted.Redacted<string>;
-  mailingAddress1?: string | redacted.Redacted<string>;
-  mailingAddress2?: string | redacted.Redacted<string>;
-  mailingAddress3?: string | redacted.Redacted<string>;
-  mailingAddress4?: string | redacted.Redacted<string>;
-  mailingCity?: string | redacted.Redacted<string>;
-  mailingCounty?: string | redacted.Redacted<string>;
-  mailingCountry?: string | redacted.Redacted<string>;
-  mailingPostalCode?: string | redacted.Redacted<string>;
-  mailingProvince?: string | redacted.Redacted<string>;
-  mailingState?: string | redacted.Redacted<string>;
-  billingAddress1?: string | redacted.Redacted<string>;
-  billingAddress2?: string | redacted.Redacted<string>;
-  billingAddress3?: string | redacted.Redacted<string>;
-  billingAddress4?: string | redacted.Redacted<string>;
-  billingCity?: string | redacted.Redacted<string>;
-  billingCounty?: string | redacted.Redacted<string>;
-  billingCountry?: string | redacted.Redacted<string>;
-  billingPostalCode?: string | redacted.Redacted<string>;
-  billingProvince?: string | redacted.Redacted<string>;
-  billingState?: string | redacted.Redacted<string>;
-  custom?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  profileId?: string | redacted.Redacted<string> | undefined;
+  profileARN?: string | redacted.Redacted<string> | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  middleName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  accountNumber?: string | redacted.Redacted<string> | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  phoneNumber?: string | redacted.Redacted<string> | undefined;
+  additionalInformation?: string | redacted.Redacted<string> | undefined;
+  partyType?: string | redacted.Redacted<string> | undefined;
+  businessName?: string | redacted.Redacted<string> | undefined;
+  birthDate?: string | redacted.Redacted<string> | undefined;
+  gender?: string | redacted.Redacted<string> | undefined;
+  mobilePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  homePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  businessPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  businessEmailAddress?: string | redacted.Redacted<string> | undefined;
+  address1?: string | redacted.Redacted<string> | undefined;
+  address2?: string | redacted.Redacted<string> | undefined;
+  address3?: string | redacted.Redacted<string> | undefined;
+  address4?: string | redacted.Redacted<string> | undefined;
+  city?: string | redacted.Redacted<string> | undefined;
+  county?: string | redacted.Redacted<string> | undefined;
+  country?: string | redacted.Redacted<string> | undefined;
+  postalCode?: string | redacted.Redacted<string> | undefined;
+  province?: string | redacted.Redacted<string> | undefined;
+  state?: string | redacted.Redacted<string> | undefined;
+  shippingAddress1?: string | redacted.Redacted<string> | undefined;
+  shippingAddress2?: string | redacted.Redacted<string> | undefined;
+  shippingAddress3?: string | redacted.Redacted<string> | undefined;
+  shippingAddress4?: string | redacted.Redacted<string> | undefined;
+  shippingCity?: string | redacted.Redacted<string> | undefined;
+  shippingCounty?: string | redacted.Redacted<string> | undefined;
+  shippingCountry?: string | redacted.Redacted<string> | undefined;
+  shippingPostalCode?: string | redacted.Redacted<string> | undefined;
+  shippingProvince?: string | redacted.Redacted<string> | undefined;
+  shippingState?: string | redacted.Redacted<string> | undefined;
+  mailingAddress1?: string | redacted.Redacted<string> | undefined;
+  mailingAddress2?: string | redacted.Redacted<string> | undefined;
+  mailingAddress3?: string | redacted.Redacted<string> | undefined;
+  mailingAddress4?: string | redacted.Redacted<string> | undefined;
+  mailingCity?: string | redacted.Redacted<string> | undefined;
+  mailingCounty?: string | redacted.Redacted<string> | undefined;
+  mailingCountry?: string | redacted.Redacted<string> | undefined;
+  mailingPostalCode?: string | redacted.Redacted<string> | undefined;
+  mailingProvince?: string | redacted.Redacted<string> | undefined;
+  mailingState?: string | redacted.Redacted<string> | undefined;
+  billingAddress1?: string | redacted.Redacted<string> | undefined;
+  billingAddress2?: string | redacted.Redacted<string> | undefined;
+  billingAddress3?: string | redacted.Redacted<string> | undefined;
+  billingAddress4?: string | redacted.Redacted<string> | undefined;
+  billingCity?: string | redacted.Redacted<string> | undefined;
+  billingCounty?: string | redacted.Redacted<string> | undefined;
+  billingCountry?: string | redacted.Redacted<string> | undefined;
+  billingPostalCode?: string | redacted.Redacted<string> | undefined;
+  billingProvince?: string | redacted.Redacted<string> | undefined;
+  billingState?: string | redacted.Redacted<string> | undefined;
+  custom?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface MessageTemplateAttributes {
-  systemAttributes?: SystemAttributes;
-  agentAttributes?: AgentAttributes;
-  customerProfileAttributes?: CustomerProfileAttributes;
-  customAttributes?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  systemAttributes?: SystemAttributes | undefined;
+  agentAttributes?: AgentAttributes | undefined;
+  customerProfileAttributes?: CustomerProfileAttributes | undefined;
+  customAttributes?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type GroupingCriteria = string | redacted.Redacted<string>;
 export type GroupingValue = string | redacted.Redacted<string>;
 export type GroupingValues = (string | redacted.Redacted<string>)[];
 export interface GroupingConfiguration {
-  criteria?: string | redacted.Redacted<string>;
-  values?: (string | redacted.Redacted<string>)[];
+  criteria?: string | redacted.Redacted<string> | undefined;
+  values?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface CreateMessageTemplateRequest {
   knowledgeBaseId: string;
-  name?: string;
-  content?: MessageTemplateContentProvider;
-  description?: string;
+  name?: string | undefined;
+  content?: MessageTemplateContentProvider | undefined;
+  description?: string | undefined;
   channelSubtype: string;
-  language?: string;
-  sourceConfiguration?: MessageTemplateSourceConfiguration;
-  defaultAttributes?: MessageTemplateAttributes;
-  groupingConfiguration?: GroupingConfiguration;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  language?: string | undefined;
+  sourceConfiguration?: MessageTemplateSourceConfiguration | undefined;
+  defaultAttributes?: MessageTemplateAttributes | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Channel = string | redacted.Redacted<string>;
 export type WhatsAppMessageTemplateName = string;
@@ -1150,11 +1162,11 @@ export type WhatsAppSourceConfigurationStatus = string;
 export interface WhatsAppMessageTemplateSourceConfigurationSummary {
   businessAccountId: string;
   templateId: string;
-  name?: string;
-  language?: string;
-  components?: string[];
-  status?: string;
-  statusReason?: string | redacted.Redacted<string>;
+  name?: string | undefined;
+  language?: string | undefined;
+  components?: string[] | undefined;
+  status?: string | undefined;
+  statusReason?: string | redacted.Redacted<string> | undefined;
 }
 export type MessageTemplateSourceConfigurationSummary = {
   whatsApp: WhatsAppMessageTemplateSourceConfigurationSummary;
@@ -1168,23 +1180,23 @@ export interface MessageTemplateData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string> | undefined;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  content?: MessageTemplateContentProvider;
-  description?: string;
-  language?: string;
-  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
-  groupingConfiguration?: GroupingConfiguration;
-  defaultAttributes?: MessageTemplateAttributes;
-  attributeTypes?: string[];
+  content?: MessageTemplateContentProvider | undefined;
+  description?: string | undefined;
+  language?: string | undefined;
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  defaultAttributes?: MessageTemplateAttributes | undefined;
+  attributeTypes?: string[] | undefined;
   messageTemplateContentSha256: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMessageTemplateResponse {
-  messageTemplate?: MessageTemplateData;
+  messageTemplate?: MessageTemplateData | undefined;
 }
 export type ContentDisposition = string;
 export type AttachmentFileName = string | redacted.Redacted<string>;
@@ -1194,7 +1206,7 @@ export interface CreateMessageTemplateAttachmentRequest {
   contentDisposition: string;
   name: string | redacted.Redacted<string>;
   body: string | redacted.Redacted<string>;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface MessageTemplateAttachment {
   contentDisposition: string;
@@ -1205,12 +1217,12 @@ export interface MessageTemplateAttachment {
   attachmentId: string;
 }
 export interface CreateMessageTemplateAttachmentResponse {
-  attachment?: MessageTemplateAttachment;
+  attachment?: MessageTemplateAttachment | undefined;
 }
 export interface CreateMessageTemplateVersionRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
-  messageTemplateContentSha256?: string;
+  messageTemplateContentSha256?: string | undefined;
 }
 export type MessageTemplateAttachmentList = MessageTemplateAttachment[];
 export interface ExtendedMessageTemplateData {
@@ -1219,26 +1231,26 @@ export interface ExtendedMessageTemplateData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string> | undefined;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  content?: MessageTemplateContentProvider;
-  description?: string;
-  language?: string;
-  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
-  groupingConfiguration?: GroupingConfiguration;
-  defaultAttributes?: MessageTemplateAttributes;
-  attributeTypes?: string[];
-  attachments?: MessageTemplateAttachment[];
-  isActive?: boolean;
-  versionNumber?: number;
+  content?: MessageTemplateContentProvider | undefined;
+  description?: string | undefined;
+  language?: string | undefined;
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  defaultAttributes?: MessageTemplateAttributes | undefined;
+  attributeTypes?: string[] | undefined;
+  attachments?: MessageTemplateAttachment[] | undefined;
+  isActive?: boolean | undefined;
+  versionNumber?: number | undefined;
   messageTemplateContentSha256: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMessageTemplateVersionResponse {
-  messageTemplate?: ExtendedMessageTemplateData;
+  messageTemplate?: ExtendedMessageTemplateData | undefined;
 }
 export type QuickResponseName = string;
 export type QuickResponseContent = string | redacted.Redacted<string>;
@@ -1251,21 +1263,21 @@ export interface CreateQuickResponseRequest {
   knowledgeBaseId: string;
   name: string;
   content: QuickResponseDataProvider;
-  contentType?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  description?: string;
-  shortcutKey?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  contentType?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  description?: string | undefined;
+  shortcutKey?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseStatus = string;
 export type QuickResponseContentProvider = { content: string | redacted.Redacted<string> };
 export interface QuickResponseContents {
-  plainText?: QuickResponseContentProvider;
-  markdown?: QuickResponseContentProvider;
+  plainText?: QuickResponseContentProvider | undefined;
+  markdown?: QuickResponseContentProvider | undefined;
 }
 export interface QuickResponseData {
   quickResponseArn: string;
@@ -1277,48 +1289,48 @@ export interface QuickResponseData {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  contents?: QuickResponseContents;
-  description?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  shortcutKey?: string;
-  lastModifiedBy?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  tags?: { [key: string]: string | undefined };
+  contents?: QuickResponseContents | undefined;
+  description?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  shortcutKey?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export interface CreateSessionRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  tagFilter?: TagFilter;
-  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
-  contactArn?: string;
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
-  removeOrchestratorConfigurationList?: boolean;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  tagFilter?: TagFilter | undefined;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined } | undefined;
+  contactArn?: string | undefined;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[] | undefined;
+  removeOrchestratorConfigurationList?: boolean | undefined;
 }
 export interface SessionIntegrationConfiguration {
-  topicIntegrationArn?: string;
+  topicIntegrationArn?: string | undefined;
 }
 export interface SessionData {
   sessionArn: string;
   sessionId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  integrationConfiguration?: SessionIntegrationConfiguration;
-  tagFilter?: TagFilter;
-  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
-  origin?: string;
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  integrationConfiguration?: SessionIntegrationConfiguration | undefined;
+  tagFilter?: TagFilter | undefined;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined } | undefined;
+  origin?: string | undefined;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[] | undefined;
 }
 export interface CreateSessionResponse {
-  session?: SessionData;
+  session?: SessionData | undefined;
 }
 export interface DeactivateMessageTemplateRequest {
   knowledgeBaseId: string;
@@ -1413,44 +1425,44 @@ export interface GetAIAgentRequest {
   aiAgentId: string;
 }
 export interface GetAIAgentResponse {
-  aiAgent?: AIAgentData;
-  versionNumber?: number;
+  aiAgent?: AIAgentData | undefined;
+  versionNumber?: number | undefined;
 }
 export interface GetAIGuardrailRequest {
   assistantId: string;
   aiGuardrailId: string;
 }
 export interface GetAIGuardrailResponse {
-  aiGuardrail?: AIGuardrailData;
-  versionNumber?: number;
+  aiGuardrail?: AIGuardrailData | undefined;
+  versionNumber?: number | undefined;
 }
 export interface GetAIPromptRequest {
   assistantId: string;
   aiPromptId: string;
 }
 export interface GetAIPromptResponse {
-  aiPrompt?: AIPromptData;
-  versionNumber?: number;
+  aiPrompt?: AIPromptData | undefined;
+  versionNumber?: number | undefined;
 }
 export interface GetAssistantRequest {
   assistantId: string;
 }
 export interface GetAssistantResponse {
-  assistant?: AssistantData;
+  assistant?: AssistantData | undefined;
 }
 export interface GetAssistantAssociationRequest {
   assistantAssociationId: string;
   assistantId: string;
 }
 export interface GetAssistantAssociationResponse {
-  assistantAssociation?: AssistantAssociationData;
+  assistantAssociation?: AssistantAssociationData | undefined;
 }
 export interface GetContentRequest {
   contentId: string;
   knowledgeBaseId: string;
 }
 export interface GetContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export interface GetContentAssociationRequest {
   knowledgeBaseId: string;
@@ -1458,7 +1470,7 @@ export interface GetContentAssociationRequest {
   contentAssociationId: string;
 }
 export interface GetContentAssociationResponse {
-  contentAssociation?: ContentAssociationData;
+  contentAssociation?: ContentAssociationData | undefined;
 }
 export interface GetContentSummaryRequest {
   contentId: string;
@@ -1475,10 +1487,10 @@ export interface ContentSummary {
   contentType: string;
   status: string;
   metadata: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetContentSummaryResponse {
-  contentSummary?: ContentSummary;
+  contentSummary?: ContentSummary | undefined;
 }
 export interface GetImportJobRequest {
   importJobId: string;
@@ -1488,7 +1500,7 @@ export type ImportJobType = string;
 export type ImportJobStatus = string;
 export type ExternalSource = string;
 export interface ConnectConfiguration {
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export type Configuration = { connectConfiguration: ConnectConfiguration };
 export interface ExternalSourceConfiguration {
@@ -1503,28 +1515,28 @@ export interface ImportJobData {
   importJobType: string;
   status: string;
   url: string | redacted.Redacted<string>;
-  failedRecordReport?: string | redacted.Redacted<string>;
+  failedRecordReport?: string | redacted.Redacted<string> | undefined;
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export interface GetImportJobResponse {
-  importJob?: ImportJobData;
+  importJob?: ImportJobData | undefined;
 }
 export interface GetKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export interface GetKnowledgeBaseResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export interface GetMessageTemplateRequest {
   messageTemplateId: string;
   knowledgeBaseId: string;
 }
 export interface GetMessageTemplateResponse {
-  messageTemplate?: ExtendedMessageTemplateData;
+  messageTemplate?: ExtendedMessageTemplateData | undefined;
 }
 export type NextToken = string;
 export interface GetNextMessageRequest {
@@ -1536,16 +1548,16 @@ export type MessageType = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type CitationSpanOffset = number;
 export interface CitationSpan {
-  beginOffsetInclusive?: number;
-  endOffsetExclusive?: number;
+  beginOffsetInclusive?: number | undefined;
+  endOffsetExclusive?: number | undefined;
 }
 export type ReferenceType = string;
 export interface Citation {
-  contentId?: string;
-  title?: string | redacted.Redacted<string>;
-  knowledgeBaseId?: string;
+  contentId?: string | undefined;
+  title?: string | redacted.Redacted<string> | undefined;
+  knowledgeBaseId?: string | undefined;
   citationSpan: CitationSpan;
-  sourceURL?: string | redacted.Redacted<string>;
+  sourceURL?: string | redacted.Redacted<string> | undefined;
   referenceType: string;
 }
 export type Citations = Citation[];
@@ -1553,20 +1565,20 @@ export interface AIGuardrailAssessment {
   blocked: boolean;
 }
 export interface TextMessage {
-  value?: string | redacted.Redacted<string>;
-  citations?: Citation[];
-  aiGuardrailAssessment?: AIGuardrailAssessment;
+  value?: string | redacted.Redacted<string> | undefined;
+  citations?: Citation[] | undefined;
+  aiGuardrailAssessment?: AIGuardrailAssessment | undefined;
 }
 export interface ToolUseResultData {
   toolUseId: string;
   toolName: string;
   toolResult: any;
-  inputSchema?: any;
+  inputSchema?: any | undefined;
 }
 export type MessageData =
-  | { text: TextMessage; toolUseResult?: never; data?: never }
-  | { text?: never; toolUseResult: ToolUseResultData; data?: never }
-  | { text?: never; toolUseResult?: never; data: any };
+  | { text: TextMessage; toolUseResult?: undefined; data?: undefined }
+  | { text?: undefined; toolUseResult: ToolUseResultData; data?: undefined }
+  | { text?: undefined; toolUseResult?: undefined; data: any };
 export type Participant = string;
 export interface MessageOutput {
   value: MessageData;
@@ -1578,7 +1590,7 @@ export type ConversationStatus = string;
 export type ConversationStatusReason = string;
 export interface ConversationState {
   status: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export type RuntimeSessionDataValue = { stringValue: string | redacted.Redacted<string> };
 export interface RuntimeSessionData {
@@ -1591,57 +1603,57 @@ export interface GetNextMessageResponse {
   response: MessageOutput;
   requestMessageId: string;
   conversationState: ConversationState;
-  nextMessageToken?: string;
-  conversationSessionData?: RuntimeSessionData[];
-  chunkedResponseTerminated?: boolean;
+  nextMessageToken?: string | undefined;
+  conversationSessionData?: RuntimeSessionData[] | undefined;
+  chunkedResponseTerminated?: boolean | undefined;
 }
 export interface GetQuickResponseRequest {
   quickResponseId: string;
   knowledgeBaseId: string;
 }
 export interface GetQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export type WaitTimeSeconds = number;
 export type RecommendationType = string;
 export interface GetRecommendationsRequest {
   assistantId: string;
   sessionId: string;
-  maxResults?: number;
-  waitTimeSeconds?: number;
-  nextChunkToken?: string;
-  recommendationType?: string;
+  maxResults?: number | undefined;
+  waitTimeSeconds?: number | undefined;
+  nextChunkToken?: string | undefined;
+  recommendationType?: string | undefined;
 }
 export type RecommendationId = string;
 export interface ContentReference {
-  knowledgeBaseArn?: string;
-  knowledgeBaseId?: string;
-  contentArn?: string;
-  contentId?: string;
-  sourceURL?: string;
-  referenceType?: string;
+  knowledgeBaseArn?: string | undefined;
+  knowledgeBaseId?: string | undefined;
+  contentArn?: string | undefined;
+  contentId?: string | undefined;
+  sourceURL?: string | undefined;
+  referenceType?: string | undefined;
 }
 export type HighlightOffset = number;
 export interface Highlight {
-  beginOffsetInclusive?: number;
-  endOffsetExclusive?: number;
+  beginOffsetInclusive?: number | undefined;
+  endOffsetExclusive?: number | undefined;
 }
 export type Highlights = Highlight[];
 export interface DocumentText {
-  text?: string | redacted.Redacted<string>;
-  highlights?: Highlight[];
+  text?: string | redacted.Redacted<string> | undefined;
+  highlights?: Highlight[] | undefined;
 }
 export interface Document {
   contentReference: ContentReference;
-  title?: DocumentText;
-  excerpt?: DocumentText;
+  title?: DocumentText | undefined;
+  excerpt?: DocumentText | undefined;
 }
 export type RelevanceScore = number;
 export type RelevanceLevel = string;
 export type LlmModelId = string;
 export interface GenerativeReference {
-  modelId?: string;
-  generationId?: string;
+  modelId?: string | undefined;
+  generationId?: string | undefined;
 }
 export interface SuggestedMessageReference {
   aiAgentId: string;
@@ -1650,26 +1662,26 @@ export interface SuggestedMessageReference {
 export type DataReference =
   | {
       contentReference: ContentReference;
-      generativeReference?: never;
-      suggestedMessageReference?: never;
+      generativeReference?: undefined;
+      suggestedMessageReference?: undefined;
     }
   | {
-      contentReference?: never;
+      contentReference?: undefined;
       generativeReference: GenerativeReference;
-      suggestedMessageReference?: never;
+      suggestedMessageReference?: undefined;
     }
   | {
-      contentReference?: never;
-      generativeReference?: never;
+      contentReference?: undefined;
+      generativeReference?: undefined;
       suggestedMessageReference: SuggestedMessageReference;
     };
 export interface TextData {
-  title?: DocumentText;
-  excerpt?: DocumentText;
+  title?: DocumentText | undefined;
+  excerpt?: DocumentText | undefined;
 }
 export interface RankingData {
-  relevanceScore?: number;
-  relevanceLevel?: string;
+  relevanceScore?: number | undefined;
+  relevanceLevel?: string | undefined;
 }
 export interface ContentDataDetails {
   textData: TextData;
@@ -1684,7 +1696,7 @@ export interface GenerativeDataDetails {
 export interface IntentDetectedDataDetails {
   intent: string | redacted.Redacted<string>;
   intentId: string;
-  relevanceLevel?: string;
+  relevanceLevel?: string | undefined;
 }
 export type SourceContentType = string;
 export interface SourceContentDataDetails {
@@ -1692,39 +1704,39 @@ export interface SourceContentDataDetails {
   type: string;
   textData: TextData;
   rankingData: RankingData;
-  citationSpan?: CitationSpan;
+  citationSpan?: CitationSpan | undefined;
 }
 export interface GenerativeChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  references?: DataSummary[];
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  references?: DataSummary[] | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface EmailResponseChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface EmailOverviewChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface EmailGenerativeAnswerChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  references?: DataSummary[];
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  references?: DataSummary[] | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface CaseSummarizationChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface SuggestedMessageDataDetails {
   messageText: string | redacted.Redacted<string>;
 }
 export interface NotesDataDetails {
-  completion?: string | redacted.Redacted<string>;
+  completion?: string | redacted.Redacted<string> | undefined;
 }
 export interface NotesChunkDataDetails {
-  completion?: string | redacted.Redacted<string>;
-  nextChunkToken?: string;
+  completion?: string | redacted.Redacted<string> | undefined;
+  nextChunkToken?: string | undefined;
 }
 export interface ProactiveRecommendationDataDetails {
   nextMessageToken: string;
@@ -1732,197 +1744,197 @@ export interface ProactiveRecommendationDataDetails {
 export type DataDetails =
   | {
       contentData: ContentDataDetails;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
+      contentData?: undefined;
       generativeData: GenerativeDataDetails;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
       intentDetectedData: IntentDetectedDataDetails;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
       sourceContentData: SourceContentDataDetails;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
       generativeChunkData: GenerativeChunkDataDetails;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
       emailResponseChunkData: EmailResponseChunkDataDetails;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
       emailOverviewChunkData: EmailOverviewChunkDataDetails;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
       emailGenerativeAnswerChunkData: EmailGenerativeAnswerChunkDataDetails;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
       caseSummarizationChunkData: CaseSummarizationChunkDataDetails;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
       suggestedMessageData: SuggestedMessageDataDetails;
-      notesData?: never;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      notesData?: undefined;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
       notesData: NotesDataDetails;
-      notesChunkData?: never;
-      proactiveRecommendationData?: never;
+      notesChunkData?: undefined;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
       notesChunkData: NotesChunkDataDetails;
-      proactiveRecommendationData?: never;
+      proactiveRecommendationData?: undefined;
     }
   | {
-      contentData?: never;
-      generativeData?: never;
-      intentDetectedData?: never;
-      sourceContentData?: never;
-      generativeChunkData?: never;
-      emailResponseChunkData?: never;
-      emailOverviewChunkData?: never;
-      emailGenerativeAnswerChunkData?: never;
-      caseSummarizationChunkData?: never;
-      suggestedMessageData?: never;
-      notesData?: never;
-      notesChunkData?: never;
+      contentData?: undefined;
+      generativeData?: undefined;
+      intentDetectedData?: undefined;
+      sourceContentData?: undefined;
+      generativeChunkData?: undefined;
+      emailResponseChunkData?: undefined;
+      emailOverviewChunkData?: undefined;
+      emailGenerativeAnswerChunkData?: undefined;
+      caseSummarizationChunkData?: undefined;
+      suggestedMessageData?: undefined;
+      notesData?: undefined;
+      notesChunkData?: undefined;
       proactiveRecommendationData: ProactiveRecommendationDataDetails;
     };
 export interface DataSummary {
@@ -1931,18 +1943,18 @@ export interface DataSummary {
 }
 export interface RecommendationData {
   recommendationId: string;
-  document?: Document;
-  relevanceScore?: number;
-  relevanceLevel?: string;
-  type?: string;
-  data?: DataSummary;
+  document?: Document | undefined;
+  relevanceScore?: number | undefined;
+  relevanceLevel?: string | undefined;
+  type?: string | undefined;
+  data?: DataSummary | undefined;
 }
 export type RecommendationList = RecommendationData[];
 export type RecommendationTriggerType = string;
 export type RecommendationSourceType = string;
 export type QueryText = string | redacted.Redacted<string>;
 export interface QueryRecommendationTriggerData {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type RecommendationTriggerData = { query: QueryRecommendationTriggerData };
 export type RecommendationIdList = string[];
@@ -1956,20 +1968,20 @@ export interface RecommendationTrigger {
 export type RecommendationTriggerList = RecommendationTrigger[];
 export interface GetRecommendationsResponse {
   recommendations: RecommendationData[];
-  triggers?: RecommendationTrigger[];
+  triggers?: RecommendationTrigger[] | undefined;
 }
 export interface GetSessionRequest {
   assistantId: string;
   sessionId: string;
 }
 export interface GetSessionResponse {
-  session?: SessionData;
+  session?: SessionData | undefined;
 }
 export interface ListAIAgentsRequest {
   assistantId: string;
-  nextToken?: string;
-  maxResults?: number;
-  origin?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  origin?: string | undefined;
 }
 export interface AIAgentSummary {
   name: string;
@@ -1978,39 +1990,39 @@ export interface AIAgentSummary {
   aiAgentId: string;
   type: string;
   aiAgentArn: string;
-  modifiedTime?: Date;
+  modifiedTime?: Date | undefined;
   visibilityStatus: string;
-  configuration?: AIAgentConfiguration;
-  origin?: string;
-  description?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
+  configuration?: AIAgentConfiguration | undefined;
+  origin?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AIAgentSummaryList = AIAgentSummary[];
 export interface ListAIAgentsResponse {
   aiAgentSummaries: AIAgentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAIAgentVersionsRequest {
   assistantId: string;
   aiAgentId: string;
-  nextToken?: string;
-  maxResults?: number;
-  origin?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  origin?: string | undefined;
 }
 export interface AIAgentVersionSummary {
-  aiAgentSummary?: AIAgentSummary;
-  versionNumber?: number;
+  aiAgentSummary?: AIAgentSummary | undefined;
+  versionNumber?: number | undefined;
 }
 export type AIAgentVersionSummariesList = AIAgentVersionSummary[];
 export interface ListAIAgentVersionsResponse {
   aiAgentVersionSummaries: AIAgentVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAIGuardrailsRequest {
   assistantId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AIGuardrailSummary {
   name: string;
@@ -2018,37 +2030,37 @@ export interface AIGuardrailSummary {
   assistantArn: string;
   aiGuardrailId: string;
   aiGuardrailArn: string;
-  modifiedTime?: Date;
+  modifiedTime?: Date | undefined;
   visibilityStatus: string;
-  description?: string | redacted.Redacted<string>;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AIGuardrailSummariesList = AIGuardrailSummary[];
 export interface ListAIGuardrailsResponse {
   aiGuardrailSummaries: AIGuardrailSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAIGuardrailVersionsRequest {
   assistantId: string;
   aiGuardrailId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AIGuardrailVersionSummary {
-  aiGuardrailSummary?: AIGuardrailSummary;
-  versionNumber?: number;
+  aiGuardrailSummary?: AIGuardrailSummary | undefined;
+  versionNumber?: number | undefined;
 }
 export type AIGuardrailVersionSummariesList = AIGuardrailVersionSummary[];
 export interface ListAIGuardrailVersionsResponse {
   aiGuardrailVersionSummaries: AIGuardrailVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAIPromptsRequest {
   assistantId: string;
-  nextToken?: string;
-  maxResults?: number;
-  origin?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  origin?: string | undefined;
 }
 export interface AIPromptSummary {
   name: string;
@@ -2057,40 +2069,40 @@ export interface AIPromptSummary {
   aiPromptId: string;
   type: string;
   aiPromptArn: string;
-  modifiedTime?: Date;
+  modifiedTime?: Date | undefined;
   templateType: string;
   modelId: string;
   apiFormat: string;
   visibilityStatus: string;
-  origin?: string;
-  description?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
+  origin?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AIPromptSummaryList = AIPromptSummary[];
 export interface ListAIPromptsResponse {
   aiPromptSummaries: AIPromptSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAIPromptVersionsRequest {
   assistantId: string;
   aiPromptId: string;
-  nextToken?: string;
-  maxResults?: number;
-  origin?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  origin?: string | undefined;
 }
 export interface AIPromptVersionSummary {
-  aiPromptSummary?: AIPromptSummary;
-  versionNumber?: number;
+  aiPromptSummary?: AIPromptSummary | undefined;
+  versionNumber?: number | undefined;
 }
 export type AIPromptVersionSummariesList = AIPromptVersionSummary[];
 export interface ListAIPromptVersionsResponse {
   aiPromptVersionSummaries: AIPromptVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssistantAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assistantId: string;
 }
 export interface AssistantAssociationSummary {
@@ -2100,16 +2112,16 @@ export interface AssistantAssociationSummary {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssistantAssociationSummaryList = AssistantAssociationSummary[];
 export interface ListAssistantAssociationsResponse {
   assistantAssociationSummaries: AssistantAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssistantsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssistantSummary {
   assistantId: string;
@@ -2117,22 +2129,22 @@ export interface AssistantSummary {
   name: string;
   type: string;
   status: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  integrationConfiguration?: AssistantIntegrationConfiguration;
-  capabilityConfiguration?: AssistantCapabilityConfiguration;
-  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  integrationConfiguration?: AssistantIntegrationConfiguration | undefined;
+  capabilityConfiguration?: AssistantCapabilityConfiguration | undefined;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined } | undefined;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[] | undefined;
 }
 export type AssistantList = AssistantSummary[];
 export interface ListAssistantsResponse {
   assistantSummaries: AssistantSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListContentAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
   contentId: string;
 }
@@ -2145,26 +2157,26 @@ export interface ContentAssociationSummary {
   contentAssociationArn: string;
   associationType: string;
   associationData: ContentAssociationContents;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContentAssociationSummaryList = ContentAssociationSummary[];
 export interface ListContentAssociationsResponse {
   contentAssociationSummaries: ContentAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListContentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export type ContentSummaryList = ContentSummary[];
 export interface ListContentsResponse {
   contentSummaries: ContentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListImportJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export interface ImportJobSummary {
@@ -2176,17 +2188,17 @@ export interface ImportJobSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export type ImportJobList = ImportJobSummary[];
 export interface ListImportJobsResponse {
   importJobSummaries: ImportJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListKnowledgeBasesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KnowledgeBaseSummary {
   knowledgeBaseId: string;
@@ -2194,34 +2206,34 @@ export interface KnowledgeBaseSummary {
   name: string;
   knowledgeBaseType: string;
   status: string;
-  sourceConfiguration?: SourceConfiguration;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  renderingConfiguration?: RenderingConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  sourceConfiguration?: SourceConfiguration | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
+  renderingConfiguration?: RenderingConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KnowledgeBaseList = KnowledgeBaseSummary[];
 export interface ListKnowledgeBasesResponse {
   knowledgeBaseSummaries: KnowledgeBaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MessageFilterType = string;
 export interface ListMessagesRequest {
   assistantId: string;
   sessionId: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: string | undefined;
 }
 export type MessageList = MessageOutput[];
 export interface ListMessagesResponse {
   messages: MessageOutput[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMessageTemplatesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export interface MessageTemplateSummary {
@@ -2230,26 +2242,26 @@ export interface MessageTemplateSummary {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string> | undefined;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  sourceConfiguration?: MessageTemplateSourceConfiguration;
-  activeVersionNumber?: number;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  sourceConfiguration?: MessageTemplateSourceConfiguration | undefined;
+  activeVersionNumber?: number | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MessageTemplateSummaryList = MessageTemplateSummary[];
 export interface ListMessageTemplatesResponse {
   messageTemplateSummaries: MessageTemplateSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMessageTemplateVersionsRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MessageTemplateVersionSummary {
   messageTemplateArn: string;
@@ -2257,7 +2269,7 @@ export interface MessageTemplateVersionSummary {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string> | undefined;
   channelSubtype: string;
   isActive: boolean;
   versionNumber: number;
@@ -2265,15 +2277,15 @@ export interface MessageTemplateVersionSummary {
 export type MessageTemplateVersionSummaryList = MessageTemplateVersionSummary[];
 export interface ListMessageTemplateVersionsResponse {
   messageTemplateVersionSummaries: MessageTemplateVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ModelLifecycle = string;
 export interface ListModelsRequest {
   assistantId: string;
-  aiPromptType?: string;
-  modelLifecycle?: string;
-  nextToken?: string;
-  maxResults?: number;
+  aiPromptType?: string | undefined;
+  modelLifecycle?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ModelId = string;
 export type ModelDisplayName = string;
@@ -2282,21 +2294,21 @@ export type AIPromptTypeList = string[];
 export interface ModelSummary {
   modelId: string;
   displayName: string;
-  crossRegionStatus?: string;
-  supportsPromptCaching?: boolean;
-  supportedAIPromptTypes?: string[];
-  modelLifecycle?: string;
-  legacyTimestamp?: Date;
-  endOfLifeTimestamp?: Date;
+  crossRegionStatus?: string | undefined;
+  supportsPromptCaching?: boolean | undefined;
+  supportedAIPromptTypes?: string[] | undefined;
+  modelLifecycle?: string | undefined;
+  legacyTimestamp?: Date | undefined;
+  endOfLifeTimestamp?: Date | undefined;
 }
 export type ModelSummaryList = ModelSummary[];
 export interface ListModelsResponse {
   modelSummaries: ModelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQuickResponsesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
 }
 export interface QuickResponseSummary {
@@ -2309,22 +2321,22 @@ export interface QuickResponseSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  description?: string;
-  lastModifiedBy?: string;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseSummaryList = QuickResponseSummary[];
 export interface ListQuickResponsesResponse {
   quickResponseSummaries: QuickResponseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSpansRequest {
   assistantId: string;
   sessionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SpanType = string;
 export type SpanStatus = string;
@@ -2332,16 +2344,16 @@ export type InteractionMode = string;
 export type ReturnReason = string;
 export type SpanFinishReasonList = string[];
 export interface SpanCitation {
-  contentId?: string;
-  title?: string | redacted.Redacted<string>;
-  knowledgeBaseId?: string;
-  knowledgeBaseArn?: string;
+  contentId?: string | undefined;
+  title?: string | redacted.Redacted<string> | undefined;
+  knowledgeBaseId?: string | undefined;
+  knowledgeBaseArn?: string | undefined;
 }
 export type SpanCitationList = SpanCitation[];
 export interface SpanTextValue {
   value: string | redacted.Redacted<string>;
-  citations?: SpanCitation[];
-  aiGuardrailAssessment?: AIGuardrailAssessment;
+  citations?: SpanCitation[] | undefined;
+  aiGuardrailAssessment?: AIGuardrailAssessment | undefined;
 }
 export interface SpanToolUseValue {
   toolUseId: string;
@@ -2351,16 +2363,26 @@ export interface SpanToolUseValue {
 export interface SpanToolResultValue {
   toolUseId: string;
   values: SpanMessageValue[];
-  error?: string;
+  error?: string | undefined;
 }
 export interface SpanReasoningValue {
   value: string | redacted.Redacted<string>;
 }
 export type SpanMessageValue =
-  | { text: SpanTextValue; toolUse?: never; toolResult?: never; reasoning?: never }
-  | { text?: never; toolUse: SpanToolUseValue; toolResult?: never; reasoning?: never }
-  | { text?: never; toolUse?: never; toolResult: SpanToolResultValue; reasoning?: never }
-  | { text?: never; toolUse?: never; toolResult?: never; reasoning: SpanReasoningValue };
+  | { text: SpanTextValue; toolUse?: undefined; toolResult?: undefined; reasoning?: undefined }
+  | { text?: undefined; toolUse: SpanToolUseValue; toolResult?: undefined; reasoning?: undefined }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult: SpanToolResultValue;
+      reasoning?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoning: SpanReasoningValue;
+    };
 export type SpanMessageValueList = SpanMessageValue[];
 export interface SpanMessage {
   messageId: string;
@@ -2375,7 +2397,7 @@ export type GuardrailPolicyType = string;
 export interface GuardrailPolicyResult {
   policyType: string;
   action: string;
-  details?: string;
+  details?: string | undefined;
 }
 export type GuardrailPolicyResultList = GuardrailPolicyResult[];
 export interface SpanGuardrailAssessment {
@@ -2383,75 +2405,75 @@ export interface SpanGuardrailAssessment {
   guardrailName: string;
   source: string;
   action: string;
-  policies?: GuardrailPolicyResult[];
+  policies?: GuardrailPolicyResult[] | undefined;
 }
 export type SpanGuardrailAssessmentList = SpanGuardrailAssessment[];
 export interface SpanAttributes {
-  operationName?: string;
-  providerName?: string;
-  errorType?: string;
-  agentId?: string;
-  instanceArn?: string;
-  contactId?: string;
-  initialContactId?: string;
-  sessionName?: string;
-  aiAgentArn?: string;
-  aiAgentType?: string;
-  aiAgentName?: string;
-  aiAgentId?: string;
-  aiAgentVersion?: number;
-  aiAgentInvoker?: string;
-  aiAgentOrchestratorUseCase?: string;
-  interactionMode?: string;
-  targetAgentId?: string;
-  returnReason?: string;
-  requestModel?: string;
-  requestMaxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  responseModel?: string;
-  responseFinishReasons?: string[];
-  usageInputTokens?: number;
-  usageOutputTokens?: number;
-  usageTotalTokens?: number;
-  cacheReadInputTokens?: number;
-  cacheWriteInputTokens?: number;
-  inputMessages?: SpanMessage[];
-  outputMessages?: SpanMessage[];
-  systemInstructions?: SpanMessageValue[];
-  promptArn?: string;
-  promptId?: string;
-  promptType?: string;
-  promptName?: string;
-  promptVersion?: number;
-  timeToFirstTokenMs?: number;
-  guardrailAssessments?: SpanGuardrailAssessment[];
+  operationName?: string | undefined;
+  providerName?: string | undefined;
+  errorType?: string | undefined;
+  agentId?: string | undefined;
+  instanceArn?: string | undefined;
+  contactId?: string | undefined;
+  initialContactId?: string | undefined;
+  sessionName?: string | undefined;
+  aiAgentArn?: string | undefined;
+  aiAgentType?: string | undefined;
+  aiAgentName?: string | undefined;
+  aiAgentId?: string | undefined;
+  aiAgentVersion?: number | undefined;
+  aiAgentInvoker?: string | undefined;
+  aiAgentOrchestratorUseCase?: string | undefined;
+  interactionMode?: string | undefined;
+  targetAgentId?: string | undefined;
+  returnReason?: string | undefined;
+  requestModel?: string | undefined;
+  requestMaxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  responseModel?: string | undefined;
+  responseFinishReasons?: string[] | undefined;
+  usageInputTokens?: number | undefined;
+  usageOutputTokens?: number | undefined;
+  usageTotalTokens?: number | undefined;
+  cacheReadInputTokens?: number | undefined;
+  cacheWriteInputTokens?: number | undefined;
+  inputMessages?: SpanMessage[] | undefined;
+  outputMessages?: SpanMessage[] | undefined;
+  systemInstructions?: SpanMessageValue[] | undefined;
+  promptArn?: string | undefined;
+  promptId?: string | undefined;
+  promptType?: string | undefined;
+  promptName?: string | undefined;
+  promptVersion?: number | undefined;
+  timeToFirstTokenMs?: number | undefined;
+  guardrailAssessments?: SpanGuardrailAssessment[] | undefined;
 }
 export interface Span {
   spanId: string;
   assistantId: string;
   sessionId: string;
-  parentSpanId?: string;
+  parentSpanId?: string | undefined;
   spanName: string;
   spanType: string;
   startTimestamp: Date;
   endTimestamp: Date;
   status: string;
-  statusDescription?: string;
+  statusDescription?: string | undefined;
   requestId: string;
-  originRequestId?: string;
+  originRequestId?: string | undefined;
   attributes: SpanAttributes;
 }
 export type SpanList = Span[];
 export interface ListSpansResponse {
   spans: Span[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface NotifyRecommendationsReceivedRequest {
   assistantId: string;
@@ -2460,13 +2482,13 @@ export interface NotifyRecommendationsReceivedRequest {
 }
 export type NotifyRecommendationsReceivedErrorMessage = string;
 export interface NotifyRecommendationsReceivedError_ {
-  recommendationId?: string;
-  message?: string;
+  recommendationId?: string | undefined;
+  message?: string | undefined;
 }
 export type NotifyRecommendationsReceivedErrorList = NotifyRecommendationsReceivedError_[];
 export interface NotifyRecommendationsReceivedResponse {
-  recommendationIds?: string[];
-  errors?: NotifyRecommendationsReceivedError_[];
+  recommendationIds?: string[] | undefined;
+  errors?: NotifyRecommendationsReceivedError_[] | undefined;
 }
 export type TargetType = string;
 export type Relevance = string;
@@ -2509,46 +2531,46 @@ export interface CaseSummarizationInputData {
 export type QueryInputData =
   | {
       queryTextInputData: QueryTextInputData;
-      intentInputData?: never;
-      caseSummarizationInputData?: never;
+      intentInputData?: undefined;
+      caseSummarizationInputData?: undefined;
     }
   | {
-      queryTextInputData?: never;
+      queryTextInputData?: undefined;
       intentInputData: IntentInputData;
-      caseSummarizationInputData?: never;
+      caseSummarizationInputData?: undefined;
     }
   | {
-      queryTextInputData?: never;
-      intentInputData?: never;
+      queryTextInputData?: undefined;
+      intentInputData?: undefined;
       caseSummarizationInputData: CaseSummarizationInputData;
     };
 export interface QueryAssistantRequest {
   assistantId: string;
-  queryText?: string | redacted.Redacted<string>;
-  nextToken?: string;
-  maxResults?: number;
-  sessionId?: string;
-  queryCondition?: QueryCondition[];
-  queryInputData?: QueryInputData;
-  overrideKnowledgeBaseSearchType?: string;
+  queryText?: string | redacted.Redacted<string> | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sessionId?: string | undefined;
+  queryCondition?: QueryCondition[] | undefined;
+  queryInputData?: QueryInputData | undefined;
+  overrideKnowledgeBaseSearchType?: string | undefined;
 }
 export type QueryResultType = string;
 export interface ResultData {
   resultId: string;
-  document?: Document;
-  relevanceScore?: number;
-  data?: DataSummary;
-  type?: string;
+  document?: Document | undefined;
+  relevanceScore?: number | undefined;
+  data?: DataSummary | undefined;
+  type?: string | undefined;
 }
 export type QueryResultsList = ResultData[];
 export interface QueryAssistantResponse {
   results: ResultData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RemoveAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
-  orchestratorUseCase?: string;
+  orchestratorUseCase?: string | undefined;
 }
 export interface RemoveAssistantAIAgentResponse {}
 export interface RemoveKnowledgeBaseTemplateUriRequest {
@@ -2562,10 +2584,10 @@ export interface RenderMessageTemplateRequest {
 }
 export type MessageTemplateAttributeKeyList = string[];
 export interface RenderMessageTemplateResponse {
-  content?: MessageTemplateContentProvider;
-  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
-  attributesNotInterpolated?: string[];
-  attachments?: MessageTemplateAttachment[];
+  content?: MessageTemplateContentProvider | undefined;
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary | undefined;
+  attributesNotInterpolated?: string[] | undefined;
+  attachments?: MessageTemplateAttachment[] | undefined;
 }
 export type AssistantAssociationIdList = string[];
 export type KnowledgeSource = { assistantAssociationIds: string[] };
@@ -2578,204 +2600,204 @@ export interface FilterAttribute {
 export type RetrievalFilterConfiguration =
   | {
       andAll: RetrievalFilterConfiguration[];
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
+      andAll?: undefined;
       equals: FilterAttribute;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
+      andAll?: undefined;
+      equals?: undefined;
       greaterThan: FilterAttribute;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEquals: FilterAttribute;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
       in: FilterAttribute;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
       lessThan: FilterAttribute;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
       lessThanOrEquals: FilterAttribute;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
       listContains: FilterAttribute;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
       notEquals: FilterAttribute;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
       notIn: FilterAttribute;
-      orAll?: never;
-      startsWith?: never;
-      stringContains?: never;
+      orAll?: undefined;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
       orAll: RetrievalFilterConfiguration[];
-      startsWith?: never;
-      stringContains?: never;
+      startsWith?: undefined;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
       startsWith: FilterAttribute;
-      stringContains?: never;
+      stringContains?: undefined;
     }
   | {
-      andAll?: never;
-      equals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      in?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      listContains?: never;
-      notEquals?: never;
-      notIn?: never;
-      orAll?: never;
-      startsWith?: never;
+      andAll?: undefined;
+      equals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      in?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      listContains?: undefined;
+      notEquals?: undefined;
+      notIn?: undefined;
+      orAll?: undefined;
+      startsWith?: undefined;
       stringContains: FilterAttribute;
     };
 export interface RetrievalConfiguration {
   knowledgeSource: KnowledgeSource;
-  filter?: RetrievalFilterConfiguration;
-  numberOfResults?: number;
-  overrideKnowledgeBaseSearchType?: string;
+  filter?: RetrievalFilterConfiguration | undefined;
+  numberOfResults?: number | undefined;
+  overrideKnowledgeBaseSearchType?: string | undefined;
 }
 export interface RetrieveRequest {
   assistantId: string;
@@ -2798,7 +2820,7 @@ export interface RetrieveError_ {
 export type RetrieveErrorList = RetrieveError_[];
 export interface RetrieveResponse {
   results: RetrieveResult[];
-  errors?: RetrieveError_[];
+  errors?: RetrieveError_[] | undefined;
 }
 export type FilterField = string;
 export type FilterOperator = string;
@@ -2812,14 +2834,14 @@ export interface SearchExpression {
   filters: Filter[];
 }
 export interface SearchContentRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   knowledgeBaseId: string;
   searchExpression: SearchExpression;
 }
 export interface SearchContentResponse {
   contentSummaries: ContentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MessageTemplateQueryValue = string;
 export type MessageTemplateQueryValueList = string[];
@@ -2829,8 +2851,8 @@ export interface MessageTemplateQueryField {
   name: string;
   values: string[];
   operator: string;
-  allowFuzziness?: boolean;
-  priority?: string;
+  allowFuzziness?: boolean | undefined;
+  priority?: string | undefined;
 }
 export type MessageTemplateQueryFieldList = MessageTemplateQueryField[];
 export type MessageTemplateFilterValue = string;
@@ -2838,26 +2860,26 @@ export type MessageTemplateFilterValueList = string[];
 export type MessageTemplateFilterOperator = string;
 export interface MessageTemplateFilterField {
   name: string;
-  values?: string[];
+  values?: string[] | undefined;
   operator: string;
-  includeNoExistence?: boolean;
+  includeNoExistence?: boolean | undefined;
 }
 export type MessageTemplateFilterFieldList = MessageTemplateFilterField[];
 export type Order = string;
 export interface MessageTemplateOrderField {
   name: string;
-  order?: string;
+  order?: string | undefined;
 }
 export interface MessageTemplateSearchExpression {
-  queries?: MessageTemplateQueryField[];
-  filters?: MessageTemplateFilterField[];
-  orderOnField?: MessageTemplateOrderField;
+  queries?: MessageTemplateQueryField[] | undefined;
+  filters?: MessageTemplateFilterField[] | undefined;
+  orderOnField?: MessageTemplateOrderField | undefined;
 }
 export interface SearchMessageTemplatesRequest {
   knowledgeBaseId: string;
   searchExpression: MessageTemplateSearchExpression;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MessageTemplateSearchResultData {
   messageTemplateArn: string;
@@ -2865,23 +2887,23 @@ export interface MessageTemplateSearchResultData {
   knowledgeBaseArn: string;
   knowledgeBaseId: string;
   name: string;
-  channel?: string | redacted.Redacted<string>;
+  channel?: string | redacted.Redacted<string> | undefined;
   channelSubtype: string;
   createdTime: Date;
   lastModifiedTime: Date;
   lastModifiedBy: string;
-  isActive?: boolean;
-  versionNumber?: number;
-  description?: string;
-  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary;
-  groupingConfiguration?: GroupingConfiguration;
-  language?: string;
-  tags?: { [key: string]: string | undefined };
+  isActive?: boolean | undefined;
+  versionNumber?: number | undefined;
+  description?: string | undefined;
+  sourceConfigurationSummary?: MessageTemplateSourceConfigurationSummary | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  language?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MessageTemplateSearchResultsList = MessageTemplateSearchResultData[];
 export interface SearchMessageTemplatesResponse {
   results: MessageTemplateSearchResultData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QuickResponseQueryValue = string;
 export type QuickResponseQueryValueList = string[];
@@ -2890,8 +2912,8 @@ export interface QuickResponseQueryField {
   name: string;
   values: string[];
   operator: string;
-  allowFuzziness?: boolean;
-  priority?: string;
+  allowFuzziness?: boolean | undefined;
+  priority?: string | undefined;
 }
 export type QuickResponseQueryFieldList = QuickResponseQueryField[];
 export type QuickResponseFilterValue = string;
@@ -2899,19 +2921,19 @@ export type QuickResponseFilterValueList = string[];
 export type QuickResponseFilterOperator = string;
 export interface QuickResponseFilterField {
   name: string;
-  values?: string[];
+  values?: string[] | undefined;
   operator: string;
-  includeNoExistence?: boolean;
+  includeNoExistence?: boolean | undefined;
 }
 export type QuickResponseFilterFieldList = QuickResponseFilterField[];
 export interface QuickResponseOrderField {
   name: string;
-  order?: string;
+  order?: string | undefined;
 }
 export interface QuickResponseSearchExpression {
-  queries?: QuickResponseQueryField[];
-  filters?: QuickResponseFilterField[];
-  orderOnField?: QuickResponseOrderField;
+  queries?: QuickResponseQueryField[] | undefined;
+  filters?: QuickResponseFilterField[] | undefined;
+  orderOnField?: QuickResponseOrderField | undefined;
 }
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
@@ -2919,9 +2941,9 @@ export type ContactAttributes = { [key: string]: string | undefined };
 export interface SearchQuickResponsesRequest {
   knowledgeBaseId: string;
   searchExpression: QuickResponseSearchExpression;
-  nextToken?: string;
-  maxResults?: number;
-  attributes?: { [key: string]: string | undefined };
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ContactAttributeKeys = string[];
 export interface QuickResponseSearchResultData {
@@ -2936,24 +2958,24 @@ export interface QuickResponseSearchResultData {
   createdTime: Date;
   lastModifiedTime: Date;
   isActive: boolean;
-  description?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  shortcutKey?: string;
-  lastModifiedBy?: string;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
-  attributesNotInterpolated?: string[];
-  attributesInterpolated?: string[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  shortcutKey?: string | undefined;
+  lastModifiedBy?: string | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
+  attributesNotInterpolated?: string[] | undefined;
+  attributesInterpolated?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuickResponseSearchResultsList = QuickResponseSearchResultData[];
 export interface SearchQuickResponsesResponse {
   results: QuickResponseSearchResultData[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SearchSessionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assistantId: string;
   searchExpression: SearchExpression;
 }
@@ -2966,24 +2988,24 @@ export interface SessionSummary {
 export type SessionSummaries = SessionSummary[];
 export interface SearchSessionsResponse {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface MessageInput {
   value: MessageData;
 }
 export interface SelfServiceConversationHistory {
-  turnNumber?: number;
-  inputTranscript?: string | redacted.Redacted<string>;
-  botResponse?: string | redacted.Redacted<string>;
-  timestamp?: Date;
+  turnNumber?: number | undefined;
+  inputTranscript?: string | redacted.Redacted<string> | undefined;
+  botResponse?: string | redacted.Redacted<string> | undefined;
+  timestamp?: Date | undefined;
 }
 export type SelfServiceConversationHistoryList = SelfServiceConversationHistory[];
 export interface ConversationContext {
   selfServiceConversationHistory: SelfServiceConversationHistory[];
 }
 export interface MessageConfiguration {
-  generateFillerMessage?: boolean;
-  generateChunkedMessage?: boolean;
+  generateFillerMessage?: boolean | undefined;
+  generateChunkedMessage?: boolean | undefined;
 }
 export type MessageMetadata = { [key: string]: string | undefined };
 export interface SendMessageRequest {
@@ -2991,24 +3013,24 @@ export interface SendMessageRequest {
   sessionId: string;
   type: string;
   message: MessageInput;
-  aiAgentId?: string;
-  conversationContext?: ConversationContext;
-  configuration?: MessageConfiguration;
-  clientToken?: string;
-  orchestratorUseCase?: string;
-  metadata?: { [key: string]: string | undefined };
-  originRequestId?: string;
+  aiAgentId?: string | undefined;
+  conversationContext?: ConversationContext | undefined;
+  configuration?: MessageConfiguration | undefined;
+  clientToken?: string | undefined;
+  orchestratorUseCase?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  originRequestId?: string | undefined;
 }
 export interface SendMessageResponse {
   requestMessageId: string;
-  configuration?: MessageConfiguration;
+  configuration?: MessageConfiguration | undefined;
   nextMessageToken: string;
 }
 export type TimeToLive = number;
 export interface StartContentUploadRequest {
   knowledgeBaseId: string;
   contentType: string;
-  presignedUrlTimeToLive?: number;
+  presignedUrlTimeToLive?: number | undefined;
 }
 export type Headers = { [key: string]: string | undefined };
 export interface StartContentUploadResponse {
@@ -3021,12 +3043,12 @@ export interface StartImportJobRequest {
   knowledgeBaseId: string;
   importJobType: string;
   uploadId: string;
-  clientToken?: string;
-  metadata?: { [key: string]: string | undefined };
-  externalSourceConfiguration?: ExternalSourceConfiguration;
+  clientToken?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  externalSourceConfiguration?: ExternalSourceConfiguration | undefined;
 }
 export interface StartImportJobResponse {
-  importJob?: ImportJobData;
+  importJob?: ImportJobData | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -3040,132 +3062,132 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAIAgentRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   aiAgentId: string;
   visibilityStatus: string;
-  configuration?: AIAgentConfiguration;
-  description?: string;
+  configuration?: AIAgentConfiguration | undefined;
+  description?: string | undefined;
 }
 export interface UpdateAIAgentResponse {
-  aiAgent?: AIAgentData;
+  aiAgent?: AIAgentData | undefined;
 }
 export interface UpdateAIGuardrailRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   aiGuardrailId: string;
   visibilityStatus: string;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: AIGuardrailTopicPolicyConfig;
-  contentPolicyConfig?: AIGuardrailContentPolicyConfig;
-  wordPolicyConfig?: AIGuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig;
+  description?: string | redacted.Redacted<string> | undefined;
+  topicPolicyConfig?: AIGuardrailTopicPolicyConfig | undefined;
+  contentPolicyConfig?: AIGuardrailContentPolicyConfig | undefined;
+  wordPolicyConfig?: AIGuardrailWordPolicyConfig | undefined;
+  sensitiveInformationPolicyConfig?: AIGuardrailSensitiveInformationPolicyConfig | undefined;
+  contextualGroundingPolicyConfig?: AIGuardrailContextualGroundingPolicyConfig | undefined;
 }
 export interface UpdateAIGuardrailResponse {
-  aiGuardrail?: AIGuardrailData;
+  aiGuardrail?: AIGuardrailData | undefined;
 }
 export interface UpdateAIPromptRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   assistantId: string;
   aiPromptId: string;
   visibilityStatus: string;
-  templateConfiguration?: AIPromptTemplateConfiguration;
-  description?: string;
-  modelId?: string;
-  inferenceConfiguration?: AIPromptInferenceConfiguration;
+  templateConfiguration?: AIPromptTemplateConfiguration | undefined;
+  description?: string | undefined;
+  modelId?: string | undefined;
+  inferenceConfiguration?: AIPromptInferenceConfiguration | undefined;
 }
 export interface UpdateAIPromptResponse {
-  aiPrompt?: AIPromptData;
+  aiPrompt?: AIPromptData | undefined;
 }
 export interface UpdateAssistantAIAgentRequest {
   assistantId: string;
   aiAgentType: string;
   configuration: AIAgentConfigurationData;
-  orchestratorUseCase?: string;
+  orchestratorUseCase?: string | undefined;
 }
 export interface UpdateAssistantAIAgentResponse {
-  assistant?: AssistantData;
+  assistant?: AssistantData | undefined;
 }
 export interface UpdateContentRequest {
   knowledgeBaseId: string;
   contentId: string;
-  revisionId?: string;
-  title?: string;
-  overrideLinkOutUri?: string;
-  removeOverrideLinkOutUri?: boolean;
-  metadata?: { [key: string]: string | undefined };
-  uploadId?: string;
+  revisionId?: string | undefined;
+  title?: string | undefined;
+  overrideLinkOutUri?: string | undefined;
+  removeOverrideLinkOutUri?: boolean | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  uploadId?: string | undefined;
 }
 export interface UpdateContentResponse {
-  content?: ContentData;
+  content?: ContentData | undefined;
 }
 export interface UpdateKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
   templateUri: string;
 }
 export interface UpdateKnowledgeBaseTemplateUriResponse {
-  knowledgeBase?: KnowledgeBaseData;
+  knowledgeBase?: KnowledgeBaseData | undefined;
 }
 export interface UpdateMessageTemplateRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
-  content?: MessageTemplateContentProvider;
-  language?: string;
-  sourceConfiguration?: MessageTemplateSourceConfiguration;
-  defaultAttributes?: MessageTemplateAttributes;
+  content?: MessageTemplateContentProvider | undefined;
+  language?: string | undefined;
+  sourceConfiguration?: MessageTemplateSourceConfiguration | undefined;
+  defaultAttributes?: MessageTemplateAttributes | undefined;
 }
 export interface UpdateMessageTemplateResponse {
-  messageTemplate?: MessageTemplateData;
+  messageTemplate?: MessageTemplateData | undefined;
 }
 export interface UpdateMessageTemplateMetadataRequest {
   knowledgeBaseId: string;
   messageTemplateId: string;
-  name?: string;
-  description?: string;
-  groupingConfiguration?: GroupingConfiguration;
+  name?: string | undefined;
+  description?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
 }
 export interface UpdateMessageTemplateMetadataResponse {
-  messageTemplate?: MessageTemplateData;
+  messageTemplate?: MessageTemplateData | undefined;
 }
 export interface UpdateQuickResponseRequest {
   knowledgeBaseId: string;
   quickResponseId: string;
-  name?: string;
-  content?: QuickResponseDataProvider;
-  contentType?: string;
-  groupingConfiguration?: GroupingConfiguration;
-  removeGroupingConfiguration?: boolean;
-  description?: string;
-  removeDescription?: boolean;
-  shortcutKey?: string;
-  removeShortcutKey?: boolean;
-  isActive?: boolean;
-  channels?: (string | redacted.Redacted<string>)[];
-  language?: string;
+  name?: string | undefined;
+  content?: QuickResponseDataProvider | undefined;
+  contentType?: string | undefined;
+  groupingConfiguration?: GroupingConfiguration | undefined;
+  removeGroupingConfiguration?: boolean | undefined;
+  description?: string | undefined;
+  removeDescription?: boolean | undefined;
+  shortcutKey?: string | undefined;
+  removeShortcutKey?: boolean | undefined;
+  isActive?: boolean | undefined;
+  channels?: (string | redacted.Redacted<string>)[] | undefined;
+  language?: string | undefined;
 }
 export interface UpdateQuickResponseResponse {
-  quickResponse?: QuickResponseData;
+  quickResponse?: QuickResponseData | undefined;
 }
 export interface UpdateSessionRequest {
   assistantId: string;
   sessionId: string;
-  description?: string;
-  tagFilter?: TagFilter;
-  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined };
-  orchestratorConfigurationList?: OrchestratorConfigurationEntry[];
-  removeOrchestratorConfigurationList?: boolean;
+  description?: string | undefined;
+  tagFilter?: TagFilter | undefined;
+  aiAgentConfiguration?: { [key: string]: AIAgentConfigurationData | undefined } | undefined;
+  orchestratorConfigurationList?: OrchestratorConfigurationEntry[] | undefined;
+  removeOrchestratorConfigurationList?: boolean | undefined;
 }
 export interface UpdateSessionResponse {
-  session?: SessionData;
+  session?: SessionData | undefined;
 }
 export type SessionDataNamespace = string;
 export interface UpdateSessionDataRequest {
   assistantId: string;
   sessionId: string;
-  namespace?: string;
+  namespace?: string | undefined;
   data: RuntimeSessionData[];
 }
 export interface UpdateSessionDataResponse {
@@ -3185,7 +3207,7 @@ export type ActivateMessageTemplateError =
  * Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the `$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
  */
 export const activateMessageTemplate: API.OperationMethod<
-  ActivateMessageTemplateRequest,
+  ActivateMessageTemplateRequest & RegionInput,
   ActivateMessageTemplateResponse,
   ActivateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3219,7 +3241,7 @@ export type CreateAIAgentError =
  * Creates an Amazon Q in Connect AI Agent.
  */
 export const createAIAgent: API.OperationMethod<
-  CreateAIAgentRequest,
+  CreateAIAgentRequest & RegionInput,
   CreateAIAgentResponse,
   CreateAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -3255,7 +3277,7 @@ export type CreateAIAgentVersionError =
  * Creates and Amazon Q in Connect AI Agent version.
  */
 export const createAIAgentVersion: API.OperationMethod<
-  CreateAIAgentVersionRequest,
+  CreateAIAgentVersionRequest & RegionInput,
   CreateAIAgentVersionResponse,
   CreateAIAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -3291,7 +3313,7 @@ export type CreateAIGuardrailError =
  * Creates an Amazon Q in Connect AI Guardrail.
  */
 export const createAIGuardrail: API.OperationMethod<
-  CreateAIGuardrailRequest,
+  CreateAIGuardrailRequest & RegionInput,
   CreateAIGuardrailResponse,
   CreateAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -3327,7 +3349,7 @@ export type CreateAIGuardrailVersionError =
  * Creates an Amazon Q in Connect AI Guardrail version.
  */
 export const createAIGuardrailVersion: API.OperationMethod<
-  CreateAIGuardrailVersionRequest,
+  CreateAIGuardrailVersionRequest & RegionInput,
   CreateAIGuardrailVersionResponse,
   CreateAIGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3385,7 @@ export type CreateAIPromptError =
  * Creates an Amazon Q in Connect AI Prompt.
  */
 export const createAIPrompt: API.OperationMethod<
-  CreateAIPromptRequest,
+  CreateAIPromptRequest & RegionInput,
   CreateAIPromptResponse,
   CreateAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -3399,7 +3421,7 @@ export type CreateAIPromptVersionError =
  * Creates an Amazon Q in Connect AI Prompt version.
  */
 export const createAIPromptVersion: API.OperationMethod<
-  CreateAIPromptVersionRequest,
+  CreateAIPromptVersionRequest & RegionInput,
   CreateAIPromptVersionResponse,
   CreateAIPromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -3433,7 +3455,7 @@ export type CreateAssistantError =
  * Creates an Amazon Q in Connect assistant.
  */
 export const createAssistant: API.OperationMethod<
-  CreateAssistantRequest,
+  CreateAssistantRequest & RegionInput,
   CreateAssistantResponse,
   CreateAssistantError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3487,7 @@ export type CreateAssistantAssociationError =
  * Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
  */
 export const createAssistantAssociation: API.OperationMethod<
-  CreateAssistantAssociationRequest,
+  CreateAssistantAssociationRequest & RegionInput,
   CreateAssistantAssociationResponse,
   CreateAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3498,7 +3520,7 @@ export type CreateContentError =
  * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
  */
 export const createContent: API.OperationMethod<
-  CreateContentRequest,
+  CreateContentRequest & RegionInput,
   CreateContentResponse,
   CreateContentError,
   Credentials | HttpClient.HttpClient
@@ -3543,7 +3565,7 @@ export type CreateContentAssociationError =
  * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const createContentAssociation: API.OperationMethod<
-  CreateContentAssociationRequest,
+  CreateContentAssociationRequest & RegionInput,
   CreateContentAssociationResponse,
   CreateContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3589,7 +3611,7 @@ export type CreateKnowledgeBaseError =
  * - Call CreateKnowledgeBase.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -3622,7 +3644,7 @@ export type CreateMessageTemplateError =
  * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
  */
 export const createMessageTemplate: API.OperationMethod<
-  CreateMessageTemplateRequest,
+  CreateMessageTemplateRequest & RegionInput,
   CreateMessageTemplateResponse,
   CreateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3657,7 +3679,7 @@ export type CreateMessageTemplateAttachmentError =
  * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
  */
 export const createMessageTemplateAttachment: API.OperationMethod<
-  CreateMessageTemplateAttachmentRequest,
+  CreateMessageTemplateAttachmentRequest & RegionInput,
   CreateMessageTemplateAttachmentResponse,
   CreateMessageTemplateAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3692,7 +3714,7 @@ export type CreateMessageTemplateVersionError =
  * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
  */
 export const createMessageTemplateVersion: API.OperationMethod<
-  CreateMessageTemplateVersionRequest,
+  CreateMessageTemplateVersionRequest & RegionInput,
   CreateMessageTemplateVersionResponse,
   CreateMessageTemplateVersionError,
   Credentials | HttpClient.HttpClient
@@ -3726,7 +3748,7 @@ export type CreateQuickResponseError =
  * Creates an Amazon Q in Connect quick response.
  */
 export const createQuickResponse: API.OperationMethod<
-  CreateQuickResponseRequest,
+  CreateQuickResponseRequest & RegionInput,
   CreateQuickResponseResponse,
   CreateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -3760,7 +3782,7 @@ export type CreateSessionError =
  * Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3793,7 +3815,7 @@ export type DeactivateMessageTemplateError =
  * Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the `$ACTIVE_VERSION` qualifier to reference the version in active status.
  */
 export const deactivateMessageTemplate: API.OperationMethod<
-  DeactivateMessageTemplateRequest,
+  DeactivateMessageTemplateRequest & RegionInput,
   DeactivateMessageTemplateResponse,
   DeactivateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3825,7 +3847,7 @@ export type DeleteAIAgentError =
  * Deletes an Amazon Q in Connect AI Agent.
  */
 export const deleteAIAgent: API.OperationMethod<
-  DeleteAIAgentRequest,
+  DeleteAIAgentRequest & RegionInput,
   DeleteAIAgentResponse,
   DeleteAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -3858,7 +3880,7 @@ export type DeleteAIAgentVersionError =
  * Deletes an Amazon Q in Connect AI Agent Version.
  */
 export const deleteAIAgentVersion: API.OperationMethod<
-  DeleteAIAgentVersionRequest,
+  DeleteAIAgentVersionRequest & RegionInput,
   DeleteAIAgentVersionResponse,
   DeleteAIAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -3892,7 +3914,7 @@ export type DeleteAIGuardrailError =
  * Deletes an Amazon Q in Connect AI Guardrail.
  */
 export const deleteAIGuardrail: API.OperationMethod<
-  DeleteAIGuardrailRequest,
+  DeleteAIGuardrailRequest & RegionInput,
   DeleteAIGuardrailResponse,
   DeleteAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -3926,7 +3948,7 @@ export type DeleteAIGuardrailVersionError =
  * Delete and Amazon Q in Connect AI Guardrail version.
  */
 export const deleteAIGuardrailVersion: API.OperationMethod<
-  DeleteAIGuardrailVersionRequest,
+  DeleteAIGuardrailVersionRequest & RegionInput,
   DeleteAIGuardrailVersionResponse,
   DeleteAIGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -3959,7 +3981,7 @@ export type DeleteAIPromptError =
  * Deletes an Amazon Q in Connect AI Prompt.
  */
 export const deleteAIPrompt: API.OperationMethod<
-  DeleteAIPromptRequest,
+  DeleteAIPromptRequest & RegionInput,
   DeleteAIPromptResponse,
   DeleteAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -3992,7 +4014,7 @@ export type DeleteAIPromptVersionError =
  * Delete and Amazon Q in Connect AI Prompt version.
  */
 export const deleteAIPromptVersion: API.OperationMethod<
-  DeleteAIPromptVersionRequest,
+  DeleteAIPromptVersionRequest & RegionInput,
   DeleteAIPromptVersionResponse,
   DeleteAIPromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -4024,7 +4046,7 @@ export type DeleteAssistantError =
  * Deletes an assistant.
  */
 export const deleteAssistant: API.OperationMethod<
-  DeleteAssistantRequest,
+  DeleteAssistantRequest & RegionInput,
   DeleteAssistantResponse,
   DeleteAssistantError,
   Credentials | HttpClient.HttpClient
@@ -4054,7 +4076,7 @@ export type DeleteAssistantAssociationError =
  * Deletes an assistant association.
  */
 export const deleteAssistantAssociation: API.OperationMethod<
-  DeleteAssistantAssociationRequest,
+  DeleteAssistantAssociationRequest & RegionInput,
   DeleteAssistantAssociationResponse,
   DeleteAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4085,7 +4107,7 @@ export type DeleteContentError =
  * Deletes the content.
  */
 export const deleteContent: API.OperationMethod<
-  DeleteContentRequest,
+  DeleteContentRequest & RegionInput,
   DeleteContentResponse,
   DeleteContentError,
   Credentials | HttpClient.HttpClient
@@ -4118,7 +4140,7 @@ export type DeleteContentAssociationError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const deleteContentAssociation: API.OperationMethod<
-  DeleteContentAssociationRequest,
+  DeleteContentAssociationRequest & RegionInput,
   DeleteContentAssociationResponse,
   DeleteContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4149,7 +4171,7 @@ export type DeleteImportJobError =
  * Deletes the quick response import job.
  */
 export const deleteImportJob: API.OperationMethod<
-  DeleteImportJobRequest,
+  DeleteImportJobRequest & RegionInput,
   DeleteImportJobResponse,
   DeleteImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4183,7 +4205,7 @@ export type DeleteKnowledgeBaseError =
  * When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the *Amazon AppIntegrations API Reference*.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4215,7 +4237,7 @@ export type DeleteMessageTemplateError =
  * Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as `<message-template-id>:<versionNumber>` to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
  */
 export const deleteMessageTemplate: API.OperationMethod<
-  DeleteMessageTemplateRequest,
+  DeleteMessageTemplateRequest & RegionInput,
   DeleteMessageTemplateResponse,
   DeleteMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4247,7 +4269,7 @@ export type DeleteMessageTemplateAttachmentError =
  * Deletes the attachment file from the Amazon Q in Connect message template that is referenced by `$LATEST` qualifier. Attachments on available message template versions will remain unchanged.
  */
 export const deleteMessageTemplateAttachment: API.OperationMethod<
-  DeleteMessageTemplateAttachmentRequest,
+  DeleteMessageTemplateAttachmentRequest & RegionInput,
   DeleteMessageTemplateAttachmentResponse,
   DeleteMessageTemplateAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4278,7 +4300,7 @@ export type DeleteQuickResponseError =
  * Deletes a quick response.
  */
 export const deleteQuickResponse: API.OperationMethod<
-  DeleteQuickResponseRequest,
+  DeleteQuickResponseRequest & RegionInput,
   DeleteQuickResponseResponse,
   DeleteQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -4309,7 +4331,7 @@ export type GetAIAgentError =
  * Gets an Amazon Q in Connect AI Agent.
  */
 export const getAIAgent: API.OperationMethod<
-  GetAIAgentRequest,
+  GetAIAgentRequest & RegionInput,
   GetAIAgentResponse,
   GetAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -4341,7 +4363,7 @@ export type GetAIGuardrailError =
  * Gets the Amazon Q in Connect AI Guardrail.
  */
 export const getAIGuardrail: API.OperationMethod<
-  GetAIGuardrailRequest,
+  GetAIGuardrailRequest & RegionInput,
   GetAIGuardrailResponse,
   GetAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4373,7 +4395,7 @@ export type GetAIPromptError =
  * Gets and Amazon Q in Connect AI Prompt.
  */
 export const getAIPrompt: API.OperationMethod<
-  GetAIPromptRequest,
+  GetAIPromptRequest & RegionInput,
   GetAIPromptResponse,
   GetAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -4404,7 +4426,7 @@ export type GetAssistantError =
  * Retrieves information about an assistant.
  */
 export const getAssistant: API.OperationMethod<
-  GetAssistantRequest,
+  GetAssistantRequest & RegionInput,
   GetAssistantResponse,
   GetAssistantError,
   Credentials | HttpClient.HttpClient
@@ -4434,7 +4456,7 @@ export type GetAssistantAssociationError =
  * Retrieves information about an assistant association.
  */
 export const getAssistantAssociation: API.OperationMethod<
-  GetAssistantAssociationRequest,
+  GetAssistantAssociationRequest & RegionInput,
   GetAssistantAssociationResponse,
   GetAssistantAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4464,7 +4486,7 @@ export type GetContentError =
  * Retrieves content, including a pre-signed URL to download the content.
  */
 export const getContent: API.OperationMethod<
-  GetContentRequest,
+  GetContentRequest & RegionInput,
   GetContentResponse,
   GetContentError,
   Credentials | HttpClient.HttpClient
@@ -4496,7 +4518,7 @@ export type GetContentAssociationError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const getContentAssociation: API.OperationMethod<
-  GetContentAssociationRequest,
+  GetContentAssociationRequest & RegionInput,
   GetContentAssociationResponse,
   GetContentAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4526,7 +4548,7 @@ export type GetContentSummaryError =
  * Retrieves summary information about the content.
  */
 export const getContentSummary: API.OperationMethod<
-  GetContentSummaryRequest,
+  GetContentSummaryRequest & RegionInput,
   GetContentSummaryResponse,
   GetContentSummaryError,
   Credentials | HttpClient.HttpClient
@@ -4555,7 +4577,7 @@ export type GetImportJobError =
  * Retrieves the started import job.
  */
 export const getImportJob: API.OperationMethod<
-  GetImportJobRequest,
+  GetImportJobRequest & RegionInput,
   GetImportJobResponse,
   GetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4580,7 +4602,7 @@ export type GetKnowledgeBaseError =
  * Retrieves information about the knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4633,7 @@ export type GetMessageTemplateError =
  * Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, `<message-template-id>:<qualifier>`, which is either an actual version number or an Amazon Q Connect managed qualifier `$ACTIVE_VERSION` | `$LATEST`. If it is not supplied, then `$LATEST` is assumed implicitly.
  */
 export const getMessageTemplate: API.OperationMethod<
-  GetMessageTemplateRequest,
+  GetMessageTemplateRequest & RegionInput,
   GetMessageTemplateResponse,
   GetMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4642,7 +4664,7 @@ export type GetNextMessageError =
  * Retrieves next message on an Amazon Q in Connect session.
  */
 export const getNextMessage: API.OperationMethod<
-  GetNextMessageRequest,
+  GetNextMessageRequest & RegionInput,
   GetNextMessageResponse,
   GetNextMessageError,
   Credentials | HttpClient.HttpClient
@@ -4672,7 +4694,7 @@ export type GetQuickResponseError =
  * Retrieves the quick response.
  */
 export const getQuickResponse: API.OperationMethod<
-  GetQuickResponseRequest,
+  GetQuickResponseRequest & RegionInput,
   GetQuickResponseResponse,
   GetQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -4703,7 +4725,7 @@ export type GetRecommendationsError =
  * Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4728,7 +4750,7 @@ export type GetSessionError =
  * Retrieves information for a specified session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -4759,7 +4781,7 @@ export type ListAIAgentsError =
  * Lists AI Agents.
  */
 export const listAIAgents: API.PaginatedOperationMethod<
-  ListAIAgentsRequest,
+  ListAIAgentsRequest & RegionInput,
   ListAIAgentsResponse,
   ListAIAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -4798,7 +4820,7 @@ export type ListAIAgentVersionsError =
  * List AI Agent versions.
  */
 export const listAIAgentVersions: API.PaginatedOperationMethod<
-  ListAIAgentVersionsRequest,
+  ListAIAgentVersionsRequest & RegionInput,
   ListAIAgentVersionsResponse,
   ListAIAgentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4837,7 +4859,7 @@ export type ListAIGuardrailsError =
  * Lists the AI Guardrails available on the Amazon Q in Connect assistant.
  */
 export const listAIGuardrails: API.PaginatedOperationMethod<
-  ListAIGuardrailsRequest,
+  ListAIGuardrailsRequest & RegionInput,
   ListAIGuardrailsResponse,
   ListAIGuardrailsError,
   Credentials | HttpClient.HttpClient,
@@ -4876,7 +4898,7 @@ export type ListAIGuardrailVersionsError =
  * Lists AI Guardrail versions.
  */
 export const listAIGuardrailVersions: API.PaginatedOperationMethod<
-  ListAIGuardrailVersionsRequest,
+  ListAIGuardrailVersionsRequest & RegionInput,
   ListAIGuardrailVersionsResponse,
   ListAIGuardrailVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4915,7 +4937,7 @@ export type ListAIPromptsError =
  * Lists the AI Prompts available on the Amazon Q in Connect assistant.
  */
 export const listAIPrompts: API.PaginatedOperationMethod<
-  ListAIPromptsRequest,
+  ListAIPromptsRequest & RegionInput,
   ListAIPromptsResponse,
   ListAIPromptsError,
   Credentials | HttpClient.HttpClient,
@@ -4954,7 +4976,7 @@ export type ListAIPromptVersionsError =
  * Lists AI Prompt versions.
  */
 export const listAIPromptVersions: API.PaginatedOperationMethod<
-  ListAIPromptVersionsRequest,
+  ListAIPromptVersionsRequest & RegionInput,
   ListAIPromptVersionsResponse,
   ListAIPromptVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4991,7 +5013,7 @@ export type ListAssistantAssociationsError =
  * Lists information about assistant associations.
  */
 export const listAssistantAssociations: API.PaginatedOperationMethod<
-  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsRequest & RegionInput,
   ListAssistantAssociationsResponse,
   ListAssistantAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5022,7 +5044,7 @@ export type ListAssistantsError =
  * Lists information about assistants.
  */
 export const listAssistants: API.PaginatedOperationMethod<
-  ListAssistantsRequest,
+  ListAssistantsRequest & RegionInput,
   ListAssistantsResponse,
   ListAssistantsError,
   Credentials | HttpClient.HttpClient,
@@ -5056,7 +5078,7 @@ export type ListContentAssociationsError =
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Connect Customer Administrator Guide*.
  */
 export const listContentAssociations: API.PaginatedOperationMethod<
-  ListContentAssociationsRequest,
+  ListContentAssociationsRequest & RegionInput,
   ListContentAssociationsResponse,
   ListContentAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5092,7 +5114,7 @@ export type ListContentsError =
  * Lists the content.
  */
 export const listContents: API.PaginatedOperationMethod<
-  ListContentsRequest,
+  ListContentsRequest & RegionInput,
   ListContentsResponse,
   ListContentsError,
   Credentials | HttpClient.HttpClient,
@@ -5119,7 +5141,7 @@ export type ListImportJobsError = AccessDeniedException | ValidationException | 
  * Lists information about import jobs.
  */
 export const listImportJobs: API.PaginatedOperationMethod<
-  ListImportJobsRequest,
+  ListImportJobsRequest & RegionInput,
   ListImportJobsResponse,
   ListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5146,7 +5168,7 @@ export type ListKnowledgeBasesError = AccessDeniedException | ValidationExceptio
  * Lists the knowledge bases.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -5177,7 +5199,7 @@ export type ListMessagesError =
  * Lists messages on an Amazon Q in Connect session.
  */
 export const listMessages: API.PaginatedOperationMethod<
-  ListMessagesRequest,
+  ListMessagesRequest & RegionInput,
   ListMessagesResponse,
   ListMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -5209,7 +5231,7 @@ export type ListMessageTemplatesError =
  * Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
  */
 export const listMessageTemplates: API.PaginatedOperationMethod<
-  ListMessageTemplatesRequest,
+  ListMessageTemplatesRequest & RegionInput,
   ListMessageTemplatesResponse,
   ListMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5246,7 +5268,7 @@ export type ListMessageTemplateVersionsError =
  * Lists all the available versions for the specified Amazon Q in Connect message template.
  */
 export const listMessageTemplateVersions: API.PaginatedOperationMethod<
-  ListMessageTemplateVersionsRequest,
+  ListMessageTemplateVersionsRequest & RegionInput,
   ListMessageTemplateVersionsResponse,
   ListMessageTemplateVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5285,7 +5307,7 @@ export type ListModelsError =
  * Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are determined by the region of the specified assistant.
  */
 export const listModels: API.PaginatedOperationMethod<
-  ListModelsRequest,
+  ListModelsRequest & RegionInput,
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient,
@@ -5323,7 +5345,7 @@ export type ListQuickResponsesError =
  * Lists information about quick response.
  */
 export const listQuickResponses: API.PaginatedOperationMethod<
-  ListQuickResponsesRequest,
+  ListQuickResponsesRequest & RegionInput,
   ListQuickResponsesResponse,
   ListQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -5354,7 +5376,7 @@ export type ListSpansError =
  * Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
  */
 export const listSpans: API.PaginatedOperationMethod<
-  ListSpansRequest,
+  ListSpansRequest & RegionInput,
   ListSpansResponse,
   ListSpansError,
   Credentials | HttpClient.HttpClient,
@@ -5381,7 +5403,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5405,7 +5427,7 @@ export type NotifyRecommendationsReceivedError =
  * Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate recommendations.
  */
 export const notifyRecommendationsReceived: API.OperationMethod<
-  NotifyRecommendationsReceivedRequest,
+  NotifyRecommendationsReceivedRequest & RegionInput,
   NotifyRecommendationsReceivedResponse,
   NotifyRecommendationsReceivedError,
   Credentials | HttpClient.HttpClient
@@ -5429,7 +5451,7 @@ export type PutFeedbackError =
  * Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -5456,7 +5478,7 @@ export type QueryAssistantError =
  * Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
  */
 export const queryAssistant: API.PaginatedOperationMethod<
-  QueryAssistantRequest,
+  QueryAssistantRequest & RegionInput,
   QueryAssistantResponse,
   QueryAssistantError,
   Credentials | HttpClient.HttpClient,
@@ -5493,7 +5515,7 @@ export type RemoveAssistantAIAgentError =
  * Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const removeAssistantAIAgent: API.OperationMethod<
-  RemoveAssistantAIAgentRequest,
+  RemoveAssistantAIAgentRequest & RegionInput,
   RemoveAssistantAIAgentResponse,
   RemoveAssistantAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -5522,7 +5544,7 @@ export type RemoveKnowledgeBaseTemplateUriError =
  * Removes a URI template from a knowledge base.
  */
 export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
-  RemoveKnowledgeBaseTemplateUriRequest,
+  RemoveKnowledgeBaseTemplateUriRequest & RegionInput,
   RemoveKnowledgeBaseTemplateUriResponse,
   RemoveKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -5547,7 +5569,7 @@ export type RenderMessageTemplateError =
  * Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
  */
 export const renderMessageTemplate: API.OperationMethod<
-  RenderMessageTemplateRequest,
+  RenderMessageTemplateRequest & RegionInput,
   RenderMessageTemplateResponse,
   RenderMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5581,7 +5603,7 @@ export type RetrieveError =
  * Retrieves content from knowledge sources based on a query.
  */
 export const retrieve: API.OperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResponse,
   RetrieveError,
   Credentials | HttpClient.HttpClient
@@ -5615,7 +5637,7 @@ export type SearchContentError =
  * Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
  */
 export const searchContent: API.PaginatedOperationMethod<
-  SearchContentRequest,
+  SearchContentRequest & RegionInput,
   SearchContentResponse,
   SearchContentError,
   Credentials | HttpClient.HttpClient,
@@ -5653,7 +5675,7 @@ export type SearchMessageTemplatesError =
  * Searches for Amazon Q in Connect message templates in the specified knowledge base.
  */
 export const searchMessageTemplates: API.PaginatedOperationMethod<
-  SearchMessageTemplatesRequest,
+  SearchMessageTemplatesRequest & RegionInput,
   SearchMessageTemplatesResponse,
   SearchMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5692,7 +5714,7 @@ export type SearchQuickResponsesError =
  * Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
  */
 export const searchQuickResponses: API.PaginatedOperationMethod<
-  SearchQuickResponsesRequest,
+  SearchQuickResponsesRequest & RegionInput,
   SearchQuickResponsesResponse,
   SearchQuickResponsesError,
   Credentials | HttpClient.HttpClient,
@@ -5730,7 +5752,7 @@ export type SearchSessionsError =
  * Searches for sessions.
  */
 export const searchSessions: API.PaginatedOperationMethod<
-  SearchSessionsRequest,
+  SearchSessionsRequest & RegionInput,
   SearchSessionsResponse,
   SearchSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -5771,7 +5793,7 @@ export type SendMessageError =
  * Submits a message to the Amazon Q in Connect session.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResponse,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -5805,7 +5827,7 @@ export type StartContentUploadError =
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
  */
 export const startContentUpload: API.OperationMethod<
-  StartContentUploadRequest,
+  StartContentUploadRequest & RegionInput,
   StartContentUploadResponse,
   StartContentUploadError,
   Credentials | HttpClient.HttpClient
@@ -5839,7 +5861,7 @@ export type StartImportJobError =
  * - For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
 export const startImportJob: API.OperationMethod<
-  StartImportJobRequest,
+  StartImportJobRequest & RegionInput,
   StartImportJobResponse,
   StartImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5866,7 +5888,7 @@ export type TagResourceError = ResourceNotFoundException | TooManyTagsException 
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5886,7 +5908,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5913,7 +5935,7 @@ export type UpdateAIAgentError =
  * Updates an AI Agent.
  */
 export const updateAIAgent: API.OperationMethod<
-  UpdateAIAgentRequest,
+  UpdateAIAgentRequest & RegionInput,
   UpdateAIAgentResponse,
   UpdateAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -5947,7 +5969,7 @@ export type UpdateAIGuardrailError =
  * Updates an AI Guardrail.
  */
 export const updateAIGuardrail: API.OperationMethod<
-  UpdateAIGuardrailRequest,
+  UpdateAIGuardrailRequest & RegionInput,
   UpdateAIGuardrailResponse,
   UpdateAIGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -5981,7 +6003,7 @@ export type UpdateAIPromptError =
  * Updates an AI Prompt.
  */
 export const updateAIPrompt: API.OperationMethod<
-  UpdateAIPromptRequest,
+  UpdateAIPromptRequest & RegionInput,
   UpdateAIPromptResponse,
   UpdateAIPromptError,
   Credentials | HttpClient.HttpClient
@@ -6013,7 +6035,7 @@ export type UpdateAssistantAIAgentError =
  * Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
 export const updateAssistantAIAgent: API.OperationMethod<
-  UpdateAssistantAIAgentRequest,
+  UpdateAssistantAIAgentRequest & RegionInput,
   UpdateAssistantAIAgentResponse,
   UpdateAssistantAIAgentError,
   Credentials | HttpClient.HttpClient
@@ -6044,7 +6066,7 @@ export type UpdateContentError =
  * Updates information about the content.
  */
 export const updateContent: API.OperationMethod<
-  UpdateContentRequest,
+  UpdateContentRequest & RegionInput,
   UpdateContentResponse,
   UpdateContentError,
   Credentials | HttpClient.HttpClient
@@ -6074,7 +6096,7 @@ export type UpdateKnowledgeBaseTemplateUriError =
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an `Id` value, and you can set the template URI to `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
 export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
-  UpdateKnowledgeBaseTemplateUriRequest,
+  UpdateKnowledgeBaseTemplateUriRequest & RegionInput,
   UpdateKnowledgeBaseTemplateUriResponse,
   UpdateKnowledgeBaseTemplateUriError,
   Credentials | HttpClient.HttpClient
@@ -6100,7 +6122,7 @@ export type UpdateMessageTemplateError =
  * Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the `$LATEST` qualifier. Any modification will only apply to the message template that is referenced by the `$LATEST` qualifier. The fields for all available versions will remain unchanged.
  */
 export const updateMessageTemplate: API.OperationMethod<
-  UpdateMessageTemplateRequest,
+  UpdateMessageTemplateRequest & RegionInput,
   UpdateMessageTemplateResponse,
   UpdateMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6132,7 +6154,7 @@ export type UpdateMessageTemplateMetadataError =
  * Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template's name, description and grouping configuration will applied to the message template pointed by the `$LATEST` qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
  */
 export const updateMessageTemplateMetadata: API.OperationMethod<
-  UpdateMessageTemplateMetadataRequest,
+  UpdateMessageTemplateMetadataRequest & RegionInput,
   UpdateMessageTemplateMetadataResponse,
   UpdateMessageTemplateMetadataError,
   Credentials | HttpClient.HttpClient
@@ -6165,7 +6187,7 @@ export type UpdateQuickResponseError =
  * Updates an existing Amazon Q in Connect quick response.
  */
 export const updateQuickResponse: API.OperationMethod<
-  UpdateQuickResponseRequest,
+  UpdateQuickResponseRequest & RegionInput,
   UpdateQuickResponseResponse,
   UpdateQuickResponseError,
   Credentials | HttpClient.HttpClient
@@ -6197,7 +6219,7 @@ export type UpdateSessionError =
  * Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
@@ -6227,7 +6249,7 @@ export type UpdateSessionDataError =
  * Updates the data stored on an Amazon Q in Connect Session.
  */
 export const updateSessionData: API.OperationMethod<
-  UpdateSessionDataRequest,
+  UpdateSessionDataRequest & RegionInput,
   UpdateSessionDataResponse,
   UpdateSessionDataError,
   Credentials | HttpClient.HttpClient

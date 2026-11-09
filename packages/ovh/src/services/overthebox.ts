@@ -41,11 +41,11 @@ export interface CreateOverTheBoxChangeContactRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateOverTheBoxChangeContactResponseBodyList = Array<number>;
 export type CreateOverTheBoxChangeContactResponse = CreateOverTheBoxChangeContactResponseBodyList;
@@ -53,10 +53,10 @@ export interface CreateOverTheBoxDeviceRequest {}
 /** A device for registration */
 export interface OverTheBoxDeviceForRegistration {
   /** Whether or not this device is actived */
-  activated?: boolean;
-  deviceId?: string;
+  activated?: boolean | undefined;
+  deviceId?: string | undefined;
   /** The last time this device was seen on the provisionning servers */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
 }
 export type CreateOverTheBoxDeviceResponseBodyList = Array<OverTheBoxDeviceForRegistration>;
 export type CreateOverTheBoxDeviceResponse = CreateOverTheBoxDeviceResponseBodyList;
@@ -71,19 +71,19 @@ export type OverTheBoxActionStatusEnum = "doing" | "done" | "error" | "todo";
 /** Device action */
 export interface OverTheBoxDeviceAction {
   /** The id of the action */
-  actionId?: string;
+  actionId?: string | undefined;
   /** Date of creation of the action */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The details of the action */
-  details?: string;
+  details?: string | undefined;
   /** The name of the action */
-  name?: string;
+  name?: string | undefined;
   /** The status of the action */
-  status?: OverTheBoxActionStatusEnum;
+  status?: OverTheBoxActionStatusEnum | undefined;
   /** Date of execution of the action */
-  todoDate?: string;
+  todoDate?: string | undefined;
   /** Last time the action was updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreateOverTheBoxDeviceBackupRequest {
   /** The internal name of your overTheBox offer */
@@ -96,9 +96,9 @@ export interface CreateOverTheBoxDeviceLogRequest {
 /** Temporary url informations */
 export interface OverTheBoxTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateOverTheBoxLinkDeviceRequest {
   /** The internal name of your overTheBox offer */
@@ -118,46 +118,46 @@ export interface CreateOverTheBoxMigrationChangeOfferRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** Name of the hardware */
-  hardwareName?: string;
+  hardwareName?: string | undefined;
   /** Offer name to migrate to */
   offer: string;
   /** In case of hardware and if a shipping custom address is desired */
-  shippingContactID?: string;
+  shippingContactID?: string | undefined;
 }
 /** Migration order */
 export interface OverTheBoxOrderMigration {
   /** Id of the migration order */
-  orderId?: string;
+  orderId?: string | undefined;
   /** URL of the migration order */
-  orderUrl?: string;
+  orderUrl?: string | undefined;
 }
 export interface CreateOverTheBoxRemoteAccessRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** IP block from which the remote access will be allowed (the default value is the IP from which the call is made) */
-  allowedIp?: string;
+  allowedIp?: string | undefined;
   /** The expirationDate of the remote access (default 1 day) */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The port that the device will expose */
   exposedPort: number;
   /** The remote user public key authorized on the device (for SSH purpose) */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 /** All the infos needed to connect yourself to your OTB */
 export interface OverTheBoxRemoteAccessConnectionInfos {
   /** IP to connect to when accessing the device remotely */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Port to connect to when accessing the device remotely */
-  port?: number | null;
+  port?: number | null | undefined;
 }
 /** Infos about the remote user */
 export interface OverTheBoxRemoteAccessUserInfos {
   /** IP from which the remote access will be allowed */
-  ip?: string;
+  ip?: string | undefined;
   /** The public key authorized on the device (for SSH purpose) */
-  publicKey?: string | null;
+  publicKey?: string | null | undefined;
   /** The user that will access the device remotely */
-  user?: string;
+  user?: string | undefined;
 }
 /** Status of the remote access. */
 export type OverTheBoxRemoteAccessStatusEnum =
@@ -172,27 +172,27 @@ export type OverTheBoxRemoteAccessStatusEnum =
 /** If authorized, a remote access will expose a port, allowing an access to the device remotely */
 export interface OverTheBoxRemoteAccess {
   /** If the remote access was accepted by the remote user */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
   /** The date of the remote access demand */
-  askDate?: string;
+  askDate?: string | undefined;
   /** The user that authorized the remote access */
-  authorizedBy?: string | null;
+  authorizedBy?: string | null | undefined;
   /** All the infos needed to connect yourself to your OTB */
-  connectionInfos?: OverTheBoxRemoteAccessConnectionInfos;
+  connectionInfos?: OverTheBoxRemoteAccessConnectionInfos | undefined;
   /** When the remote access was deleted */
-  deletedAt?: string | null;
+  deletedAt?: string | null | undefined;
   /** Info about the docker version */
-  dockerVersion?: string;
+  dockerVersion?: string | undefined;
   /** When the remote access will be automatically deleted */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The device's port which will be exposed */
-  exposedPort?: number;
+  exposedPort?: number | undefined;
   /** The id of the remote access */
-  remoteAccessId?: string;
+  remoteAccessId?: string | undefined;
   /** Infos about the remote user */
-  remoteUserInfos?: OverTheBoxRemoteAccessUserInfos;
+  remoteUserInfos?: OverTheBoxRemoteAccessUserInfos | undefined;
   /** Status of the remote access */
-  status?: OverTheBoxRemoteAccessStatusEnum;
+  status?: OverTheBoxRemoteAccessStatusEnum | undefined;
 }
 export interface DeleteOverTheBoxRequest {
   /** The internal name of your overTheBox offer */
@@ -229,24 +229,24 @@ export type OverTheBoxServiceConfigurationModeEnum = "autoconfigure" | "local";
 /** Parameters required to query metrics from OpenTSDB */
 export interface OverTheBoxGraphEndpoint {
   /** The OpenTSDB host */
-  host?: string;
+  host?: string | undefined;
   /** A read-only token */
-  readToken?: string;
+  readToken?: string | undefined;
   /** The read-only token ID */
-  readTokenID?: string;
+  readTokenID?: string | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Status of the service. */
 export type OverTheBoxServiceStatusEnum =
@@ -261,35 +261,35 @@ export type OverTheBoxTunnelModeEnum = "glorytun" | "glorytun_hybrid" | "glorytu
 /** Service */
 export interface OverTheBoxServiceWithIAM {
   /** If the socks proxy is enabled */
-  SOCKSProxyEnabled?: boolean;
+  SOCKSProxyEnabled?: boolean | undefined;
   /** The status of the autoMTU */
-  autoMTU?: OverTheBoxAvailableStatusEnum;
+  autoMTU?: OverTheBoxAvailableStatusEnum | undefined;
   /** Enable device auto upgrade */
-  autoUpgrade?: boolean;
+  autoUpgrade?: boolean | undefined;
   /** The service maximum bandwidth in bits */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Configuration mode of the service */
-  configurationMode?: OverTheBoxServiceConfigurationModeEnum;
+  configurationMode?: OverTheBoxServiceConfigurationModeEnum | undefined;
   /** Editable field for customer */
-  customerDescription?: string | null;
+  customerDescription?: string | null | undefined;
   /** Parameters needed to fetch metrics */
-  graphEndpoint?: OverTheBoxGraphEndpoint | null;
+  graphEndpoint?: OverTheBoxGraphEndpoint | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Indicates if IPv6 is enabled */
-  ipv6Enabled?: boolean;
+  ipv6Enabled?: boolean | undefined;
   /** The service offer */
-  offer?: string;
+  offer?: string | undefined;
   /** The service pretty offer name */
-  prettyOfferName?: string;
+  prettyOfferName?: string | undefined;
   /** Release channel of the service */
-  releaseChannel?: string;
+  releaseChannel?: string | undefined;
   /** The name of the service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The status of the service */
-  status?: OverTheBoxServiceStatusEnum;
+  status?: OverTheBoxServiceStatusEnum | undefined;
   /** The tunnel mode of the service */
-  tunnelMode?: OverTheBoxTunnelModeEnum;
+  tunnelMode?: OverTheBoxTunnelModeEnum | undefined;
 }
 export interface GetOverTheBoxBackupRequest {
   /** The internal name of your overTheBox offer */
@@ -300,11 +300,11 @@ export interface GetOverTheBoxBackupRequest {
 /** Backup */
 export interface OverTheBoxBackup {
   /** The id of the backup */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Date of the creation of the backup */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The id of the device action that triggered the backup */
-  deviceActionId?: string | null;
+  deviceActionId?: string | null | undefined;
 }
 export interface GetOverTheBoxDeviceRequest {
   /** The internal name of your overTheBox offer */
@@ -317,63 +317,63 @@ export type OverTheBoxMultipathStatusEnum = "backup" | "handover" | "master" | "
 /** Infos about a network interface */
 export interface OverTheBoxDeviceInterface {
   /** Device of the interface */
-  device?: string | null;
+  device?: string | null | undefined;
   /** The DNS servers of this interface */
-  dnsServers?: OverTheBoxDeviceInterfaceDnsServersList | null;
+  dnsServers?: OverTheBoxDeviceInterfaceDnsServersList | null | undefined;
   /** Gateway of the interface */
-  gateway?: string | null;
+  gateway?: string | null | undefined;
   /** IP of the interface */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Status of MPTCP on this interface */
-  multipathStatus?: OverTheBoxMultipathStatusEnum;
+  multipathStatus?: OverTheBoxMultipathStatusEnum | undefined;
   /** Name of the interface */
-  name?: string;
+  name?: string | undefined;
   /** Netmask of the interface */
-  netmask?: string | null;
+  netmask?: string | null | undefined;
   /** Public IP of the interface */
-  publicIp?: string | null;
+  publicIp?: string | null | undefined;
 }
 /** Network interfaces of the device */
 export type OverTheBoxDeviceNetworkInterfacesList = Array<OverTheBoxDeviceInterface>;
 /** Infos about a device system */
 export interface OverTheBoxDeviceSystem {
   /** Device CPU */
-  cpu?: string | null;
+  cpu?: string | null | undefined;
   /** Device hostname */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Device linux kernel version */
-  kernel?: string | null;
+  kernel?: string | null | undefined;
   /** Device mac address (first interface mac) */
-  mac?: string | null;
+  mac?: string | null | undefined;
   /** Device model */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Name of the device board */
-  name?: string | null;
+  name?: string | null | undefined;
   /** OVH offer name of the device board */
-  offerName?: string | null;
+  offerName?: string | null | undefined;
   /** OVH name of the device board */
-  ovhName?: string | null;
+  ovhName?: string | null | undefined;
 }
 /** Device */
 export interface OverTheBoxDevice {
   /** Whether or not this device is associated to a service */
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** Whether or not an upate is available for this device */
-  availableUpdate?: boolean;
+  availableUpdate?: boolean | undefined;
   /** The id of the device */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Last time the device has been seen on the provisionning servers */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** Network interfaces of the device */
-  networkInterfaces?: OverTheBoxDeviceNetworkInterfacesList;
+  networkInterfaces?: OverTheBoxDeviceNetworkInterfacesList | undefined;
   /** The public IP of the device */
-  publicIp?: string;
+  publicIp?: string | undefined;
   /** Device system information */
-  system?: OverTheBoxDeviceSystem | null;
+  system?: OverTheBoxDeviceSystem | null | undefined;
   /** System version of the device */
-  systemVersion?: string;
+  systemVersion?: string | undefined;
   /** Version of the device */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetOverTheBoxDeviceActionRequest {
   /** The internal name of your overTheBox offer */
@@ -388,17 +388,17 @@ export interface GetOverTheBoxDeviceHardwareRequest {
 /** Hardware properties */
 export interface OverTheBoxHardware {
   /** True if hardware can be linked to a service without deviceID */
-  canBeLinkedToService?: boolean;
+  canBeLinkedToService?: boolean | undefined;
   /** Hardware MAC address */
-  mac?: string | null;
+  mac?: string | null | undefined;
   /** Hardware model */
-  model?: string;
+  model?: string | undefined;
   /** Hardware name */
-  name?: string;
+  name?: string | undefined;
   /** The hardware pretty model name */
-  prettyModelName?: string;
+  prettyModelName?: string | undefined;
   /** Hardware serial */
-  serial?: string;
+  serial?: string | undefined;
 }
 export interface GetOverTheBoxHardwareRequest {
   /** The internal name of your hardware */
@@ -407,19 +407,19 @@ export interface GetOverTheBoxHardwareRequest {
 /** Hardware properties */
 export interface OverTheBoxHardwareWithIAM {
   /** True if hardware can be linked to a service without deviceID */
-  canBeLinkedToService?: boolean;
+  canBeLinkedToService?: boolean | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Hardware MAC address */
-  mac?: string | null;
+  mac?: string | null | undefined;
   /** Hardware model */
-  model?: string;
+  model?: string | undefined;
   /** Hardware name */
-  name?: string;
+  name?: string | undefined;
   /** The hardware pretty model name */
-  prettyModelName?: string;
+  prettyModelName?: string | undefined;
   /** Hardware serial */
-  serial?: string;
+  serial?: string | undefined;
 }
 export interface GetOverTheBoxIpsRequest {
   /** The internal name of your overTheBox offer */
@@ -436,15 +436,15 @@ export type OtbServiceIpVersionEnum = "v4" | "v6";
 /** Service IP details */
 export interface OtbServiceIp {
   /** IP geolocation */
-  geolocation?: OtbServiceIpGeolocationEnum;
+  geolocation?: OtbServiceIpGeolocationEnum | undefined;
   /** IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** IP cidr prefix */
-  range?: number;
+  range?: number | undefined;
   /** IP status */
-  status?: OtbServiceIpStatusEnum;
+  status?: OtbServiceIpStatusEnum | undefined;
   /** IP version */
-  version?: OtbServiceIpVersionEnum;
+  version?: OtbServiceIpVersionEnum | undefined;
 }
 export interface GetOverTheBoxRemoteAccessRequest {
   /** The internal name of your overTheBox offer */
@@ -461,15 +461,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -491,21 +491,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetOverTheBoxTaskRequest {
   /** The internal name of your overTheBox offer */
@@ -518,11 +518,11 @@ export type OverTheBoxTaskStatusEnum = "doing" | "done" | "error" | "todo";
 /** Task */
 export interface OverTheBoxTask {
   /** The name of the task */
-  name?: string;
+  name?: string | undefined;
   /** The status of the task */
-  status?: OverTheBoxTaskStatusEnum;
+  status?: OverTheBoxTaskStatusEnum | undefined;
   /** The id of the task */
-  taskId?: string;
+  taskId?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -532,7 +532,7 @@ export type ListOverTheBoxRequestIamTagsMap = {
 };
 export interface ListOverTheBoxRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListOverTheBoxRequestIamTagsMap;
+  iamTags?: ListOverTheBoxRequestIamTagsMap | undefined;
 }
 export type ListOverTheBoxResponseBodyList = Array<string>;
 export type ListOverTheBoxResponse = ListOverTheBoxResponseBodyList;
@@ -558,9 +558,9 @@ export interface ListOverTheBoxDeviceActionsRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** Filter the value of name property (=) */
-  name?: string;
+  name?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: OverTheBoxActionStatusEnum | (string & {});
+  status?: OverTheBoxActionStatusEnum | (string & {}) | undefined;
 }
 export type ListOverTheBoxDeviceActionsResponseBodyList = Array<string>;
 export type ListOverTheBoxDeviceActionsResponse = ListOverTheBoxDeviceActionsResponseBodyList;
@@ -571,9 +571,9 @@ export interface ListOverTheBoxDeviceAvailableActionsRequest {
 /** Device action */
 export interface OverTheBoxAvailableDeviceAction {
   /** Description of the action */
-  description?: string;
+  description?: string | undefined;
   /** Name of the action */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListOverTheBoxDeviceAvailableActionsResponseBodyList =
   Array<OverTheBoxAvailableDeviceAction>;
@@ -585,7 +585,7 @@ export type ListOverTheBoxHardwareRequestIamTagsMap = {
 };
 export interface ListOverTheBoxHardwareRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListOverTheBoxHardwareRequestIamTagsMap;
+  iamTags?: ListOverTheBoxHardwareRequestIamTagsMap | undefined;
 }
 export type ListOverTheBoxHardwareResponseBodyList = Array<string>;
 export type ListOverTheBoxHardwareResponse = ListOverTheBoxHardwareResponseBodyList;
@@ -621,41 +621,41 @@ export type OrderCurrencyCodeEnum =
   | "points";
 /** Price with it's currency and textual representation */
 export interface OrderPrice {
-  currencyCode?: OrderCurrencyCodeEnum;
-  text?: string;
-  value?: number;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
 }
 /** Details of available hardwares */
 export interface OverTheBoxHardwareDetails {
   /** Pretty hardware model name */
-  hardwareDisplayName?: string | null;
+  hardwareDisplayName?: string | null | undefined;
   /** Name of the hardware */
-  hardwareName?: string | null;
+  hardwareName?: string | null | undefined;
   /** Hardware purchase price */
-  hardwarePrice?: OrderPrice | null;
+  hardwarePrice?: OrderPrice | null | undefined;
 }
 /** Details of available hardwares */
 export type OverTheBoxAvailableMigrationOfferHardwaresList = Array<OverTheBoxHardwareDetails>;
 /** Migration offer */
 export interface OverTheBoxAvailableMigrationOffer {
   /** Monthly price of the current offer */
-  currentOfferPrice?: OrderPrice;
+  currentOfferPrice?: OrderPrice | undefined;
   /** Description of the offer */
-  description?: string;
+  description?: string | undefined;
   /** Number of months of engagement */
-  engagementMonths?: number;
+  engagementMonths?: number | undefined;
   /** Specify if a hardware is available */
-  hardwareAvailable?: boolean;
+  hardwareAvailable?: boolean | undefined;
   /** Name of the hardware */
-  hardwareName?: string | null;
+  hardwareName?: string | null | undefined;
   /** Hardware purchase price */
-  hardwarePrice?: OrderPrice | null;
+  hardwarePrice?: OrderPrice | null | undefined;
   /** Details of available hardwares */
-  hardwares?: OverTheBoxAvailableMigrationOfferHardwaresList;
+  hardwares?: OverTheBoxAvailableMigrationOfferHardwaresList | undefined;
   /** Name of the offer */
-  offer?: string;
+  offer?: string | undefined;
   /** Monthly price of the new offer */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
 }
 export type ListOverTheBoxMigrationOffersResponseBodyList =
   Array<OverTheBoxAvailableMigrationOffer>;
@@ -676,23 +676,23 @@ export interface ListOverTheBoxStatisticsRequest {
   /** Type of metrics you want to retrieve */
   metricsType: OtbDeviceStatisticsTypeEnum | (string & {});
   /** Period (default is daily) */
-  period?: OtbDeviceStatisticsPeriodEnum | (string & {});
+  period?: OtbDeviceStatisticsPeriodEnum | (string & {}) | undefined;
 }
 /** Statistics Datapoint */
 export interface OtbDeviceStatisticsPoint {
   /** Timestamp */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** Datapoint value */
-  value?: number | null;
+  value?: number | null | undefined;
 }
 /** List of point */
 export type OtbDeviceStatisticsPointsList = Array<OtbDeviceStatisticsPoint>;
 /** Tags for the metrics */
 export interface OtbDeviceStatisticsTag {
   /** Name of tag */
-  name?: string;
+  name?: string | undefined;
   /** Value of tag */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** List of tags */
 export type OtbDeviceStatisticsTagsList = Array<OtbDeviceStatisticsTag>;
@@ -701,13 +701,13 @@ export type OtbDeviceStatisticsUnitEnum = "bps" | "byte" | "n/a";
 /** Device Statistics Datapoints */
 export interface OtbDeviceStatistics {
   /** Name of the serie */
-  name?: string;
+  name?: string | undefined;
   /** List of point */
-  points?: OtbDeviceStatisticsPointsList;
+  points?: OtbDeviceStatisticsPointsList | undefined;
   /** List of tags */
-  tags?: OtbDeviceStatisticsTagsList;
+  tags?: OtbDeviceStatisticsTagsList | undefined;
   /** Unit of the serie */
-  unit?: OtbDeviceStatisticsUnitEnum;
+  unit?: OtbDeviceStatisticsUnitEnum | undefined;
 }
 export type ListOverTheBoxStatisticsResponseBodyList = Array<OtbDeviceStatistics>;
 export type ListOverTheBoxStatisticsResponse = ListOverTheBoxStatisticsResponseBodyList;
@@ -715,9 +715,9 @@ export interface ListOverTheBoxTasksRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** Filter the value of name property (=) */
-  name?: string;
+  name?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: OverTheBoxTaskStatusEnum | (string & {});
+  status?: OverTheBoxTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListOverTheBoxTasksResponseBodyList = Array<string>;
 export type ListOverTheBoxTasksResponse = ListOverTheBoxTasksResponseBodyList;
@@ -725,11 +725,11 @@ export interface PutOverTheBoxRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** Enable device auto upgrade */
-  autoUpgrade?: boolean;
+  autoUpgrade?: boolean | undefined;
   /** Editable field for customer */
-  customerDescription?: string | null;
+  customerDescription?: string | null | undefined;
   /** Release channel of the service */
-  releaseChannel?: string;
+  releaseChannel?: string | undefined;
 }
 export interface PutOverTheBoxResponse {}
 export interface PutOverTheBoxAutoMTURequest {
@@ -749,7 +749,7 @@ export interface PutOverTheBoxServiceInfosRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutOverTheBoxServiceInfosResponse {}
 export interface RestoreOverTheBoxDeviceBackupRequest {

@@ -103,7 +103,7 @@ export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GoogleLongrunningCancelOperationRequest;
+  body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -118,135 +118,139 @@ export type GoogleChromeManagementVersionsV1CheckEnablementStatusResponseInsight
 /** Response from checking the enablement status of insights for the customer. */
 export interface GoogleChromeManagementVersionsV1CheckEnablementStatusResponse {
   /** The state of the insights feature. */
-  insightsState?: GoogleChromeManagementVersionsV1CheckEnablementStatusResponseInsightsStateEnum;
+  insightsState?:
+    | GoogleChromeManagementVersionsV1CheckEnablementStatusResponseInsightsStateEnum
+    | undefined;
 }
 /** Request message for claiming a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest {
   /** Required. The instance id of the caller. */
-  callerInstanceId?: string;
+  callerInstanceId?: string | undefined;
 }
 export interface ClaimCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to claim. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest;
+  body?: GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest | undefined;
 }
 /** Response message for claiming a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse {}
 export interface CountActiveDevicesCustomersReportsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "date.month"?: number;
+  "date.month"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "date.day"?: number;
+  "date.day"?: number | undefined;
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "date.year"?: number;
+  "date.year"?: number | undefined;
 }
 /** Response containing the number of active devices. */
 export interface GoogleChromeManagementV1CountActiveDevicesResponse {
   /** Number of active devices in the 30 days leading up to the date specified in the request. */
-  thirtyDaysCount?: string;
+  thirtyDaysCount?: string | undefined;
   /** Number of active devices in the 7 days leading up to the date specified in the request. */
-  sevenDaysCount?: string;
+  sevenDaysCount?: string | undefined;
 }
 export interface CountChromeAppRequestsCustomersAppsRequest {
   /** Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field used to order results. Supported fields: * request_count * latest_request_time */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Maximum number of results to return. Maximum and default are 50, anything above will be coerced to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Details of an app installation request. */
 export interface GoogleChromeManagementV1ChromeAppRequest {
   /** Output only. Format: app_details=customers/{customer_id}/apps/chrome/{app_id} */
-  appDetails?: string;
+  appDetails?: string | undefined;
   /** Output only. A link to an image that can be used as an icon for the product. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** Output only. Unique store identifier for the app. Example: "gmbmikajjgmnabiglmofipeabaddhgne" for the Save to Google Drive Chrome extension. */
-  appId?: string;
+  appId?: string | undefined;
   /** Output only. The uri for the detail page of the item. */
-  detailUri?: string;
+  detailUri?: string | undefined;
   /** Output only. Total count of requests for this app. */
-  requestCount?: string;
+  requestCount?: string | undefined;
   /** Output only. The timestamp of the most recently made request for this app. */
-  latestRequestTime?: string;
+  latestRequestTime?: string | undefined;
   /** Output only. App's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleChromeManagementV1ChromeAppRequestList =
   Array<GoogleChromeManagementV1ChromeAppRequest>;
 /** Response containing summary of requested app installations. */
 export interface GoogleChromeManagementV1CountChromeAppRequestsResponse {
   /** Count of requested apps matching request. */
-  requestedApps?: GoogleChromeManagementV1ChromeAppRequestList;
+  requestedApps?: GoogleChromeManagementV1ChromeAppRequestList | undefined;
   /** Token to specify the next page in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total number of matching app requests. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface CountChromeBrowsersNeedingAttentionCustomersReportsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
   /** Optional. The ID of the organizational unit. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 /** Response containing counts for browsers that need attention. */
 export interface GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse {
   /** Number of browsers that have been recently enrolled */
-  recentlyEnrolledCount?: string;
+  recentlyEnrolledCount?: string | undefined;
   /** Number of browsers that are pending an OS update */
-  pendingBrowserUpdateCount?: string;
+  pendingBrowserUpdateCount?: string | undefined;
   /** Number of browsers that haven't had any recent activity */
-  noRecentActivityCount?: string;
+  noRecentActivityCount?: string | undefined;
 }
 export interface CountChromeCrashEventsCustomersReportsRequest {
   /** Customer ID. */
   customer: string;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Supported filter fields: * major_browser_version * minor_browser_version * browser_channel * device_platform * past_number_days Example: `major_browser_version = 'M115' AND past_number_days = '28'`. */
-  filter?: string;
+  filter?: string | undefined;
   /** If specified, only count the number of crash events of the devices in this organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Field used to order results. Supported order by fields: * browser_version * count * date */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface GoogleTypeDate {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
 }
 /** The `count` of the Chrome crash events at the `date`. */
 export interface GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCount {
   /** Browser version this is counting. */
-  browserVersion?: string;
+  browserVersion?: string | undefined;
   /** Date of the crash event. */
-  date?: GoogleTypeDate;
+  date?: GoogleTypeDate | undefined;
   /** Total count of crash events. */
-  count?: string;
+  count?: string | undefined;
 }
 export type GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCountList =
   Array<GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCount>;
 /** Response contains a list of CrashEventCountByVersionPerDay which count the chrome crash at the certain date. */
 export interface GoogleChromeManagementV1CountChromeCrashEventsResponse {
   /** Crash event counts grouped by date and browser version. */
-  crashEventCounts?: GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCountList;
+  crashEventCounts?:
+    | GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCountList
+    | undefined;
 }
 export interface CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest {
   /** Optional. The organizational unit ID, if omitted, will return data for all organizational units. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Optional. Maximum expiration date in format yyyy-mm-dd in UTC timezone. If included returns all devices that have already expired and devices with auto expiration date equal to or later than the minimum date. */
-  minAueDate?: string;
+  minAueDate?: string | undefined;
   /** Optional. Maximum expiration date in format yyyy-mm-dd in UTC timezone. If included returns all devices that have already expired and devices with auto expiration date equal to or earlier than the maximum date. */
-  maxAueDate?: string;
+  maxAueDate?: string | undefined;
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
 }
@@ -267,83 +271,83 @@ export type GoogleChromeManagementV1DeviceAueCountReportAueMonthEnum =
 /** Report for CountChromeDevicesPerAueDateResponse, contains the count of devices of a specific model and auto update expiration range. */
 export interface GoogleChromeManagementV1DeviceAueCountReport {
   /** Boolean value for whether or not the device has already expired. */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** Public model name of the devices. */
-  model?: string;
+  model?: string | undefined;
   /** Count of devices of this model. */
-  count?: string;
+  count?: string | undefined;
   /** Int value of year corresponding to the Auto Update Expiration date in UTC time zone. If the device is already expired, this field is empty. */
-  aueYear?: string;
+  aueYear?: string | undefined;
   /** Enum value of month corresponding to the auto update expiration date in UTC time zone. If the device is already expired, this field is empty. */
-  aueMonth?: GoogleChromeManagementV1DeviceAueCountReportAueMonthEnum;
+  aueMonth?: GoogleChromeManagementV1DeviceAueCountReportAueMonthEnum | undefined;
 }
 export type GoogleChromeManagementV1DeviceAueCountReportList =
   Array<GoogleChromeManagementV1DeviceAueCountReport>;
 /** Response containing a list of devices expiring in each month of a selected time frame. Counts are grouped by model and Auto Update Expiration date. */
 export interface GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse {
   /** The list of reports sorted by auto update expiration date in ascending order. */
-  deviceAueCountReports?: GoogleChromeManagementV1DeviceAueCountReportList;
+  deviceAueCountReports?: GoogleChromeManagementV1DeviceAueCountReportList | undefined;
 }
 export interface CountChromeDevicesThatNeedAttentionCustomersReportsRequest {
   /** Optional. The ID of the organizational unit. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Required. Mask of the fields that should be populated in the returned report. */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
 }
 /** Response containing counts for devices that need attention. */
 export interface GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse {
   /** Number of ChromeOS devices that have not seen any user activity in the past 28 days. */
-  noRecentUserActivityCount?: string;
+  noRecentUserActivityCount?: string | undefined;
   /** Number of ChromeOS devices have not synced policies in the past 28 days. */
-  noRecentPolicySyncCount?: string;
+  noRecentPolicySyncCount?: string | undefined;
   /** Number of devices that are pending an OS update. */
-  pendingUpdate?: string;
+  pendingUpdate?: string | undefined;
   /** Number of devices that are unable to apply a policy due to an OS version mismatch. */
-  unsupportedPolicyCount?: string;
+  unsupportedPolicyCount?: string | undefined;
   /** Number of devices whose OS version is not compliant. */
-  osVersionNotCompliantCount?: string;
+  osVersionNotCompliantCount?: string | undefined;
 }
 export interface CountChromeHardwareFleetDevicesCustomersReportsRequest {
   /** Required. The customer ID or "my_customer". */
   customer: string;
   /** Optional. The ID of the organizational unit. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Required. Mask of the fields that should be populated in the returned report. */
-  readMask?: string;
+  readMask?: string | undefined;
 }
 /** Report for CountChromeDevicesPerHardwareSpecResponse, contains the count of devices with a unique hardware specification. */
 export interface GoogleChromeManagementV1DeviceHardwareCountReport {
   /** Count of devices with a unique hardware specification. */
-  count?: string;
+  count?: string | undefined;
   /** Public name of the hardware specification. */
-  bucket?: string;
+  bucket?: string | undefined;
 }
 export type GoogleChromeManagementV1DeviceHardwareCountReportList =
   Array<GoogleChromeManagementV1DeviceHardwareCountReport>;
 /** Response containing a list of devices with a specific type of hardware specification from the requested hardware type. */
 export interface GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse {
   /** The DeviceHardwareCountReport for device memory amount in gigabytes (for example 16). */
-  memoryReports?: GoogleChromeManagementV1DeviceHardwareCountReportList;
+  memoryReports?: GoogleChromeManagementV1DeviceHardwareCountReportList | undefined;
   /** The DeviceHardwareCountReport for device model type (for example Acer C7 Chromebook). */
-  modelReports?: GoogleChromeManagementV1DeviceHardwareCountReportList;
+  modelReports?: GoogleChromeManagementV1DeviceHardwareCountReportList | undefined;
   /** The DeviceHardwareCountReport for device storage amount in gigabytes (for example 128). */
-  storageReports?: GoogleChromeManagementV1DeviceHardwareCountReportList;
+  storageReports?: GoogleChromeManagementV1DeviceHardwareCountReportList | undefined;
   /** The DeviceHardwareCountReport for device cpu type (for example Intel(R) Core(TM) i7-10610U CPU @ 1.80GHz). */
-  cpuReports?: GoogleChromeManagementV1DeviceHardwareCountReportList;
+  cpuReports?: GoogleChromeManagementV1DeviceHardwareCountReportList | undefined;
 }
 export interface CountChromeProfileVersionsCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** Optional. Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Supported filter fields: * last_active_date */
-  filter?: string;
+  filter?: string | undefined;
   /** The ID of the organizational unit. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 export type GoogleChromeManagementV1BrowserVersionSystemEnum =
   | "DEVICE_SYSTEM_UNSPECIFIED"
@@ -363,118 +367,118 @@ export type GoogleChromeManagementV1BrowserVersionChannelEnum =
 /** Describes a browser version and its install count. */
 export interface GoogleChromeManagementV1BrowserVersion {
   /** Output only. Count grouped by device_system and major version */
-  count?: string;
+  count?: string | undefined;
   /** Output only. The full version of the installed browser. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. The device operating system. */
-  system?: GoogleChromeManagementV1BrowserVersionSystemEnum;
+  system?: GoogleChromeManagementV1BrowserVersionSystemEnum | undefined;
   /** Output only. The release channel of the installed browser. */
-  channel?: GoogleChromeManagementV1BrowserVersionChannelEnum;
+  channel?: GoogleChromeManagementV1BrowserVersionChannelEnum | undefined;
   /** Output only. Version of the system-specified operating system. */
-  deviceOsVersion?: string;
+  deviceOsVersion?: string | undefined;
 }
 export type GoogleChromeManagementV1BrowserVersionList =
   Array<GoogleChromeManagementV1BrowserVersion>;
 /** Response containing requested managed profile versions details and counts. */
 export interface GoogleChromeManagementV1CountChromeProfileVersionsResponse {
   /** Token to specify the next page of the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total number browser versions matching request. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** List of all browser versions reported for profiles and their install counts. */
-  profileBrowserVersions?: GoogleChromeManagementV1BrowserVersionList;
+  profileBrowserVersions?: GoogleChromeManagementV1BrowserVersionList | undefined;
 }
 export interface CountChromeVersionsCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Supported filter fields: * last_active_date */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 /** Response containing requested browser versions details and counts. */
 export interface GoogleChromeManagementV1CountChromeVersionsResponse {
   /** Token to specify the next page of the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of all browser versions and their install counts. */
-  browserVersions?: GoogleChromeManagementV1BrowserVersionList;
+  browserVersions?: GoogleChromeManagementV1BrowserVersionList | undefined;
   /** Total number browser versions matching request. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface CountDevicesPerBootTypeCustomersReportsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "date.month"?: number;
+  "date.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "date.year"?: number;
+  "date.year"?: number | undefined;
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "date.day"?: number;
+  "date.day"?: number | undefined;
 }
 /** Response containing the number of devices with the given boot type. */
 export interface GoogleChromeManagementV1CountDevicesPerBootTypeResponse {
   /** Number of devices with dev boot type. */
-  devBootTypeCount?: string;
+  devBootTypeCount?: string | undefined;
   /** Number of devices with verified boot type. */
-  verifiedBootTypeCount?: string;
+  verifiedBootTypeCount?: string | undefined;
   /** Number of devices with unreported boot type. */
-  unreportedBootTypeCount?: string;
+  unreportedBootTypeCount?: string | undefined;
 }
 export interface CountDevicesPerReleaseChannelCustomersReportsRequest {
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "date.day"?: number;
+  "date.day"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "date.month"?: number;
+  "date.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "date.year"?: number;
+  "date.year"?: number | undefined;
 }
 /** Response containing the number of devices with the given channel. */
 export interface GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse {
   /** Number of devices with canary release channel. */
-  canaryChannelCount?: string;
+  canaryChannelCount?: string | undefined;
   /** Number of devices with an unreported release channel. */
-  unreportedChannelCount?: string;
+  unreportedChannelCount?: string | undefined;
   /** Number of devices with beta release channel. */
-  betaChannelCount?: string;
+  betaChannelCount?: string | undefined;
   /** Number of devices with unsupported release channel. */
-  unsupportedChannelCount?: string;
+  unsupportedChannelCount?: string | undefined;
   /** Number of devices with dev release channel. */
-  devChannelCount?: string;
+  devChannelCount?: string | undefined;
   /** Number of devices with lts release channel. */
-  ltsChannelCount?: string;
+  ltsChannelCount?: string | undefined;
   /** Number of devices with ltc release channel. */
-  ltcChannelCount?: string;
+  ltcChannelCount?: string | undefined;
   /** Number of devices with stable release channel. */
-  stableChannelCount?: string;
+  stableChannelCount?: string | undefined;
 }
 export interface CountInstalledAppsCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** Field used to order results. Supported order by fields: * app_name * app_type * install_type * number_of_permissions * total_install_count * app_id * manifest_versions * risk_score */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Supported filter fields: * app_name * app_type * install_type * number_of_permissions * total_install_count * latest_profile_active_date * permission_name * app_id * manifest_versions * risk_score */
-  filter?: string;
+  filter?: string | undefined;
   /** Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Risk assessment for a Chrome extension. */
 export interface GoogleChromeManagementV1RiskAssessment {
   /** A URL that a user can navigate to for more information about the risk assessment. */
-  detailsUrl?: string;
+  detailsUrl?: string | undefined;
   /** The version of the extension that this assessment applies to. */
-  version?: string;
+  version?: string | undefined;
   /** Risk assessment for the extension. Currently, this is a numerical value, and its interpretation is specific to each risk assessment provider. */
-  assessment?: string;
+  assessment?: string | undefined;
 }
 export type GoogleChromeManagementV1RiskAssessmentEntryRiskLevelEnum =
   | "RISK_LEVEL_UNSPECIFIED"
@@ -490,11 +494,11 @@ export type GoogleChromeManagementV1RiskAssessmentEntryProviderEnum =
 /** One risk assessment entry. */
 export interface GoogleChromeManagementV1RiskAssessmentEntry {
   /** Output only. The details of the provider's risk assessment. */
-  riskAssessment?: GoogleChromeManagementV1RiskAssessment;
+  riskAssessment?: GoogleChromeManagementV1RiskAssessment | undefined;
   /** Output only. The bucketed risk level for the risk assessment. */
-  riskLevel?: GoogleChromeManagementV1RiskAssessmentEntryRiskLevelEnum;
+  riskLevel?: GoogleChromeManagementV1RiskAssessmentEntryRiskLevelEnum | undefined;
   /** Output only. The risk assessment provider from which this entry comes from. */
-  provider?: GoogleChromeManagementV1RiskAssessmentEntryProviderEnum;
+  provider?: GoogleChromeManagementV1RiskAssessmentEntryProviderEnum | undefined;
 }
 export type GoogleChromeManagementV1RiskAssessmentEntryList =
   Array<GoogleChromeManagementV1RiskAssessmentEntry>;
@@ -506,9 +510,9 @@ export type GoogleChromeManagementV1RiskAssessmentDataOverallRiskLevelEnum =
 /** Risk assessment data about an extension/app. */
 export interface GoogleChromeManagementV1RiskAssessmentData {
   /** Individual risk assessments. */
-  entries?: GoogleChromeManagementV1RiskAssessmentEntryList;
+  entries?: GoogleChromeManagementV1RiskAssessmentEntryList | undefined;
   /** Overall assessed risk level across all entries. This will be the highest risk level from all entries. */
-  overallRiskLevel?: GoogleChromeManagementV1RiskAssessmentDataOverallRiskLevelEnum;
+  overallRiskLevel?: GoogleChromeManagementV1RiskAssessmentDataOverallRiskLevelEnum | undefined;
 }
 export type GoogleChromeManagementV1InstalledAppAppSourceEnum =
   | "APP_SOURCE_UNSPECIFIED"
@@ -533,119 +537,119 @@ export type GoogleChromeManagementV1InstalledAppAppInstallTypeEnum =
 /** Describes an installed app. */
 export interface GoogleChromeManagementV1InstalledApp {
   /** Output only. Count of browser devices with this app installed. */
-  browserDeviceCount?: string;
+  browserDeviceCount?: string | undefined;
   /** Output only. Unique identifier of the app. For Chrome apps and extensions, the 32-character id (e.g. ehoadneljpdggcbbknedodolkkjodefl). For Android apps, the package name (e.g. com.evernote). */
-  appId?: string;
+  appId?: string | undefined;
   /** Output only. Count of ChromeOS users with this app installed. */
-  osUserCount?: string;
+  osUserCount?: string | undefined;
   /** Output only. If available, the risk assessment data about this extension. */
-  riskAssessment?: GoogleChromeManagementV1RiskAssessmentData;
+  riskAssessment?: GoogleChromeManagementV1RiskAssessmentData | undefined;
   /** Output only. Name of the installed app. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Homepage uri of the installed app. */
-  homepageUri?: string;
+  homepageUri?: string | undefined;
   /** Output only. Description of the installed app. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Source of the installed app. */
-  appSource?: GoogleChromeManagementV1InstalledAppAppSourceEnum;
+  appSource?: GoogleChromeManagementV1InstalledAppAppSourceEnum | undefined;
   /** Output only. Type of the app. */
-  appType?: GoogleChromeManagementV1InstalledAppAppTypeEnum;
+  appType?: GoogleChromeManagementV1InstalledAppAppTypeEnum | undefined;
   /** Output only. Permissions of the installed app. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
   /** Output only. Whether the app is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Output only. Count of Chrome Profiles with this app installed. */
-  profileCount?: string;
+  profileCount?: string | undefined;
   /** Output only. How the app was installed. */
-  appInstallType?: GoogleChromeManagementV1InstalledAppAppInstallTypeEnum;
+  appInstallType?: GoogleChromeManagementV1InstalledAppAppInstallTypeEnum | undefined;
 }
 export type GoogleChromeManagementV1InstalledAppList = Array<GoogleChromeManagementV1InstalledApp>;
 /** Response containing details of queried installed apps. */
 export interface GoogleChromeManagementV1CountInstalledAppsResponse {
   /** List of installed apps matching request. */
-  installedApps?: GoogleChromeManagementV1InstalledAppList;
+  installedApps?: GoogleChromeManagementV1InstalledAppList | undefined;
   /** Total number of installed apps matching request. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Token to specify the next page of the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface CountPrintJobsByPrinterCustomersReportsRequest {
   /** Token to specify the page of the response to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The ID of the organizational unit for printers. If specified, only data for printers from the specified organizational unit will be returned. If omitted, data for printers from all organizational units will be returned. */
-  printerOrgUnitId?: string;
+  printerOrgUnitId?: string | undefined;
   /** Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Field used to order results. If omitted, results will be ordered in ascending order of the 'printer' field. Supported order_by fields: * printer * job_count * device_count * user_count */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Note: Only >= and <= comparators are supported in this filter. Supported filter fields: * complete_time */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Report for CountPrintJobsByPrinter, contains statistics on printer usage. Contains the total number of print jobs initiated with this printer, the number of users and the number of devices that have initiated at least one print job with this printer. */
 export interface GoogleChromeManagementV1PrinterReport {
   /** Printer model. */
-  printerModel?: string;
+  printerModel?: string | undefined;
   /** Printer API ID. */
-  printerId?: string;
+  printerId?: string | undefined;
   /** Number of chrome devices that have been used to send print jobs to the specified printer. */
-  deviceCount?: string;
+  deviceCount?: string | undefined;
   /** Number of users that have sent print jobs to the printer. */
-  userCount?: string;
+  userCount?: string | undefined;
   /** Number of print jobs sent to the printer. */
-  jobCount?: string;
+  jobCount?: string | undefined;
   /** Printer name. */
-  printer?: string;
+  printer?: string | undefined;
 }
 export type GoogleChromeManagementV1PrinterReportList =
   Array<GoogleChromeManagementV1PrinterReport>;
 /** Response containing a summary printing report for each printer from the specified organizational unit for the requested time interval. */
 export interface GoogleChromeManagementV1CountPrintJobsByPrinterResponse {
   /** Total number of printers matching request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
   /** List of PrinterReports matching request. */
-  printerReports?: GoogleChromeManagementV1PrinterReportList;
+  printerReports?: GoogleChromeManagementV1PrinterReportList | undefined;
   /** Pagination token for requesting the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface CountPrintJobsByUserCustomersReportsRequest {
   /** Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** The ID of the organizational unit for printers. If specified, only print jobs initiated with printers from the specified organizational unit will be counted. If omitted, all print jobs will be counted. */
-  printerOrgUnitId?: string;
+  printerOrgUnitId?: string | undefined;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Note: Only >= and <= comparators are supported in this filter. Supported filter fields: * complete_time */
-  filter?: string;
+  filter?: string | undefined;
   /** Field used to order results. If omitted, results will be ordered in ascending order of the 'user_email' field. Supported order_by fields: * user_email * job_count * printer_count * device_count */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Token to specify the page of the response to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Report for CountPrintJobsByUser, contains printing statistics for a user. Contains the number of printers, the number of devices used to initiate print jobs, and the number of print jobs initiated. */
 export interface GoogleChromeManagementV1UserPrintReport {
   /** Number of printers used by the user. */
-  printerCount?: string;
+  printerCount?: string | undefined;
   /** Number of print jobs initiated by the user. */
-  jobCount?: string;
+  jobCount?: string | undefined;
   /** Number of chrome devices that have been used to initiate print jobs by the user. */
-  deviceCount?: string;
+  deviceCount?: string | undefined;
   /** The unique Directory API ID of the user. */
-  userId?: string;
+  userId?: string | undefined;
   /** The primary e-mail address of the user. */
-  userEmail?: string;
+  userEmail?: string | undefined;
 }
 export type GoogleChromeManagementV1UserPrintReportList =
   Array<GoogleChromeManagementV1UserPrintReport>;
 /** Response containing a summary printing report for each user that has initiated a print job with a printer from the specified organizational unit during the requested time interval. */
 export interface GoogleChromeManagementV1CountPrintJobsByUserResponse {
   /** Pagination token for requesting the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total number of users matching request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
   /** List of UserPrintReports matching request. */
-  userPrintReports?: GoogleChromeManagementV1UserPrintReportList;
+  userPrintReports?: GoogleChromeManagementV1UserPrintReportList | undefined;
 }
 export type GoogleChromeManagementVersionsV1ConnectorConfigTypeEnum =
   | "CONNECTOR_TYPE_UNSPECIFIED"
@@ -664,11 +668,14 @@ export type GoogleChromeManagementVersionsV1ConnectorConfigStatusStateEnum =
 /** The status of the connector config. */
 export interface GoogleChromeManagementVersionsV1ConnectorConfigStatus {
   /** Output only. Field recording time of most recent modification of the status. For `ENABLED`, this is the time the status was changed to `ENABLED`. For `DISABLED_BY_FAILURES`, this is the time of the most recent failed attempt to send an event to this config. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Field recording time of the earliest failure since the last success event. This field is only set when the state is `DISABLED_BY_FAILURES`. */
-  failureStartTime?: string;
+  failureStartTime?: string | undefined;
   /** Output only. The state of the connector config. The connector state is disabled if the connector has not successfully sent an event in the last 24 hours. */
-  state?: GoogleChromeManagementVersionsV1ConnectorConfigStatusStateEnum | (string & {});
+  state?:
+    | GoogleChromeManagementVersionsV1ConnectorConfigStatusStateEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleChromeManagementVersionsV1ReportingSettingsEnabledOptInEventsItemEnum =
   | "OPT_IN_EVENT_UNSPECIFIED"
@@ -713,97 +720,103 @@ export type GoogleChromeManagementVersionsV1ReportingSettingsEnabledDeviceEvents
 /** Reporting settings for connector configs. */
 export interface GoogleChromeManagementVersionsV1ReportingSettings {
   /** Optional. The list of opt-in events that are enabled for this config. An empty list disables all opt-in events, and using `ALL_OPT_IN_EVENTS` will enable all opt-in events. */
-  enabledOptInEvents?: GoogleChromeManagementVersionsV1ReportingSettingsEnabledOptInEventsItemEnumList;
+  enabledOptInEvents?:
+    | GoogleChromeManagementVersionsV1ReportingSettingsEnabledOptInEventsItemEnumList
+    | undefined;
   /** Optional. The list of user and browser events that are enabled for this connector. An empty list disables all default events, and using `ALL_DEFAULT_EVENTS` will enable all default events. */
-  enabledDefaultEvents?: GoogleChromeManagementVersionsV1ReportingSettingsEnabledDefaultEventsItemEnumList;
+  enabledDefaultEvents?:
+    | GoogleChromeManagementVersionsV1ReportingSettingsEnabledDefaultEventsItemEnumList
+    | undefined;
   /** Optional. The list of device events that are enabled for this config. An empty list disables all device events, and using `ALL_DEVICE_EVENTS` will enable all device events. */
-  enabledDeviceEvents?: GoogleChromeManagementVersionsV1ReportingSettingsEnabledDeviceEventsItemEnumList;
+  enabledDeviceEvents?:
+    | GoogleChromeManagementVersionsV1ReportingSettingsEnabledDeviceEventsItemEnumList
+    | undefined;
 }
 /** CrowdStrike connector config. */
 export interface GoogleChromeManagementVersionsV1CrowdStrikeConfig {
   /** Required. Input only. API key to use on the ingestion API. Must be at most 50 characters. */
-  apiKey?: string;
+  apiKey?: string | undefined;
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The reporting settings for the CrowdStrike config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
 }
 /** Google SecOps connector config. */
 export interface GoogleChromeManagementVersionsV1GoogleSecOpsConfig {
   /** Required. Host of ingestion API endpoint. Allows customer to upload events to servers in specific geographical regions. Existing configs that don't have this setting default to US. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
   /** Required. Input only. API key to use on the ingestion API. Must be 39 characters. */
-  apiKey?: string;
+  apiKey?: string | undefined;
   /** Required. The reporting settings for the Google SecOps config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
 }
 /** XDR settings for connector configs. */
 export interface GoogleChromeManagementVersionsV1XdrSettings {
   /** Required. Whether to enable all XDR events. */
-  enableAllXdrEvents?: boolean;
+  enableAllXdrEvents?: boolean | undefined;
 }
 /** CrowdStrike XDR connector config. */
 export interface GoogleChromeManagementVersionsV1CrowdStrikeXdrConfig {
   /** Required. The XDR settings for the CrowdStrike XDR config. */
-  xdrSettings?: GoogleChromeManagementVersionsV1XdrSettings;
+  xdrSettings?: GoogleChromeManagementVersionsV1XdrSettings | undefined;
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
   /** Required. Input only. API key to use on the ingestion API. Must be at most 256 characters. */
-  apiKey?: string;
+  apiKey?: string | undefined;
 }
 /** MIP label connector config. */
 export interface GoogleChromeManagementVersionsV1MipLabelConfig {
   /** Required. Microsoft tenant ID. */
-  microsoftTenantId?: string;
+  microsoftTenantId?: string | undefined;
   /** Optional. Domain can be used optionally for the corner case where one Dasher customer ID maps to multiple Microsoft tenant ID. Each domain can be verified with at most one Microsoft tenant. */
-  domains?: StringList;
+  domains?: StringList | undefined;
 }
 /** Pub/Sub connector config. */
 export interface GoogleChromeManagementVersionsV1PubSubConfig {
   /** Required. The reporting settings for the Pub/Sub config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
   /** Required. The full path to the topic to send the event to. Must be at most 1000 characters. */
-  topicFullPath?: string;
+  topicFullPath?: string | undefined;
 }
 /** CrowdStrike Falcon Next Gen connector config. */
 export interface GoogleChromeManagementVersionsV1CrowdStrikeFalconNextGenConfig {
   /** Required. The reporting settings for the CrowdStrike Falcon Next Gen config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
   /** Required. Input only. API key to use on the ingestion API. Must be at most 50 characters. */
-  apiKey?: string;
+  apiKey?: string | undefined;
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
 }
 /** Splunk connector config. */
 export interface GoogleChromeManagementVersionsV1SplunkConfig {
   /** Optional. The port number to use. If not set, the default Splunk port is used. */
-  portNumber?: number;
+  portNumber?: number | undefined;
   /** Optional. Optional source name to override the default one set in the Splunk admin console. Must be at most 100 characters. */
-  source?: string;
+  source?: string | undefined;
   /** Required. Input only. The data input's HTTP Event Collector token to use as an Authorization header. Must be at most 50 characters. */
-  hecToken?: string;
+  hecToken?: string | undefined;
   /** Required. The reporting settings for the Splunk config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
   /** Optional. Whether to use an unsecure HTTP scheme. Defaults to false (HTTPS). */
-  unsecureScheme?: boolean;
+  unsecureScheme?: boolean | undefined;
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
 }
 /** Palo Alto Networks connector config. */
 export interface GoogleChromeManagementVersionsV1PaloAltoNetworksConfig {
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The reporting settings for the Palo Alto Networks config. */
-  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings;
+  reportingSettings?: GoogleChromeManagementVersionsV1ReportingSettings | undefined;
   /** Required. Input only. API key to use on the ingestion API. Must be at most 256 characters. */
-  apiKey?: string;
+  apiKey?: string | undefined;
 }
 /** Pub/Sub XDR connector config. */
 export interface GoogleChromeManagementVersionsV1PubSubXdrConfig {
   /** Required. The full path to the topic to send the event to. Must be at most 1000 characters. */
-  topicFullPath?: string;
+  topicFullPath?: string | undefined;
   /** Required. The XDR settings for the Pub/Sub XDR config. */
-  xdrSettings?: GoogleChromeManagementVersionsV1XdrSettings;
+  xdrSettings?: GoogleChromeManagementVersionsV1XdrSettings | undefined;
 }
 export type GoogleChromeManagementVersionsV1DeviceTrustConfigScopeEnum =
   | "BROWSER_ENFORCEMENT_SCOPE_UNSPECIFIED"
@@ -823,15 +836,16 @@ export type GoogleChromeManagementVersionsV1DeviceTrustConfigServiceProviderEnum
 /** Device trust config for device trust connectors. */
 export interface GoogleChromeManagementVersionsV1DeviceTrustConfig {
   /** Required. The scope at which this configuration will be applied. Note that this only applies to Chrome browser, as in ChromeOS it's always applied. */
-  scope?: GoogleChromeManagementVersionsV1DeviceTrustConfigScopeEnum | (string & {});
+  scope?: GoogleChromeManagementVersionsV1DeviceTrustConfigScopeEnum | (string & {}) | undefined;
   /** Required. A list of email addresses of the service accounts which are allowed to call the Verified Access API with full access. */
-  serviceAccounts?: StringList;
+  serviceAccounts?: StringList | undefined;
   /** Required. List of URLs allowed to be part of the attestation flow to get the set of signals from the machine. URLs must have HTTPS scheme, e.g. "https://example.com". Wildcards, *, are allowed. For detailed information on valid URL patterns, please see https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns. */
-  urlMatchers?: StringList;
+  urlMatchers?: StringList | undefined;
   /** Optional. The service provider for the device trust connector. */
   serviceProvider?:
     | GoogleChromeManagementVersionsV1DeviceTrustConfigServiceProviderEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleChromeManagementVersionsV1SecureGatewayConfigEnabledPlatformsItemEnum =
   | "PLATFORM_UNSPECIFIED"
@@ -843,55 +857,59 @@ export type GoogleChromeManagementVersionsV1SecureGatewayConfigEnabledPlatformsI
 /** Secure gateway connector config. */
 export interface GoogleChromeManagementVersionsV1SecureGatewayConfig {
   /** Optional. The enabled platforms for the secure gateway connector config. */
-  enabledPlatforms?: GoogleChromeManagementVersionsV1SecureGatewayConfigEnabledPlatformsItemEnumList;
+  enabledPlatforms?:
+    | GoogleChromeManagementVersionsV1SecureGatewayConfigEnabledPlatformsItemEnumList
+    | undefined;
   /** Required. The resource ID of the secure gateway connector config. Must be at most 256 characters. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** The details of the connector config. */
 export interface GoogleChromeManagementVersionsV1ConnectorConfigDetails {
   /** CrowdStrike connector config. */
-  crowdStrikeConfig?: GoogleChromeManagementVersionsV1CrowdStrikeConfig;
+  crowdStrikeConfig?: GoogleChromeManagementVersionsV1CrowdStrikeConfig | undefined;
   /** Google SecOps connector config. */
-  googleSecOpsConfig?: GoogleChromeManagementVersionsV1GoogleSecOpsConfig;
+  googleSecOpsConfig?: GoogleChromeManagementVersionsV1GoogleSecOpsConfig | undefined;
   /** CrowdStrike XDR connector config. */
-  crowdStrikeXdrConfig?: GoogleChromeManagementVersionsV1CrowdStrikeXdrConfig;
+  crowdStrikeXdrConfig?: GoogleChromeManagementVersionsV1CrowdStrikeXdrConfig | undefined;
   /** MIP label connector config. */
-  mipLabelConfig?: GoogleChromeManagementVersionsV1MipLabelConfig;
+  mipLabelConfig?: GoogleChromeManagementVersionsV1MipLabelConfig | undefined;
   /** Pub/Sub connector config. */
-  pubSubConfig?: GoogleChromeManagementVersionsV1PubSubConfig;
+  pubSubConfig?: GoogleChromeManagementVersionsV1PubSubConfig | undefined;
   /** CrowdStrike Falcon Next Gen connector config. */
-  crowdStrikeFalconNextGenConfig?: GoogleChromeManagementVersionsV1CrowdStrikeFalconNextGenConfig;
+  crowdStrikeFalconNextGenConfig?:
+    | GoogleChromeManagementVersionsV1CrowdStrikeFalconNextGenConfig
+    | undefined;
   /** Splunk connector config. */
-  splunkConfig?: GoogleChromeManagementVersionsV1SplunkConfig;
+  splunkConfig?: GoogleChromeManagementVersionsV1SplunkConfig | undefined;
   /** Palo Alto Networks connector config. */
-  paloAltoNetworksConfig?: GoogleChromeManagementVersionsV1PaloAltoNetworksConfig;
+  paloAltoNetworksConfig?: GoogleChromeManagementVersionsV1PaloAltoNetworksConfig | undefined;
   /** Pub/Sub XDR connector config. */
-  pubSubXdrConfig?: GoogleChromeManagementVersionsV1PubSubXdrConfig;
+  pubSubXdrConfig?: GoogleChromeManagementVersionsV1PubSubXdrConfig | undefined;
   /** Device trust connector config. */
-  deviceTrustConfig?: GoogleChromeManagementVersionsV1DeviceTrustConfig;
+  deviceTrustConfig?: GoogleChromeManagementVersionsV1DeviceTrustConfig | undefined;
   /** Secure gateway connector config. */
-  secureGatewayConfig?: GoogleChromeManagementVersionsV1SecureGatewayConfig;
+  secureGatewayConfig?: GoogleChromeManagementVersionsV1SecureGatewayConfig | undefined;
 }
 /** A representation of a connector config. */
 export interface GoogleChromeManagementVersionsV1ConnectorConfig {
   /** Required. The display name of the config. Must be at most 100 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. The type of the connector. */
-  type?: GoogleChromeManagementVersionsV1ConnectorConfigTypeEnum | (string & {});
+  type?: GoogleChromeManagementVersionsV1ConnectorConfigTypeEnum | (string & {}) | undefined;
   /** Output only. The status of the connector config. */
-  status?: GoogleChromeManagementVersionsV1ConnectorConfigStatus;
+  status?: GoogleChromeManagementVersionsV1ConnectorConfigStatus | undefined;
   /** Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
-  name?: string;
+  name?: string | undefined;
   /** Required. The details of the connector config. */
-  details?: GoogleChromeManagementVersionsV1ConnectorConfigDetails;
+  details?: GoogleChromeManagementVersionsV1ConnectorConfigDetails | undefined;
 }
 export interface CreateCustomersConnectorConfigsRequest {
   /** Optional. ID to use for the connector config, which becomes the final component of the connector config's resource name. If provided, the ID must be 1-36 characters long, and contain only lowercase letters, digits, and hyphens. It must start with a letter, and end with a letter or number. If not provided, the connector config will be assigned a random UUID. */
-  connectorConfigId?: string;
+  connectorConfigId?: string | undefined;
   /** Required. Format: customers/{customer} */
   parent: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1ConnectorConfig;
+  body?: GoogleChromeManagementVersionsV1ConnectorConfig | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResultResultTypeEnum =
   | "COMMAND_RESULT_TYPE_UNSPECIFIED"
@@ -901,13 +919,14 @@ export type GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandRe
 /** Result of the execution of a command. */
 export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult {
   /** Output only. Result code that indicates the type of error or success of the command. */
-  resultCode?: string;
+  resultCode?: string | undefined;
   /** Output only. Timestamp of the client execution of the remote command. */
-  clientExecutionTime?: string;
+  clientExecutionTime?: string | undefined;
   /** Output only. Result type of the remote command. */
   resultType?:
     | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResultResultTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandStateEnum =
   | "COMMAND_STATE_UNSPECIFIED"
@@ -918,27 +937,30 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 /** A representation of a remote command for a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand {
   /** Output only. Result of the remote command. */
-  commandResult?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult;
+  commandResult?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult
+    | undefined;
   /** Output only. Valid duration of the remote command. */
-  validDuration?: string;
+  validDuration?: string | undefined;
   /** Required. Type of the remote command. Supported commands: "clearBrowsingData" and "extensionUpdateCheck". */
-  commandType?: string;
+  commandType?: string | undefined;
   /** Output only. State of the remote command. */
   commandState?:
     | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Identifier. Format: customers/{customer_id}/profiles/{profile_permanent_id}/commands/{command_id} */
-  name?: string;
+  name?: string | undefined;
   /** Required. Payload of the remote command. The payload for "clearBrowsingData" command supports: - fields "clearCache" and "clearCookies" - values of boolean type. The payload for "extensionUpdateCheck" should be empty. */
-  payload?: DocumentMap;
+  payload?: DocumentMap | undefined;
   /** Output only. Timestamp of the issurance of the remote command. */
-  issueTime?: string;
+  issueTime?: string | undefined;
 }
 export interface CreateCustomersProfilesCommandsRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   parent: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
+  body?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand | undefined;
 }
 export type GoogleChromeManagementV1TelemetryEventNotificationFilterEventTypesItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -962,37 +984,41 @@ export type GoogleChromeManagementV1TelemetryEventNotificationFilterEventTypesIt
 /** Configures how the telemetry events should be filtered. */
 export interface GoogleChromeManagementV1TelemetryEventNotificationFilter {
   /** Only sends the notifications for events of these types. Must not be empty. */
-  eventTypes?: GoogleChromeManagementV1TelemetryEventNotificationFilterEventTypesItemEnumList;
+  eventTypes?:
+    | GoogleChromeManagementV1TelemetryEventNotificationFilterEventTypesItemEnumList
+    | undefined;
 }
 /** Configures how the telemetry data should be filtered. */
 export interface GoogleChromeManagementV1TelemetryNotificationFilter {
   /** Only sends notifications for the telemetry events matching this filter. */
-  telemetryEventNotificationFilter?: GoogleChromeManagementV1TelemetryEventNotificationFilter;
+  telemetryEventNotificationFilter?:
+    | GoogleChromeManagementV1TelemetryEventNotificationFilter
+    | undefined;
   /** If set, only sends notifications for telemetry data coming from devices in this org unit. */
-  deviceOrgUnitId?: string;
+  deviceOrgUnitId?: string | undefined;
   /** If set, only sends notifications for telemetry data coming from this device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** If set, only sends notifications for telemetry data coming from devices owned by users in this org unit. */
-  userOrgUnitId?: string;
+  userOrgUnitId?: string | undefined;
   /** If set, only sends notifications for telemetry data coming from devices owned by this user. */
-  userEmail?: string;
+  userEmail?: string | undefined;
 }
 /** Configuration to receive notifications of telemetry data. */
 export interface GoogleChromeManagementV1TelemetryNotificationConfig {
   /** Output only. Google Workspace customer that owns the resource. */
-  customer?: string;
+  customer?: string | undefined;
   /** Only send notifications for telemetry data matching this filter. */
-  filter?: GoogleChromeManagementV1TelemetryNotificationFilter;
+  filter?: GoogleChromeManagementV1TelemetryNotificationFilter | undefined;
   /** The pubsub topic to which notifications are published to. */
-  googleCloudPubsubTopic?: string;
+  googleCloudPubsubTopic?: string | undefined;
   /** Output only. Resource name of the notification configuration. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCustomersTelemetryNotificationConfigsRequest {
   /** Required. The parent resource where this notification config will be created. Format: `customers/{customer}` */
   parent: string;
   /** Request body */
-  body?: GoogleChromeManagementV1TelemetryNotificationConfig;
+  body?: GoogleChromeManagementV1TelemetryNotificationConfig | undefined;
 }
 export interface DeleteCustomersConnectorConfigsRequest {
   /** Required. Format: customers/{customer}/connectorConfigs/{connector_config} */
@@ -1017,7 +1043,7 @@ export interface DisableCustomersEnterpriseSecurityInsightsRequest {
   /** Required. The customer to disable insights for. Format: customers/{customer} */
   customer: string;
   /** Request body */
-  body?: GoogleLongrunningCancelOperationRequest;
+  body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
 export type GoogleChromeManagementVersionsV1DisableInsightsResponseInsightsStateEnum =
   | "INSIGHTS_ENABLEMENT_STATE_UNSPECIFIED"
@@ -1026,18 +1052,20 @@ export type GoogleChromeManagementVersionsV1DisableInsightsResponseInsightsState
 /** Response from disabling insights for the customer. */
 export interface GoogleChromeManagementVersionsV1DisableInsightsResponse {
   /** The state of the insights feature. */
-  insightsState?: GoogleChromeManagementVersionsV1DisableInsightsResponseInsightsStateEnum;
+  insightsState?:
+    | GoogleChromeManagementVersionsV1DisableInsightsResponseInsightsStateEnum
+    | undefined;
 }
 /** Request to enable insights for the customer. */
 export interface GoogleChromeManagementVersionsV1EnableInsightsRequest {
   /** Optional. The Organizational Units to set up required connectors for. Organizational Units are provided as paths relative to root. If this field is not set, connectors will be set up at root OU (as if it were set to ["/"]). Example: ["/corp/sales", "/eng"] */
-  targetOus?: StringList;
+  targetOus?: StringList | undefined;
 }
 export interface EnableCustomersEnterpriseSecurityInsightsRequest {
   /** Required. The customer to enable insights for. Format: customers/{customer} */
   customer: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1EnableInsightsRequest;
+  body?: GoogleChromeManagementVersionsV1EnableInsightsRequest | undefined;
 }
 export type GoogleChromeManagementVersionsV1EnableInsightsResponseInsightsStateEnum =
   | "INSIGHTS_ENABLEMENT_STATE_UNSPECIFIED"
@@ -1046,21 +1074,23 @@ export type GoogleChromeManagementVersionsV1EnableInsightsResponseInsightsStateE
 /** Response from enabling insights for the customer. */
 export interface GoogleChromeManagementVersionsV1EnableInsightsResponse {
   /** The state of the insights feature. */
-  insightsState?: GoogleChromeManagementVersionsV1EnableInsightsResponseInsightsStateEnum;
+  insightsState?:
+    | GoogleChromeManagementVersionsV1EnableInsightsResponseInsightsStateEnum
+    | undefined;
 }
 export interface EnumeratePrintJobsCustomersReportsRequest {
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** The ID of the organizational unit for printers. If specified, only print jobs submitted to printers from the specified organizational unit will be returned. */
-  printerOrgUnitId?: string;
+  printerOrgUnitId?: string | undefined;
   /** Field used to order results. If not specified, results will be ordered in descending order of the `complete_time` field. Supported order by fields: * title * state * create_time * complete_time * document_page_count * color_mode * duplex_mode * printer * user_email */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The number of print jobs in the page from 0 to 100 inclusive, if page_size is not specified or zero, the size will be 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Note: Only >= and <= comparators are supported for `complete_time`. Note: Only = comparator supported for `user_id` and `printer_id`. Supported filter fields: * complete_time * printer_id * user_id */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from a previous `EnumeratePrintJobs` call. Provide this to retrieve the subsequent page. If omitted, the first page of results will be returned. When paginating, all other parameters provided to `EnumeratePrintJobs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromeManagementV1PrintJobColorModeEnum =
   | "COLOR_MODE_UNSPECIFIED"
@@ -1079,101 +1109,101 @@ export type GoogleChromeManagementV1PrintJobStateEnum =
 /** Represents a request to print a document that has been submitted to a printer. */
 export interface GoogleChromeManagementV1PrintJob {
   /** The primary e-mail address of the user who submitted the print job. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Number of pages in the document. */
-  documentPageCount?: number;
+  documentPageCount?: number | undefined;
   /** Print job creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Print job completion timestamp. */
-  completeTime?: string;
+  completeTime?: string | undefined;
   /** Color mode. */
-  colorMode?: GoogleChromeManagementV1PrintJobColorModeEnum;
+  colorMode?: GoogleChromeManagementV1PrintJobColorModeEnum | undefined;
   /** Duplex mode. */
-  duplexMode?: GoogleChromeManagementV1PrintJobDuplexModeEnum;
+  duplexMode?: GoogleChromeManagementV1PrintJobDuplexModeEnum | undefined;
   /** Unique ID of the print job. */
-  id?: string;
+  id?: string | undefined;
   /** API ID of the printer used for printing. */
-  printerId?: string;
+  printerId?: string | undefined;
   /** The title of the document. */
-  title?: string;
+  title?: string | undefined;
   /** Number of copies. */
-  copyCount?: number;
+  copyCount?: number | undefined;
   /** Name of the printer used for printing. */
-  printer?: string;
+  printer?: string | undefined;
   /** The final state of the job. */
-  state?: GoogleChromeManagementV1PrintJobStateEnum;
+  state?: GoogleChromeManagementV1PrintJobStateEnum | undefined;
   /** The unique Directory API ID of the user who submitted the print job. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export type GoogleChromeManagementV1PrintJobList = Array<GoogleChromeManagementV1PrintJob>;
 /** Response containing a list of print jobs. */
 export interface GoogleChromeManagementV1EnumeratePrintJobsResponse {
   /** List of requested print jobs. */
-  printJobs?: GoogleChromeManagementV1PrintJobList;
+  printJobs?: GoogleChromeManagementV1PrintJobList | undefined;
   /** A token, which can be used in a subsequent request to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total number of print jobs matching request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
 }
 export interface FetchDevicesRequestingExtensionCustomersAppsRequest {
   /** The ID of the organizational unit. Only consider devices that directly belong to this org unit, i.e. sub-orgunits are not counted. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
   /** Optional. Maximum number of results to return. Maximum and default are 50. Any page size larger than 50 will be coerced to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The extension for which we want to find requesting devices. */
-  extensionId?: string;
+  extensionId?: string | undefined;
   /** Optional. Token to specify the page of the request to be returned. Token expires after 1 day. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Details of a device requesting an extension, including the name of the device and the justification of the request. */
 export interface GoogleChromeManagementV1DeviceRequestingExtensionDetails {
   /** Request justification as entered by the user. */
-  justification?: string;
+  justification?: string | undefined;
   /** The name of a device that has requested the extension. */
-  deviceName?: string;
+  deviceName?: string | undefined;
 }
 export type GoogleChromeManagementV1DeviceRequestingExtensionDetailsList =
   Array<GoogleChromeManagementV1DeviceRequestingExtensionDetails>;
 /** Response containing a list of devices that have requested the queried extension. */
 export interface GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse {
   /** Optional. Total number of devices in response. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Details of devices that have requested the queried extension. */
-  deviceDetails?: GoogleChromeManagementV1DeviceRequestingExtensionDetailsList;
+  deviceDetails?: GoogleChromeManagementV1DeviceRequestingExtensionDetailsList | undefined;
   /** Optional. Token to specify the next page in the list. Token expires after 1 day. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchUsersRequestingExtensionCustomersAppsRequest {
   /** Optional. Token to specify the page of the request to be returned. Token expires after 1 day. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of results to return. Maximum and default are 50. Any page size larger than 50 will be coerced to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The extension for which we want to find the requesting users. */
-  extensionId?: string;
+  extensionId?: string | undefined;
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
   /** The ID of the organizational unit. Only consider devices that directly belong to this org unit, i.e. sub-orgunits are not counted. If omitted, all data will be returned. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 /** Details of a user requesting an extension, including the email and the justification. */
 export interface GoogleChromeManagementV1UserRequestingExtensionDetails {
   /** Request justification as entered by the user. */
-  justification?: string;
+  justification?: string | undefined;
   /** The e-mail address of a user that has requested the extension. */
-  email?: string;
+  email?: string | undefined;
 }
 export type GoogleChromeManagementV1UserRequestingExtensionDetailsList =
   Array<GoogleChromeManagementV1UserRequestingExtensionDetails>;
 /** Response containing a list of users that have requested the queried extension. */
 export interface GoogleChromeManagementV1FetchUsersRequestingExtensionResponse {
   /** Total number of users in response. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Token to specify the next page in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Details of users that have requested the queried extension. */
-  userDetails?: GoogleChromeManagementV1UserRequestingExtensionDetailsList;
+  userDetails?: GoogleChromeManagementV1UserRequestingExtensionDetailsList | undefined;
 }
 export type FindInstalledAppDevicesCustomersReportsAppTypeEnum =
   | "APP_TYPE_UNSPECIFIED"
@@ -1184,38 +1214,38 @@ export type FindInstalledAppDevicesCustomersReportsAppTypeEnum =
   | "ANDROID_APP";
 export interface FindInstalledAppDevicesCustomersReportsRequest {
   /** Unique identifier of the app. For Chrome apps and extensions, the 32-character id (e.g. ehoadneljpdggcbbknedodolkkjodefl). For Android apps, the package name (e.g. com.evernote). */
-  appId?: string;
+  appId?: string | undefined;
   /** Type of the app. Optional. If not provided, an app type will be inferred from the format of the app ID. */
-  appType?: FindInstalledAppDevicesCustomersReportsAppTypeEnum | (string & {});
+  appType?: FindInstalledAppDevicesCustomersReportsAppTypeEnum | (string & {}) | undefined;
   /** Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Supported filter fields: * last_active_date */
-  filter?: string;
+  filter?: string | undefined;
   /** Field used to order results. Supported order by fields: * machine * device_id */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
 }
 /** Describes a device reporting Chrome browser information. */
 export interface GoogleChromeManagementV1Device {
   /** Output only. The name of the machine within its local network. */
-  machine?: string;
+  machine?: string | undefined;
   /** Output only. The ID of the device that reported this Chrome browser information. */
-  deviceId?: string;
+  deviceId?: string | undefined;
 }
 export type GoogleChromeManagementV1DeviceList = Array<GoogleChromeManagementV1Device>;
 /** Response containing a list of devices with queried app installed. */
 export interface GoogleChromeManagementV1FindInstalledAppDevicesResponse {
   /** Total number of devices matching request. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Token to specify the next page of the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of devices which have the app installed. Sorted in ascending alphabetical order on the Device.machine field. */
-  devices?: GoogleChromeManagementV1DeviceList;
+  devices?: GoogleChromeManagementV1DeviceList | undefined;
 }
 export type FindInstalledAppProfilesCustomersReportsAppTypeEnum =
   | "APP_TYPE_UNSPECIFIED"
@@ -1226,55 +1256,55 @@ export type FindInstalledAppProfilesCustomersReportsAppTypeEnum =
   | "ANDROID_APP";
 export interface FindInstalledAppProfilesCustomersReportsRequest {
   /** Optional. Token to specify the page of the request to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of results to return. Maximum and default are 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
   /** Type of the app. Optional. If not provided, an app type will be inferred from the format of the app ID. */
-  appType?: FindInstalledAppProfilesCustomersReportsAppTypeEnum | (string & {});
+  appType?: FindInstalledAppProfilesCustomersReportsAppTypeEnum | (string & {}) | undefined;
   /** Required. Unique identifier of the app. For Chrome apps and extensions, the 32-character id (e.g. ehoadneljpdggcbbknedodolkkjodefl). For Android apps, the package name (e.g. com.evernote). */
-  appId?: string;
+  appId?: string | undefined;
   /** Optional. Query string to filter results, AND-separated fields in EBNF syntax. Note: OR operations are not supported in this filter. Supported filter fields: * last_active_date */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Field used to order results. Supported order by fields: * email * profile_id * profile_permanent_id */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 /** Describes a profile reporting Chrome Profile information. */
 export interface GoogleChromeManagementV1ProfileAppInstallInstance {
   /** Output only. The Chrome client side profile ID. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** Output only. Profile permanent ID is the unique identifier of a profile within one customer. */
-  profilePermanentId?: string;
+  profilePermanentId?: string | undefined;
   /** Output only. The organizational unit id of the profile. */
-  profileOrgUnitId?: string;
+  profileOrgUnitId?: string | undefined;
   /** Output only. The email of the profile. */
-  email?: string;
+  email?: string | undefined;
 }
 export type GoogleChromeManagementV1ProfileAppInstallInstanceList =
   Array<GoogleChromeManagementV1ProfileAppInstallInstance>;
 /** Response containing a list of profiles with queried app installed. */
 export interface GoogleChromeManagementV1FindInstalledAppProfilesResponse {
   /** Token to specify the next page of the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of profiles which have the app installed. Sorted in ascending alphabetical order on the profile.Email field. */
-  profiles?: GoogleChromeManagementV1ProfileAppInstallInstanceList;
+  profiles?: GoogleChromeManagementV1ProfileAppInstallInstanceList | undefined;
   /** Total number of profiles matching request. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface FindSaasUsageBrowsersCustomersReportsRequest {
   /** Required. The name of the SaaS application (e.g., `ChatGPT`, `Gemini`). */
-  app?: string;
+  app?: string | undefined;
   /** Optional. The filter expression to narrow down the SaaS browser reports to return. Supported operators are: =, !=, <, <=, >, >=, :. Logical operators AND, OR, and NOT are supported. Supported fields: * machine * os_platform * first_navigation_time * last_navigation_time * org_unit_id */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of browsers to return. The service may return fewer than this value. If unspecified, at most 100 browsers will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The order by expression to sort the SaaS browser reports. Supported fields: * machine * os_platform * first_navigation_time * last_navigation_time Default order is ascending. To specify descending order for a field, append " desc". */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `FindSaasUsageBrowsers` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
 }
@@ -1290,105 +1320,107 @@ export type GoogleChromeManagementV1SaasUsageBrowserOsPlatformEnum =
 /** Details of a SaaS usage browser. */
 export interface GoogleChromeManagementV1SaasUsageBrowser {
   /** Output only. The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. The OS platform. */
-  osPlatform?: GoogleChromeManagementV1SaasUsageBrowserOsPlatformEnum;
+  osPlatform?: GoogleChromeManagementV1SaasUsageBrowserOsPlatformEnum | undefined;
   /** Output only. The device permanent ID. */
-  devicePermanentId?: string;
+  devicePermanentId?: string | undefined;
   /** Output only. The timestamp when the application was last navigated to by this browser. */
-  lastNavigationTime?: string;
+  lastNavigationTime?: string | undefined;
   /** Output only. The timestamp when the application was first navigated to by this browser. */
-  firstNavigationTime?: string;
+  firstNavigationTime?: string | undefined;
   /** Output only. The OS version. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Output only. The machine name. */
-  machine?: string;
+  machine?: string | undefined;
 }
 export type GoogleChromeManagementV1SaasUsageBrowserList =
   Array<GoogleChromeManagementV1SaasUsageBrowser>;
 /** Response to `FindSaasUsageBrowsers` method. */
 export interface GoogleChromeManagementV1FindSaasUsageBrowsersResponse {
   /** The list of SaaS usage browser reports. */
-  saasUsageBrowsers?: GoogleChromeManagementV1SaasUsageBrowserList;
+  saasUsageBrowsers?: GoogleChromeManagementV1SaasUsageBrowserList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total number of SaaS usage browser reports that match the request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
 }
 export interface FindSaasUsageCustomersReportsRequest {
   /** Optional. A page token, received from a previous `FindSaasUsageReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FindSaasUsageReports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of reports to return. The service may return fewer than this value. If unspecified, at most 100 reports will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter expression to narrow down the SaaS reports to return. Supported operators are: =, !=, <, <=, >, >=, :. Logical operators AND, OR, and NOT are supported. Supported fields: * app * org_unit_id * first_navigation_time * last_navigation_time * category * organization * founded_year * headquarters * primary_domain * domains * encryption_protocols * visits_count * distinct_users_count * distinct_browsers_count * content_transfer_count Example: `(first_navigation_time < "2026-01-31T00:00:00Z" AND last_navigation_time > "2026-01-01T00:00:00Z") AND visits_count > 100` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
   /** Optional. The order by expression to sort the SaaS reports. Supported fields: * app * category * organization * founded_year * headquarters * primary_domain * visits_count * distinct_users_count * distinct_browsers_count * content_transfer_count Default order is ascending. To specify descending order for a field, append " desc". Example: `visits_count desc` */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Provides information about content transfer events, if available. */
 export interface GoogleChromeManagementV1SaasUsageReportContentTransferDetails {
   /** Output only. Total number of content transfers associated with the application. */
-  contentTransferCount?: string;
+  contentTransferCount?: string | undefined;
 }
 /** Represents a single SaaS report entry. */
 export interface GoogleChromeManagementV1SaasUsageReport {
   /** Output only. The headquarters location of the organization. */
-  headquarters?: string;
+  headquarters?: string | undefined;
   /** Output only. The category of the application. */
-  category?: string;
+  category?: string | undefined;
   /** Output only. The primary domain of the application. */
-  primaryDomain?: string;
+  primaryDomain?: string | undefined;
   /** Output only. Number of distinct browsers that visited the application. */
-  distinctBrowsersCount?: string;
+  distinctBrowsersCount?: string | undefined;
   /** Output only. Provides information about content transfer events, if available. */
-  contentTransferDetails?: GoogleChromeManagementV1SaasUsageReportContentTransferDetails;
+  contentTransferDetails?:
+    | GoogleChromeManagementV1SaasUsageReportContentTransferDetails
+    | undefined;
   /** Output only. The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. A list of encryption protocols used to access the application. */
-  encryptionProtocols?: StringList;
+  encryptionProtocols?: StringList | undefined;
   /** Output only. The timestamp when the application was first navigated to. */
-  firstNavigationTime?: string;
+  firstNavigationTime?: string | undefined;
   /** Output only. The name of the application. */
-  app?: string;
+  app?: string | undefined;
   /** Output only. The organization that develops the application. */
-  organization?: string;
+  organization?: string | undefined;
   /** Output only. The year the organization was founded. */
-  foundedYear?: number;
+  foundedYear?: number | undefined;
   /** Output only. The timestamp when the application was last navigated to. */
-  lastNavigationTime?: string;
+  lastNavigationTime?: string | undefined;
   /** Output only. Number of distinct users who visited the application. */
-  distinctUsersCount?: string;
+  distinctUsersCount?: string | undefined;
   /** Output only. A list of domains and subdomains associated with the application. */
-  domains?: StringList;
+  domains?: StringList | undefined;
   /** Output only. Total number of visits to the application. */
-  visitsCount?: string;
+  visitsCount?: string | undefined;
 }
 export type GoogleChromeManagementV1SaasUsageReportList =
   Array<GoogleChromeManagementV1SaasUsageReport>;
 /** Response to `FindSaasUsage` method. */
 export interface GoogleChromeManagementV1FindSaasUsageReportsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of SaaS usage reports. */
-  saasReports?: GoogleChromeManagementV1SaasUsageReportList;
+  saasReports?: GoogleChromeManagementV1SaasUsageReportList | undefined;
   /** Total number of SaaS usage reports that match the request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
 }
 export interface FindSaasUsageProfilesCustomersReportsRequest {
   /** Optional. A page token, received from a previous `FindSaasUsageProfiles` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the SaaS application (e.g., `ChatGPT`, `Gemini`). */
-  app?: string;
+  app?: string | undefined;
   /** Optional. The order by expression to sort the SaaS profile reports. Supported fields: * email * os_platform * first_navigation_time * last_navigation_time Default order is ascending. To specify descending order for a field, append " desc". */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
   /** Optional. The filter expression to narrow down the SaaS profile reports to return. Supported operators are: =, !=, <, <=, >, >=, :. Logical operators AND, OR, and NOT are supported. Supported fields: * email * org_unit_id * os_platform * first_navigation_time * last_navigation_time */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of reports to return. The service may return fewer than this value. If unspecified, at most 100 reports will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleChromeManagementV1SaasUsageProfileReportOsPlatformEnum =
   | "DEVICE_SYSTEM_UNSPECIFIED"
@@ -1402,30 +1434,30 @@ export type GoogleChromeManagementV1SaasUsageProfileReportOsPlatformEnum =
 /** Represents a single SaaS report entry grouped by profile. */
 export interface GoogleChromeManagementV1SaasUsageProfileReport {
   /** Output only. The ID of the organizational unit. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. The OS platform. */
-  osPlatform?: GoogleChromeManagementV1SaasUsageProfileReportOsPlatformEnum;
+  osPlatform?: GoogleChromeManagementV1SaasUsageProfileReportOsPlatformEnum | undefined;
   /** Output only. The timestamp when the application was last navigated to by this profile. */
-  lastNavigationTime?: string;
+  lastNavigationTime?: string | undefined;
   /** Output only. The OS version. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Output only. The email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** Output only. The timestamp when the application was first navigated to by this profile. */
-  firstNavigationTime?: string;
+  firstNavigationTime?: string | undefined;
   /** Output only. The permanent ID of the profile. */
-  profilePermanentId?: string;
+  profilePermanentId?: string | undefined;
 }
 export type GoogleChromeManagementV1SaasUsageProfileReportList =
   Array<GoogleChromeManagementV1SaasUsageProfileReport>;
 /** Response to `FindSaasUsageProfiles` method. */
 export interface GoogleChromeManagementV1FindSaasUsageProfilesResponse {
   /** Total number of SaaS usage profile reports that match the request. */
-  totalSize?: string;
+  totalSize?: string | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of SaaS usage profile reports. */
-  profileReports?: GoogleChromeManagementV1SaasUsageProfileReportList;
+  profileReports?: GoogleChromeManagementV1SaasUsageProfileReportList | undefined;
 }
 export interface GetCustomersAppsAndroidRequest {
   /** Required. The app for which details are being queried. Examples: "customers/my_customer/apps/chrome/gmbmikajjgmnabiglmofipeabaddhgne@2.1.2" for the Save to Google Drive Chrome extension version 2.1.2, "customers/my_customer/apps/android/com.google.android.apps.docs" for the Google Drive Android app's latest version. */
@@ -1434,18 +1466,18 @@ export interface GetCustomersAppsAndroidRequest {
 /** Represent one host permission. */
 export interface GoogleChromeManagementV1ChromeAppSiteAccess {
   /** Output only. This can contain very specific hosts, or patterns like "*.com" for instance. */
-  hostMatch?: string;
+  hostMatch?: string | undefined;
 }
 export type GoogleChromeManagementV1ChromeAppSiteAccessList =
   Array<GoogleChromeManagementV1ChromeAppSiteAccess>;
 /** Permission requested by a Chrome app or extension. */
 export interface GoogleChromeManagementV1ChromeAppPermission {
   /** Output only. The type of the permission. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. If available, a URI to a page that has documentation for the current permission. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Output only. If available, whether this permissions grants the app/extension access to user data. */
-  accessUserData?: boolean;
+  accessUserData?: boolean | undefined;
 }
 export type GoogleChromeManagementV1ChromeAppPermissionList =
   Array<GoogleChromeManagementV1ChromeAppPermission>;
@@ -1456,51 +1488,51 @@ export type GoogleChromeManagementV1ChromeAppInfoTypeEnum =
 /** Chrome Web Store app information. */
 export interface GoogleChromeManagementV1ChromeAppInfo {
   /** Output only. The version of this extension's manifest. */
-  manifestVersion?: string;
+  manifestVersion?: string | undefined;
   /** Output only. The minimum number of users using this app. */
-  minUserCount?: number;
+  minUserCount?: number | undefined;
   /** Output only. Whether the app is only for Kiosk mode on ChromeOS devices */
-  isKioskOnly?: boolean;
+  isKioskOnly?: boolean | undefined;
   /** Output only. Whether the app or extension is built and maintained by Google. Version-specific field that will only be set when the requested app version is found. */
-  googleOwned?: boolean;
+  googleOwned?: boolean | undefined;
   /** Output only. Whether this app is enabled for Kiosk mode on ChromeOS devices */
-  kioskEnabled?: boolean;
+  kioskEnabled?: boolean | undefined;
   /** Output only. The app developer has enabled support for their app. Version-specific field that will only be set when the requested app version is found. */
-  supportEnabled?: boolean;
+  supportEnabled?: boolean | undefined;
   /** Output only. Whether the app or extension is a theme. */
-  isTheme?: boolean;
+  isTheme?: boolean | undefined;
   /** Output only. Every permission giving access to domains or broad host patterns. ( e.g. www.google.com). This includes the matches from content scripts as well as hosts in the permissions node of the manifest. Version-specific field that will only be set when the requested app version is found. */
-  siteAccess?: GoogleChromeManagementV1ChromeAppSiteAccessList;
+  siteAccess?: GoogleChromeManagementV1ChromeAppSiteAccessList | undefined;
   /** Output only. Every custom permission requested by the app. Version-specific field that will only be set when the requested app version is found. */
-  permissions?: GoogleChromeManagementV1ChromeAppPermissionList;
+  permissions?: GoogleChromeManagementV1ChromeAppPermissionList | undefined;
   /** Output only. Whether the app or extension is in a published state in the Chrome Web Store. */
-  isCwsHosted?: boolean;
+  isCwsHosted?: boolean | undefined;
   /** Output only. Whether an app supports policy for extensions. */
-  isExtensionPolicySupported?: boolean;
+  isExtensionPolicySupported?: boolean | undefined;
   /** Output only. Types of an item in the Chrome Web Store */
-  type?: GoogleChromeManagementV1ChromeAppInfoTypeEnum;
+  type?: GoogleChromeManagementV1ChromeAppInfoTypeEnum | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** Permission requested by an Android app. */
 export interface GoogleChromeManagementV1AndroidAppPermission {
   /** Output only. The type of the permission. */
-  type?: string;
+  type?: string | undefined;
 }
 export type GoogleChromeManagementV1AndroidAppPermissionList =
   Array<GoogleChromeManagementV1AndroidAppPermission>;
 /** Android app information. */
 export interface GoogleChromeManagementV1AndroidAppInfo {
   /** Output only. Permissions requested by an Android app. */
-  permissions?: GoogleChromeManagementV1AndroidAppPermissionList;
+  permissions?: GoogleChromeManagementV1AndroidAppPermissionList | undefined;
 }
 export type GoogleChromeManagementV1AppDetailsTypeEnum =
   | "APP_ITEM_TYPE_UNSPECIFIED"
@@ -1510,45 +1542,45 @@ export type GoogleChromeManagementV1AppDetailsTypeEnum =
 /** Resource representing app details. */
 export interface GoogleChromeManagementV1AppDetails {
   /** Output only. The publisher of the item. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Output only. Chrome Web Store app information. */
-  chromeAppInfo?: GoogleChromeManagementV1ChromeAppInfo;
+  chromeAppInfo?: GoogleChromeManagementV1ChromeAppInfo | undefined;
   /** Output only. App's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Indicates if the app has to be paid for OR has paid content. */
-  isPaidApp?: boolean;
+  isPaidApp?: boolean | undefined;
   /** Output only. Number of reviews received. Chrome Web Store review information will always be for the latest version of an app. */
-  reviewNumber?: string;
+  reviewNumber?: string | undefined;
   /** Output only. Information about a partial service error if applicable. */
-  serviceError?: GoogleRpcStatus;
+  serviceError?: GoogleRpcStatus | undefined;
   /** Output only. The rating of the app (on 5 stars). Chrome Web Store review information will always be for the latest version of an app. */
-  reviewRating?: number;
+  reviewRating?: number | undefined;
   /** Output only. The uri for the detail page of the item. */
-  detailUri?: string;
+  detailUri?: string | undefined;
   /** Output only. The URI pointing to the privacy policy of the app, if it was provided by the developer. Version-specific field that will only be set when the requested app version is found. */
-  privacyPolicyUri?: string;
+  privacyPolicyUri?: string | undefined;
   /** Output only. Latest published time. */
-  latestPublishTime?: string;
+  latestPublishTime?: string | undefined;
   /** Output only. Unique store identifier for the item. Examples: "gmbmikajjgmnabiglmofipeabaddhgne" for the Save to Google Drive Chrome extension, "com.google.android.apps.docs" for the Google Drive Android app. */
-  appId?: string;
+  appId?: string | undefined;
   /** Output only. The category IDs of the app, which are the same as stored in the Web Store item. It's expected that there is only one category ID. */
-  categoryIds?: StringList;
+  categoryIds?: StringList | undefined;
   /** Output only. Android app information. */
-  androidAppInfo?: GoogleChromeManagementV1AndroidAppInfo;
+  androidAppInfo?: GoogleChromeManagementV1AndroidAppInfo | undefined;
   /** Output only. A link to an image that can be used as an icon for the product. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** Output only. Format: name=customers/{customer_id}/apps/{chrome|android|web}/{app_id}@{version} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. App type. */
-  type?: GoogleChromeManagementV1AppDetailsTypeEnum;
+  type?: GoogleChromeManagementV1AppDetailsTypeEnum | undefined;
   /** Output only. Home page or Website uri. */
-  homepageUri?: string;
+  homepageUri?: string | undefined;
   /** Output only. App version. A new revision is committed whenever a new version of the app is published. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. App's description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. First published time. */
-  firstPublishTime?: string;
+  firstPublishTime?: string | undefined;
 }
 export interface GetCustomersAppsChromeRequest {
   /** Required. The app for which details are being queried. Examples: "customers/my_customer/apps/chrome/gmbmikajjgmnabiglmofipeabaddhgne@2.1.2" for the Save to Google Drive Chrome extension version 2.1.2, "customers/my_customer/apps/android/com.google.android.apps.docs" for the Google Drive Android app's latest version. */
@@ -1569,7 +1601,7 @@ export type GoogleChromeManagementVersionsV1CertificateProvisioningProcessSignat
 /** Describes a generic Certificate Authority Connection. */
 export interface GoogleChromeManagementVersionsV1GenericCaConnection {
   /** Output only. A string that references the administrator-provided configuration for the certification authority service. */
-  caConnectionAdapterConfigReference?: string;
+  caConnectionAdapterConfigReference?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ScepProfileKeyUsagesItemEnum =
   | "KEY_USAGE_UNSPECIFIED"
@@ -1586,48 +1618,48 @@ export type GoogleChromeManagementVersionsV1SubjectAltNameTypeEnum =
 /** Describes a subject alternative name. */
 export interface GoogleChromeManagementVersionsV1SubjectAltName {
   /** Output only. The type of the SubjectAltName extension. */
-  type?: GoogleChromeManagementVersionsV1SubjectAltNameTypeEnum;
+  type?: GoogleChromeManagementVersionsV1SubjectAltNameTypeEnum | undefined;
   /** Output only. The value of the subject alternative name with respect to the `type`. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1SubjectAltNameList =
   Array<GoogleChromeManagementVersionsV1SubjectAltName>;
 /** Describes a SCEP certificate provisioning profile. */
 export interface GoogleChromeManagementVersionsV1ScepProfile {
   /** Output only. The locality of the subject. */
-  locality?: string;
+  locality?: string | undefined;
   /** Output only. The state of the subject. */
-  state?: string;
+  state?: string | undefined;
   /** Output only. The name of the organization the subject belongs to. */
-  organization?: string;
+  organization?: string | undefined;
   /** Output only. The country of the subject. */
-  country?: string;
+  country?: string | undefined;
   /** Output only. The organizational units of the subject. */
-  organizationalUnits?: StringList;
+  organizationalUnits?: StringList | undefined;
   /** Output only. The allowed key usages for certificate's key. */
-  keyUsages?: GoogleChromeManagementVersionsV1ScepProfileKeyUsagesItemEnumList;
+  keyUsages?: GoogleChromeManagementVersionsV1ScepProfileKeyUsagesItemEnumList | undefined;
   /** Output only. The common name of the subject. */
-  subjectCommonName?: string;
+  subjectCommonName?: string | undefined;
   /** Output only. The subject alternative names. */
-  subjectAltNames?: GoogleChromeManagementVersionsV1SubjectAltNameList;
+  subjectAltNames?: GoogleChromeManagementVersionsV1SubjectAltNameList | undefined;
   /** Output only. The certificate template name as defined by the admin on their on-prem infrastructure. The Certificate Authority uses this name to identify the certificate template. */
-  certificateTemplateName?: string;
+  certificateTemplateName?: string | undefined;
 }
 /** Describes the ChromeOS device that a `CertificateProvisioningProcess` belongs to. */
 export interface GoogleChromeManagementVersionsV1ChromeOsDevice {
   /** Output only. The unique Directory API ID of the device. This value is the same as the Admin Console's Directory API ID in the ChromeOS Devices tab. */
-  deviceDirectoryApiId?: string;
+  deviceDirectoryApiId?: string | undefined;
   /** Output only. Device serial number. This value is the same as the Admin Console's Serial Number in the ChromeOS Devices tab. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 /** Describes the ChromeOS user session that a `CertificateProvisioningProcess` belongs to. */
 export interface GoogleChromeManagementVersionsV1ChromeOsUserSession {
   /** Output only. The unique Directory API ID of the user. */
-  userDirectoryApiId?: string;
+  userDirectoryApiId?: string | undefined;
   /** Output only. This field contains information about the ChromeOS device that the user session is running on. It is only set if the user is affiliated, i.e., if the user is managed by the same organization that manages the ChromeOS device. */
-  chromeOsDevice?: GoogleChromeManagementVersionsV1ChromeOsDevice;
+  chromeOsDevice?: GoogleChromeManagementVersionsV1ChromeOsDevice | undefined;
   /** Output only. The primary e-mail address of the user. */
-  userPrimaryEmail?: string;
+  userPrimaryEmail?: string | undefined;
 }
 /** Describes a SCEP Certificate Authority Connection. */
 export type GoogleChromeManagementVersionsV1ScepCaConnection =
@@ -1635,40 +1667,42 @@ export type GoogleChromeManagementVersionsV1ScepCaConnection =
 /** Describes a generic certificate provisioning profile. */
 export interface GoogleChromeManagementVersionsV1GenericProfile {
   /** Output only. A string that references the administrator-provided configuration for the certificate provisioning profile. */
-  profileAdapterConfigReference?: string;
+  profileAdapterConfigReference?: string | undefined;
 }
 /** A certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1CertificateProvisioningProcess {
   /** Output only. The data that the client was asked to sign. This field is only present after the `SignData` operation has been initiated. */
-  signData?: string;
+  signData?: string | undefined;
   /** Output only. The signature of `signature_algorithm`, generated using the client's private key using `signature_algorithm`. This field is only present after the `SignData` operation has finished. */
-  signature?: string;
+  signature?: string | undefined;
   /** Output only. The signature algorithm that the client and backend components use when processing `sign_data`. If the `profile_type` is a `GenericProfile`, this field will only be present after the `SignData` operation was initiated. If the `profile_type` is a `ScepProfile`, the field will always be present. */
-  signatureAlgorithm?: GoogleChromeManagementVersionsV1CertificateProvisioningProcessSignatureAlgorithmEnum;
+  signatureAlgorithm?:
+    | GoogleChromeManagementVersionsV1CertificateProvisioningProcessSignatureAlgorithmEnum
+    | undefined;
   /** Output only. Server-generated timestamp of when the certificate provisioning process has been created. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The CA connection is a generic CA connection. */
-  genericCaConnection?: GoogleChromeManagementVersionsV1GenericCaConnection;
+  genericCaConnection?: GoogleChromeManagementVersionsV1GenericCaConnection | undefined;
   /** Output only. The profile is a SCEP certificate provisioning profile. */
-  scepProfile?: GoogleChromeManagementVersionsV1ScepProfile;
+  scepProfile?: GoogleChromeManagementVersionsV1ScepProfile | undefined;
   /** Output only. The client certificate is being provisioned for a ChromeOS user. This contains information about the current user session. */
-  chromeOsUserSession?: GoogleChromeManagementVersionsV1ChromeOsUserSession;
+  chromeOsUserSession?: GoogleChromeManagementVersionsV1ChromeOsUserSession | undefined;
   /** Output only. The issued certificate for this `CertificateProvisioningProcess` in PEM format. */
-  issuedCertificate?: string;
+  issuedCertificate?: string | undefined;
   /** Output only. The CA connection is a SCEP CA connection. */
-  scepCaConnection?: GoogleChromeManagementVersionsV1GenericCaConnection;
+  scepCaConnection?: GoogleChromeManagementVersionsV1GenericCaConnection | undefined;
   /** Output only. The ID of the certificate provisioning profile. */
-  provisioningProfileId?: string;
+  provisioningProfileId?: string | undefined;
   /** Identifier. Resource name of the `CertificateProvisioningProcess`. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The client certificate is being provisioned for a ChromeOS device. This contains information about the device. */
-  chromeOsDevice?: GoogleChromeManagementVersionsV1ChromeOsDevice;
+  chromeOsDevice?: GoogleChromeManagementVersionsV1ChromeOsDevice | undefined;
   /** Output only. A message describing why this `CertificateProvisioningProcess` has failed. Presence of this field indicates that the `CertificateProvisioningProcess` has failed. */
-  failureMessage?: string;
+  failureMessage?: string | undefined;
   /** Output only. The profile is a generic certificate provisioning profile. */
-  genericProfile?: GoogleChromeManagementVersionsV1GenericProfile;
+  genericProfile?: GoogleChromeManagementVersionsV1GenericProfile | undefined;
   /** Output only. The public key for which a certificate should be provisioned. Represented as a DER-encoded X.509 SubjectPublicKeyInfo. */
-  subjectPublicKeyInfo?: string;
+  subjectPublicKeyInfo?: string | undefined;
 }
 export interface GetCustomersCertificateProvisioningProcessesOperationsRequest {
   /** The name of the operation resource. */
@@ -1677,15 +1711,15 @@ export interface GetCustomersCertificateProvisioningProcessesOperationsRequest {
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
 }
 export interface GetCustomersConnectorConfigsRequest {
   /** Required. Format: customers/{customer}/connectorConfigs/{connector_config} */
@@ -1701,13 +1735,13 @@ export type GoogleChromeManagementVersionsV1DeviceInfoDeviceTypeEnum =
 /** Information of a device that runs a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1DeviceInfo {
   /** Output only. Machine name of the device on which the profile exists. On platforms which do not report the machine name (currently iOS and Android) this is instead set to the browser's device_id - but note that this is a different device_id than the |affiliated_device_id|. */
-  machine?: string;
+  machine?: string | undefined;
   /** Output only. Type of the device on which the profile exists. */
-  deviceType?: GoogleChromeManagementVersionsV1DeviceInfoDeviceTypeEnum;
+  deviceType?: GoogleChromeManagementVersionsV1DeviceInfoDeviceTypeEnum | undefined;
   /** Output only. Device ID that identifies the affiliated device on which the profile exists. If the device type is CHROME_BROWSER, then this represents a unique Directory API ID of the device that can be used in Admin SDK Browsers API. */
-  affiliatedDeviceId?: string;
+  affiliatedDeviceId?: string | undefined;
   /** Output only. Hostname of the device on which the profile exists. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileAffiliationStateEnum =
   | "AFFILIATION_STATE_UNSPECIFIED"
@@ -1733,33 +1767,33 @@ export type GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataSo
 /** Information of conflicting policy applied on a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyData {
   /** Output only. Source of the policy. */
-  source?: GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataSourceEnum;
+  source?: GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataSourceEnum | undefined;
 }
 export type GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataList =
   Array<GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyData>;
 /** Information of a policy applied on a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ReportingDataPolicyData {
   /** Output only. Error message of the policy, if any. */
-  error?: string;
+  error?: string | undefined;
   /** Output only. Name of the policy. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Source of the policy. */
-  source?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataSourceEnum;
+  source?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataSourceEnum | undefined;
   /** Output only. Value of the policy. */
-  value?: string;
+  value?: string | undefined;
   /** Output only. Conflicting policy information. */
-  conflicts?: GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataList;
+  conflicts?: GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyDataList | undefined;
 }
 export type GoogleChromeManagementVersionsV1ReportingDataPolicyDataList =
   Array<GoogleChromeManagementVersionsV1ReportingDataPolicyData>;
 /** Information of the policies applied on an extension. */
 export interface GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyData {
   /** Output only. Name of the extension. */
-  extensionName?: string;
+  extensionName?: string | undefined;
   /** Output only. ID of the extension. */
-  extensionId?: string;
+  extensionId?: string | undefined;
   /** Output only. Information of the policies applied on the extension. */
-  policyData?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataList;
+  policyData?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataList | undefined;
 }
 export type GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyDataList =
   Array<GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyData>;
@@ -1780,44 +1814,50 @@ export type GoogleChromeManagementVersionsV1ReportingDataExtensionDataExtensionT
 /** Information of an extension installed on a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ReportingDataExtensionData {
   /** Output only. Version of the extension. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. Represents whether the user disabled the extension. */
-  isDisabled?: boolean;
+  isDisabled?: boolean | undefined;
   /** Output only. Permissions requested by the extension. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
   /** Output only. Installation type of the extension. */
-  installationType?: GoogleChromeManagementVersionsV1ReportingDataExtensionDataInstallationTypeEnum;
+  installationType?:
+    | GoogleChromeManagementVersionsV1ReportingDataExtensionDataInstallationTypeEnum
+    | undefined;
   /** Output only. ID of the extension. */
-  extensionId?: string;
+  extensionId?: string | undefined;
   /** Output only. Manifest version of the extension. */
-  manifestVersion?: number;
+  manifestVersion?: number | undefined;
   /** Output only. Description of the extension. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Name of the extension. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Type of the extension. */
-  extensionType?: GoogleChromeManagementVersionsV1ReportingDataExtensionDataExtensionTypeEnum;
+  extensionType?:
+    | GoogleChromeManagementVersionsV1ReportingDataExtensionDataExtensionTypeEnum
+    | undefined;
   /** Output only. Represents whether the extension is from the webstore. */
-  isWebstoreExtension?: boolean;
+  isWebstoreExtension?: boolean | undefined;
   /** Output only. The URL of the homepage of the extension. */
-  homepageUri?: string;
+  homepageUri?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ReportingDataExtensionDataList =
   Array<GoogleChromeManagementVersionsV1ReportingDataExtensionData>;
 /** Reporting data of a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ReportingData {
   /** Output only. Information of the policies applied on the profile. */
-  policyData?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataList;
+  policyData?: GoogleChromeManagementVersionsV1ReportingDataPolicyDataList | undefined;
   /** Output only. Path of the profile. A valid path is included only in affiliated profiles. */
-  profilePath?: string;
+  profilePath?: string | undefined;
   /** Output only. Updated version of a browser, if it is different from the active browser version. */
-  installedBrowserVersion?: string;
+  installedBrowserVersion?: string | undefined;
   /** Output only. Information of the policies applied on the extensions. */
-  extensionPolicyData?: GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyDataList;
+  extensionPolicyData?:
+    | GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyDataList
+    | undefined;
   /** Output only. Information of the extensions installed on the profile. */
-  extensionData?: GoogleChromeManagementVersionsV1ReportingDataExtensionDataList;
+  extensionData?: GoogleChromeManagementVersionsV1ReportingDataExtensionDataList | undefined;
   /** Output only. Executable path of the installed Chrome browser. A valid path is included only in affiliated profiles. */
-  browserExecutablePath?: string;
+  browserExecutablePath?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileIdentityProviderEnum =
   | "IDENTITY_PROVIDER_UNSPECIFIED"
@@ -1834,70 +1874,76 @@ export type GoogleChromeManagementVersionsV1AttestationCredentialKeyTypeEnum =
 /** Information of public key associated with a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1AttestationCredential {
   /** Output only. Trust level of the public key. */
-  keyTrustLevel?: GoogleChromeManagementVersionsV1AttestationCredentialKeyTrustLevelEnum;
+  keyTrustLevel?:
+    | GoogleChromeManagementVersionsV1AttestationCredentialKeyTrustLevelEnum
+    | undefined;
   /** Output only. Type of the public key. */
-  keyType?: GoogleChromeManagementVersionsV1AttestationCredentialKeyTypeEnum;
+  keyType?: GoogleChromeManagementVersionsV1AttestationCredentialKeyTypeEnum | undefined;
   /** Output only. Latest rotation timestamp of the public key rotation. */
-  keyRotationTime?: string;
+  keyRotationTime?: string | undefined;
   /** Output only. Value of the public key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 /** A representation of a Chrome browser profile. */
 export interface GoogleChromeManagementVersionsV1ChromeBrowserProfile {
   /** Output only. Basic information of the device on which the profile exists. This information is only available for the affiliated profiles. */
-  deviceInfo?: GoogleChromeManagementVersionsV1DeviceInfo;
+  deviceInfo?: GoogleChromeManagementVersionsV1DeviceInfo | undefined;
   /** Output only. Etag of this ChromeBrowserProfile resource. This etag can be used with UPDATE operation to ensure consistency. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Profile display name set by client. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp of the first enrollment of the profile. */
-  firstEnrollmentTime?: string;
+  firstEnrollmentTime?: string | undefined;
   /** Output only. Whether the profile supports FCM notifications. */
-  supportsFcmNotifications?: boolean;
+  supportsFcmNotifications?: boolean | undefined;
   /** Output only. Chrome client side profile ID. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** Output only. The specific affiliation state of the profile. */
-  affiliationState?: GoogleChromeManagementVersionsV1ChromeBrowserProfileAffiliationStateEnum;
+  affiliationState?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileAffiliationStateEnum
+    | undefined;
   /** Output only. Number of extensions installed on the profile. */
-  extensionCount?: string;
+  extensionCount?: string | undefined;
   /** Output only. Profile permanent ID is the unique identifier of a profile within one customer. */
-  profilePermanentId?: string;
+  profilePermanentId?: string | undefined;
   /** Output only. Email address of the user to which the profile belongs. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Output only. Detailed reporting data of the profile. This information is only available when the profile reporting policy is enabled. */
-  reportingData?: GoogleChromeManagementVersionsV1ReportingData;
+  reportingData?: GoogleChromeManagementVersionsV1ReportingData | undefined;
   /** Output only. Number of policies applied on the profile. */
-  policyCount?: string;
+  policyCount?: string | undefined;
   /** Output only. OS platform of the device on which the profile exists. */
-  osPlatformType?: string;
+  osPlatformType?: string | undefined;
   /** Output only. OS version of the device on which the profile exists. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Output only. Timestamp of the latest status report by the profile. */
-  lastStatusReportTime?: string;
+  lastStatusReportTime?: string | undefined;
   /** Output only. Channel of the browser on which the profile exists. */
-  browserChannel?: string;
+  browserChannel?: string | undefined;
   /** Output only. Unique Directory API ID of the user that can be used in Admin SDK Users API. */
-  userId?: string;
+  userId?: string | undefined;
   /** Output only. Timestamp of the latest policy fetch by the profile. */
-  lastPolicyFetchTime?: string;
+  lastPolicyFetchTime?: string | undefined;
   /** Output only. Timestamp of the latest policy sync by the profile. */
-  lastPolicySyncTime?: string;
+  lastPolicySyncTime?: string | undefined;
   /** Optional. User of the profile annotated by the admin. */
-  annotatedUser?: string;
+  annotatedUser?: string | undefined;
   /** Output only. Identify provider of the profile. */
-  identityProvider?: GoogleChromeManagementVersionsV1ChromeBrowserProfileIdentityProviderEnum;
+  identityProvider?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileIdentityProviderEnum
+    | undefined;
   /** Output only. Attestation credential information of the profile. */
-  attestationCredential?: GoogleChromeManagementVersionsV1AttestationCredential;
+  attestationCredential?: GoogleChromeManagementVersionsV1AttestationCredential | undefined;
   /** Optional. Location of the profile annotated by the admin. */
-  annotatedLocation?: string;
+  annotatedLocation?: string | undefined;
   /** Output only. Version of the browser on which the profile exists. */
-  browserVersion?: string;
+  browserVersion?: string | undefined;
   /** Output only. Major OS platform version of the device on which the profile exists, from profile reporting. */
-  osPlatformVersion?: string;
+  osPlatformVersion?: string | undefined;
   /** Output only. Timestamp of the latest activity by the profile. */
-  lastActivityTime?: string;
+  lastActivityTime?: string | undefined;
 }
 export interface GetCustomersProfilesCommandsRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id}/commands/{command_id} */
@@ -1907,27 +1953,27 @@ export interface GetCustomersTelemetryDevicesRequest {
   /** Required. Name of the `TelemetryDevice` to return. */
   name: string;
   /** Required. Read mask to specify which fields to return. Supported read_mask paths are: - name - org_unit_id - device_id - serial_number - cpu_info - cpu_status_report - memory_info - memory_status_report - network_info - network_diagnostics_report - network_status_report - os_update_status - graphics_info - graphics_status_report - battery_info - battery_status_report - storage_info - storage_status_report - thunderbolt_info - audio_status_report - boot_performance_report - heartbeat_status_report - network_bandwidth_report - peripherals_report - kiosk_app_status_report - app_report - runtime_counters_report */
-  readMask?: string;
+  readMask?: string | undefined;
 }
 /** CPU temperature of a device. Sampled per CPU core in Celsius. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceCpuInfo](https://chromeenterprise.google/policies/#ReportDeviceCpuInfo) * Data Collection Frequency: Every 10 minutes * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A */
 export interface GoogleChromeManagementV1CpuTemperatureInfo {
   /** Output only. CPU temperature in Celsius. */
-  temperatureCelsius?: number;
+  temperatureCelsius?: number | undefined;
   /** Output only. CPU label. Example: Core 0 */
-  label?: string;
+  label?: string | undefined;
 }
 export type GoogleChromeManagementV1CpuTemperatureInfoList =
   Array<GoogleChromeManagementV1CpuTemperatureInfo>;
 /** Provides information about the status of the CPU. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceCpuInfo](https://chromeenterprise.google/policies/#ReportDeviceCpuInfo) * Data Collection Frequency: Every 10 minutes * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_CPU_REPORT */
 export interface GoogleChromeManagementV1CpuStatusReport {
   /** Output only. Frequency the report is sampled. */
-  sampleFrequency?: string;
+  sampleFrequency?: string | undefined;
   /** Output only. CPU temperature sample info per CPU core in Celsius */
-  cpuTemperatureInfo?: GoogleChromeManagementV1CpuTemperatureInfoList;
+  cpuTemperatureInfo?: GoogleChromeManagementV1CpuTemperatureInfoList | undefined;
   /** Output only. The timestamp in milliseconds representing time at which this report was sampled. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Sample of CPU utilization (0-100 percent). */
-  cpuUtilizationPct?: number;
+  cpuUtilizationPct?: number | undefined;
 }
 export type GoogleChromeManagementV1CpuStatusReportList =
   Array<GoogleChromeManagementV1CpuStatusReport>;
@@ -1940,30 +1986,30 @@ export type GoogleChromeManagementV1BootPerformanceReportShutdownReasonEnum =
 /** Boot performance report of a device. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceBootMode](https://chromeenterprise.google/policies/#ReportDeviceBootMode) * Data Collection Frequency: On every boot up event * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_OS_REPORT */
 export interface GoogleChromeManagementV1BootPerformanceReport {
   /** The timestamp when power came on. */
-  bootUpTime?: string;
+  bootUpTime?: string | undefined;
   /** Total time since shutdown start to power off. */
-  shutdownDuration?: string;
+  shutdownDuration?: string | undefined;
   /** Timestamp when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** The timestamp when shutdown. */
-  shutdownTime?: string;
+  shutdownTime?: string | undefined;
   /** Total time to boot up. */
-  bootUpDuration?: string;
+  bootUpDuration?: string | undefined;
   /** The shutdown reason. */
-  shutdownReason?: GoogleChromeManagementV1BootPerformanceReportShutdownReasonEnum;
+  shutdownReason?: GoogleChromeManagementV1BootPerformanceReportShutdownReasonEnum | undefined;
 }
 export type GoogleChromeManagementV1BootPerformanceReportList =
   Array<GoogleChromeManagementV1BootPerformanceReport>;
 /** Contains samples of memory status reports. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceMemoryInfo](https://chromeenterprise.google/policies/#ReportDeviceMemoryInfo) * Data Collection Frequency: Only at upload, SystemRamFreeByes is collected every 10 minutes * Default Data Reporting Frequency: Every 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_MEMORY_REPORT */
 export interface GoogleChromeManagementV1MemoryStatusReport {
   /** Output only. Amount of free RAM in bytes (unreliable due to Garbage Collection). */
-  systemRamFreeBytes?: string;
+  systemRamFreeBytes?: string | undefined;
   /** Output only. Number of page faults during this collection */
-  pageFaults?: number;
+  pageFaults?: number | undefined;
   /** Output only. The timestamp in milliseconds representing time at which this report was sampled. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Frequency the report is sampled. */
-  sampleFrequency?: string;
+  sampleFrequency?: string | undefined;
 }
 export type GoogleChromeManagementV1MemoryStatusReportList =
   Array<GoogleChromeManagementV1MemoryStatusReport>;
@@ -1975,68 +2021,68 @@ export type GoogleChromeManagementV1BatteryStatusReportBatteryHealthEnum =
 /** Sampling data for battery. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDevicePowerStatus](https://chromeenterprise.google/policies/#ReportDevicePowerStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A */
 export interface GoogleChromeManagementV1BatterySampleReport {
   /** Output only. Battery voltage (millivolt). */
-  voltage?: string;
+  voltage?: string | undefined;
   /** Output only. The battery discharge rate measured in mW. Positive if the battery is being discharged, negative if it's being charged. */
-  dischargeRate?: number;
+  dischargeRate?: number | undefined;
   /** Output only. Battery current (mA). */
-  current?: string;
+  current?: string | undefined;
   /** Output only. Timestamp of when the sample was collected on device */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Battery remaining capacity (mAmpere-hours). */
-  remainingCapacity?: string;
+  remainingCapacity?: string | undefined;
   /** Output only. Battery status read from sysfs. Example: Discharging */
-  status?: string;
+  status?: string | undefined;
   /** Output only. Temperature in Celsius degrees. */
-  temperature?: number;
+  temperature?: number | undefined;
   /** Output only. Battery charge percentage. */
-  chargeRate?: number;
+  chargeRate?: number | undefined;
 }
 export type GoogleChromeManagementV1BatterySampleReportList =
   Array<GoogleChromeManagementV1BatterySampleReport>;
 /** Status data for battery. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDevicePowerStatus](https://chromeenterprise.google/policies/#ReportDevicePowerStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_BATTERY_REPORT */
 export interface GoogleChromeManagementV1BatteryStatusReport {
   /** Output only. Cycle count. */
-  cycleCount?: number;
+  cycleCount?: number | undefined;
   /** Output only. Full charge capacity (mAmpere-hours). */
-  fullChargeCapacity?: string;
+  fullChargeCapacity?: string | undefined;
   /** Output only. Battery health. */
-  batteryHealth?: GoogleChromeManagementV1BatteryStatusReportBatteryHealthEnum;
+  batteryHealth?: GoogleChromeManagementV1BatteryStatusReportBatteryHealthEnum | undefined;
   /** Output only. Battery serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Output only. Timestamp of when the sample was collected on device */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Sampling data for the battery sorted in a decreasing order of report_time. */
-  sample?: GoogleChromeManagementV1BatterySampleReportList;
+  sample?: GoogleChromeManagementV1BatterySampleReportList | undefined;
 }
 export type GoogleChromeManagementV1BatteryStatusReportList =
   Array<GoogleChromeManagementV1BatteryStatusReport>;
 /** USB connected peripheral report. */
 export interface GoogleChromeManagementV1UsbPeripheralReport {
   /** Output only. Vendor ID */
-  vid?: number;
+  vid?: number | undefined;
   /** Output only. Vendor name */
-  vendor?: string;
+  vendor?: string | undefined;
   /** Output only. Categories the device belongs to https://www.usb.org/defined-class-codes */
-  categories?: StringList;
+  categories?: StringList | undefined;
   /** Output only. Firmware version */
-  firmwareVersion?: string;
+  firmwareVersion?: string | undefined;
   /** Output only. Product ID */
-  pid?: number;
+  pid?: number | undefined;
   /** Output only. Subclass ID https://www.usb.org/defined-class-codes */
-  subclassId?: number;
+  subclassId?: number | undefined;
   /** Output only. Device name, model name, or product name */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Class ID https://www.usb.org/defined-class-codes */
-  classId?: number;
+  classId?: number | undefined;
 }
 export type GoogleChromeManagementV1UsbPeripheralReportList =
   Array<GoogleChromeManagementV1UsbPeripheralReport>;
 /** Peripherals report. * Granular permission needed: TELEMETRY_API_PERIPHERALS_REPORT */
 export interface GoogleChromeManagementV1PeripheralsReport {
   /** Output only. Timestamp of when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Reports of all usb connected devices. */
-  usbPeripheralReport?: GoogleChromeManagementV1UsbPeripheralReportList;
+  usbPeripheralReport?: GoogleChromeManagementV1UsbPeripheralReportList | undefined;
 }
 export type GoogleChromeManagementV1PeripheralsReportList =
   Array<GoogleChromeManagementV1PeripheralsReport>;
@@ -2051,22 +2097,22 @@ export type GoogleChromeManagementV1ThunderboltInfoSecurityLevelEnum =
 /** Thunderbolt bus info. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDeviceSecurityStatus](https://chromeenterprise.google/policies/#ReportDeviceSecurityStatus) * Data Collection Frequency: At device startup * Default Data Reporting Frequency: At device startup - Policy Controlled: No * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_BUS_DEVICE_INFO */
 export interface GoogleChromeManagementV1ThunderboltInfo {
   /** Security level of the Thunderbolt bus. */
-  securityLevel?: GoogleChromeManagementV1ThunderboltInfoSecurityLevelEnum;
+  securityLevel?: GoogleChromeManagementV1ThunderboltInfoSecurityLevelEnum | undefined;
 }
 export type GoogleChromeManagementV1ThunderboltInfoList =
   Array<GoogleChromeManagementV1ThunderboltInfo>;
 /** Runtime counters retrieved from CPU. Currently the runtime counters telemetry is only supported by Intel vPro PSR on Gen 14+. */
 export interface GoogleChromeManagementV1RuntimeCountersReport {
   /** Number of times that the device has entered into the power-off state. Currently obtained via the PSR, count from S0->S5. */
-  enterPoweroffCount?: string;
+  enterPoweroffCount?: string | undefined;
   /** Total lifetime runtime. Currently always S0 runtime from Intel vPro PSR. */
-  uptimeRuntimeDuration?: string;
+  uptimeRuntimeDuration?: string | undefined;
   /** Timestamp when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Number of times that the device has entered into the sleep state. Currently obtained via the PSR, count from S0->S3. */
-  enterSleepCount?: string;
+  enterSleepCount?: string | undefined;
   /** Number of times that the device has entered into the hibernation state. Currently obtained via the PSR, count from S0->S4. */
-  enterHibernationCount?: string;
+  enterHibernationCount?: string | undefined;
 }
 export type GoogleChromeManagementV1RuntimeCountersReportList =
   Array<GoogleChromeManagementV1RuntimeCountersReport>;
@@ -2090,21 +2136,21 @@ export type GoogleChromeManagementV1AppUsageDataAppTypeEnum =
 /** App usage data. */
 export interface GoogleChromeManagementV1AppUsageData {
   /** Application instance id. This will be unique per window/instance. */
-  appInstanceId?: string;
+  appInstanceId?: string | undefined;
   /** App foreground running time. */
-  runningDuration?: string;
+  runningDuration?: string | undefined;
   /** App id. */
-  appId?: string;
+  appId?: string | undefined;
   /** Type of app. */
-  appType?: GoogleChromeManagementV1AppUsageDataAppTypeEnum;
+  appType?: GoogleChromeManagementV1AppUsageDataAppTypeEnum | undefined;
 }
 export type GoogleChromeManagementV1AppUsageDataList = Array<GoogleChromeManagementV1AppUsageData>;
 /** App report. */
 export interface GoogleChromeManagementV1AppReport {
   /** App usage data. */
-  usageData?: GoogleChromeManagementV1AppUsageDataList;
+  usageData?: GoogleChromeManagementV1AppUsageDataList | undefined;
   /** Timestamp when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
 }
 export type GoogleChromeManagementV1AppReportList = Array<GoogleChromeManagementV1AppReport>;
 export type GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionAlgorithmEnum =
@@ -2121,29 +2167,33 @@ export type GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionStateEnum
 /** Memory encryption information of a device. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDeviceMemoryInfo](https://chromeenterprise.google/policies/#ReportDeviceMemoryInfo) * Data Collection Frequency: At device startup * Default Data Reporting Frequency: At device startup - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: N/A */
 export interface GoogleChromeManagementV1TotalMemoryEncryptionInfo {
   /** Memory encryption algorithm. */
-  encryptionAlgorithm?: GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionAlgorithmEnum;
+  encryptionAlgorithm?:
+    | GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionAlgorithmEnum
+    | undefined;
   /** The state of memory encryption on the device. */
-  encryptionState?: GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionStateEnum;
+  encryptionState?:
+    | GoogleChromeManagementV1TotalMemoryEncryptionInfoEncryptionStateEnum
+    | undefined;
   /** The maximum number of keys that can be used for encryption. */
-  maxKeys?: string;
+  maxKeys?: string | undefined;
   /** The length of the encryption keys. */
-  keyLength?: string;
+  keyLength?: string | undefined;
 }
 /** Memory information of a device. * This field has both telemetry and device information: - `totalRamBytes` - Device information - `availableRamBytes` - Telemetry information - `totalMemoryEncryption` - Device information * Data for this field is controlled via policy: [ReportDeviceMemoryInfo](https://chromeenterprise.google/policies/#ReportDeviceMemoryInfo) * Data Collection Frequency: - `totalRamBytes` - Only at upload - `availableRamBytes` - Every 10 minutes - `totalMemoryEncryption` - at device startup * Default Data Reporting Frequency: - `totalRamBytes` - 3 hours - `availableRamBytes` - 3 hours - `totalMemoryEncryption` - at device startup - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: only for `totalMemoryEncryption` * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_MEMORY_INFO */
 export interface GoogleChromeManagementV1MemoryInfo {
   /** Output only. Amount of available RAM in bytes. */
-  availableRamBytes?: string;
+  availableRamBytes?: string | undefined;
   /** Output only. Total RAM in bytes. */
-  totalRamBytes?: string;
+  totalRamBytes?: string | undefined;
   /** Output only. Total memory encryption info for the device. */
-  totalMemoryEncryption?: GoogleChromeManagementV1TotalMemoryEncryptionInfo;
+  totalMemoryEncryption?: GoogleChromeManagementV1TotalMemoryEncryptionInfo | undefined;
 }
 /** Network bandwidth report. * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1NetworkBandwidthReport {
   /** Output only. Timestamp of when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Download speed in kilobits per second. */
-  downloadSpeedKbps?: string;
+  downloadSpeedKbps?: string | undefined;
 }
 export type GoogleChromeManagementV1NetworkBandwidthReportList =
   Array<GoogleChromeManagementV1NetworkBandwidthReport>;
@@ -2156,39 +2206,39 @@ export type GoogleChromeManagementV1HeartbeatStatusReportStateEnum =
 /** Heartbeat status report of a device. * Available for Kiosks * This field provides online/offline/unknown status of a device and will only be included if the status has changed (e.g. Online -> Offline) * Data for this field is controlled via policy: [HeartbeatEnabled](https://chromeenterprise.google/policies/#HeartbeatEnabled) [More Info](https://support.google.com/chrome/a/answer/6179663#:~:text=On%20the%20Chrome,device%20status%20alerts) * Heartbeat Frequency: 2 mins * Note: If a device goes offline, it can take up to 12 minutes for the online status of the device to be updated * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: N/A * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_DEVICE_ACTIVITY_REPORT */
 export interface GoogleChromeManagementV1HeartbeatStatusReport {
   /** Timestamp of when status changed was detected */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** State the device changed to */
-  state?: GoogleChromeManagementV1HeartbeatStatusReportStateEnum;
+  state?: GoogleChromeManagementV1HeartbeatStatusReportStateEnum | undefined;
 }
 export type GoogleChromeManagementV1HeartbeatStatusReportList =
   Array<GoogleChromeManagementV1HeartbeatStatusReport>;
 /** Kiosk app status report of a device. * Available for Kiosks * This field provides the app id and version number running on a kiosk device and the timestamp of when the report was last updated * Data for this field is controlled via policy: [ReportDeviceSessionStatus](https://chromeenterprise.google/policies/#ReportDeviceSessionStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_APPS_REPORT */
 export interface GoogleChromeManagementV1KioskAppStatusReport {
   /** App id of kiosk app for example "mdmkkicfmmkgmpkmkdikhlbggogpicma" */
-  appId?: string;
+  appId?: string | undefined;
   /** Timestamp of when report was collected */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** App version number of kiosk app for example "1.10.118" */
-  appVersion?: string;
+  appVersion?: string | undefined;
 }
 export type GoogleChromeManagementV1KioskAppStatusReportList =
   Array<GoogleChromeManagementV1KioskAppStatusReport>;
 /** Status data for storage. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceAudioStatus](https://chromeenterprise.google/policies/#ReportDeviceAudioStatus) * Data Collection Frequency: 10 minutes * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_AUDIO_REPORT */
 export interface GoogleChromeManagementV1AudioStatusReport {
   /** Output only. Is active input device mute or not. */
-  inputMute?: boolean;
+  inputMute?: boolean | undefined;
   /** Output only. Is active output device mute or not. */
-  outputMute?: boolean;
+  outputMute?: boolean | undefined;
   /** Output only. Active output device's name. */
-  outputDevice?: string;
+  outputDevice?: string | undefined;
   /** Output only. Timestamp of when the sample was collected on device. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Active input device's gain in [0, 100]. */
-  inputGain?: number;
+  inputGain?: number | undefined;
   /** Output only. Active output device's volume in [0, 100]. */
-  outputVolume?: number;
+  outputVolume?: number | undefined;
   /** Output only. Active input device's name. */
-  inputDevice?: string;
+  inputDevice?: string | undefined;
 }
 export type GoogleChromeManagementV1AudioStatusReportList =
   Array<GoogleChromeManagementV1AudioStatusReport>;
@@ -2196,81 +2246,81 @@ export type GoogleChromeManagementV1CpuInfoArchitectureEnum = "ARCHITECTURE_UNSP
 /** CPU specifications for the device * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDeviceCpuInfo](https://chromeenterprise.google/policies/#ReportDeviceCpuInfo) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_CPU_INFO */
 export interface GoogleChromeManagementV1CpuInfo {
   /** Output only. The CPU model name. Example: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz */
-  model?: string;
+  model?: string | undefined;
   /** Output only. Architecture type for the CPU. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDeviceCpuInfo](https://chromeenterprise.google/policies/#ReportDeviceCpuInfo) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A */
-  architecture?: GoogleChromeManagementV1CpuInfoArchitectureEnum;
+  architecture?: GoogleChromeManagementV1CpuInfoArchitectureEnum | undefined;
   /** Output only. The max CPU clock speed in kHz. */
-  maxClockSpeed?: number;
+  maxClockSpeed?: number | undefined;
   /** Output only. Whether keylocker is supported. */
-  keylockerSupported?: boolean;
+  keylockerSupported?: boolean | undefined;
   /** Output only. Whether keylocker is configured.`TRUE` = Enabled; `FALSE` = disabled. Only reported if keylockerSupported = `TRUE`. */
-  keylockerConfigured?: boolean;
+  keylockerConfigured?: boolean | undefined;
 }
 export type GoogleChromeManagementV1CpuInfoList = Array<GoogleChromeManagementV1CpuInfo>;
 /** Information for a display. */
 export interface GoogleChromeManagementV1DisplayInfo {
   /** Output only. Serial number. */
-  serialNumber?: number;
+  serialNumber?: number | undefined;
   /** Output only. Indicates if display is internal or not. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
   /** Output only. Represents the graphics card device id. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Output only. EDID version. */
-  edidVersion?: string;
+  edidVersion?: string | undefined;
   /** Output only. Resolution width in pixels. */
-  resolutionWidth?: number;
+  resolutionWidth?: number | undefined;
   /** Output only. Refresh rate in Hz. */
-  refreshRate?: number;
+  refreshRate?: number | undefined;
   /** Output only. Resolution height in pixels. */
-  resolutionHeight?: number;
+  resolutionHeight?: number | undefined;
   /** Output only. Display device name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleChromeManagementV1DisplayInfoList = Array<GoogleChromeManagementV1DisplayInfo>;
 /** Information of the graphics subsystem. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceGraphicsInfo](https://chromeenterprise.google/policies/#ReportDeviceGraphicsInfo) * Data Collection Frequency: 3 hours. * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_GRAPHICS_REPORT */
 export interface GoogleChromeManagementV1GraphicsStatusReport {
   /** Output only. Information about the displays for the device. */
-  displays?: GoogleChromeManagementV1DisplayInfoList;
+  displays?: GoogleChromeManagementV1DisplayInfoList | undefined;
   /** Output only. Time at which the graphics data was reported. */
-  reportTime?: string;
+  reportTime?: string | undefined;
 }
 export type GoogleChromeManagementV1GraphicsStatusReportList =
   Array<GoogleChromeManagementV1GraphicsStatusReport>;
 /** Information about the battery. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDevicePowerStatus](https://chromeenterprise.google/policies/#ReportDevicePowerStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_BATTERY_INFO */
 export interface GoogleChromeManagementV1BatteryInfo {
   /** Output only. Battery manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Output only. Designed minimum output voltage (mV) */
-  designMinVoltage?: number;
+  designMinVoltage?: number | undefined;
   /** Output only. Technology of the battery. Example: Li-ion */
-  technology?: string;
+  technology?: string | undefined;
   /** Output only. The date the battery was manufactured. */
-  manufactureDate?: GoogleTypeDate;
+  manufactureDate?: GoogleTypeDate | undefined;
   /** Output only. Battery serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Output only. Design capacity (mAmpere-hours). */
-  designCapacity?: string;
+  designCapacity?: string | undefined;
 }
 export type GoogleChromeManagementV1BatteryInfoList = Array<GoogleChromeManagementV1BatteryInfo>;
 /** Information for disk volumes */
 export interface GoogleChromeManagementV1StorageInfoDiskVolume {
   /** Disk volume id. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Total storage space in bytes. */
-  storageTotalBytes?: string;
+  storageTotalBytes?: string | undefined;
   /** Free storage space in bytes. */
-  storageFreeBytes?: string;
+  storageFreeBytes?: string | undefined;
 }
 export type GoogleChromeManagementV1StorageInfoDiskVolumeList =
   Array<GoogleChromeManagementV1StorageInfoDiskVolume>;
 /** Status data for storage. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceStorageStatus](https://chromeenterprise.google/policies/#ReportDeviceStorageStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_STORAGE_INFO */
 export interface GoogleChromeManagementV1StorageInfo {
   /** The total space for user data storage in the device in bytes. */
-  totalDiskBytes?: string;
+  totalDiskBytes?: string | undefined;
   /** The available space for user data storage in the device in bytes. */
-  availableDiskBytes?: string;
+  availableDiskBytes?: string | undefined;
   /** Information for disk volumes */
-  volume?: GoogleChromeManagementV1StorageInfoDiskVolumeList;
+  volume?: GoogleChromeManagementV1StorageInfoDiskVolumeList | undefined;
 }
 export type GoogleChromeManagementV1NetworkStatusReportConnectionStateEnum =
   | "NETWORK_CONNECTION_STATE_UNSPECIFIED"
@@ -2289,41 +2339,41 @@ export type GoogleChromeManagementV1NetworkStatusReportConnectionTypeEnum =
 /** State of visible/configured networks. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportNetworkStatus](https://chromeenterprise.google/policies/#ReportNetworkStatus) * Data Collection Frequency: 60 minutes * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: Yes * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1NetworkStatusReport {
   /** Output only. Wifi power management enabled */
-  wifiPowerManagementEnabled?: boolean;
+  wifiPowerManagementEnabled?: boolean | undefined;
   /** Output only. Gateway IP address. */
-  gatewayIpAddress?: string;
+  gatewayIpAddress?: string | undefined;
   /** Output only. IPv6 addresses assigned to this network, if any. Each address is a string in standard IPv6 text representation (e.g., "2001:db8::1"). */
-  ipv6Address?: StringList;
+  ipv6Address?: StringList | undefined;
   /** Output only. Signal strength for wireless networks measured in decibels. */
-  signalStrengthDbm?: number;
+  signalStrengthDbm?: number | undefined;
   /** Output only. The maximum downstream bandwidth in Kilobits per second (Kbps), if reported by the network interface or connection. */
-  linkDownSpeedKbps?: string;
+  linkDownSpeedKbps?: string | undefined;
   /** Output only. Transmission bit rate measured in Megabits per second. */
-  transmissionBitRateMbps?: string;
+  transmissionBitRateMbps?: string | undefined;
   /** Output only. LAN IP address. */
-  lanIpAddress?: string;
+  lanIpAddress?: string | undefined;
   /** Output only. Current connection state of the network. */
-  connectionState?: GoogleChromeManagementV1NetworkStatusReportConnectionStateEnum;
+  connectionState?: GoogleChromeManagementV1NetworkStatusReportConnectionStateEnum | undefined;
   /** Output only. Receiving bit rate measured in Megabits per second. */
-  receivingBitRateMbps?: string;
+  receivingBitRateMbps?: string | undefined;
   /** Output only. Frequency the report is sampled. */
-  sampleFrequency?: string;
+  sampleFrequency?: string | undefined;
   /** Output only. Time at which the network state was reported. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Whether the network was detected as metered. */
-  metered?: boolean;
+  metered?: boolean | undefined;
   /** Output only. Network connection type. */
-  connectionType?: GoogleChromeManagementV1NetworkStatusReportConnectionTypeEnum;
+  connectionType?: GoogleChromeManagementV1NetworkStatusReportConnectionTypeEnum | undefined;
   /** Output only. Transmission power measured in decibels. */
-  transmissionPowerDbm?: number;
+  transmissionPowerDbm?: number | undefined;
   /** Output only. Network connection guid. */
-  guid?: string;
+  guid?: string | undefined;
   /** Output only. Whether the wifi encryption key is turned off. */
-  encryptionOn?: boolean;
+  encryptionOn?: boolean | undefined;
   /** Output only. Wifi link quality. Value ranges from [0, 70]. 0 indicates no signal and 70 indicates a strong signal. */
-  wifiLinkQuality?: string;
+  wifiLinkQuality?: string | undefined;
   /** Output only. The gateway IPv6 for this interface, if detected */
-  gatewayIpv6Address?: string;
+  gatewayIpv6Address?: string | undefined;
 }
 export type GoogleChromeManagementV1NetworkStatusReportList =
   Array<GoogleChromeManagementV1NetworkStatusReport>;
@@ -2335,80 +2385,80 @@ export type GoogleChromeManagementV1OsUpdateStatusUpdateStateEnum =
 /** Contains information regarding the current OS update status. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceOsUpdateStatus](https://chromeenterprise.google/policies/#ReportDeviceOsUpdateStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_OS_REPORT */
 export interface GoogleChromeManagementV1OsUpdateStatus {
   /** Output only. Timestamp of the last successful update. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** Output only. Current state of the os update. */
-  updateState?: GoogleChromeManagementV1OsUpdateStatusUpdateStateEnum;
+  updateState?: GoogleChromeManagementV1OsUpdateStatusUpdateStateEnum | undefined;
   /** Output only. Timestamp of the last reboot. */
-  lastRebootTime?: string;
+  lastRebootTime?: string | undefined;
   /** Output only. Timestamp of the last update check. */
-  lastUpdateCheckTime?: string;
+  lastUpdateCheckTime?: string | undefined;
   /** Output only. New requested platform version from the pending updated kiosk app. */
-  newRequestedPlatformVersion?: string;
+  newRequestedPlatformVersion?: string | undefined;
   /** Output only. New platform version of the os image being downloaded and applied. It is only set when update status is OS_IMAGE_DOWNLOAD_IN_PROGRESS or OS_UPDATE_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for OS_UPDATE_NEED_REBOOT status for some edge cases, e.g. update engine is restarted without a reboot. */
-  newPlatformVersion?: string;
+  newPlatformVersion?: string | undefined;
 }
 export type GoogleChromeManagementV1OsUpdateStatusList =
   Array<GoogleChromeManagementV1OsUpdateStatus>;
 /** Information of a display device. */
 export interface GoogleChromeManagementV1DisplayDevice {
   /** Output only. Serial number. */
-  serialNumber?: number;
+  serialNumber?: number | undefined;
   /** Output only. Three letter manufacturer ID. */
-  manufacturerId?: string;
+  manufacturerId?: string | undefined;
   /** Output only. Manufacturer product code. */
-  modelId?: number;
+  modelId?: number | undefined;
   /** Output only. Year of manufacture. */
-  manufactureYear?: number;
+  manufactureYear?: number | undefined;
   /** Output only. Display width in millimeters. */
-  displayWidthMm?: number;
+  displayWidthMm?: number | undefined;
   /** Output only. Display device name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. EDID version. */
-  edidVersion?: string;
+  edidVersion?: string | undefined;
   /** Output only. Is display internal or not. */
-  internal?: boolean;
+  internal?: boolean | undefined;
   /** Output only. Display height in millimeters. */
-  displayHeightMm?: number;
+  displayHeightMm?: number | undefined;
 }
 export type GoogleChromeManagementV1DisplayDeviceList =
   Array<GoogleChromeManagementV1DisplayDevice>;
 /** Information of an internal touch screen device. */
 export interface GoogleChromeManagementV1TouchScreenDevice {
   /** Output only. Touch screen device is stylus capable or not. */
-  stylusCapable?: boolean;
+  stylusCapable?: boolean | undefined;
   /** Output only. Number of touch points supported on the device. */
-  touchPointCount?: number;
+  touchPointCount?: number | undefined;
   /** Output only. Touch screen device display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleChromeManagementV1TouchScreenDeviceList =
   Array<GoogleChromeManagementV1TouchScreenDevice>;
 /** Information on the device touch screen. */
 export interface GoogleChromeManagementV1TouchScreenInfo {
   /** Output only. List of the internal touch screen devices. */
-  devices?: GoogleChromeManagementV1TouchScreenDeviceList;
+  devices?: GoogleChromeManagementV1TouchScreenDeviceList | undefined;
   /** Output only. Touchpad library name used by the input stack. */
-  touchpadLibrary?: string;
+  touchpadLibrary?: string | undefined;
 }
 /** Information of a graphics adapter (GPU). */
 export interface GoogleChromeManagementV1GraphicsAdapterInfo {
   /** Output only. Represents the graphics card device id. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Output only. Adapter name. Example: Mesa DRI Intel(R) UHD Graphics 620 (Kabylake GT2). */
-  adapter?: string;
+  adapter?: string | undefined;
   /** Output only. Version of the GPU driver. */
-  driverVersion?: string;
+  driverVersion?: string | undefined;
 }
 /** Information of the graphics subsystem. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportDeviceGraphicsStatus](https://chromeenterprise.google/policies/#ReportDeviceGraphicsStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_GRAPHICS_INFO */
 export interface GoogleChromeManagementV1GraphicsInfo {
   /** Output only. Information about the display(s) of the device. */
-  displayDevices?: GoogleChromeManagementV1DisplayDeviceList;
+  displayDevices?: GoogleChromeManagementV1DisplayDeviceList | undefined;
   /** Output only. Is ePrivacy screen supported or not. */
-  eprivacySupported?: boolean;
+  eprivacySupported?: boolean | undefined;
   /** Output only. Information about the internal touch screen(s) of the device. */
-  touchScreenInfo?: GoogleChromeManagementV1TouchScreenInfo;
+  touchScreenInfo?: GoogleChromeManagementV1TouchScreenInfo | undefined;
   /** Output only. Information about the graphics adapter (GPU). */
-  adapterInfo?: GoogleChromeManagementV1GraphicsAdapterInfo;
+  adapterInfo?: GoogleChromeManagementV1GraphicsAdapterInfo | undefined;
 }
 export type GoogleChromeManagementV1NetworkDeviceTypeEnum =
   | "NETWORK_DEVICE_TYPE_UNSPECIFIED"
@@ -2418,61 +2468,61 @@ export type GoogleChromeManagementV1NetworkDeviceTypeEnum =
 /** Details about the network device. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportNetworkDeviceConfiguration](https://chromeenterprise.google/policies/#ReportNetworkDeviceConfiguration) * Data Collection Frequency: At device startup * Default Data Reporting Frequency: At device startup - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: N/A */
 export interface GoogleChromeManagementV1NetworkDevice {
   /** Output only. MAC address (if applicable) of the corresponding network device. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Output only. IMEI (if applicable) of the corresponding network device. */
-  imei?: string;
+  imei?: string | undefined;
   /** Output only. MEID (if applicable) of the corresponding network device. */
-  meid?: string;
+  meid?: string | undefined;
   /** Output only. Network device type. */
-  type?: GoogleChromeManagementV1NetworkDeviceTypeEnum;
+  type?: GoogleChromeManagementV1NetworkDeviceTypeEnum | undefined;
   /** Output only. The integrated circuit card ID associated with the device's sim card. */
-  iccid?: string;
+  iccid?: string | undefined;
   /** Output only. The mobile directory number associated with the device's sim card. */
-  mdn?: string;
+  mdn?: string | undefined;
 }
 export type GoogleChromeManagementV1NetworkDeviceList =
   Array<GoogleChromeManagementV1NetworkDevice>;
 /** Network device information. * This field provides device information, which is static and will not change over time. * Data for this field is controlled via policy: [ReportNetworkDeviceConfiguration](https://chromeenterprise.google/policies/#ReportNetworkDeviceConfiguration) * Data Collection Frequency: At device startup * Default Data Reporting Frequency: At device startup - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: Yes * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_NETWORK_INFO */
 export interface GoogleChromeManagementV1NetworkInfo {
   /** Output only. List of network devices. */
-  networkDevices?: GoogleChromeManagementV1NetworkDeviceList;
+  networkDevices?: GoogleChromeManagementV1NetworkDeviceList | undefined;
 }
 /** Status of the single storage device. */
 export interface GoogleChromeManagementV1DiskInfo {
   /** Output only. Time spent writing to disk since last boot. */
-  writeTimeThisSession?: string;
+  writeTimeThisSession?: string | undefined;
   /** Output only. Time spent discarding since last boot. Discarding is writing to clear blocks which are no longer in use. Supported on kernels 4.18+. */
-  discardTimeThisSession?: string;
+  discardTimeThisSession?: string | undefined;
   /** Output only. Disk health. */
-  health?: string;
+  health?: string | undefined;
   /** Output only. Disk model. */
-  model?: string;
+  model?: string | undefined;
   /** Output only. Disk volumes. */
-  volumeIds?: StringList;
+  volumeIds?: StringList | undefined;
   /** Output only. Time spent reading from disk since last boot. */
-  readTimeThisSession?: string;
+  readTimeThisSession?: string | undefined;
   /** Output only. Number of bytes written since last boot. */
-  bytesWrittenThisSession?: string;
+  bytesWrittenThisSession?: string | undefined;
   /** Output only. Disk serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Output only. Disk type: eMMC / NVMe / ATA / SCSI. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. Disk manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Output only. Number of bytes read since last boot. */
-  bytesReadThisSession?: string;
+  bytesReadThisSession?: string | undefined;
   /** Output only. Counts the time the disk and queue were busy, so unlike the fields above, parallel requests are not counted multiple times. */
-  ioTimeThisSession?: string;
+  ioTimeThisSession?: string | undefined;
   /** Output only. Disk size. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
 }
 export type GoogleChromeManagementV1DiskInfoList = Array<GoogleChromeManagementV1DiskInfo>;
 /** Status data for storage. * This field is telemetry information and this will change over time as the device is utilized. * Data for this field is controlled via policy: [ReportDeviceStorageStatus](https://chromeenterprise.google/policies/#ReportDeviceStorageStatus) * Data Collection Frequency: Only at Upload * Default Data Reporting Frequency: 3 hours - Policy Controlled: Yes * Cache: If the device is offline, the collected data is stored locally, and will be reported when the device is next online: No * Reported for affiliated users only: N/A * Granular permission needed: TELEMETRY_API_STORAGE_REPORT */
 export interface GoogleChromeManagementV1StorageStatusReport {
   /** Output only. Reports on disk. */
-  disk?: GoogleChromeManagementV1DiskInfoList;
+  disk?: GoogleChromeManagementV1DiskInfoList | undefined;
   /** Output only. Timestamp of when the sample was collected on device */
-  reportTime?: string;
+  reportTime?: string | undefined;
 }
 export type GoogleChromeManagementV1StorageStatusReportList =
   Array<GoogleChromeManagementV1StorageStatusReport>;
@@ -2485,81 +2535,81 @@ export type GoogleChromeManagementV1HttpsLatencyRoutineDataProblemEnum =
 /** Data that describes the result of the HTTPS latency diagnostics routine, with the HTTPS requests issued to Google websites. */
 export interface GoogleChromeManagementV1HttpsLatencyRoutineData {
   /** Output only. HTTPS latency if routine succeeded or failed because of HIGH_LATENCY or VERY_HIGH_LATENCY. */
-  latency?: string;
+  latency?: string | undefined;
   /** Output only. HTTPS latency routine problem if a problem occurred. */
-  problem?: GoogleChromeManagementV1HttpsLatencyRoutineDataProblemEnum;
+  problem?: GoogleChromeManagementV1HttpsLatencyRoutineDataProblemEnum | undefined;
 }
 /** Network testing results to determine the health of the device's network connection, for example whether the HTTPS latency is high or normal. * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1NetworkDiagnosticsReport {
   /** Output only. HTTPS latency test data. */
-  httpsLatencyData?: GoogleChromeManagementV1HttpsLatencyRoutineData;
+  httpsLatencyData?: GoogleChromeManagementV1HttpsLatencyRoutineData | undefined;
   /** Output only. Timestamp of when the diagnostics were collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
 }
 export type GoogleChromeManagementV1NetworkDiagnosticsReportList =
   Array<GoogleChromeManagementV1NetworkDiagnosticsReport>;
 /** Telemetry data collected from a managed device. * Granular permission needed: TELEMETRY_API_DEVICE */
 export interface GoogleChromeManagementV1TelemetryDevice {
   /** Output only. CPU status reports collected periodically sorted in a decreasing order of report_time. */
-  cpuStatusReport?: GoogleChromeManagementV1CpuStatusReportList;
+  cpuStatusReport?: GoogleChromeManagementV1CpuStatusReportList | undefined;
   /** Output only. The unique Directory API ID of the device. This value is the same as the Admin Console's Directory API ID in the ChromeOS Devices tab */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Output only. Boot performance reports of the device. */
-  bootPerformanceReport?: GoogleChromeManagementV1BootPerformanceReportList;
+  bootPerformanceReport?: GoogleChromeManagementV1BootPerformanceReportList | undefined;
   /** Output only. Memory status reports collected periodically sorted decreasing by report_time. */
-  memoryStatusReport?: GoogleChromeManagementV1MemoryStatusReportList;
+  memoryStatusReport?: GoogleChromeManagementV1MemoryStatusReportList | undefined;
   /** Output only. Battery reports collected periodically. */
-  batteryStatusReport?: GoogleChromeManagementV1BatteryStatusReportList;
+  batteryStatusReport?: GoogleChromeManagementV1BatteryStatusReportList | undefined;
   /** Output only. Google Workspace Customer whose enterprise enrolled the device. */
-  customer?: string;
+  customer?: string | undefined;
   /** Output only. Peripherals reports collected periodically sorted in a decreasing order of report_time. */
-  peripheralsReport?: GoogleChromeManagementV1PeripheralsReportList;
+  peripheralsReport?: GoogleChromeManagementV1PeripheralsReportList | undefined;
   /** Output only. Information on Thunderbolt bus. */
-  thunderboltInfo?: GoogleChromeManagementV1ThunderboltInfoList;
+  thunderboltInfo?: GoogleChromeManagementV1ThunderboltInfoList | undefined;
   /** Output only. Runtime counters reports collected device lifetime runtime, as well as the counts of S0->S3, S0->S4, and S0->S5 transitions, meaning entering into sleep, hibernation, and power-off states */
-  runtimeCountersReport?: GoogleChromeManagementV1RuntimeCountersReportList;
+  runtimeCountersReport?: GoogleChromeManagementV1RuntimeCountersReportList | undefined;
   /** Output only. App reports collected periodically sorted in a decreasing order of report_time. */
-  appReport?: GoogleChromeManagementV1AppReportList;
+  appReport?: GoogleChromeManagementV1AppReportList | undefined;
   /** Output only. Information regarding memory specs for the device. */
-  memoryInfo?: GoogleChromeManagementV1MemoryInfo;
+  memoryInfo?: GoogleChromeManagementV1MemoryInfo | undefined;
   /** Output only. Network bandwidth reports collected periodically sorted in a decreasing order of report_time. */
-  networkBandwidthReport?: GoogleChromeManagementV1NetworkBandwidthReportList;
+  networkBandwidthReport?: GoogleChromeManagementV1NetworkBandwidthReportList | undefined;
   /** Output only. Heartbeat status report containing timestamps periodically sorted in decreasing order of report_time */
-  heartbeatStatusReport?: GoogleChromeManagementV1HeartbeatStatusReportList;
+  heartbeatStatusReport?: GoogleChromeManagementV1HeartbeatStatusReportList | undefined;
   /** Output only. Kiosk app status report for the kiosk device */
-  kioskAppStatusReport?: GoogleChromeManagementV1KioskAppStatusReportList;
+  kioskAppStatusReport?: GoogleChromeManagementV1KioskAppStatusReportList | undefined;
   /** Output only. Audio reports collected periodically sorted in a decreasing order of report_time. */
-  audioStatusReport?: GoogleChromeManagementV1AudioStatusReportList;
+  audioStatusReport?: GoogleChromeManagementV1AudioStatusReportList | undefined;
   /** Output only. Information regarding CPU specs for the device. */
-  cpuInfo?: GoogleChromeManagementV1CpuInfoList;
+  cpuInfo?: GoogleChromeManagementV1CpuInfoList | undefined;
   /** Output only. Device serial number. This value is the same as the Admin Console's Serial Number in the ChromeOS Devices tab. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Output only. Graphics reports collected periodically. */
-  graphicsStatusReport?: GoogleChromeManagementV1GraphicsStatusReportList;
+  graphicsStatusReport?: GoogleChromeManagementV1GraphicsStatusReportList | undefined;
   /** Output only. Information on battery specs for the device. */
-  batteryInfo?: GoogleChromeManagementV1BatteryInfoList;
+  batteryInfo?: GoogleChromeManagementV1BatteryInfoList | undefined;
   /** Output only. Information of storage specs for the device. */
-  storageInfo?: GoogleChromeManagementV1StorageInfo;
+  storageInfo?: GoogleChromeManagementV1StorageInfo | undefined;
   /** Output only. Resource name of the device. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Network specs collected periodically. */
-  networkStatusReport?: GoogleChromeManagementV1NetworkStatusReportList;
+  networkStatusReport?: GoogleChromeManagementV1NetworkStatusReportList | undefined;
   /** Output only. Contains relevant information regarding ChromeOS update status. */
-  osUpdateStatus?: GoogleChromeManagementV1OsUpdateStatusList;
+  osUpdateStatus?: GoogleChromeManagementV1OsUpdateStatusList | undefined;
   /** Output only. Contains information regarding Graphic peripherals for the device. */
-  graphicsInfo?: GoogleChromeManagementV1GraphicsInfo;
+  graphicsInfo?: GoogleChromeManagementV1GraphicsInfo | undefined;
   /** Output only. Organization unit ID of the device. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. Network devices information. */
-  networkInfo?: GoogleChromeManagementV1NetworkInfo;
+  networkInfo?: GoogleChromeManagementV1NetworkInfo | undefined;
   /** Output only. Storage reports collected periodically. */
-  storageStatusReport?: GoogleChromeManagementV1StorageStatusReportList;
+  storageStatusReport?: GoogleChromeManagementV1StorageStatusReportList | undefined;
   /** Output only. Network diagnostics collected periodically. */
-  networkDiagnosticsReport?: GoogleChromeManagementV1NetworkDiagnosticsReportList;
+  networkDiagnosticsReport?: GoogleChromeManagementV1NetworkDiagnosticsReportList | undefined;
 }
 export interface GetCustomersTelemetryUsersRequest {
   /** Read mask to specify which fields to return. Supported read_mask paths are: - name - org_unit_id - user_id - user_email - user_device.device_id - user_device.audio_status_report - user_device.device_activity_report - user_device.network_bandwidth_report - user_device.peripherals_report - user_device.app_report */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Required. Name of the `TelemetryUser` to return. */
   name: string;
 }
@@ -2571,49 +2621,51 @@ export type GoogleChromeManagementV1DeviceActivityReportDeviceActivityStateEnum 
 /** Device activity report. * Granular permission needed: TELEMETRY_API_DEVICE_ACTIVITY_REPORT */
 export interface GoogleChromeManagementV1DeviceActivityReport {
   /** Output only. Timestamp of when the report was collected. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Device activity state. */
-  deviceActivityState?: GoogleChromeManagementV1DeviceActivityReportDeviceActivityStateEnum;
+  deviceActivityState?:
+    | GoogleChromeManagementV1DeviceActivityReportDeviceActivityStateEnum
+    | undefined;
 }
 export type GoogleChromeManagementV1DeviceActivityReportList =
   Array<GoogleChromeManagementV1DeviceActivityReport>;
 /** Telemetry data collected for a managed user and device. * Granular permission needed: TELEMETRY_API_DEVICE */
 export interface GoogleChromeManagementV1TelemetryUserDevice {
   /** Output only. Audio reports collected periodically sorted in a decreasing order of report_time. */
-  audioStatusReport?: GoogleChromeManagementV1AudioStatusReportList;
+  audioStatusReport?: GoogleChromeManagementV1AudioStatusReportList | undefined;
   /** The unique Directory API ID of the device. This value is the same as the Admin Console's Directory API ID in the ChromeOS Devices tab. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Output only. Device activity reports collected periodically sorted in a decreasing order of report_time. */
-  deviceActivityReport?: GoogleChromeManagementV1DeviceActivityReportList;
+  deviceActivityReport?: GoogleChromeManagementV1DeviceActivityReportList | undefined;
   /** Output only. Peripherals reports collected periodically sorted in a decreasing order of report_time. */
-  peripheralsReport?: GoogleChromeManagementV1PeripheralsReportList;
+  peripheralsReport?: GoogleChromeManagementV1PeripheralsReportList | undefined;
   /** Output only. App reports collected periodically sorted in a decreasing order of report_time. */
-  appReport?: GoogleChromeManagementV1AppReportList;
+  appReport?: GoogleChromeManagementV1AppReportList | undefined;
   /** Output only. Network bandwidth reports collected periodically sorted in a decreasing order of report_time. */
-  networkBandwidthReport?: GoogleChromeManagementV1NetworkBandwidthReportList;
+  networkBandwidthReport?: GoogleChromeManagementV1NetworkBandwidthReportList | undefined;
 }
 export type GoogleChromeManagementV1TelemetryUserDeviceList =
   Array<GoogleChromeManagementV1TelemetryUserDevice>;
 /** Telemetry data collected from a managed user. * Granular permission needed: TELEMETRY_API_USER */
 export interface GoogleChromeManagementV1TelemetryUser {
   /** Resource name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** Email address of the user. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Organization unit of the user. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** G Suite Customer whose enterprise enrolled the device. */
-  customer?: string;
+  customer?: string | undefined;
   /** Telemetry data collected from a managed user and device. */
-  userDevice?: GoogleChromeManagementV1TelemetryUserDeviceList;
+  userDevice?: GoogleChromeManagementV1TelemetryUserDeviceList | undefined;
   /** Directory ID of the user. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface ListCustomersConnectorConfigsRequest {
   /** Optional. A page token, received from a previous `ListConnectorConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectorConfigs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of connector configs to return. The default page size is 50 if page_size is unspecified, and the maximum page size allowed is 100. Values above 100 will be capped at 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: customers/{customer} */
   parent: string;
 }
@@ -2622,83 +2674,85 @@ export type GoogleChromeManagementVersionsV1ConnectorConfigList =
 /** Response to ListConnectorConfigs method. */
 export interface GoogleChromeManagementVersionsV1ListConnectorConfigsResponse {
   /** The list of connector configs returned. */
-  connectorConfigs?: GoogleChromeManagementVersionsV1ConnectorConfigList;
+  connectorConfigs?: GoogleChromeManagementVersionsV1ConnectorConfigList | undefined;
   /** The page token used to retrieve the next page of the listing request. If the token is empty, there are no more pages to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersProfilesRequest {
   /** Required. Format: customers/{customer_id} */
   parent: string;
   /** Optional. The maximum number of profiles to return. The default page size is 100 if page_size is unspecified, and the maximum page size allowed is 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter used to filter profiles. The following fields can be used in the filter: - profile_id - display_name - user_email - last_activity_time - last_policy_sync_time - last_status_report_time - first_enrollment_time - os_platform_type - os_version - browser_version - browser_channel - policy_count - extension_count - identity_provider - affiliation_state - os_platform_version - ouId Any of the above fields can be used to specify a filter, and filtering by multiple fields is supported with AND operator. String type fields and enum type fields support '=' and '!=' operators. The integer type and the timestamp type fields support '=', '!=', '<', '>', '<=' and '>=' operators. Timestamps expect an RFC-3339 formatted string (e.g. 2012-04-21T11:30:00-04:00). Wildcard '*' can be used with a string type field filter. In addition, string literal filtering is also supported, for example, 'ABC' as a filter maps to a filter that checks if any of the filterable string type fields contains 'ABC'. Organization unit number can be used as a filtering criteria here by specifying 'ouId = ${your_org_unit_id}', please note that only single OU ID matching is supported. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The fields used to specify the ordering of the results. The supported fields are: - profile_id - display_name - user_email - last_activity_time - last_policy_sync_time - last_status_report_time - first_enrollment_time - os_platform_type - os_version - browser_version - browser_channel - policy_count - extension_count - identity_provider - affiliation_state - os_platform_version By default, sorting is in ascending order, to specify descending order for a field, a suffix " desc" should be added to the field name. The default ordering is the descending order of last_status_report_time. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The page token used to retrieve a specific page of the listing request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileList =
   Array<GoogleChromeManagementVersionsV1ChromeBrowserProfile>;
 /** Response to ListChromeBrowserProfiles method. */
 export interface GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse {
   /** Total size represents an estimated number of resources returned. Not guaranteed to be accurate above 10k profiles. */
-  totalSize?: string;
+  totalSize?: string | undefined;
   /** The list of profiles returned. */
-  chromeBrowserProfiles?: GoogleChromeManagementVersionsV1ChromeBrowserProfileList;
+  chromeBrowserProfiles?: GoogleChromeManagementVersionsV1ChromeBrowserProfileList | undefined;
   /** The pagination token that can be used to list the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersProfilesCommandsRequest {
   /** Optional. The maximum number of commands to return. The default page size is 100 if page_size is unspecified, and the maximum page size allowed is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   parent: string;
   /** Optional. The page token used to retrieve a specific page of the listing request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandList =
   Array<GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand>;
 /** Response to ListChromeBrowserProfileCommands method. */
 export interface GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse {
   /** The list of commands returned. */
-  chromeBrowserProfileCommands?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandList;
+  chromeBrowserProfileCommands?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandList
+    | undefined;
   /** The pagination token that can be used to list the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Total size represents an estimated number of resources returned. */
-  totalSize?: string;
+  totalSize?: string | undefined;
 }
 export interface ListCustomersTelemetryDevicesRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
   /** Maximum number of results to return. Default value is 100. Maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Read mask to specify which fields to return. Supported read_mask paths are: - name - org_unit_id - device_id - serial_number - cpu_info - cpu_status_report - memory_info - memory_status_report - network_info - network_diagnostics_report - network_status_report - os_update_status - graphics_info - graphics_status_report - battery_info - battery_status_report - storage_info - storage_status_report - thunderbolt_info - audio_status_report - boot_performance_report - heartbeat_status_report - network_bandwidth_report - peripherals_report - kiosk_app_status_report - app_report - runtime_counters_report */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Token to specify next page in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Only include resources that match the filter. Requests that don't specify a "reports_timestamp" value will default to returning only recent reports. Specify "reports_timestamp>=0" to get all report data. Supported filter fields: - org_unit_id - serial_number - device_id - reports_timestamp The "reports_timestamp" filter accepts either the Unix Epoch milliseconds format or the RFC3339 UTC "Zulu" format with nanosecond resolution and up to nine fractional digits. Both formats should be surrounded by simple double quotes. Examples: "2014-10-02T15:01:23Z", "2014-10-02T15:01:23.045123456Z", "1679283943823". */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleChromeManagementV1TelemetryDeviceList =
   Array<GoogleChromeManagementV1TelemetryDevice>;
 export interface GoogleChromeManagementV1ListTelemetryDevicesResponse {
   /** Telemetry devices returned in the response. */
-  devices?: GoogleChromeManagementV1TelemetryDeviceList;
+  devices?: GoogleChromeManagementV1TelemetryDeviceList | undefined;
   /** Token to specify next page in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersTelemetryEventsRequest {
   /** Optional. Maximum number of results to return. Default value is 100. Maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Only include resources that match the filter. Although this parameter is currently optional, this parameter will be required- please specify at least 1 event type. Supported filter fields: - device_id - user_id - device_org_unit_id - user_org_unit_id - timestamp - event_type The "timestamp" filter accepts either the Unix Epoch milliseconds format or the RFC3339 UTC "Zulu" format with nanosecond resolution and up to nine fractional digits. Both formats should be surrounded by simple double quotes. Examples: "2014-10-02T15:01:23Z", "2014-10-02T15:01:23.045123456Z", "1679283943823". */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
   /** Required. Read mask to specify which fields to return. Although currently required, this field will become optional, while the filter parameter with an event type will be come required. Supported read_mask paths are: - device - user - audio_severe_underrun_event - usb_peripherals_event - https_latency_change_event - network_state_change_event - wifi_signal_strength_event - vpn_connection_state_change_event - app_install_event - app_uninstall_event - app_launch_event - os_crash_event - external_displays_event */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Optional. Token to specify next page in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromeManagementV1TelemetryAppInstallEventAppInstallSourceEnum =
   | "APPLICATION_INSTALL_SOURCE_UNSPECIFIED"
@@ -2742,15 +2796,19 @@ export type GoogleChromeManagementV1TelemetryAppInstallEventAppInstallTimeEnum =
 /** App installation data. */
 export interface GoogleChromeManagementV1TelemetryAppInstallEvent {
   /** App installation source. */
-  appInstallSource?: GoogleChromeManagementV1TelemetryAppInstallEventAppInstallSourceEnum;
+  appInstallSource?:
+    | GoogleChromeManagementV1TelemetryAppInstallEventAppInstallSourceEnum
+    | undefined;
   /** Type of app. */
-  appType?: GoogleChromeManagementV1TelemetryAppInstallEventAppTypeEnum;
+  appType?: GoogleChromeManagementV1TelemetryAppInstallEventAppTypeEnum | undefined;
   /** App id. For PWAs this is the start URL, and for extensions this is the extension id. */
-  appId?: string;
+  appId?: string | undefined;
   /** App installation reason. */
-  appInstallReason?: GoogleChromeManagementV1TelemetryAppInstallEventAppInstallReasonEnum;
+  appInstallReason?:
+    | GoogleChromeManagementV1TelemetryAppInstallEventAppInstallReasonEnum
+    | undefined;
   /** App installation time depending on the app lifecycle. */
-  appInstallTime?: GoogleChromeManagementV1TelemetryAppInstallEventAppInstallTimeEnum;
+  appInstallTime?: GoogleChromeManagementV1TelemetryAppInstallEventAppInstallTimeEnum | undefined;
 }
 export type GoogleChromeManagementV1TelemetryEventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -2771,24 +2829,24 @@ export type GoogleChromeManagementV1TelemetryEventEventTypeEnum =
 /** External display data. */
 export interface GoogleChromeManagementV1TelemetryExternalDisplayData {
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The horizontal resolution. */
-  resolutionHorizontal?: number;
+  resolutionHorizontal?: number | undefined;
   /** The serial number. */
-  serialNumber?: number;
+  serialNumber?: number | undefined;
   /** The refresh rate. */
-  refreshRate?: string;
+  refreshRate?: string | undefined;
   /** The EDID version. */
-  edidVersion?: string;
+  edidVersion?: string | undefined;
   /** The vertical resolution. */
-  resolutionVertical?: number;
+  resolutionVertical?: number | undefined;
 }
 export type GoogleChromeManagementV1TelemetryExternalDisplayDataList =
   Array<GoogleChromeManagementV1TelemetryExternalDisplayData>;
 /** External display connected/disconnected event payload. */
 export interface GoogleChromeManagementV1TelemetryExternalDisplayEvent {
   /** List of external displays that were connected/disconnected. */
-  externalDisplayData?: GoogleChromeManagementV1TelemetryExternalDisplayDataList;
+  externalDisplayData?: GoogleChromeManagementV1TelemetryExternalDisplayDataList | undefined;
 }
 export type GoogleChromeManagementV1TelemetryHttpsLatencyChangeEventHttpsLatencyStateEnum =
   | "HTTPS_LATENCY_STATE_UNSPECIFIED"
@@ -2797,9 +2855,11 @@ export type GoogleChromeManagementV1TelemetryHttpsLatencyChangeEventHttpsLatency
 /** Https latency routine is run periodically and `TelemetryHttpsLatencyChangeEvent` is triggered if a latency problem was detected or if the device has recovered from a latency problem. * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent {
   /** Current HTTPS latency state. */
-  httpsLatencyState?: GoogleChromeManagementV1TelemetryHttpsLatencyChangeEventHttpsLatencyStateEnum;
+  httpsLatencyState?:
+    | GoogleChromeManagementV1TelemetryHttpsLatencyChangeEventHttpsLatencyStateEnum
+    | undefined;
   /** HTTPS latency routine data that triggered the event. */
-  httpsLatencyRoutineData?: GoogleChromeManagementV1HttpsLatencyRoutineData;
+  httpsLatencyRoutineData?: GoogleChromeManagementV1HttpsLatencyRoutineData | undefined;
 }
 export type GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEventConnectionStateEnum =
   | "NETWORK_CONNECTION_STATE_UNSPECIFIED"
@@ -2811,14 +2871,16 @@ export type GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEventCo
 /** `TelemetryNetworkConnectionStateChangeEvent` is triggered on network connection state changes. * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent {
   /** Unique identifier of the network. */
-  guid?: string;
+  guid?: string | undefined;
   /** Current connection state of the network. */
-  connectionState?: GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEventConnectionStateEnum;
+  connectionState?:
+    | GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEventConnectionStateEnum
+    | undefined;
 }
 /** `TelemetryUsbPeripheralsEvent` is triggered USB devices are either added or removed. * Granular permission needed: TELEMETRY_API_PERIPHERALS_REPORT */
 export interface GoogleChromeManagementV1TelemetryUsbPeripheralsEvent {
   /** List of usb devices that were either added or removed. */
-  usbPeripheralReport?: GoogleChromeManagementV1UsbPeripheralReportList;
+  usbPeripheralReport?: GoogleChromeManagementV1UsbPeripheralReportList | undefined;
 }
 export type GoogleChromeManagementV1TelemetryAppUninstallEventAppTypeEnum =
   | "TELEMETRY_APPLICATION_TYPE_UNSPECIFIED"
@@ -2846,11 +2908,13 @@ export type GoogleChromeManagementV1TelemetryAppUninstallEventAppUninstallSource
 /** App uninstall data. */
 export interface GoogleChromeManagementV1TelemetryAppUninstallEvent {
   /** App id. For PWAs this is the start URL, and for extensions this is the extension id. */
-  appId?: string;
+  appId?: string | undefined;
   /** Type of app. */
-  appType?: GoogleChromeManagementV1TelemetryAppUninstallEventAppTypeEnum;
+  appType?: GoogleChromeManagementV1TelemetryAppUninstallEventAppTypeEnum | undefined;
   /** App uninstall source. */
-  appUninstallSource?: GoogleChromeManagementV1TelemetryAppUninstallEventAppUninstallSourceEnum;
+  appUninstallSource?:
+    | GoogleChromeManagementV1TelemetryAppUninstallEventAppUninstallSourceEnum
+    | undefined;
 }
 export type GoogleChromeManagementV1TelemetryAppLaunchEventAppLaunchSourceEnum =
   | "APPLICATION_LAUNCH_SOURCE_UNSPECIFIED"
@@ -2917,18 +2981,18 @@ export type GoogleChromeManagementV1TelemetryAppLaunchEventAppTypeEnum =
 /** App launch data. */
 export interface GoogleChromeManagementV1TelemetryAppLaunchEvent {
   /** App launch source. */
-  appLaunchSource?: GoogleChromeManagementV1TelemetryAppLaunchEventAppLaunchSourceEnum;
+  appLaunchSource?: GoogleChromeManagementV1TelemetryAppLaunchEventAppLaunchSourceEnum | undefined;
   /** Type of app. */
-  appType?: GoogleChromeManagementV1TelemetryAppLaunchEventAppTypeEnum;
+  appType?: GoogleChromeManagementV1TelemetryAppLaunchEventAppTypeEnum | undefined;
   /** App id. For PWAs this is the start URL, and for extensions this is the extension id. */
-  appId?: string;
+  appId?: string | undefined;
 }
 /** `TelemetryNetworkSignalStrengthEvent` is triggered on WiFi signal strength events. * Granular permission needed: TELEMETRY_API_NETWORK_REPORT */
 export interface GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent {
   /** Unique identifier of the network. */
-  guid?: string;
+  guid?: string | undefined;
   /** Signal strength RSSI value. */
-  signalStrengthDbm?: number;
+  signalStrengthDbm?: number | undefined;
 }
 export type GoogleChromeManagementV1TelemetryOsCrashEventSessionTypeEnum =
   | "SESSION_TYPE_UNSPECIFIED"
@@ -2943,18 +3007,18 @@ export type GoogleChromeManagementV1TelemetryOsCrashEventCrashTypeEnum =
 /** OS crash data. */
 export interface GoogleChromeManagementV1TelemetryOsCrashEvent {
   /** Crash id. */
-  crashId?: string;
+  crashId?: string | undefined;
   /** Session type. */
-  sessionType?: GoogleChromeManagementV1TelemetryOsCrashEventSessionTypeEnum;
+  sessionType?: GoogleChromeManagementV1TelemetryOsCrashEventSessionTypeEnum | undefined;
   /** Crash type. */
-  crashType?: GoogleChromeManagementV1TelemetryOsCrashEventCrashTypeEnum;
+  crashType?: GoogleChromeManagementV1TelemetryOsCrashEventCrashTypeEnum | undefined;
 }
 /** Information about a device associated with telemetry data. * Granular Permission needed: TELEMETRY_API_DEVICE */
 export interface GoogleChromeManagementV1TelemetryDeviceInfo {
   /** Output only. Organization unit ID of the device. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. The unique Directory API ID of the device. This value is the same as the Admin Console's Directory API ID in the ChromeOS Devices tab. */
-  deviceId?: string;
+  deviceId?: string | undefined;
 }
 /** `TelemetryAudioSevereUnderrunEvent` is triggered when a audio devices run out of buffer data for more than 5 seconds. * Granular permission needed: TELEMETRY_API_AUDIO_REPORT */
 export type GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent =
@@ -2962,101 +3026,107 @@ export type GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent =
 /** Information about a user associated with telemetry data. * Granular permission needed: TELEMETRY_API_USER */
 export interface GoogleChromeManagementV1TelemetryUserInfo {
   /** Output only. User's email. */
-  email?: string;
+  email?: string | undefined;
   /** Output only. Organization unit ID of the user. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 /** Telemetry data reported by a managed device. */
 export interface GoogleChromeManagementV1TelemetryEvent {
   /** Output only. Payload for app install event. Present only when `event_type` is `APP_INSTALLED`. */
-  appInstallEvent?: GoogleChromeManagementV1TelemetryAppInstallEvent;
+  appInstallEvent?: GoogleChromeManagementV1TelemetryAppInstallEvent | undefined;
   /** Output only. Resource name of the event. */
-  name?: string;
+  name?: string | undefined;
   /** The event type of the current event. */
-  eventType?: GoogleChromeManagementV1TelemetryEventEventTypeEnum;
+  eventType?: GoogleChromeManagementV1TelemetryEventEventTypeEnum | undefined;
   /** Output only. Payload for external display connected/disconnected event. Present only when `event_type` is `EXTERNAL_DISPLAY_CONNECTED` or `EXTERNAL_DISPLAY_DISCONNECTED`. */
-  externalDisplaysEvent?: GoogleChromeManagementV1TelemetryExternalDisplayEvent;
+  externalDisplaysEvent?: GoogleChromeManagementV1TelemetryExternalDisplayEvent | undefined;
   /** Output only. Payload for HTTPS latency change event. Present only when `event_type` is `NETWORK_HTTPS_LATENCY_CHANGE`. */
-  httpsLatencyChangeEvent?: GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent;
+  httpsLatencyChangeEvent?: GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent | undefined;
   /** Output only. Payload for network connection state change event. Present only when `event_type` is `NETWORK_STATE_CHANGE`. */
-  networkStateChangeEvent?: GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent;
+  networkStateChangeEvent?:
+    | GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
+    | undefined;
   /** Output only. Payload for VPN connection state change event. Present only when `event_type` is `VPN_CONNECTION_STATE_CHANGE`. */
-  vpnConnectionStateChangeEvent?: GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent;
+  vpnConnectionStateChangeEvent?:
+    | GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent
+    | undefined;
   /** Output only. Payload for usb peripherals event. Present only when the `event_type` field is either `USB_ADDED` or `USB_REMOVED`. */
-  usbPeripheralsEvent?: GoogleChromeManagementV1TelemetryUsbPeripheralsEvent;
+  usbPeripheralsEvent?: GoogleChromeManagementV1TelemetryUsbPeripheralsEvent | undefined;
   /** Output only. Payload for app uninstall event. Present only when `event_type` is `APP_UNINSTALLED`. */
-  appUninstallEvent?: GoogleChromeManagementV1TelemetryAppUninstallEvent;
+  appUninstallEvent?: GoogleChromeManagementV1TelemetryAppUninstallEvent | undefined;
   /** Output only. Payload for app launch event.Present only when `event_type` is `APP_LAUNCHED`. */
-  appLaunchEvent?: GoogleChromeManagementV1TelemetryAppLaunchEvent;
+  appLaunchEvent?: GoogleChromeManagementV1TelemetryAppLaunchEvent | undefined;
   /** Output only. Payload for WiFi signal strength events. Present only when `event_type` is `WIFI_SIGNAL_STRENGTH_LOW` or `WIFI_SIGNAL_STRENGTH_RECOVERED`. */
-  wifiSignalStrengthEvent?: GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent;
+  wifiSignalStrengthEvent?: GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent | undefined;
   /** Output only. Payload for OS crash event. Present only when `event_type` is `OS_CRASH`. */
-  osCrashEvent?: GoogleChromeManagementV1TelemetryOsCrashEvent;
+  osCrashEvent?: GoogleChromeManagementV1TelemetryOsCrashEvent | undefined;
   /** Timestamp that represents when the event was reported. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Output only. Information about the device associated with the event. */
-  device?: GoogleChromeManagementV1TelemetryDeviceInfo;
+  device?: GoogleChromeManagementV1TelemetryDeviceInfo | undefined;
   /** Output only. Payload for audio severe underrun event. Present only when the `event_type` field is `AUDIO_SEVERE_UNDERRUN`. */
-  audioSevereUnderrunEvent?: GoogleLongrunningCancelOperationRequest;
+  audioSevereUnderrunEvent?: GoogleLongrunningCancelOperationRequest | undefined;
   /** Output only. Information about the user associated with the event. */
-  user?: GoogleChromeManagementV1TelemetryUserInfo;
+  user?: GoogleChromeManagementV1TelemetryUserInfo | undefined;
 }
 export type GoogleChromeManagementV1TelemetryEventList =
   Array<GoogleChromeManagementV1TelemetryEvent>;
 /** Response message for listing telemetry events for a customer. */
 export interface GoogleChromeManagementV1ListTelemetryEventsResponse {
   /** Telemetry events returned in the response. */
-  telemetryEvents?: GoogleChromeManagementV1TelemetryEventList;
+  telemetryEvents?: GoogleChromeManagementV1TelemetryEventList | undefined;
   /** Token to specify next page in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersTelemetryNotificationConfigsRequest {
   /** Required. The parent which owns the notification configs. */
   parent: string;
   /** A page token, received from a previous `ListTelemetryNotificationConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTelemetryNotificationConfigs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of notification configs to return. The service may return fewer than this value. If unspecified, at most 100 notification configs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleChromeManagementV1TelemetryNotificationConfigList =
   Array<GoogleChromeManagementV1TelemetryNotificationConfig>;
 /** Response message for listing notification configs for a customer. */
 export interface GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse {
   /** The telemetry notification configs from the specified customer. */
-  telemetryNotificationConfigs?: GoogleChromeManagementV1TelemetryNotificationConfigList;
+  telemetryNotificationConfigs?:
+    | GoogleChromeManagementV1TelemetryNotificationConfigList
+    | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersTelemetryUsersRequest {
   /** Read mask to specify which fields to return. Supported read_mask paths are: - name - org_unit_id - user_id - user_email - user_device.device_id - user_device.audio_status_report - user_device.device_activity_report - user_device.network_bandwidth_report - user_device.peripherals_report - user_device.app_report */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Only include resources that match the filter. Supported filter fields: - user_id - user_org_unit_id */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of results to return. Default value is 100. Maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
   /** Token to specify next page in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromeManagementV1TelemetryUserList =
   Array<GoogleChromeManagementV1TelemetryUser>;
 /** Response message for listing telemetry users for a customer. */
 export interface GoogleChromeManagementV1ListTelemetryUsersResponse {
   /** Telemetry users returned in the response. */
-  telemetryUsers?: GoogleChromeManagementV1TelemetryUserList;
+  telemetryUsers?: GoogleChromeManagementV1TelemetryUserList | undefined;
   /** Token to specify next page in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -3064,42 +3134,42 @@ export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request to MoveThirdPartyProfileUser method. */
 export interface GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest {
   /** Required. Destination organizational unit where the third party chrome profile user will be moved to. */
-  destinationOrgUnit?: string;
+  destinationOrgUnit?: string | undefined;
 }
 export interface MoveCustomersThirdPartyProfileUsersRequest {
   /** Required. Format: customers/{customer_id}/thirdPartyProfileUsers/{third_party_profile_user_id} */
   name: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest;
+  body?: GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest | undefined;
 }
 /** A representation of non-Google (third party) user that is associated with a managed Chrome profile. */
 export interface GoogleChromeManagementVersionsV1ThirdPartyProfileUser {
   /** Output only. The ID of the organizational unit assigned to the user. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Identifier. Format: customers/{customer_id}/thirdPartyProfileUsers/{third_party_profile_user_id} */
-  name?: string;
+  name?: string | undefined;
 }
 /** Response for MoveThirdPartyProfileUser method. */
 export interface GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse {
   /** Output only. The moved third party profile user. */
-  thirdPartyProfileUser?: GoogleChromeManagementVersionsV1ThirdPartyProfileUser;
+  thirdPartyProfileUser?: GoogleChromeManagementVersionsV1ThirdPartyProfileUser | undefined;
 }
 export interface PatchCustomersConnectorConfigsRequest {
   /** Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
   name: string;
   /** Optional. The update mask that can be used to specify which fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1ConnectorConfig;
+  body?: GoogleChromeManagementVersionsV1ConnectorConfig | undefined;
 }
 export type QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsFixedTimeRangeEnum =
   | "FIXED_TIME_RANGE_UNSPECIFIED"
@@ -3124,25 +3194,28 @@ export type QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsMe
   | "CONTENT_TRANSFERS_METRIC_SENSITIVE_PRINTS";
 export interface QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsRequest {
   /** Optional. The filter to apply to the request. For syntax, see AIP-160. Data is not available for events older than 180 days or more recent than 48 hours ago. If `event_time` is not specified, results will end 48 hours ago. Supported fields for filtering: - `user` - `event_domain` - `content_category` - `event_time` Filtering by `user` or `event_domain` requires the `breakdown` dimension to be set to the corresponding value (e.g., you must set `breakdown = USER` to filter by `user`). Supported operators: - `=` for `user`, `event_domain`, and `content_category`. - `<=` for `event_time`. Supported conjunctions: - `AND` Example: `user = "testuser" AND event_time <= "2024-01-02T00:00:00Z"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The fixed time range to return the breakdowns for. Defaults to FIXED_TIME_RANGE_FOUR_WEEKS. Fixed time ranges are used to allow for precomputation and optimize response times. */
   fixedTimeRange?:
     | QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsFixedTimeRangeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. A page token, received from a previous `QueryContentTransfersBreakdowns` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryContentTransfersBreakdowns` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The dimension to break down the content transfers by. Defaults to USER. */
   breakdown?:
     | QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsBreakdownEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The metric to return the breakdowns for. Defaults to CONTENT_TRANSFERS_METRIC_TOTAL_TRANSFERS. */
   metric?:
     | QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsMetricEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The customer ID in the format "customers/{customer_id}". */
   customer: string;
   /** Optional. The maximum number of breakdowns to return. The service may return fewer than this value. If unspecified, at most 50 breakdowns will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleChromeManagementVersionsV1ContentTransfersSummaryMetricEnum =
   | "CONTENT_TRANSFERS_METRIC_UNSPECIFIED"
@@ -3157,42 +3230,44 @@ export type GoogleChromeManagementVersionsV1ContentTransfersSummaryMetricEnum =
 /** Summary of content transfers for a given metric. */
 export interface GoogleChromeManagementVersionsV1ContentTransfersSummary {
   /** The count of the content transfers metric. */
-  count?: string;
+  count?: string | undefined;
   /** The type of content transfers metric. */
-  metric?: GoogleChromeManagementVersionsV1ContentTransfersSummaryMetricEnum;
+  metric?: GoogleChromeManagementVersionsV1ContentTransfersSummaryMetricEnum | undefined;
 }
 /** A content transfers summary for a given breakdown dimension. */
 export interface GoogleChromeManagementVersionsV1ContentTransfersBreakdown {
   /** The summary of content transfers for the breakdown dimension. */
-  summary?: GoogleChromeManagementVersionsV1ContentTransfersSummary;
+  summary?: GoogleChromeManagementVersionsV1ContentTransfersSummary | undefined;
   /** The content category of the content transfers. */
-  contentCategory?: string;
+  contentCategory?: string | undefined;
   /** The event domain of the content transfers. */
-  eventDomain?: string;
+  eventDomain?: string | undefined;
   /** The user that transferred the content. */
-  user?: string;
+  user?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ContentTransfersBreakdownList =
   Array<GoogleChromeManagementVersionsV1ContentTransfersBreakdown>;
 /** Response message for QueryContentTransfersBreakdowns. */
 export interface GoogleChromeManagementVersionsV1QueryContentTransfersBreakdownsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The content transfer breakdowns from the specified insight. */
-  contentTransfersBreakdowns?: GoogleChromeManagementVersionsV1ContentTransfersBreakdownList;
+  contentTransfersBreakdowns?:
+    | GoogleChromeManagementVersionsV1ContentTransfersBreakdownList
+    | undefined;
 }
 export interface QueryContentTransfersCustomersEnterpriseSecurityInsightsRequest {
   /** Required. The customer ID in the format "customers/{customer_id}". */
   customer: string;
   /** Optional. The filter to apply to the request. For syntax, see AIP-160. Data is not available for events older than 180 days, and may be unavailable or inaccurate for time ranges less than 4 hours. If `event_time` is not specified, results will be returned for the last 30 days. Supported fields for filtering: - `event_time` Supported operators: - `>=` and `<=` for `event_time` Supported conjunctions: - `AND` Example: `event_time >= "2024-01-01T00:00:00Z" AND event_time <= "2024-01-02T00:00:00Z"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1ContentTransfersSummaryList =
   Array<GoogleChromeManagementVersionsV1ContentTransfersSummary>;
 /** Response message for QueryContentTransfers. */
 export interface GoogleChromeManagementVersionsV1QueryContentTransfersResponse {
   /** A collection of summaries for various content transfers metrics. */
-  summaries?: GoogleChromeManagementVersionsV1ContentTransfersSummaryList;
+  summaries?: GoogleChromeManagementVersionsV1ContentTransfersSummaryList | undefined;
 }
 export type QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsBreakdownEnum =
   | "URL_VISITS_BREAKDOWN_DIMENSION_UNSPECIFIED"
@@ -3212,23 +3287,28 @@ export type QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsMetricEnu
   | "URL_VISITS_METRIC_LOW_RISK_URL_VISITS";
 export interface QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsRequest {
   /** Optional. A page token, received from a previous `QueryUrlVisitsBreakdowns` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryUrlVisitsBreakdowns` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The dimension to break down the URL visits by. Defaults to USER. */
   breakdown?:
     | QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsBreakdownEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The fixed time range to return the breakdowns for. Defaults to FIXED_TIME_RANGE_FOUR_WEEKS. Fixed time ranges are used to allow for precomputation and optimize response times. */
   fixedTimeRange?:
     | QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsFixedTimeRangeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The metric to return the breakdowns for. Defaults to URL_VISITS_METRIC_TOTAL_SUSPICIOUS_URL_VISITS. */
-  metric?: QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsMetricEnum | (string & {});
+  metric?:
+    | QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsMetricEnum
+    | (string & {})
+    | undefined;
   /** Optional. The maximum number of breakdowns to return. The service may return fewer than this value. If unspecified, at most 50 breakdowns will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The customer ID in the format "customers/{customer_id}". */
   customer: string;
   /** Optional. The filter to apply to the request. For syntax, see AIP-160. Data is not available for events older than 180 days or more recent than 48 hours ago. If `event_time` is not specified, results will end 48 hours ago. Supported fields for filtering: - `user` - `event_domain` - `event_time` Filtering by `user` or `event_domain` requires the `breakdown` dimension to be set to the corresponding value (e.g., you must set `breakdown = USER` to filter by `user`). Supported operators: - `=` for `user` and `event_domain`. - `<=` for `event_time`. Supported conjunctions: - `AND` Example: `user = "testuser" AND event_time <= "2024-01-02T00:00:00Z"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1UrlVisitsSummaryMetricEnum =
   | "URL_VISITS_METRIC_UNSPECIFIED"
@@ -3239,31 +3319,31 @@ export type GoogleChromeManagementVersionsV1UrlVisitsSummaryMetricEnum =
 /** Summary of URL visits for a given metric. */
 export interface GoogleChromeManagementVersionsV1UrlVisitsSummary {
   /** The count of the URL visits metric. */
-  count?: string;
+  count?: string | undefined;
   /** The type of URL visits metric. */
-  metric?: GoogleChromeManagementVersionsV1UrlVisitsSummaryMetricEnum;
+  metric?: GoogleChromeManagementVersionsV1UrlVisitsSummaryMetricEnum | undefined;
 }
 /** A URL visits summary for a given breakdown dimension. */
 export interface GoogleChromeManagementVersionsV1UrlVisitsBreakdown {
   /** The summary of URL visits for the breakdown dimension. */
-  summary?: GoogleChromeManagementVersionsV1UrlVisitsSummary;
+  summary?: GoogleChromeManagementVersionsV1UrlVisitsSummary | undefined;
   /** The user that visited the URL. */
-  user?: string;
+  user?: string | undefined;
   /** The event domain of the URL visits. */
-  eventDomain?: string;
+  eventDomain?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1UrlVisitsBreakdownList =
   Array<GoogleChromeManagementVersionsV1UrlVisitsBreakdown>;
 /** Response message for QueryUrlVisitsBreakdowns. */
 export interface GoogleChromeManagementVersionsV1QueryUrlVisitsBreakdownsResponse {
   /** The URL visit breakdowns from the specified insight. */
-  urlVisitsBreakdowns?: GoogleChromeManagementVersionsV1UrlVisitsBreakdownList;
+  urlVisitsBreakdowns?: GoogleChromeManagementVersionsV1UrlVisitsBreakdownList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryUrlVisitsCustomersEnterpriseSecurityInsightsRequest {
   /** Optional. The filter to apply to the request. For syntax, see AIP-160. Data is not available for events older than 180 days, and may be unavailable or inaccurate for time ranges less than 4 hours. If `event_time` is not specified, results will be returned for the last 30 days. Supported fields for filtering: - `event_time` Supported operators: - `>=` and `<=` for `event_time` Supported conjunctions: - `AND` Example: `event_time >= "2024-01-01T00:00:00Z" AND event_time <= "2024-01-02T00:00:00Z"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The customer ID in the format "customers/{customer_id}". */
   customer: string;
 }
@@ -3272,18 +3352,18 @@ export type GoogleChromeManagementVersionsV1UrlVisitsSummaryList =
 /** Response message for QueryUrlVisits. */
 export interface GoogleChromeManagementVersionsV1QueryUrlVisitsResponse {
   /** A collection of summaries for various URL visit metrics. */
-  summaries?: GoogleChromeManagementVersionsV1UrlVisitsSummaryList;
+  summaries?: GoogleChromeManagementVersionsV1UrlVisitsSummaryList | undefined;
 }
 /** Request message for marking a certificate provisioning process as failed. */
 export interface GoogleChromeManagementVersionsV1SetFailureRequest {
   /** Required. A message describing the failure details. It is displayed on the ChromeOS client device. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface SetFailureCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1SetFailureRequest;
+  body?: GoogleChromeManagementVersionsV1SetFailureRequest | undefined;
 }
 /** Response message for publishing a failure for a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1SetFailureResponse {}
@@ -3296,26 +3376,27 @@ export interface GoogleChromeManagementVersionsV1SignDataRequest {
   /** Required. The signature algorithm that the adapter expects the client and backend components to use when processing `sign_data`. */
   signatureAlgorithm?:
     | GoogleChromeManagementVersionsV1SignDataRequestSignatureAlgorithmEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The data that the client was asked to sign. */
-  signData?: string;
+  signData?: string | undefined;
 }
 export interface SignDataCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1SignDataRequest;
+  body?: GoogleChromeManagementVersionsV1SignDataRequest | undefined;
 }
 /** Request message for uploading an issued certificate for a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1UploadCertificateRequest {
   /** Required. The issued certificate in PEM format. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
 }
 export interface UploadCertificateCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
   /** Request body */
-  body?: GoogleChromeManagementVersionsV1UploadCertificateRequest;
+  body?: GoogleChromeManagementVersionsV1UploadCertificateRequest | undefined;
 }
 /** Response message for publishing an issued certificate for a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1UploadCertificateResponse {}

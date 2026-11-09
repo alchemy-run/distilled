@@ -1,0 +1,37 @@
+{
+  "description": "PATCH /runners/{id}/scheduling and /runners/{id}/draining read `{ unschedulable: boolean }` and `{ draining: boolean }` from the JSON body (Daytona API runner controller, daytonaio/daytona apps/api at v0.190.0), but the spec declares no request body, so the SDK could not set either flag. To be confirmed against the live API before merge. The Runner response likewise omits the `draining` flag the runner entity carries; it is added as an optional member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.runners#UpdateRunnerSchedulingRequest/members/unschedulable",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Whether the scheduler stops placing new sandboxes on the runner."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.runners#UpdateRunnerDrainingRequest/members/draining",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Whether the runner is draining: no new sandboxes, existing ones move off."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.runners#Runner/members/draining",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether the runner is draining."
+        }
+      }
+    }
+  ]
+}

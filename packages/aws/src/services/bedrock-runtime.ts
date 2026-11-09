@@ -11,6 +11,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -187,7 +188,7 @@ export type GuardrailContentQualifier =
 export type GuardrailContentQualifierList = GuardrailContentQualifier[];
 export interface GuardrailTextBlock {
   text: string;
-  qualifiers?: GuardrailContentQualifier[];
+  qualifiers?: GuardrailContentQualifier[] | undefined;
 }
 export type GuardrailImageFormat = "png" | "jpeg" | (string & {});
 export type GuardrailImageSource = { bytes: Uint8Array };
@@ -196,8 +197,8 @@ export interface GuardrailImageBlock {
   source: GuardrailImageSource;
 }
 export type GuardrailContentBlock =
-  | { text: GuardrailTextBlock; image?: never }
-  | { text?: never; image: GuardrailImageBlock };
+  | { text: GuardrailTextBlock; image?: undefined }
+  | { text?: undefined; image: GuardrailImageBlock };
 export type GuardrailContentBlockList = GuardrailContentBlock[];
 export type GuardrailOutputScope = "INTERVENTIONS" | "FULL" | (string & {});
 export interface ApplyGuardrailRequest {
@@ -205,7 +206,7 @@ export interface ApplyGuardrailRequest {
   guardrailVersion: string;
   source: GuardrailContentSource;
   content: GuardrailContentBlock[];
-  outputScope?: GuardrailOutputScope;
+  outputScope?: GuardrailOutputScope | undefined;
 }
 export type GuardrailTopicPolicyUnitsProcessed = number;
 export type GuardrailContentPolicyUnitsProcessed = number;
@@ -223,14 +224,14 @@ export interface GuardrailUsage {
   sensitiveInformationPolicyUnits: number;
   sensitiveInformationPolicyFreeUnits: number;
   contextualGroundingPolicyUnits: number;
-  contentPolicyImageUnits?: number;
-  automatedReasoningPolicyUnits?: number;
-  automatedReasoningPolicies?: number;
+  contentPolicyImageUnits?: number | undefined;
+  automatedReasoningPolicyUnits?: number | undefined;
+  automatedReasoningPolicies?: number | undefined;
 }
 export type GuardrailAction = "NONE" | "GUARDRAIL_INTERVENED" | (string & {});
 export type GuardrailOutputText = string;
 export interface GuardrailOutputContent {
-  text?: string;
+  text?: string | undefined;
 }
 export type GuardrailOutputContentList = GuardrailOutputContent[];
 export type GuardrailTopicType = "DENY" | (string & {});
@@ -239,7 +240,7 @@ export interface GuardrailTopic {
   name: string;
   type: GuardrailTopicType;
   action: GuardrailTopicPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailTopicList = GuardrailTopic[];
 export interface GuardrailTopicPolicyAssessment {
@@ -259,9 +260,9 @@ export type GuardrailContentPolicyAction = "BLOCKED" | "NONE" | (string & {});
 export interface GuardrailContentFilter {
   type: GuardrailContentFilterType;
   confidence: GuardrailContentFilterConfidence;
-  filterStrength?: GuardrailContentFilterStrength;
+  filterStrength?: GuardrailContentFilterStrength | undefined;
   action: GuardrailContentPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export interface GuardrailContentPolicyAssessment {
@@ -271,7 +272,7 @@ export type GuardrailWordPolicyAction = "BLOCKED" | "NONE" | (string & {});
 export interface GuardrailCustomWord {
   match: string;
   action: GuardrailWordPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export type GuardrailManagedWordType = "PROFANITY" | (string & {});
@@ -279,7 +280,7 @@ export interface GuardrailManagedWord {
   match: string;
   type: GuardrailManagedWordType;
   action: GuardrailWordPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export interface GuardrailWordPolicyAssessment {
@@ -328,15 +329,15 @@ export interface GuardrailPiiEntityFilter {
   match: string;
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export interface GuardrailRegexFilter {
-  name?: string;
-  match?: string;
-  regex?: string;
+  name?: string | undefined;
+  match?: string | undefined;
+  regex?: string | undefined;
   action: GuardrailSensitiveInformationPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export interface GuardrailSensitiveInformationPolicyAssessment {
@@ -350,42 +351,42 @@ export interface GuardrailContextualGroundingFilter {
   threshold: number;
   score: number;
   action: GuardrailContextualGroundingPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFilters = GuardrailContextualGroundingFilter[];
 export interface GuardrailContextualGroundingPolicyAssessment {
-  filters?: GuardrailContextualGroundingFilter[];
+  filters?: GuardrailContextualGroundingFilter[] | undefined;
 }
 export type GuardrailAutomatedReasoningStatementLogicContent = string | redacted.Redacted<string>;
 export type GuardrailAutomatedReasoningStatementNaturalLanguageContent =
   | string
   | redacted.Redacted<string>;
 export interface GuardrailAutomatedReasoningStatement {
-  logic?: string | redacted.Redacted<string>;
-  naturalLanguage?: string | redacted.Redacted<string>;
+  logic?: string | redacted.Redacted<string> | undefined;
+  naturalLanguage?: string | redacted.Redacted<string> | undefined;
 }
 export type GuardrailAutomatedReasoningStatementList = GuardrailAutomatedReasoningStatement[];
 export interface GuardrailAutomatedReasoningInputTextReference {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type GuardrailAutomatedReasoningInputTextReferenceList =
   GuardrailAutomatedReasoningInputTextReference[];
 export type GuardrailAutomatedReasoningTranslationConfidence = number;
 export interface GuardrailAutomatedReasoningTranslation {
-  premises?: GuardrailAutomatedReasoningStatement[];
-  claims?: GuardrailAutomatedReasoningStatement[];
-  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReference[];
-  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReference[];
-  confidence?: number;
+  premises?: GuardrailAutomatedReasoningStatement[] | undefined;
+  claims?: GuardrailAutomatedReasoningStatement[] | undefined;
+  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReference[] | undefined;
+  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReference[] | undefined;
+  confidence?: number | undefined;
 }
 export interface GuardrailAutomatedReasoningScenario {
-  statements?: GuardrailAutomatedReasoningStatement[];
+  statements?: GuardrailAutomatedReasoningStatement[] | undefined;
 }
 export type AutomatedReasoningRuleIdentifier = string;
 export type GuardrailAutomatedReasoningPolicyVersionArn = string;
 export interface GuardrailAutomatedReasoningRule {
-  identifier?: string;
-  policyVersionArn?: string;
+  identifier?: string | undefined;
+  policyVersionArn?: string | undefined;
 }
 export type GuardrailAutomatedReasoningRuleList = GuardrailAutomatedReasoningRule[];
 export type GuardrailAutomatedReasoningLogicWarningType =
@@ -393,135 +394,135 @@ export type GuardrailAutomatedReasoningLogicWarningType =
   | "ALWAYS_TRUE"
   | (string & {});
 export interface GuardrailAutomatedReasoningLogicWarning {
-  type?: GuardrailAutomatedReasoningLogicWarningType;
-  premises?: GuardrailAutomatedReasoningStatement[];
-  claims?: GuardrailAutomatedReasoningStatement[];
+  type?: GuardrailAutomatedReasoningLogicWarningType | undefined;
+  premises?: GuardrailAutomatedReasoningStatement[] | undefined;
+  claims?: GuardrailAutomatedReasoningStatement[] | undefined;
 }
 export interface GuardrailAutomatedReasoningValidFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
-  supportingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  supportingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningInvalidFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  contradictingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningSatisfiableFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
-  claimsFalseScenario?: GuardrailAutomatedReasoningScenario;
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  claimsFalseScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningImpossibleFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  contradictingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export type GuardrailAutomatedReasoningTranslationList = GuardrailAutomatedReasoningTranslation[];
 export interface GuardrailAutomatedReasoningTranslationOption {
-  translations?: GuardrailAutomatedReasoningTranslation[];
+  translations?: GuardrailAutomatedReasoningTranslation[] | undefined;
 }
 export type GuardrailAutomatedReasoningTranslationOptionList =
   GuardrailAutomatedReasoningTranslationOption[];
 export type GuardrailAutomatedReasoningDifferenceScenarioList =
   GuardrailAutomatedReasoningScenario[];
 export interface GuardrailAutomatedReasoningTranslationAmbiguousFinding {
-  options?: GuardrailAutomatedReasoningTranslationOption[];
-  differenceScenarios?: GuardrailAutomatedReasoningScenario[];
+  options?: GuardrailAutomatedReasoningTranslationOption[] | undefined;
+  differenceScenarios?: GuardrailAutomatedReasoningScenario[] | undefined;
 }
 export interface GuardrailAutomatedReasoningTooComplexFinding {}
 export interface GuardrailAutomatedReasoningNoTranslationsFinding {}
 export type GuardrailAutomatedReasoningFinding =
   | {
       valid: GuardrailAutomatedReasoningValidFinding;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
+      valid?: undefined;
       invalid: GuardrailAutomatedReasoningInvalidFinding;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
+      valid?: undefined;
+      invalid?: undefined;
       satisfiable: GuardrailAutomatedReasoningSatisfiableFinding;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
       impossible: GuardrailAutomatedReasoningImpossibleFinding;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
       translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding;
-      tooComplex?: never;
-      noTranslations?: never;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
       tooComplex: GuardrailAutomatedReasoningTooComplexFinding;
-      noTranslations?: never;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
       noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding;
     };
 export type GuardrailAutomatedReasoningFindingList = GuardrailAutomatedReasoningFinding[];
 export interface GuardrailAutomatedReasoningPolicyAssessment {
-  findings?: GuardrailAutomatedReasoningFinding[];
+  findings?: GuardrailAutomatedReasoningFinding[] | undefined;
 }
 export type GuardrailProcessingLatency = number;
 export type TextCharactersGuarded = number;
 export type TextCharactersTotal = number;
 export interface GuardrailTextCharactersCoverage {
-  guarded?: number;
-  total?: number;
+  guarded?: number | undefined;
+  total?: number | undefined;
 }
 export type ImagesGuarded = number;
 export type ImagesTotal = number;
 export interface GuardrailImageCoverage {
-  guarded?: number;
-  total?: number;
+  guarded?: number | undefined;
+  total?: number | undefined;
 }
 export interface GuardrailCoverage {
-  textCharacters?: GuardrailTextCharactersCoverage;
-  images?: GuardrailImageCoverage;
+  textCharacters?: GuardrailTextCharactersCoverage | undefined;
+  images?: GuardrailImageCoverage | undefined;
 }
 export interface GuardrailInvocationMetrics {
-  guardrailProcessingLatency?: number;
-  usage?: GuardrailUsage;
-  guardrailCoverage?: GuardrailCoverage;
+  guardrailProcessingLatency?: number | undefined;
+  usage?: GuardrailUsage | undefined;
+  guardrailCoverage?: GuardrailCoverage | undefined;
 }
 export type GuardrailId = string;
 export type GuardrailArn = string;
@@ -533,30 +534,30 @@ export type GuardrailOrigin =
 export type GuardrailOriginList = GuardrailOrigin[];
 export type GuardrailOwnership = "SELF" | "CROSS_ACCOUNT" | (string & {});
 export interface AppliedGuardrailDetails {
-  guardrailId?: string;
-  guardrailVersion?: string;
-  guardrailArn?: string;
-  guardrailOrigin?: GuardrailOrigin[];
-  guardrailOwnership?: GuardrailOwnership;
+  guardrailId?: string | undefined;
+  guardrailVersion?: string | undefined;
+  guardrailArn?: string | undefined;
+  guardrailOrigin?: GuardrailOrigin[] | undefined;
+  guardrailOwnership?: GuardrailOwnership | undefined;
 }
 export interface GuardrailAssessment {
-  topicPolicy?: GuardrailTopicPolicyAssessment;
-  contentPolicy?: GuardrailContentPolicyAssessment;
-  wordPolicy?: GuardrailWordPolicyAssessment;
-  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment;
-  contextualGroundingPolicy?: GuardrailContextualGroundingPolicyAssessment;
-  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicyAssessment;
-  invocationMetrics?: GuardrailInvocationMetrics;
-  appliedGuardrailDetails?: AppliedGuardrailDetails;
+  topicPolicy?: GuardrailTopicPolicyAssessment | undefined;
+  contentPolicy?: GuardrailContentPolicyAssessment | undefined;
+  wordPolicy?: GuardrailWordPolicyAssessment | undefined;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment | undefined;
+  contextualGroundingPolicy?: GuardrailContextualGroundingPolicyAssessment | undefined;
+  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicyAssessment | undefined;
+  invocationMetrics?: GuardrailInvocationMetrics | undefined;
+  appliedGuardrailDetails?: AppliedGuardrailDetails | undefined;
 }
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export interface ApplyGuardrailResponse {
   usage: GuardrailUsage;
   action: GuardrailAction;
-  actionReason?: string;
+  actionReason?: string | undefined;
   outputs: GuardrailOutputContent[];
   assessments: GuardrailAssessment[];
-  guardrailCoverage?: GuardrailCoverage;
+  guardrailCoverage?: GuardrailCoverage | undefined;
 }
 export type ConversationalModelId = string;
 export type ConversationRole = "user" | "assistant" | "system" | (string & {});
@@ -565,18 +566,18 @@ export type S3Uri = string;
 export type AccountId = string;
 export interface S3Location {
   uri: string;
-  bucketOwner?: string;
+  bucketOwner?: string | undefined;
 }
 export type ImageSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface ErrorBlock {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImageBlock {
   format: ImageFormat;
   source: ImageSource;
-  error?: ErrorBlock;
+  error?: ErrorBlock | undefined;
 }
 export type DocumentFormat =
   | "pdf"
@@ -592,19 +593,24 @@ export type DocumentFormat =
 export type DocumentContentBlock = { text: string };
 export type DocumentContentBlocks = DocumentContentBlock[];
 export type DocumentSource =
-  | { bytes: Uint8Array; s3Location?: never; text?: never; content?: never }
-  | { bytes?: never; s3Location: S3Location; text?: never; content?: never }
-  | { bytes?: never; s3Location?: never; text: string; content?: never }
-  | { bytes?: never; s3Location?: never; text?: never; content: DocumentContentBlock[] };
+  | { bytes: Uint8Array; s3Location?: undefined; text?: undefined; content?: undefined }
+  | { bytes?: undefined; s3Location: S3Location; text?: undefined; content?: undefined }
+  | { bytes?: undefined; s3Location?: undefined; text: string; content?: undefined }
+  | {
+      bytes?: undefined;
+      s3Location?: undefined;
+      text?: undefined;
+      content: DocumentContentBlock[];
+    };
 export interface CitationsConfig {
   enabled: boolean;
 }
 export interface DocumentBlock {
-  format?: DocumentFormat;
+  format?: DocumentFormat | undefined;
   name: string;
   source: DocumentSource;
-  context?: string;
-  citations?: CitationsConfig;
+  context?: string | undefined;
+  citations?: CitationsConfig | undefined;
 }
 export type VideoFormat =
   | "mkv"
@@ -618,8 +624,8 @@ export type VideoFormat =
   | "three_gp"
   | (string & {});
 export type VideoSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface VideoBlock {
   format: VideoFormat;
   source: VideoSource;
@@ -642,12 +648,12 @@ export type AudioFormat =
   | "webm"
   | (string & {});
 export type AudioSource =
-  | { bytes: Uint8Array; s3Location?: never }
-  | { bytes?: never; s3Location: S3Location };
+  | { bytes: Uint8Array; s3Location?: undefined }
+  | { bytes?: undefined; s3Location: S3Location };
 export interface AudioBlock {
   format: AudioFormat;
   source: AudioSource;
-  error?: ErrorBlock;
+  error?: ErrorBlock | undefined;
 }
 export type ToolUseId = string;
 export type ToolName = string;
@@ -656,7 +662,7 @@ export interface ToolUseBlock {
   toolUseId: string;
   name: string;
   input: any;
-  type?: ToolUseType;
+  type?: ToolUseType | undefined;
 }
 export interface SearchResultContentBlock {
   text: string;
@@ -666,55 +672,55 @@ export interface SearchResultBlock {
   source: string;
   title: string;
   content: SearchResultContentBlock[];
-  citations?: CitationsConfig;
+  citations?: CitationsConfig | undefined;
 }
 export type ToolResultContentBlock =
   | {
       json: any;
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
+      json?: undefined;
       text: string;
-      image?: never;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
+      json?: undefined;
+      text?: undefined;
       image: ImageBlock;
-      document?: never;
-      video?: never;
-      searchResult?: never;
+      document?: undefined;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
       document: DocumentBlock;
-      video?: never;
-      searchResult?: never;
+      video?: undefined;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
-      document?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
       video: VideoBlock;
-      searchResult?: never;
+      searchResult?: undefined;
     }
   | {
-      json?: never;
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
+      json?: undefined;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
       searchResult: SearchResultBlock;
     };
 export type ToolResultContentBlocks = ToolResultContentBlock[];
@@ -722,8 +728,8 @@ export type ToolResultStatus = "success" | "error" | (string & {});
 export interface ToolResultBlock {
   toolUseId: string;
   content: ToolResultContentBlock[];
-  status?: ToolResultStatus;
-  type?: string;
+  status?: ToolResultStatus | undefined;
+  type?: string | undefined;
 }
 export type GuardrailConverseContentQualifier =
   | "grounding_source"
@@ -733,7 +739,7 @@ export type GuardrailConverseContentQualifier =
 export type GuardrailConverseContentQualifierList = GuardrailConverseContentQualifier[];
 export interface GuardrailConverseTextBlock {
   text: string;
-  qualifiers?: GuardrailConverseContentQualifier[];
+  qualifiers?: GuardrailConverseContentQualifier[] | undefined;
 }
 export type GuardrailConverseImageFormat = "png" | "jpeg" | (string & {});
 export type GuardrailConverseImageSource = { bytes: Uint8Array };
@@ -742,100 +748,100 @@ export interface GuardrailConverseImageBlock {
   source: GuardrailConverseImageSource;
 }
 export type GuardrailConverseContentBlock =
-  | { text: GuardrailConverseTextBlock; image?: never }
-  | { text?: never; image: GuardrailConverseImageBlock };
+  | { text: GuardrailConverseTextBlock; image?: undefined }
+  | { text?: undefined; image: GuardrailConverseImageBlock };
 export type CachePointType = "default" | (string & {});
 export type CacheTTL = "5m" | "1h" | (string & {});
 export interface CachePointBlock {
   type: CachePointType;
-  ttl?: CacheTTL;
+  ttl?: CacheTTL | undefined;
 }
 export interface ReasoningTextBlock {
   text: string;
-  signature?: string;
+  signature?: string | undefined;
 }
 export type ReasoningContentBlock =
-  | { reasoningText: ReasoningTextBlock; redactedContent?: never }
-  | { reasoningText?: never; redactedContent: Uint8Array };
+  | { reasoningText: ReasoningTextBlock; redactedContent?: undefined }
+  | { reasoningText?: undefined; redactedContent: Uint8Array };
 export type CitationGeneratedContent = { text: string };
 export type CitationGeneratedContentList = CitationGeneratedContent[];
 export type CitationSourceContent = { text: string };
 export type CitationSourceContentList = CitationSourceContent[];
 export interface WebLocation {
-  url?: string;
-  domain?: string;
+  url?: string | undefined;
+  domain?: string | undefined;
 }
 export interface DocumentCharLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface DocumentPageLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface DocumentChunkLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface SearchResultLocation {
-  searchResultIndex?: number;
-  start?: number;
-  end?: number;
+  searchResultIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export type CitationLocation =
   | {
       web: WebLocation;
-      documentChar?: never;
-      documentPage?: never;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentChar?: undefined;
+      documentPage?: undefined;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
+      web?: undefined;
       documentChar: DocumentCharLocation;
-      documentPage?: never;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentPage?: undefined;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
+      web?: undefined;
+      documentChar?: undefined;
       documentPage: DocumentPageLocation;
-      documentChunk?: never;
-      searchResultLocation?: never;
+      documentChunk?: undefined;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
-      documentPage?: never;
+      web?: undefined;
+      documentChar?: undefined;
+      documentPage?: undefined;
       documentChunk: DocumentChunkLocation;
-      searchResultLocation?: never;
+      searchResultLocation?: undefined;
     }
   | {
-      web?: never;
-      documentChar?: never;
-      documentPage?: never;
-      documentChunk?: never;
+      web?: undefined;
+      documentChar?: undefined;
+      documentPage?: undefined;
+      documentChunk?: undefined;
       searchResultLocation: SearchResultLocation;
     };
 export interface Citation {
-  title?: string;
-  source?: string;
-  sourceContent?: CitationSourceContent[];
-  location?: CitationLocation;
+  title?: string | undefined;
+  source?: string | undefined;
+  sourceContent?: CitationSourceContent[] | undefined;
+  location?: CitationLocation | undefined;
 }
 export type Citations = Citation[];
 export interface CitationsContentBlock {
-  content?: CitationGeneratedContent[];
-  citations?: Citation[];
+  content?: CitationGeneratedContent[] | undefined;
+  citations?: Citation[] | undefined;
 }
 export interface ToolReference {
-  type?: string;
-  name?: string;
-  serverName?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  serverName?: string | undefined;
 }
 export interface ToolAdditionBlock {
   tool: ToolReference;
@@ -846,226 +852,226 @@ export interface ToolRemovalBlock {
 export type ContentBlock =
   | {
       text: string;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       image: ImageBlock;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
+      text?: undefined;
+      image?: undefined;
       document: DocumentBlock;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
       video: VideoBlock;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
       audio: AudioBlock;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
       toolUse: ToolUseBlock;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
       toolResult: ToolResultBlock;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       guardContent: GuardrailConverseContentBlock;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
       cachePoint: CachePointBlock;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
       reasoningContent: ReasoningContentBlock;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
       citationsContent: CitationsContentBlock;
-      searchResult?: never;
-      toolAddition?: never;
-      toolRemoval?: never;
+      searchResult?: undefined;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
       searchResult: SearchResultBlock;
-      toolAddition?: never;
-      toolRemoval?: never;
+      toolAddition?: undefined;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
       toolAddition: ToolAdditionBlock;
-      toolRemoval?: never;
+      toolRemoval?: undefined;
     }
   | {
-      text?: never;
-      image?: never;
-      document?: never;
-      video?: never;
-      audio?: never;
-      toolUse?: never;
-      toolResult?: never;
-      guardContent?: never;
-      cachePoint?: never;
-      reasoningContent?: never;
-      citationsContent?: never;
-      searchResult?: never;
-      toolAddition?: never;
+      text?: undefined;
+      image?: undefined;
+      document?: undefined;
+      video?: undefined;
+      audio?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      guardContent?: undefined;
+      cachePoint?: undefined;
+      reasoningContent?: undefined;
+      citationsContent?: undefined;
+      searchResult?: undefined;
+      toolAddition?: undefined;
       toolRemoval: ToolRemovalBlock;
     };
 export type ContentBlocks = ContentBlock[];
@@ -1076,31 +1082,31 @@ export interface Message {
 export type Messages = Message[];
 export type NonEmptyString = string;
 export type SystemContentBlock =
-  | { text: string; guardContent?: never; cachePoint?: never }
-  | { text?: never; guardContent: GuardrailConverseContentBlock; cachePoint?: never }
-  | { text?: never; guardContent?: never; cachePoint: CachePointBlock };
+  | { text: string; guardContent?: undefined; cachePoint?: undefined }
+  | { text?: undefined; guardContent: GuardrailConverseContentBlock; cachePoint?: undefined }
+  | { text?: undefined; guardContent?: undefined; cachePoint: CachePointBlock };
 export type SystemContentBlocks = SystemContentBlock[];
 export type NonEmptyStringList = string[];
 export interface InferenceConfiguration {
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  stopSequences?: string[];
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type ToolInputSchema = { json: any };
 export interface ToolSpecification {
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputSchema: ToolInputSchema;
-  strict?: boolean;
+  strict?: boolean | undefined;
 }
 export interface SystemTool {
   name: string;
 }
 export type Tool =
-  | { toolSpec: ToolSpecification; systemTool?: never; cachePoint?: never }
-  | { toolSpec?: never; systemTool: SystemTool; cachePoint?: never }
-  | { toolSpec?: never; systemTool?: never; cachePoint: CachePointBlock };
+  | { toolSpec: ToolSpecification; systemTool?: undefined; cachePoint?: undefined }
+  | { toolSpec?: undefined; systemTool: SystemTool; cachePoint?: undefined }
+  | { toolSpec?: undefined; systemTool?: undefined; cachePoint: CachePointBlock };
 export type Tools = Tool[];
 export interface AutoToolChoice {}
 export interface AnyToolChoice {}
@@ -1108,18 +1114,18 @@ export interface SpecificToolChoice {
   name: string;
 }
 export type ToolChoice =
-  | { auto: AutoToolChoice; any?: never; tool?: never }
-  | { auto?: never; any: AnyToolChoice; tool?: never }
-  | { auto?: never; any?: never; tool: SpecificToolChoice };
+  | { auto: AutoToolChoice; any?: undefined; tool?: undefined }
+  | { auto?: undefined; any: AnyToolChoice; tool?: undefined }
+  | { auto?: undefined; any?: undefined; tool: SpecificToolChoice };
 export interface ToolConfiguration {
   tools: Tool[];
-  toolChoice?: ToolChoice;
+  toolChoice?: ToolChoice | undefined;
 }
 export type GuardrailTrace = "enabled" | "disabled" | "enabled_full" | (string & {});
 export interface GuardrailConfiguration {
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  trace?: GuardrailTrace;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  trace?: GuardrailTrace | undefined;
 }
 export type PromptVariableValues = { text: string };
 export type PromptVariableMap = { [key: string]: PromptVariableValues | undefined };
@@ -1127,7 +1133,7 @@ export type AdditionalModelResponseFieldPaths = string[];
 export type RequestMetadata = { [key: string]: string | undefined };
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export type ServiceTierType = "priority" | "default" | "flex" | "reserved" | (string & {});
 export interface ServiceTier {
@@ -1136,8 +1142,8 @@ export interface ServiceTier {
 export type OutputFormatType = "json_schema" | (string & {});
 export interface JsonSchemaDefinition {
   schema: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type OutputFormatStructure = { jsonSchema: JsonSchemaDefinition };
 export interface OutputFormat {
@@ -1145,23 +1151,23 @@ export interface OutputFormat {
   structure: OutputFormatStructure;
 }
 export interface OutputConfig {
-  textFormat?: OutputFormat;
-  effort?: string;
+  textFormat?: OutputFormat | undefined;
+  effort?: string | undefined;
 }
 export interface ConverseRequest {
   modelId: string;
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  inferenceConfig?: InferenceConfiguration;
-  toolConfig?: ToolConfiguration;
-  guardrailConfig?: GuardrailConfiguration;
-  additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues | undefined };
-  additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string | undefined };
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
-  outputConfig?: OutputConfig;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  inferenceConfig?: InferenceConfiguration | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  guardrailConfig?: GuardrailConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
+  promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
+  additionalModelResponseFieldPaths?: string[] | undefined;
+  requestMetadata?: { [key: string]: string | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
+  outputConfig?: OutputConfig | undefined;
 }
 export type ConverseOutput = { message: Message };
 export type StopReason =
@@ -1184,9 +1190,9 @@ export interface TokenUsage {
   inputTokens: number;
   outputTokens: number;
   totalTokens: number;
-  cacheReadInputTokens?: number;
-  cacheWriteInputTokens?: number;
-  cacheDetails?: CacheDetail[];
+  cacheReadInputTokens?: number | undefined;
+  cacheWriteInputTokens?: number | undefined;
+  cacheDetails?: CacheDetail[] | undefined;
 }
 export interface ConverseMetrics {
   latencyMs: number;
@@ -1195,50 +1201,50 @@ export type ModelOutputs = string[];
 export type GuardrailAssessmentMap = { [key: string]: GuardrailAssessment | undefined };
 export type GuardrailAssessmentListMap = { [key: string]: GuardrailAssessment[] | undefined };
 export interface GuardrailTraceAssessment {
-  modelOutput?: string[];
-  inputAssessment?: { [key: string]: GuardrailAssessment | undefined };
-  outputAssessments?: { [key: string]: GuardrailAssessment[] | undefined };
-  actionReason?: string;
+  modelOutput?: string[] | undefined;
+  inputAssessment?: { [key: string]: GuardrailAssessment | undefined } | undefined;
+  outputAssessments?: { [key: string]: GuardrailAssessment[] | undefined } | undefined;
+  actionReason?: string | undefined;
 }
 export type InvokedModelId = string;
 export interface PromptRouterTrace {
-  invokedModelId?: string;
+  invokedModelId?: string | undefined;
 }
 export interface ConverseTrace {
-  guardrail?: GuardrailTraceAssessment;
-  promptRouter?: PromptRouterTrace;
+  guardrail?: GuardrailTraceAssessment | undefined;
+  promptRouter?: PromptRouterTrace | undefined;
 }
 export interface ConverseResponse {
   output: ConverseOutput;
   stopReason: StopReason;
   usage: TokenUsage;
   metrics: ConverseMetrics;
-  additionalModelResponseFields?: any;
-  trace?: ConverseTrace;
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
+  additionalModelResponseFields?: any | undefined;
+  trace?: ConverseTrace | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
 }
 export type GuardrailStreamProcessingMode = "sync" | "async" | (string & {});
 export interface GuardrailStreamConfiguration {
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  trace?: GuardrailTrace;
-  streamProcessingMode?: GuardrailStreamProcessingMode;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  trace?: GuardrailTrace | undefined;
+  streamProcessingMode?: GuardrailStreamProcessingMode | undefined;
 }
 export interface ConverseStreamRequest {
   modelId: string;
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  inferenceConfig?: InferenceConfiguration;
-  toolConfig?: ToolConfiguration;
-  guardrailConfig?: GuardrailStreamConfiguration;
-  additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues | undefined };
-  additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string | undefined };
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
-  outputConfig?: OutputConfig;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  inferenceConfig?: InferenceConfiguration | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  guardrailConfig?: GuardrailStreamConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
+  promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
+  additionalModelResponseFieldPaths?: string[] | undefined;
+  requestMetadata?: { [key: string]: string | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
+  outputConfig?: OutputConfig | undefined;
 }
 export interface MessageStartEvent {
   role: ConversationRole;
@@ -1246,20 +1252,20 @@ export interface MessageStartEvent {
 export interface ToolUseBlockStart {
   toolUseId: string;
   name: string;
-  type?: ToolUseType;
+  type?: ToolUseType | undefined;
 }
 export interface ToolResultBlockStart {
   toolUseId: string;
-  type?: string;
-  status?: ToolResultStatus;
+  type?: string | undefined;
+  status?: ToolResultStatus | undefined;
 }
 export interface ImageBlockStart {
   format: ImageFormat;
 }
 export type ContentBlockStart =
-  | { toolUse: ToolUseBlockStart; toolResult?: never; image?: never }
-  | { toolUse?: never; toolResult: ToolResultBlockStart; image?: never }
-  | { toolUse?: never; toolResult?: never; image: ImageBlockStart };
+  | { toolUse: ToolUseBlockStart; toolResult?: undefined; image?: undefined }
+  | { toolUse?: undefined; toolResult: ToolResultBlockStart; image?: undefined }
+  | { toolUse?: undefined; toolResult?: undefined; image: ImageBlockStart };
 export type NonNegativeInteger = number;
 export interface ContentBlockStartEvent {
   start: ContentBlockStart;
@@ -1268,73 +1274,75 @@ export interface ContentBlockStartEvent {
 export interface ToolUseBlockDelta {
   input: string;
 }
-export type ToolResultBlockDelta = { text: string; json?: never } | { text?: never; json: any };
+export type ToolResultBlockDelta =
+  | { text: string; json?: undefined }
+  | { text?: undefined; json: any };
 export type ToolResultBlocksDelta = ToolResultBlockDelta[];
 export type ReasoningContentBlockDelta =
-  | { text: string; redactedContent?: never; signature?: never }
-  | { text?: never; redactedContent: Uint8Array; signature?: never }
-  | { text?: never; redactedContent?: never; signature: string };
+  | { text: string; redactedContent?: undefined; signature?: undefined }
+  | { text?: undefined; redactedContent: Uint8Array; signature?: undefined }
+  | { text?: undefined; redactedContent?: undefined; signature: string };
 export interface CitationSourceContentDelta {
-  text?: string;
+  text?: string | undefined;
 }
 export type CitationSourceContentListDelta = CitationSourceContentDelta[];
 export interface CitationsDelta {
-  title?: string;
-  source?: string;
-  sourceContent?: CitationSourceContentDelta[];
-  location?: CitationLocation;
+  title?: string | undefined;
+  source?: string | undefined;
+  sourceContent?: CitationSourceContentDelta[] | undefined;
+  location?: CitationLocation | undefined;
 }
 export interface ImageBlockDelta {
-  source?: ImageSource;
-  error?: ErrorBlock;
+  source?: ImageSource | undefined;
+  error?: ErrorBlock | undefined;
 }
 export type ContentBlockDelta =
   | {
       text: string;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       toolUse: ToolUseBlockDelta;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
+      text?: undefined;
+      toolUse?: undefined;
       toolResult: ToolResultBlockDelta[];
-      reasoningContent?: never;
-      citation?: never;
-      image?: never;
+      reasoningContent?: undefined;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: ReasoningContentBlockDelta;
-      citation?: never;
-      image?: never;
+      citation?: undefined;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
       citation: CitationsDelta;
-      image?: never;
+      image?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      citation?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      citation?: undefined;
       image: ImageBlockDelta;
     };
 export interface ContentBlockDeltaEvent {
@@ -1346,170 +1354,170 @@ export interface ContentBlockStopEvent {
 }
 export interface MessageStopEvent {
   stopReason: StopReason;
-  additionalModelResponseFields?: any;
+  additionalModelResponseFields?: any | undefined;
 }
 export interface ConverseStreamMetrics {
   latencyMs: number;
 }
 export interface ConverseStreamTrace {
-  guardrail?: GuardrailTraceAssessment;
-  promptRouter?: PromptRouterTrace;
+  guardrail?: GuardrailTraceAssessment | undefined;
+  promptRouter?: PromptRouterTrace | undefined;
 }
 export interface ConverseStreamMetadataEvent {
   usage: TokenUsage;
   metrics: ConverseStreamMetrics;
-  trace?: ConverseStreamTrace;
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
+  trace?: ConverseStreamTrace | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
 }
 export type NonBlankString = string;
 export type StatusCode = number;
 export type ConverseStreamOutput =
   | {
       messageStart: MessageStartEvent;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
+      messageStart?: undefined;
       contentBlockStart: ContentBlockStartEvent;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
       contentBlockDelta: ContentBlockDeltaEvent;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
       contentBlockStop: ContentBlockStopEvent;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
       messageStop: MessageStopEvent;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
       metadata: ConverseStreamMetadataEvent;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface ConverseStreamResponse {
-  stream?: stream.Stream<ConverseStreamOutput, Error, never>;
+  stream?: stream.Stream<ConverseStreamOutput, Error, never> | undefined;
 }
 export type FoundationModelVersionIdentifier = string;
 export type Body = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -1517,14 +1525,14 @@ export interface InvokeModelTokensRequest {
   body: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface ConverseTokensRequest {
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  toolConfig?: ToolConfiguration;
-  additionalModelRequestFields?: any;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type CountTokensInput =
-  | { invokeModel: InvokeModelTokensRequest; converse?: never }
-  | { invokeModel?: never; converse: ConverseTokensRequest };
+  | { invokeModel: InvokeModelTokensRequest; converse?: undefined }
+  | { invokeModel?: undefined; converse: ConverseTokensRequest };
 export interface CountTokensRequest {
   modelId: string;
   input: CountTokensInput;
@@ -1543,19 +1551,19 @@ export type AsyncInvokeMessage = string | redacted.Redacted<string>;
 export type KmsKeyId = string;
 export interface AsyncInvokeS3OutputDataConfig {
   s3Uri: string;
-  kmsKeyId?: string;
-  bucketOwner?: string;
+  kmsKeyId?: string | undefined;
+  bucketOwner?: string | undefined;
 }
 export type AsyncInvokeOutputDataConfig = { s3OutputDataConfig: AsyncInvokeS3OutputDataConfig };
 export interface GetAsyncInvokeResponse {
   invocationArn: string;
   modelArn: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   status: AsyncInvokeStatus;
-  failureMessage?: string | redacted.Redacted<string>;
+  failureMessage?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export type GuardrailChecksRole = "user" | "assistant" | "system" | (string & {});
@@ -1637,9 +1645,9 @@ export interface GuardrailChecksSensitiveInformationConfig {
   entities: GuardrailChecksSensitiveInformationEntityConfig[];
 }
 export interface GuardrailChecksConfig {
-  contentFilter?: GuardrailChecksContentFilterConfig;
-  promptAttack?: GuardrailChecksPromptAttackConfig;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationConfig;
+  contentFilter?: GuardrailChecksContentFilterConfig | undefined;
+  promptAttack?: GuardrailChecksPromptAttackConfig | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationConfig | undefined;
 }
 export interface InvokeGuardrailChecksRequest {
   messages: GuardrailChecksMessage[];
@@ -1673,12 +1681,12 @@ export type GuardrailChecksSensitiveInformationResultList =
   GuardrailChecksSensitiveInformationResultEntry[];
 export interface GuardrailChecksSensitiveInformationResult {
   results: GuardrailChecksSensitiveInformationResultEntry[];
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface GuardrailChecksResults {
-  contentFilter?: GuardrailChecksContentFilterResult;
-  promptAttack?: GuardrailChecksPromptAttackResult;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationResult;
+  contentFilter?: GuardrailChecksContentFilterResult | undefined;
+  promptAttack?: GuardrailChecksPromptAttackResult | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationResult | undefined;
 }
 export interface GuardrailChecksContentFilterUsage {
   textUnits: number;
@@ -1690,9 +1698,9 @@ export interface GuardrailChecksSensitiveInformationUsage {
   textUnits: number;
 }
 export interface GuardrailChecksUsageResults {
-  contentFilter?: GuardrailChecksContentFilterUsage;
-  promptAttack?: GuardrailChecksPromptAttackUsage;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationUsage;
+  contentFilter?: GuardrailChecksContentFilterUsage | undefined;
+  promptAttack?: GuardrailChecksPromptAttackUsage | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationUsage | undefined;
 }
 export interface InvokeGuardrailChecksResponse {
   results: GuardrailChecksResults;
@@ -1703,26 +1711,26 @@ export type InvokeModelIdentifier = string;
 export type Trace = "ENABLED" | "DISABLED" | "ENABLED_FULL" | (string & {});
 export type RequestMetadataJson = string | redacted.Redacted<string>;
 export interface InvokeModelRequest {
-  body?: T.StreamingInputBody;
-  contentType?: string;
-  accept?: string;
+  body?: T.StreamingInputBody | undefined;
+  contentType?: string | undefined;
+  accept?: string | undefined;
   modelId: string;
-  trace?: Trace;
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
-  requestMetadata?: string | redacted.Redacted<string>;
+  trace?: Trace | undefined;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
+  requestMetadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface InvokeModelResponse {
   body: T.StreamingOutputBody;
   contentType: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
 }
 export type PartBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface BidirectionalInputPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type InvokeModelWithBidirectionalStreamInput = { chunk: BidirectionalInputPayloadPart };
 export interface InvokeModelWithBidirectionalStreamRequest {
@@ -1730,188 +1738,188 @@ export interface InvokeModelWithBidirectionalStreamRequest {
   body: stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>;
 }
 export interface BidirectionalOutputPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type InvokeModelWithBidirectionalStreamOutput =
   | {
       chunk: BidirectionalOutputPayloadPart;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       modelTimeoutException: ModelTimeoutException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface InvokeModelWithBidirectionalStreamResponse {
   body: stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>;
 }
 export interface InvokeModelWithResponseStreamRequest {
-  body?: T.StreamingInputBody;
-  contentType?: string;
-  accept?: string;
+  body?: T.StreamingInputBody | undefined;
+  contentType?: string | undefined;
+  accept?: string | undefined;
   modelId: string;
-  trace?: Trace;
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
-  requestMetadata?: string | redacted.Redacted<string>;
+  trace?: Trace | undefined;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
+  requestMetadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface PayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type ResponseStream =
   | {
       chunk: PayloadPart;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       internalServerException: InternalServerException;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
       modelStreamErrorException: ModelStreamErrorException;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
       validationException: ValidationException;
-      throttlingException?: never;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
       throttlingException: ThrottlingException;
-      modelTimeoutException?: never;
-      serviceUnavailableException?: never;
+      modelTimeoutException?: undefined;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
       modelTimeoutException: ModelTimeoutException;
-      serviceUnavailableException?: never;
+      serviceUnavailableException?: undefined;
     }
   | {
-      chunk?: never;
-      internalServerException?: never;
-      modelStreamErrorException?: never;
-      validationException?: never;
-      throttlingException?: never;
-      modelTimeoutException?: never;
+      chunk?: undefined;
+      internalServerException?: undefined;
+      modelStreamErrorException?: undefined;
+      validationException?: undefined;
+      throttlingException?: undefined;
+      modelTimeoutException?: undefined;
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface InvokeModelWithResponseStreamResponse {
   body: stream.Stream<ResponseStream, Error, never>;
   contentType: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
 }
 export type MaxResults = number;
 export type PaginationToken = string;
 export type SortAsyncInvocationBy = "SubmissionTime" | (string & {});
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export interface ListAsyncInvokesRequest {
-  submitTimeAfter?: Date;
-  submitTimeBefore?: Date;
-  statusEquals?: AsyncInvokeStatus;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortAsyncInvocationBy;
-  sortOrder?: SortOrder;
+  submitTimeAfter?: Date | undefined;
+  submitTimeBefore?: Date | undefined;
+  statusEquals?: AsyncInvokeStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortAsyncInvocationBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface AsyncInvokeSummary {
   invocationArn: string;
   modelArn: string;
-  clientRequestToken?: string;
-  status?: AsyncInvokeStatus;
-  failureMessage?: string | redacted.Redacted<string>;
+  clientRequestToken?: string | undefined;
+  status?: AsyncInvokeStatus | undefined;
+  failureMessage?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export type AsyncInvokeSummaries = AsyncInvokeSummary[];
 export interface ListAsyncInvokesResponse {
-  nextToken?: string;
-  asyncInvokeSummaries?: AsyncInvokeSummary[];
+  nextToken?: string | undefined;
+  asyncInvokeSummaries?: AsyncInvokeSummary[] | undefined;
 }
 export type AsyncInvokeIdentifier = string;
 export type ModelInputPayload = unknown;
@@ -1923,11 +1931,11 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface StartAsyncInvokeRequest {
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   modelId: string;
   modelInput: any;
   outputDataConfig: AsyncInvokeOutputDataConfig;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface StartAsyncInvokeResponse {
   invocationArn: string;
@@ -1947,7 +1955,7 @@ export type ApplyGuardrailError =
  * For troubleshooting some of the common errors you might encounter when using the `ApplyGuardrail` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const applyGuardrail: API.OperationMethod<
-  ApplyGuardrailRequest,
+  ApplyGuardrailRequest & RegionInput,
   ApplyGuardrailResponse,
   ApplyGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -2001,7 +2009,7 @@ export type ConverseError =
  * For troubleshooting some of the common errors you might encounter when using the `Converse` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converse: API.OperationMethod<
-  ConverseRequest,
+  ConverseRequest & RegionInput,
   ConverseResponse,
   ConverseError,
   Credentials | HttpClient.HttpClient
@@ -2092,7 +2100,7 @@ export type ConverseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `ConverseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const converseStream: API.OperationMethod<
-  ConverseStreamRequest,
+  ConverseStreamRequest & RegionInput,
   ConverseStreamResponse,
   ConverseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2188,7 +2196,7 @@ export type CountTokensError =
  * - Converse - Sends conversation-based inference requests to foundation models
  */
 export const countTokens: API.OperationMethod<
-  CountTokensRequest,
+  CountTokensRequest & RegionInput,
   CountTokensResponse,
   CountTokensError,
   Credentials | HttpClient.HttpClient
@@ -2220,7 +2228,7 @@ export type GetAsyncInvokeError =
  * Retrieve information about an asynchronous invocation.
  */
 export const getAsyncInvoke: API.OperationMethod<
-  GetAsyncInvokeRequest,
+  GetAsyncInvokeRequest & RegionInput,
   GetAsyncInvokeResponse,
   GetAsyncInvokeError,
   Credentials | HttpClient.HttpClient
@@ -2251,7 +2259,7 @@ export type InvokeGuardrailChecksError =
  * Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.
  */
 export const invokeGuardrailChecks: API.OperationMethod<
-  InvokeGuardrailChecksRequest,
+  InvokeGuardrailChecksRequest & RegionInput,
   InvokeGuardrailChecksResponse,
   InvokeGuardrailChecksError,
   Credentials | HttpClient.HttpClient
@@ -2296,7 +2304,7 @@ export type InvokeModelError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModel` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModel: API.OperationMethod<
-  InvokeModelRequest,
+  InvokeModelRequest & RegionInput,
   InvokeModelResponse,
   InvokeModelError,
   Credentials | HttpClient.HttpClient
@@ -2341,7 +2349,7 @@ export type InvokeModelWithBidirectionalStreamError =
  * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
  */
 export const invokeModelWithBidirectionalStream: API.OperationMethod<
-  InvokeModelWithBidirectionalStreamRequest,
+  InvokeModelWithBidirectionalStreamRequest & RegionInput,
   InvokeModelWithBidirectionalStreamResponse,
   InvokeModelWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient
@@ -2397,7 +2405,7 @@ export type InvokeModelWithResponseStreamError =
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModelWithResponseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
 export const invokeModelWithResponseStream: API.OperationMethod<
-  InvokeModelWithResponseStreamRequest,
+  InvokeModelWithResponseStreamRequest & RegionInput,
   InvokeModelWithResponseStreamResponse,
   InvokeModelWithResponseStreamError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2442,7 @@ export type ListAsyncInvokesError =
  * Lists asynchronous invocations.
  */
 export const listAsyncInvokes: API.PaginatedOperationMethod<
-  ListAsyncInvokesRequest,
+  ListAsyncInvokesRequest & RegionInput,
   ListAsyncInvokesResponse,
   ListAsyncInvokesError,
   Credentials | HttpClient.HttpClient,
@@ -2479,7 +2487,7 @@ export type StartAsyncInvokeError =
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  */
 export const startAsyncInvoke: API.OperationMethod<
-  StartAsyncInvokeRequest,
+  StartAsyncInvokeRequest & RegionInput,
   StartAsyncInvokeResponse,
   StartAsyncInvokeError,
   Credentials | HttpClient.HttpClient

@@ -89,29 +89,29 @@ export interface AddFirebaseProjectsBucketsRequest {
   /** Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`. */
   bucket: string;
   /** Request body */
-  body?: AddFirebaseRequest;
+  body?: AddFirebaseRequest | undefined;
 }
 /** A storage bucket and its relation to a parent Firebase project. */
 export interface Bucket {
   /** Output only. Resource name of the bucket. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Spark tier-eligible Cloud Storage bucket. One per project. This resource exists if the underlying Cloud Storage bucket exists and it is linked to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
 export interface DefaultBucket {
   /** Identifier. Resource name of the default bucket. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
-  storageClass?: string;
+  storageClass?: string | undefined;
   /** Required. Immutable. Location of the default bucket. */
-  location?: string;
+  location?: string | undefined;
   /** Output only. Underlying bucket resource. */
-  bucket?: Bucket;
+  bucket?: Bucket | undefined;
 }
 export interface CreateProjectsDefaultBucketRequest {
   /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
   parent: string;
   /** Request body */
-  body?: DefaultBucket;
+  body?: DefaultBucket | undefined;
 }
 export interface DeleteDefaultBucketProjectsRequest {
   /** Required. The name of the default bucket to delete, `projects/{project_id_or_number}/defaultBucket`. */
@@ -131,17 +131,17 @@ export interface ListProjectsBucketsRequest {
   /** Required. Resource name of the parent Firebase project, `projects/{project_id_or_number}`. */
   parent: string;
   /** A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBuckets` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of buckets to return. If not set, the server will use a reasonable default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type BucketList = Array<Bucket>;
 /** The response returned by `ListBuckets`. */
 export interface ListBucketsResponse {
   /** The list of linked buckets. */
-  buckets?: BucketList;
+  buckets?: BucketList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** The request used to unlink a Google Cloud Storage bucket from a Firebase project. */
 export type RemoveFirebaseRequest = AddFirebaseRequest;
@@ -149,7 +149,7 @@ export interface RemoveFirebaseProjectsBucketsRequest {
   /** Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`. */
   bucket: string;
   /** Request body */
-  body?: AddFirebaseRequest;
+  body?: AddFirebaseRequest | undefined;
 }
 export type AddFirebaseProjectsBucketsError =
   | NotFound

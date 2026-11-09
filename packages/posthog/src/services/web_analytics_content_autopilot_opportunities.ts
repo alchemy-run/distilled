@@ -46,9 +46,9 @@ export interface ContentAutopilotEvidence {
   /** Plain-language explanation of the supporting evidence. */
   explanation: string;
   /** Page supported by this evidence. */
-  page_url?: string;
+  page_url?: string | undefined;
   /** Search query supported by this evidence. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Why this opportunity was selected. */
 export type ContentAutopilotOpportunityEvidenceList = Array<ContentAutopilotEvidence>;
@@ -80,7 +80,7 @@ export interface ContentAutopilotCitationGap {
   /** Checks whose answer cited the site. */
   cited_checks: number;
   /** Checks whose answer named the site's brand or cited the site. */
-  mentioned_checks?: number;
+  mentioned_checks?: number | undefined;
   /** Share of checks that cited the site, from 0 to 1. */
   citation_rate: number;
   /** Engines that answered the prompt. */
@@ -135,9 +135,9 @@ export interface ListWebAnalyticsContentAutopilotOpportunitiesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Site profile to list opportunities for. */
   profile_id: string;
 }
@@ -145,8 +145,8 @@ export type PaginatedContentAutopilotOpportunityListResultsList =
   Array<ContentAutopilotOpportunity>;
 export interface PaginatedContentAutopilotOpportunityList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedContentAutopilotOpportunityListResultsList;
 }
 export type GetWebAnalyticsContentAutopilotOpportunityError = PosthogOpError;

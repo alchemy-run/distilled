@@ -1,15 +1,18 @@
 /**
  * The R2 jurisdiction calls go to, as a layer (like AWS's `Region`).
  *
- * An optional service: no operation lists it in its requirements, and no
- * operation input has a `jurisdiction` member. The protocol sends it as the
- * `cf-r2-jurisdiction` header of every R2 operation that takes one, and
- * `R2.layerS3()` reads it to pick the S3 endpoint. Without it, calls use
+ * An optional service: no operation lists it in its requirements. The
+ * protocol sends it as the `cf-r2-jurisdiction` header of every R2 operation
+ * that takes one, unless the call sets its own `jurisdiction`.
+ * `R2.layerS3()` reads it to pick the S3 endpoint. Without either, calls use
  * Cloudflare's default jurisdiction.
  *
  * @example
  * ```ts
+ * // Every call in the scope:
  * R2.listBuckets({ accountId }).pipe(Effect.provide(Jurisdiction.of("eu")));
+ * // One call:
+ * R2.getBucket({ accountId, bucketName, jurisdiction: "eu" });
  * ```
  */
 import * as Context from "effect/Context";

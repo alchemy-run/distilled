@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -668,362 +669,362 @@ export class SubscriptionNotFoundFault
     ),
   ).pipe(C.withBadRequestError) {}
 export interface AddSourceIdentifierToSubscriptionMessage {
-  SubscriptionName?: string;
-  SourceIdentifier?: string;
+  SubscriptionName?: string | undefined;
+  SourceIdentifier?: string | undefined;
 }
 export type SourceIdsList = string[];
 export type EventCategoriesList = string[];
 export interface EventSubscription {
-  CustomerAwsId?: string;
-  CustSubscriptionId?: string;
-  SnsTopicArn?: string;
-  Status?: string;
-  SubscriptionCreationTime?: string;
-  SourceType?: string;
-  SourceIdsList?: string[];
-  EventCategoriesList?: string[];
-  Enabled?: boolean;
-  EventSubscriptionArn?: string;
+  CustomerAwsId?: string | undefined;
+  CustSubscriptionId?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  Status?: string | undefined;
+  SubscriptionCreationTime?: string | undefined;
+  SourceType?: string | undefined;
+  SourceIdsList?: string[] | undefined;
+  EventCategoriesList?: string[] | undefined;
+  Enabled?: boolean | undefined;
+  EventSubscriptionArn?: string | undefined;
 }
 export interface AddSourceIdentifierToSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsToResourceMessage {
-  ResourceName?: string;
-  Tags?: Tag[];
+  ResourceName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AddTagsToResourceResponse {}
 export interface ApplyPendingMaintenanceActionMessage {
-  ResourceIdentifier?: string;
-  ApplyAction?: string;
-  OptInType?: string;
+  ResourceIdentifier?: string | undefined;
+  ApplyAction?: string | undefined;
+  OptInType?: string | undefined;
 }
 export interface PendingMaintenanceAction {
-  Action?: string;
-  AutoAppliedAfterDate?: Date;
-  ForcedApplyDate?: Date;
-  OptInStatus?: string;
-  CurrentApplyDate?: Date;
-  Description?: string;
+  Action?: string | undefined;
+  AutoAppliedAfterDate?: Date | undefined;
+  ForcedApplyDate?: Date | undefined;
+  OptInStatus?: string | undefined;
+  CurrentApplyDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export type PendingMaintenanceActionDetails = PendingMaintenanceAction[];
 export interface ResourcePendingMaintenanceActions {
-  ResourceIdentifier?: string;
-  PendingMaintenanceActionDetails?: PendingMaintenanceAction[];
+  ResourceIdentifier?: string | undefined;
+  PendingMaintenanceActionDetails?: PendingMaintenanceAction[] | undefined;
 }
 export interface ApplyPendingMaintenanceActionResult {
-  ResourcePendingMaintenanceActions?: ResourcePendingMaintenanceActions;
+  ResourcePendingMaintenanceActions?: ResourcePendingMaintenanceActions | undefined;
 }
 export interface CopyDBClusterParameterGroupMessage {
-  SourceDBClusterParameterGroupIdentifier?: string;
-  TargetDBClusterParameterGroupIdentifier?: string;
-  TargetDBClusterParameterGroupDescription?: string;
-  Tags?: Tag[];
+  SourceDBClusterParameterGroupIdentifier?: string | undefined;
+  TargetDBClusterParameterGroupIdentifier?: string | undefined;
+  TargetDBClusterParameterGroupDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DBClusterParameterGroup {
-  DBClusterParameterGroupName?: string;
-  DBParameterGroupFamily?: string;
-  Description?: string;
-  DBClusterParameterGroupArn?: string;
+  DBClusterParameterGroupName?: string | undefined;
+  DBParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  DBClusterParameterGroupArn?: string | undefined;
 }
 export interface CopyDBClusterParameterGroupResult {
-  DBClusterParameterGroup?: DBClusterParameterGroup;
+  DBClusterParameterGroup?: DBClusterParameterGroup | undefined;
 }
 export interface CopyDBClusterSnapshotMessage {
-  SourceDBClusterSnapshotIdentifier?: string;
-  TargetDBClusterSnapshotIdentifier?: string;
-  KmsKeyId?: string;
-  PreSignedUrl?: string;
-  CopyTags?: boolean;
-  Tags?: Tag[];
+  SourceDBClusterSnapshotIdentifier?: string | undefined;
+  TargetDBClusterSnapshotIdentifier?: string | undefined;
+  KmsKeyId?: string | undefined;
+  PreSignedUrl?: string | undefined;
+  CopyTags?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AvailabilityZones = string[];
 export interface DBClusterSnapshot {
-  AvailabilityZones?: string[];
-  DBClusterSnapshotIdentifier?: string;
-  DBClusterIdentifier?: string;
-  SnapshotCreateTime?: Date;
-  Engine?: string;
-  Status?: string;
-  Port?: number;
-  VpcId?: string;
-  ClusterCreateTime?: Date;
-  MasterUsername?: string;
-  EngineVersion?: string;
-  SnapshotType?: string;
-  PercentProgress?: number;
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  DBClusterSnapshotArn?: string;
-  SourceDBClusterSnapshotArn?: string;
-  StorageType?: string;
+  AvailabilityZones?: string[] | undefined;
+  DBClusterSnapshotIdentifier?: string | undefined;
+  DBClusterIdentifier?: string | undefined;
+  SnapshotCreateTime?: Date | undefined;
+  Engine?: string | undefined;
+  Status?: string | undefined;
+  Port?: number | undefined;
+  VpcId?: string | undefined;
+  ClusterCreateTime?: Date | undefined;
+  MasterUsername?: string | undefined;
+  EngineVersion?: string | undefined;
+  SnapshotType?: string | undefined;
+  PercentProgress?: number | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  DBClusterSnapshotArn?: string | undefined;
+  SourceDBClusterSnapshotArn?: string | undefined;
+  StorageType?: string | undefined;
 }
 export interface CopyDBClusterSnapshotResult {
-  DBClusterSnapshot?: DBClusterSnapshot;
+  DBClusterSnapshot?: DBClusterSnapshot | undefined;
 }
 export type VpcSecurityGroupIdList = string[];
 export type LogTypeList = string[];
 export type GlobalClusterIdentifier = string;
 export interface ServerlessV2ScalingConfiguration {
-  MinCapacity?: number;
-  MaxCapacity?: number;
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
 }
 export interface CreateDBClusterMessage {
-  AvailabilityZones?: string[];
-  BackupRetentionPeriod?: number;
-  DBClusterIdentifier?: string;
-  DBClusterParameterGroupName?: string;
-  VpcSecurityGroupIds?: string[];
-  DBSubnetGroupName?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  Port?: number;
-  MasterUsername?: string;
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  PreferredBackupWindow?: string;
-  PreferredMaintenanceWindow?: string;
-  Tags?: Tag[];
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  PreSignedUrl?: string;
-  EnableCloudwatchLogsExports?: string[];
-  DeletionProtection?: boolean;
-  GlobalClusterIdentifier?: string;
-  StorageType?: string;
-  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
-  ManageMasterUserPassword?: boolean;
-  MasterUserSecretKmsKeyId?: string;
-  NetworkType?: string;
-  CopyTagsToSnapshot?: boolean;
+  AvailabilityZones?: string[] | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  DBClusterIdentifier?: string | undefined;
+  DBClusterParameterGroupName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  DBSubnetGroupName?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  Port?: number | undefined;
+  MasterUsername?: string | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  PreferredBackupWindow?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  Tags?: Tag[] | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  PreSignedUrl?: string | undefined;
+  EnableCloudwatchLogsExports?: string[] | undefined;
+  DeletionProtection?: boolean | undefined;
+  GlobalClusterIdentifier?: string | undefined;
+  StorageType?: string | undefined;
+  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration | undefined;
+  ManageMasterUserPassword?: boolean | undefined;
+  MasterUserSecretKmsKeyId?: string | undefined;
+  NetworkType?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
 }
 export type ReadReplicaIdentifierList = string[];
 export interface DBClusterMember {
-  DBInstanceIdentifier?: string;
-  IsClusterWriter?: boolean;
-  DBClusterParameterGroupStatus?: string;
-  PromotionTier?: number;
+  DBInstanceIdentifier?: string | undefined;
+  IsClusterWriter?: boolean | undefined;
+  DBClusterParameterGroupStatus?: string | undefined;
+  PromotionTier?: number | undefined;
 }
 export type DBClusterMemberList = DBClusterMember[];
 export interface VpcSecurityGroupMembership {
-  VpcSecurityGroupId?: string;
-  Status?: string;
+  VpcSecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export interface DBClusterRole {
-  RoleArn?: string;
-  Status?: string;
+  RoleArn?: string | undefined;
+  Status?: string | undefined;
 }
 export type DBClusterRoles = DBClusterRole[];
 export interface ServerlessV2ScalingConfigurationInfo {
-  MinCapacity?: number;
-  MaxCapacity?: number;
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
 }
 export interface ClusterMasterUserSecret {
-  SecretArn?: string;
-  SecretStatus?: string;
-  KmsKeyId?: string;
+  SecretArn?: string | undefined;
+  SecretStatus?: string | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface DBCluster {
-  AvailabilityZones?: string[];
-  BackupRetentionPeriod?: number;
-  DBClusterIdentifier?: string;
-  DBClusterParameterGroup?: string;
-  DBSubnetGroup?: string;
-  Status?: string;
-  PercentProgress?: string;
-  EarliestRestorableTime?: Date;
-  Endpoint?: string;
-  ReaderEndpoint?: string;
-  MultiAZ?: boolean;
-  Engine?: string;
-  EngineVersion?: string;
-  LatestRestorableTime?: Date;
-  Port?: number;
-  MasterUsername?: string;
-  PreferredBackupWindow?: string;
-  PreferredMaintenanceWindow?: string;
-  ReplicationSourceIdentifier?: string;
-  ReadReplicaIdentifiers?: string[];
-  DBClusterMembers?: DBClusterMember[];
-  VpcSecurityGroups?: VpcSecurityGroupMembership[];
-  HostedZoneId?: string;
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  DbClusterResourceId?: string;
-  DBClusterArn?: string;
-  AssociatedRoles?: DBClusterRole[];
-  CloneGroupId?: string;
-  ClusterCreateTime?: Date;
-  EnabledCloudwatchLogsExports?: string[];
-  DeletionProtection?: boolean;
-  IOOptimizedNextAllowedModificationTime?: Date;
-  StorageType?: string;
-  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfigurationInfo;
-  MasterUserSecret?: ClusterMasterUserSecret;
-  NetworkType?: string;
-  CopyTagsToSnapshot?: boolean;
+  AvailabilityZones?: string[] | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  DBClusterIdentifier?: string | undefined;
+  DBClusterParameterGroup?: string | undefined;
+  DBSubnetGroup?: string | undefined;
+  Status?: string | undefined;
+  PercentProgress?: string | undefined;
+  EarliestRestorableTime?: Date | undefined;
+  Endpoint?: string | undefined;
+  ReaderEndpoint?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  LatestRestorableTime?: Date | undefined;
+  Port?: number | undefined;
+  MasterUsername?: string | undefined;
+  PreferredBackupWindow?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  ReplicationSourceIdentifier?: string | undefined;
+  ReadReplicaIdentifiers?: string[] | undefined;
+  DBClusterMembers?: DBClusterMember[] | undefined;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  HostedZoneId?: string | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  DbClusterResourceId?: string | undefined;
+  DBClusterArn?: string | undefined;
+  AssociatedRoles?: DBClusterRole[] | undefined;
+  CloneGroupId?: string | undefined;
+  ClusterCreateTime?: Date | undefined;
+  EnabledCloudwatchLogsExports?: string[] | undefined;
+  DeletionProtection?: boolean | undefined;
+  IOOptimizedNextAllowedModificationTime?: Date | undefined;
+  StorageType?: string | undefined;
+  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfigurationInfo | undefined;
+  MasterUserSecret?: ClusterMasterUserSecret | undefined;
+  NetworkType?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
 }
 export interface CreateDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface CreateDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName?: string;
-  DBParameterGroupFamily?: string;
-  Description?: string;
-  Tags?: Tag[];
+  DBClusterParameterGroupName?: string | undefined;
+  DBParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDBClusterParameterGroupResult {
-  DBClusterParameterGroup?: DBClusterParameterGroup;
+  DBClusterParameterGroup?: DBClusterParameterGroup | undefined;
 }
 export interface CreateDBClusterSnapshotMessage {
-  DBClusterSnapshotIdentifier?: string;
-  DBClusterIdentifier?: string;
-  Tags?: Tag[];
+  DBClusterSnapshotIdentifier?: string | undefined;
+  DBClusterIdentifier?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDBClusterSnapshotResult {
-  DBClusterSnapshot?: DBClusterSnapshot;
+  DBClusterSnapshot?: DBClusterSnapshot | undefined;
 }
 export interface CreateDBInstanceMessage {
-  DBInstanceIdentifier?: string;
-  DBInstanceClass?: string;
-  Engine?: string;
-  AvailabilityZone?: string;
-  PreferredMaintenanceWindow?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  Tags?: Tag[];
-  DBClusterIdentifier?: string;
-  CopyTagsToSnapshot?: boolean;
-  PromotionTier?: number;
-  EnablePerformanceInsights?: boolean;
-  PerformanceInsightsKMSKeyId?: string;
-  CACertificateIdentifier?: string;
+  DBInstanceIdentifier?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  Engine?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  DBClusterIdentifier?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
+  PromotionTier?: number | undefined;
+  EnablePerformanceInsights?: boolean | undefined;
+  PerformanceInsightsKMSKeyId?: string | undefined;
+  CACertificateIdentifier?: string | undefined;
 }
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
-  HostedZoneId?: string;
+  Address?: string | undefined;
+  Port?: number | undefined;
+  HostedZoneId?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c14, 0) as any as S.Schema<Endpoint>;
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface Subnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: AvailabilityZone;
-  SubnetStatus?: string;
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: AvailabilityZone | undefined;
+  SubnetStatus?: string | undefined;
 }
 export type SubnetList = Subnet[];
 export type NetworkTypeList = string[];
 export interface DBSubnetGroup {
-  DBSubnetGroupName?: string;
-  DBSubnetGroupDescription?: string;
-  VpcId?: string;
-  SubnetGroupStatus?: string;
-  Subnets?: Subnet[];
-  DBSubnetGroupArn?: string;
-  SupportedNetworkTypes?: string[];
+  DBSubnetGroupName?: string | undefined;
+  DBSubnetGroupDescription?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetGroupStatus?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  DBSubnetGroupArn?: string | undefined;
+  SupportedNetworkTypes?: string[] | undefined;
 }
 export interface PendingCloudwatchLogsExports {
-  LogTypesToEnable?: string[];
-  LogTypesToDisable?: string[];
+  LogTypesToEnable?: string[] | undefined;
+  LogTypesToDisable?: string[] | undefined;
 }
 export interface PendingModifiedValues {
-  DBInstanceClass?: string;
-  AllocatedStorage?: number;
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  Port?: number;
-  BackupRetentionPeriod?: number;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  LicenseModel?: string;
-  Iops?: number;
-  DBInstanceIdentifier?: string;
-  StorageType?: string;
-  CACertificateIdentifier?: string;
-  DBSubnetGroupName?: string;
-  PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports;
+  DBInstanceClass?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  LicenseModel?: string | undefined;
+  Iops?: number | undefined;
+  DBInstanceIdentifier?: string | undefined;
+  StorageType?: string | undefined;
+  CACertificateIdentifier?: string | undefined;
+  DBSubnetGroupName?: string | undefined;
+  PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports | undefined;
 }
 export interface DBInstanceStatusInfo {
-  StatusType?: string;
-  Normal?: boolean;
-  Status?: string;
-  Message?: string;
+  StatusType?: string | undefined;
+  Normal?: boolean | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
 }
 export type DBInstanceStatusInfoList = DBInstanceStatusInfo[];
 export interface CertificateDetails {
-  CAIdentifier?: string;
-  ValidTill?: Date;
+  CAIdentifier?: string | undefined;
+  ValidTill?: Date | undefined;
 }
 export interface DBInstance {
-  DBInstanceIdentifier?: string;
-  DBInstanceClass?: string;
-  Engine?: string;
-  DBInstanceStatus?: string;
-  Endpoint?: Endpoint;
-  InstanceCreateTime?: Date;
-  PreferredBackupWindow?: string;
-  BackupRetentionPeriod?: number;
-  VpcSecurityGroups?: VpcSecurityGroupMembership[];
-  AvailabilityZone?: string;
-  DBSubnetGroup?: DBSubnetGroup;
-  PreferredMaintenanceWindow?: string;
-  PendingModifiedValues?: PendingModifiedValues;
-  LatestRestorableTime?: Date;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  PubliclyAccessible?: boolean;
-  StatusInfos?: DBInstanceStatusInfo[];
-  DBClusterIdentifier?: string;
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  DbiResourceId?: string;
-  CACertificateIdentifier?: string;
-  CopyTagsToSnapshot?: boolean;
-  PromotionTier?: number;
-  DBInstanceArn?: string;
-  EnabledCloudwatchLogsExports?: string[];
-  CertificateDetails?: CertificateDetails;
-  PerformanceInsightsEnabled?: boolean;
-  PerformanceInsightsKMSKeyId?: string;
+  DBInstanceIdentifier?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  Engine?: string | undefined;
+  DBInstanceStatus?: string | undefined;
+  Endpoint?: Endpoint | undefined;
+  InstanceCreateTime?: Date | undefined;
+  PreferredBackupWindow?: string | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  AvailabilityZone?: string | undefined;
+  DBSubnetGroup?: DBSubnetGroup | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PendingModifiedValues?: PendingModifiedValues | undefined;
+  LatestRestorableTime?: Date | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  StatusInfos?: DBInstanceStatusInfo[] | undefined;
+  DBClusterIdentifier?: string | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  DbiResourceId?: string | undefined;
+  CACertificateIdentifier?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
+  PromotionTier?: number | undefined;
+  DBInstanceArn?: string | undefined;
+  EnabledCloudwatchLogsExports?: string[] | undefined;
+  CertificateDetails?: CertificateDetails | undefined;
+  PerformanceInsightsEnabled?: boolean | undefined;
+  PerformanceInsightsKMSKeyId?: string | undefined;
 }
 export interface CreateDBInstanceResult {
-  DBInstance?: DBInstance;
+  DBInstance?: DBInstance | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateDBSubnetGroupMessage {
-  DBSubnetGroupName?: string;
-  DBSubnetGroupDescription?: string;
-  SubnetIds?: string[];
-  Tags?: Tag[];
+  DBSubnetGroupName?: string | undefined;
+  DBSubnetGroupDescription?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDBSubnetGroupResult {
-  DBSubnetGroup?: DBSubnetGroup;
+  DBSubnetGroup?: DBSubnetGroup | undefined;
 }
 export interface CreateEventSubscriptionMessage {
-  SubscriptionName?: string;
-  SnsTopicArn?: string;
-  SourceType?: string;
-  EventCategories?: string[];
-  SourceIds?: string[];
-  Enabled?: boolean;
-  Tags?: Tag[];
+  SubscriptionName?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
+  SourceIds?: string[] | undefined;
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateEventSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface CreateGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
-  SourceDBClusterIdentifier?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  DeletionProtection?: boolean;
-  DatabaseName?: string;
-  StorageEncrypted?: boolean;
+  GlobalClusterIdentifier?: string | undefined;
+  SourceDBClusterIdentifier?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DeletionProtection?: boolean | undefined;
+  DatabaseName?: string | undefined;
+  StorageEncrypted?: boolean | undefined;
 }
 export type ReadersArnList = string[];
 export type GlobalClusterMemberSynchronizationStatus =
@@ -1031,268 +1032,268 @@ export type GlobalClusterMemberSynchronizationStatus =
   | "pending-resync"
   | (string & {});
 export interface GlobalClusterMember {
-  DBClusterArn?: string;
-  Readers?: string[];
-  IsWriter?: boolean;
-  SynchronizationStatus?: GlobalClusterMemberSynchronizationStatus;
+  DBClusterArn?: string | undefined;
+  Readers?: string[] | undefined;
+  IsWriter?: boolean | undefined;
+  SynchronizationStatus?: GlobalClusterMemberSynchronizationStatus | undefined;
 }
 export type GlobalClusterMemberList = GlobalClusterMember[];
 export type FailoverStatus = "pending" | "failing-over" | "cancelling" | (string & {});
 export interface FailoverState {
-  Status?: FailoverStatus;
-  FromDbClusterArn?: string;
-  ToDbClusterArn?: string;
-  IsDataLossAllowed?: boolean;
+  Status?: FailoverStatus | undefined;
+  FromDbClusterArn?: string | undefined;
+  ToDbClusterArn?: string | undefined;
+  IsDataLossAllowed?: boolean | undefined;
 }
 export interface GlobalCluster {
-  GlobalClusterIdentifier?: string;
-  GlobalClusterResourceId?: string;
-  GlobalClusterArn?: string;
-  Status?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  DatabaseName?: string;
-  StorageEncrypted?: boolean;
-  DeletionProtection?: boolean;
-  GlobalClusterMembers?: GlobalClusterMember[];
-  FailoverState?: FailoverState;
-  TagList?: Tag[];
+  GlobalClusterIdentifier?: string | undefined;
+  GlobalClusterResourceId?: string | undefined;
+  GlobalClusterArn?: string | undefined;
+  Status?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DatabaseName?: string | undefined;
+  StorageEncrypted?: boolean | undefined;
+  DeletionProtection?: boolean | undefined;
+  GlobalClusterMembers?: GlobalClusterMember[] | undefined;
+  FailoverState?: FailoverState | undefined;
+  TagList?: Tag[] | undefined;
 }
 export interface CreateGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export interface DeleteDBClusterMessage {
-  DBClusterIdentifier?: string;
-  SkipFinalSnapshot?: boolean;
-  FinalDBSnapshotIdentifier?: string;
+  DBClusterIdentifier?: string | undefined;
+  SkipFinalSnapshot?: boolean | undefined;
+  FinalDBSnapshotIdentifier?: string | undefined;
 }
 export interface DeleteDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface DeleteDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName?: string;
+  DBClusterParameterGroupName?: string | undefined;
 }
 export interface DeleteDBClusterParameterGroupResponse {}
 export interface DeleteDBClusterSnapshotMessage {
-  DBClusterSnapshotIdentifier?: string;
+  DBClusterSnapshotIdentifier?: string | undefined;
 }
 export interface DeleteDBClusterSnapshotResult {
-  DBClusterSnapshot?: DBClusterSnapshot;
+  DBClusterSnapshot?: DBClusterSnapshot | undefined;
 }
 export interface DeleteDBInstanceMessage {
-  DBInstanceIdentifier?: string;
+  DBInstanceIdentifier?: string | undefined;
 }
 export interface DeleteDBInstanceResult {
-  DBInstance?: DBInstance;
+  DBInstance?: DBInstance | undefined;
 }
 export interface DeleteDBSubnetGroupMessage {
-  DBSubnetGroupName?: string;
+  DBSubnetGroupName?: string | undefined;
 }
 export interface DeleteDBSubnetGroupResponse {}
 export interface DeleteEventSubscriptionMessage {
-  SubscriptionName?: string;
+  SubscriptionName?: string | undefined;
 }
 export interface DeleteEventSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface DeleteGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
+  GlobalClusterIdentifier?: string | undefined;
 }
 export interface DeleteGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export type FilterValueList = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface DescribeCertificatesMessage {
-  CertificateIdentifier?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  CertificateIdentifier?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface Certificate {
-  CertificateIdentifier?: string;
-  CertificateType?: string;
-  Thumbprint?: string;
-  ValidFrom?: Date;
-  ValidTill?: Date;
-  CertificateArn?: string;
+  CertificateIdentifier?: string | undefined;
+  CertificateType?: string | undefined;
+  Thumbprint?: string | undefined;
+  ValidFrom?: Date | undefined;
+  ValidTill?: Date | undefined;
+  CertificateArn?: string | undefined;
 }
 export type CertificateList = Certificate[];
 export interface CertificateMessage {
-  Certificates?: Certificate[];
-  Marker?: string;
+  Certificates?: Certificate[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDBClusterParameterGroupsMessage {
-  DBClusterParameterGroupName?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBClusterParameterGroupName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DBClusterParameterGroupList = DBClusterParameterGroup[];
 export interface DBClusterParameterGroupsMessage {
-  Marker?: string;
-  DBClusterParameterGroups?: DBClusterParameterGroup[];
+  Marker?: string | undefined;
+  DBClusterParameterGroups?: DBClusterParameterGroup[] | undefined;
 }
 export interface DescribeDBClusterParametersMessage {
-  DBClusterParameterGroupName?: string;
-  Source?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBClusterParameterGroupName?: string | undefined;
+  Source?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ApplyMethod = "immediate" | "pending-reboot" | (string & {});
 export interface Parameter {
-  ParameterName?: string;
-  ParameterValue?: string;
-  Description?: string;
-  Source?: string;
-  ApplyType?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  IsModifiable?: boolean;
-  MinimumEngineVersion?: string;
-  ApplyMethod?: ApplyMethod;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  ApplyType?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  IsModifiable?: boolean | undefined;
+  MinimumEngineVersion?: string | undefined;
+  ApplyMethod?: ApplyMethod | undefined;
 }
 export type ParametersList = Parameter[];
 export interface DBClusterParameterGroupDetails {
-  Parameters?: Parameter[];
-  Marker?: string;
+  Parameters?: Parameter[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDBClustersMessage {
-  DBClusterIdentifier?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBClusterIdentifier?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DBClusterList = DBCluster[];
 export interface DBClusterMessage {
-  Marker?: string;
-  DBClusters?: DBCluster[];
+  Marker?: string | undefined;
+  DBClusters?: DBCluster[] | undefined;
 }
 export interface DescribeDBClusterSnapshotAttributesMessage {
-  DBClusterSnapshotIdentifier?: string;
+  DBClusterSnapshotIdentifier?: string | undefined;
 }
 export type AttributeValueList = string[];
 export interface DBClusterSnapshotAttribute {
-  AttributeName?: string;
-  AttributeValues?: string[];
+  AttributeName?: string | undefined;
+  AttributeValues?: string[] | undefined;
 }
 export type DBClusterSnapshotAttributeList = DBClusterSnapshotAttribute[];
 export interface DBClusterSnapshotAttributesResult {
-  DBClusterSnapshotIdentifier?: string;
-  DBClusterSnapshotAttributes?: DBClusterSnapshotAttribute[];
+  DBClusterSnapshotIdentifier?: string | undefined;
+  DBClusterSnapshotAttributes?: DBClusterSnapshotAttribute[] | undefined;
 }
 export interface DescribeDBClusterSnapshotAttributesResult {
-  DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult;
+  DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult | undefined;
 }
 export interface DescribeDBClusterSnapshotsMessage {
-  DBClusterIdentifier?: string;
-  DBClusterSnapshotIdentifier?: string;
-  SnapshotType?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
-  IncludeShared?: boolean;
-  IncludePublic?: boolean;
+  DBClusterIdentifier?: string | undefined;
+  DBClusterSnapshotIdentifier?: string | undefined;
+  SnapshotType?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  IncludeShared?: boolean | undefined;
+  IncludePublic?: boolean | undefined;
 }
 export type DBClusterSnapshotList = DBClusterSnapshot[];
 export interface DBClusterSnapshotMessage {
-  Marker?: string;
-  DBClusterSnapshots?: DBClusterSnapshot[];
+  Marker?: string | undefined;
+  DBClusterSnapshots?: DBClusterSnapshot[] | undefined;
 }
 export interface DescribeDBEngineVersionsMessage {
-  Engine?: string;
-  EngineVersion?: string;
-  DBParameterGroupFamily?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
-  DefaultOnly?: boolean;
-  ListSupportedCharacterSets?: boolean;
-  ListSupportedTimezones?: boolean;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DBParameterGroupFamily?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  DefaultOnly?: boolean | undefined;
+  ListSupportedCharacterSets?: boolean | undefined;
+  ListSupportedTimezones?: boolean | undefined;
 }
 export interface UpgradeTarget {
-  Engine?: string;
-  EngineVersion?: string;
-  Description?: string;
-  AutoUpgrade?: boolean;
-  IsMajorVersionUpgrade?: boolean;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  Description?: string | undefined;
+  AutoUpgrade?: boolean | undefined;
+  IsMajorVersionUpgrade?: boolean | undefined;
 }
 export type ValidUpgradeTargetList = UpgradeTarget[];
 export type CACertificateIdentifiersList = string[];
 export interface ServerlessV2FeaturesSupport {
-  MinCapacity?: number;
-  MaxCapacity?: number;
+  MinCapacity?: number | undefined;
+  MaxCapacity?: number | undefined;
 }
 export interface DBEngineVersion {
-  Engine?: string;
-  EngineVersion?: string;
-  DBParameterGroupFamily?: string;
-  DBEngineDescription?: string;
-  DBEngineVersionDescription?: string;
-  ValidUpgradeTarget?: UpgradeTarget[];
-  ExportableLogTypes?: string[];
-  SupportsLogExportsToCloudwatchLogs?: boolean;
-  SupportedCACertificateIdentifiers?: string[];
-  SupportsCertificateRotationWithoutRestart?: boolean;
-  ServerlessV2FeaturesSupport?: ServerlessV2FeaturesSupport;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DBParameterGroupFamily?: string | undefined;
+  DBEngineDescription?: string | undefined;
+  DBEngineVersionDescription?: string | undefined;
+  ValidUpgradeTarget?: UpgradeTarget[] | undefined;
+  ExportableLogTypes?: string[] | undefined;
+  SupportsLogExportsToCloudwatchLogs?: boolean | undefined;
+  SupportedCACertificateIdentifiers?: string[] | undefined;
+  SupportsCertificateRotationWithoutRestart?: boolean | undefined;
+  ServerlessV2FeaturesSupport?: ServerlessV2FeaturesSupport | undefined;
 }
 export type DBEngineVersionList = DBEngineVersion[];
 export interface DBEngineVersionMessage {
-  Marker?: string;
-  DBEngineVersions?: DBEngineVersion[];
+  Marker?: string | undefined;
+  DBEngineVersions?: DBEngineVersion[] | undefined;
 }
 export interface DescribeDBInstancesMessage {
-  DBInstanceIdentifier?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBInstanceIdentifier?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DBInstanceList = DBInstance[];
 export interface DBInstanceMessage {
-  Marker?: string;
-  DBInstances?: DBInstance[];
+  Marker?: string | undefined;
+  DBInstances?: DBInstance[] | undefined;
 }
 export interface DescribeDBSubnetGroupsMessage {
-  DBSubnetGroupName?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBSubnetGroupName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DBSubnetGroups = DBSubnetGroup[];
 export interface DBSubnetGroupMessage {
-  Marker?: string;
-  DBSubnetGroups?: DBSubnetGroup[];
+  Marker?: string | undefined;
+  DBSubnetGroups?: DBSubnetGroup[] | undefined;
 }
 export interface DescribeEngineDefaultClusterParametersMessage {
-  DBParameterGroupFamily?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  DBParameterGroupFamily?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface EngineDefaults {
-  DBParameterGroupFamily?: string;
-  Marker?: string;
-  Parameters?: Parameter[];
+  DBParameterGroupFamily?: string | undefined;
+  Marker?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface DescribeEngineDefaultClusterParametersResult {
-  EngineDefaults?: EngineDefaults;
+  EngineDefaults?: EngineDefaults | undefined;
 }
 export interface DescribeEventCategoriesMessage {
-  SourceType?: string;
-  Filters?: Filter[];
+  SourceType?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface EventCategoriesMap {
-  SourceType?: string;
-  EventCategories?: string[];
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
 }
 export type EventCategoriesMapList = EventCategoriesMap[];
 export interface EventCategoriesMessage {
-  EventCategoriesMapList?: EventCategoriesMap[];
+  EventCategoriesMapList?: EventCategoriesMap[] | undefined;
 }
 export type SourceType =
   | "db-instance"
@@ -1303,293 +1304,293 @@ export type SourceType =
   | "db-cluster-snapshot"
   | (string & {});
 export interface DescribeEventsMessage {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  EventCategories?: string[];
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  EventCategories?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface Event {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  EventCategories?: string[];
-  Date?: Date;
-  SourceArn?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  EventCategories?: string[] | undefined;
+  Date?: Date | undefined;
+  SourceArn?: string | undefined;
 }
 export type EventList = Event[];
 export interface EventsMessage {
-  Marker?: string;
-  Events?: Event[];
+  Marker?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export interface DescribeEventSubscriptionsMessage {
-  SubscriptionName?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  SubscriptionName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EventSubscriptionsList = EventSubscription[];
 export interface EventSubscriptionsMessage {
-  Marker?: string;
-  EventSubscriptionsList?: EventSubscription[];
+  Marker?: string | undefined;
+  EventSubscriptionsList?: EventSubscription[] | undefined;
 }
 export interface DescribeGlobalClustersMessage {
-  GlobalClusterIdentifier?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  GlobalClusterIdentifier?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type GlobalClusterList = GlobalCluster[];
 export interface GlobalClustersMessage {
-  Marker?: string;
-  GlobalClusters?: GlobalCluster[];
+  Marker?: string | undefined;
+  GlobalClusters?: GlobalCluster[] | undefined;
 }
 export interface DescribeOrderableDBInstanceOptionsMessage {
-  Engine?: string;
-  EngineVersion?: string;
-  DBInstanceClass?: string;
-  LicenseModel?: string;
-  Vpc?: boolean;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  LicenseModel?: string | undefined;
+  Vpc?: boolean | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type AvailabilityZoneList = AvailabilityZone[];
 export interface OrderableDBInstanceOption {
-  Engine?: string;
-  EngineVersion?: string;
-  DBInstanceClass?: string;
-  LicenseModel?: string;
-  AvailabilityZones?: AvailabilityZone[];
-  Vpc?: boolean;
-  StorageType?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  LicenseModel?: string | undefined;
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  Vpc?: boolean | undefined;
+  StorageType?: string | undefined;
 }
 export type OrderableDBInstanceOptionsList = OrderableDBInstanceOption[];
 export interface OrderableDBInstanceOptionsMessage {
-  OrderableDBInstanceOptions?: OrderableDBInstanceOption[];
-  Marker?: string;
+  OrderableDBInstanceOptions?: OrderableDBInstanceOption[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribePendingMaintenanceActionsMessage {
-  ResourceIdentifier?: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  ResourceIdentifier?: string | undefined;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type PendingMaintenanceActions = ResourcePendingMaintenanceActions[];
 export interface PendingMaintenanceActionsMessage {
-  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
-  Marker?: string;
+  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[] | undefined;
+  Marker?: string | undefined;
 }
 export interface FailoverDBClusterMessage {
-  DBClusterIdentifier?: string;
-  TargetDBInstanceIdentifier?: string;
+  DBClusterIdentifier?: string | undefined;
+  TargetDBInstanceIdentifier?: string | undefined;
 }
 export interface FailoverDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export type DBClusterIdentifier = string;
 export interface FailoverGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
-  TargetDbClusterIdentifier?: string;
-  AllowDataLoss?: boolean;
-  Switchover?: boolean;
+  GlobalClusterIdentifier?: string | undefined;
+  TargetDbClusterIdentifier?: string | undefined;
+  AllowDataLoss?: boolean | undefined;
+  Switchover?: boolean | undefined;
 }
 export interface FailoverGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export interface ListTagsForResourceMessage {
-  ResourceName?: string;
-  Filters?: Filter[];
+  ResourceName?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface TagListMessage {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface CloudwatchLogsExportConfiguration {
-  EnableLogTypes?: string[];
-  DisableLogTypes?: string[];
+  EnableLogTypes?: string[] | undefined;
+  DisableLogTypes?: string[] | undefined;
 }
 export interface ModifyDBClusterMessage {
-  DBClusterIdentifier?: string;
-  NewDBClusterIdentifier?: string;
-  ApplyImmediately?: boolean;
-  BackupRetentionPeriod?: number;
-  DBClusterParameterGroupName?: string;
-  VpcSecurityGroupIds?: string[];
-  Port?: number;
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  PreferredBackupWindow?: string;
-  PreferredMaintenanceWindow?: string;
-  CloudwatchLogsExportConfiguration?: CloudwatchLogsExportConfiguration;
-  EngineVersion?: string;
-  AllowMajorVersionUpgrade?: boolean;
-  DeletionProtection?: boolean;
-  StorageType?: string;
-  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
-  ManageMasterUserPassword?: boolean;
-  MasterUserSecretKmsKeyId?: string;
-  RotateMasterUserPassword?: boolean;
-  NetworkType?: string;
-  CopyTagsToSnapshot?: boolean;
+  DBClusterIdentifier?: string | undefined;
+  NewDBClusterIdentifier?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  DBClusterParameterGroupName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  Port?: number | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  PreferredBackupWindow?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  CloudwatchLogsExportConfiguration?: CloudwatchLogsExportConfiguration | undefined;
+  EngineVersion?: string | undefined;
+  AllowMajorVersionUpgrade?: boolean | undefined;
+  DeletionProtection?: boolean | undefined;
+  StorageType?: string | undefined;
+  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration | undefined;
+  ManageMasterUserPassword?: boolean | undefined;
+  MasterUserSecretKmsKeyId?: string | undefined;
+  RotateMasterUserPassword?: boolean | undefined;
+  NetworkType?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
 }
 export interface ModifyDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface ModifyDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName?: string;
-  Parameters?: Parameter[];
+  DBClusterParameterGroupName?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface DBClusterParameterGroupNameMessage {
-  DBClusterParameterGroupName?: string;
+  DBClusterParameterGroupName?: string | undefined;
 }
 export interface ModifyDBClusterSnapshotAttributeMessage {
-  DBClusterSnapshotIdentifier?: string;
-  AttributeName?: string;
-  ValuesToAdd?: string[];
-  ValuesToRemove?: string[];
+  DBClusterSnapshotIdentifier?: string | undefined;
+  AttributeName?: string | undefined;
+  ValuesToAdd?: string[] | undefined;
+  ValuesToRemove?: string[] | undefined;
 }
 export interface ModifyDBClusterSnapshotAttributeResult {
-  DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult;
+  DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult | undefined;
 }
 export interface ModifyDBInstanceMessage {
-  DBInstanceIdentifier?: string;
-  DBInstanceClass?: string;
-  ApplyImmediately?: boolean;
-  PreferredMaintenanceWindow?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  NewDBInstanceIdentifier?: string;
-  CACertificateIdentifier?: string;
-  CopyTagsToSnapshot?: boolean;
-  PromotionTier?: number;
-  EnablePerformanceInsights?: boolean;
-  PerformanceInsightsKMSKeyId?: string;
-  CertificateRotationRestart?: boolean;
+  DBInstanceIdentifier?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  NewDBInstanceIdentifier?: string | undefined;
+  CACertificateIdentifier?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
+  PromotionTier?: number | undefined;
+  EnablePerformanceInsights?: boolean | undefined;
+  PerformanceInsightsKMSKeyId?: string | undefined;
+  CertificateRotationRestart?: boolean | undefined;
 }
 export interface ModifyDBInstanceResult {
-  DBInstance?: DBInstance;
+  DBInstance?: DBInstance | undefined;
 }
 export interface ModifyDBSubnetGroupMessage {
-  DBSubnetGroupName?: string;
-  DBSubnetGroupDescription?: string;
-  SubnetIds?: string[];
+  DBSubnetGroupName?: string | undefined;
+  DBSubnetGroupDescription?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface ModifyDBSubnetGroupResult {
-  DBSubnetGroup?: DBSubnetGroup;
+  DBSubnetGroup?: DBSubnetGroup | undefined;
 }
 export interface ModifyEventSubscriptionMessage {
-  SubscriptionName?: string;
-  SnsTopicArn?: string;
-  SourceType?: string;
-  EventCategories?: string[];
-  Enabled?: boolean;
+  SubscriptionName?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface ModifyEventSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface ModifyGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
-  NewGlobalClusterIdentifier?: string;
-  DeletionProtection?: boolean;
+  GlobalClusterIdentifier?: string | undefined;
+  NewGlobalClusterIdentifier?: string | undefined;
+  DeletionProtection?: boolean | undefined;
 }
 export interface ModifyGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export interface RebootDBInstanceMessage {
-  DBInstanceIdentifier?: string;
-  ForceFailover?: boolean;
+  DBInstanceIdentifier?: string | undefined;
+  ForceFailover?: boolean | undefined;
 }
 export interface RebootDBInstanceResult {
-  DBInstance?: DBInstance;
+  DBInstance?: DBInstance | undefined;
 }
 export interface RemoveFromGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
-  DbClusterIdentifier?: string;
+  GlobalClusterIdentifier?: string | undefined;
+  DbClusterIdentifier?: string | undefined;
 }
 export interface RemoveFromGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export interface RemoveSourceIdentifierFromSubscriptionMessage {
-  SubscriptionName?: string;
-  SourceIdentifier?: string;
+  SubscriptionName?: string | undefined;
+  SourceIdentifier?: string | undefined;
 }
 export interface RemoveSourceIdentifierFromSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export type KeyList = string[];
 export interface RemoveTagsFromResourceMessage {
-  ResourceName?: string;
-  TagKeys?: string[];
+  ResourceName?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface RemoveTagsFromResourceResponse {}
 export interface ResetDBClusterParameterGroupMessage {
-  DBClusterParameterGroupName?: string;
-  ResetAllParameters?: boolean;
-  Parameters?: Parameter[];
+  DBClusterParameterGroupName?: string | undefined;
+  ResetAllParameters?: boolean | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface RestoreDBClusterFromSnapshotMessage {
-  AvailabilityZones?: string[];
-  DBClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  Port?: number;
-  DBSubnetGroupName?: string;
-  VpcSecurityGroupIds?: string[];
-  Tags?: Tag[];
-  KmsKeyId?: string;
-  EnableCloudwatchLogsExports?: string[];
-  DeletionProtection?: boolean;
-  DBClusterParameterGroupName?: string;
-  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
-  StorageType?: string;
-  NetworkType?: string;
-  CopyTagsToSnapshot?: boolean;
+  AvailabilityZones?: string[] | undefined;
+  DBClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  Port?: number | undefined;
+  DBSubnetGroupName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  EnableCloudwatchLogsExports?: string[] | undefined;
+  DeletionProtection?: boolean | undefined;
+  DBClusterParameterGroupName?: string | undefined;
+  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration | undefined;
+  StorageType?: string | undefined;
+  NetworkType?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
 }
 export interface RestoreDBClusterFromSnapshotResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface RestoreDBClusterToPointInTimeMessage {
-  DBClusterIdentifier?: string;
-  RestoreType?: string;
-  SourceDBClusterIdentifier?: string;
-  RestoreToTime?: Date;
-  UseLatestRestorableTime?: boolean;
-  Port?: number;
-  DBSubnetGroupName?: string;
-  VpcSecurityGroupIds?: string[];
-  Tags?: Tag[];
-  KmsKeyId?: string;
-  EnableCloudwatchLogsExports?: string[];
-  DeletionProtection?: boolean;
-  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration;
-  StorageType?: string;
-  NetworkType?: string;
-  CopyTagsToSnapshot?: boolean;
+  DBClusterIdentifier?: string | undefined;
+  RestoreType?: string | undefined;
+  SourceDBClusterIdentifier?: string | undefined;
+  RestoreToTime?: Date | undefined;
+  UseLatestRestorableTime?: boolean | undefined;
+  Port?: number | undefined;
+  DBSubnetGroupName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  EnableCloudwatchLogsExports?: string[] | undefined;
+  DeletionProtection?: boolean | undefined;
+  ServerlessV2ScalingConfiguration?: ServerlessV2ScalingConfiguration | undefined;
+  StorageType?: string | undefined;
+  NetworkType?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
 }
 export interface RestoreDBClusterToPointInTimeResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface StartDBClusterMessage {
-  DBClusterIdentifier?: string;
+  DBClusterIdentifier?: string | undefined;
 }
 export interface StartDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface StopDBClusterMessage {
-  DBClusterIdentifier?: string;
+  DBClusterIdentifier?: string | undefined;
 }
 export interface StopDBClusterResult {
-  DBCluster?: DBCluster;
+  DBCluster?: DBCluster | undefined;
 }
 export interface SwitchoverGlobalClusterMessage {
-  GlobalClusterIdentifier?: string;
-  TargetDbClusterIdentifier?: string;
+  GlobalClusterIdentifier?: string | undefined;
+  TargetDbClusterIdentifier?: string | undefined;
 }
 export interface SwitchoverGlobalClusterResult {
-  GlobalCluster?: GlobalCluster;
+  GlobalCluster?: GlobalCluster | undefined;
 }
 export type ExceptionMessage = string;
 export type AddSourceIdentifierToSubscriptionError =
@@ -1601,7 +1602,7 @@ export type AddSourceIdentifierToSubscriptionError =
  * subscription.
  */
 export const addSourceIdentifierToSubscription: API.OperationMethod<
-  AddSourceIdentifierToSubscriptionMessage,
+  AddSourceIdentifierToSubscriptionMessage & RegionInput,
   AddSourceIdentifierToSubscriptionResult,
   AddSourceIdentifierToSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1628,7 +1629,7 @@ export type AddTagsToResourceError =
  * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1654,7 @@ export type ApplyPendingMaintenanceActionError =
  * to an Amazon DocumentDB instance).
  */
 export const applyPendingMaintenanceAction: API.OperationMethod<
-  ApplyPendingMaintenanceActionMessage,
+  ApplyPendingMaintenanceActionMessage & RegionInput,
   ApplyPendingMaintenanceActionResult,
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
@@ -1677,7 +1678,7 @@ export type CopyDBClusterParameterGroupError =
  * Copies the specified cluster parameter group.
  */
 export const copyDBClusterParameterGroup: API.OperationMethod<
-  CopyDBClusterParameterGroupMessage,
+  CopyDBClusterParameterGroupMessage & RegionInput,
   CopyDBClusterParameterGroupResult,
   CopyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type CopyDBClusterSnapshotError =
  * snapshot is in the *copying* status.
  */
 export const copyDBClusterSnapshot: API.OperationMethod<
-  CopyDBClusterSnapshotMessage,
+  CopyDBClusterSnapshotMessage & RegionInput,
   CopyDBClusterSnapshotResult,
   CopyDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1765,7 +1766,7 @@ export type CreateDBClusterError =
  * Creates a new Amazon DocumentDB cluster.
  */
 export const createDBCluster: API.OperationMethod<
-  CreateDBClusterMessage,
+  CreateDBClusterMessage & RegionInput,
   CreateDBClusterResult,
   CreateDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -1826,7 +1827,7 @@ export type CreateDBClusterParameterGroupError =
  * Modifying Amazon DocumentDB Cluster Parameter Groups.
  */
 export const createDBClusterParameterGroup: API.OperationMethod<
-  CreateDBClusterParameterGroupMessage,
+  CreateDBClusterParameterGroupMessage & RegionInput,
   CreateDBClusterParameterGroupResult,
   CreateDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1852,7 +1853,7 @@ export type CreateDBClusterSnapshotError =
  * Creates a snapshot of a cluster.
  */
 export const createDBClusterSnapshot: API.OperationMethod<
-  CreateDBClusterSnapshotMessage,
+  CreateDBClusterSnapshotMessage & RegionInput,
   CreateDBClusterSnapshotResult,
   CreateDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1895,7 @@ export type CreateDBInstanceError =
  * Creates a new instance.
  */
 export const createDBInstance: API.OperationMethod<
-  CreateDBInstanceMessage,
+  CreateDBInstanceMessage & RegionInput,
   CreateDBInstanceResult,
   CreateDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1937,7 +1938,7 @@ export type CreateDBSubnetGroupError =
  * least two Availability Zones in the Amazon Web Services Region.
  */
 export const createDBSubnetGroup: API.OperationMethod<
-  CreateDBSubnetGroupMessage,
+  CreateDBSubnetGroupMessage & RegionInput,
   CreateDBSubnetGroupResult,
   CreateDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1976,7 @@ export type CreateEventSubscriptionError =
  * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2014,7 +2015,7 @@ export type CreateGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const createGlobalCluster: API.OperationMethod<
-  CreateGlobalClusterMessage,
+  CreateGlobalClusterMessage & RegionInput,
   CreateGlobalClusterResult,
   CreateGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2045,7 +2046,7 @@ export type DeleteDBClusterError =
  * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
  */
 export const deleteDBCluster: API.OperationMethod<
-  DeleteDBClusterMessage,
+  DeleteDBClusterMessage & RegionInput,
   DeleteDBClusterResult,
   DeleteDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type DeleteDBClusterParameterGroupError =
  * Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
  */
 export const deleteDBClusterParameterGroup: API.OperationMethod<
-  DeleteDBClusterParameterGroupMessage,
+  DeleteDBClusterParameterGroupMessage & RegionInput,
   DeleteDBClusterParameterGroupResponse,
   DeleteDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2099,7 +2100,7 @@ export type DeleteDBClusterSnapshotError =
  * The cluster snapshot must be in the `available` state to be deleted.
  */
 export const deleteDBClusterSnapshot: API.OperationMethod<
-  DeleteDBClusterSnapshotMessage,
+  DeleteDBClusterSnapshotMessage & RegionInput,
   DeleteDBClusterSnapshotResult,
   DeleteDBClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2125,7 +2126,7 @@ export type DeleteDBInstanceError =
  * Deletes a previously provisioned instance.
  */
 export const deleteDBInstance: API.OperationMethod<
-  DeleteDBInstanceMessage,
+  DeleteDBInstanceMessage & RegionInput,
   DeleteDBInstanceResult,
   DeleteDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2158,7 +2159,7 @@ export type DeleteDBSubnetGroupError =
  * instances.
  */
 export const deleteDBSubnetGroup: API.OperationMethod<
-  DeleteDBSubnetGroupMessage,
+  DeleteDBSubnetGroupMessage & RegionInput,
   DeleteDBSubnetGroupResponse,
   DeleteDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2181,7 +2182,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an Amazon DocumentDB event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResult,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2206,7 +2207,7 @@ export type DeleteGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const deleteGlobalCluster: API.OperationMethod<
-  DeleteGlobalClusterMessage,
+  DeleteGlobalClusterMessage & RegionInput,
   DeleteGlobalClusterResult,
   DeleteGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2226,7 +2227,7 @@ export type DescribeCertificatesError = CertificateNotFoundFault | CommonErrors;
  * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
  */
 export const describeCertificates: API.PaginatedOperationMethod<
-  DescribeCertificatesMessage,
+  DescribeCertificatesMessage & RegionInput,
   CertificateMessage,
   DescribeCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2253,7 +2254,7 @@ export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFaul
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list contains only the description of the specified cluster parameter group.
  */
 export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeDBClusterParameterGroupsMessage,
+  DescribeDBClusterParameterGroupsMessage & RegionInput,
   DBClusterParameterGroupsMessage,
   DescribeDBClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2281,7 +2282,7 @@ export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | C
  * group.
  */
 export const describeDBClusterParameters: API.PaginatedOperationMethod<
-  DescribeDBClusterParametersMessage,
+  DescribeDBClusterParametersMessage & RegionInput,
   DBClusterParameterGroupDetails,
   DescribeDBClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -2313,7 +2314,7 @@ export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
  * parameter to return only Amazon DocumentDB clusters.
  */
 export const describeDBClusters: API.PaginatedOperationMethod<
-  DescribeDBClustersMessage,
+  DescribeDBClustersMessage & RegionInput,
   DBClusterMessage,
   DescribeDBClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2346,7 +2347,7 @@ export type DescribeDBClusterSnapshotAttributesError =
  * `DescribeDBClusterSnapshotAttributes` returns the `restore` attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If `all` is included in the list of values for the `restore` attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
  */
 export const describeDBClusterSnapshotAttributes: API.OperationMethod<
-  DescribeDBClusterSnapshotAttributesMessage,
+  DescribeDBClusterSnapshotAttributesMessage & RegionInput,
   DescribeDBClusterSnapshotAttributesResult,
   DescribeDBClusterSnapshotAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2366,7 +2367,7 @@ export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | C
  * Returns information about cluster snapshots. This API operation supports pagination.
  */
 export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeDBClusterSnapshotsMessage,
+  DescribeDBClusterSnapshotsMessage & RegionInput,
   DBClusterSnapshotMessage,
   DescribeDBClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2393,7 +2394,7 @@ export type DescribeDBEngineVersionsError = CommonErrors;
  * Returns a list of the available engines.
  */
 export const describeDBEngineVersions: API.PaginatedOperationMethod<
-  DescribeDBEngineVersionsMessage,
+  DescribeDBEngineVersionsMessage & RegionInput,
   DBEngineVersionMessage,
   DescribeDBEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2420,7 +2421,7 @@ export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
  * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
  */
 export const describeDBInstances: API.PaginatedOperationMethod<
-  DescribeDBInstancesMessage,
+  DescribeDBInstancesMessage & RegionInput,
   DBInstanceMessage,
   DescribeDBInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2448,7 +2449,7 @@ export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErr
  * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
  */
 export const describeDBSubnetGroups: API.PaginatedOperationMethod<
-  DescribeDBSubnetGroupsMessage,
+  DescribeDBSubnetGroupsMessage & RegionInput,
   DBSubnetGroupMessage,
   DescribeDBSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2476,7 +2477,7 @@ export type DescribeEngineDefaultClusterParametersError = CommonErrors;
  * engine.
  */
 export const describeEngineDefaultClusterParameters: API.OperationMethod<
-  DescribeEngineDefaultClusterParametersMessage,
+  DescribeEngineDefaultClusterParametersMessage & RegionInput,
   DescribeEngineDefaultClusterParametersResult,
   DescribeEngineDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient
@@ -2497,7 +2498,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * specified source type.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -2517,7 +2518,7 @@ export type DescribeEventsError = CommonErrors;
  * Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2546,7 +2547,7 @@ export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | Common
  * If you specify a `SubscriptionName`, lists the description for that subscription.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2575,7 +2576,7 @@ export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErr
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const describeGlobalClusters: API.PaginatedOperationMethod<
-  DescribeGlobalClustersMessage,
+  DescribeGlobalClustersMessage & RegionInput,
   GlobalClustersMessage,
   DescribeGlobalClustersError,
   Credentials | HttpClient.HttpClient,
@@ -2602,7 +2603,7 @@ export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
  * Returns a list of orderable instance options for the specified engine.
  */
 export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
-  DescribeOrderableDBInstanceOptionsMessage,
+  DescribeOrderableDBInstanceOptionsMessage & RegionInput,
   OrderableDBInstanceOptionsMessage,
   DescribeOrderableDBInstanceOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2630,7 +2631,7 @@ export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | Com
  * maintenance action.
  */
 export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
-  DescribePendingMaintenanceActionsMessage,
+  DescribePendingMaintenanceActionsMessage & RegionInput,
   PendingMaintenanceActionsMessage,
   DescribePendingMaintenanceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2665,7 +2666,7 @@ export type FailoverDBClusterError =
  * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
  */
 export const failoverDBCluster: API.OperationMethod<
-  FailoverDBClusterMessage,
+  FailoverDBClusterMessage & RegionInput,
   FailoverDBClusterResult,
   FailoverDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2694,7 +2695,7 @@ export type FailoverGlobalClusterError =
  * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
  */
 export const failoverGlobalCluster: API.OperationMethod<
-  FailoverGlobalClusterMessage,
+  FailoverGlobalClusterMessage & RegionInput,
   FailoverGlobalClusterResult,
   FailoverGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an Amazon DocumentDB resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   TagListMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2758,7 +2759,7 @@ export type ModifyDBClusterError =
  * request.
  */
 export const modifyDBCluster: API.OperationMethod<
-  ModifyDBClusterMessage,
+  ModifyDBClusterMessage & RegionInput,
   ModifyDBClusterResult,
   ModifyDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -2810,7 +2811,7 @@ export type ModifyDBClusterParameterGroupError =
  * defined by the `character_set_database` parameter.
  */
 export const modifyDBClusterParameterGroup: API.OperationMethod<
-  ModifyDBClusterParameterGroupMessage,
+  ModifyDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ModifyDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2836,7 +2837,7 @@ export type ModifyDBClusterSnapshotAttributeError =
  * To share a manual cluster snapshot with other Amazon Web Services accounts, specify `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value `all` to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this case.
  */
 export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
-  ModifyDBClusterSnapshotAttributeMessage,
+  ModifyDBClusterSnapshotAttributeMessage & RegionInput,
   ModifyDBClusterSnapshotAttributeResult,
   ModifyDBClusterSnapshotAttributeError,
   Credentials | HttpClient.HttpClient
@@ -2874,7 +2875,7 @@ export type ModifyDBInstanceError =
  * Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
  */
 export const modifyDBInstance: API.OperationMethod<
-  ModifyDBInstanceMessage,
+  ModifyDBInstanceMessage & RegionInput,
   ModifyDBInstanceResult,
   ModifyDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2914,7 +2915,7 @@ export type ModifyDBSubnetGroupError =
  * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
  */
 export const modifyDBSubnetGroup: API.OperationMethod<
-  ModifyDBSubnetGroupMessage,
+  ModifyDBSubnetGroupMessage & RegionInput,
   ModifyDBSubnetGroupResult,
   ModifyDBSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2947,7 +2948,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing Amazon DocumentDB event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2979,7 +2980,7 @@ export type ModifyGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const modifyGlobalCluster: API.OperationMethod<
-  ModifyGlobalClusterMessage,
+  ModifyGlobalClusterMessage & RegionInput,
   ModifyGlobalClusterResult,
   ModifyGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3009,7 +3010,7 @@ export type RebootDBInstanceError =
  * *rebooting*.
  */
 export const rebootDBInstance: API.OperationMethod<
-  RebootDBInstanceMessage,
+  RebootDBInstanceMessage & RegionInput,
   RebootDBInstanceResult,
   RebootDBInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3035,7 +3036,7 @@ export type RemoveFromGlobalClusterError =
  * This action only applies to Amazon DocumentDB clusters.
  */
 export const removeFromGlobalCluster: API.OperationMethod<
-  RemoveFromGlobalClusterMessage,
+  RemoveFromGlobalClusterMessage & RegionInput,
   RemoveFromGlobalClusterResult,
   RemoveFromGlobalClusterError,
   Credentials | HttpClient.HttpClient
@@ -3059,7 +3060,7 @@ export type RemoveSourceIdentifierFromSubscriptionError =
  * subscription.
  */
 export const removeSourceIdentifierFromSubscription: API.OperationMethod<
-  RemoveSourceIdentifierFromSubscriptionMessage,
+  RemoveSourceIdentifierFromSubscriptionMessage & RegionInput,
   RemoveSourceIdentifierFromSubscriptionResult,
   RemoveSourceIdentifierFromSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -3083,7 +3084,7 @@ export type RemoveTagsFromResourceError =
  * Removes metadata tags from an Amazon DocumentDB resource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3114,7 +3115,7 @@ export type ResetDBClusterParameterGroupError =
  * instance reboot.
  */
 export const resetDBClusterParameterGroup: API.OperationMethod<
-  ResetDBClusterParameterGroupMessage,
+  ResetDBClusterParameterGroupMessage & RegionInput,
   DBClusterParameterGroupNameMessage,
   ResetDBClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3154,7 +3155,7 @@ export type RestoreDBClusterFromSnapshotError =
  * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
  */
 export const restoreDBClusterFromSnapshot: API.OperationMethod<
-  RestoreDBClusterFromSnapshotMessage,
+  RestoreDBClusterFromSnapshotMessage & RegionInput,
   RestoreDBClusterFromSnapshotResult,
   RestoreDBClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3211,7 +3212,7 @@ export type RestoreDBClusterToPointInTimeError =
  * the new cluster is created with the default security group.
  */
 export const restoreDBClusterToPointInTime: API.OperationMethod<
-  RestoreDBClusterToPointInTimeMessage,
+  RestoreDBClusterToPointInTimeMessage & RegionInput,
   RestoreDBClusterToPointInTimeResult,
   RestoreDBClusterToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -3254,7 +3255,7 @@ export type StartDBClusterError =
  * Starting an Amazon DocumentDB Cluster.
  */
 export const startDBCluster: API.OperationMethod<
-  StartDBClusterMessage,
+  StartDBClusterMessage & RegionInput,
   StartDBClusterResult,
   StartDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3282,7 @@ export type StopDBClusterError =
  * Starting an Amazon DocumentDB Cluster.
  */
 export const stopDBCluster: API.OperationMethod<
-  StopDBClusterMessage,
+  StopDBClusterMessage & RegionInput,
   StopDBClusterResult,
   StopDBClusterError,
   Credentials | HttpClient.HttpClient
@@ -3306,7 +3307,7 @@ export type SwitchoverGlobalClusterError =
  * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
  */
 export const switchoverGlobalCluster: API.OperationMethod<
-  SwitchoverGlobalClusterMessage,
+  SwitchoverGlobalClusterMessage & RegionInput,
   SwitchoverGlobalClusterResult,
   SwitchoverGlobalClusterError,
   Credentials | HttpClient.HttpClient

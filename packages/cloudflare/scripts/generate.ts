@@ -15,6 +15,7 @@
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { camel, lowerFirst } from "@distilled.cloud/dev/codegen/naming";
+import { defaultStrategyFields } from "@distilled.cloud/dev/codegen/pagination";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
@@ -104,8 +105,8 @@ const makeCfSpec = (
     ...(typeof opTraits?.[HOST_TRAIT] === "string"
       ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
       : []),
-    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` (see
-    // spec-to-smithy's jurisdictionToLayer).
+    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` when the call
+    // has no `jurisdiction` (see scripts/jurisdiction-layer.ts).
     ...(opTraits?.[JURISDICTION_TRAIT] !== undefined ? ["T.Jurisdiction()"] : []),
     // An operation whose request body is user data (Pipelines ingest
     // records) must not have its opaque content renamed through the
@@ -134,13 +135,15 @@ const makeCfSpec = (
     envelope: {
       protocol: "CloudflarePaginatedProtocol",
       strategy: "cloudflarePaginate",
+      // Page mode stops on an empty page or `result_info`; it needs no outputToken.
+      requires: (t) => (t.mode === "page" ? ["inputToken"] : defaultStrategyFields(t)),
       itemsFallback: "result",
       syntheticOutputs: ["resultInfo"],
       injectOutputMember: {
         tsName: "resultInfo",
         interfaceLines: [
           `  /** Pagination info from the envelope's \`result_info\`. */`,
-          `  resultInfo?: ResultInfo | null;`,
+          `  resultInfo?: ResultInfo | null | undefined;`,
         ],
         structLine: `  "resultInfo": S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),`,
         imports: ["ResultInfo"],

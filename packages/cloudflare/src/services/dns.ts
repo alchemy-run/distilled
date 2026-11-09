@@ -224,9 +224,9 @@ export type RecordsBatchRequestPatchesItemNSRecord = RecordsBatchRequestDeletesI
 export type RecordsBatchRequestPatchesItemOpenpgpkeyRecordType = "OPENPGPKEY";
 export interface RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings {
   /** When enabled, only A records will be generated, and AAAA records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv4Only?: boolean;
+  ipv4Only?: boolean | undefined;
   /** When enabled, only AAAA records will be generated, and A records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv6Only?: boolean;
+  ipv6Only?: boolean | undefined;
 }
 export type RecordsBatchRequestPatchesItemOpenpgpkeyRecordTagsList = Array<string>;
 export interface RecordsBatchRequestPatchesItemOpenpgpkeyRecord {
@@ -239,15 +239,15 @@ export interface RecordsBatchRequestPatchesItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchRequestPatchesItemOpenpgpkeyRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A single Base64-encoded OpenPGP Transferable Public Key (RFC 4880 Section 11.1) */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordTagsList;
+  tags?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPatchesItemPTRRecord = RecordsBatchRequestDeletesItem;
 export type RecordsBatchRequestPatchesItemTXTRecord = RecordsBatchRequestDeletesItem;
@@ -299,17 +299,17 @@ export interface RecordsBatchRequestPostsItemARecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv4 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemARecordTagsList;
+  tags?: RecordsBatchRequestPostsItemARecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemAAAARecordType = "AAAA";
 export type RecordsBatchRequestPostsItemAAAARecordSettings =
@@ -323,26 +323,26 @@ export interface RecordsBatchRequestPostsItemAAAARecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemAAAARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv6 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemAAAARecordTagsList;
+  tags?: RecordsBatchRequestPostsItemAAAARecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemCNAMERecordType = "CNAME";
 export interface RecordsBatchRequestPostsItemCNAMERecordSettings {
   /** If enabled, causes the CNAME record to be resolved externally and the resulting address records (e.g., A and AAAA) to be returned instead of the CNAME record itself. This setting is unavailable for proxied records, since they are always flattened. */
-  flattenCname?: boolean;
+  flattenCname?: boolean | undefined;
   /** When enabled, only A records will be generated, and AAAA records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv4Only?: boolean;
+  ipv4Only?: boolean | undefined;
   /** When enabled, only AAAA records will be generated, and A records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv6Only?: boolean;
+  ipv6Only?: boolean | undefined;
 }
 export type RecordsBatchRequestPostsItemCNAMERecordTagsList = Array<string>;
 export interface RecordsBatchRequestPostsItemCNAMERecord {
@@ -353,15 +353,15 @@ export interface RecordsBatchRequestPostsItemCNAMERecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemCNAMERecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid hostname. Must not match the record's name. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPostsItemCNAMERecordSettings;
+  settings?: RecordsBatchRequestPostsItemCNAMERecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemCNAMERecordTagsList;
+  tags?: RecordsBatchRequestPostsItemCNAMERecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemMXRecordType = "MX";
 export type RecordsBatchRequestPostsItemMXRecordSettings =
@@ -375,17 +375,17 @@ export interface RecordsBatchRequestPostsItemMXRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemMXRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid mail server hostname. */
-  content?: string;
+  content?: string | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemMXRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemMXRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemNSRecordType = "NS";
 export type RecordsBatchRequestPostsItemNSRecordSettings =
@@ -399,15 +399,15 @@ export interface RecordsBatchRequestPostsItemNSRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemNSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid name server host name. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemNSRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemNSRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecordType = "OPENPGPKEY";
 export type RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecordSettings =
@@ -421,15 +421,15 @@ export interface RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A single Base64-encoded OpenPGP Transferable Public Key (RFC 4880 Section 11.1) */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemDNSRecordsOpenpgpkeyRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemPTRRecordType = "PTR";
 export type RecordsBatchRequestPostsItemPTRRecordSettings =
@@ -443,15 +443,15 @@ export interface RecordsBatchRequestPostsItemPTRRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemPTRRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Domain name pointing to the address. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemPTRRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemPTRRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemTXTRecordType = "TXT";
 export type RecordsBatchRequestPostsItemTXTRecordSettings =
@@ -465,24 +465,24 @@ export interface RecordsBatchRequestPostsItemTXTRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemTXTRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Text content for the record. The content must consist of quoted "character strings" (RFC 1035), each with a length of up to 255 bytes. Strings exceeding this allowed maximum length are automatically split. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemTXTRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemTXTRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemCAARecordType = "CAA";
 export interface RecordsBatchRequestPostsItemCAARecordData {
   /** Flags for the CAA record. */
-  flags?: number;
+  flags?: number | undefined;
   /** Name of the property controlled by this record (e.g.: issue, issuewild, iodef). */
-  tag?: string;
+  tag?: string | undefined;
   /** Value of the record. This field's semantics depend on the chosen tag. */
-  value?: string;
+  value?: string | undefined;
 }
 export type RecordsBatchRequestPostsItemCAARecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -495,28 +495,28 @@ export interface RecordsBatchRequestPostsItemCAARecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemCAARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted CAA content. See 'data' to set CAA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a CAA record. */
-  data?: RecordsBatchRequestPostsItemCAARecordData;
+  data?: RecordsBatchRequestPostsItemCAARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemCAARecordTagsList;
+  tags?: RecordsBatchRequestPostsItemCAARecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemCERTRecordType = "CERT";
 export interface RecordsBatchRequestPostsItemCERTRecordData {
   /** Algorithm. */
-  algorithm?: number;
+  algorithm?: number | undefined;
   /** Certificate. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Key Tag. */
-  keyTag?: number;
+  keyTag?: number | undefined;
   /** Type. */
-  type?: number;
+  type?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemCERTRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -529,28 +529,28 @@ export interface RecordsBatchRequestPostsItemCERTRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemCERTRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted CERT content. See 'data' to set CERT properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a CERT record. */
-  data?: RecordsBatchRequestPostsItemCERTRecordData;
+  data?: RecordsBatchRequestPostsItemCERTRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemCERTRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemCERTRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemDNSKEYRecordType = "DNSKEY";
 export interface RecordsBatchRequestPostsItemDNSKEYRecordData {
   /** Algorithm. */
-  algorithm?: number;
+  algorithm?: number | undefined;
   /** Flags. */
-  flags?: number;
+  flags?: number | undefined;
   /** Protocol. */
-  protocol?: number;
+  protocol?: number | undefined;
   /** Public Key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export type RecordsBatchRequestPostsItemDNSKEYRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -563,28 +563,28 @@ export interface RecordsBatchRequestPostsItemDNSKEYRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemDNSKEYRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted DNSKEY content. See 'data' to set DNSKEY properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a DNSKEY record. */
-  data?: RecordsBatchRequestPostsItemDNSKEYRecordData;
+  data?: RecordsBatchRequestPostsItemDNSKEYRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemDNSKEYRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemDNSKEYRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemDSRecordType = "DS";
 export interface RecordsBatchRequestPostsItemDSRecordData {
   /** Algorithm. */
-  algorithm?: number;
+  algorithm?: number | undefined;
   /** Digest. */
-  digest?: string;
+  digest?: string | undefined;
   /** Digest Type. */
-  digestType?: number;
+  digestType?: number | undefined;
   /** Key Tag. */
-  keyTag?: number;
+  keyTag?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemDSRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -597,26 +597,26 @@ export interface RecordsBatchRequestPostsItemDSRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemDSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted DS content. See 'data' to set DS properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a DS record. */
-  data?: RecordsBatchRequestPostsItemDSRecordData;
+  data?: RecordsBatchRequestPostsItemDSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemDSRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemDSRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemHTTPSRecordType = "HTTPS";
 export interface RecordsBatchRequestPostsItemHTTPSRecordData {
   /** Priority. */
-  priority?: number;
+  priority?: number | undefined;
   /** Target. */
-  target?: string;
+  target?: string | undefined;
   /** Value. */
-  value?: string;
+  value?: string | undefined;
 }
 export type RecordsBatchRequestPostsItemHTTPSRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -629,46 +629,49 @@ export interface RecordsBatchRequestPostsItemHTTPSRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemHTTPSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted HTTPS content. See 'data' to set HTTPS properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a HTTPS record. */
-  data?: RecordsBatchRequestPostsItemHTTPSRecordData;
+  data?: RecordsBatchRequestPostsItemHTTPSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemHTTPSRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemHTTPSRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemLOCRecordType = "LOC";
 export type RecordsBatchRequestPostsItemLOCRecordDataLatDirection = "N" | "S";
 export type RecordsBatchRequestPostsItemLOCRecordDataLongDirection = "E" | "W";
 export interface RecordsBatchRequestPostsItemLOCRecordData {
   /** Altitude of location in meters. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Degrees of latitude. */
-  latDegrees?: number;
+  latDegrees?: number | undefined;
   /** Latitude direction. */
-  latDirection?: RecordsBatchRequestPostsItemLOCRecordDataLatDirection | (string & {});
+  latDirection?: RecordsBatchRequestPostsItemLOCRecordDataLatDirection | (string & {}) | undefined;
   /** Minutes of latitude. */
-  latMinutes?: number;
+  latMinutes?: number | undefined;
   /** Seconds of latitude. */
-  latSeconds?: number;
+  latSeconds?: number | undefined;
   /** Degrees of longitude. */
-  longDegrees?: number;
+  longDegrees?: number | undefined;
   /** Longitude direction. */
-  longDirection?: RecordsBatchRequestPostsItemLOCRecordDataLongDirection | (string & {});
+  longDirection?:
+    | RecordsBatchRequestPostsItemLOCRecordDataLongDirection
+    | (string & {})
+    | undefined;
   /** Minutes of longitude. */
-  longMinutes?: number;
+  longMinutes?: number | undefined;
   /** Seconds of longitude. */
-  longSeconds?: number;
+  longSeconds?: number | undefined;
   /** Horizontal precision of location. */
-  precisionHorz?: number;
+  precisionHorz?: number | undefined;
   /** Vertical precision of location. */
-  precisionVert?: number;
+  precisionVert?: number | undefined;
   /** Size of location in meters. */
-  size?: number;
+  size?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemLOCRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -681,32 +684,32 @@ export interface RecordsBatchRequestPostsItemLOCRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemLOCRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted LOC content. See 'data' to set LOC properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a LOC record. */
-  data?: RecordsBatchRequestPostsItemLOCRecordData;
+  data?: RecordsBatchRequestPostsItemLOCRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemLOCRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemLOCRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemNAPTRRecordType = "NAPTR";
 export interface RecordsBatchRequestPostsItemNAPTRRecordData {
   /** Flags. */
-  flags?: string;
+  flags?: string | undefined;
   /** Order. */
-  order?: number;
+  order?: number | undefined;
   /** Preference. */
-  preference?: number;
+  preference?: number | undefined;
   /** Regex. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Service. */
-  service?: string;
+  service?: string | undefined;
 }
 export type RecordsBatchRequestPostsItemNAPTRRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -719,28 +722,28 @@ export interface RecordsBatchRequestPostsItemNAPTRRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemNAPTRRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted NAPTR content. See 'data' to set NAPTR properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a NAPTR record. */
-  data?: RecordsBatchRequestPostsItemNAPTRRecordData;
+  data?: RecordsBatchRequestPostsItemNAPTRRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemNAPTRRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemNAPTRRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemSMIMEARecordType = "SMIMEA";
 export interface RecordsBatchRequestPostsItemSMIMEARecordData {
   /** Certificate. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Matching Type. */
-  matchingType?: number;
+  matchingType?: number | undefined;
   /** Selector. */
-  selector?: number;
+  selector?: number | undefined;
   /** Usage. */
-  usage?: number;
+  usage?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemSMIMEARecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -753,28 +756,28 @@ export interface RecordsBatchRequestPostsItemSMIMEARecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemSMIMEARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SMIMEA content. See 'data' to set SMIMEA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SMIMEA record. */
-  data?: RecordsBatchRequestPostsItemSMIMEARecordData;
+  data?: RecordsBatchRequestPostsItemSMIMEARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemSMIMEARecordTagsList;
+  tags?: RecordsBatchRequestPostsItemSMIMEARecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemSRVRecordType = "SRV";
 export interface RecordsBatchRequestPostsItemSRVRecordData {
   /** The port of the service. */
-  port?: number;
+  port?: number | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** A valid hostname. */
-  target?: string;
+  target?: string | undefined;
   /** The record weight. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemSRVRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -787,26 +790,26 @@ export interface RecordsBatchRequestPostsItemSRVRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemSRVRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Priority, weight, port, and SRV target. See 'data' for setting the individual component values. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SRV record. */
-  data?: RecordsBatchRequestPostsItemSRVRecordData;
+  data?: RecordsBatchRequestPostsItemSRVRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemSRVRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemSRVRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemSSHFPRecordType = "SSHFP";
 export interface RecordsBatchRequestPostsItemSSHFPRecordData {
   /** Algorithm. */
-  algorithm?: number;
+  algorithm?: number | undefined;
   /** Fingerprint. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Type. */
-  type?: number;
+  type?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemSSHFPRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -819,17 +822,17 @@ export interface RecordsBatchRequestPostsItemSSHFPRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemSSHFPRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SSHFP content. See 'data' to set SSHFP properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SSHFP record. */
-  data?: RecordsBatchRequestPostsItemSSHFPRecordData;
+  data?: RecordsBatchRequestPostsItemSSHFPRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemSSHFPRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemSSHFPRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemSVCBRecordType = "SVCB";
 export type RecordsBatchRequestPostsItemSVCBRecordData =
@@ -845,17 +848,17 @@ export interface RecordsBatchRequestPostsItemSVCBRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemSVCBRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SVCB content. See 'data' to set SVCB properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SVCB record. */
-  data?: RecordsBatchRequestPostsItemHTTPSRecordData;
+  data?: RecordsBatchRequestPostsItemHTTPSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemSVCBRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemSVCBRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemTLSARecordType = "TLSA";
 export type RecordsBatchRequestPostsItemTLSARecordData =
@@ -871,24 +874,24 @@ export interface RecordsBatchRequestPostsItemTLSARecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemTLSARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted TLSA content. See 'data' to set TLSA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a TLSA record. */
-  data?: RecordsBatchRequestPostsItemSMIMEARecordData;
+  data?: RecordsBatchRequestPostsItemSMIMEARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemTLSARecordTagsList;
+  tags?: RecordsBatchRequestPostsItemTLSARecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItemURIRecordType = "URI";
 export interface RecordsBatchRequestPostsItemURIRecordData {
   /** The record content. */
-  target?: string;
+  target?: string | undefined;
   /** The record weight. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type RecordsBatchRequestPostsItemURIRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -901,19 +904,19 @@ export interface RecordsBatchRequestPostsItemURIRecord {
   /** Record type. */
   type: RecordsBatchRequestPostsItemURIRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted URI content. See 'data' to set URI properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a URI record. */
-  data?: RecordsBatchRequestPostsItemURIRecordData;
+  data?: RecordsBatchRequestPostsItemURIRecordData | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPostsItemURIRecordTagsList;
+  tags?: RecordsBatchRequestPostsItemURIRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPostsItem =
   | RecordsBatchRequestPostsItemARecord
@@ -957,15 +960,15 @@ export interface RecordsBatchRequestPutsItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchRequestPutsItemOpenpgpkeyRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A single Base64-encoded OpenPGP Transferable Public Key (RFC 4880 Section 11.1) */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsBatchRequestPutsItemOpenpgpkeyRecordTagsList;
+  tags?: RecordsBatchRequestPutsItemOpenpgpkeyRecordTagsList | undefined;
 }
 export type RecordsBatchRequestPutsItemPTRRecord = RecordsBatchRequestDeletesItem;
 export type RecordsBatchRequestPutsItemTXTRecord = RecordsBatchRequestDeletesItem;
@@ -1009,22 +1012,22 @@ export interface BatchRecordRequest {
   /** Identifier. */
   zoneId: string;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
-  deletes?: RecordsBatchRequestDeletesList;
-  patches?: RecordsBatchRequestPatchesList;
-  posts?: RecordsBatchRequestPostsList;
-  puts?: RecordsBatchRequestPutsList;
+  includeShadowMetadata?: boolean | undefined;
+  deletes?: RecordsBatchRequestDeletesList | undefined;
+  patches?: RecordsBatchRequestPatchesList | undefined;
+  posts?: RecordsBatchRequestPostsList | undefined;
+  puts?: RecordsBatchRequestPutsList | undefined;
 }
 export type RecordsBatchResponseDeletesItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemARecord {
   /** Identifier. */
@@ -1038,20 +1041,20 @@ export interface RecordsBatchResponseDeletesItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemAAAARecord {
   /** Identifier. */
@@ -1065,20 +1068,20 @@ export interface RecordsBatchResponseDeletesItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemCNAMERecord {
   /** Identifier. */
@@ -1092,20 +1095,20 @@ export interface RecordsBatchResponseDeletesItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemMXRecord {
   /** Identifier. */
@@ -1119,20 +1122,20 @@ export interface RecordsBatchResponseDeletesItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemNSRecord {
   /** Identifier. */
@@ -1146,26 +1149,26 @@ export interface RecordsBatchResponseDeletesItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings {
   /** When enabled, only A records will be generated, and AAAA records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv4Only?: boolean | null;
+  ipv4Only?: boolean | null | undefined;
   /** When enabled, only AAAA records will be generated, and A records will not be created. This setting is intended for exceptional cases. Note that this option only applies to proxied records and it has no effect on whether Cloudflare communicates with the origin using IPv4 or IPv6. */
-  ipv6Only?: boolean | null;
+  ipv6Only?: boolean | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemOpenpgpkeyRecordTagsList = Array<string>;
 export type RecordsBatchResponseDeletesItemOpenpgpkeyRecordType = "OPENPGPKEY";
@@ -1197,20 +1200,20 @@ export interface RecordsBatchResponseDeletesItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchResponseDeletesItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemPTRRecord {
   /** Identifier. */
@@ -1224,20 +1227,20 @@ export interface RecordsBatchResponseDeletesItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemTXTRecord {
   /** Identifier. */
@@ -1251,20 +1254,20 @@ export interface RecordsBatchResponseDeletesItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemCAARecord {
   /** Identifier. */
@@ -1278,20 +1281,20 @@ export interface RecordsBatchResponseDeletesItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemCERTRecord {
   /** Identifier. */
@@ -1305,20 +1308,20 @@ export interface RecordsBatchResponseDeletesItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemDNSKEYRecord {
   /** Identifier. */
@@ -1332,20 +1335,20 @@ export interface RecordsBatchResponseDeletesItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemDSRecord {
   /** Identifier. */
@@ -1359,20 +1362,20 @@ export interface RecordsBatchResponseDeletesItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemHTTPSRecord {
   /** Identifier. */
@@ -1386,20 +1389,20 @@ export interface RecordsBatchResponseDeletesItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemLOCRecord {
   /** Identifier. */
@@ -1413,20 +1416,20 @@ export interface RecordsBatchResponseDeletesItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemNAPTRRecord {
   /** Identifier. */
@@ -1440,20 +1443,20 @@ export interface RecordsBatchResponseDeletesItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemSMIMEARecord {
   /** Identifier. */
@@ -1467,20 +1470,20 @@ export interface RecordsBatchResponseDeletesItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemSRVRecord {
   /** Identifier. */
@@ -1494,20 +1497,20 @@ export interface RecordsBatchResponseDeletesItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemSSHFPRecord {
   /** Identifier. */
@@ -1521,20 +1524,20 @@ export interface RecordsBatchResponseDeletesItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemSVCBRecord {
   /** Identifier. */
@@ -1548,20 +1551,20 @@ export interface RecordsBatchResponseDeletesItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemTLSARecord {
   /** Identifier. */
@@ -1575,20 +1578,20 @@ export interface RecordsBatchResponseDeletesItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponseDeletesItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponseDeletesItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponseDeletesItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponseDeletesItemURIRecord {
   /** Identifier. */
@@ -1602,9 +1605,9 @@ export interface RecordsBatchResponseDeletesItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponseDeletesItem =
   | RecordsBatchResponseDeletesItemARecord
@@ -1632,13 +1635,13 @@ export type RecordsBatchResponseDeletesList = Array<RecordsBatchResponseDeletesI
 export type RecordsBatchResponsePatchesItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemARecord {
   /** Identifier. */
@@ -1652,20 +1655,20 @@ export interface RecordsBatchResponsePatchesItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemAAAARecord {
   /** Identifier. */
@@ -1679,20 +1682,20 @@ export interface RecordsBatchResponsePatchesItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemCNAMERecord {
   /** Identifier. */
@@ -1706,20 +1709,20 @@ export interface RecordsBatchResponsePatchesItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemMXRecord {
   /** Identifier. */
@@ -1733,20 +1736,20 @@ export interface RecordsBatchResponsePatchesItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemNSRecord {
   /** Identifier. */
@@ -1760,20 +1763,20 @@ export interface RecordsBatchResponsePatchesItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -1807,20 +1810,20 @@ export interface RecordsBatchResponsePatchesItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchResponsePatchesItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemPTRRecord {
   /** Identifier. */
@@ -1834,20 +1837,20 @@ export interface RecordsBatchResponsePatchesItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemTXTRecord {
   /** Identifier. */
@@ -1861,20 +1864,20 @@ export interface RecordsBatchResponsePatchesItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemCAARecord {
   /** Identifier. */
@@ -1888,20 +1891,20 @@ export interface RecordsBatchResponsePatchesItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemCERTRecord {
   /** Identifier. */
@@ -1915,20 +1918,20 @@ export interface RecordsBatchResponsePatchesItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemDNSKEYRecord {
   /** Identifier. */
@@ -1942,20 +1945,20 @@ export interface RecordsBatchResponsePatchesItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemDSRecord {
   /** Identifier. */
@@ -1969,20 +1972,20 @@ export interface RecordsBatchResponsePatchesItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemHTTPSRecord {
   /** Identifier. */
@@ -1996,20 +1999,20 @@ export interface RecordsBatchResponsePatchesItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemLOCRecord {
   /** Identifier. */
@@ -2023,20 +2026,20 @@ export interface RecordsBatchResponsePatchesItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemNAPTRRecord {
   /** Identifier. */
@@ -2050,20 +2053,20 @@ export interface RecordsBatchResponsePatchesItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemSMIMEARecord {
   /** Identifier. */
@@ -2077,20 +2080,20 @@ export interface RecordsBatchResponsePatchesItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemSRVRecord {
   /** Identifier. */
@@ -2104,20 +2107,20 @@ export interface RecordsBatchResponsePatchesItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemSSHFPRecord {
   /** Identifier. */
@@ -2131,20 +2134,20 @@ export interface RecordsBatchResponsePatchesItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemSVCBRecord {
   /** Identifier. */
@@ -2158,20 +2161,20 @@ export interface RecordsBatchResponsePatchesItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemTLSARecord {
   /** Identifier. */
@@ -2185,20 +2188,20 @@ export interface RecordsBatchResponsePatchesItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePatchesItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePatchesItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePatchesItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePatchesItemURIRecord {
   /** Identifier. */
@@ -2212,9 +2215,9 @@ export interface RecordsBatchResponsePatchesItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePatchesItem =
   | RecordsBatchResponsePatchesItemARecord
@@ -2242,13 +2245,13 @@ export type RecordsBatchResponsePatchesList = Array<RecordsBatchResponsePatchesI
 export type RecordsBatchResponsePostsItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemARecord {
   /** Identifier. */
@@ -2262,20 +2265,20 @@ export interface RecordsBatchResponsePostsItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemAAAARecord {
   /** Identifier. */
@@ -2289,20 +2292,20 @@ export interface RecordsBatchResponsePostsItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemCNAMERecord {
   /** Identifier. */
@@ -2316,20 +2319,20 @@ export interface RecordsBatchResponsePostsItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemMXRecord {
   /** Identifier. */
@@ -2343,20 +2346,20 @@ export interface RecordsBatchResponsePostsItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemNSRecord {
   /** Identifier. */
@@ -2370,20 +2373,20 @@ export interface RecordsBatchResponsePostsItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsBatchResponsePostsItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -2417,20 +2420,20 @@ export interface RecordsBatchResponsePostsItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchResponsePostsItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemPTRRecord {
   /** Identifier. */
@@ -2444,20 +2447,20 @@ export interface RecordsBatchResponsePostsItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemTXTRecord {
   /** Identifier. */
@@ -2471,20 +2474,20 @@ export interface RecordsBatchResponsePostsItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemCAARecord {
   /** Identifier. */
@@ -2498,20 +2501,20 @@ export interface RecordsBatchResponsePostsItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemCERTRecord {
   /** Identifier. */
@@ -2525,20 +2528,20 @@ export interface RecordsBatchResponsePostsItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemDNSKEYRecord {
   /** Identifier. */
@@ -2552,20 +2555,20 @@ export interface RecordsBatchResponsePostsItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemDSRecord {
   /** Identifier. */
@@ -2579,20 +2582,20 @@ export interface RecordsBatchResponsePostsItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemHTTPSRecord {
   /** Identifier. */
@@ -2606,20 +2609,20 @@ export interface RecordsBatchResponsePostsItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemLOCRecord {
   /** Identifier. */
@@ -2633,20 +2636,20 @@ export interface RecordsBatchResponsePostsItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemNAPTRRecord {
   /** Identifier. */
@@ -2660,20 +2663,20 @@ export interface RecordsBatchResponsePostsItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemSMIMEARecord {
   /** Identifier. */
@@ -2687,20 +2690,20 @@ export interface RecordsBatchResponsePostsItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemSRVRecord {
   /** Identifier. */
@@ -2714,20 +2717,20 @@ export interface RecordsBatchResponsePostsItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemSSHFPRecord {
   /** Identifier. */
@@ -2741,20 +2744,20 @@ export interface RecordsBatchResponsePostsItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemSVCBRecord {
   /** Identifier. */
@@ -2768,20 +2771,20 @@ export interface RecordsBatchResponsePostsItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemTLSARecord {
   /** Identifier. */
@@ -2795,20 +2798,20 @@ export interface RecordsBatchResponsePostsItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePostsItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePostsItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePostsItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePostsItemURIRecord {
   /** Identifier. */
@@ -2822,9 +2825,9 @@ export interface RecordsBatchResponsePostsItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePostsItem =
   | RecordsBatchResponsePostsItemARecord
@@ -2852,13 +2855,13 @@ export type RecordsBatchResponsePostsList = Array<RecordsBatchResponsePostsItem>
 export type RecordsBatchResponsePutsItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemARecord {
   /** Identifier. */
@@ -2872,20 +2875,20 @@ export interface RecordsBatchResponsePutsItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemAAAARecord {
   /** Identifier. */
@@ -2899,20 +2902,20 @@ export interface RecordsBatchResponsePutsItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemCNAMERecord {
   /** Identifier. */
@@ -2926,20 +2929,20 @@ export interface RecordsBatchResponsePutsItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemMXRecord {
   /** Identifier. */
@@ -2953,20 +2956,20 @@ export interface RecordsBatchResponsePutsItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemNSRecord {
   /** Identifier. */
@@ -2980,20 +2983,20 @@ export interface RecordsBatchResponsePutsItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsBatchResponsePutsItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -3027,20 +3030,20 @@ export interface RecordsBatchResponsePutsItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsBatchResponsePutsItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemPTRRecord {
   /** Identifier. */
@@ -3054,20 +3057,20 @@ export interface RecordsBatchResponsePutsItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemTXTRecord {
   /** Identifier. */
@@ -3081,20 +3084,20 @@ export interface RecordsBatchResponsePutsItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemCAARecord {
   /** Identifier. */
@@ -3108,20 +3111,20 @@ export interface RecordsBatchResponsePutsItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemCERTRecord {
   /** Identifier. */
@@ -3135,20 +3138,20 @@ export interface RecordsBatchResponsePutsItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemDNSKEYRecord {
   /** Identifier. */
@@ -3162,20 +3165,20 @@ export interface RecordsBatchResponsePutsItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemDSRecord {
   /** Identifier. */
@@ -3189,20 +3192,20 @@ export interface RecordsBatchResponsePutsItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemHTTPSRecord {
   /** Identifier. */
@@ -3216,20 +3219,20 @@ export interface RecordsBatchResponsePutsItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemLOCRecord {
   /** Identifier. */
@@ -3243,20 +3246,20 @@ export interface RecordsBatchResponsePutsItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemNAPTRRecord {
   /** Identifier. */
@@ -3270,20 +3273,20 @@ export interface RecordsBatchResponsePutsItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemSMIMEARecord {
   /** Identifier. */
@@ -3297,20 +3300,20 @@ export interface RecordsBatchResponsePutsItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemSRVRecord {
   /** Identifier. */
@@ -3324,20 +3327,20 @@ export interface RecordsBatchResponsePutsItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemSSHFPRecord {
   /** Identifier. */
@@ -3351,20 +3354,20 @@ export interface RecordsBatchResponsePutsItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemSVCBRecord {
   /** Identifier. */
@@ -3378,20 +3381,20 @@ export interface RecordsBatchResponsePutsItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemTLSARecord {
   /** Identifier. */
@@ -3405,20 +3408,20 @@ export interface RecordsBatchResponsePutsItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsBatchResponsePutsItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsBatchResponsePutsItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsBatchResponsePutsItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsBatchResponsePutsItemURIRecord {
   /** Identifier. */
@@ -3432,9 +3435,9 @@ export interface RecordsBatchResponsePutsItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsBatchResponsePutsItem =
   | RecordsBatchResponsePutsItemARecord
@@ -3461,10 +3464,10 @@ export type RecordsBatchResponsePutsItem =
 export type RecordsBatchResponsePutsList = Array<RecordsBatchResponsePutsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BatchRecordResponse {
-  deletes?: RecordsBatchResponseDeletesList | null;
-  patches?: RecordsBatchResponsePatchesList | null;
-  posts?: RecordsBatchResponsePostsList | null;
-  puts?: RecordsBatchResponsePutsList | null;
+  deletes?: RecordsBatchResponseDeletesList | null | undefined;
+  patches?: RecordsBatchResponsePatchesList | null | undefined;
+  posts?: RecordsBatchResponsePostsList | null | undefined;
+  puts?: RecordsBatchResponsePutsList | null | undefined;
 }
 export type RecordsCreateRequestType =
   | "A"
@@ -3505,29 +3508,29 @@ export type RecordsCreateRequestDataLOCRecordLatDirection = "N" | "S";
 export type RecordsCreateRequestDataLOCRecordLongDirection = "E" | "W";
 export interface RecordsCreateRequestDataLOCRecord {
   /** Altitude of location in meters. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Degrees of latitude. */
-  latDegrees?: number;
+  latDegrees?: number | undefined;
   /** Latitude direction. */
-  latDirection?: RecordsCreateRequestDataLOCRecordLatDirection | (string & {});
+  latDirection?: RecordsCreateRequestDataLOCRecordLatDirection | (string & {}) | undefined;
   /** Minutes of latitude. */
-  latMinutes?: number;
+  latMinutes?: number | undefined;
   /** Seconds of latitude. */
-  latSeconds?: number;
+  latSeconds?: number | undefined;
   /** Degrees of longitude. */
-  longDegrees?: number;
+  longDegrees?: number | undefined;
   /** Longitude direction. */
-  longDirection?: RecordsCreateRequestDataLOCRecordLongDirection | (string & {});
+  longDirection?: RecordsCreateRequestDataLOCRecordLongDirection | (string & {}) | undefined;
   /** Minutes of longitude. */
-  longMinutes?: number;
+  longMinutes?: number | undefined;
   /** Seconds of longitude. */
-  longSeconds?: number;
+  longSeconds?: number | undefined;
   /** Horizontal precision of location. */
-  precisionHorz?: number;
+  precisionHorz?: number | undefined;
   /** Vertical precision of location. */
-  precisionVert?: number;
+  precisionVert?: number | undefined;
   /** Size of location in meters. */
-  size?: number;
+  size?: number | undefined;
 }
 export type RecordsCreateRequestDataNAPTRRecord = RecordsBatchRequestPostsItemNAPTRRecordData;
 export type RecordsCreateRequestDataSMIMEARecord = RecordsBatchRequestPostsItemSMIMEARecordData;
@@ -3550,7 +3553,7 @@ export interface CreateRecordRequest {
   /** Identifier. */
   zoneId: string;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
+  includeShadowMetadata?: boolean | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Time To Live (TTL) of the DNS record in seconds. Setting to 1 means 'automatic'. Value must be between 60 and 86400, with the minimum reduced to 30 for Enterprise zones. */
@@ -3558,32 +3561,32 @@ export interface CreateRecordRequest {
   /** Record type. */
   type: RecordsCreateRequestType | (string & {});
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv4 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsCreateRequestSettings;
+  settings?: RecordsCreateRequestSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsCreateRequestTagsList;
+  tags?: RecordsCreateRequestTagsList | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Components of a CAA record. */
-  data?: RecordsCreateRequestData;
+  data?: RecordsCreateRequestData | undefined;
 }
 export type RecordsCreateResultARecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeA = "A";
 export type DnsRecordTagsList = Array<string>;
@@ -3599,30 +3602,30 @@ export interface RecordsCreateResultARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeAAAA = "AAAA";
 export interface RecordsCreateResultAAAARecord {
@@ -3637,30 +3640,30 @@ export interface RecordsCreateResultAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeAAAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeCNAME = "CNAME";
 export interface RecordsCreateResultCNAMERecord {
@@ -3675,30 +3678,30 @@ export interface RecordsCreateResultCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCNAME;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeMX = "MX";
 export interface RecordsCreateResultMXRecord {
@@ -3713,30 +3716,30 @@ export interface RecordsCreateResultMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeMX;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeNS = "NS";
 export interface RecordsCreateResultNSRecord {
@@ -3751,30 +3754,30 @@ export interface RecordsCreateResultNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsCreateResultOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -3808,20 +3811,20 @@ export interface RecordsCreateResultOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsCreateResultOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsCreateResultPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypePTR = "PTR";
 export interface RecordsCreateResultPTRRecord {
@@ -3836,30 +3839,30 @@ export interface RecordsCreateResultPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypePTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeTXT = "TXT";
 export interface RecordsCreateResultTXTRecord {
@@ -3874,30 +3877,30 @@ export interface RecordsCreateResultTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTXT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeCAA = "CAA";
 export interface RecordsCreateResultCAARecord {
@@ -3912,30 +3915,30 @@ export interface RecordsCreateResultCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeCERT = "CERT";
 export interface RecordsCreateResultCERTRecord {
@@ -3950,30 +3953,30 @@ export interface RecordsCreateResultCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCERT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeDNSKEY = "DNSKEY";
 export interface RecordsCreateResultDNSKEYRecord {
@@ -3988,30 +3991,30 @@ export interface RecordsCreateResultDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDNSKEY;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeDS = "DS";
 export interface RecordsCreateResultDSRecord {
@@ -4026,30 +4029,30 @@ export interface RecordsCreateResultDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeHTTPS = "HTTPS";
 export interface RecordsCreateResultHTTPSRecord {
@@ -4064,30 +4067,30 @@ export interface RecordsCreateResultHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeHTTPS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeLOC = "LOC";
 export interface RecordsCreateResultLOCRecord {
@@ -4102,30 +4105,30 @@ export interface RecordsCreateResultLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeLOC;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeNAPTR = "NAPTR";
 export interface RecordsCreateResultNAPTRRecord {
@@ -4140,30 +4143,30 @@ export interface RecordsCreateResultNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNAPTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeSMIMEA = "SMIMEA";
 export interface RecordsCreateResultSMIMEARecord {
@@ -4178,30 +4181,30 @@ export interface RecordsCreateResultSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSMIMEA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeSRV = "SRV";
 export interface RecordsCreateResultSRVRecord {
@@ -4216,30 +4219,30 @@ export interface RecordsCreateResultSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSRV;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeSSHFP = "SSHFP";
 export interface RecordsCreateResultSSHFPRecord {
@@ -4254,30 +4257,30 @@ export interface RecordsCreateResultSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSSHFP;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeSVCB = "SVCB";
 export interface RecordsCreateResultSVCBRecord {
@@ -4292,30 +4295,30 @@ export interface RecordsCreateResultSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSVCB;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeTLSA = "TLSA";
 export interface RecordsCreateResultTLSARecord {
@@ -4330,30 +4333,30 @@ export interface RecordsCreateResultTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTLSA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResultURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsCreateResultURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsCreateResultURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsCreateResultURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type DnsRecordTypeURI = "URI";
 export interface RecordsCreateResultURIRecord {
@@ -4368,19 +4371,19 @@ export interface RecordsCreateResultURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeURI;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsCreateResult =
   | RecordsCreateResultARecord
@@ -4432,7 +4435,7 @@ export interface CreateSettingsAccountNameserverSetRequestNameserversItem {
   /** A unique lowercase Punycode nameserver name within the set. */
   name: string;
   /** Number of IPv4 addresses and number of IPv6 addresses to allocate to this nameserver. All nameservers in an Advanced nameserver set must use the same value. */
-  ipCount?: number;
+  ipCount?: number | undefined;
 }
 export type CreateSettingsAccountNameserverSetRequestNameserversList =
   Array<CreateSettingsAccountNameserverSetRequestNameserversItem>;
@@ -4444,9 +4447,9 @@ export interface CreateSettingsAccountNameserverSetRequest {
   /** Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. */
   nameservers: CreateSettingsAccountNameserverSetRequestNameserversList;
   /** Whether to allocate the nameservers from distinct Advanced anycast groups. */
-  advanced?: boolean;
+  advanced?: boolean | undefined;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
-  ipSet?: number;
+  ipSet?: number | undefined;
 }
 export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
   Array<string>;
@@ -4554,21 +4557,21 @@ export interface CreateZoneTransferIncomingRequest {
 export type ZoneTransfersIncomingCreateResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateZoneTransferIncomingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number | null;
+  autoRefreshSeconds?: number | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  modifiedTime?: string | null;
+  modifiedTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersIncomingCreateResponsePeersList | null;
+  peers?: ZoneTransfersIncomingCreateResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export type ZoneTransfersOutgoingCreateRequestPeersList = Array<string>;
 export interface CreateZoneTransferOutgoingRequest {
@@ -4581,19 +4584,19 @@ export interface CreateZoneTransferOutgoingRequest {
 export type ZoneTransfersOutgoingCreateResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateZoneTransferOutgoingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  lastTransferredTime?: string | null;
+  lastTransferredTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersOutgoingCreateResponsePeersList | null;
+  peers?: ZoneTransfersOutgoingCreateResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export interface CreateZoneTransferPeerRequest {
   accountId: string;
@@ -4606,13 +4609,13 @@ export interface CreateZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean | null;
+  ixfrEnable?: boolean | null | undefined;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string | null;
+  tsigId?: string | null | undefined;
 }
 export interface CreateZoneTransferTsigRequest {
   accountId: string;
@@ -4647,7 +4650,7 @@ export interface DeleteRecordRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRecordResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteSettingAccountViewRequest {
   /** Identifier. */
@@ -4658,7 +4661,7 @@ export interface DeleteSettingAccountViewRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSettingAccountViewResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteSettingsAccountNameserverSetRequest {
   /** Identifier. */
@@ -4677,21 +4680,21 @@ export interface DeleteZoneTransferAclRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneTransferAclResponse {
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteZoneTransferIncomingRequest {
   zoneId: string;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneTransferIncomingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteZoneTransferOutgoingRequest {
   zoneId: string;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneTransferOutgoingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteZoneTransferPeerRequest {
   accountId: string;
@@ -4699,7 +4702,7 @@ export interface DeleteZoneTransferPeerRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneTransferPeerResponse {
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteZoneTransferTsigRequest {
   accountId: string;
@@ -4707,7 +4710,7 @@ export interface DeleteZoneTransferTsigRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneTransferTsigResponse {
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DisableZoneTransferOutgoingRequest {
   zoneId: string;
@@ -4730,19 +4733,19 @@ export interface GetAnalyticReportRequest {
   /** Identifier. */
   zoneId: string;
   /** A comma-separated list of dimensions to group results by. */
-  dimensions?: string;
+  dimensions?: string | undefined;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string;
+  filters?: string | undefined;
   /** Limit number of returned metrics. */
-  limit?: number;
+  limit?: number | undefined;
   /** A comma-separated list of metrics to query. */
-  metrics?: string;
+  metrics?: string | undefined;
   /** Start date and time of requesting data period in ISO 8601 format. */
-  since?: string;
+  since?: string | undefined;
   /** A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: string;
+  sort?: string | undefined;
   /** End date and time of requesting data period in ISO 8601 format. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsReportsGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsReportsGetResponseDataItemMetricsList = Array<number>;
@@ -4768,9 +4771,9 @@ export interface AnalyticsReportsGetResponseQuery {
   /** End date and time of requesting data period in ISO 8601 format. */
   until: string;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: AnalyticsReportsGetResponseQuerySortList | null;
+  sort?: AnalyticsReportsGetResponseQuerySortList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAnalyticReportResponse {
@@ -4803,21 +4806,21 @@ export interface GetAnalyticReportBytimeRequest {
   /** Identifier. */
   zoneId: string;
   /** A comma-separated list of dimensions to group results by. */
-  dimensions?: string;
+  dimensions?: string | undefined;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string;
+  filters?: string | undefined;
   /** Limit number of returned metrics. */
-  limit?: number;
+  limit?: number | undefined;
   /** A comma-separated list of metrics to query. */
-  metrics?: string;
+  metrics?: string | undefined;
   /** Start date and time of requesting data period in ISO 8601 format. */
-  since?: string;
+  since?: string | undefined;
   /** A comma-separated list of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: string;
+  sort?: string | undefined;
   /** Unit of time to group data by. */
-  timeDelta?: AnalyticsReportsBytimesGetRequestTimeDelta | (string & {});
+  timeDelta?: AnalyticsReportsBytimesGetRequestTimeDelta | (string & {}) | undefined;
   /** End date and time of requesting data period in ISO 8601 format. */
-  until?: string;
+  until?: string | undefined;
 }
 export type AnalyticsReportsBytimesGetResponseDataItemDimensionsList = Array<string>;
 export type AnalyticsReportsBytimesGetResponseDataItemMetricsItemList = Array<number>;
@@ -4859,9 +4862,9 @@ export interface AnalyticsReportsBytimesGetResponseQuery {
   /** End date and time of requesting data period in ISO 8601 format. */
   until: string;
   /** Segmentation filter in 'attribute operator value' format. */
-  filters?: string | null;
+  filters?: string | null | undefined;
   /** Array of dimensions to sort by, where each dimension may be prefixed by - (descending) or + (ascending). */
-  sort?: AnalyticsReportsBytimesGetResponseQuerySortList | null;
+  sort?: AnalyticsReportsBytimesGetResponseQuerySortList | null | undefined;
 }
 export type AnalyticsReportsBytimesGetResponseTimeIntervalsItemList = Array<string>;
 export type AnalyticsReportsBytimesGetResponseTimeIntervalsList =
@@ -4897,33 +4900,33 @@ export type DnssecGetResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDnssecResponse {
   /** Algorithm key code. */
-  algorithm?: string | null;
+  algorithm?: string | null | undefined;
   /** Digest hash. */
-  digest?: string | null;
+  digest?: string | null | undefined;
   /** Type of digest algorithm. */
-  digestAlgorithm?: string | null;
+  digestAlgorithm?: string | null | undefined;
   /** Coded type for digest algorithm. */
-  digestType?: string | null;
+  digestType?: string | null | undefined;
   /** If true, multi-signer DNSSEC is enabled on the zone, allowing multiple providers to serve a DNSSEC-signed zone at the same time. This is required for DNSKEY records (except those automatically generated by Cloudflare) to be added to the zone. */
-  dnssecMultiSigner?: boolean | null;
+  dnssecMultiSigner?: boolean | null | undefined;
   /** If true, allows Cloudflare to transfer in a DNSSEC-signed zone including signatures from an external provider, without requiring Cloudflare to sign any records on the fly. */
-  dnssecPresigned?: boolean | null;
+  dnssecPresigned?: boolean | null | undefined;
   /** If true, enables the use of NSEC3 together with DNSSEC on the zone. Combined with setting dnssec_presigned to true, this enables the use of NSEC3 records when transferring in from an external provider. If dnssec_presigned is instead set to false (default), NSEC3 records will be generated and signed at request time. */
-  dnssecUseNsec3?: boolean | null;
+  dnssecUseNsec3?: boolean | null | undefined;
   /** Full DS record. */
-  ds?: string | null;
+  ds?: string | null | undefined;
   /** Flag for DNSSEC record. */
-  flags?: number | null;
+  flags?: number | null | undefined;
   /** Code for key tag. */
-  keyTag?: number | null;
+  keyTag?: number | null | undefined;
   /** Algorithm key type. */
-  keyType?: string | null;
+  keyType?: string | null | undefined;
   /** When DNSSEC was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Public key for DS record. */
-  publicKey?: string | null;
+  publicKey?: string | null | undefined;
   /** Status of DNSSEC, based on user-desired state and presence of necessary records. */
-  status?: DnssecGetResponseStatus | null;
+  status?: DnssecGetResponseStatus | null | undefined;
 }
 export interface GetRecordRequest {
   /** Identifier. */
@@ -4931,18 +4934,18 @@ export interface GetRecordRequest {
   /** Identifier. */
   dnsRecordId: string;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
+  includeShadowMetadata?: boolean | undefined;
 }
 export type RecordsGetResultARecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultARecord {
   /** Identifier. */
@@ -4956,30 +4959,30 @@ export interface RecordsGetResultARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultAAAARecord {
   /** Identifier. */
@@ -4993,30 +4996,30 @@ export interface RecordsGetResultAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeAAAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultCNAMERecord {
   /** Identifier. */
@@ -5030,30 +5033,30 @@ export interface RecordsGetResultCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCNAME;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultMXRecord {
   /** Identifier. */
@@ -5067,30 +5070,30 @@ export interface RecordsGetResultMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeMX;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultNSRecord {
   /** Identifier. */
@@ -5104,30 +5107,30 @@ export interface RecordsGetResultNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsGetResultOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -5161,20 +5164,20 @@ export interface RecordsGetResultOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsGetResultOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsGetResultPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultPTRRecord {
   /** Identifier. */
@@ -5188,30 +5191,30 @@ export interface RecordsGetResultPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypePTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultTXTRecord {
   /** Identifier. */
@@ -5225,30 +5228,30 @@ export interface RecordsGetResultTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTXT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultCAARecord {
   /** Identifier. */
@@ -5262,30 +5265,30 @@ export interface RecordsGetResultCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultCERTRecord {
   /** Identifier. */
@@ -5299,30 +5302,30 @@ export interface RecordsGetResultCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCERT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultDNSKEYRecord {
   /** Identifier. */
@@ -5336,30 +5339,30 @@ export interface RecordsGetResultDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDNSKEY;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultDSRecord {
   /** Identifier. */
@@ -5373,30 +5376,30 @@ export interface RecordsGetResultDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultHTTPSRecord {
   /** Identifier. */
@@ -5410,30 +5413,30 @@ export interface RecordsGetResultHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeHTTPS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultLOCRecord {
   /** Identifier. */
@@ -5447,30 +5450,30 @@ export interface RecordsGetResultLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeLOC;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultNAPTRRecord {
   /** Identifier. */
@@ -5484,30 +5487,30 @@ export interface RecordsGetResultNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNAPTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultSMIMEARecord {
   /** Identifier. */
@@ -5521,30 +5524,30 @@ export interface RecordsGetResultSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSMIMEA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultSRVRecord {
   /** Identifier. */
@@ -5558,30 +5561,30 @@ export interface RecordsGetResultSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSRV;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultSSHFPRecord {
   /** Identifier. */
@@ -5595,30 +5598,30 @@ export interface RecordsGetResultSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSSHFP;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultSVCBRecord {
   /** Identifier. */
@@ -5632,30 +5635,30 @@ export interface RecordsGetResultSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSVCB;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultTLSARecord {
   /** Identifier. */
@@ -5669,30 +5672,30 @@ export interface RecordsGetResultTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTLSA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResultURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsGetResultURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsGetResultURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsGetResultURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsGetResultURIRecord {
   /** Identifier. */
@@ -5706,19 +5709,19 @@ export interface RecordsGetResultURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeURI;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsGetResult =
   | RecordsGetResultARecord
@@ -5749,7 +5752,7 @@ export interface GetSettingAccountRequest {
 }
 export interface SettingsAccountGetResponseZoneDefaultsInternalDns {
   /** The ID of the zone to fallback to. */
-  referenceZoneId?: string | null;
+  referenceZoneId?: string | null | undefined;
 }
 export type SettingsAccountGetResponseZoneDefaultsNameserversType =
   | "cloudflare.standard"
@@ -5763,26 +5766,26 @@ export interface SettingsAccountGetResponseZoneDefaultsNameservers {
 }
 export interface SettingsAccountGetResponseZoneDefaultsSoa {
   /** Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone. */
-  expire?: number | null;
+  expire?: number | null | undefined;
   /** The time to live (TTL) for negative caching of records within the zone. */
-  minTtl?: number | null;
+  minTtl?: number | null | undefined;
   /** The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used. */
-  mname?: string | null;
+  mname?: string | null | undefined;
   /** Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated. */
-  refresh?: number | null;
+  refresh?: number | null | undefined;
   /** Time in seconds after which secondary servers should retry queries after the primary server was unresponsive. */
-  retry?: number | null;
+  retry?: number | null | undefined;
   /** The email address of the zone administrator, with the first label representing the local part of the email address. */
-  rname?: string | null;
+  rname?: string | null | undefined;
   /** The time to live (TTL) of the SOA record itself. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export type SettingsAccountGetResponseZoneDefaultsZoneMode = "standard" | "cdn_only" | "dns_only";
 export interface SettingsAccountGetResponseZoneDefaults {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
   /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
+  foundationDns?: boolean | null | undefined;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -5803,7 +5806,7 @@ export interface GetSettingAccountResponse {
   /** Default settings for new zones created in this account. */
   zoneDefaults: SettingsAccountGetResponseZoneDefaults;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
-  enforceDnsOnly?: boolean | null;
+  enforceDnsOnly?: boolean | null | undefined;
 }
 export interface GetSettingAccountViewRequest {
   /** Identifier. */
@@ -5925,7 +5928,7 @@ export interface SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCus
   /** Nameserver type. */
   type: SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomExistingType;
   /** Configured nameserver set number to use for this zone. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export type SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
 export interface SettingsZoneGetResponseNameserversDNSSettingsZoneNameserversCustomSet {
@@ -5945,7 +5948,7 @@ export interface GetSettingZoneResponse {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
   /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
+  foundationDns?: boolean | null | undefined;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -5972,9 +5975,9 @@ export interface GetUsageAccountResponse {
   /** Current number of DNS records across all public zones in the account. */
   recordUsage: number;
   /** Maximum number of DNS records allowed across all internal zones in the account. Only present if internal DNS is enabled. */
-  internalRecordQuota?: number | null;
+  internalRecordQuota?: number | null | undefined;
   /** Current number of DNS records across all internal zones in the account. Only present if internal DNS is enabled. */
-  internalRecordUsage?: number | null;
+  internalRecordUsage?: number | null | undefined;
 }
 export interface GetUsageZoneRequest {
   /** Identifier. */
@@ -6005,21 +6008,21 @@ export interface GetZoneTransferIncomingRequest {
 export type ZoneTransfersIncomingGetResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetZoneTransferIncomingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number | null;
+  autoRefreshSeconds?: number | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  modifiedTime?: string | null;
+  modifiedTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersIncomingGetResponsePeersList | null;
+  peers?: ZoneTransfersIncomingGetResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export interface GetZoneTransferOutgoingRequest {
   zoneId: string;
@@ -6027,19 +6030,19 @@ export interface GetZoneTransferOutgoingRequest {
 export type ZoneTransfersOutgoingGetResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetZoneTransferOutgoingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  lastTransferredTime?: string | null;
+  lastTransferredTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersOutgoingGetResponsePeersList | null;
+  peers?: ZoneTransfersOutgoingGetResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export interface GetZoneTransferOutgoingStatusRequest {
   zoneId: string;
@@ -6055,13 +6058,13 @@ export interface GetZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean | null;
+  ixfrEnable?: boolean | null | undefined;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string | null;
+  tsigId?: string | null | undefined;
 }
 export interface GetZoneTransferTsigRequest {
   accountId: string;
@@ -6083,41 +6086,41 @@ export interface ImportRecordRequest {
   /** BIND config to import. */
   file: string;
   /** Whether or not proxiable records should receive the performance and security benefits of Cloudflare. */
-  proxied?: string;
+  proxied?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ImportRecordResponse {
   /** Number of DNS records added. */
-  recsAdded?: number | null;
+  recsAdded?: number | null | undefined;
   /** Total number of DNS records parsed. */
-  totalRecordsParsed?: number | null;
+  totalRecordsParsed?: number | null | undefined;
 }
 export interface ListDnssecZskRequest {
   /** Identifier. */
   zoneId: string;
 }
 export interface ListDnssecZskResultItemDNSKEYHdr {
-  Class?: number | null;
-  name?: string | null;
-  rdlength?: number | null;
-  rrtype?: number | null;
-  ttl?: number | null;
+  Class?: number | null | undefined;
+  name?: string | null | undefined;
+  rdlength?: number | null | undefined;
+  rrtype?: number | null | undefined;
+  ttl?: number | null | undefined;
 }
 export interface ListDnssecZskResultItemDNSKEY {
-  algorithm?: number | null;
-  flags?: number | null;
-  hdr?: ListDnssecZskResultItemDNSKEYHdr | null;
-  protocol?: number | null;
-  publicKey?: string | null;
+  algorithm?: number | null | undefined;
+  flags?: number | null | undefined;
+  hdr?: ListDnssecZskResultItemDNSKEYHdr | null | undefined;
+  protocol?: number | null | undefined;
+  publicKey?: string | null | undefined;
 }
 export type ListDnssecZskResultItemLocation = "database" | "vault";
 export interface ListDnssecZskResultItemSigningKey {
   /** Key encryption key name used to encrypt the private key. */
-  kek?: string | null;
+  kek?: string | null | undefined;
   /** Encrypted private key material for the signing key. */
-  privkey?: string | null;
+  privkey?: string | null | undefined;
   /** Public key content associated with the signing key. */
-  pubkey?: string | null;
+  pubkey?: string | null | undefined;
 }
 export type ListDnssecZskResultItemTag =
   | "active"
@@ -6127,66 +6130,66 @@ export type ListDnssecZskResultItemTag =
   | "revoked"
   | "removed";
 export interface ListDnssecZskResultItem {
-  dNSKEY?: ListDnssecZskResultItemDNSKEY | null;
+  dNSKEY?: ListDnssecZskResultItemDNSKEY | null | undefined;
   /** Storage backend where the DNSSEC key material is stored. */
-  location?: ListDnssecZskResultItemLocation | null;
+  location?: ListDnssecZskResultItemLocation | null | undefined;
   /** Internal key name for the ZSK. */
-  name?: string | null;
-  signingKey?: ListDnssecZskResultItemSigningKey | null;
+  name?: string | null | undefined;
+  signingKey?: ListDnssecZskResultItemSigningKey | null | undefined;
   /** Lifecycle state tag attached to the DNSSEC key. */
-  tag?: ListDnssecZskResultItemTag | null;
+  tag?: ListDnssecZskResultItemTag | null | undefined;
 }
 export type ListDnssecZskResultList = Array<ListDnssecZskResultItem>;
 export type ListDnssecZskResponse = ListDnssecZskResultList;
 export interface RecordsListRequestComment {
   /** If this parameter is present, only records *without* a comment are returned. */
-  absent?: string;
+  absent?: string | undefined;
   /** Substring of the DNS record comment. Comment filters are case-insensitive. */
-  contains?: string;
+  contains?: string | undefined;
   /** Suffix of the DNS record comment. Comment filters are case-insensitive. */
-  endswith?: string;
+  endswith?: string | undefined;
   /** Exact value of the DNS record comment. Comment filters are case-insensitive. */
-  exact?: string;
+  exact?: string | undefined;
   /** If this parameter is present, only records *with* a comment are returned. */
-  present?: string;
+  present?: string | undefined;
   /** Prefix of the DNS record comment. Comment filters are case-insensitive. */
-  startswith?: string;
+  startswith?: string | undefined;
 }
 export interface RecordsListRequestContent {
   /** Substring of the DNS record content. Content filters are case-insensitive. */
-  contains?: string;
+  contains?: string | undefined;
   /** Suffix of the DNS record content. Content filters are case-insensitive. */
-  endswith?: string;
+  endswith?: string | undefined;
   /** Exact value of the DNS record content. Content filters are case-insensitive. */
-  exact?: string;
+  exact?: string | undefined;
   /** Prefix of the DNS record content. Content filters are case-insensitive. */
-  startswith?: string;
+  startswith?: string | undefined;
 }
 export type RecordsListRequestMatch = "any" | "all";
 export interface RecordsListRequestName {
   /** Substring of the DNS record name. Name filters are case-insensitive. */
-  contains?: string;
+  contains?: string | undefined;
   /** Suffix of the DNS record name. Name filters are case-insensitive. */
-  endswith?: string;
+  endswith?: string | undefined;
   /** Exact value of the DNS record name. Name filters are case-insensitive. */
-  exact?: string;
+  exact?: string | undefined;
   /** Prefix of the DNS record name. Name filters are case-insensitive. */
-  startswith?: string;
+  startswith?: string | undefined;
 }
 export type RecordsListRequestOrder = "type" | "name" | "content" | "ttl" | "proxied";
 export interface RecordsListRequestTag {
   /** Name of a tag which must *not* be present on the DNS record. Tag filters are case-insensitive. */
-  absent?: string;
+  absent?: string | undefined;
   /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value contains `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  contains?: string;
+  contains?: string | undefined;
   /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value ends with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  endswith?: string;
+  endswith?: string | undefined;
   /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value is `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  exact?: string;
+  exact?: string | undefined;
   /** Name of a tag which must be present on the DNS record. Tag filters are case-insensitive. */
-  present?: string;
+  present?: string | undefined;
   /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value starts with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  startswith?: string;
+  startswith?: string | undefined;
 }
 export type RecordsListRequestTagMatch = "any" | "all";
 export type RecordsListRequestType =
@@ -6214,45 +6217,45 @@ export type RecordsListRequestType =
 export interface ListRecordsRequest {
   /** Identifier. */
   zoneId: string;
-  comment?: RecordsListRequestComment;
-  content?: RecordsListRequestContent;
+  comment?: RecordsListRequestComment | undefined;
+  content?: RecordsListRequestContent | undefined;
   /** Direction to order DNS records in. */
-  direction?: string;
+  direction?: string | undefined;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
+  includeShadowMetadata?: boolean | undefined;
   /** Whether to match all search requirements or at least one (any). If set to `all`, acts like a logical AND between filters. If set to `any`, acts like a logical OR instead. Note that the interaction between tag filters is controlled by the `tag-match` parameter instead. */
-  match?: RecordsListRequestMatch | (string & {});
-  name?: RecordsListRequestName;
+  match?: RecordsListRequestMatch | (string & {}) | undefined;
+  name?: RecordsListRequestName | undefined;
   /** Field to order DNS records by. */
-  order?: RecordsListRequestOrder | (string & {});
+  order?: RecordsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of DNS records per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Allows searching in multiple properties of a DNS record simultaneously. This parameter is intended for human users, not automation. Its exact behavior is intentionally left unspecified and is subject to change in the future. This parameter works independently of the `match` setting. For automated searches, please use the other available parameters. */
-  search?: string;
+  search?: string | undefined;
   /** Filters the response to records at or below the specified NS delegation name. NS, DS, and NSEC records at the delegation name are excluded because they are not shadowed by that delegation. Those record types are included only when they exist below the delegation. The value must be a non-apex subdomain of the zone. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedByName?: string;
+  shadowedByName?: string | undefined;
   /** Returns NS records that shadow the given name, searching at the name itself and each of its ancestor names within the zone, excluding the zone apex. The value must be a subdomain of the zone; the zone apex is not accepted. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowingName?: string;
-  tag?: RecordsListRequestTag;
+  shadowingName?: string | undefined;
+  tag?: RecordsListRequestTag | undefined;
   /** Whether to match all tag search requirements or at least one (any). If set to `all`, acts like a logical AND between tag filters. If set to `any`, acts like a logical OR instead. Note that the regular `match` parameter is still used to combine the resulting condition with other filters that aren't related to tags. */
-  tagMatch?: RecordsListRequestTagMatch | (string & {});
+  tagMatch?: RecordsListRequestTagMatch | (string & {}) | undefined;
   /** Record type. */
-  type?: RecordsListRequestType | (string & {});
+  type?: RecordsListRequestType | (string & {}) | undefined;
 }
 export type RecordsListResultItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemARecordType = "A";
 export interface RecordsListResultItemARecord {
@@ -6267,32 +6270,32 @@ export interface RecordsListResultItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemARecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemAAAARecordType = "AAAA";
 export interface RecordsListResultItemAAAARecord {
@@ -6307,32 +6310,32 @@ export interface RecordsListResultItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemAAAARecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemCNAMERecordType = "CNAME";
 export interface RecordsListResultItemCNAMERecord {
@@ -6347,32 +6350,32 @@ export interface RecordsListResultItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemCNAMERecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemMXRecordType = "MX";
 export interface RecordsListResultItemMXRecord {
@@ -6387,32 +6390,32 @@ export interface RecordsListResultItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemMXRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemNSRecordType = "NS";
 export interface RecordsListResultItemNSRecord {
@@ -6427,32 +6430,32 @@ export interface RecordsListResultItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemNSRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -6486,20 +6489,20 @@ export interface RecordsListResultItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsListResultItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsListResultItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemPTRRecordType = "PTR";
 export interface RecordsListResultItemPTRRecord {
@@ -6514,32 +6517,32 @@ export interface RecordsListResultItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemPTRRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemTXTRecordType = "TXT";
 export interface RecordsListResultItemTXTRecord {
@@ -6554,32 +6557,32 @@ export interface RecordsListResultItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemTXTRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemCAARecordType = "CAA";
 export interface RecordsListResultItemCAARecord {
@@ -6594,32 +6597,32 @@ export interface RecordsListResultItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemCAARecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemCERTRecordType = "CERT";
 export interface RecordsListResultItemCERTRecord {
@@ -6634,32 +6637,32 @@ export interface RecordsListResultItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemCERTRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemDNSKEYRecordType = "DNSKEY";
 export interface RecordsListResultItemDNSKEYRecord {
@@ -6674,32 +6677,32 @@ export interface RecordsListResultItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemDNSKEYRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemDSRecordType = "DS";
 export interface RecordsListResultItemDSRecord {
@@ -6714,32 +6717,32 @@ export interface RecordsListResultItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemDSRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemHTTPSRecordType = "HTTPS";
 export interface RecordsListResultItemHTTPSRecord {
@@ -6754,32 +6757,32 @@ export interface RecordsListResultItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemHTTPSRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemLOCRecordType = "LOC";
 export interface RecordsListResultItemLOCRecord {
@@ -6794,32 +6797,32 @@ export interface RecordsListResultItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemLOCRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemNAPTRRecordType = "NAPTR";
 export interface RecordsListResultItemNAPTRRecord {
@@ -6834,32 +6837,32 @@ export interface RecordsListResultItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemNAPTRRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemSMIMEARecordType = "SMIMEA";
 export interface RecordsListResultItemSMIMEARecord {
@@ -6874,32 +6877,32 @@ export interface RecordsListResultItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemSMIMEARecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemSRVRecordType = "SRV";
 export interface RecordsListResultItemSRVRecord {
@@ -6914,32 +6917,32 @@ export interface RecordsListResultItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemSRVRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemSSHFPRecordType = "SSHFP";
 export interface RecordsListResultItemSSHFPRecord {
@@ -6954,32 +6957,32 @@ export interface RecordsListResultItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemSSHFPRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemSVCBRecordType = "SVCB";
 export interface RecordsListResultItemSVCBRecord {
@@ -6994,32 +6997,32 @@ export interface RecordsListResultItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemSVCBRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemTLSARecordType = "TLSA";
 export interface RecordsListResultItemTLSARecord {
@@ -7034,32 +7037,32 @@ export interface RecordsListResultItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemTLSARecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsListResultItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsListResultItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsListResultItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsListResultItemURIRecordType = "URI";
 export interface RecordsListResultItemURIRecord {
@@ -7074,21 +7077,21 @@ export interface RecordsListResultItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Record type. */
   type: RecordsListResultItemURIRecordType;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsListResultItem =
   | RecordsListResultItemARecord
@@ -7117,39 +7120,39 @@ export interface ListRecordsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecordsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAccountViewsListRequestDirection = "asc" | "desc";
 export type SettingsAccountViewsListRequestMatch = "any" | "all";
 export interface SettingsAccountViewsListRequestName {
   /** Substring of the DNS view name. */
-  contains?: string;
+  contains?: string | undefined;
   /** Suffix of the DNS view name. */
-  endswith?: string;
+  endswith?: string | undefined;
   /** Exact value of the DNS view name. */
-  exact?: string;
+  exact?: string | undefined;
   /** Prefix of the DNS view name. */
-  startswith?: string;
+  startswith?: string | undefined;
 }
 export type SettingsAccountViewsListRequestOrder = "name" | "created_on" | "modified_on";
 export interface ListSettingAccountViewsRequest {
   /** Identifier. */
   accountId: string;
   /** Direction to order DNS views in. */
-  direction?: SettingsAccountViewsListRequestDirection | (string & {});
+  direction?: SettingsAccountViewsListRequestDirection | (string & {}) | undefined;
   /** Whether to match all search requirements or at least one (any). If set to `all`, acts like a logical AND between filters. If set to `any`, acts like a logical OR instead. */
-  match?: SettingsAccountViewsListRequestMatch | (string & {});
-  name?: SettingsAccountViewsListRequestName;
+  match?: SettingsAccountViewsListRequestMatch | (string & {}) | undefined;
+  name?: SettingsAccountViewsListRequestName | undefined;
   /** Field to order DNS views by. */
-  order?: SettingsAccountViewsListRequestOrder | (string & {});
+  order?: SettingsAccountViewsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A zone ID that exists in the zones list for the view. */
-  zoneId?: string;
+  zoneId?: string | undefined;
   /** A zone name that exists in the zones list for the view. */
-  zoneName?: string;
+  zoneName?: string | undefined;
 }
 export type SettingsAccountViewsListResultItemZonesList = Array<string>;
 export interface SettingsAccountViewsListResultItem {
@@ -7169,15 +7172,15 @@ export interface ListSettingAccountViewsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsAccountViewsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingsAccountNameserverSetsRequest {
   /** Identifier. */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversItemIpv4List =
   Array<string>;
@@ -7270,7 +7273,7 @@ export interface ListZoneTransferAclsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersAclsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneTransferPeersRequest {
   accountId: string;
@@ -7280,20 +7283,20 @@ export interface ZoneTransfersPeersListResultItem {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean | null;
+  ixfrEnable?: boolean | null | undefined;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string | null;
+  tsigId?: string | null | undefined;
 }
 export type ZoneTransfersPeersListResultList = Array<ZoneTransfersPeersListResultItem>;
 export interface ListZoneTransferPeersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersPeersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneTransferTsigsRequest {
   accountId: string;
@@ -7312,20 +7315,20 @@ export interface ListZoneTransferTsigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ZoneTransfersTsigsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DnssecEditRequestStatus = "active" | "disabled";
 export interface PatchDnssecRequest {
   /** Identifier. */
   zoneId: string;
   /** If true, multi-signer DNSSEC is enabled on the zone, allowing multiple providers to serve a DNSSEC-signed zone at the same time. This is required for DNSKEY records (except those automatically generated by Cloudflare) to be added to the zone. */
-  dnssecMultiSigner?: boolean;
+  dnssecMultiSigner?: boolean | undefined;
   /** If true, allows Cloudflare to transfer in a DNSSEC-signed zone including signatures from an external provider, without requiring Cloudflare to sign any records on the fly. */
-  dnssecPresigned?: boolean;
+  dnssecPresigned?: boolean | undefined;
   /** If true, enables the use of NSEC3 together with DNSSEC on the zone. Combined with setting dnssec_presigned to true, this enables the use of NSEC3 records when transferring in from an external provider. If dnssec_presigned is instead set to false (default), NSEC3 records will be generated and signed at request time. */
-  dnssecUseNsec3?: boolean;
+  dnssecUseNsec3?: boolean | undefined;
   /** Status of DNSSEC, based on user-desired state and presence of necessary records. */
-  status?: DnssecEditRequestStatus | (string & {});
+  status?: DnssecEditRequestStatus | (string & {}) | undefined;
 }
 export type DnssecEditResponseStatus =
   | "active"
@@ -7336,33 +7339,33 @@ export type DnssecEditResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchDnssecResponse {
   /** Algorithm key code. */
-  algorithm?: string | null;
+  algorithm?: string | null | undefined;
   /** Digest hash. */
-  digest?: string | null;
+  digest?: string | null | undefined;
   /** Type of digest algorithm. */
-  digestAlgorithm?: string | null;
+  digestAlgorithm?: string | null | undefined;
   /** Coded type for digest algorithm. */
-  digestType?: string | null;
+  digestType?: string | null | undefined;
   /** If true, multi-signer DNSSEC is enabled on the zone, allowing multiple providers to serve a DNSSEC-signed zone at the same time. This is required for DNSKEY records (except those automatically generated by Cloudflare) to be added to the zone. */
-  dnssecMultiSigner?: boolean | null;
+  dnssecMultiSigner?: boolean | null | undefined;
   /** If true, allows Cloudflare to transfer in a DNSSEC-signed zone including signatures from an external provider, without requiring Cloudflare to sign any records on the fly. */
-  dnssecPresigned?: boolean | null;
+  dnssecPresigned?: boolean | null | undefined;
   /** If true, enables the use of NSEC3 together with DNSSEC on the zone. Combined with setting dnssec_presigned to true, this enables the use of NSEC3 records when transferring in from an external provider. If dnssec_presigned is instead set to false (default), NSEC3 records will be generated and signed at request time. */
-  dnssecUseNsec3?: boolean | null;
+  dnssecUseNsec3?: boolean | null | undefined;
   /** Full DS record. */
-  ds?: string | null;
+  ds?: string | null | undefined;
   /** Flag for DNSSEC record. */
-  flags?: number | null;
+  flags?: number | null | undefined;
   /** Code for key tag. */
-  keyTag?: number | null;
+  keyTag?: number | null | undefined;
   /** Algorithm key type. */
-  keyType?: string | null;
+  keyType?: string | null | undefined;
   /** When DNSSEC was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Public key for DS record. */
-  publicKey?: string | null;
+  publicKey?: string | null | undefined;
   /** Status of DNSSEC, based on user-desired state and presence of necessary records. */
-  status?: DnssecEditResponseStatus | null;
+  status?: DnssecEditResponseStatus | null | undefined;
 }
 export type RecordsEditRequestType =
   | "A"
@@ -7402,29 +7405,29 @@ export type RecordsEditRequestDataLOCRecordLatDirection = "N" | "S";
 export type RecordsEditRequestDataLOCRecordLongDirection = "E" | "W";
 export interface RecordsEditRequestDataLOCRecord {
   /** Altitude of location in meters. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Degrees of latitude. */
-  latDegrees?: number;
+  latDegrees?: number | undefined;
   /** Latitude direction. */
-  latDirection?: RecordsEditRequestDataLOCRecordLatDirection | (string & {});
+  latDirection?: RecordsEditRequestDataLOCRecordLatDirection | (string & {}) | undefined;
   /** Minutes of latitude. */
-  latMinutes?: number;
+  latMinutes?: number | undefined;
   /** Seconds of latitude. */
-  latSeconds?: number;
+  latSeconds?: number | undefined;
   /** Degrees of longitude. */
-  longDegrees?: number;
+  longDegrees?: number | undefined;
   /** Longitude direction. */
-  longDirection?: RecordsEditRequestDataLOCRecordLongDirection | (string & {});
+  longDirection?: RecordsEditRequestDataLOCRecordLongDirection | (string & {}) | undefined;
   /** Minutes of longitude. */
-  longMinutes?: number;
+  longMinutes?: number | undefined;
   /** Seconds of longitude. */
-  longSeconds?: number;
+  longSeconds?: number | undefined;
   /** Horizontal precision of location. */
-  precisionHorz?: number;
+  precisionHorz?: number | undefined;
   /** Vertical precision of location. */
-  precisionVert?: number;
+  precisionVert?: number | undefined;
   /** Size of location in meters. */
-  size?: number;
+  size?: number | undefined;
 }
 export type RecordsEditRequestDataNAPTRRecord = RecordsBatchRequestPostsItemNAPTRRecordData;
 export type RecordsEditRequestDataSMIMEARecord = RecordsBatchRequestPostsItemSMIMEARecordData;
@@ -7449,7 +7452,7 @@ export interface PatchRecordRequest {
   /** Identifier. */
   dnsRecordId: string;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
+  includeShadowMetadata?: boolean | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Time To Live (TTL) of the DNS record in seconds. Setting to 1 means 'automatic'. Value must be between 60 and 86400, with the minimum reduced to 30 for Enterprise zones. */
@@ -7457,32 +7460,32 @@ export interface PatchRecordRequest {
   /** Record type. */
   type: RecordsEditRequestType | (string & {});
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv4 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsEditRequestSettings;
+  settings?: RecordsEditRequestSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsEditRequestTagsList;
+  tags?: RecordsEditRequestTagsList | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Components of a CAA record. */
-  data?: RecordsEditRequestData;
+  data?: RecordsEditRequestData | undefined;
 }
 export type RecordsEditResultARecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultARecord {
   /** Identifier. */
@@ -7496,30 +7499,30 @@ export interface RecordsEditResultARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultAAAARecord {
   /** Identifier. */
@@ -7533,30 +7536,30 @@ export interface RecordsEditResultAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeAAAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultCNAMERecord {
   /** Identifier. */
@@ -7570,30 +7573,30 @@ export interface RecordsEditResultCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCNAME;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultMXRecord {
   /** Identifier. */
@@ -7607,30 +7610,30 @@ export interface RecordsEditResultMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeMX;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultNSRecord {
   /** Identifier. */
@@ -7644,30 +7647,30 @@ export interface RecordsEditResultNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsEditResultOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -7701,20 +7704,20 @@ export interface RecordsEditResultOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsEditResultOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsEditResultPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultPTRRecord {
   /** Identifier. */
@@ -7728,30 +7731,30 @@ export interface RecordsEditResultPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypePTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultTXTRecord {
   /** Identifier. */
@@ -7765,30 +7768,30 @@ export interface RecordsEditResultTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTXT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultCAARecord {
   /** Identifier. */
@@ -7802,30 +7805,30 @@ export interface RecordsEditResultCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultCERTRecord {
   /** Identifier. */
@@ -7839,30 +7842,30 @@ export interface RecordsEditResultCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCERT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultDNSKEYRecord {
   /** Identifier. */
@@ -7876,30 +7879,30 @@ export interface RecordsEditResultDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDNSKEY;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultDSRecord {
   /** Identifier. */
@@ -7913,30 +7916,30 @@ export interface RecordsEditResultDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultHTTPSRecord {
   /** Identifier. */
@@ -7950,30 +7953,30 @@ export interface RecordsEditResultHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeHTTPS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultLOCRecord {
   /** Identifier. */
@@ -7987,30 +7990,30 @@ export interface RecordsEditResultLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeLOC;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultNAPTRRecord {
   /** Identifier. */
@@ -8024,30 +8027,30 @@ export interface RecordsEditResultNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNAPTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultSMIMEARecord {
   /** Identifier. */
@@ -8061,30 +8064,30 @@ export interface RecordsEditResultSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSMIMEA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultSRVRecord {
   /** Identifier. */
@@ -8098,30 +8101,30 @@ export interface RecordsEditResultSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSRV;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultSSHFPRecord {
   /** Identifier. */
@@ -8135,30 +8138,30 @@ export interface RecordsEditResultSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSSHFP;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultSVCBRecord {
   /** Identifier. */
@@ -8172,30 +8175,30 @@ export interface RecordsEditResultSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSVCB;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultTLSARecord {
   /** Identifier. */
@@ -8209,30 +8212,30 @@ export interface RecordsEditResultTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTLSA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResultURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsEditResultURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsEditResultURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsEditResultURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsEditResultURIRecord {
   /** Identifier. */
@@ -8246,19 +8249,19 @@ export interface RecordsEditResultURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeURI;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsEditResult =
   | RecordsEditResultARecord
@@ -8285,7 +8288,7 @@ export type RecordsEditResult =
 export type PatchRecordResponse = RecordsEditResult;
 export interface SettingsAccountEditRequestZoneDefaultsInternalDns {
   /** The ID of the zone to fallback to. */
-  referenceZoneId?: string;
+  referenceZoneId?: string | undefined;
 }
 export type SettingsAccountEditRequestZoneDefaultsNameserversType =
   | "cloudflare.standard"
@@ -8295,50 +8298,50 @@ export type SettingsAccountEditRequestZoneDefaultsNameserversType =
   | "custom.tenant";
 export interface SettingsAccountEditRequestZoneDefaultsNameservers {
   /** Nameserver type */
-  type?: SettingsAccountEditRequestZoneDefaultsNameserversType | (string & {});
+  type?: SettingsAccountEditRequestZoneDefaultsNameserversType | (string & {}) | undefined;
 }
 export interface SettingsAccountEditRequestZoneDefaultsSoa {
   /** Time in seconds of being unable to query the primary server after which secondary servers should stop serving the zone. */
-  expire?: number;
+  expire?: number | undefined;
   /** The time to live (TTL) for negative caching of records within the zone. */
-  minTtl?: number;
+  minTtl?: number | undefined;
   /** The primary nameserver, which may be used for outbound zone transfers. If null, a Cloudflare-assigned value will be used. */
-  mname?: string;
+  mname?: string | undefined;
   /** Time in seconds after which secondary servers should re-check the SOA record to see if the zone has been updated. */
-  refresh?: number;
+  refresh?: number | undefined;
   /** Time in seconds after which secondary servers should retry queries after the primary server was unresponsive. */
-  retry?: number;
+  retry?: number | undefined;
   /** The email address of the zone administrator, with the first label representing the local part of the email address. */
-  rname?: string;
+  rname?: string | undefined;
   /** The time to live (TTL) of the SOA record itself. */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export type SettingsAccountEditRequestZoneDefaultsZoneMode = "standard" | "cdn_only" | "dns_only";
 export interface SettingsAccountEditRequestZoneDefaults {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
-  flattenAllCnames?: boolean;
+  flattenAllCnames?: boolean | undefined;
   /** Settings for this internal zone. */
-  internalDns?: SettingsAccountEditRequestZoneDefaultsInternalDns;
+  internalDns?: SettingsAccountEditRequestZoneDefaultsInternalDns | undefined;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
-  multiProvider?: boolean;
+  multiProvider?: boolean | undefined;
   /** Settings determining the nameservers through which the zone should be available. */
-  nameservers?: SettingsAccountEditRequestZoneDefaultsNameservers;
+  nameservers?: SettingsAccountEditRequestZoneDefaultsNameservers | undefined;
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
-  nsTtl?: number;
+  nsTtl?: number | undefined;
   /** Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex. */
-  secondaryOverrides?: boolean;
+  secondaryOverrides?: boolean | undefined;
   /** Components of the zone's SOA record. */
-  soa?: SettingsAccountEditRequestZoneDefaultsSoa;
+  soa?: SettingsAccountEditRequestZoneDefaultsSoa | undefined;
   /** Whether the zone mode is a regular or CDN/DNS only zone. */
-  zoneMode?: SettingsAccountEditRequestZoneDefaultsZoneMode | (string & {});
+  zoneMode?: SettingsAccountEditRequestZoneDefaultsZoneMode | (string & {}) | undefined;
 }
 export interface PatchSettingAccountRequest {
   /** Identifier. */
   accountId: string;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
-  enforceDnsOnly?: boolean;
+  enforceDnsOnly?: boolean | undefined;
   /** Default settings for new zones created in this account. */
-  zoneDefaults?: SettingsAccountEditRequestZoneDefaults;
+  zoneDefaults?: SettingsAccountEditRequestZoneDefaults | undefined;
 }
 export type SettingsAccountEditResponseZoneDefaultsInternalDns =
   SettingsAccountGetResponseZoneDefaultsInternalDns;
@@ -8358,7 +8361,7 @@ export interface SettingsAccountEditResponseZoneDefaults {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
   /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
+  foundationDns?: boolean | null | undefined;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -8379,7 +8382,7 @@ export interface PatchSettingAccountResponse {
   /** Default settings for new zones created in this account. */
   zoneDefaults: SettingsAccountEditResponseZoneDefaults;
   /** When enabled, forces all proxied DNS records in the account to behave as DNS-only at the edge, regardless of each record's individual proxy setting. Note that this account-level override does not modify the records themselves; it only affects how they are served at the edge. See more on [Enforce DNS-only](https://developers.cloudflare.com/dns/proxy-status/enforce-dns-only). */
-  enforceDnsOnly?: boolean | null;
+  enforceDnsOnly?: boolean | null | undefined;
 }
 export type SettingsAccountViewsEditRequestZonesList = Array<string>;
 export interface PatchSettingAccountViewRequest {
@@ -8388,9 +8391,9 @@ export interface PatchSettingAccountViewRequest {
   /** Identifier. */
   viewId: string;
   /** The name of the view. */
-  name?: string;
+  name?: string | undefined;
   /** The list of zones linked to this view. */
-  zones?: SettingsAccountViewsEditRequestZonesList;
+  zones?: SettingsAccountViewsEditRequestZonesList | undefined;
 }
 export type SettingsAccountViewsEditResponseZonesList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -8424,7 +8427,7 @@ export interface SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCus
     | SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomExistingType
     | (string & {});
   /** Configured nameserver set number to use for this zone. */
-  nsSet?: number;
+  nsSet?: number | undefined;
 }
 export type SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
 export interface SettingsZoneEditRequestNameserversDNSSettingsZoneNameserversCustomSet {
@@ -8443,21 +8446,21 @@ export interface PatchSettingZoneRequest {
   /** Identifier. */
   zoneId: string;
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
-  flattenAllCnames?: boolean;
+  flattenAllCnames?: boolean | undefined;
   /** Settings for this internal zone. */
-  internalDns?: SettingsAccountEditRequestZoneDefaultsInternalDns;
+  internalDns?: SettingsAccountEditRequestZoneDefaultsInternalDns | undefined;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
-  multiProvider?: boolean;
+  multiProvider?: boolean | undefined;
   /** Controls the nameservers through which the zone is available. */
-  nameservers?: SettingsZoneEditRequestNameservers;
+  nameservers?: SettingsZoneEditRequestNameservers | undefined;
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
-  nsTtl?: number;
+  nsTtl?: number | undefined;
   /** Allows a Secondary DNS zone to use (proxied) override records and CNAME flattening at the zone apex. */
-  secondaryOverrides?: boolean;
+  secondaryOverrides?: boolean | undefined;
   /** Components of the zone's SOA record. */
-  soa?: SettingsAccountEditRequestZoneDefaultsSoa;
+  soa?: SettingsAccountEditRequestZoneDefaultsSoa | undefined;
   /** Whether the zone mode is a regular or CDN/DNS only zone. */
-  zoneMode?: SettingsZoneEditRequestZoneMode | (string & {});
+  zoneMode?: SettingsZoneEditRequestZoneMode | (string & {}) | undefined;
 }
 export type SettingsZoneEditResponseInternalDns = SettingsAccountGetResponseZoneDefaultsInternalDns;
 export type SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCloudflareType =
@@ -8475,7 +8478,7 @@ export interface SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCu
   /** Nameserver type. */
   type: SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomExistingType;
   /** Configured nameserver set number to use for this zone. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export type SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSetType = "custom";
 export interface SettingsZoneEditResponseNameserversDNSSettingsZoneNameserversCustomSet {
@@ -8495,7 +8498,7 @@ export interface PatchSettingZoneResponse {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
   flattenAllCnames: boolean;
   /** foundation_dns is deprecated. Use nameservers.type: cloudflare.advanced to turn on Advanced Nameservers and cloudflare.standard to turn it off. This field will be removed in a future API version. */
-  foundationDns?: boolean | null;
+  foundationDns?: boolean | null | undefined;
   /** Settings for this internal zone. */
   internalDns: SettingsAccountGetResponseZoneDefaultsInternalDns;
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
@@ -8518,13 +8521,13 @@ export interface ScanListRecordRequest {
 export type RecordsScanListResultItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemARecord {
   /** Identifier. */
@@ -8538,30 +8541,30 @@ export interface RecordsScanListResultItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemAAAARecord {
   /** Identifier. */
@@ -8575,30 +8578,30 @@ export interface RecordsScanListResultItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeAAAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemCNAMERecord {
   /** Identifier. */
@@ -8612,30 +8615,30 @@ export interface RecordsScanListResultItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCNAME;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemMXRecord {
   /** Identifier. */
@@ -8649,30 +8652,30 @@ export interface RecordsScanListResultItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeMX;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemNSRecord {
   /** Identifier. */
@@ -8686,30 +8689,30 @@ export interface RecordsScanListResultItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsScanListResultItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -8743,20 +8746,20 @@ export interface RecordsScanListResultItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsScanListResultItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanListResultItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemPTRRecord {
   /** Identifier. */
@@ -8770,30 +8773,30 @@ export interface RecordsScanListResultItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypePTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemTXTRecord {
   /** Identifier. */
@@ -8807,30 +8810,30 @@ export interface RecordsScanListResultItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTXT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemCAARecord {
   /** Identifier. */
@@ -8844,30 +8847,30 @@ export interface RecordsScanListResultItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemCERTRecord {
   /** Identifier. */
@@ -8881,30 +8884,30 @@ export interface RecordsScanListResultItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCERT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemDNSKEYRecord {
   /** Identifier. */
@@ -8918,30 +8921,30 @@ export interface RecordsScanListResultItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDNSKEY;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemDSRecord {
   /** Identifier. */
@@ -8955,30 +8958,30 @@ export interface RecordsScanListResultItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemHTTPSRecord {
   /** Identifier. */
@@ -8992,30 +8995,30 @@ export interface RecordsScanListResultItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeHTTPS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemLOCRecord {
   /** Identifier. */
@@ -9029,30 +9032,30 @@ export interface RecordsScanListResultItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeLOC;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemNAPTRRecord {
   /** Identifier. */
@@ -9066,30 +9069,30 @@ export interface RecordsScanListResultItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNAPTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemSMIMEARecord {
   /** Identifier. */
@@ -9103,30 +9106,30 @@ export interface RecordsScanListResultItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSMIMEA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemSRVRecord {
   /** Identifier. */
@@ -9140,30 +9143,30 @@ export interface RecordsScanListResultItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSRV;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemSSHFPRecord {
   /** Identifier. */
@@ -9177,30 +9180,30 @@ export interface RecordsScanListResultItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSSHFP;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemSVCBRecord {
   /** Identifier. */
@@ -9214,30 +9217,30 @@ export interface RecordsScanListResultItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSVCB;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemTLSARecord {
   /** Identifier. */
@@ -9251,30 +9254,30 @@ export interface RecordsScanListResultItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTLSA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanListResultItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanListResultItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanListResultItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanListResultItemURIRecord {
   /** Identifier. */
@@ -9288,19 +9291,19 @@ export interface RecordsScanListResultItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeURI;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsScanListResultItem =
   | RecordsScanListResultItemARecord
@@ -9329,7 +9332,7 @@ export interface ScanListRecordResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecordsScanListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ScanRecordRequest {
   /** Identifier. */
@@ -9338,9 +9341,9 @@ export interface ScanRecordRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ScanRecordResponse {
   /** Number of DNS records added. */
-  recsAdded?: number | null;
+  recsAdded?: number | null | undefined;
   /** Total number of DNS records parsed. */
-  totalRecordsParsed?: number | null;
+  totalRecordsParsed?: number | null | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemARecordType = "A";
 export type RecordsScanReviewRequestAcceptsItemARecordSettings =
@@ -9354,17 +9357,17 @@ export interface RecordsScanReviewRequestAcceptsItemARecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv4 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemARecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemARecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemAAAARecordType = "AAAA";
 export type RecordsScanReviewRequestAcceptsItemAAAARecordSettings =
@@ -9378,17 +9381,17 @@ export interface RecordsScanReviewRequestAcceptsItemAAAARecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemAAAARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv6 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemAAAARecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemAAAARecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemCNAMERecordType = "CNAME";
 export type RecordsScanReviewRequestAcceptsItemCNAMERecordSettings =
@@ -9402,15 +9405,15 @@ export interface RecordsScanReviewRequestAcceptsItemCNAMERecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemCNAMERecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid hostname. Must not match the record's name. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPostsItemCNAMERecordSettings;
+  settings?: RecordsBatchRequestPostsItemCNAMERecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemCNAMERecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemCNAMERecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemMXRecordType = "MX";
 export type RecordsScanReviewRequestAcceptsItemMXRecordSettings =
@@ -9424,17 +9427,17 @@ export interface RecordsScanReviewRequestAcceptsItemMXRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemMXRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid mail server hostname. */
-  content?: string;
+  content?: string | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemMXRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemMXRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemNSRecordType = "NS";
 export type RecordsScanReviewRequestAcceptsItemNSRecordSettings =
@@ -9448,15 +9451,15 @@ export interface RecordsScanReviewRequestAcceptsItemNSRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemNSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid name server host name. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemNSRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemNSRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecordType = "OPENPGPKEY";
 export type RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecordSettings =
@@ -9470,15 +9473,15 @@ export interface RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A single Base64-encoded OpenPGP Transferable Public Key (RFC 4880 Section 11.1) */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemDNSRecordsOpenpgpkeyRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemPTRRecordType = "PTR";
 export type RecordsScanReviewRequestAcceptsItemPTRRecordSettings =
@@ -9492,15 +9495,15 @@ export interface RecordsScanReviewRequestAcceptsItemPTRRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemPTRRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Domain name pointing to the address. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemPTRRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemPTRRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemTXTRecordType = "TXT";
 export type RecordsScanReviewRequestAcceptsItemTXTRecordSettings =
@@ -9514,15 +9517,15 @@ export interface RecordsScanReviewRequestAcceptsItemTXTRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemTXTRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Text content for the record. The content must consist of quoted "character strings" (RFC 1035), each with a length of up to 255 bytes. Strings exceeding this allowed maximum length are automatically split. */
-  content?: string;
+  content?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemTXTRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemTXTRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemCAARecordType = "CAA";
 export type RecordsScanReviewRequestAcceptsItemCAARecordData =
@@ -9538,17 +9541,17 @@ export interface RecordsScanReviewRequestAcceptsItemCAARecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemCAARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted CAA content. See 'data' to set CAA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a CAA record. */
-  data?: RecordsBatchRequestPostsItemCAARecordData;
+  data?: RecordsBatchRequestPostsItemCAARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemCAARecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemCAARecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemCERTRecordType = "CERT";
 export type RecordsScanReviewRequestAcceptsItemCERTRecordData =
@@ -9564,17 +9567,17 @@ export interface RecordsScanReviewRequestAcceptsItemCERTRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemCERTRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted CERT content. See 'data' to set CERT properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a CERT record. */
-  data?: RecordsBatchRequestPostsItemCERTRecordData;
+  data?: RecordsBatchRequestPostsItemCERTRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemCERTRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemCERTRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemDNSKEYRecordType = "DNSKEY";
 export type RecordsScanReviewRequestAcceptsItemDNSKEYRecordData =
@@ -9590,17 +9593,17 @@ export interface RecordsScanReviewRequestAcceptsItemDNSKEYRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemDNSKEYRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted DNSKEY content. See 'data' to set DNSKEY properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a DNSKEY record. */
-  data?: RecordsBatchRequestPostsItemDNSKEYRecordData;
+  data?: RecordsBatchRequestPostsItemDNSKEYRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemDNSKEYRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemDNSKEYRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemDSRecordType = "DS";
 export type RecordsScanReviewRequestAcceptsItemDSRecordData =
@@ -9616,17 +9619,17 @@ export interface RecordsScanReviewRequestAcceptsItemDSRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemDSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted DS content. See 'data' to set DS properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a DS record. */
-  data?: RecordsBatchRequestPostsItemDSRecordData;
+  data?: RecordsBatchRequestPostsItemDSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemDSRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemDSRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemHTTPSRecordType = "HTTPS";
 export type RecordsScanReviewRequestAcceptsItemHTTPSRecordData =
@@ -9642,46 +9645,52 @@ export interface RecordsScanReviewRequestAcceptsItemHTTPSRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemHTTPSRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted HTTPS content. See 'data' to set HTTPS properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a HTTPS record. */
-  data?: RecordsBatchRequestPostsItemHTTPSRecordData;
+  data?: RecordsBatchRequestPostsItemHTTPSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemHTTPSRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemHTTPSRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemLOCRecordType = "LOC";
 export type RecordsScanReviewRequestAcceptsItemLOCRecordDataLatDirection = "N" | "S";
 export type RecordsScanReviewRequestAcceptsItemLOCRecordDataLongDirection = "E" | "W";
 export interface RecordsScanReviewRequestAcceptsItemLOCRecordData {
   /** Altitude of location in meters. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Degrees of latitude. */
-  latDegrees?: number;
+  latDegrees?: number | undefined;
   /** Latitude direction. */
-  latDirection?: RecordsScanReviewRequestAcceptsItemLOCRecordDataLatDirection | (string & {});
+  latDirection?:
+    | RecordsScanReviewRequestAcceptsItemLOCRecordDataLatDirection
+    | (string & {})
+    | undefined;
   /** Minutes of latitude. */
-  latMinutes?: number;
+  latMinutes?: number | undefined;
   /** Seconds of latitude. */
-  latSeconds?: number;
+  latSeconds?: number | undefined;
   /** Degrees of longitude. */
-  longDegrees?: number;
+  longDegrees?: number | undefined;
   /** Longitude direction. */
-  longDirection?: RecordsScanReviewRequestAcceptsItemLOCRecordDataLongDirection | (string & {});
+  longDirection?:
+    | RecordsScanReviewRequestAcceptsItemLOCRecordDataLongDirection
+    | (string & {})
+    | undefined;
   /** Minutes of longitude. */
-  longMinutes?: number;
+  longMinutes?: number | undefined;
   /** Seconds of longitude. */
-  longSeconds?: number;
+  longSeconds?: number | undefined;
   /** Horizontal precision of location. */
-  precisionHorz?: number;
+  precisionHorz?: number | undefined;
   /** Vertical precision of location. */
-  precisionVert?: number;
+  precisionVert?: number | undefined;
   /** Size of location in meters. */
-  size?: number;
+  size?: number | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemLOCRecordSettings =
   RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
@@ -9694,17 +9703,17 @@ export interface RecordsScanReviewRequestAcceptsItemLOCRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemLOCRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted LOC content. See 'data' to set LOC properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a LOC record. */
-  data?: RecordsScanReviewRequestAcceptsItemLOCRecordData;
+  data?: RecordsScanReviewRequestAcceptsItemLOCRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemLOCRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemLOCRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemNAPTRRecordType = "NAPTR";
 export type RecordsScanReviewRequestAcceptsItemNAPTRRecordData =
@@ -9720,17 +9729,17 @@ export interface RecordsScanReviewRequestAcceptsItemNAPTRRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemNAPTRRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted NAPTR content. See 'data' to set NAPTR properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a NAPTR record. */
-  data?: RecordsBatchRequestPostsItemNAPTRRecordData;
+  data?: RecordsBatchRequestPostsItemNAPTRRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemNAPTRRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemNAPTRRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemSMIMEARecordType = "SMIMEA";
 export type RecordsScanReviewRequestAcceptsItemSMIMEARecordData =
@@ -9746,17 +9755,17 @@ export interface RecordsScanReviewRequestAcceptsItemSMIMEARecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemSMIMEARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SMIMEA content. See 'data' to set SMIMEA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SMIMEA record. */
-  data?: RecordsBatchRequestPostsItemSMIMEARecordData;
+  data?: RecordsBatchRequestPostsItemSMIMEARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemSMIMEARecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemSMIMEARecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemSRVRecordType = "SRV";
 export type RecordsScanReviewRequestAcceptsItemSRVRecordData =
@@ -9772,17 +9781,17 @@ export interface RecordsScanReviewRequestAcceptsItemSRVRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemSRVRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Priority, weight, port, and SRV target. See 'data' for setting the individual component values. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SRV record. */
-  data?: RecordsBatchRequestPostsItemSRVRecordData;
+  data?: RecordsBatchRequestPostsItemSRVRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemSRVRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemSRVRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemSSHFPRecordType = "SSHFP";
 export type RecordsScanReviewRequestAcceptsItemSSHFPRecordData =
@@ -9798,17 +9807,17 @@ export interface RecordsScanReviewRequestAcceptsItemSSHFPRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemSSHFPRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SSHFP content. See 'data' to set SSHFP properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SSHFP record. */
-  data?: RecordsBatchRequestPostsItemSSHFPRecordData;
+  data?: RecordsBatchRequestPostsItemSSHFPRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemSSHFPRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemSSHFPRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemSVCBRecordType = "SVCB";
 export type RecordsScanReviewRequestAcceptsItemSVCBRecordData =
@@ -9824,17 +9833,17 @@ export interface RecordsScanReviewRequestAcceptsItemSVCBRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemSVCBRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted SVCB content. See 'data' to set SVCB properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a SVCB record. */
-  data?: RecordsBatchRequestPostsItemHTTPSRecordData;
+  data?: RecordsBatchRequestPostsItemHTTPSRecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemSVCBRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemSVCBRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemTLSARecordType = "TLSA";
 export type RecordsScanReviewRequestAcceptsItemTLSARecordData =
@@ -9850,17 +9859,17 @@ export interface RecordsScanReviewRequestAcceptsItemTLSARecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemTLSARecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted TLSA content. See 'data' to set TLSA properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a TLSA record. */
-  data?: RecordsBatchRequestPostsItemSMIMEARecordData;
+  data?: RecordsBatchRequestPostsItemSMIMEARecordData | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemTLSARecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemTLSARecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItemURIRecordType = "URI";
 export type RecordsScanReviewRequestAcceptsItemURIRecordData =
@@ -9876,19 +9885,19 @@ export interface RecordsScanReviewRequestAcceptsItemURIRecord {
   /** Record type. */
   type: RecordsScanReviewRequestAcceptsItemURIRecordType;
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** Formatted URI content. See 'data' to set URI properties. */
-  content?: string;
+  content?: string | undefined;
   /** Components of a URI record. */
-  data?: RecordsBatchRequestPostsItemURIRecordData;
+  data?: RecordsBatchRequestPostsItemURIRecordData | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings;
+  settings?: RecordsBatchRequestPatchesItemOpenpgpkeyRecordSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsScanReviewRequestAcceptsItemURIRecordTagsList;
+  tags?: RecordsScanReviewRequestAcceptsItemURIRecordTagsList | undefined;
 }
 export type RecordsScanReviewRequestAcceptsItem =
   | RecordsScanReviewRequestAcceptsItemARecord
@@ -9918,19 +9927,19 @@ export type RecordsScanReviewRequestRejectsList = Array<RecordsBatchRequestDelet
 export interface ScanReviewRecordRequest {
   /** Identifier. */
   zoneId: string;
-  accepts?: RecordsScanReviewRequestAcceptsList;
-  rejects?: RecordsScanReviewRequestRejectsList;
+  accepts?: RecordsScanReviewRequestAcceptsList | undefined;
+  rejects?: RecordsScanReviewRequestRejectsList | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemARecord {
   /** Identifier. */
@@ -9944,20 +9953,20 @@ export interface RecordsScanReviewResponseAcceptsItemARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemAAAARecord {
   /** Identifier. */
@@ -9971,20 +9980,20 @@ export interface RecordsScanReviewResponseAcceptsItemAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemCNAMERecord {
   /** Identifier. */
@@ -9998,20 +10007,20 @@ export interface RecordsScanReviewResponseAcceptsItemCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemMXRecord {
   /** Identifier. */
@@ -10025,20 +10034,20 @@ export interface RecordsScanReviewResponseAcceptsItemMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemNSRecord {
   /** Identifier. */
@@ -10052,20 +10061,23 @@ export interface RecordsScanReviewResponseAcceptsItemNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?:
+    | RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordMetaShadowedByList
+    | null
+    | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -10099,20 +10111,20 @@ export interface RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsScanReviewResponseAcceptsItemOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemPTRRecord {
   /** Identifier. */
@@ -10126,20 +10138,20 @@ export interface RecordsScanReviewResponseAcceptsItemPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemTXTRecord {
   /** Identifier. */
@@ -10153,20 +10165,20 @@ export interface RecordsScanReviewResponseAcceptsItemTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemCAARecord {
   /** Identifier. */
@@ -10180,20 +10192,20 @@ export interface RecordsScanReviewResponseAcceptsItemCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemCERTRecord {
   /** Identifier. */
@@ -10207,20 +10219,23 @@ export interface RecordsScanReviewResponseAcceptsItemCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?:
+    | RecordsScanReviewResponseAcceptsItemDNSKEYRecordMetaShadowedByList
+    | null
+    | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemDNSKEYRecord {
   /** Identifier. */
@@ -10234,20 +10249,20 @@ export interface RecordsScanReviewResponseAcceptsItemDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemDSRecord {
   /** Identifier. */
@@ -10261,20 +10276,20 @@ export interface RecordsScanReviewResponseAcceptsItemDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemHTTPSRecord {
   /** Identifier. */
@@ -10288,20 +10303,20 @@ export interface RecordsScanReviewResponseAcceptsItemHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemLOCRecord {
   /** Identifier. */
@@ -10315,20 +10330,20 @@ export interface RecordsScanReviewResponseAcceptsItemLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemNAPTRRecord {
   /** Identifier. */
@@ -10342,20 +10357,23 @@ export interface RecordsScanReviewResponseAcceptsItemNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?:
+    | RecordsScanReviewResponseAcceptsItemSMIMEARecordMetaShadowedByList
+    | null
+    | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemSMIMEARecord {
   /** Identifier. */
@@ -10369,20 +10387,20 @@ export interface RecordsScanReviewResponseAcceptsItemSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemSRVRecord {
   /** Identifier. */
@@ -10396,20 +10414,20 @@ export interface RecordsScanReviewResponseAcceptsItemSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemSSHFPRecord {
   /** Identifier. */
@@ -10423,20 +10441,20 @@ export interface RecordsScanReviewResponseAcceptsItemSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemSVCBRecord {
   /** Identifier. */
@@ -10450,20 +10468,20 @@ export interface RecordsScanReviewResponseAcceptsItemSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemTLSARecord {
   /** Identifier. */
@@ -10477,20 +10495,20 @@ export interface RecordsScanReviewResponseAcceptsItemTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItemURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsScanReviewResponseAcceptsItemURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsScanReviewResponseAcceptsItemURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsScanReviewResponseAcceptsItemURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsScanReviewResponseAcceptsItemURIRecord {
   /** Identifier. */
@@ -10504,9 +10522,9 @@ export interface RecordsScanReviewResponseAcceptsItemURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsScanReviewResponseAcceptsItem =
   | RecordsScanReviewResponseAcceptsItemARecord
@@ -10534,8 +10552,8 @@ export type RecordsScanReviewResponseAcceptsList = Array<RecordsScanReviewRespon
 export type RecordsScanReviewResponseRejectsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ScanReviewRecordResponse {
-  accepts?: RecordsScanReviewResponseAcceptsList | null;
-  rejects?: RecordsScanReviewResponseRejectsList | null;
+  accepts?: RecordsScanReviewResponseAcceptsList | null | undefined;
+  rejects?: RecordsScanReviewResponseRejectsList | null | undefined;
 }
 export interface ScanTriggerRecordRequest {
   /** Identifier. */
@@ -10581,29 +10599,29 @@ export type RecordsUpdateRequestDataLOCRecordLatDirection = "N" | "S";
 export type RecordsUpdateRequestDataLOCRecordLongDirection = "E" | "W";
 export interface RecordsUpdateRequestDataLOCRecord {
   /** Altitude of location in meters. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Degrees of latitude. */
-  latDegrees?: number;
+  latDegrees?: number | undefined;
   /** Latitude direction. */
-  latDirection?: RecordsUpdateRequestDataLOCRecordLatDirection | (string & {});
+  latDirection?: RecordsUpdateRequestDataLOCRecordLatDirection | (string & {}) | undefined;
   /** Minutes of latitude. */
-  latMinutes?: number;
+  latMinutes?: number | undefined;
   /** Seconds of latitude. */
-  latSeconds?: number;
+  latSeconds?: number | undefined;
   /** Degrees of longitude. */
-  longDegrees?: number;
+  longDegrees?: number | undefined;
   /** Longitude direction. */
-  longDirection?: RecordsUpdateRequestDataLOCRecordLongDirection | (string & {});
+  longDirection?: RecordsUpdateRequestDataLOCRecordLongDirection | (string & {}) | undefined;
   /** Minutes of longitude. */
-  longMinutes?: number;
+  longMinutes?: number | undefined;
   /** Seconds of longitude. */
-  longSeconds?: number;
+  longSeconds?: number | undefined;
   /** Horizontal precision of location. */
-  precisionHorz?: number;
+  precisionHorz?: number | undefined;
   /** Vertical precision of location. */
-  precisionVert?: number;
+  precisionVert?: number | undefined;
   /** Size of location in meters. */
-  size?: number;
+  size?: number | undefined;
 }
 export type RecordsUpdateRequestDataNAPTRRecord = RecordsBatchRequestPostsItemNAPTRRecordData;
 export type RecordsUpdateRequestDataSMIMEARecord = RecordsBatchRequestPostsItemSMIMEARecordData;
@@ -10628,7 +10646,7 @@ export interface UpdateRecordRequest {
   /** Identifier. */
   dnsRecordId: string;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  includeShadowMetadata?: boolean;
+  includeShadowMetadata?: boolean | undefined;
   /** Complete DNS record name, including the zone name, in Punycode. */
   name: string;
   /** Time To Live (TTL) of the DNS record in seconds. Setting to 1 means 'automatic'. Value must be between 60 and 86400, with the minimum reduced to 30 for Enterprise zones. */
@@ -10636,32 +10654,32 @@ export interface UpdateRecordRequest {
   /** Record type. */
   type: RecordsUpdateRequestType | (string & {});
   /** Comments or notes about the DNS record. This field has no effect on DNS responses. */
-  comment?: string;
+  comment?: string | undefined;
   /** A valid IPv4 address. */
-  content?: string;
+  content?: string | undefined;
   /** Enables private network routing to the origin. */
-  privateRouting?: boolean;
+  privateRouting?: boolean | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Settings for the DNS record. */
-  settings?: RecordsUpdateRequestSettings;
+  settings?: RecordsUpdateRequestSettings | undefined;
   /** Custom tags for the DNS record. This field has no effect on DNS responses. */
-  tags?: RecordsUpdateRequestTagsList;
+  tags?: RecordsUpdateRequestTagsList | undefined;
   /** Required for MX and URI records; ignored for other record types (but may still be returned by the API). Records with lower priorities are preferred. This field is to be deprecated in favor of the priority field within the data map. */
-  priority?: number;
+  priority?: number | undefined;
   /** Components of a CAA record. */
-  data?: RecordsUpdateRequestData;
+  data?: RecordsUpdateRequestData | undefined;
 }
 export type RecordsUpdateResultARecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultARecord {
   /** Identifier. */
@@ -10675,30 +10693,30 @@ export interface RecordsUpdateResultARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultAAAARecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultAAAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultAAAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultAAAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultAAAARecord {
   /** Identifier. */
@@ -10712,30 +10730,30 @@ export interface RecordsUpdateResultAAAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeAAAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultCNAMERecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultCNAMERecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultCNAMERecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultCNAMERecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultCNAMERecord {
   /** Identifier. */
@@ -10749,30 +10767,30 @@ export interface RecordsUpdateResultCNAMERecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCNAME;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultMXRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultMXRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultMXRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultMXRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultMXRecord {
   /** Identifier. */
@@ -10786,30 +10804,30 @@ export interface RecordsUpdateResultMXRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeMX;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultNSRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultNSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultNSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultNSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultNSRecord {
   /** Identifier. */
@@ -10823,30 +10841,30 @@ export interface RecordsUpdateResultNSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultOpenpgpkeyRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultOpenpgpkeyRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultOpenpgpkeyRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultOpenpgpkeyRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export type RecordsUpdateResultOpenpgpkeyRecordSettings =
   RecordsBatchResponseDeletesItemOpenpgpkeyRecordSettings;
@@ -10880,20 +10898,20 @@ export interface RecordsUpdateResultOpenpgpkeyRecord {
   /** Record type. */
   type: RecordsUpdateResultOpenpgpkeyRecordType;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
 }
 export type RecordsUpdateResultPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultPTRRecord {
   /** Identifier. */
@@ -10907,30 +10925,30 @@ export interface RecordsUpdateResultPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypePTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultTXTRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultTXTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultTXTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultTXTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultTXTRecord {
   /** Identifier. */
@@ -10944,30 +10962,30 @@ export interface RecordsUpdateResultTXTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTXT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultCAARecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultCAARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultCAARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultCAARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultCAARecord {
   /** Identifier. */
@@ -10981,30 +10999,30 @@ export interface RecordsUpdateResultCAARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCAA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultCERTRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultCERTRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultCERTRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultCERTRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultCERTRecord {
   /** Identifier. */
@@ -11018,30 +11036,30 @@ export interface RecordsUpdateResultCERTRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeCERT;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultDNSKEYRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultDNSKEYRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultDNSKEYRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultDNSKEYRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultDNSKEYRecord {
   /** Identifier. */
@@ -11055,30 +11073,30 @@ export interface RecordsUpdateResultDNSKEYRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDNSKEY;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultDSRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultDSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultDSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultDSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultDSRecord {
   /** Identifier. */
@@ -11092,30 +11110,30 @@ export interface RecordsUpdateResultDSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeDS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultHTTPSRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultHTTPSRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultHTTPSRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultHTTPSRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultHTTPSRecord {
   /** Identifier. */
@@ -11129,30 +11147,30 @@ export interface RecordsUpdateResultHTTPSRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeHTTPS;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultLOCRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultLOCRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultLOCRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultLOCRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultLOCRecord {
   /** Identifier. */
@@ -11166,30 +11184,30 @@ export interface RecordsUpdateResultLOCRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeLOC;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultNAPTRRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultNAPTRRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultNAPTRRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultNAPTRRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultNAPTRRecord {
   /** Identifier. */
@@ -11203,30 +11221,30 @@ export interface RecordsUpdateResultNAPTRRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeNAPTR;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultSMIMEARecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultSMIMEARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultSMIMEARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultSMIMEARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultSMIMEARecord {
   /** Identifier. */
@@ -11240,30 +11258,30 @@ export interface RecordsUpdateResultSMIMEARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSMIMEA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultSRVRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultSRVRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultSRVRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultSRVRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultSRVRecord {
   /** Identifier. */
@@ -11277,30 +11295,30 @@ export interface RecordsUpdateResultSRVRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSRV;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultSSHFPRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultSSHFPRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultSSHFPRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultSSHFPRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultSSHFPRecord {
   /** Identifier. */
@@ -11314,30 +11332,30 @@ export interface RecordsUpdateResultSSHFPRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSSHFP;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultSVCBRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultSVCBRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultSVCBRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultSVCBRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultSVCBRecord {
   /** Identifier. */
@@ -11351,30 +11369,30 @@ export interface RecordsUpdateResultSVCBRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeSVCB;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultTLSARecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultTLSARecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultTLSARecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultTLSARecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultTLSARecord {
   /** Identifier. */
@@ -11388,30 +11406,30 @@ export interface RecordsUpdateResultTLSARecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeTLSA;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResultURIRecordMetaShadowedByList = Array<string>;
 export interface RecordsUpdateResultURIRecordMeta {
   /** Whether this glue record is not served because a shallower NS delegation takes precedence over the deeper delegation that needs it. Present only when true; reachable glue carries only `is_glue`. See [Unreachable glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#unreachable-glue-records). */
-  deadGlue?: boolean | null;
+  deadGlue?: boolean | null | undefined;
   /** Whether this A or AAAA record is glue for a subdomain NS delegation. See [Glue records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records#glue-records). */
-  isGlue?: boolean | null;
+  isGlue?: boolean | null | undefined;
   /** IDs of the NS records that shadow this record. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedBy?: RecordsUpdateResultURIRecordMetaShadowedByList | null;
+  shadowedBy?: RecordsUpdateResultURIRecordMetaShadowedByList | null | undefined;
   /** Number of records shadowed by this NS delegation. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
-  shadowedRecordsCount?: number | null;
+  shadowedRecordsCount?: number | null | undefined;
 }
 export interface RecordsUpdateResultURIRecord {
   /** Identifier. */
@@ -11425,19 +11443,19 @@ export interface RecordsUpdateResultURIRecord {
   /** Whether the record can be proxied by Cloudflare or not. */
   proxiable: boolean;
   /** When the record comment was last modified. Omitted if there is no comment. */
-  commentModifiedOn?: string | null;
+  commentModifiedOn?: string | null | undefined;
   /** When the record tags were last modified. Omitted if there are no tags. */
-  tagsModifiedOn?: string | null;
+  tagsModifiedOn?: string | null | undefined;
   name: string;
   type: DnsRecordTypeURI;
   ttl: number;
-  content?: string | null;
-  comment?: string | null;
-  proxied?: boolean | null;
-  priority?: number | null;
-  tags?: DnsRecordTagsList | null;
-  settings?: unknown | null;
-  data?: unknown | null;
+  content?: string | null | undefined;
+  comment?: string | null | undefined;
+  proxied?: boolean | null | undefined;
+  priority?: number | null | undefined;
+  tags?: DnsRecordTagsList | null | undefined;
+  settings?: unknown | null | undefined;
+  data?: unknown | null | undefined;
 }
 export type RecordsUpdateResult =
   | RecordsUpdateResultARecord
@@ -11491,21 +11509,21 @@ export interface UpdateZoneTransferIncomingRequest {
 export type ZoneTransfersIncomingUpdateResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateZoneTransferIncomingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number | null;
+  autoRefreshSeconds?: number | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  modifiedTime?: string | null;
+  modifiedTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersIncomingUpdateResponsePeersList | null;
+  peers?: ZoneTransfersIncomingUpdateResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export type ZoneTransfersOutgoingUpdateRequestPeersList = Array<string>;
 export interface UpdateZoneTransferOutgoingRequest {
@@ -11518,19 +11536,19 @@ export interface UpdateZoneTransferOutgoingRequest {
 export type ZoneTransfersOutgoingUpdateResponsePeersList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateZoneTransferOutgoingResponse {
-  id?: string | null;
+  id?: string | null | undefined;
   /** The time for a specific event. */
-  checkedTime?: string | null;
+  checkedTime?: string | null | undefined;
   /** The time for a specific event. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** The time for a specific event. */
-  lastTransferredTime?: string | null;
+  lastTransferredTime?: string | null | undefined;
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of peer tags. */
-  peers?: ZoneTransfersOutgoingUpdateResponsePeersList | null;
+  peers?: ZoneTransfersOutgoingUpdateResponsePeersList | null | undefined;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number | null;
+  soaSerial?: number | null | undefined;
 }
 export interface UpdateZoneTransferPeerRequest {
   accountId: string;
@@ -11538,13 +11556,13 @@ export interface UpdateZoneTransferPeerRequest {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to. */
-  ip?: string;
+  ip?: string | undefined;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean;
+  ixfrEnable?: boolean | undefined;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number;
+  port?: number | undefined;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string;
+  tsigId?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateZoneTransferPeerResponse {
@@ -11552,13 +11570,13 @@ export interface UpdateZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean | null;
+  ixfrEnable?: boolean | null | undefined;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string | null;
+  tsigId?: string | null | undefined;
 }
 export interface UpdateZoneTransferTsigRequest {
   accountId: string;

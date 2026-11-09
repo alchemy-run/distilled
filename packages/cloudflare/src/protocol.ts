@@ -8,7 +8,7 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
-  type InvalidInput,
+  InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -29,6 +29,7 @@ import {
   SchemaMismatch,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
@@ -139,7 +140,8 @@ export type CloudflareOpError =
   | CloudflareError
   | CloudflareRateLimited
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -274,7 +276,7 @@ const bearerPrefixAuthorization = (name: string, value: string): string =>
  * leaks into the body.
  */
 const hostTemplates = /*@__PURE__*/ new WeakMap<AST.AST, string | null>();
-const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
+const hostFor = (input: unknown, inputAst: AST.AST): string | undefined | InvalidInput => {
   let template = hostTemplates.get(inputAst);
   if (template === undefined) {
     template = (getAnn(inputAst, hostSymbol) as string | undefined) ?? null;
@@ -289,10 +291,13 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
     if (value === undefined) continue;
     host = host.replace(`{${nameOf(prop, labelSymbol)}}`, () => encodeURIComponent(String(value)));
   }
-  if (/\{[^}]+\}/.test(host)) {
-    // A required label left unset -- the same codegen/caller bug a missing
-    // path label is, surfaced as a defect by the calling Effect.
-    throw new Error(`operation input is missing a host label for ${template}`);
+  const unset = /\{([^}]+)\}/.exec(host);
+  if (unset) {
+    // A required label left unset: nothing to address the host with.
+    return new InvalidInput({
+      member: unset[1]!,
+      message: `the host label ${unset[1]} is required (host ${template})`,
+    });
   }
   return host;
 };
@@ -309,16 +314,19 @@ const requestFor = (
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
   const headers = formatHeaders(creds);
-  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`.
+  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`. A
+  // `jurisdiction` member set on the call is a header too, and wins.
   const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
   if (jurisdiction !== undefined && takesJurisdiction(inputAst))
     headers[JURISDICTION_HEADER] = jurisdiction;
+  const host = hostFor(input, inputAst);
+  if (host instanceof InvalidInput) return Effect.fail(host);
   return buildRequest({
     input,
     inputAst,
-    baseUrl: hostFor(input, inputAst) ?? creds.apiBaseUrl,
+    baseUrl: host ?? creds.apiBaseUrl,
     headers,
     mapMemberHeader: bearerPrefixAuthorization,
     unknownKeyToWire: camelToSnake,

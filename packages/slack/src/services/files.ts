@@ -31,11 +31,11 @@ export interface AddRemoteRequest {
   /** URL of the remote file. */
   external_url: string;
   /** type of file */
-  filetype?: string;
+  filetype?: string | undefined;
   /** A text file (txt, pdf, doc, etc.) containing textual search terms that are used to improve discovery of the remote file. */
-  indexable_file_contents?: unknown;
+  indexable_file_contents?: unknown | undefined;
   /** Preview of the document via `multipart/form-data`. */
-  preview_image?: unknown;
+  preview_image?: unknown | undefined;
   /** Title of the file being shared. */
   title: string;
 }
@@ -44,35 +44,35 @@ export type AddRemoteResponseFileChannelsList = Array<string>;
 export type AddRemoteResponseFileGroupsList = Array<string>;
 export type AddRemoteResponseFileImsList = Array<string>;
 export interface AddRemoteResponseFile {
-  id?: string;
-  created?: number;
-  timestamp?: number;
-  name?: string;
-  title?: string;
-  mimetype?: string;
-  filetype?: string;
-  pretty_type?: string;
-  user?: string;
-  editable?: boolean;
-  size?: number;
-  mode?: string;
-  is_external?: boolean;
-  external_type?: string;
-  is_public?: boolean;
-  public_url_shared?: boolean;
-  display_as_bot?: boolean;
-  username?: string;
-  url_private?: string;
-  permalink?: string;
-  comments_count?: number;
-  is_starred?: boolean;
-  shares?: AddRemoteResponseFileSharesMap;
-  channels?: AddRemoteResponseFileChannelsList;
-  groups?: AddRemoteResponseFileGroupsList;
-  ims?: AddRemoteResponseFileImsList;
-  external_id?: string;
-  external_url?: string;
-  has_rich_preview?: boolean;
+  id?: string | undefined;
+  created?: number | undefined;
+  timestamp?: number | undefined;
+  name?: string | undefined;
+  title?: string | undefined;
+  mimetype?: string | undefined;
+  filetype?: string | undefined;
+  pretty_type?: string | undefined;
+  user?: string | undefined;
+  editable?: boolean | undefined;
+  size?: number | undefined;
+  mode?: string | undefined;
+  is_external?: boolean | undefined;
+  external_type?: string | undefined;
+  is_public?: boolean | undefined;
+  public_url_shared?: boolean | undefined;
+  display_as_bot?: boolean | undefined;
+  username?: string | undefined;
+  url_private?: string | undefined;
+  permalink?: string | undefined;
+  comments_count?: number | undefined;
+  is_starred?: boolean | undefined;
+  shares?: AddRemoteResponseFileSharesMap | undefined;
+  channels?: AddRemoteResponseFileChannelsList | undefined;
+  groups?: AddRemoteResponseFileGroupsList | undefined;
+  ims?: AddRemoteResponseFileImsList | undefined;
+  external_id?: string | undefined;
+  external_url?: string | undefined;
+  has_rich_preview?: boolean | undefined;
 }
 export interface AddRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -83,9 +83,9 @@ export interface CompleteUploadExternalRequestFilesItem {
   /** File ID returned from files.getUploadURL. */
   id: string;
   /** Title of file. */
-  title?: string;
+  title?: string | undefined;
   /** Optional highlight type hint for the file. The upload processing job may overwrite this value. */
-  highlight_type?: string;
+  highlight_type?: string | undefined;
 }
 /** Array of file ids and their corresponding (optional) titles. */
 export type CompleteUploadExternalRequestFilesList = Array<CompleteUploadExternalRequestFilesItem>;
@@ -102,31 +102,31 @@ export interface CompleteUploadExternalRequest {
   /** Array of file ids and their corresponding (optional) titles. */
   files: CompleteUploadExternalRequestFilesList;
   /** Channel ID where the file will be shared. If not specified the file will be private. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Provide another message's `ts` value to upload this file as a reply. Never use a reply's `ts` value; use its parent instead. Also make sure to provide only one channel when using 'thread_ts' */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Comma-separated string of channel IDs or user IDs where the file will be shared. */
-  channels?: string;
+  channels?: string | undefined;
   /** The message text introducing the file in specified channels. */
-  initial_comment?: string;
+  initial_comment?: string | undefined;
   /** A JSON-based array of structured rich text blocks, presented as a URL-encoded string. If the `initial_comment` field is provided, the `blocks` field is ignored */
-  blocks?: CompleteUploadExternalRequestBlocks;
+  blocks?: CompleteUploadExternalRequestBlocks | undefined;
   /** Set your bot's user name for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** URL to an image to use as the icon for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Emoji to use as the icon for the file share message. Overrides `icon_url`. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope. */
-  icon_emoji?: string | null;
+  icon_emoji?: string | null | undefined;
 }
 export interface CompleteUploadExternalResponseFilesItem {
   /** File ID returned from files.getUploadURLExternal. */
   id: string;
   /** Title of file. */
-  title?: unknown;
+  title?: unknown | undefined;
   /** file created timestamp */
-  created?: number;
+  created?: number | undefined;
   /** file owner */
-  user?: string;
+  user?: string | undefined;
 }
 /** Array of files uploaded. */
 export type CompleteUploadExternalResponseFilesList =
@@ -156,14 +156,14 @@ export interface DeleteFileResponse {
   ok: boolean;
 }
 export interface FilesInfoRequest {
-  count?: number;
+  count?: number | undefined;
   /** Parameter for pagination. File comments are paginated for a single file. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection of comments. See [pagination](/apis/web-api/pagination) for more details. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Specify a file by providing its ID. */
   file: string;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. */
-  limit?: number;
-  page?: number;
+  limit?: number | undefined;
+  page?: number | undefined;
 }
 export interface FilesInfoResponseFile {
   id: string;
@@ -180,18 +180,18 @@ export type FilesInfoResponseCommentsList = Array<FilesInfoResponseCommentsItem>
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface FilesInfoResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface FilesInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   file: FilesInfoResponseFile;
   comments: FilesInfoResponseCommentsList;
-  content?: string;
-  content_html?: unknown;
-  content_highlight_html?: unknown;
+  content?: string | undefined;
+  content_html?: unknown | undefined;
+  content_highlight_html?: unknown | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: FilesInfoResponseResponseMetadata;
+  response_metadata?: FilesInfoResponseResponseMetadata | undefined;
 }
 export interface GetUploadURLExternalRequest {
   /** Size in bytes of the file being uploaded. */
@@ -199,9 +199,9 @@ export interface GetUploadURLExternalRequest {
   /** Name of the file being uploaded. */
   filename: string;
   /** Syntax type of the snippet being uploaded. */
-  snippet_type?: string;
+  snippet_type?: string | undefined;
   /** Description of image for screen-reader. */
-  alt_txt?: string;
+  alt_txt?: string | undefined;
 }
 export interface GetUploadURLExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -213,30 +213,30 @@ export type ListFilesRequestCount = number | string;
 export type ListFilesRequestPage = number | string;
 export interface ListFilesRequest {
   /** Filter files appearing in a specific channel, indicated by its ID. */
-  channel?: string;
-  count?: ListFilesRequestCount;
-  page?: ListFilesRequestPage;
+  channel?: string | undefined;
+  count?: ListFilesRequestCount | undefined;
+  page?: ListFilesRequestPage | undefined;
   /** Show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit. */
-  show_files_hidden_by_limit?: boolean;
+  show_files_hidden_by_limit?: boolean | undefined;
   /** encoded team id to list files in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Filter files created after this timestamp (inclusive). */
-  ts_from?: string;
+  ts_from?: string | undefined;
   /** Filter files created before this timestamp (inclusive). */
-  ts_to?: string;
+  ts_to?: string | undefined;
   /** Filter files by type ([see below](#file_types)). You can pass multiple values in the types argument, like `types=spaces,snippets`.The default value is `all`, which does not filter the list. */
-  types?: string;
+  types?: string | undefined;
   /** Filter files created by a single user. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface ListFilesResponseFilesItem {
   id: string;
-  created?: number;
-  user?: string;
+  created?: number | undefined;
+  user?: string | undefined;
 }
 export type ListFilesResponseFilesList = Array<ListFilesResponseFilesItem>;
 export interface ListFilesResponsePaging {
-  count?: number;
+  count?: number | undefined;
   total: number;
   page: number;
   pages: number;
@@ -245,22 +245,22 @@ export interface ListFilesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   files: ListFilesResponseFilesList;
-  paging?: ListFilesResponsePaging;
+  paging?: ListFilesResponsePaging | undefined;
 }
 export interface ListRemoteRequest {
   /** Filter files appearing in a specific channel, indicated by its ID. */
-  channel?: string;
+  channel?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter files created after this timestamp (inclusive). */
-  ts_from?: string;
+  ts_from?: string | undefined;
   /** Filter files created before this timestamp (inclusive). */
-  ts_to?: string;
+  ts_to?: string | undefined;
 }
 export interface ListRemoteResponseFilesItem {
-  id?: string;
+  id?: string | undefined;
 }
 export type ListRemoteResponseFilesList = Array<ListRemoteResponseFilesItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -270,13 +270,13 @@ export interface ListRemoteResponse {
   ok: boolean;
   files: ListRemoteResponseFilesList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: FilesInfoResponseResponseMetadata;
+  response_metadata?: FilesInfoResponseResponseMetadata | undefined;
 }
 export interface RemoteInfoRequest {
   /** Creator defined GUID for the file. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Specify a file by providing its ID. */
-  file?: string;
+  file?: string | undefined;
 }
 export type RemoteInfoResponseFile = ListFilesResponseFilesItem;
 export interface RemoteInfoResponse {
@@ -286,9 +286,9 @@ export interface RemoteInfoResponse {
 }
 export interface RemoveRemoteRequest {
   /** Creator defined GUID for the file. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Specify a file by providing its ID. */
-  file?: string;
+  file?: string | undefined;
 }
 export interface RemoveRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -299,9 +299,9 @@ export interface RevokePublicURLRequest {
   file: string;
 }
 export interface RevokePublicURLResponseFile {
-  id?: string;
-  created?: number;
-  user?: string;
+  id?: string | undefined;
+  created?: number | undefined;
+  user?: string | undefined;
 }
 export interface RevokePublicURLResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -320,62 +320,62 @@ export interface SharedPublicURLResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   file: RevokePublicURLResponseFile;
-  comment?: SharedPublicURLResponseCommentList;
-  paging?: SharedPublicURLResponsePagingMap;
+  comment?: SharedPublicURLResponseCommentList | undefined;
+  paging?: SharedPublicURLResponsePagingMap | undefined;
 }
 export interface ShareRemoteRequest {
   /** Comma-separated list of channel IDs where the file will be shared. */
   channels: string;
   /** The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack. Either this field or `file` or both are required. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required. */
-  file?: string;
+  file?: string | undefined;
 }
 export type ShareRemoteResponseFile = ListRemoteResponseFilesItem;
 export interface ShareRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  file?: ListRemoteResponseFilesItem;
+  file?: ListRemoteResponseFilesItem | undefined;
 }
 export interface UpdateRemoteRequest {
   /** Creator defined GUID for the file. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** URL of the remote file. */
-  external_url?: string;
+  external_url?: string | undefined;
   /** Specify a file by providing its ID. */
-  file?: string;
+  file?: string | undefined;
   /** type of file */
-  filetype?: string;
+  filetype?: string | undefined;
   /** File containing contents that can be used to improve searchability for the remote file. */
-  indexable_file_contents?: unknown;
+  indexable_file_contents?: unknown | undefined;
   /** Preview of the document via `multipart/form-data`. */
-  preview_image?: unknown;
+  preview_image?: unknown | undefined;
   /** Title of the file being shared. */
-  title?: string;
+  title?: string | undefined;
 }
 export type UpdateRemoteResponseFile = ListRemoteResponseFilesItem;
 export interface UpdateRemoteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  file?: ListRemoteResponseFilesItem;
+  file?: ListRemoteResponseFilesItem | undefined;
 }
 export interface UploadFileRequest {
   /** Comma-separated list of channel names or IDs where the file will be shared. */
-  channels?: string;
+  channels?: string | undefined;
   /** File contents via a POST variable. If omitting this parameter, you must provide a `file`. */
-  content?: string;
+  content?: string | undefined;
   /** File contents via `multipart/form-data`. If omitting this parameter, you must submit `content`. */
-  file?: unknown;
+  file?: unknown | undefined;
   /** Filename of file. */
-  filename?: string;
+  filename?: string | undefined;
   /** A [file type](/reference/objects/file-object#file_types) identifier. */
-  filetype?: string;
+  filetype?: string | undefined;
   /** The message text introducing the file in specified `channels`. */
-  initial_comment?: string;
+  initial_comment?: string | undefined;
   /** Provide another message's `ts` value to upload this file as a reply. Never use a reply's `ts` value; use its parent instead. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Title of file. */
-  title?: string;
+  title?: string | undefined;
 }
 export type UploadFileResponseFile = RevokePublicURLResponseFile;
 export interface UploadFileResponse {

@@ -91,11 +91,11 @@ export interface GetLoadBalancerTypeResponse {
 }
 export interface ListLoadBalancerTypesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
 export type ListLoadBalancerTypesResponseLoadBalancerTypesItemDeprecation =

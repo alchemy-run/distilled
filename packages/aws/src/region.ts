@@ -6,15 +6,14 @@
  * {@link ResolvedCredentials.region} is where the region normally comes from
  * and it is never absent.
  *
- * {@link Region} is the OVERRIDE on top of that: an optional service that
- * generated operations do NOT list in their requirements. The protocol reads
- * it with `Effect.serviceOption` and uses the credentials' region when
- * nothing provides it, so a caller who already said "authenticate with the
- * `dev` profile" doesn't have to repeat which region `dev` uses, but a caller
- * who wants one call in another region can still say so.
+ * Two overrides sit on top of that: the {@link Region} layer for every call
+ * in a scope (`Region.of("us-west-2")`), and the `region` member every
+ * operation input accepts for one call. A caller who already said
+ * "authenticate with the `dev` profile" doesn't have to repeat which region
+ * `dev` uses, but a caller who wants other calls in another region can say so.
  *
- * The `Region` service and `RegionName` come from `@distilled.cloud/s3`;
- * this module adds the environment and the helpers.
+ * `Region`, `RegionName`, `RegionInput` and `of` come from
+ * `@distilled.cloud/s3`; this module adds the environment.
  */
 import * as Config from "@distilled.cloud/core/config";
 import { Region, type RegionName } from "@distilled.cloud/s3/Region";
@@ -70,6 +69,3 @@ export const fromEnv = () =>
       ),
     ),
   );
-
-/** Override the region for a scope, e.g. `Region.of("us-west-2")`. */
-export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));

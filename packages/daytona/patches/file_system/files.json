@@ -1,0 +1,27 @@
+{
+  "description": "Files travel as raw bytes. Toolbox's spec is Swagger 2.0: POST /files/upload-v2 takes the file as a formData part (or, per its description, a raw application/octet-stream body), which the converter drops, so uploadFile had no content member; GET /files/download returns `type: file`, which the converter types as a JSON Document. Send the upload as the raw body and decode the download as bytes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.file_system#UploadFileRequest/members/body",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "File contents, sent verbatim as the request body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.file_system#UploadFile/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.file_system#DownloadFileResponse/members/body/target",
+      "value": "smithy.api#Blob"
+    }
+  ]
+}

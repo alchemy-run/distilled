@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -391,7 +392,7 @@ export interface CancelMessageMoveTaskRequest {
   TaskHandle: string;
 }
 export interface CancelMessageMoveTaskResult {
-  ApproximateNumberOfMessagesMoved?: number;
+  ApproximateNumberOfMessagesMoved?: number | undefined;
 }
 export interface ChangeMessageVisibilityRequest {
   QueueUrl: string;
@@ -402,7 +403,7 @@ export interface ChangeMessageVisibilityResponse {}
 export interface ChangeMessageVisibilityBatchRequestEntry {
   Id: string;
   ReceiptHandle: string;
-  VisibilityTimeout?: number;
+  VisibilityTimeout?: number | undefined;
 }
 export type ChangeMessageVisibilityBatchRequestEntryList =
   ChangeMessageVisibilityBatchRequestEntry[];
@@ -418,12 +419,12 @@ export interface BatchResultErrorEntry {
   Id: string;
   SenderFault: boolean;
   Code: string;
-  Message?: string;
+  Message?: string | undefined;
 }
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export interface ChangeMessageVisibilityBatchResult {
-  Successful?: ChangeMessageVisibilityBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: ChangeMessageVisibilityBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export type QueueAttributeName =
   | "All"
@@ -449,17 +450,17 @@ export type QueueAttributeName =
   | "RedriveAllowPolicy"
   | "SqsManagedSseEnabled"
   | (string & {});
-export type QueueAttributeMap = { [key in QueueAttributeName]?: string };
+export type QueueAttributeMap = { [key in QueueAttributeName]?: string | undefined };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateQueueRequest {
   QueueName: string;
-  Attributes?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQueueResult {
-  QueueUrl?: string;
+  QueueUrl?: string | undefined;
 }
 export interface DeleteMessageRequest {
   QueueUrl: string;
@@ -480,8 +481,8 @@ export interface DeleteMessageBatchResultEntry {
 }
 export type DeleteMessageBatchResultEntryList = DeleteMessageBatchResultEntry[];
 export interface DeleteMessageBatchResult {
-  Successful?: DeleteMessageBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: DeleteMessageBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export interface DeleteQueueRequest {
   QueueUrl: string;
@@ -490,63 +491,63 @@ export interface DeleteQueueResponse {}
 export type AttributeNameList = QueueAttributeName[];
 export interface GetQueueAttributesRequest {
   QueueUrl: string;
-  AttributeNames?: QueueAttributeName[];
+  AttributeNames?: QueueAttributeName[] | undefined;
 }
 export interface GetQueueAttributesResult {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetQueueUrlRequest {
   QueueName: string;
-  QueueOwnerAWSAccountId?: string;
+  QueueOwnerAWSAccountId?: string | undefined;
 }
 export interface GetQueueUrlResult {
-  QueueUrl?: string;
+  QueueUrl?: string | undefined;
 }
 export type Token = string;
 export type BoxedInteger = number;
 export interface ListDeadLetterSourceQueuesRequest {
   QueueUrl: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QueueUrlList = string[];
 export interface ListDeadLetterSourceQueuesResult {
   queueUrls: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMessageMoveTasksRequest {
   SourceArn: string;
-  MaxResults?: number;
+  MaxResults?: number | undefined;
 }
 export interface ListMessageMoveTasksResultEntry {
-  TaskHandle?: string;
-  Status?: string;
-  SourceArn?: string;
-  DestinationArn?: string;
-  MaxNumberOfMessagesPerSecond?: number;
-  ApproximateNumberOfMessagesMoved?: number;
-  ApproximateNumberOfMessagesToMove?: number;
-  FailureReason?: string;
-  StartedTimestamp?: number;
+  TaskHandle?: string | undefined;
+  Status?: string | undefined;
+  SourceArn?: string | undefined;
+  DestinationArn?: string | undefined;
+  MaxNumberOfMessagesPerSecond?: number | undefined;
+  ApproximateNumberOfMessagesMoved?: number | undefined;
+  ApproximateNumberOfMessagesToMove?: number | undefined;
+  FailureReason?: string | undefined;
+  StartedTimestamp?: number | undefined;
 }
 export type ListMessageMoveTasksResultEntryList = ListMessageMoveTasksResultEntry[];
 export interface ListMessageMoveTasksResult {
-  Results?: ListMessageMoveTasksResultEntry[];
+  Results?: ListMessageMoveTasksResultEntry[] | undefined;
 }
 export interface ListQueuesRequest {
-  QueueNamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  QueueNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListQueuesResult {
-  QueueUrls?: string[];
-  NextToken?: string;
+  QueueUrls?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQueueTagsRequest {
   QueueUrl: string;
 }
 export interface ListQueueTagsResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PurgeQueueRequest {
   QueueUrl: string;
@@ -569,38 +570,40 @@ export type MessageAttributeName = string;
 export type MessageAttributeNameList = string[];
 export interface ReceiveMessageRequest {
   QueueUrl: string;
-  AttributeNames?: QueueAttributeName[];
-  MessageSystemAttributeNames?: MessageSystemAttributeName[];
-  MessageAttributeNames?: string[];
-  MaxNumberOfMessages?: number;
-  VisibilityTimeout?: number;
-  WaitTimeSeconds?: number;
-  ReceiveRequestAttemptId?: string;
+  AttributeNames?: QueueAttributeName[] | undefined;
+  MessageSystemAttributeNames?: MessageSystemAttributeName[] | undefined;
+  MessageAttributeNames?: string[] | undefined;
+  MaxNumberOfMessages?: number | undefined;
+  VisibilityTimeout?: number | undefined;
+  WaitTimeSeconds?: number | undefined;
+  ReceiveRequestAttemptId?: string | undefined;
 }
-export type MessageSystemAttributeMap = { [key in MessageSystemAttributeName]?: string };
+export type MessageSystemAttributeMap = {
+  [key in MessageSystemAttributeName]?: string | undefined;
+};
 export type Binary = Uint8Array;
 export type StringList = string[];
 export type BinaryList = Uint8Array[];
 export interface MessageAttributeValue {
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
-  StringListValues?: string[];
-  BinaryListValues?: Uint8Array[];
+  StringValue?: string | undefined;
+  BinaryValue?: Uint8Array | undefined;
+  StringListValues?: string[] | undefined;
+  BinaryListValues?: Uint8Array[] | undefined;
   DataType: string;
 }
 export type MessageBodyAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export interface Message {
-  MessageId?: string;
-  ReceiptHandle?: string;
-  MD5OfBody?: string;
-  Body?: string;
-  Attributes?: { [key: string]: string | undefined };
-  MD5OfMessageAttributes?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
+  MessageId?: string | undefined;
+  ReceiptHandle?: string | undefined;
+  MD5OfBody?: string | undefined;
+  Body?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  MD5OfMessageAttributes?: string | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
 }
 export type MessageList = Message[];
 export interface ReceiveMessageResult {
-  Messages?: Message[];
+  Messages?: Message[] | undefined;
 }
 export interface RemovePermissionRequest {
   QueueUrl: string;
@@ -609,39 +612,39 @@ export interface RemovePermissionRequest {
 export interface RemovePermissionResponse {}
 export type MessageSystemAttributeNameForSends = "AWSTraceHeader" | (string & {});
 export interface MessageSystemAttributeValue {
-  StringValue?: string;
-  BinaryValue?: Uint8Array;
-  StringListValues?: string[];
-  BinaryListValues?: Uint8Array[];
+  StringValue?: string | undefined;
+  BinaryValue?: Uint8Array | undefined;
+  StringListValues?: string[] | undefined;
+  BinaryListValues?: Uint8Array[] | undefined;
   DataType: string;
 }
 export type MessageBodySystemAttributeMap = {
-  [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue;
+  [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue | undefined;
 };
 export interface SendMessageRequest {
   QueueUrl: string;
   MessageBody: string;
-  DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  DelaySeconds?: number | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export interface SendMessageResult {
-  MD5OfMessageBody?: string;
-  MD5OfMessageAttributes?: string;
-  MD5OfMessageSystemAttributes?: string;
-  MessageId?: string;
-  SequenceNumber?: string;
+  MD5OfMessageBody?: string | undefined;
+  MD5OfMessageAttributes?: string | undefined;
+  MD5OfMessageSystemAttributes?: string | undefined;
+  MessageId?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export interface SendMessageBatchRequestEntry {
   Id: string;
   MessageBody: string;
-  DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined };
-  MessageDeduplicationId?: string;
-  MessageGroupId?: string;
+  DelaySeconds?: number | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue | undefined } | undefined;
+  MessageDeduplicationId?: string | undefined;
+  MessageGroupId?: string | undefined;
 }
 export type SendMessageBatchRequestEntryList = SendMessageBatchRequestEntry[];
 export interface SendMessageBatchRequest {
@@ -652,14 +655,14 @@ export interface SendMessageBatchResultEntry {
   Id: string;
   MessageId: string;
   MD5OfMessageBody: string;
-  MD5OfMessageAttributes?: string;
-  MD5OfMessageSystemAttributes?: string;
-  SequenceNumber?: string;
+  MD5OfMessageAttributes?: string | undefined;
+  MD5OfMessageSystemAttributes?: string | undefined;
+  SequenceNumber?: string | undefined;
 }
 export type SendMessageBatchResultEntryList = SendMessageBatchResultEntry[];
 export interface SendMessageBatchResult {
-  Successful?: SendMessageBatchResultEntry[];
-  Failed?: BatchResultErrorEntry[];
+  Successful?: SendMessageBatchResultEntry[] | undefined;
+  Failed?: BatchResultErrorEntry[] | undefined;
 }
 export interface SetQueueAttributesRequest {
   QueueUrl: string;
@@ -668,11 +671,11 @@ export interface SetQueueAttributesRequest {
 export interface SetQueueAttributesResponse {}
 export interface StartMessageMoveTaskRequest {
   SourceArn: string;
-  DestinationArn?: string;
-  MaxNumberOfMessagesPerSecond?: number;
+  DestinationArn?: string | undefined;
+  MaxNumberOfMessagesPerSecond?: number | undefined;
 }
 export interface StartMessageMoveTaskResult {
-  TaskHandle?: string;
+  TaskHandle?: string | undefined;
 }
 export interface TagQueueRequest {
   QueueUrl: string;
@@ -722,7 +725,7 @@ export type AddPermissionError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const addPermission: API.OperationMethod<
-  AddPermissionRequest,
+  AddPermissionRequest & RegionInput,
   AddPermissionResponse,
   AddPermissionError,
   Credentials | HttpClient.HttpClient
@@ -776,7 +779,7 @@ export type CancelMessageMoveTaskError =
  * time.
  */
 export const cancelMessageMoveTask: API.OperationMethod<
-  CancelMessageMoveTaskRequest,
+  CancelMessageMoveTaskRequest & RegionInput,
   CancelMessageMoveTaskResult,
   CancelMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +857,7 @@ export type ChangeMessageVisibilityError =
  * received.
  */
 export const changeMessageVisibility: API.OperationMethod<
-  ChangeMessageVisibilityRequest,
+  ChangeMessageVisibilityRequest & RegionInput,
   ChangeMessageVisibilityResponse,
   ChangeMessageVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -909,7 +912,7 @@ export type ChangeMessageVisibilityBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const changeMessageVisibilityBatch: API.OperationMethod<
-  ChangeMessageVisibilityBatchRequest,
+  ChangeMessageVisibilityBatchRequest & RegionInput,
   ChangeMessageVisibilityBatchResult,
   ChangeMessageVisibilityBatchError,
   Credentials | HttpClient.HttpClient
@@ -1004,7 +1007,7 @@ export type CreateQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResult,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
@@ -1063,7 +1066,7 @@ export type DeleteMessageError =
  * receiving a message more than once does not cause issues.
  */
 export const deleteMessage: API.OperationMethod<
-  DeleteMessageRequest,
+  DeleteMessageRequest & RegionInput,
   DeleteMessageResponse,
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
@@ -1116,7 +1119,7 @@ export type DeleteMessageBatchError =
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
 export const deleteMessageBatch: API.OperationMethod<
-  DeleteMessageBatchRequest,
+  DeleteMessageBatchRequest & RegionInput,
   DeleteMessageBatchResult,
   DeleteMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1183,7 +1186,7 @@ export type DeleteQueueError =
  * The delete operation uses the HTTP `GET` verb.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1229,7 @@ export type GetQueueAttributesError =
  * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
  */
 export const getQueueAttributes: API.OperationMethod<
-  GetQueueAttributesRequest,
+  GetQueueAttributesRequest & RegionInput,
   GetQueueAttributesResult,
   GetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1278,7 +1281,7 @@ export type GetQueueUrlError =
  * Developer Guide.
  */
 export const getQueueUrl: API.OperationMethod<
-  GetQueueUrlRequest,
+  GetQueueUrlRequest & RegionInput,
   GetQueueUrlResult,
   GetQueueUrlError,
   Credentials | HttpClient.HttpClient
@@ -1322,7 +1325,7 @@ export type ListDeadLetterSourceQueuesError =
  * Guide.
  */
 export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
-  ListDeadLetterSourceQueuesRequest,
+  ListDeadLetterSourceQueuesRequest & RegionInput,
   ListDeadLetterSourceQueuesResult,
   ListDeadLetterSourceQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1380,7 +1383,7 @@ export type ListMessageMoveTasksError =
  * time.
  */
 export const listMessageMoveTasks: API.OperationMethod<
-  ListMessageMoveTasksRequest,
+  ListMessageMoveTasksRequest & RegionInput,
   ListMessageMoveTasksResult,
   ListMessageMoveTasksError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1431,7 @@ export type ListQueuesError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResult,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -1467,7 +1470,7 @@ export type ListQueueTagsError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const listQueueTags: API.OperationMethod<
-  ListQueueTagsRequest,
+  ListQueueTagsRequest & RegionInput,
   ListQueueTagsResult,
   ListQueueTagsError,
   Credentials | HttpClient.HttpClient
@@ -1522,7 +1525,7 @@ export type PurgeQueueError =
  * might be deleted while the queue is being purged.
  */
 export const purgeQueue: API.OperationMethod<
-  PurgeQueueRequest,
+  PurgeQueueRequest & RegionInput,
   PurgeQueueResponse,
   PurgeQueueError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1613,7 @@ export type ReceiveMessageError =
  * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
  */
 export const receiveMessage: API.OperationMethod<
-  ReceiveMessageRequest,
+  ReceiveMessageRequest & RegionInput,
   ReceiveMessageResult,
   ReceiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1684,7 @@ export type RemovePermissionError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1738,7 +1741,7 @@ export type SendMessageError =
  * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
  */
 export const sendMessage: API.OperationMethod<
-  SendMessageRequest,
+  SendMessageRequest & RegionInput,
   SendMessageResult,
   SendMessageError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1832,7 @@ export type SendMessageBatchError =
  * the default value for the queue.
  */
 export const sendMessageBatch: API.OperationMethod<
-  SendMessageBatchRequest,
+  SendMessageBatchRequest & RegionInput,
   SendMessageBatchResult,
   SendMessageBatchError,
   Credentials | HttpClient.HttpClient
@@ -1910,7 +1913,7 @@ export type SetQueueAttributesError =
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
 export const setQueueAttributes: API.OperationMethod<
-  SetQueueAttributesRequest,
+  SetQueueAttributesRequest & RegionInput,
   SetQueueAttributesResponse,
   SetQueueAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1974,7 +1977,7 @@ export type StartMessageMoveTaskError =
  * time.
  */
 export const startMessageMoveTask: API.OperationMethod<
-  StartMessageMoveTaskRequest,
+  StartMessageMoveTaskRequest & RegionInput,
   StartMessageMoveTaskResult,
   StartMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
@@ -2028,7 +2031,7 @@ export type TagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const tagQueue: API.OperationMethod<
-  TagQueueRequest,
+  TagQueueRequest & RegionInput,
   TagQueueResponse,
   TagQueueError,
   Credentials | HttpClient.HttpClient
@@ -2073,7 +2076,7 @@ export type UntagQueueError =
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
 export const untagQueue: API.OperationMethod<
-  UntagQueueRequest,
+  UntagQueueRequest & RegionInput,
   UntagQueueResponse,
   UntagQueueError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -135,8 +136,8 @@ export type CollectionIds = string[];
 export type CollectionName = string;
 export type CollectionNames = string[];
 export interface BatchGetCollectionRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
 export type CollectionStatus = string;
 export type CollectionType = string;
@@ -147,48 +148,48 @@ export interface VectorOptions {
   ServerlessVectorAcceleration: string;
 }
 export interface FipsEndpoints {
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
 }
 export type CollectionGroupName = string;
 export interface CollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
-  fipsEndpoints?: FipsEndpoints;
-  failureCode?: string;
-  failureMessage?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
+  fipsEndpoints?: FipsEndpoints | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export type CollectionDetails = CollectionDetail[];
 export interface CollectionErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type CollectionErrorDetails = CollectionErrorDetail[];
 export interface BatchGetCollectionResponse {
-  collectionDetails?: CollectionDetail[];
-  collectionErrorDetails?: CollectionErrorDetail[];
+  collectionDetails?: CollectionDetail[] | undefined;
+  collectionErrorDetails?: CollectionErrorDetail[] | undefined;
 }
 export type CollectionGroupId = string;
 export type CollectionGroupIds = string[];
 export type CollectionGroupNames = string[];
 export interface BatchGetCollectionGroupRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -202,45 +203,45 @@ export type CollectionGroupMaxSearchCapacityValue = number;
 export type CollectionGroupMinIndexingCapacityValue = number;
 export type CollectionGroupMinSearchCapacityValue = number;
 export interface CollectionGroupCapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
-  minIndexingCapacityInOCU?: number;
-  minSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
+  minIndexingCapacityInOCU?: number | undefined;
+  minSearchCapacityInOCU?: number | undefined;
 }
 export type AutoscalingStatus = string;
 export interface CapacityDetails {
-  capacityInOcu?: number;
-  autoscalingStatus?: string;
+  capacityInOcu?: number | undefined;
+  autoscalingStatus?: string | undefined;
 }
 export interface CurrentCapacity {
-  search?: CapacityDetails;
-  indexing?: CapacityDetails;
+  search?: CapacityDetails | undefined;
+  indexing?: CapacityDetails | undefined;
 }
 export type ServerlessGeneration = string;
 export interface CollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  currentCapacity?: CurrentCapacity;
-  numberOfCollections?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  currentCapacity?: CurrentCapacity | undefined;
+  numberOfCollections?: number | undefined;
+  generation?: string | undefined;
 }
 export type CollectionGroupDetails = CollectionGroupDetail[];
 export interface CollectionGroupErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type CollectionGroupErrorDetails = CollectionGroupErrorDetail[];
 export interface BatchGetCollectionGroupResponse {
-  collectionGroupDetails?: CollectionGroupDetail[];
-  collectionGroupErrorDetails?: CollectionGroupErrorDetail[];
+  collectionGroupDetails?: CollectionGroupDetail[] | undefined;
+  collectionGroupErrorDetails?: CollectionGroupErrorDetail[] | undefined;
 }
 export type LifecyclePolicyType = string;
 export type ResourceName = string;
@@ -256,24 +257,24 @@ export type Resource = string;
 export type PolicyName = string;
 export type ResourceType = string;
 export interface EffectiveLifecyclePolicyDetail {
-  type?: string;
-  resource?: string;
-  policyName?: string;
-  resourceType?: string;
-  retentionPeriod?: string;
-  noMinRetentionPeriod?: boolean;
+  type?: string | undefined;
+  resource?: string | undefined;
+  policyName?: string | undefined;
+  resourceType?: string | undefined;
+  retentionPeriod?: string | undefined;
+  noMinRetentionPeriod?: boolean | undefined;
 }
 export type EffectiveLifecyclePolicyDetails = EffectiveLifecyclePolicyDetail[];
 export interface EffectiveLifecyclePolicyErrorDetail {
-  type?: string;
-  resource?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  resource?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type EffectiveLifecyclePolicyErrorDetails = EffectiveLifecyclePolicyErrorDetail[];
 export interface BatchGetEffectiveLifecyclePolicyResponse {
-  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[];
-  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[];
+  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[] | undefined;
+  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[] | undefined;
 }
 export interface LifecyclePolicyIdentifier {
   type: string;
@@ -286,25 +287,25 @@ export interface BatchGetLifecyclePolicyRequest {
 export type PolicyVersion = string;
 export type PolicyDescription = string;
 export interface LifecyclePolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
 export interface LifecyclePolicyErrorDetail {
-  type?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type LifecyclePolicyErrorDetails = LifecyclePolicyErrorDetail[];
 export interface BatchGetLifecyclePolicyResponse {
-  lifecyclePolicyDetails?: LifecyclePolicyDetail[];
-  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[];
+  lifecyclePolicyDetails?: LifecyclePolicyDetail[] | undefined;
+  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[] | undefined;
 }
 export type VpcEndpointId = string;
 export type VpcEndpointIds = string[];
@@ -319,26 +320,26 @@ export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export type VpcEndpointStatus = string;
 export interface VpcEndpointDetail {
-  id?: string;
-  name?: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  status?: string;
-  createdDate?: number;
-  failureCode?: string;
-  failureMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  status?: string | undefined;
+  createdDate?: number | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export type VpcEndpointDetails = VpcEndpointDetail[];
 export interface VpcEndpointErrorDetail {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type VpcEndpointErrorDetails = VpcEndpointErrorDetail[];
 export interface BatchGetVpcEndpointResponse {
-  vpcEndpointDetails?: VpcEndpointDetail[];
-  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[];
+  vpcEndpointDetails?: VpcEndpointDetail[] | undefined;
+  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[] | undefined;
 }
 export type AccessPolicyType = string;
 export type PolicyDocument = string;
@@ -346,96 +347,96 @@ export type ClientToken = string;
 export interface CreateAccessPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AccessPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface EncryptionConfig {
-  aWSOwnedKey?: boolean;
-  kmsKeyArn?: string;
+  aWSOwnedKey?: boolean | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface CreateCollectionRequest {
   name: string;
-  type?: string;
-  description?: string;
-  tags?: Tag[];
-  standbyReplicas?: string;
-  vectorOptions?: VectorOptions;
-  collectionGroupName?: string;
-  encryptionConfig?: EncryptionConfig;
-  deletionProtection?: string;
-  clientToken?: string;
+  type?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  standbyReplicas?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  collectionGroupName?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
+  deletionProtection?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionGroupName?: string | undefined;
 }
 export interface CreateCollectionResponse {
-  createCollectionDetail?: CreateCollectionDetail;
+  createCollectionDetail?: CreateCollectionDetail | undefined;
 }
 export interface CreateCollectionGroupRequest {
   name: string;
   standbyReplicas: string;
-  description?: string;
-  tags?: Tag[];
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
 export interface CreateCollectionGroupResponse {
-  createCollectionGroupDetail?: CreateCollectionGroupDetail;
+  createCollectionGroupDetail?: CreateCollectionGroupDetail | undefined;
 }
 export type IndexName = string;
 export type IndexSchema = unknown;
 export interface CreateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface CreateIndexResponse {}
 export interface CreateLifecyclePolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
 export type SecurityConfigType = string;
 export type ConfigName = string;
@@ -446,115 +447,115 @@ export type SamlGroupAttribute = string;
 export type OpenSearchServerlessEntityId = string;
 export interface SamlConfigOptions {
   metadata: string;
-  userAttribute?: string;
-  groupAttribute?: string;
-  openSearchServerlessEntityId?: string;
-  sessionTimeout?: number;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
+  openSearchServerlessEntityId?: string | undefined;
+  sessionTimeout?: number | undefined;
 }
 export type IamIdentityCenterInstanceArn = string;
 export type IamIdentityCenterUserAttribute = string;
 export type IamIdentityCenterGroupAttribute = string;
 export interface CreateIamIdentityCenterConfigOptions {
   instanceArn: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export type IamFederationGroupAttribute = string;
 export type IamFederationUserAttribute = string;
 export interface IamFederationConfigOptions {
-  groupAttribute?: string;
-  userAttribute?: string;
+  groupAttribute?: string | undefined;
+  userAttribute?: string | undefined;
 }
 export interface CreateSecurityConfigRequest {
   type: string;
   name: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
 export type SecurityConfigId = string;
 export type IamIdentityCenterApplicationArn = string;
 export interface IamIdentityCenterConfigOptions {
-  instanceArn?: string;
-  applicationArn?: string;
-  applicationName?: string;
-  applicationDescription?: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  instanceArn?: string | undefined;
+  applicationArn?: string | undefined;
+  applicationName?: string | undefined;
+  applicationDescription?: string | undefined;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export interface SecurityConfigDetail {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export type SecurityPolicyType = string;
 export interface CreateSecurityPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface SecurityPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export interface CreateVpcEndpointRequest {
   name: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  clientToken?: string;
+  securityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface CreateVpcEndpointResponse {
-  createVpcEndpointDetail?: CreateVpcEndpointDetail;
+  createVpcEndpointDetail?: CreateVpcEndpointDetail | undefined;
 }
 export interface DeleteAccessPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAccessPolicyResponse {}
 export interface DeleteCollectionRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  deletionProtection?: string | undefined;
 }
 export interface DeleteCollectionResponse {
-  deleteCollectionDetail?: DeleteCollectionDetail;
+  deleteCollectionDetail?: DeleteCollectionDetail | undefined;
 }
 export interface DeleteCollectionGroupRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteCollectionGroupResponse {}
 export interface DeleteIndexRequest {
@@ -565,236 +566,236 @@ export interface DeleteIndexResponse {}
 export interface DeleteLifecyclePolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteLifecyclePolicyResponse {}
 export interface DeleteSecurityConfigRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteSecurityConfigResponse {}
 export interface DeleteSecurityPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteSecurityPolicyResponse {}
 export interface DeleteVpcEndpointRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteVpcEndpointResponse {
-  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail;
+  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail | undefined;
 }
 export interface GetAccessPolicyRequest {
   type: string;
   name: string;
 }
 export interface GetAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface GetAccountSettingsRequest {}
 export type IndexingCapacityValue = number;
 export type SearchCapacityValue = number;
 export interface CapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
 }
 export interface AccountSettingsDetail {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
 export interface GetAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
 export interface GetIndexRequest {
   id: string;
   indexName: string;
 }
 export interface GetIndexResponse {
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface GetPoliciesStatsRequest {}
 export interface AccessPolicyStats {
-  DataPolicyCount?: number;
+  DataPolicyCount?: number | undefined;
 }
 export interface SecurityPolicyStats {
-  EncryptionPolicyCount?: number;
-  NetworkPolicyCount?: number;
+  EncryptionPolicyCount?: number | undefined;
+  NetworkPolicyCount?: number | undefined;
 }
 export interface SecurityConfigStats {
-  SamlConfigCount?: number;
+  SamlConfigCount?: number | undefined;
 }
 export interface LifecyclePolicyStats {
-  RetentionPolicyCount?: number;
+  RetentionPolicyCount?: number | undefined;
 }
 export interface GetPoliciesStatsResponse {
-  AccessPolicyStats?: AccessPolicyStats;
-  SecurityPolicyStats?: SecurityPolicyStats;
-  SecurityConfigStats?: SecurityConfigStats;
-  LifecyclePolicyStats?: LifecyclePolicyStats;
-  TotalPolicyCount?: number;
+  AccessPolicyStats?: AccessPolicyStats | undefined;
+  SecurityPolicyStats?: SecurityPolicyStats | undefined;
+  SecurityConfigStats?: SecurityConfigStats | undefined;
+  LifecyclePolicyStats?: LifecyclePolicyStats | undefined;
+  TotalPolicyCount?: number | undefined;
 }
 export interface GetSecurityConfigRequest {
   id: string;
 }
 export interface GetSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export interface GetSecurityPolicyRequest {
   type: string;
   name: string;
 }
 export interface GetSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export type ResourceFilter = string[];
 export interface ListAccessPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccessPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type AccessPolicySummaries = AccessPolicySummary[];
 export interface ListAccessPoliciesResponse {
-  accessPolicySummaries?: AccessPolicySummary[];
-  nextToken?: string;
+  accessPolicySummaries?: AccessPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCollectionGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollectionGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  numberOfCollections?: number;
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  numberOfCollections?: number | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
 export type CollectionGroupSummaries = CollectionGroupSummary[];
 export interface ListCollectionGroupsResponse {
-  collectionGroupSummaries?: CollectionGroupSummary[];
-  nextToken?: string;
+  collectionGroupSummaries?: CollectionGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface CollectionFilters {
-  name?: string;
-  status?: string;
-  collectionGroupName?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export interface ListCollectionsRequest {
-  collectionFilters?: CollectionFilters;
-  nextToken?: string;
-  maxResults?: number;
+  collectionFilters?: CollectionFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollectionSummary {
-  id?: string;
-  name?: string;
-  status?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export type CollectionSummaries = CollectionSummary[];
 export interface ListCollectionsResponse {
-  collectionSummaries?: CollectionSummary[];
-  nextToken?: string;
+  collectionSummaries?: CollectionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LifecycleResource = string;
 export type LifecycleResourceFilter = string[];
 export interface ListLifecyclePoliciesRequest {
   type: string;
-  resources?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resources?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LifecyclePolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type LifecyclePolicySummaries = LifecyclePolicySummary[];
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaries?: LifecyclePolicySummary[];
-  nextToken?: string;
+  lifecyclePolicySummaries?: LifecyclePolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityConfigsRequest {
   type: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityConfigSummary {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type SecurityConfigSummaries = SecurityConfigSummary[];
 export interface ListSecurityConfigsResponse {
-  securityConfigSummaries?: SecurityConfigSummary[];
-  nextToken?: string;
+  securityConfigSummaries?: SecurityConfigSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type SecurityPolicySummaries = SecurityPolicySummary[];
 export interface ListSecurityPoliciesResponse {
-  securityPolicySummaries?: SecurityPolicySummary[];
-  nextToken?: string;
+  securityPolicySummaries?: SecurityPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface VpcEndpointFilters {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListVpcEndpointsRequest {
-  vpcEndpointFilters?: VpcEndpointFilters;
-  nextToken?: string;
-  maxResults?: number;
+  vpcEndpointFilters?: VpcEndpointFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface VpcEndpointSummary {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type VpcEndpointSummaries = VpcEndpointSummary[];
 export interface ListVpcEndpointsResponse {
-  vpcEndpointSummaries?: VpcEndpointSummary[];
-  nextToken?: string;
+  vpcEndpointSummaries?: VpcEndpointSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -811,129 +812,129 @@ export interface UpdateAccessPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface UpdateAccountSettingsRequest {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
 export interface UpdateAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
 export interface UpdateCollectionRequest {
   id: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  deletionProtection?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  deletionProtection?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  arn?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  arn?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  deletionProtection?: string | undefined;
 }
 export interface UpdateCollectionResponse {
-  updateCollectionDetail?: UpdateCollectionDetail;
+  updateCollectionDetail?: UpdateCollectionDetail | undefined;
 }
 export interface UpdateCollectionGroupRequest {
   id: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  clientToken?: string;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  generation?: string | undefined;
 }
 export interface UpdateCollectionGroupResponse {
-  updateCollectionGroupDetail?: UpdateCollectionGroupDetail;
+  updateCollectionGroupDetail?: UpdateCollectionGroupDetail | undefined;
 }
 export interface UpdateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface UpdateIndexResponse {}
 export interface UpdateLifecyclePolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
 export interface UpdateIamIdentityCenterConfigOptions {
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export interface UpdateSecurityConfigRequest {
   id: string;
   configVersion: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export interface UpdateSecurityPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export interface UpdateVpcEndpointRequest {
   id: string;
-  addSubnetIds?: string[];
-  removeSubnetIds?: string[];
-  addSecurityGroupIds?: string[];
-  removeSecurityGroupIds?: string[];
-  clientToken?: string;
+  addSubnetIds?: string[] | undefined;
+  removeSubnetIds?: string[] | undefined;
+  addSecurityGroupIds?: string[] | undefined;
+  removeSecurityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface UpdateVpcEndpointResponse {
-  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail;
+  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail | undefined;
 }
 export type BatchGetCollectionError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollection: API.OperationMethod<
-  BatchGetCollectionRequest,
+  BatchGetCollectionRequest & RegionInput,
   BatchGetCollectionResponse,
   BatchGetCollectionError,
   Credentials | HttpClient.HttpClient
@@ -956,7 +957,7 @@ export type BatchGetCollectionGroupError =
  * Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollectionGroup: API.OperationMethod<
-  BatchGetCollectionGroupRequest,
+  BatchGetCollectionGroupRequest & RegionInput,
   BatchGetCollectionGroupResponse,
   BatchGetCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type BatchGetEffectiveLifecyclePolicyError =
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
-  BatchGetEffectiveLifecyclePolicyRequest,
+  BatchGetEffectiveLifecyclePolicyRequest & RegionInput,
   BatchGetEffectiveLifecyclePolicyResponse,
   BatchGetEffectiveLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1002,7 +1003,7 @@ export type BatchGetLifecyclePolicyError =
  * Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetLifecyclePolicy: API.OperationMethod<
-  BatchGetLifecyclePolicyRequest,
+  BatchGetLifecyclePolicyRequest & RegionInput,
   BatchGetLifecyclePolicyResponse,
   BatchGetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type BatchGetVpcEndpointError = InternalServerException | ValidationExcep
  * Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const batchGetVpcEndpoint: API.OperationMethod<
-  BatchGetVpcEndpointRequest,
+  BatchGetVpcEndpointRequest & RegionInput,
   BatchGetVpcEndpointResponse,
   BatchGetVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1048,7 @@ export type CreateAccessPolicyError =
  * Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const createAccessPolicy: API.OperationMethod<
-  CreateAccessPolicyRequest,
+  CreateAccessPolicyRequest & RegionInput,
   CreateAccessPolicyResponse,
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type CreateCollectionError =
  * Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const createCollection: API.OperationMethod<
-  CreateCollectionRequest,
+  CreateCollectionRequest & RegionInput,
   CreateCollectionResponse,
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type CreateCollectionGroupError =
  * For more information, see Managing collection groups.
  */
 export const createCollectionGroup: API.OperationMethod<
-  CreateCollectionGroupRequest,
+  CreateCollectionGroupRequest & RegionInput,
   CreateCollectionGroupResponse,
   CreateCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type CreateIndexError =
  * Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the *OpenSearch User Guide*.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -1171,7 +1172,7 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type CreateSecurityConfigError =
  * Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const createSecurityConfig: API.OperationMethod<
-  CreateSecurityConfigRequest,
+  CreateSecurityConfigRequest & RegionInput,
   CreateSecurityConfigResponse,
   CreateSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1231,7 +1232,7 @@ export type CreateSecurityPolicyError =
  * Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const createSecurityPolicy: API.OperationMethod<
-  CreateSecurityPolicyRequest,
+  CreateSecurityPolicyRequest & RegionInput,
   CreateSecurityPolicyResponse,
   CreateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1261,7 +1262,7 @@ export type CreateVpcEndpointError =
  * Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type DeleteAccessPolicyError =
  * Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const deleteAccessPolicy: API.OperationMethod<
-  DeleteAccessPolicyRequest,
+  DeleteAccessPolicyRequest & RegionInput,
   DeleteAccessPolicyResponse,
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type DeleteCollectionError =
  * Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollection: API.OperationMethod<
-  DeleteCollectionRequest,
+  DeleteCollectionRequest & RegionInput,
   DeleteCollectionResponse,
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1351,7 +1352,7 @@ export type DeleteCollectionGroupError =
  * Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollectionGroup: API.OperationMethod<
-  DeleteCollectionGroupRequest,
+  DeleteCollectionGroupRequest & RegionInput,
   DeleteCollectionGroupResponse,
   DeleteCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1380,7 +1381,7 @@ export type DeleteIndexError =
  * Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -1405,7 +1406,7 @@ export type DeleteLifecyclePolicyError =
  * Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type DeleteSecurityConfigError =
  * Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const deleteSecurityConfig: API.OperationMethod<
-  DeleteSecurityConfigRequest,
+  DeleteSecurityConfigRequest & RegionInput,
   DeleteSecurityConfigResponse,
   DeleteSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type DeleteSecurityPolicyError =
  * Deletes an OpenSearch Serverless security policy.
  */
 export const deleteSecurityPolicy: API.OperationMethod<
-  DeleteSecurityPolicyRequest,
+  DeleteSecurityPolicyRequest & RegionInput,
   DeleteSecurityPolicyResponse,
   DeleteSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type DeleteVpcEndpointError =
  * Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1524,7 +1525,7 @@ export type GetAccessPolicyError =
  * Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const getAccessPolicy: API.OperationMethod<
-  GetAccessPolicyRequest,
+  GetAccessPolicyRequest & RegionInput,
   GetAccessPolicyResponse,
   GetAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1544,7 +1545,7 @@ export type GetAccountSettingsError = InternalServerException | ValidationExcept
  * Returns account-level settings related to OpenSearch Serverless.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1568,7 +1569,7 @@ export type GetIndexError =
  * Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -1588,7 +1589,7 @@ export type GetPoliciesStatsError = InternalServerException | CommonErrors;
  * Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
  */
 export const getPoliciesStats: API.OperationMethod<
-  GetPoliciesStatsRequest,
+  GetPoliciesStatsRequest & RegionInput,
   GetPoliciesStatsResponse,
   GetPoliciesStatsError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type GetSecurityConfigError =
  * Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const getSecurityConfig: API.OperationMethod<
-  GetSecurityConfigRequest,
+  GetSecurityConfigRequest & RegionInput,
   GetSecurityConfigResponse,
   GetSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -1636,7 +1637,7 @@ export type GetSecurityPolicyError =
  * Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const getSecurityPolicy: API.OperationMethod<
-  GetSecurityPolicyRequest,
+  GetSecurityPolicyRequest & RegionInput,
   GetSecurityPolicyResponse,
   GetSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type ListAccessPoliciesError = InternalServerException | ValidationExcept
  * Returns information about a list of OpenSearch Serverless access policies.
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1681,7 +1682,7 @@ export type ListCollectionGroupsError =
  * Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const listCollectionGroups: API.PaginatedOperationMethod<
-  ListCollectionGroupsRequest,
+  ListCollectionGroupsRequest & RegionInput,
   ListCollectionGroupsResponse,
   ListCollectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1705,7 +1706,7 @@ export type ListCollectionsError = InternalServerException | ValidationException
  * Make sure to include an empty request body {} if you don't include any collection filters in the request.
  */
 export const listCollections: API.PaginatedOperationMethod<
-  ListCollectionsRequest,
+  ListCollectionsRequest & RegionInput,
   ListCollectionsResponse,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1730,7 +1731,7 @@ export type ListLifecyclePoliciesError =
  * Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1752,7 +1753,7 @@ export type ListSecurityConfigsError = InternalServerException | ValidationExcep
  * Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const listSecurityConfigs: API.PaginatedOperationMethod<
-  ListSecurityConfigsRequest,
+  ListSecurityConfigsRequest & RegionInput,
   ListSecurityConfigsResponse,
   ListSecurityConfigsError,
   Credentials | HttpClient.HttpClient,
@@ -1777,7 +1778,7 @@ export type ListSecurityPoliciesError =
  * Returns information about configured OpenSearch Serverless security policies.
  */
 export const listSecurityPolicies: API.PaginatedOperationMethod<
-  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesRequest & RegionInput,
   ListSecurityPoliciesResponse,
   ListSecurityPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1803,7 +1804,7 @@ export type ListTagsForResourceError =
  * Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1823,7 +1824,7 @@ export type ListVpcEndpointsError = InternalServerException | ValidationExceptio
  * Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const listVpcEndpoints: API.PaginatedOperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1851,7 +1852,7 @@ export type TagResourceError =
  * Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1882,7 +1883,7 @@ export type UntagResourceError =
  * Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1912,7 +1913,7 @@ export type UpdateAccessPolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const updateAccessPolicy: API.OperationMethod<
-  UpdateAccessPolicyRequest,
+  UpdateAccessPolicyRequest & RegionInput,
   UpdateAccessPolicyResponse,
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type UpdateAccountSettingsError =
  * Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1965,7 +1966,7 @@ export type UpdateCollectionError =
  * Updates an OpenSearch Serverless collection.
  */
 export const updateCollection: API.OperationMethod<
-  UpdateCollectionRequest,
+  UpdateCollectionRequest & RegionInput,
   UpdateCollectionResponse,
   UpdateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1991,7 @@ export type UpdateCollectionGroupError =
  * Updates the description and capacity limits of a collection group.
  */
 export const updateCollectionGroup: API.OperationMethod<
-  UpdateCollectionGroupRequest,
+  UpdateCollectionGroupRequest & RegionInput,
   UpdateCollectionGroupResponse,
   UpdateCollectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -2019,7 +2020,7 @@ export type UpdateIndexError =
  * Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2045,7 +2046,7 @@ export type UpdateLifecyclePolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2076,7 +2077,7 @@ export type UpdateSecurityConfigError =
  * Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const updateSecurityConfig: API.OperationMethod<
-  UpdateSecurityConfigRequest,
+  UpdateSecurityConfigRequest & RegionInput,
   UpdateSecurityConfigResponse,
   UpdateSecurityConfigError,
   Credentials | HttpClient.HttpClient
@@ -2107,7 +2108,7 @@ export type UpdateSecurityPolicyError =
  * Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const updateSecurityPolicy: API.OperationMethod<
-  UpdateSecurityPolicyRequest,
+  UpdateSecurityPolicyRequest & RegionInput,
   UpdateSecurityPolicyResponse,
   UpdateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2137,7 +2138,7 @@ export type UpdateVpcEndpointError =
  * Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient

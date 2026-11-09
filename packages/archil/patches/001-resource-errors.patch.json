@@ -1,0 +1,996 @@
+{
+  "description": "One tag per Archil error code, named after the code in PascalCase (`sandbox_fork_mounted` -> `SandboxForkMounted`). Each matches the status plus the body's `code`, and carries the body's text as `message`. Codes come from the spec's response examples, plus codes the live API returned that the spec omits (`sandbox_not_ready`, `sandbox_stop_conflict`, `sandbox_not_deletable`, `sandbox_has_forks`, `conflict` on createBranch, and `not_found` on every 404). Categories drive retries: `sandbox_pausing`, `sandbox_stopping` and `sandbox_not_ready` are retryable, `no_capacity` is retryable as throttling, and `not_enabled` declares no httpError so its 503 is not retried as a server error. CreateApiToken's 401 is typed ApiTokenCreationForbidden: Archil only mints API keys from a console session, and answers an API key with a bare 401.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "`not_found`: the disk, branch, sandbox, image, port token or API token named by the request does not exist, or the API key cannot see it. The message names which.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxNameConflict",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_name_conflict`: a sandbox with this name already exists in the account.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_name_conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxForkMounted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_fork_mounted`: the sandbox has a disk mounted; stop it before forking.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_fork_mounted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxForkCheckpoint",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_fork_checkpoint`: the checkpoint to fork from is unavailable.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_fork_checkpoint"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxNotForkable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_not_forkable`: only a running, paused or stopped sandbox can be forked.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_not_forkable"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxPausing",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {},
+          "smithy.api#documentation": "`sandbox_pausing`: the sandbox is still pausing; retry once it is paused.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_pausing"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxStopping",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {},
+          "smithy.api#documentation": "`sandbox_stopping`: the sandbox is still stopping; retry once it is stopped.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_stopping"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxNotReady",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {},
+          "smithy.api#documentation": "`sandbox_not_ready`: the sandbox is still starting; retry once it is running.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_not_ready"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxStartConflict",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_start_conflict`: the sandbox is already starting with a different lifecycle intent.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_start_conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxStopConflict",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_stop_conflict`: the sandbox is already shutting down with a different lifecycle intent.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_stop_conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxMountsWhileActive",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_mounts_while_active`: mounts can only change on a cold start of an inactive sandbox.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_mounts_while_active"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxTerminated",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_terminated`: the sandbox is not accepting requests (it is paused, stopped or gone).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_terminated"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxNotDeletable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_not_deletable`: stop the sandbox before deleting it, unless it has exited or failed.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_not_deletable"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#SandboxHasForks",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`sandbox_has_forks`: delete the sandbox's forks first.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "sandbox_has_forks"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ImageNotReady",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`image_not_ready`: the sandbox image has no finished build; poll it until it is ready.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "image_not_ready"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#NoCapacity",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 503,
+          "smithy.api#retryable": {
+            "throttling": true
+          },
+          "smithy.api#documentation": "`no_capacity`: no sandbox capacity is available; retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 503,
+              "body": {
+                "/code": "no_capacity"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#NotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#documentation": "`not_enabled`: sandboxes are not enabled on this control plane. Not retryable.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 503,
+              "body": {
+                "/code": "not_enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiTokenCreationForbidden",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 401,
+          "smithy.api#documentation": "Archil only creates API keys from a console session; an API key cannot mint another.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "`conflict`: the name is taken (e.g. a branch that already exists on the disk).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#AddDiskUser/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateBranch/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateDisk/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateImage/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NoCapacity"
+        },
+        {
+          "target": "com.archil.api#NotEnabled"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#ImageNotReady"
+        },
+        {
+          "target": "com.archil.api#SandboxNameConflict"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateSandboxConnection/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxTerminated"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateSandboxPortToken/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#CreateShareUrl/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#DeleteApiToken/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#DeleteDisk/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#DeleteSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxNotDeletable"
+        },
+        {
+          "target": "com.archil.api#SandboxHasForks"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#DeleteSandboxPort/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#DeleteSandboxPortToken/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#Exec/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ExecDisk/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ExposeSandboxPort/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ForkSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxNameConflict"
+        },
+        {
+          "target": "com.archil.api#SandboxForkMounted"
+        },
+        {
+          "target": "com.archil.api#SandboxForkCheckpoint"
+        },
+        {
+          "target": "com.archil.api#SandboxNotForkable"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetAllowedIps/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetBranch/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetDisk/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetImage/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#NotEnabled"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetSandboxMount/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetSandboxNetwork/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GetSandboxPortToken/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#GrepDisk/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ListBranches/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ListDelegations/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ListSandboxPortTokens/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ListSandboxPorts/errors",
+      "value": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#PauseSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxNotReady"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#RemoveDiskUser/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#ResumeSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxStartConflict"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#RevokeDelegation/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#SetAllowedIps/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#SetSandboxMount/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#SetSandboxTimeout/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#StartSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxPausing"
+        },
+        {
+          "target": "com.archil.api#SandboxStopping"
+        },
+        {
+          "target": "com.archil.api#SandboxStartConflict"
+        },
+        {
+          "target": "com.archil.api#SandboxMountsWhileActive"
+        },
+        {
+          "target": "com.archil.api#SandboxTerminated"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#StopSandbox/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#SandboxStopConflict"
+        }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.archil.api#UpdateSandboxNetwork/errors",
+      "value": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#Forbidden"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#CreateApiToken/errors/-",
+      "value": {
+        "target": "com.archil.api#ApiTokenCreationForbidden"
+      }
+    }
+  ]
+}

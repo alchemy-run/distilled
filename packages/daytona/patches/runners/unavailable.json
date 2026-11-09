@@ -1,0 +1,40 @@
+{
+  "description": "Daytona Cloud doesn't serve GET /runners to organizations without custom regions: it answers 404 \"Cannot GET /api/runners\" (NestJS's unmatched-route page), observed live 2026-11-04 on v0.229.2. Type it so listing runners there can be told apart from a failure.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.runners#RunnersUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Daytona Cloud doesn't serve runner listing to this organization (HTTP 404 \"Cannot GET /api/runners\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Cannot GET /api/runners"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.runners#ListRunners/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.runners#RunnersUnavailable"
+        }
+      ]
+    }
+  ]
+}

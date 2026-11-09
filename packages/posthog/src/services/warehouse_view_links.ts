@@ -37,7 +37,7 @@ export interface CreateWarehouseViewLinkRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether this join has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the join starts from, for example events. */
   source_table_name: string;
   /** Column or HogQL expression on the source table used as the join key. */
@@ -49,7 +49,7 @@ export interface CreateWarehouseViewLinkRequest {
   /** Accessor added to the source table to reach the joined rows, for example person in events.person. */
   field_name: string;
   /** Optional join configuration, for example experiments optimization flags. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -66,20 +66,20 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface ViewLink {
   id: string;
   /** Whether this join has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   created_by: UserBasic;
   created_at: string;
   /** Name of the table the join starts from, for example events. */
@@ -93,7 +93,7 @@ export interface ViewLink {
   /** Accessor added to the source table to reach the joined rows, for example person in events.person. */
   field_name: string;
   /** Optional join configuration, for example experiments optimization flags. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 export interface GetWarehouseViewLinkRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -105,17 +105,17 @@ export interface ListWarehouseViewLinksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedViewLinkListResultsList = Array<ViewLink>;
 export interface PaginatedViewLinkList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedViewLinkListResultsList;
 }
 export interface UpdateWarehouseViewLinkRequest {
@@ -124,7 +124,7 @@ export interface UpdateWarehouseViewLinkRequest {
   /** A UUID string identifying this data warehouse join. */
   id: string;
   /** Whether this join has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the join starts from, for example events. */
   source_table_name: string;
   /** Column or HogQL expression on the source table used as the join key. */
@@ -136,7 +136,7 @@ export interface UpdateWarehouseViewLinkRequest {
   /** Accessor added to the source table to reach the joined rows, for example person in events.person. */
   field_name: string;
   /** Optional join configuration, for example experiments optimization flags. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 export interface UpdateWarehouseViewLinksPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -144,19 +144,19 @@ export interface UpdateWarehouseViewLinksPartialRequest {
   /** A UUID string identifying this data warehouse join. */
   id: string;
   /** Whether this join has been soft-deleted. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name of the table the join starts from, for example events. */
-  source_table_name?: string;
+  source_table_name?: string | undefined;
   /** Column or HogQL expression on the source table used as the join key. */
-  source_table_key?: string;
+  source_table_key?: string | undefined;
   /** Name of the table or view being joined onto the source table. */
-  joining_table_name?: string;
+  joining_table_name?: string | undefined;
   /** Column or HogQL expression on the joining table used as the join key. */
-  joining_table_key?: string;
+  joining_table_key?: string | undefined;
   /** Accessor added to the source table to reach the joined rows, for example person in events.person. */
-  field_name?: string;
+  field_name?: string | undefined;
   /** Optional join configuration, for example experiments optimization flags. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 export interface WarehouseViewLinksDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

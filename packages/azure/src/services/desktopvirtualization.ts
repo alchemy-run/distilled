@@ -38,30 +38,30 @@ export type AppAttachPackageCreateOrUpdateRequestTagsMap = { [key: string]: stri
 /** Schema for MSIX Package Dependencies properties. */
 export interface MsixPackageDependencies {
   /** Name of package dependency. */
-  dependencyName?: string;
+  dependencyName?: string | undefined;
   /** Name of dependency publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Dependency version required. */
-  minVersion?: string;
+  minVersion?: string | undefined;
 }
 /** List of package dependencies. */
 export type AppAttachPackageInfoPropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
 /** Schema for MSIX Package Application properties. */
 export interface MsixPackageApplications {
   /** Package Application Id, found in appxmanifest.xml. */
-  appId?: string;
+  appId?: string | undefined;
   /** Description of Package Application. */
-  description?: string;
+  description?: string | undefined;
   /** Used to activate Package Application. Consists of Package Name and ApplicationID. Found in appxmanifest.xml. */
-  appUserModelID?: string;
+  appUserModelID?: string | undefined;
   /** User friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** User friendly name. */
-  iconImageName?: string;
+  iconImageName?: string | undefined;
   /** the icon a 64 bit string as a byte array. */
-  rawIcon?: string;
+  rawIcon?: string | undefined;
   /** the icon a 64 bit string as a byte array. */
-  rawPng?: string;
+  rawPng?: string | undefined;
 }
 /** List of package applications. */
 export type AppAttachPackageInfoPropertiesPackageApplicationsList = Array<MsixPackageApplications>;
@@ -70,37 +70,41 @@ export type AppAttachPackageInfoPropertiesIsPackageTimestamped = "Timestamped" |
 /** Schema for Import Package Information properties. */
 export interface AppAttachPackageInfoProperties {
   /** Alias of App Attach Package. Assigned at import time */
-  packageAlias?: string;
+  packageAlias?: string | undefined;
   /** VHD/CIM image path on Network Share. */
-  imagePath?: string;
+  imagePath?: string | undefined;
   /** Package Name from appxmanifest.xml. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Package Family Name from appxmanifest.xml. Contains Package Name and Publisher name. */
-  packageFamilyName?: string;
+  packageFamilyName?: string | undefined;
   /** Package Full Name from appxmanifest.xml. */
-  packageFullName?: string;
+  packageFullName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Relative Path to the package inside the image. */
-  packageRelativePath?: string;
+  packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
-  isRegularRegistration?: boolean;
+  isRegularRegistration?: boolean | undefined;
   /** Make this version of the package the active one across the hostpool. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** List of package dependencies. */
-  packageDependencies?: AppAttachPackageInfoPropertiesPackageDependenciesList | null;
+  packageDependencies?: AppAttachPackageInfoPropertiesPackageDependenciesList | null | undefined;
   /** Package version found in the appxmanifest.xml. */
-  version?: string;
+  version?: string | undefined;
   /** Date Package was last updated, found in the appxmanifest.xml. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** List of package applications. */
-  packageApplications?: AppAttachPackageInfoPropertiesPackageApplicationsList;
+  packageApplications?: AppAttachPackageInfoPropertiesPackageApplicationsList | undefined;
   /** Certificate name found in the appxmanifest.xml. */
-  certificateName?: string | null;
+  certificateName?: string | null | undefined;
   /** Date certificate expires, found in the appxmanifest.xml. */
-  certificateExpiry?: string | null;
+  certificateExpiry?: string | null | undefined;
   /** Is package timestamped so it can ignore the certificate expiry date */
-  isPackageTimestamped?: AppAttachPackageInfoPropertiesIsPackageTimestamped | (string & {}) | null;
+  isPackageTimestamped?:
+    | AppAttachPackageInfoPropertiesIsPackageTimestamped
+    | (string & {})
+    | null
+    | undefined;
 }
 /** List of Hostpool resource Ids. */
 export type AppAttachPackagePropertiesInputHostPoolReferencesList = Array<string>;
@@ -109,13 +113,13 @@ export type FailHealthCheckOnStagingFailureEnum = "Unhealthy" | "NeedsAssistance
 /** Schema for App Attach Package properties. */
 export interface AppAttachPackagePropertiesInput {
   /** Detailed properties for App Attach Package */
-  image?: AppAttachPackageInfoProperties;
+  image?: AppAttachPackageInfoProperties | undefined;
   /** List of Hostpool resource Ids. */
-  hostPoolReferences?: AppAttachPackagePropertiesInputHostPoolReferencesList;
+  hostPoolReferences?: AppAttachPackagePropertiesInputHostPoolReferencesList | undefined;
   /** URL path to certificate name located in keyVault */
-  keyVaultURL?: string;
+  keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {});
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {}) | undefined;
 }
 export interface AppAttachPackageCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -125,7 +129,7 @@ export interface AppAttachPackageCreateOrUpdateRequest {
   /** The name of the App Attach package */
   appAttachPackageName: string;
   /** Resource tags. */
-  tags?: AppAttachPackageCreateOrUpdateRequestTagsMap;
+  tags?: AppAttachPackageCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Detailed properties for App Attach Package */
@@ -138,17 +142,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AppAttachPackageCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -159,27 +163,27 @@ export type AppAttachPackagePropertiesHostPoolReferencesList = Array<string>;
 /** Schema for App Attach Package properties. */
 export interface AppAttachPackageProperties {
   /** The provisioning state of the App Attach Package. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Detailed properties for App Attach Package */
-  image?: AppAttachPackageInfoProperties;
+  image?: AppAttachPackageInfoProperties | undefined;
   /** List of Hostpool resource Ids. */
-  hostPoolReferences?: AppAttachPackagePropertiesHostPoolReferencesList;
+  hostPoolReferences?: AppAttachPackagePropertiesHostPoolReferencesList | undefined;
   /** URL path to certificate name located in keyVault */
-  keyVaultURL?: string;
+  keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum;
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | undefined;
 }
 export interface AppAttachPackageCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppAttachPackageCreateOrUpdateResponseTagsMap;
+  tags?: AppAttachPackageCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Detailed properties for App Attach Package */
@@ -199,13 +203,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface ApplicationGroupsCreateOrUpdateRequestSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Plan for the resource. */
 export interface ApplicationGroupsCreateOrUpdateRequestPlan {
@@ -216,24 +220,24 @@ export interface ApplicationGroupsCreateOrUpdateRequestPlan {
   /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
   product: string;
   /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The version of the desired product/artifact. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Resource Type of ApplicationGroup. */
 export type ApplicationGroupPropertiesInputApplicationGroupType = "RemoteApp" | "Desktop";
 /** Schema for ApplicationGroup properties. */
 export interface ApplicationGroupPropertiesInput {
   /** Description of ApplicationGroup. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of ApplicationGroup. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** HostPool arm path of ApplicationGroup. */
   hostPoolArmPath: string;
   /** Resource Type of ApplicationGroup. */
   applicationGroupType: ApplicationGroupPropertiesInputApplicationGroupType | (string & {});
   /** Boolean representing whether the applicationGroup is show in the feed. */
-  showInFeed?: boolean;
+  showInFeed?: boolean | undefined;
 }
 export interface ApplicationGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -243,19 +247,19 @@ export interface ApplicationGroupsCreateOrUpdateRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** Resource tags. */
-  tags?: ApplicationGroupsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku;
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupPropertiesInput;
 }
@@ -264,22 +268,22 @@ export type ApplicationGroupsCreateOrUpdateResponseTagsMap = { [key: string]: st
 /** Managed service identity (either system assigned, or none) */
 export interface ApplicationGroupsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: SystemAssignedServiceIdentityType;
 }
 /** The resource model definition representing SKU */
 export interface ApplicationGroupsCreateOrUpdateResponseSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Plan for the resource. */
 export type ApplicationGroupsCreateOrUpdateResponsePlan =
@@ -289,47 +293,47 @@ export type ApplicationGroupPropertiesApplicationGroupType = "RemoteApp" | "Desk
 /** Schema for ApplicationGroup properties. */
 export interface ApplicationGroupProperties {
   /** ObjectId of ApplicationGroup. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Description of ApplicationGroup. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of ApplicationGroup. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** HostPool arm path of ApplicationGroup. */
   hostPoolArmPath: string;
   /** Workspace arm path of ApplicationGroup. */
-  workspaceArmPath?: string;
+  workspaceArmPath?: string | undefined;
   /** Resource Type of ApplicationGroup. */
   applicationGroupType: ApplicationGroupPropertiesApplicationGroupType;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null;
+  cloudPcResource?: boolean | null | undefined;
   /** Boolean representing whether the applicationGroup is show in the feed. */
-  showInFeed?: boolean;
+  showInFeed?: boolean | undefined;
 }
 export interface ApplicationGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ApplicationGroupsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
 }
@@ -340,27 +344,27 @@ export type ApplicationPropertiesInputCommandLineSetting = "DoNotAllow" | "Allow
 /** Schema for Application properties. */
 export interface ApplicationPropertiesInput {
   /** Description of Application. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Application. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Specifies a path for the executable file for the application. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null;
+  msixPackageFamilyName?: string | null | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null;
+  msixPackageApplicationId?: string | null | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPropertiesInputApplicationType | (string & {});
+  applicationType?: ApplicationPropertiesInputApplicationType | (string & {}) | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
   commandLineSetting: ApplicationPropertiesInputCommandLineSetting | (string & {});
   /** Command Line Arguments for Application. */
-  commandLineArguments?: string;
+  commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
-  showInPortal?: boolean;
+  showInPortal?: boolean | undefined;
   /** Path to icon. */
-  iconPath?: string;
+  iconPath?: string | undefined;
   /** Index of the icon. */
-  iconIndex?: number;
+  iconIndex?: number | undefined;
 }
 export interface ApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -381,43 +385,43 @@ export type ApplicationPropertiesCommandLineSetting = "DoNotAllow" | "Allow" | "
 /** Schema for Application properties. */
 export interface ApplicationProperties {
   /** ObjectId of Application. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Description of Application. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Application. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Specifies a path for the executable file for the application. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null;
+  msixPackageFamilyName?: string | null | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null;
+  msixPackageApplicationId?: string | null | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPropertiesApplicationType;
+  applicationType?: ApplicationPropertiesApplicationType | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
   commandLineSetting: ApplicationPropertiesCommandLineSetting;
   /** Command Line Arguments for Application. */
-  commandLineArguments?: string;
+  commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
-  showInPortal?: boolean;
+  showInPortal?: boolean | undefined;
   /** Path to icon. */
-  iconPath?: string;
+  iconPath?: string | undefined;
   /** Index of the icon. */
-  iconIndex?: number;
+  iconIndex?: number | undefined;
   /** Hash of the icon. */
-  iconHash?: string;
+  iconHash?: string | undefined;
   /** the icon a 64 bit string as a byte array. */
-  iconContent?: string;
+  iconContent?: string | undefined;
 }
 export interface ApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -461,69 +465,81 @@ export type ScalingScheduleOffPeakLoadBalancingAlgorithm = "BreadthFirst" | "Dep
 /** A ScalingPlanPooledSchedule. */
 export interface ScalingSchedule {
   /** Name of the ScalingPlanPooledSchedule. */
-  name?: string;
+  name?: string | undefined;
   /** Set of days of the week on which this schedule is active. */
-  daysOfWeek?: ScalingScheduleDaysOfWeekList;
+  daysOfWeek?: ScalingScheduleDaysOfWeekList | undefined;
   /** Starting time for ramp up period. */
-  rampUpStartTime?: Time;
+  rampUpStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp up period. */
-  rampUpLoadBalancingAlgorithm?: ScalingScheduleRampUpLoadBalancingAlgorithm | (string & {});
+  rampUpLoadBalancingAlgorithm?:
+    | ScalingScheduleRampUpLoadBalancingAlgorithm
+    | (string & {})
+    | undefined;
   /** Minimum host percentage for ramp up period. */
-  rampUpMinimumHostsPct?: number;
+  rampUpMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp up period. */
-  rampUpCapacityThresholdPct?: number;
+  rampUpCapacityThresholdPct?: number | undefined;
   /** Starting time for peak period. */
-  peakStartTime?: Time;
+  peakStartTime?: Time | undefined;
   /** Load balancing algorithm for peak period. */
-  peakLoadBalancingAlgorithm?: ScalingSchedulePeakLoadBalancingAlgorithm | (string & {});
+  peakLoadBalancingAlgorithm?:
+    | ScalingSchedulePeakLoadBalancingAlgorithm
+    | (string & {})
+    | undefined;
   /** Starting time for ramp down period. */
-  rampDownStartTime?: Time;
+  rampDownStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp down period. */
-  rampDownLoadBalancingAlgorithm?: ScalingScheduleRampDownLoadBalancingAlgorithm | (string & {});
+  rampDownLoadBalancingAlgorithm?:
+    | ScalingScheduleRampDownLoadBalancingAlgorithm
+    | (string & {})
+    | undefined;
   /** Minimum host percentage for ramp down period. */
-  rampDownMinimumHostsPct?: number;
+  rampDownMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp down period. */
-  rampDownCapacityThresholdPct?: number;
+  rampDownCapacityThresholdPct?: number | undefined;
   /** Should users be logged off forcefully from hosts. */
-  rampDownForceLogoffUsers?: boolean;
+  rampDownForceLogoffUsers?: boolean | undefined;
   /** Specifies when to stop hosts during ramp down period. */
-  rampDownStopHostsWhen?: ScalingScheduleRampDownStopHostsWhen | (string & {});
+  rampDownStopHostsWhen?: ScalingScheduleRampDownStopHostsWhen | (string & {}) | undefined;
   /** Number of minutes to wait to stop hosts during ramp down period. */
-  rampDownWaitTimeMinutes?: number;
+  rampDownWaitTimeMinutes?: number | undefined;
   /** Notification message for users during ramp down period. */
-  rampDownNotificationMessage?: string;
+  rampDownNotificationMessage?: string | undefined;
   /** Starting time for off-peak period. */
-  offPeakStartTime?: Time;
+  offPeakStartTime?: Time | undefined;
   /** Load balancing algorithm for off-peak period. */
-  offPeakLoadBalancingAlgorithm?: ScalingScheduleOffPeakLoadBalancingAlgorithm | (string & {});
+  offPeakLoadBalancingAlgorithm?:
+    | ScalingScheduleOffPeakLoadBalancingAlgorithm
+    | (string & {})
+    | undefined;
 }
 /** List of ScalingPlanPooledSchedule definitions. */
 export type ScalingPlanPropertiesInputSchedulesList = Array<ScalingSchedule>;
 /** Scaling plan reference to hostpool. */
 export interface ScalingHostPoolReference {
   /** Arm path of referenced hostpool. */
-  hostPoolArmPath?: string;
+  hostPoolArmPath?: string | undefined;
   /** Is the scaling plan enabled for this hostpool. */
-  scalingPlanEnabled?: boolean;
+  scalingPlanEnabled?: boolean | undefined;
 }
 /** List of ScalingHostPoolReference definitions. */
 export type ScalingPlanPropertiesInputHostPoolReferencesList = Array<ScalingHostPoolReference>;
 /** Scaling plan properties. */
 export interface ScalingPlanPropertiesInput {
   /** Description of scaling plan. */
-  description?: string;
+  description?: string | undefined;
   /** User friendly name of scaling plan. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Timezone of the scaling plan. */
   timeZone: string;
   /** HostPool type for desktop. */
-  hostPoolType?: ScalingPlanPropertiesInputHostPoolType | (string & {});
+  hostPoolType?: ScalingPlanPropertiesInputHostPoolType | (string & {}) | undefined;
   /** Exclusion tag for scaling plan. */
-  exclusionTag?: string;
+  exclusionTag?: string | undefined;
   /** List of ScalingPlanPooledSchedule definitions. */
-  schedules?: ScalingPlanPropertiesInputSchedulesList;
+  schedules?: ScalingPlanPropertiesInputSchedulesList | undefined;
   /** List of ScalingHostPoolReference definitions. */
-  hostPoolReferences?: ScalingPlanPropertiesInputHostPoolReferencesList;
+  hostPoolReferences?: ScalingPlanPropertiesInputHostPoolReferencesList | undefined;
 }
 export interface CreateScalingPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -533,19 +549,19 @@ export interface CreateScalingPlanRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
   /** Resource tags. */
-  tags?: CreateScalingPlanRequestTagsMap;
+  tags?: CreateScalingPlanRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku;
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanPropertiesInput;
 }
@@ -566,47 +582,47 @@ export type ScalingPlanPropertiesHostPoolReferencesList = Array<ScalingHostPoolR
 /** Scaling plan properties. */
 export interface ScalingPlanProperties {
   /** ObjectId of scaling plan. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Description of scaling plan. */
-  description?: string;
+  description?: string | undefined;
   /** User friendly name of scaling plan. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Timezone of the scaling plan. */
   timeZone: string;
   /** HostPool type for desktop. */
-  hostPoolType?: ScalingPlanPropertiesHostPoolType;
+  hostPoolType?: ScalingPlanPropertiesHostPoolType | undefined;
   /** Exclusion tag for scaling plan. */
-  exclusionTag?: string;
+  exclusionTag?: string | undefined;
   /** List of ScalingPlanPooledSchedule definitions. */
-  schedules?: ScalingPlanPropertiesSchedulesList;
+  schedules?: ScalingPlanPropertiesSchedulesList | undefined;
   /** List of ScalingHostPoolReference definitions. */
-  hostPoolReferences?: ScalingPlanPropertiesHostPoolReferencesList;
+  hostPoolReferences?: ScalingPlanPropertiesHostPoolReferencesList | undefined;
 }
 export interface CreateScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateScalingPlanResponseTagsMap;
+  tags?: CreateScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
 }
@@ -663,75 +679,96 @@ export type ScalingPlanPersonalSchedulePropertiesOffPeakActionOnLogoff =
 /** A ScalingPlanPersonalSchedule. */
 export interface ScalingPlanPersonalScheduleProperties {
   /** Set of days of the week on which this schedule is active. */
-  daysOfWeek?: ScalingPlanPersonalSchedulePropertiesDaysOfWeekList;
+  daysOfWeek?: ScalingPlanPersonalSchedulePropertiesDaysOfWeekList | undefined;
   /** Starting time for ramp up period. */
-  rampUpStartTime?: Time;
+  rampUpStartTime?: Time | undefined;
   /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
-  rampUpAutoStartHosts?: ScalingPlanPersonalSchedulePropertiesRampUpAutoStartHosts | (string & {});
+  rampUpAutoStartHosts?:
+    | ScalingPlanPersonalSchedulePropertiesRampUpAutoStartHosts
+    | (string & {})
+    | undefined;
   /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
   rampUpStartVMOnConnect?:
     | ScalingPlanPersonalSchedulePropertiesRampUpStartVMOnConnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Action to be taken after a user disconnect during the ramp up period. */
   rampUpActionOnDisconnect?:
     | ScalingPlanPersonalSchedulePropertiesRampUpActionOnDisconnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp up period. */
-  rampUpMinutesToWaitOnDisconnect?: number;
+  rampUpMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the ramp up period. */
-  rampUpActionOnLogoff?: ScalingPlanPersonalSchedulePropertiesRampUpActionOnLogoff | (string & {});
+  rampUpActionOnLogoff?:
+    | ScalingPlanPersonalSchedulePropertiesRampUpActionOnLogoff
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp up period. */
-  rampUpMinutesToWaitOnLogoff?: number;
+  rampUpMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for peak period. */
-  peakStartTime?: Time;
+  peakStartTime?: Time | undefined;
   /** The desired configuration of Start VM On Connect for the hostpool during the peak phase. */
-  peakStartVMOnConnect?: ScalingPlanPersonalSchedulePropertiesPeakStartVMOnConnect | (string & {});
+  peakStartVMOnConnect?:
+    | ScalingPlanPersonalSchedulePropertiesPeakStartVMOnConnect
+    | (string & {})
+    | undefined;
   /** Action to be taken after a user disconnect during the peak period. */
   peakActionOnDisconnect?:
     | ScalingPlanPersonalSchedulePropertiesPeakActionOnDisconnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the peak period. */
-  peakMinutesToWaitOnDisconnect?: number;
+  peakMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the peak period. */
-  peakActionOnLogoff?: ScalingPlanPersonalSchedulePropertiesPeakActionOnLogoff | (string & {});
+  peakActionOnLogoff?:
+    | ScalingPlanPersonalSchedulePropertiesPeakActionOnLogoff
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the peak period. */
-  peakMinutesToWaitOnLogoff?: number;
+  peakMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for ramp down period. */
-  rampDownStartTime?: Time;
+  rampDownStartTime?: Time | undefined;
   /** The desired configuration of Start VM On Connect for the hostpool during the ramp down phase. */
   rampDownStartVMOnConnect?:
     | ScalingPlanPersonalSchedulePropertiesRampDownStartVMOnConnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Action to be taken after a user disconnect during the ramp down period. */
   rampDownActionOnDisconnect?:
     | ScalingPlanPersonalSchedulePropertiesRampDownActionOnDisconnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp down period. */
-  rampDownMinutesToWaitOnDisconnect?: number;
+  rampDownMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the ramp down period. */
   rampDownActionOnLogoff?:
     | ScalingPlanPersonalSchedulePropertiesRampDownActionOnLogoff
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp down period. */
-  rampDownMinutesToWaitOnLogoff?: number;
+  rampDownMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for off-peak period. */
-  offPeakStartTime?: Time;
+  offPeakStartTime?: Time | undefined;
   /** The desired configuration of Start VM On Connect for the hostpool during the off-peak phase. */
   offPeakStartVMOnConnect?:
     | ScalingPlanPersonalSchedulePropertiesOffPeakStartVMOnConnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Action to be taken after a user disconnect during the off-peak period. */
   offPeakActionOnDisconnect?:
     | ScalingPlanPersonalSchedulePropertiesOffPeakActionOnDisconnect
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the off-peak period. */
-  offPeakMinutesToWaitOnDisconnect?: number;
+  offPeakMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the off-peak period. */
   offPeakActionOnLogoff?:
     | ScalingPlanPersonalSchedulePropertiesOffPeakActionOnLogoff
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the off-peak period. */
-  offPeakMinutesToWaitOnLogoff?: number;
+  offPeakMinutesToWaitOnLogoff?: number | undefined;
 }
 export interface CreateScalingPlanPersonalScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -747,13 +784,13 @@ export interface CreateScalingPlanPersonalScheduleRequest {
 }
 export interface CreateScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -792,47 +829,54 @@ export type ScalingPlanPooledSchedulePropertiesOffPeakLoadBalancingAlgorithm =
 /** A ScalingPlanPooledSchedule. */
 export interface ScalingPlanPooledScheduleProperties {
   /** Set of days of the week on which this schedule is active. */
-  daysOfWeek?: ScalingPlanPooledSchedulePropertiesDaysOfWeekList;
+  daysOfWeek?: ScalingPlanPooledSchedulePropertiesDaysOfWeekList | undefined;
   /** Starting time for ramp up period. */
-  rampUpStartTime?: Time;
+  rampUpStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp up period. */
   rampUpLoadBalancingAlgorithm?:
     | ScalingPlanPooledSchedulePropertiesRampUpLoadBalancingAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum host percentage for ramp up period. */
-  rampUpMinimumHostsPct?: number;
+  rampUpMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp up period. */
-  rampUpCapacityThresholdPct?: number;
+  rampUpCapacityThresholdPct?: number | undefined;
   /** Starting time for peak period. */
-  peakStartTime?: Time;
+  peakStartTime?: Time | undefined;
   /** Load balancing algorithm for peak period. */
   peakLoadBalancingAlgorithm?:
     | ScalingPlanPooledSchedulePropertiesPeakLoadBalancingAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Starting time for ramp down period. */
-  rampDownStartTime?: Time;
+  rampDownStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp down period. */
   rampDownLoadBalancingAlgorithm?:
     | ScalingPlanPooledSchedulePropertiesRampDownLoadBalancingAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Minimum host percentage for ramp down period. */
-  rampDownMinimumHostsPct?: number;
+  rampDownMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp down period. */
-  rampDownCapacityThresholdPct?: number;
+  rampDownCapacityThresholdPct?: number | undefined;
   /** Should users be logged off forcefully from hosts. */
-  rampDownForceLogoffUsers?: boolean;
+  rampDownForceLogoffUsers?: boolean | undefined;
   /** Specifies when to stop hosts during ramp down period. */
-  rampDownStopHostsWhen?: ScalingPlanPooledSchedulePropertiesRampDownStopHostsWhen | (string & {});
+  rampDownStopHostsWhen?:
+    | ScalingPlanPooledSchedulePropertiesRampDownStopHostsWhen
+    | (string & {})
+    | undefined;
   /** Number of minutes to wait to stop hosts during ramp down period. */
-  rampDownWaitTimeMinutes?: number;
+  rampDownWaitTimeMinutes?: number | undefined;
   /** Notification message for users during ramp down period. */
-  rampDownNotificationMessage?: string;
+  rampDownNotificationMessage?: string | undefined;
   /** Starting time for off-peak period. */
-  offPeakStartTime?: Time;
+  offPeakStartTime?: Time | undefined;
   /** Load balancing algorithm for off-peak period. */
   offPeakLoadBalancingAlgorithm?:
     | ScalingPlanPooledSchedulePropertiesOffPeakLoadBalancingAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface CreateScalingPlanPooledScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -848,13 +892,13 @@ export interface CreateScalingPlanPooledScheduleRequest {
 }
 export interface CreateScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -895,7 +939,7 @@ export interface DeleteHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Force flag to delete sessionHost. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteHostPoolResponse {}
 export interface DeleteMSIXPackageRequest {
@@ -972,7 +1016,7 @@ export interface DeleteSessionHostRequest {
   /** The name of the session host within the specified host pool */
   sessionHostName: string;
   /** Force flag to force sessionHost deletion even when userSession exists. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteSessionHostResponse {}
 export interface DeleteUserSessionRequest {
@@ -987,7 +1031,7 @@ export interface DeleteUserSessionRequest {
   /** The name of the user session within the specified session host */
   userSessionId: string;
   /** Force flag to login off userSession. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteUserSessionResponse {}
 export interface DeleteWorkspaceRequest {
@@ -1024,15 +1068,15 @@ export interface GetAppAttachPackageRequest {
 export type GetAppAttachPackageResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAppAttachPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAppAttachPackageResponseTagsMap;
+  tags?: GetAppAttachPackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Detailed properties for App Attach Package */
@@ -1050,13 +1094,13 @@ export interface GetApplicationRequest {
 }
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -1078,29 +1122,29 @@ export type GetApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateResp
 export type GetApplicationGroupResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface GetApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetApplicationGroupResponseTagsMap;
+  tags?: GetApplicationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
 }
@@ -1117,27 +1161,27 @@ export interface GetDesktopRequest {
 /** Schema for Desktop properties. */
 export interface DesktopProperties {
   /** ObjectId of Desktop. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Description of Desktop. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Desktop. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Hash of the icon. */
-  iconHash?: string;
+  iconHash?: string | undefined;
   /** The icon a 64 bit string as a byte array. */
-  iconContent?: string;
+  iconContent?: string | undefined;
 }
 export interface GetDesktopResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Desktop */
-  properties?: DesktopProperties;
+  properties?: DesktopProperties | undefined;
 }
 export interface GetHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1170,11 +1214,14 @@ export type RegistrationInfoRegistrationTokenOperation = "Delete" | "None" | "Up
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfo {
   /** Expiration time of registration token. */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** The registration token base64 encoded string. */
-  token?: string;
+  token?: string | undefined;
   /** The type of resetting the token. */
-  registrationTokenOperation?: RegistrationInfoRegistrationTokenOperation | (string & {});
+  registrationTokenOperation?:
+    | RegistrationInfoRegistrationTokenOperation
+    | (string & {})
+    | undefined;
 }
 /** List of applicationGroup links. */
 export type HostPoolPropertiesApplicationGroupReferencesList = Array<string>;
@@ -1208,40 +1255,40 @@ export type MaintenanceWindowPropertiesDayOfWeek =
 /** Maintenance window starting hour and day of week. */
 export interface MaintenanceWindowProperties {
   /** The update start hour of the day. (0 - 23) */
-  hour?: number;
+  hour?: number | undefined;
   /** Day of the week. */
-  dayOfWeek?: MaintenanceWindowPropertiesDayOfWeek | (string & {});
+  dayOfWeek?: MaintenanceWindowPropertiesDayOfWeek | (string & {}) | undefined;
 }
 /** List of maintenance windows. Maintenance windows are 2 hours long. */
 export type AgentUpdatePropertiesMaintenanceWindowsList = Array<MaintenanceWindowProperties>;
 /** The session host configuration for updating agent, monitoring agent, and stack component. */
 export interface AgentUpdateProperties {
   /** The type of maintenance for session host components. */
-  type?: AgentUpdatePropertiesType | (string & {});
+  type?: AgentUpdatePropertiesType | (string & {}) | undefined;
   /** Whether to use localTime of the virtual machine. */
-  useSessionHostLocalTime?: boolean;
+  useSessionHostLocalTime?: boolean | undefined;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
-  maintenanceWindowTimeZone?: string;
+  maintenanceWindowTimeZone?: string | undefined;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: AgentUpdatePropertiesMaintenanceWindowsList | null;
+  maintenanceWindows?: AgentUpdatePropertiesMaintenanceWindowsList | null | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -1252,26 +1299,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface HostPoolPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connection associated with the specified resource */
 export type HostPoolPropertiesPrivateEndpointConnectionsList =
@@ -1279,79 +1326,82 @@ export type HostPoolPropertiesPrivateEndpointConnectionsList =
 /** Properties of HostPool. */
 export interface HostPoolProperties {
   /** ObjectId of HostPool. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Friendly name of HostPool. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Description of HostPool. */
-  description?: string;
+  description?: string | undefined;
   /** HostPool type for desktop. */
   hostPoolType: HostPoolPropertiesHostPoolType;
   /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?: HostPoolPropertiesPersonalDesktopAssignmentType | null;
+  personalDesktopAssignmentType?:
+    | HostPoolPropertiesPersonalDesktopAssignmentType
+    | null
+    | undefined;
   /** Custom rdp property of HostPool. */
-  customRdpProperty?: string;
+  customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null;
+  maxSessionLimit?: number | null | undefined;
   /** The type of the load balancer. */
   loadBalancerType: HostPoolPropertiesLoadBalancerType;
   /** The ring number of HostPool. */
-  ring?: number | null;
+  ring?: number | null | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null;
+  validationEnvironment?: boolean | null | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo | null;
+  registrationInfo?: RegistrationInfo | null | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
-  vmTemplate?: string;
+  vmTemplate?: string | undefined;
   /** List of applicationGroup links. */
-  applicationGroupReferences?: HostPoolPropertiesApplicationGroupReferencesList | null;
+  applicationGroupReferences?: HostPoolPropertiesApplicationGroupReferencesList | null | undefined;
   /** List of App Attach Package links. */
-  appAttachPackageReferences?: HostPoolPropertiesAppAttachPackageReferencesList;
+  appAttachPackageReferences?: HostPoolPropertiesAppAttachPackageReferencesList | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
-  ssoadfsAuthority?: string;
+  ssoadfsAuthority?: string | undefined;
   /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
-  ssoClientId?: string;
+  ssoClientId?: string | undefined;
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
-  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string>;
+  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPropertiesSsoSecretType | null;
+  ssoSecretType?: HostPoolPropertiesSsoSecretType | null | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
   preferredAppGroupType: HostPoolPropertiesPreferredAppGroupType;
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null;
+  startVMOnConnect?: boolean | null | undefined;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null;
+  cloudPcResource?: boolean | null | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: HostPoolPropertiesPublicNetworkAccess | null;
+  publicNetworkAccess?: HostPoolPropertiesPublicNetworkAccess | null | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdateProperties | null;
+  agentUpdate?: AgentUpdateProperties | null | undefined;
   /** List of private endpoint connection associated with the specified resource */
-  privateEndpointConnections?: HostPoolPropertiesPrivateEndpointConnectionsList | null;
+  privateEndpointConnections?: HostPoolPropertiesPrivateEndpointConnectionsList | null | undefined;
 }
 export interface GetHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetHostPoolResponseTagsMap;
+  tags?: GetHostPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
 }
@@ -1380,37 +1430,37 @@ export type MSIXPackagePropertiesPackageApplicationsList = Array<MsixPackageAppl
 /** Schema for MSIX Package properties. */
 export interface MSIXPackageProperties {
   /** VHD/CIM image path on Network Share. */
-  imagePath?: string;
+  imagePath?: string | undefined;
   /** Package Name from appxmanifest.xml. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Package Family Name from appxmanifest.xml. Contains Package Name and Publisher name. */
-  packageFamilyName?: string;
+  packageFamilyName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Relative Path to the package inside the image. */
-  packageRelativePath?: string;
+  packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
-  isRegularRegistration?: boolean;
+  isRegularRegistration?: boolean | undefined;
   /** Make this version of the package the active one across the hostpool. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** List of package dependencies. */
-  packageDependencies?: MSIXPackagePropertiesPackageDependenciesList;
+  packageDependencies?: MSIXPackagePropertiesPackageDependenciesList | undefined;
   /** Package version found in the appxmanifest.xml. */
-  version?: string;
+  version?: string | undefined;
   /** Date Package was last updated, found in the appxmanifest.xml. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** List of package applications. */
-  packageApplications?: MSIXPackagePropertiesPackageApplicationsList;
+  packageApplications?: MSIXPackagePropertiesPackageApplicationsList | undefined;
 }
 export interface GetMSIXPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -1429,25 +1479,25 @@ export type GetPrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList
 /** Properties of the private endpoint connection. */
 export interface GetPrivateEndpointConnectionByHostPoolResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: GetPrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList;
+  groupIds?: GetPrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionByHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: GetPrivateEndpointConnectionByHostPoolResponseProperties;
+  properties?: GetPrivateEndpointConnectionByHostPoolResponseProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1464,25 +1514,25 @@ export type GetPrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsLis
 /** Properties of the private endpoint connection. */
 export interface GetPrivateEndpointConnectionByWorkspaceResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: GetPrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList;
+  groupIds?: GetPrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionByWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: GetPrivateEndpointConnectionByWorkspaceResponseProperties;
+  properties?: GetPrivateEndpointConnectionByWorkspaceResponseProperties | undefined;
 }
 export interface GetScalingPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1502,29 +1552,29 @@ export type GetScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseS
 export type GetScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface GetScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetScalingPlanResponseTagsMap;
+  tags?: GetScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
 }
@@ -1540,13 +1590,13 @@ export interface GetScalingPlanPersonalScheduleRequest {
 }
 export interface GetScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -1562,13 +1612,13 @@ export interface GetScalingPlanPooledScheduleRequest {
 }
 export interface GetScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -1625,20 +1675,20 @@ export type SessionHostHealthCheckReportHealthCheckResult =
 /** Contains details on the failure. */
 export interface SessionHostHealthCheckFailureDetails {
   /** Failure message: hints on what is wrong and how to recover. */
-  message?: string;
+  message?: string | undefined;
   /** Error code corresponding for the failure. */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** The timestamp of the last update. */
-  lastHealthCheckDateTime?: string;
+  lastHealthCheckDateTime?: string | undefined;
 }
 /** The report for session host information. */
 export interface SessionHostHealthCheckReport {
   /** Represents the name of the health check operation performed. */
-  healthCheckName?: SessionHostHealthCheckReportHealthCheckName;
+  healthCheckName?: SessionHostHealthCheckReportHealthCheckName | undefined;
   /** Represents the Health state of the health check we performed. */
-  healthCheckResult?: SessionHostHealthCheckReportHealthCheckResult;
+  healthCheckResult?: SessionHostHealthCheckReportHealthCheckResult | undefined;
   /** Additional detailed information on the failure. */
-  additionalFailureDetails?: SessionHostHealthCheckFailureDetails;
+  additionalFailureDetails?: SessionHostHealthCheckFailureDetails | undefined;
 }
 /** List of SessionHostHealthCheckReports */
 export type SessionHostPropertiesSessionHostHealthCheckResultsList =
@@ -1646,51 +1696,53 @@ export type SessionHostPropertiesSessionHostHealthCheckResultsList =
 /** Schema for SessionHost properties. */
 export interface SessionHostProperties {
   /** ObjectId of SessionHost. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Last heart beat from SessionHost. */
-  lastHeartBeat?: string;
+  lastHeartBeat?: string | undefined;
   /** Number of sessions on SessionHost. */
-  sessions?: number;
+  sessions?: number | undefined;
   /** Version of agent on SessionHost. */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Allow a new session. */
-  allowNewSession?: boolean;
+  allowNewSession?: boolean | undefined;
   /** Virtual Machine Id of SessionHost's underlying virtual machine. */
-  virtualMachineId?: string;
+  virtualMachineId?: string | undefined;
   /** Resource Id of SessionHost's underlying virtual machine. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** User assigned to SessionHost. */
-  assignedUser?: string;
+  assignedUser?: string | undefined;
   /** Friendly name of SessionHost */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Status for a SessionHost. */
-  status?: SessionHostPropertiesStatus;
+  status?: SessionHostPropertiesStatus | undefined;
   /** The timestamp of the status. */
-  statusTimestamp?: string;
+  statusTimestamp?: string | undefined;
   /** The version of the OS on the session host. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** The version of the side by side stack on the session host. */
-  sxSStackVersion?: string;
+  sxSStackVersion?: string | undefined;
   /** Update state of a SessionHost. */
-  updateState?: SessionHostPropertiesUpdateState;
+  updateState?: SessionHostPropertiesUpdateState | undefined;
   /** The timestamp of the last update. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** The error message. */
-  updateErrorMessage?: string;
+  updateErrorMessage?: string | undefined;
   /** List of SessionHostHealthCheckReports */
-  sessionHostHealthCheckResults?: SessionHostPropertiesSessionHostHealthCheckResultsList;
+  sessionHostHealthCheckResults?:
+    | SessionHostPropertiesSessionHostHealthCheckResultsList
+    | undefined;
 }
 export interface GetSessionHostResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for SessionHost */
-  properties?: SessionHostProperties;
+  properties?: SessionHostProperties | undefined;
 }
 export interface GetUserSessionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1717,29 +1769,29 @@ export type UserSessionPropertiesSessionState =
 /** Schema for UserSession properties. */
 export interface UserSessionProperties {
   /** ObjectId of user session. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The user principal name. */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
   /** Application type of application. */
-  applicationType?: UserSessionPropertiesApplicationType;
+  applicationType?: UserSessionPropertiesApplicationType | undefined;
   /** State of user session. */
-  sessionState?: UserSessionPropertiesSessionState;
+  sessionState?: UserSessionPropertiesSessionState | undefined;
   /** The active directory user name. */
-  activeDirectoryUserName?: string;
+  activeDirectoryUserName?: string | undefined;
   /** The timestamp of the user session create. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetUserSessionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for UserSession */
-  properties?: UserSessionProperties;
+  properties?: UserSessionProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1770,47 +1822,47 @@ export type WorkspacePropertiesPrivateEndpointConnectionsList =
 /** Schema for Workspace properties. */
 export interface WorkspaceProperties {
   /** ObjectId of Workspace. (internal use) */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Description of Workspace. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Workspace. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?: WorkspacePropertiesApplicationGroupReferencesList | null;
+  applicationGroupReferences?: WorkspacePropertiesApplicationGroupReferencesList | null | undefined;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null;
+  cloudPcResource?: boolean | null | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: WorkspacePropertiesPublicNetworkAccess | null;
+  publicNetworkAccess?: WorkspacePropertiesPublicNetworkAccess | null | undefined;
   /** List of private endpoint connection associated with the specified resource */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | null;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | null | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** Resource tags. */
 export type HostPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1847,46 +1899,51 @@ export type HostPoolPropertiesInputPublicNetworkAccess =
 /** Properties of HostPool. */
 export interface HostPoolPropertiesInput {
   /** Friendly name of HostPool. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Description of HostPool. */
-  description?: string;
+  description?: string | undefined;
   /** HostPool type for desktop. */
   hostPoolType: HostPoolPropertiesInputHostPoolType | (string & {});
   /** PersonalDesktopAssignment type for HostPool. */
   personalDesktopAssignmentType?:
     | HostPoolPropertiesInputPersonalDesktopAssignmentType
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** Custom rdp property of HostPool. */
-  customRdpProperty?: string;
+  customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null;
+  maxSessionLimit?: number | null | undefined;
   /** The type of the load balancer. */
   loadBalancerType: HostPoolPropertiesInputLoadBalancerType | (string & {});
   /** The ring number of HostPool. */
-  ring?: number | null;
+  ring?: number | null | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null;
+  validationEnvironment?: boolean | null | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo | null;
+  registrationInfo?: RegistrationInfo | null | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
-  vmTemplate?: string;
+  vmTemplate?: string | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
-  ssoadfsAuthority?: string;
+  ssoadfsAuthority?: string | undefined;
   /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
-  ssoClientId?: string;
+  ssoClientId?: string | undefined;
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
-  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string>;
+  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPropertiesInputSsoSecretType | (string & {}) | null;
+  ssoSecretType?: HostPoolPropertiesInputSsoSecretType | (string & {}) | null | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
   preferredAppGroupType: HostPoolPropertiesInputPreferredAppGroupType | (string & {});
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null;
+  startVMOnConnect?: boolean | null | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: HostPoolPropertiesInputPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | HostPoolPropertiesInputPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdateProperties | null;
+  agentUpdate?: AgentUpdateProperties | null | undefined;
 }
 export interface HostPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1896,19 +1953,19 @@ export interface HostPoolsCreateOrUpdateRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Resource tags. */
-  tags?: HostPoolsCreateOrUpdateRequestTagsMap;
+  tags?: HostPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku;
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolPropertiesInput;
 }
@@ -1923,29 +1980,29 @@ export type HostPoolsCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdate
 export type HostPoolsCreateOrUpdateResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface HostPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HostPoolsCreateOrUpdateResponseTagsMap;
+  tags?: HostPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
 }
@@ -1966,24 +2023,28 @@ export interface ImportAppAttachPackageInfoRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** URI to Image */
-  path?: string;
+  path?: string | undefined;
   /** Possible device architectures that an app attach package can be configured for */
-  packageArchitecture?: ImportAppAttachPackageInfoRequestPackageArchitecture | (string & {}) | null;
+  packageArchitecture?:
+    | ImportAppAttachPackageInfoRequestPackageArchitecture
+    | (string & {})
+    | null
+    | undefined;
 }
 /** Resource tags. */
 export type AppAttachPackageTagsMap = { [key: string]: string | undefined };
 /** Schema for App Attach Package properties. */
 export interface AppAttachPackage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppAttachPackageTagsMap;
+  tags?: AppAttachPackageTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Detailed properties for App Attach Package */
@@ -1994,9 +2055,9 @@ export type AppAttachPackageListValueList = Array<AppAttachPackage>;
 /** List of App Attach Package definitions. */
 export interface AppAttachPackageList {
   /** List of App Attach Package definitions. */
-  value?: AppAttachPackageListValueList;
+  value?: AppAttachPackageListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAppAttachPackageByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2004,13 +2065,13 @@ export interface ListAppAttachPackageByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** OData filter expression. Valid properties for filtering are package name and host pool. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListAppAttachPackageBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** OData filter expression. Valid properties for filtering are package name, host pool, and resource group. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListApplicationGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2018,13 +2079,13 @@ export interface ListApplicationGroupByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** OData filter expression. Valid properties for filtering are applicationGroupType. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Resource tags. */
 export type ApplicationGroupTagsMap = { [key: string]: string | undefined };
@@ -2037,29 +2098,29 @@ export type ApplicationGroupPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** Represents a ApplicationGroup definition. */
 export interface ApplicationGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ApplicationGroupTagsMap;
+  tags?: ApplicationGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
 }
@@ -2068,15 +2129,15 @@ export type ApplicationGroupListValueList = Array<ApplicationGroup>;
 /** List of ApplicationGroup definitions. */
 export interface ApplicationGroupList {
   /** List of ApplicationGroup definitions. */
-  value?: ApplicationGroupListValueList;
+  value?: ApplicationGroupListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** OData filter expression. Valid properties for filtering are applicationGroupType. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListApplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2086,22 +2147,22 @@ export interface ListApplicationsRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Schema for Application properties. */
 export interface Application {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -2110,9 +2171,9 @@ export type ApplicationListValueList = Array<Application>;
 /** List of Application definitions. */
 export interface ApplicationList {
   /** List of Application definitions. */
-  value?: ApplicationListValueList;
+  value?: ApplicationListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDesktopsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2122,33 +2183,33 @@ export interface ListDesktopsRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Schema for Desktop properties. */
 export interface Desktop {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Desktop */
-  properties?: DesktopProperties;
+  properties?: DesktopProperties | undefined;
 }
 /** List of Desktop definitions. */
 export type DesktopListValueList = Array<Desktop>;
 /** List of Desktop definitions. */
 export interface DesktopList {
   /** List of Desktop definitions. */
-  value?: DesktopListValueList;
+  value?: DesktopListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHostPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2156,11 +2217,11 @@ export interface ListHostPoolByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Resource tags. */
 export type HostPoolTagsMap = { [key: string]: string | undefined };
@@ -2173,29 +2234,29 @@ export type HostPoolPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** Represents a HostPool definition. */
 export interface HostPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HostPoolTagsMap;
+  tags?: HostPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
 }
@@ -2204,9 +2265,9 @@ export type HostPoolListValueList = Array<HostPool>;
 /** List of HostPool definitions. */
 export interface HostPoolList {
   /** List of HostPool definitions. */
-  value?: HostPoolListValueList;
+  value?: HostPoolListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHostPoolRegistrationTokensRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2219,28 +2280,28 @@ export interface ListHostPoolRegistrationTokensRequest {
 /** Represents a Minimal set of properties for RegistrationToken definition. */
 export interface RegistrationTokenMinimal {
   /** Expiration time of registration token. */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** The registration token base64 encoded string. */
-  token?: string;
+  token?: string | undefined;
 }
 /** List of RegistrationToken definitions. */
 export type RegistrationTokenListValueList = Array<RegistrationTokenMinimal>;
 /** List of RegistrationToken definitions. */
 export interface RegistrationTokenList {
   /** List of RegistrationToken definitions. */
-  value?: RegistrationTokenListValueList;
+  value?: RegistrationTokenListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHostPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 export interface ListMSIXPackagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2250,22 +2311,22 @@ export interface ListMSIXPackagesRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Schema for MSIX Package properties. */
 export interface MSIXPackage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -2274,51 +2335,51 @@ export type MSIXPackageListValueList = Array<MSIXPackage>;
 /** List of MSIX Package definitions. */
 export interface MSIXPackageList {
   /** List of MSIX Package definitions. */
-  value?: MSIXPackageListValueList;
+  value?: MSIXPackageListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
   /** Resource provider: Microsoft Desktop Virtualization. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of this operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Service specification payload */
 export interface ServiceSpecification {
   /** Specifications of the Log for Azure Monitoring */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Properties of the operation */
 export interface OperationProperties {
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Supported operation of this resource provider. */
 export interface ResourceProviderOperation {
   /** Operation name, in format of {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: ResourceProviderOperationDisplay;
+  display?: ResourceProviderOperationDisplay | undefined;
   /** Is a data action. */
-  isDataAction?: boolean;
-  properties?: OperationProperties;
+  isDataAction?: boolean | undefined;
+  properties?: OperationProperties | undefined;
 }
 /** The ResourceProviderOperation items on this page */
 export type ResourceProviderOperationListResultValueList = Array<ResourceProviderOperation>;
@@ -2327,7 +2388,7 @@ export interface ResourceProviderOperationListResult {
   /** The ResourceProviderOperation items on this page */
   value: ResourceProviderOperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2337,37 +2398,37 @@ export interface ListPrivateEndpointConnectionByHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionWithSystemDataPropertiesGroupIdsList = Array<string>;
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionWithSystemDataProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionWithSystemDataPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionWithSystemDataPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionWithSystemData {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionWithSystemDataProperties;
+  properties?: PrivateEndpointConnectionWithSystemDataProperties | undefined;
 }
 /** Array of private endpoint connections */
 export type PrivateEndpointConnectionListResultWithSystemDataValueList =
@@ -2375,9 +2436,9 @@ export type PrivateEndpointConnectionListResultWithSystemDataValueList =
 /** List of private endpoint connection associated with the specified storage account */
 export interface PrivateEndpointConnectionListResultWithSystemData {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultWithSystemDataValueList;
+  value?: PrivateEndpointConnectionListResultWithSystemDataValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2395,11 +2456,11 @@ export interface ListPrivateLinkResourceByHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -2408,33 +2469,33 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2444,11 +2505,11 @@ export interface ListPrivateLinkResourceByWorkspaceRequest {
   /** The name of the workspace */
   workspaceName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 export interface ListScalingPlanByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2458,11 +2519,11 @@ export interface ListScalingPlanByHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Resource tags. */
 export type ScalingPlanTagsMap = { [key: string]: string | undefined };
@@ -2475,29 +2536,29 @@ export type ScalingPlanPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** Represents a scaling plan definition. */
 export interface ScalingPlan {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ScalingPlanTagsMap;
+  tags?: ScalingPlanTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
 }
@@ -2506,9 +2567,9 @@ export type ScalingPlanListValueList = Array<ScalingPlan>;
 /** List of scaling plan definitions. */
 export interface ScalingPlanList {
   /** List of scaling plan definitions. */
-  value?: ScalingPlanListValueList;
+  value?: ScalingPlanListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScalingPlanByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2516,21 +2577,21 @@ export interface ListScalingPlanByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 export interface ListScalingPlanBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 export interface ListScalingPlanPersonalSchedulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2540,22 +2601,22 @@ export interface ListScalingPlanPersonalSchedulesRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Represents a ScalingPlanPersonalSchedule definition. */
 export interface ScalingPlanPersonalSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -2564,9 +2625,9 @@ export type ScalingPlanPersonalScheduleListValueList = Array<ScalingPlanPersonal
 /** List of ScalingPlanPersonalSchedule definitions. */
 export interface ScalingPlanPersonalScheduleList {
   /** List of ScalingPlanPersonalSchedule definitions. */
-  value?: ScalingPlanPersonalScheduleListValueList;
+  value?: ScalingPlanPersonalScheduleListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScalingPlanPooledSchedulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2576,22 +2637,22 @@ export interface ListScalingPlanPooledSchedulesRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Represents a ScalingPlanPooledSchedule definition. */
 export interface ScalingPlanPooledSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -2600,9 +2661,9 @@ export type ScalingPlanPooledScheduleListValueList = Array<ScalingPlanPooledSche
 /** List of ScalingPlanPooledSchedule definitions. */
 export interface ScalingPlanPooledScheduleList {
   /** List of ScalingPlanPooledSchedule definitions. */
-  value?: ScalingPlanPooledScheduleListValueList;
+  value?: ScalingPlanPooledScheduleListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSessionHostsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2612,33 +2673,33 @@ export interface ListSessionHostsRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Represents a SessionHost definition. */
 export interface SessionHost {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for SessionHost */
-  properties?: SessionHostProperties;
+  properties?: SessionHostProperties | undefined;
 }
 /** List of SessionHost definitions. */
 export type SessionHostListValueList = Array<SessionHost>;
 /** List of SessionHost definitions. */
 export interface SessionHostList {
   /** List of SessionHost definitions. */
-  value?: SessionHostListValueList;
+  value?: SessionHostListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStartMenuItemsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2648,46 +2709,46 @@ export interface ListStartMenuItemsRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Schema for StartMenuItem properties. */
 export interface StartMenuItemProperties {
   /** Alias of StartMenuItem. */
-  appAlias?: string;
+  appAlias?: string | undefined;
   /** Path to the file of StartMenuItem. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Command line arguments for StartMenuItem. */
-  commandLineArguments?: string;
+  commandLineArguments?: string | undefined;
   /** Path to the icon. */
-  iconPath?: string;
+  iconPath?: string | undefined;
   /** Index of the icon. */
-  iconIndex?: number;
+  iconIndex?: number | undefined;
 }
 /** Represents a StartMenuItem definition. */
 export interface StartMenuItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for StartMenuItem */
-  properties?: StartMenuItemProperties;
+  properties?: StartMenuItemProperties | undefined;
 }
 /** List of StartMenuItem definitions. */
 export type StartMenuItemListValueList = Array<StartMenuItem>;
 /** List of StartMenuItem definitions. */
 export interface StartMenuItemList {
   /** List of StartMenuItem definitions. */
-  value?: StartMenuItemListValueList;
+  value?: StartMenuItemListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserSessionByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2697,35 +2758,35 @@ export interface ListUserSessionByHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** OData filter expression. Valid properties for filtering are userprincipalname and sessionstate. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Represents a UserSession definition. */
 export interface UserSession {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for UserSession */
-  properties?: UserSessionProperties;
+  properties?: UserSessionProperties | undefined;
 }
 /** List of UserSession definitions. */
 export type UserSessionListValueList = Array<UserSession>;
 /** List of UserSession definitions. */
 export interface UserSessionList {
   /** List of UserSession definitions. */
-  value?: UserSessionListValueList;
+  value?: UserSessionListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserSessionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2737,11 +2798,11 @@ export interface ListUserSessionsRequest {
   /** The name of the session host within the specified host pool */
   sessionHostName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2749,11 +2810,11 @@ export interface ListWorkspaceByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Number of items per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Indicates whether the collection is descending. */
-  isDescending?: boolean;
+  isDescending?: boolean | undefined;
   /** Initial number of items to skip. */
-  initialSkip?: number;
+  initialSkip?: number | undefined;
 }
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
@@ -2766,40 +2827,40 @@ export type WorkspacePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** Represents a Workspace definition. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** List of Workspace definitions. */
 export type WorkspaceListValueList = Array<Workspace>;
 /** List of Workspace definitions. */
 export interface WorkspaceList {
   /** List of Workspace definitions. */
-  value?: WorkspaceListValueList;
+  value?: WorkspaceListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2813,7 +2874,7 @@ export interface MsixImagesExpandRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** URI to Image */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** List of package dependencies. */
 export type ExpandMsixImagePropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
@@ -2822,57 +2883,57 @@ export type ExpandMsixImagePropertiesPackageApplicationsList = Array<MsixPackage
 /** Schema for Expand MSIX Image properties. */
 export interface ExpandMsixImageProperties {
   /** Alias of MSIX Package. */
-  packageAlias?: string;
+  packageAlias?: string | undefined;
   /** VHD/CIM image path on Network Share. */
-  imagePath?: string;
+  imagePath?: string | undefined;
   /** Package Name from appxmanifest.xml. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Package Family Name from appxmanifest.xml. Contains Package Name and Publisher name. */
-  packageFamilyName?: string;
+  packageFamilyName?: string | undefined;
   /** Package Full Name from appxmanifest.xml. */
-  packageFullName?: string;
+  packageFullName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Relative Path to the package inside the image. */
-  packageRelativePath?: string;
+  packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
-  isRegularRegistration?: boolean;
+  isRegularRegistration?: boolean | undefined;
   /** Make this version of the package the active one across the hostpool. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** List of package dependencies. */
-  packageDependencies?: ExpandMsixImagePropertiesPackageDependenciesList | null;
+  packageDependencies?: ExpandMsixImagePropertiesPackageDependenciesList | null | undefined;
   /** Package version found in the appxmanifest.xml. */
-  version?: string;
+  version?: string | undefined;
   /** Date Package was last updated, found in the appxmanifest.xml. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** List of package applications. */
-  packageApplications?: ExpandMsixImagePropertiesPackageApplicationsList;
+  packageApplications?: ExpandMsixImagePropertiesPackageApplicationsList | undefined;
   /** Certificate name found in the appxmanifest.xml. */
-  certificateName?: string | null;
+  certificateName?: string | null | undefined;
   /** Date certificate expires, found in the appxmanifest.xml. */
-  certificateExpiry?: string | null;
+  certificateExpiry?: string | null | undefined;
 }
 /** Represents the definition of contents retrieved after expanding the MSIX Image. */
 export interface ExpandMsixImage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ExpandMsixImage */
-  properties?: ExpandMsixImageProperties;
+  properties?: ExpandMsixImageProperties | undefined;
 }
 /** List of MSIX package properties from give MSIX Image. */
 export type ExpandMsixImageListValueList = Array<ExpandMsixImage>;
 /** List of MSIX package properties retrieved from MSIX Image expansion. */
 export interface ExpandMsixImageList {
   /** List of MSIX package properties from give MSIX Image. */
-  value?: ExpandMsixImageListValueList;
+  value?: ExpandMsixImageListValueList | undefined;
   /** Link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MSIXPackagesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2888,13 +2949,13 @@ export interface MSIXPackagesCreateOrUpdateRequest {
 }
 export interface MSIXPackagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -2910,9 +2971,9 @@ export interface SendUserSessionMessageRequest {
   /** The name of the user session within the specified session host */
   userSessionId: string;
   /** Title of message. */
-  messageTitle?: string;
+  messageTitle?: string | undefined;
   /** Body of message. */
-  messageBody?: string;
+  messageBody?: string | undefined;
 }
 export interface SendUserSessionMessageResponse {}
 /** List of Hostpool resource Ids. */
@@ -2920,13 +2981,13 @@ export type AppAttachPackagePatchPropertiesHostPoolReferencesList = Array<string
 /** Schema for patchable fields on an App Attach Package. */
 export interface AppAttachPackagePatchProperties {
   /** Detailed properties for App Attach Package */
-  image?: AppAttachPackageInfoProperties;
+  image?: AppAttachPackageInfoProperties | undefined;
   /** List of Hostpool resource Ids. */
-  hostPoolReferences?: AppAttachPackagePatchPropertiesHostPoolReferencesList;
+  hostPoolReferences?: AppAttachPackagePatchPropertiesHostPoolReferencesList | undefined;
   /** URL path to certificate name located in keyVault */
-  keyVaultURL?: string;
+  keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {});
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {}) | undefined;
 }
 export interface UpdateAppAttachPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2936,21 +2997,21 @@ export interface UpdateAppAttachPackageRequest {
   /** The name of the App Attach package */
   appAttachPackageName: string;
   /** Detailed properties for App Attach Package */
-  properties?: AppAttachPackagePatchProperties;
+  properties?: AppAttachPackagePatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAppAttachPackageResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAppAttachPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAppAttachPackageResponseTagsMap;
+  tags?: UpdateAppAttachPackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Detailed properties for App Attach Package */
@@ -2963,27 +3024,27 @@ export type ApplicationPatchPropertiesApplicationType = "InBuilt" | "MsixApplica
 /** Application properties that can be patched. */
 export interface ApplicationPatchProperties {
   /** Description of Application. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Application. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Specifies a path for the executable file for the application. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-  commandLineSetting?: ApplicationPatchPropertiesCommandLineSetting | (string & {});
+  commandLineSetting?: ApplicationPatchPropertiesCommandLineSetting | (string & {}) | undefined;
   /** Command Line Arguments for Application. */
-  commandLineArguments?: string;
+  commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
-  showInPortal?: boolean;
+  showInPortal?: boolean | undefined;
   /** Path to icon. */
-  iconPath?: string;
+  iconPath?: string | undefined;
   /** Index of the icon. */
-  iconIndex?: number;
+  iconIndex?: number | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null;
+  msixPackageFamilyName?: string | null | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null;
+  msixPackageApplicationId?: string | null | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPatchPropertiesApplicationType | (string & {});
+  applicationType?: ApplicationPatchPropertiesApplicationType | (string & {}) | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2995,17 +3056,17 @@ export interface UpdateApplicationRequest {
   /** The name of the application within the specified application group */
   applicationName: string;
   /** Detailed properties for Application */
-  properties?: ApplicationPatchProperties;
+  properties?: ApplicationPatchProperties | undefined;
 }
 export interface UpdateApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -3014,11 +3075,11 @@ export type UpdateApplicationGroupRequestTagsMap = { [key: string]: string | und
 /** ApplicationGroup properties that can be patched. */
 export interface ApplicationGroupPatchProperties {
   /** Description of ApplicationGroup. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of ApplicationGroup. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Boolean representing whether the applicationGroup is show in the feed. */
-  showInFeed?: boolean;
+  showInFeed?: boolean | undefined;
 }
 export interface UpdateApplicationGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3028,9 +3089,9 @@ export interface UpdateApplicationGroupRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** tags to be updated */
-  tags?: UpdateApplicationGroupRequestTagsMap | null;
+  tags?: UpdateApplicationGroupRequestTagsMap | null | undefined;
   /** ApplicationGroup properties that can be patched. */
-  properties?: ApplicationGroupPatchProperties;
+  properties?: ApplicationGroupPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -3043,38 +3104,38 @@ export type UpdateApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateR
 export type UpdateApplicationGroupResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface UpdateApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateApplicationGroupResponseTagsMap;
+  tags?: UpdateApplicationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
 }
 /** Desktop properties that can be patched. */
 export interface DesktopPatchProperties {
   /** Description of Desktop. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Desktop. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
 }
 export interface UpdateDesktopRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3086,19 +3147,19 @@ export interface UpdateDesktopRequest {
   /** The name of the desktop within the specified desktop group */
   desktopName: string;
   /** Detailed properties for Desktop */
-  properties?: DesktopPatchProperties;
+  properties?: DesktopPatchProperties | undefined;
 }
 export interface UpdateDesktopResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for Desktop */
-  properties?: DesktopProperties;
+  properties?: DesktopProperties | undefined;
 }
 /** tags to be updated */
 export type UpdateHostPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -3115,9 +3176,12 @@ export type RegistrationInfoPatchRegistrationTokenOperation = "Delete" | "None" 
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfoPatch {
   /** Expiration time of registration token. */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** The type of resetting the token. */
-  registrationTokenOperation?: RegistrationInfoPatchRegistrationTokenOperation | (string & {});
+  registrationTokenOperation?:
+    | RegistrationInfoPatchRegistrationTokenOperation
+    | (string & {})
+    | undefined;
 }
 /** The type of single sign on Secret Type. */
 export type HostPoolPatchPropertiesSsoSecretType =
@@ -3147,9 +3211,9 @@ export type MaintenanceWindowPatchPropertiesDayOfWeek =
 /** Maintenance window starting hour and day of week. */
 export interface MaintenanceWindowPatchProperties {
   /** The update start hour of the day. (0 - 23) */
-  hour?: number;
+  hour?: number | undefined;
   /** Day of the week. */
-  dayOfWeek?: MaintenanceWindowPatchPropertiesDayOfWeek | (string & {});
+  dayOfWeek?: MaintenanceWindowPatchPropertiesDayOfWeek | (string & {}) | undefined;
 }
 /** List of maintenance windows. Maintenance windows are 2 hours long. */
 export type AgentUpdatePatchPropertiesMaintenanceWindowsList =
@@ -3157,55 +3221,60 @@ export type AgentUpdatePatchPropertiesMaintenanceWindowsList =
 /** The session host configuration for updating agent, monitoring agent, and stack component. */
 export interface AgentUpdatePatchProperties {
   /** The type of maintenance for session host components. */
-  type?: AgentUpdatePatchPropertiesType | (string & {});
+  type?: AgentUpdatePatchPropertiesType | (string & {}) | undefined;
   /** Whether to use localTime of the virtual machine. */
-  useSessionHostLocalTime?: boolean;
+  useSessionHostLocalTime?: boolean | undefined;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
-  maintenanceWindowTimeZone?: string;
+  maintenanceWindowTimeZone?: string | undefined;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: AgentUpdatePatchPropertiesMaintenanceWindowsList | null;
+  maintenanceWindows?: AgentUpdatePatchPropertiesMaintenanceWindowsList | null | undefined;
 }
 /** Properties of HostPool. */
 export interface HostPoolPatchProperties {
   /** Friendly name of HostPool. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Description of HostPool. */
-  description?: string;
+  description?: string | undefined;
   /** Custom rdp property of HostPool. */
-  customRdpProperty?: string;
+  customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null;
+  maxSessionLimit?: number | null | undefined;
   /** PersonalDesktopAssignment type for HostPool. */
   personalDesktopAssignmentType?:
     | HostPoolPatchPropertiesPersonalDesktopAssignmentType
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The type of the load balancer. */
-  loadBalancerType?: HostPoolPatchPropertiesLoadBalancerType | (string & {});
+  loadBalancerType?: HostPoolPatchPropertiesLoadBalancerType | (string & {}) | undefined;
   /** The ring number of HostPool. */
-  ring?: number | null;
+  ring?: number | null | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null;
+  validationEnvironment?: boolean | null | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfoPatch | null;
+  registrationInfo?: RegistrationInfoPatch | null | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
-  vmTemplate?: string;
+  vmTemplate?: string | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
-  ssoadfsAuthority?: string;
+  ssoadfsAuthority?: string | undefined;
   /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
-  ssoClientId?: string;
+  ssoClientId?: string | undefined;
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
-  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string>;
+  ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPatchPropertiesSsoSecretType | (string & {}) | null;
+  ssoSecretType?: HostPoolPatchPropertiesSsoSecretType | (string & {}) | null | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType?: HostPoolPatchPropertiesPreferredAppGroupType | (string & {});
+  preferredAppGroupType?: HostPoolPatchPropertiesPreferredAppGroupType | (string & {}) | undefined;
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null;
+  startVMOnConnect?: boolean | null | undefined;
   /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: HostPoolPatchPropertiesPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | HostPoolPatchPropertiesPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdatePatchProperties | null;
+  agentUpdate?: AgentUpdatePatchProperties | null | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export type UpdateHostPoolRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
@@ -3217,11 +3286,11 @@ export interface UpdateHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** tags to be updated */
-  tags?: UpdateHostPoolRequestTagsMap | null;
+  tags?: UpdateHostPoolRequestTagsMap | null | undefined;
   /** HostPool properties that can be patched. */
-  properties?: HostPoolPatchProperties;
+  properties?: HostPoolPatchProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateHostPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -3233,40 +3302,40 @@ export type UpdateHostPoolResponseSku = ApplicationGroupsCreateOrUpdateResponseS
 export type UpdateHostPoolResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface UpdateHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateHostPoolResponseTagsMap;
+  tags?: UpdateHostPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
 }
 /** MSIX Package properties that can be patched. */
 export interface MSIXPackagePatchProperties {
   /** Set a version of the package to be active across hostpool. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Set Registration mode. Regular or Delayed. */
-  isRegularRegistration?: boolean;
+  isRegularRegistration?: boolean | undefined;
   /** Display name for MSIX Package. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface UpdateMSIXPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3278,17 +3347,17 @@ export interface UpdateMSIXPackageRequest {
   /** The version specific package full name of the MSIX package within specified hostpool */
   msixPackageFullName: string;
   /** Detailed properties for MSIX Package */
-  properties?: MSIXPackagePatchProperties;
+  properties?: MSIXPackagePatchProperties | undefined;
 }
 export interface UpdateMSIXPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -3297,7 +3366,7 @@ export interface PrivateEndpointInput {}
 /** Properties of the private endpoint connection. */
 export interface UpdatePrivateEndpointConnectionByHostPoolRequestProperties {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -3311,32 +3380,32 @@ export interface UpdatePrivateEndpointConnectionByHostPoolRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties;
+  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type UpdatePrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList = Array<string>;
 /** Properties of the private endpoint connection. */
 export interface UpdatePrivateEndpointConnectionByHostPoolResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: UpdatePrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList;
+  groupIds?: UpdatePrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface UpdatePrivateEndpointConnectionByHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolResponseProperties;
+  properties?: UpdatePrivateEndpointConnectionByHostPoolResponseProperties | undefined;
 }
 /** Properties of the private endpoint connection. */
 export type UpdatePrivateEndpointConnectionByWorkspaceRequestProperties =
@@ -3351,7 +3420,7 @@ export interface UpdatePrivateEndpointConnectionByWorkspaceRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties;
+  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList =
@@ -3359,25 +3428,25 @@ export type UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIds
 /** Properties of the private endpoint connection. */
 export interface UpdatePrivateEndpointConnectionByWorkspaceResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList;
+  groupIds?: UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface UpdatePrivateEndpointConnectionByWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByWorkspaceResponseProperties;
+  properties?: UpdatePrivateEndpointConnectionByWorkspaceResponseProperties | undefined;
 }
 /** tags to be updated */
 export type UpdateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
@@ -3388,17 +3457,17 @@ export type ScalingPlanPatchPropertiesHostPoolReferencesList = Array<ScalingHost
 /** Scaling plan properties. */
 export interface ScalingPlanPatchProperties {
   /** Description of scaling plan. */
-  description?: string;
+  description?: string | undefined;
   /** User friendly name of scaling plan. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Timezone of the scaling plan. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Exclusion tag for scaling plan. */
-  exclusionTag?: string;
+  exclusionTag?: string | undefined;
   /** List of ScalingSchedule definitions. */
-  schedules?: ScalingPlanPatchPropertiesSchedulesList;
+  schedules?: ScalingPlanPatchPropertiesSchedulesList | undefined;
   /** List of ScalingHostPoolReference definitions. */
-  hostPoolReferences?: ScalingPlanPatchPropertiesHostPoolReferencesList;
+  hostPoolReferences?: ScalingPlanPatchPropertiesHostPoolReferencesList | undefined;
 }
 export interface UpdateScalingPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3408,9 +3477,9 @@ export interface UpdateScalingPlanRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
   /** tags to be updated */
-  tags?: UpdateScalingPlanRequestTagsMap | null;
+  tags?: UpdateScalingPlanRequestTagsMap | null | undefined;
   /** Detailed properties for scaling plan */
-  properties?: ScalingPlanPatchProperties;
+  properties?: ScalingPlanPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
@@ -3422,29 +3491,29 @@ export type UpdateScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateRespon
 export type UpdateScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface UpdateScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateScalingPlanResponseTagsMap;
+  tags?: UpdateScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
 }
@@ -3458,17 +3527,17 @@ export interface UpdateScalingPlanPersonalScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
   /** Detailed properties for ScalingPlanPersonalSchedule */
-  properties?: ScalingPlanPersonalScheduleProperties;
+  properties?: ScalingPlanPersonalScheduleProperties | undefined;
 }
 export interface UpdateScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -3482,28 +3551,28 @@ export interface UpdateScalingPlanPooledScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
   /** Detailed properties for ScalingPlanPooledSchedule */
-  properties?: ScalingPlanPooledScheduleProperties;
+  properties?: ScalingPlanPooledScheduleProperties | undefined;
 }
 export interface UpdateScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
 /** SessionHost properties that can be patched. */
 export interface SessionHostPatchProperties {
   /** Allow a new session. */
-  allowNewSession?: boolean;
+  allowNewSession?: boolean | undefined;
   /** User assigned to SessionHost. */
-  assignedUser?: string;
+  assignedUser?: string | undefined;
   /** Friendly name of SessionHost */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
 }
 export interface UpdateSessionHostRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3515,21 +3584,21 @@ export interface UpdateSessionHostRequest {
   /** The name of the session host within the specified host pool */
   sessionHostName: string;
   /** Force flag to update assign, unassign or reassign personal desktop. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Detailed properties for SessionHost */
-  properties?: SessionHostPatchProperties;
+  properties?: SessionHostPatchProperties | undefined;
 }
 export interface UpdateSessionHostResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Detailed properties for SessionHost */
-  properties?: SessionHostProperties;
+  properties?: SessionHostProperties | undefined;
 }
 /** tags to be updated */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -3540,13 +3609,20 @@ export type WorkspacePatchPropertiesPublicNetworkAccess = "Enabled" | "Disabled"
 /** Workspace properties that can be patched. */
 export interface WorkspacePatchProperties {
   /** Description of Workspace. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Workspace. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** List of applicationGroup links. */
-  applicationGroupReferences?: WorkspacePatchPropertiesApplicationGroupReferencesList | null;
+  applicationGroupReferences?:
+    | WorkspacePatchPropertiesApplicationGroupReferencesList
+    | null
+    | undefined;
   /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: WorkspacePatchPropertiesPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | WorkspacePatchPropertiesPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3556,9 +3632,9 @@ export interface UpdateWorkspaceRequest {
   /** The name of the workspace */
   workspaceName: string;
   /** tags to be updated */
-  tags?: UpdateWorkspaceRequestTagsMap | null;
+  tags?: UpdateWorkspaceRequestTagsMap | null | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspacePatchProperties;
+  properties?: WorkspacePatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3570,31 +3646,31 @@ export type UpdateWorkspaceResponseSku = ApplicationGroupsCreateOrUpdateResponse
 export type UpdateWorkspaceResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3612,13 +3688,20 @@ export type WorkspacePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled"
 /** Schema for Workspace properties. */
 export interface WorkspacePropertiesInput {
   /** Description of Workspace. */
-  description?: string;
+  description?: string | undefined;
   /** Friendly name of Workspace. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?: WorkspacePropertiesInputApplicationGroupReferencesList | null;
+  applicationGroupReferences?:
+    | WorkspacePropertiesInputApplicationGroupReferencesList
+    | null
+    | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: WorkspacePropertiesInputPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | WorkspacePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3628,21 +3711,21 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the workspace */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku;
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -3655,31 +3738,31 @@ export type WorkspacesCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdat
 export type WorkspacesCreateOrUpdateResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
   /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity;
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku;
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
   /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export type AppAttachPackageCreateOrUpdateError = AzureOpError;
 /** Create or update an App Attach package. */

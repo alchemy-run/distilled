@@ -42,12 +42,12 @@ export interface AbortProfilesMigrationRequest {
 }
 export interface AbortProfilesMigrationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Reference to another resource. */
 export interface ResourceReference {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Parameters required for profile upgrade. */
 export interface ProfileChangeSkuWafMapping {
@@ -75,17 +75,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AFDProfilesUpgradeResponseTagsMap = { [key: string]: string | undefined };
@@ -127,33 +127,33 @@ export interface ProfileScrubbingRules {
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
   selectorMatchOperator: ScrubbingRuleEntryMatchOperator | (string & {});
   /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
-  selector?: string;
+  selector?: string | undefined;
   /** Defines the state of a log scrubbing rule. Default value is enabled. */
-  state?: ScrubbingRuleEntryState | (string & {});
+  state?: ScrubbingRuleEntryState | (string & {}) | undefined;
 }
 /** List of log scrubbing rules applied to the Azure Front Door profile logs. */
 export type ProfileLogScrubbingScrubbingRulesList = Array<ProfileScrubbingRules>;
 /** Defines rules that scrub sensitive fields in the Azure Front Door profile logs. */
 export interface ProfileLogScrubbing {
   /** State of the log scrubbing config. Default value is Enabled. */
-  state?: ProfileScrubbingState | (string & {});
+  state?: ProfileScrubbingState | (string & {}) | undefined;
   /** List of log scrubbing rules applied to the Azure Front Door profile logs. */
-  scrubbingRules?: ProfileLogScrubbingScrubbingRulesList;
+  scrubbingRules?: ProfileLogScrubbingScrubbingRulesList | undefined;
 }
 /** The JSON object that contains the properties required to create a profile. */
 export interface ProfileProperties {
   /** Resource status of the profile. */
-  resourceState?: ProfileResourceState;
+  resourceState?: ProfileResourceState | undefined;
   /** Provisioning status of the profile. */
-  provisioningState?: ProfileProvisioningState;
+  provisioningState?: ProfileProvisioningState | undefined;
   /** Key-Value pair representing additional properties for profiles. */
-  extendedProperties?: ProfilePropertiesExtendedPropertiesMap;
+  extendedProperties?: ProfilePropertiesExtendedPropertiesMap | undefined;
   /** The Id of the frontdoor. */
-  frontDoorId?: string;
+  frontDoorId?: string | undefined;
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
-  originResponseTimeoutSeconds?: number;
+  originResponseTimeoutSeconds?: number | undefined;
   /** Defines rules that scrub sensitive fields in the Azure Front Door profile logs. */
-  logScrubbing?: ProfileLogScrubbing;
+  logScrubbing?: ProfileLogScrubbing | undefined;
 }
 /** Name of the pricing tier. */
 export type SkuName =
@@ -173,7 +173,7 @@ export type SkuName =
 /** Standard_Verizon = The SKU name for a Standard Verizon CDN profile. Premium_Verizon = The SKU name for a Premium Verizon CDN profile. Custom_Verizon = The SKU name for a Custom Verizon CDN profile. Standard_Akamai = The SKU name for an Akamai CDN profile. Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing model. Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile. Standard_AzureFrontDoor = The SKU name for an Azure Front Door Standard profile. Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile. Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5 peak bandwidth billing model. Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly average peak bandwidth billing model. StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model. StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing model. StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak bandwidth billing model. */
 export interface Sku {
   /** Name of the pricing tier. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -184,9 +184,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AFDProfilesUpgradeResponseIdentityUserAssignedIdentitiesMap = {
@@ -195,36 +195,36 @@ export type AFDProfilesUpgradeResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AFDProfilesUpgradeResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AFDProfilesUpgradeResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AFDProfilesUpgradeResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface AFDProfilesUpgradeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AFDProfilesUpgradeResponseTagsMap;
+  tags?: AFDProfilesUpgradeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AFDProfilesUpgradeResponseIdentity;
+  identity?: AFDProfilesUpgradeResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Type of CDN resource used in CheckNameAvailability. */
 export type ResourceType =
@@ -248,18 +248,18 @@ export interface CheckAFDProfileEndpointNameAvailabilityRequest {
   /** The type of the resource whose name is to be validated. */
   type: ResourceType | (string & {});
   /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {});
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {}) | undefined;
 }
 /** Output of check name availability API. */
 export interface CheckEndpointNameAvailabilityOutput {
   /** Indicates whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Returns the available hostname generated based on the AutoGeneratedDomainNameLabelScope when the name is available, otherwise it returns empty string */
-  availableHostname?: string;
+  availableHostname?: string | undefined;
   /** The reason why the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed error message describing why the name is not available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckAFDProfileHostNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -274,11 +274,11 @@ export interface CheckAFDProfileHostNameAvailabilityRequest {
 /** Output of check name availability API. */
 export interface CheckNameAvailabilityOutput {
   /** Indicates whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed error message describing why the name is not available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckEndpointNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -290,7 +290,7 @@ export interface CheckEndpointNameAvailabilityRequest {
   /** The type of the resource whose name is to be validated. */
   type: ResourceType | (string & {});
   /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {});
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {}) | undefined;
 }
 export interface CheckNameAvailabilityRequest {
   /** The resource name to validate. */
@@ -316,11 +316,11 @@ export interface CommitProfilesMigrationRequest {
 }
 export interface CommitProfilesMigrationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Defines the source of the SSL certificate. */
 export type AfdCertificateType =
@@ -350,9 +350,13 @@ export type AFDDomainHttpsCustomizedCipherSuiteSetCipherSuiteSetForTls13List = A
 /** Customized cipher suite set object that will be used for Https when cipherSuiteSetType is Customized. */
 export interface AFDDomainHttpsCustomizedCipherSuiteSet {
   /** Cipher suites for TLS 1.2. Required at least one in minimumTlsVersion TLS 1.2. */
-  cipherSuiteSetForTls12?: AFDDomainHttpsCustomizedCipherSuiteSetCipherSuiteSetForTls12List;
+  cipherSuiteSetForTls12?:
+    | AFDDomainHttpsCustomizedCipherSuiteSetCipherSuiteSetForTls12List
+    | undefined;
   /** Cipher suites for TLS 1.3. Required at least one in minimumTlsVersion TLS 1.2, TLS 1.3. */
-  cipherSuiteSetForTls13?: AFDDomainHttpsCustomizedCipherSuiteSetCipherSuiteSetForTls13List;
+  cipherSuiteSetForTls13?:
+    | AFDDomainHttpsCustomizedCipherSuiteSetCipherSuiteSetForTls13List
+    | undefined;
 }
 /** Server TLS group policy that will be used for Https. Standard and Enhanced are service-managed sets; Custom allows specifying serverTlsGroups explicitly. */
 export type AfdServerTlsGroupPolicy = "Standard" | "Enhanced" | "Custom";
@@ -372,17 +376,17 @@ export interface AFDDomainHttpsParameters {
   /** Defines the source of the SSL certificate. */
   certificateType: AfdCertificateType | (string & {});
   /** cipher suite set type that will be used for Https */
-  cipherSuiteSetType?: AfdCipherSuiteSetType | (string & {});
+  cipherSuiteSetType?: AfdCipherSuiteSetType | (string & {}) | undefined;
   /** TLS protocol version that will be used for Https when cipherSuiteSetType is Customized. */
-  minimumTlsVersion?: AfdMinimumTlsVersion | (string & {});
+  minimumTlsVersion?: AfdMinimumTlsVersion | (string & {}) | undefined;
   /** Customized cipher suites object that will be used for Https when cipherSuiteSetType is Customized. */
-  customizedCipherSuiteSet?: AFDDomainHttpsCustomizedCipherSuiteSet;
+  customizedCipherSuiteSet?: AFDDomainHttpsCustomizedCipherSuiteSet | undefined;
   /** Server TLS group policy that will be used for Https. */
-  serverTlsGroupPolicy?: AfdServerTlsGroupPolicy | (string & {});
+  serverTlsGroupPolicy?: AfdServerTlsGroupPolicy | (string & {}) | undefined;
   /** Server TLS groups that will be used for Https when serverTlsGroupPolicy is Custom. */
-  serverTlsGroups?: AFDDomainHttpsParametersServerTlsGroupsList;
+  serverTlsGroups?: AFDDomainHttpsParametersServerTlsGroupsList | undefined;
   /** Resource reference to the secret. ie. subs/rg/profile/secret */
-  secret?: ResourceReference;
+  secret?: ResourceReference | undefined;
 }
 /** Supported scenarios for establishing mTLS connection. */
 export type MtlsScenarioType =
@@ -400,17 +404,17 @@ export type AFDDomainPropertiesInputExtendedPropertiesMap = { [key: string]: str
 /** The JSON object that contains the properties of the domain to create. */
 export interface AFDDomainPropertiesInput {
   /** The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user's own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. */
-  tlsSettings?: AFDDomainHttpsParameters;
+  tlsSettings?: AFDDomainHttpsParameters | undefined;
   /** The configuration specifying how to enable mutual TLS for the domain, including specifying allowed FQDNs and which server certificate(s) to use. */
-  mtlsSettings?: AFDDomainMtlsParameters;
+  mtlsSettings?: AFDDomainMtlsParameters | undefined;
   /** Resource reference to the Azure DNS zone */
-  azureDnsZone?: ResourceReference;
+  azureDnsZone?: ResourceReference | undefined;
   /** Resource reference to the Azure resource where custom domain ownership was prevalidated */
-  preValidatedCustomDomainResourceId?: ResourceReference;
+  preValidatedCustomDomainResourceId?: ResourceReference | undefined;
   /** The host name of the domain. Must be a domain name. */
   hostName: string;
   /** Key-Value pair representing migration properties for domains. */
-  extendedProperties?: AFDDomainPropertiesInputExtendedPropertiesMap;
+  extendedProperties?: AFDDomainPropertiesInputExtendedPropertiesMap | undefined;
 }
 export interface CreateAFDCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -422,7 +426,7 @@ export interface CreateAFDCustomDomainRequest {
   /** Name of the domain under the profile which is unique globally. */
   customDomainName: string;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainPropertiesInput;
+  properties?: AFDDomainPropertiesInput | undefined;
 }
 /** Provisioning status */
 export type AfdProvisioningState = "Succeeded" | "Failed" | "Updating" | "Deleting" | "Creating";
@@ -443,49 +447,49 @@ export type AFDDomainPropertiesExtendedPropertiesMap = { [key: string]: string |
 /** The JSON object that contains the properties to validate a domain. */
 export interface DomainValidationProperties {
   /** Challenge used for DNS TXT record or file based validation */
-  validationToken?: string;
+  validationToken?: string | undefined;
   /** The date time that the token expires */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
 }
 /** The JSON object that contains the properties of the domain to create. */
 export interface AFDDomainProperties {
   /** The name of the profile which holds the domain. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user's own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. */
-  tlsSettings?: AFDDomainHttpsParameters;
+  tlsSettings?: AFDDomainHttpsParameters | undefined;
   /** The configuration specifying how to enable mutual TLS for the domain, including specifying allowed FQDNs and which server certificate(s) to use. */
-  mtlsSettings?: AFDDomainMtlsParameters;
+  mtlsSettings?: AFDDomainMtlsParameters | undefined;
   /** Resource reference to the Azure DNS zone */
-  azureDnsZone?: ResourceReference;
+  azureDnsZone?: ResourceReference | undefined;
   /** Resource reference to the Azure resource where custom domain ownership was prevalidated */
-  preValidatedCustomDomainResourceId?: ResourceReference;
+  preValidatedCustomDomainResourceId?: ResourceReference | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
   /** Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation. */
-  domainValidationState?: DomainValidationState;
+  domainValidationState?: DomainValidationState | undefined;
   /** The host name of the domain. Must be a domain name. */
   hostName: string;
   /** Key-Value pair representing migration properties for domains. */
-  extendedProperties?: AFDDomainPropertiesExtendedPropertiesMap;
+  extendedProperties?: AFDDomainPropertiesExtendedPropertiesMap | undefined;
   /** Values the customer needs to validate domain ownership */
-  validationProperties?: DomainValidationProperties;
+  validationProperties?: DomainValidationProperties | undefined;
 }
 export interface CreateAFDCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainProperties;
+  properties?: AFDDomainProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAFDEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -496,11 +500,11 @@ export type EnforceMtlsEnabledState = "Enabled" | "Disabled";
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface AFDEndpointPropertiesInput {
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
   /** Set to Disabled by default. If set to Enabled, only custom domains with mTLS enabled can be added to child Route resources. */
-  enforceMtls?: EnforceMtlsEnabledState | (string & {});
+  enforceMtls?: EnforceMtlsEnabledState | (string & {}) | undefined;
   /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {});
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {}) | undefined;
 }
 export interface CreateAFDEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -512,51 +516,51 @@ export interface CreateAFDEndpointRequest {
   /** Name of the endpoint under the profile which is unique globally. */
   endpointName: string;
   /** Resource tags. */
-  tags?: CreateAFDEndpointRequestTagsMap;
+  tags?: CreateAFDEndpointRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: AFDEndpointPropertiesInput;
+  properties?: AFDEndpointPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface AFDEndpointProperties {
   /** The name of the profile which holds the endpoint. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState;
+  enabledState?: EnabledState | undefined;
   /** Set to Disabled by default. If set to Enabled, only custom domains with mTLS enabled can be added to child Route resources. */
-  enforceMtls?: EnforceMtlsEnabledState;
+  enforceMtls?: EnforceMtlsEnabledState | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
   /** The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | undefined;
 }
 export interface CreateAFDEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAFDEndpointResponseTagsMap;
+  tags?: CreateAFDEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: AFDEndpointProperties;
+  properties?: AFDEndpointProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout. */
 export type SharedPrivateLinkResourceStatus =
@@ -568,15 +572,15 @@ export type SharedPrivateLinkResourceStatus =
 /** Describes the properties of an existing Shared Private Link Resource to use when connecting to a private origin. */
 export interface SharedPrivateLinkResourceProperties {
   /** The resource id of the resource the shared private link resource is for. */
-  privateLink?: ResourceReference;
+  privateLink?: ResourceReference | undefined;
   /** The location of the shared private link resource */
-  privateLinkLocation?: string;
+  privateLinkLocation?: string | undefined;
   /** The group id from the provider of resource the shared private link resource is for. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The request message for requesting approval of the shared private link resource. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout. */
-  status?: SharedPrivateLinkResourceStatus | (string & {});
+  status?: SharedPrivateLinkResourceStatus | (string & {}) | undefined;
 }
 /** The validation mode for certificate name check at origin level. Only applicable when enforceCertificateNameCheck is true. */
 export type CertificateNameCheckValidationMode =
@@ -588,29 +592,32 @@ export type AFDOriginPropertiesInputCustomCertificateSubjectsList = Array<string
 /** The JSON object that contains the properties of the origin. */
 export interface AFDOriginPropertiesInput {
   /** Resource reference to the Azure origin resource. */
-  azureOrigin?: ResourceReference;
+  azureOrigin?: ResourceReference | undefined;
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure Front Door origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5 */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** The properties of the private link resource for private origin. */
-  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
+  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties | undefined;
   /** Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool. */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
   /** Whether to enable certificate name check at origin level */
-  enforceCertificateNameCheck?: boolean;
+  enforceCertificateNameCheck?: boolean | undefined;
   /** The validation mode for certificate name check. Only applicable when enforceCertificateNameCheck is true. */
-  certificateNameCheckValidationMode?: CertificateNameCheckValidationMode | (string & {});
+  certificateNameCheckValidationMode?:
+    | CertificateNameCheckValidationMode
+    | (string & {})
+    | undefined;
   /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
-  customCertificateSubjects?: AFDOriginPropertiesInputCustomCertificateSubjectsList;
+  customCertificateSubjects?: AFDOriginPropertiesInputCustomCertificateSubjectsList | undefined;
 }
 export interface CreateAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -624,66 +631,66 @@ export interface CreateAFDOriginRequest {
   /** Name of the origin which is unique within the profile. */
   originName: string;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginPropertiesInput;
+  properties?: AFDOriginPropertiesInput | undefined;
 }
 /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
 export type AFDOriginPropertiesCustomCertificateSubjectsList = Array<string>;
 /** The JSON object that contains the properties of the origin. */
 export interface AFDOriginProperties {
   /** The name of the origin group which contains this origin. */
-  originGroupName?: string;
+  originGroupName?: string | undefined;
   /** Resource reference to the Azure origin resource. */
-  azureOrigin?: ResourceReference;
+  azureOrigin?: ResourceReference | undefined;
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure Front Door origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5 */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** The properties of the private link resource for private origin. */
-  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
+  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties | undefined;
   /** Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool. */
-  enabledState?: EnabledState;
+  enabledState?: EnabledState | undefined;
   /** Whether to enable certificate name check at origin level */
-  enforceCertificateNameCheck?: boolean;
+  enforceCertificateNameCheck?: boolean | undefined;
   /** The validation mode for certificate name check. Only applicable when enforceCertificateNameCheck is true. */
-  certificateNameCheckValidationMode?: CertificateNameCheckValidationMode;
+  certificateNameCheckValidationMode?: CertificateNameCheckValidationMode | undefined;
   /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
-  customCertificateSubjects?: AFDOriginPropertiesCustomCertificateSubjectsList;
+  customCertificateSubjects?: AFDOriginPropertiesCustomCertificateSubjectsList | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
 }
 export interface CreateAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginProperties;
+  properties?: AFDOriginProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Round-Robin load balancing settings for a backend pool */
 export interface LoadBalancingSettingsParameters {
   /** The number of samples to consider for load balancing decisions */
-  sampleSize?: number;
+  sampleSize?: number | undefined;
   /** The number of samples within the sample period that must succeed */
-  successfulSamplesRequired?: number;
+  successfulSamplesRequired?: number | undefined;
   /** The additional latency in milliseconds for probes to fall into the lowest latency bucket */
-  additionalLatencyInMilliseconds?: number;
+  additionalLatencyInMilliseconds?: number | undefined;
 }
 /** The type of health probe request that is made. */
 export type HealthProbeRequestType = "NotSet" | "GET" | "HEAD";
@@ -692,13 +699,13 @@ export type ProbeProtocol = "NotSet" | "Http" | "Https";
 /** The JSON object that contains the properties to send health probes to origin. */
 export interface HealthProbeParameters {
   /** The path relative to the origin that is used to determine the health of the origin. */
-  probePath?: string;
+  probePath?: string | undefined;
   /** The type of health probe request that is made. */
-  probeRequestType?: HealthProbeRequestType | (string & {});
+  probeRequestType?: HealthProbeRequestType | (string & {}) | undefined;
   /** Protocol to use for health probe. */
-  probeProtocol?: ProbeProtocol | (string & {});
+  probeProtocol?: ProbeProtocol | (string & {}) | undefined;
   /** The number of seconds between health probes.Default is 240sec. */
-  probeIntervalInSeconds?: number;
+  probeIntervalInSeconds?: number | undefined;
 }
 /** The type of the authentication for the origin. */
 export type OriginAuthenticationType = "SystemAssignedIdentity" | "UserAssignedIdentity";
@@ -707,26 +714,26 @@ export type OriginAuthenticationTokenDestinationHeader = "Authorization" | "X-Az
 /** The JSON object that contains the properties of the origin authentication settings. */
 export interface OriginAuthenticationProperties {
   /** The type of the authentication for the origin. */
-  type?: OriginAuthenticationType | (string & {});
+  type?: OriginAuthenticationType | (string & {}) | undefined;
   /** The user assigned managed identity to use for the origin authentication if type is UserAssignedIdentity. */
-  userAssignedIdentity?: ResourceReference;
+  userAssignedIdentity?: ResourceReference | undefined;
   /** The scope used when requesting token from Microsoft Entra. For example, for Azure Blob Storage, scope could be "https://storage.azure.com/.default". */
-  scope?: string;
+  scope?: string | undefined;
   /** The HTTP request header where the origin authentication token will be placed when forwarding the request to the origin. If not specified, the service will use the `Authorization` header for backward compatibility. */
-  tokenDestinationHeader?: OriginAuthenticationTokenDestinationHeader | (string & {});
+  tokenDestinationHeader?: OriginAuthenticationTokenDestinationHeader | (string & {}) | undefined;
 }
 /** The JSON object that contains the properties of the origin group. */
 export interface AFDOriginGroupPropertiesInput {
   /** Load balancing settings for a backend pool */
-  loadBalancingSettings?: LoadBalancingSettingsParameters;
+  loadBalancingSettings?: LoadBalancingSettingsParameters | undefined;
   /** Health probe settings to the origin that is used to determine the health of the origin. */
-  healthProbeSettings?: HealthProbeParameters;
+  healthProbeSettings?: HealthProbeParameters | undefined;
   /** Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported. */
-  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number | undefined;
   /** Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled' */
-  sessionAffinityState?: EnabledState | (string & {});
+  sessionAffinityState?: EnabledState | (string & {}) | undefined;
   /** Authentication settings for origin in origin group. */
-  authentication?: OriginAuthenticationProperties;
+  authentication?: OriginAuthenticationProperties | undefined;
 }
 export interface CreateAFDOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -738,43 +745,43 @@ export interface CreateAFDOriginGroupRequest {
   /** Name of the origin group which is unique within the endpoint. */
   originGroupName: string;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupPropertiesInput;
+  properties?: AFDOriginGroupPropertiesInput | undefined;
 }
 /** The JSON object that contains the properties of the origin group. */
 export interface AFDOriginGroupProperties {
   /** The name of the profile which holds the origin group. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Load balancing settings for a backend pool */
-  loadBalancingSettings?: LoadBalancingSettingsParameters;
+  loadBalancingSettings?: LoadBalancingSettingsParameters | undefined;
   /** Health probe settings to the origin that is used to determine the health of the origin. */
-  healthProbeSettings?: HealthProbeParameters;
+  healthProbeSettings?: HealthProbeParameters | undefined;
   /** Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported. */
-  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number | undefined;
   /** Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled' */
-  sessionAffinityState?: EnabledState;
+  sessionAffinityState?: EnabledState | undefined;
   /** Authentication settings for origin in origin group. */
-  authentication?: OriginAuthenticationProperties;
+  authentication?: OriginAuthenticationProperties | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
 }
 export interface CreateAFDOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupProperties;
+  properties?: AFDOriginGroupProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The JSON object that contains the properties of the custom domain to create. */
 export interface CustomDomainPropertiesParameters {
@@ -793,7 +800,7 @@ export interface CreateCustomDomainRequest {
   /** Name of the custom domain within an endpoint. */
   customDomainName: string;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainPropertiesParameters;
+  properties?: CustomDomainPropertiesParameters | undefined;
 }
 /** Resource status of the custom domain. */
 export type CustomDomainResourceState = "Creating" | "Active" | "Deleting";
@@ -829,40 +836,40 @@ export interface CustomDomainHttpsParameters {
   /** Defines the TLS extension protocol that is used for secure delivery. */
   protocolType: ProtocolType;
   /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion;
+  minimumTlsVersion?: MinimumTlsVersion | undefined;
 }
 /** The JSON object that contains the properties of the custom domain to create. */
 export interface CustomDomainProperties {
   /** The host name of the custom domain. Must be a domain name. */
   hostName: string;
   /** Resource status of the custom domain. */
-  resourceState?: CustomDomainResourceState;
+  resourceState?: CustomDomainResourceState | undefined;
   /** Provisioning status of the custom domain. */
-  customHttpsProvisioningState?: CustomHttpsProvisioningState;
+  customHttpsProvisioningState?: CustomHttpsProvisioningState | undefined;
   /** Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. */
-  customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
+  customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate | undefined;
   /** Certificate parameters for securing custom HTTPS */
-  customHttpsParameters?: CustomDomainHttpsParameters;
+  customHttpsParameters?: CustomDomainHttpsParameters | undefined;
   /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
-  validationData?: string;
+  validationData?: string | undefined;
   /** Provisioning status of Custom Https of the custom domain. */
-  provisioningState?: CustomHttpsProvisioningState;
+  provisioningState?: CustomHttpsProvisioningState | undefined;
 }
 export interface CreateCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -946,7 +953,7 @@ export interface DeliveryRuleCondition {
   /** The name of the condition for the delivery rule. */
   name: MatchVariable | (string & {});
   /** Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type DeliveryRuleConditionsList = Array<DeliveryRuleCondition>;
@@ -968,18 +975,18 @@ export interface DeliveryRuleAction {
   /** The name of the action for the delivery rule. */
   name: DeliveryRuleActionName | (string & {});
   /** Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 /** A list of actions that are executed when all the conditions of a rule are satisfied. */
 export type DeliveryRuleActionsList = Array<DeliveryRuleAction>;
 /** A rule that specifies a set of actions and conditions */
 export interface DeliveryRule {
   /** Name of the rule */
-  name?: string;
+  name?: string | undefined;
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
   order: number;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: DeliveryRuleConditionsList;
+  conditions?: DeliveryRuleConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
   actions: DeliveryRuleActionsList;
 }
@@ -988,7 +995,7 @@ export type EndpointPropertiesUpdateParametersDeliveryPolicyRulesList = Array<De
 /** A policy that specifies the delivery rules to be used for an endpoint. */
 export interface EndpointPropertiesUpdateParametersDeliveryPolicy {
   /** User-friendly description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** A list of the delivery rules. */
   rules: EndpointPropertiesUpdateParametersDeliveryPolicyRulesList;
 }
@@ -1006,34 +1013,34 @@ export interface DeepCreatedOriginProperties {
   /** The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique across all origins in an endpoint. */
   hostName: string;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5. */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** Origin is enabled for load balancing or not. By default, origin is always enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private' */
-  privateLinkAlias?: string;
+  privateLinkAlias?: string | undefined;
   /** The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private' */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated */
-  privateLinkLocation?: string;
+  privateLinkLocation?: string | undefined;
   /** A custom message to be included in the approval request to connect to the Private Link. */
-  privateLinkApprovalMessage?: string;
+  privateLinkApprovalMessage?: string | undefined;
   /** The approval status for the connection to the Private Link */
-  privateEndpointStatus?: PrivateEndpointStatus | (string & {});
+  privateEndpointStatus?: PrivateEndpointStatus | (string & {}) | undefined;
 }
 /** The main origin of CDN content which is added when creating a CDN endpoint. */
 export interface DeepCreatedOrigin {
   /** Origin name which must be unique within the endpoint. */
   name: string;
   /** Properties of the origin created on the CDN endpoint. */
-  properties?: DeepCreatedOriginProperties;
+  properties?: DeepCreatedOriginProperties | undefined;
 }
 /** The source of the content being delivered via CDN. */
 export type EndpointPropertiesInputOriginsList = Array<DeepCreatedOrigin>;
@@ -1044,9 +1051,9 @@ export type ResponseBasedDetectedErrorTypes = "None" | "TcpErrorsOnly" | "TcpAnd
 /** The JSON object that represents the range for http status codes */
 export interface HttpErrorRangeParameters {
   /** The inclusive start of the http status code range. */
-  begin?: number;
+  begin?: number | undefined;
   /** The inclusive end of the http status code range. */
-  end?: number;
+  end?: number | undefined;
 }
 /** The list of Http status code ranges that are considered as server errors for origin and it is marked as unhealthy. */
 export type ResponseBasedOriginErrorDetectionParametersHttpErrorRangesList =
@@ -1054,66 +1061,71 @@ export type ResponseBasedOriginErrorDetectionParametersHttpErrorRangesList =
 /** The JSON object that contains the properties to determine origin health using real requests/responses. */
 export interface ResponseBasedOriginErrorDetectionParameters {
   /** Type of response errors for real user requests for which origin will be deemed unhealthy */
-  responseBasedDetectedErrorTypes?: ResponseBasedDetectedErrorTypes | (string & {});
+  responseBasedDetectedErrorTypes?: ResponseBasedDetectedErrorTypes | (string & {}) | undefined;
   /** The percentage of failed requests in the sample where failover should trigger. */
-  responseBasedFailoverThresholdPercentage?: number;
+  responseBasedFailoverThresholdPercentage?: number | undefined;
   /** The list of Http status code ranges that are considered as server errors for origin and it is marked as unhealthy. */
-  httpErrorRanges?: ResponseBasedOriginErrorDetectionParametersHttpErrorRangesList;
+  httpErrorRanges?: ResponseBasedOriginErrorDetectionParametersHttpErrorRangesList | undefined;
 }
 /** Properties of the origin group created on the CDN endpoint. */
 export interface DeepCreatedOriginGroupProperties {
   /** Health probe settings to the origin that is used to determine the health of the origin. */
-  healthProbeSettings?: HealthProbeParameters;
+  healthProbeSettings?: HealthProbeParameters | undefined;
   /** The source of the content being delivered via CDN within given origin group. */
   origins: DeepCreatedOriginGroupPropertiesOriginsList;
   /** Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported. */
-  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number | undefined;
   /** The JSON object that contains the properties to determine origin health using real requests/responses.This property is currently not supported. */
-  responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+  responseBasedOriginErrorDetectionSettings?:
+    | ResponseBasedOriginErrorDetectionParameters
+    | undefined;
 }
 /** The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the origin group based on origin health. */
 export interface DeepCreatedOriginGroup {
   /** Origin group name which must be unique within the endpoint. */
   name: string;
   /** Properties of the origin group created on the CDN endpoint. */
-  properties?: DeepCreatedOriginGroupProperties;
+  properties?: DeepCreatedOriginGroupProperties | undefined;
 }
 /** The origin groups comprising of origins that are used for load balancing the traffic based on availability. */
 export type EndpointPropertiesInputOriginGroupsList = Array<DeepCreatedOriginGroup>;
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface EndpointPropertiesInput {
   /** A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** List of content types on which compression applies. The value should be a valid MIME type. */
-  contentTypesToCompress?: EndpointPropertiesInputContentTypesToCompressList;
+  contentTypesToCompress?: EndpointPropertiesInputContentTypesToCompressList | undefined;
   /** The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB. */
-  isCompressionEnabled?: boolean;
+  isCompressionEnabled?: boolean | undefined;
   /** Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpAllowed?: boolean;
+  isHttpAllowed?: boolean | undefined;
   /** Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpsAllowed?: boolean;
+  isHttpsAllowed?: boolean | undefined;
   /** Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL. */
-  queryStringCachingBehavior?: EndpointPropertiesInputQueryStringCachingBehavior | (string & {});
+  queryStringCachingBehavior?:
+    | EndpointPropertiesInputQueryStringCachingBehavior
+    | (string & {})
+    | undefined;
   /** Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization. */
-  optimizationType?: OptimizationType | (string & {});
+  optimizationType?: OptimizationType | (string & {}) | undefined;
   /** Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single origin. */
-  probePath?: string;
+  probePath?: string | undefined;
   /** List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule to a specified path or content, e.g. block APAC for path /pictures/ */
-  geoFilters?: EndpointPropertiesInputGeoFiltersList;
+  geoFilters?: EndpointPropertiesInputGeoFiltersList | undefined;
   /** A reference to the origin group. */
-  defaultOriginGroup?: ResourceReference;
+  defaultOriginGroup?: ResourceReference | undefined;
   /** List of keys used to validate the signed URL hashes. */
-  urlSigningKeys?: EndpointPropertiesInputUrlSigningKeysList;
+  urlSigningKeys?: EndpointPropertiesInputUrlSigningKeysList | undefined;
   /** A policy that specifies the delivery rules to be used for an endpoint. */
-  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy | undefined;
   /** Defines the Web Application Firewall policy for the endpoint (if applicable) */
-  webApplicationFirewallPolicyLink?: ResourceReference;
+  webApplicationFirewallPolicyLink?: ResourceReference | undefined;
   /** The source of the content being delivered via CDN. */
   origins: EndpointPropertiesInputOriginsList;
   /** The origin groups comprising of origins that are used for load balancing the traffic based on availability. */
-  originGroups?: EndpointPropertiesInputOriginGroupsList;
+  originGroups?: EndpointPropertiesInputOriginGroupsList | undefined;
 }
 export interface CreateEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1125,11 +1137,11 @@ export interface CreateEndpointRequest {
   /** Name of the endpoint under the profile which is unique globally. */
   endpointName: string;
   /** Resource tags. */
-  tags?: CreateEndpointRequestTagsMap;
+  tags?: CreateEndpointRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointPropertiesInput;
+  properties?: EndpointPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -1154,14 +1166,14 @@ export interface DeepCreatedCustomDomainProperties {
   /** The host name of the custom domain. Must be a domain name. */
   hostName: string;
   /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
-  validationData?: string;
+  validationData?: string | undefined;
 }
 /** Custom domains created on the CDN endpoint. */
 export interface DeepCreatedCustomDomain {
   /** Custom domain name. */
   name: string;
   /** Properties of the custom domain created on the CDN endpoint. */
-  properties?: DeepCreatedCustomDomainProperties;
+  properties?: DeepCreatedCustomDomainProperties | undefined;
 }
 /** The custom domains under the endpoint. */
 export type EndpointPropertiesCustomDomainsList = Array<DeepCreatedCustomDomain>;
@@ -1183,65 +1195,65 @@ export type EndpointProvisioningState =
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface EndpointProperties {
   /** A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** List of content types on which compression applies. The value should be a valid MIME type. */
-  contentTypesToCompress?: EndpointPropertiesContentTypesToCompressList;
+  contentTypesToCompress?: EndpointPropertiesContentTypesToCompressList | undefined;
   /** The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB. */
-  isCompressionEnabled?: boolean;
+  isCompressionEnabled?: boolean | undefined;
   /** Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpAllowed?: boolean;
+  isHttpAllowed?: boolean | undefined;
   /** Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpsAllowed?: boolean;
+  isHttpsAllowed?: boolean | undefined;
   /** Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL. */
-  queryStringCachingBehavior?: EndpointPropertiesQueryStringCachingBehavior;
+  queryStringCachingBehavior?: EndpointPropertiesQueryStringCachingBehavior | undefined;
   /** Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization. */
-  optimizationType?: OptimizationType;
+  optimizationType?: OptimizationType | undefined;
   /** Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single origin. */
-  probePath?: string;
+  probePath?: string | undefined;
   /** List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule to a specified path or content, e.g. block APAC for path /pictures/ */
-  geoFilters?: EndpointPropertiesGeoFiltersList;
+  geoFilters?: EndpointPropertiesGeoFiltersList | undefined;
   /** A reference to the origin group. */
-  defaultOriginGroup?: ResourceReference;
+  defaultOriginGroup?: ResourceReference | undefined;
   /** List of keys used to validate the signed URL hashes. */
-  urlSigningKeys?: EndpointPropertiesUrlSigningKeysList;
+  urlSigningKeys?: EndpointPropertiesUrlSigningKeysList | undefined;
   /** A policy that specifies the delivery rules to be used for an endpoint. */
-  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy | undefined;
   /** Defines the Web Application Firewall policy for the endpoint (if applicable) */
-  webApplicationFirewallPolicyLink?: ResourceReference;
+  webApplicationFirewallPolicyLink?: ResourceReference | undefined;
   /** The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The source of the content being delivered via CDN. */
   origins: EndpointPropertiesOriginsList;
   /** The origin groups comprising of origins that are used for load balancing the traffic based on availability. */
-  originGroups?: EndpointPropertiesOriginGroupsList;
+  originGroups?: EndpointPropertiesOriginGroupsList | undefined;
   /** The custom domains under the endpoint. */
-  customDomains?: EndpointPropertiesCustomDomainsList;
+  customDomains?: EndpointPropertiesCustomDomainsList | undefined;
   /** Resource status of the endpoint. */
-  resourceState?: EndpointResourceState;
+  resourceState?: EndpointResourceState | undefined;
   /** Provisioning status of the endpoint. */
-  provisioningState?: EndpointProvisioningState;
+  provisioningState?: EndpointProvisioningState | undefined;
 }
 export interface CreateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateEndpointResponseTagsMap;
+  tags?: CreateEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource status of the origin. */
 export type OriginResourceState = "Creating" | "Active" | "Deleting";
@@ -1252,31 +1264,31 @@ export interface OriginProperties {
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
   hostName: string;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5 */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** Origin is enabled for load balancing or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private' */
-  privateLinkAlias?: string;
+  privateLinkAlias?: string | undefined;
   /** The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private' */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated */
-  privateLinkLocation?: string;
+  privateLinkLocation?: string | undefined;
   /** A custom message to be included in the approval request to connect to the Private Link. */
-  privateLinkApprovalMessage?: string;
+  privateLinkApprovalMessage?: string | undefined;
   /** Resource status of the origin. */
-  resourceState?: OriginResourceState | (string & {});
+  resourceState?: OriginResourceState | (string & {}) | undefined;
   /** Provisioning status of the origin. */
-  provisioningState?: OriginProvisioningState | (string & {});
+  provisioningState?: OriginProvisioningState | (string & {}) | undefined;
   /** The approval status for the connection to the Private Link */
-  privateEndpointStatus?: PrivateEndpointStatus | (string & {});
+  privateEndpointStatus?: PrivateEndpointStatus | (string & {}) | undefined;
 }
 export interface CreateOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1290,23 +1302,23 @@ export interface CreateOriginRequest {
   /** Name of the origin which is unique within the endpoint. */
   originName: string;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginProperties;
+  properties?: OriginProperties | undefined;
 }
 export interface CreateOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginProperties;
+  properties?: OriginProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The source of the content being delivered via CDN within given origin group. */
 export type OriginGroupPropertiesOriginsList = Array<ResourceReference>;
@@ -1322,17 +1334,19 @@ export type OriginGroupProvisioningState =
 /** The JSON object that contains the properties of the origin group. */
 export interface OriginGroupProperties {
   /** Health probe settings to the origin that is used to determine the health of the origin. */
-  healthProbeSettings?: HealthProbeParameters;
+  healthProbeSettings?: HealthProbeParameters | undefined;
   /** The source of the content being delivered via CDN within given origin group. */
-  origins?: OriginGroupPropertiesOriginsList;
+  origins?: OriginGroupPropertiesOriginsList | undefined;
   /** Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported. */
-  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number | undefined;
   /** The JSON object that contains the properties to determine origin health using real requests/responses. This property is currently not supported. */
-  responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+  responseBasedOriginErrorDetectionSettings?:
+    | ResponseBasedOriginErrorDetectionParameters
+    | undefined;
   /** Resource status of the origin group. */
-  resourceState?: OriginGroupResourceState | (string & {});
+  resourceState?: OriginGroupResourceState | (string & {}) | undefined;
   /** Provisioning status of the origin group. */
-  provisioningState?: OriginGroupProvisioningState | (string & {});
+  provisioningState?: OriginGroupProvisioningState | (string & {}) | undefined;
 }
 export interface CreateOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1346,32 +1360,32 @@ export interface CreateOriginGroupRequest {
   /** Name of the origin group which is unique within the endpoint. */
   originGroupName: string;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupProperties;
+  properties?: OriginGroupProperties | undefined;
 }
 export interface CreateOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupProperties;
+  properties?: OriginGroupProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateProfileRequestTagsMap = { [key: string]: string | undefined };
 /** The JSON object that contains the properties required to create a profile. */
 export interface ProfilePropertiesInput {
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
-  originResponseTimeoutSeconds?: number;
+  originResponseTimeoutSeconds?: number | undefined;
   /** Defines rules that scrub sensitive fields in the Azure Front Door profile logs. */
-  logScrubbing?: ProfileLogScrubbing;
+  logScrubbing?: ProfileLogScrubbing | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -1383,7 +1397,7 @@ export type CreateProfileRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateProfileRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateProfileRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateProfileRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1393,15 +1407,15 @@ export interface CreateProfileRequest {
   /** Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile which is unique within the resource group. */
   profileName: string;
   /** Resource tags. */
-  tags?: CreateProfileRequestTagsMap;
+  tags?: CreateProfileRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfilePropertiesInput;
+  properties?: ProfilePropertiesInput | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateProfileRequestIdentity;
+  identity?: CreateProfileRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -1412,38 +1426,38 @@ export type CreateProfileResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateProfileResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateProfileResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateProfileResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateProfileResponseTagsMap;
+  tags?: CreateProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateProfileResponseIdentity;
+  identity?: CreateProfileResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Reference to another resource along with its state. */
 export type ActivatedResourceReferenceInput = ResourceReference;
@@ -1470,18 +1484,18 @@ export type CompressionSettingsContentTypesToCompressList = Array<string>;
 /** settings for compression. */
 export interface CompressionSettings {
   /** List of content types on which compression applies. The value should be a valid MIME type. */
-  contentTypesToCompress?: CompressionSettingsContentTypesToCompressList;
+  contentTypesToCompress?: CompressionSettingsContentTypesToCompressList | undefined;
   /** Indicates whether content compression is enabled on AzureFrontDoor. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB. */
-  isCompressionEnabled?: boolean;
+  isCompressionEnabled?: boolean | undefined;
 }
 /** Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object. */
 export interface AfdRouteCacheConfiguration {
   /** Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings. */
-  queryStringCachingBehavior?: AfdQueryStringCachingBehavior | (string & {});
+  queryStringCachingBehavior?: AfdQueryStringCachingBehavior | (string & {}) | undefined;
   /** query parameters to include or exclude (comma separated). */
-  queryParameters?: string;
+  queryParameters?: string | undefined;
   /** compression settings. */
-  compressionSettings?: CompressionSettings;
+  compressionSettings?: CompressionSettings | undefined;
 }
 /** Protocol this rule will use when forwarding traffic to backends. */
 export type RoutePropertiesInputForwardingProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
@@ -1492,27 +1506,27 @@ export type RoutePropertiesInputHttpsRedirect = "Enabled" | "Disabled";
 /** The JSON object that contains the properties of the Routes to create. */
 export interface RoutePropertiesInput {
   /** Domains referenced by this endpoint. */
-  customDomains?: RoutePropertiesInputCustomDomainsList;
+  customDomains?: RoutePropertiesInputCustomDomainsList | undefined;
   /** A reference to the origin group. */
-  originGroup?: ResourceReference;
+  originGroup?: ResourceReference | undefined;
   /** A directory path on the origin that AzureFrontDoor can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** rule sets referenced by this endpoint. */
-  ruleSets?: RoutePropertiesInputRuleSetsList;
+  ruleSets?: RoutePropertiesInputRuleSetsList | undefined;
   /** List of supported protocols for this route. */
-  supportedProtocols?: RoutePropertiesInputSupportedProtocolsList;
+  supportedProtocols?: RoutePropertiesInputSupportedProtocolsList | undefined;
   /** The route patterns of the rule. */
-  patternsToMatch?: RoutePropertiesInputPatternsToMatchList;
+  patternsToMatch?: RoutePropertiesInputPatternsToMatchList | undefined;
   /** The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object. */
-  cacheConfiguration?: AfdRouteCacheConfiguration;
+  cacheConfiguration?: AfdRouteCacheConfiguration | undefined;
   /** Protocol this rule will use when forwarding traffic to backends. */
-  forwardingProtocol?: RoutePropertiesInputForwardingProtocol | (string & {});
+  forwardingProtocol?: RoutePropertiesInputForwardingProtocol | (string & {}) | undefined;
   /** whether this route will be linked to the default endpoint domain. */
-  linkToDefaultDomain?: RoutePropertiesInputLinkToDefaultDomain | (string & {});
+  linkToDefaultDomain?: RoutePropertiesInputLinkToDefaultDomain | (string & {}) | undefined;
   /** Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed. */
-  httpsRedirect?: RoutePropertiesInputHttpsRedirect | (string & {});
+  httpsRedirect?: RoutePropertiesInputHttpsRedirect | (string & {}) | undefined;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
 }
 export interface CreateRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1526,14 +1540,14 @@ export interface CreateRouteRequest {
   /** Name of the routing rule. */
   routeName: string;
   /** The JSON object that contains the properties of the Routes to create. */
-  properties?: RoutePropertiesInput;
+  properties?: RoutePropertiesInput | undefined;
 }
 /** Reference to another resource along with its state. */
 export interface ActivatedResourceReference {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the resource is active or inactive */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
 }
 /** Domains referenced by this endpoint. */
 export type RoutePropertiesCustomDomainsList = Array<ActivatedResourceReference>;
@@ -1552,50 +1566,50 @@ export type RoutePropertiesHttpsRedirect = "Enabled" | "Disabled";
 /** The JSON object that contains the properties of the Routes to create. */
 export interface RouteProperties {
   /** The name of the endpoint which holds the route. */
-  endpointName?: string;
+  endpointName?: string | undefined;
   /** Domains referenced by this endpoint. */
-  customDomains?: RoutePropertiesCustomDomainsList;
+  customDomains?: RoutePropertiesCustomDomainsList | undefined;
   /** A reference to the origin group. */
-  originGroup?: ResourceReference;
+  originGroup?: ResourceReference | undefined;
   /** A directory path on the origin that AzureFrontDoor can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** rule sets referenced by this endpoint. */
-  ruleSets?: RoutePropertiesRuleSetsList;
+  ruleSets?: RoutePropertiesRuleSetsList | undefined;
   /** List of supported protocols for this route. */
-  supportedProtocols?: RoutePropertiesSupportedProtocolsList;
+  supportedProtocols?: RoutePropertiesSupportedProtocolsList | undefined;
   /** The route patterns of the rule. */
-  patternsToMatch?: RoutePropertiesPatternsToMatchList;
+  patternsToMatch?: RoutePropertiesPatternsToMatchList | undefined;
   /** The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object. */
-  cacheConfiguration?: AfdRouteCacheConfiguration;
+  cacheConfiguration?: AfdRouteCacheConfiguration | undefined;
   /** Protocol this rule will use when forwarding traffic to backends. */
-  forwardingProtocol?: RoutePropertiesForwardingProtocol;
+  forwardingProtocol?: RoutePropertiesForwardingProtocol | undefined;
   /** whether this route will be linked to the default endpoint domain. */
-  linkToDefaultDomain?: RoutePropertiesLinkToDefaultDomain;
+  linkToDefaultDomain?: RoutePropertiesLinkToDefaultDomain | undefined;
   /** Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed. */
-  httpsRedirect?: RoutePropertiesHttpsRedirect;
+  httpsRedirect?: RoutePropertiesHttpsRedirect | undefined;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState;
+  enabledState?: EnabledState | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
 }
 export interface CreateRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Routes to create. */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type RulePropertiesInputConditionsList = Array<DeliveryRuleCondition>;
@@ -1606,13 +1620,13 @@ export type RulePropertiesInputMatchProcessingBehavior = "Continue" | "Stop";
 /** The JSON object that contains the properties of the Rules to create. */
 export interface RulePropertiesInput {
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
-  order?: number;
+  order?: number | undefined;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: RulePropertiesInputConditionsList;
+  conditions?: RulePropertiesInputConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
-  actions?: RulePropertiesInputActionsList;
+  actions?: RulePropertiesInputActionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
-  matchProcessingBehavior?: RulePropertiesInputMatchProcessingBehavior | (string & {});
+  matchProcessingBehavior?: RulePropertiesInputMatchProcessingBehavior | (string & {}) | undefined;
 }
 export interface CreateRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1626,7 +1640,7 @@ export interface CreateRuleRequest {
   /** Name of the delivery rule which is unique within the endpoint. */
   ruleName: string;
   /** The JSON object that contains the properties of the Rules to create. */
-  properties?: RulePropertiesInput;
+  properties?: RulePropertiesInput | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type RulePropertiesConditionsList = Array<DeliveryRuleCondition>;
@@ -1637,36 +1651,36 @@ export type RulePropertiesMatchProcessingBehavior = "Continue" | "Stop";
 /** The JSON object that contains the properties of the Rules to create. */
 export interface RuleProperties {
   /** The name of the rule set containing the rule. */
-  ruleSetName?: string;
+  ruleSetName?: string | undefined;
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
-  order?: number;
+  order?: number | undefined;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: RulePropertiesConditionsList;
+  conditions?: RulePropertiesConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
-  actions?: RulePropertiesActionsList;
+  actions?: RulePropertiesActionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
-  matchProcessingBehavior?: RulePropertiesMatchProcessingBehavior;
+  matchProcessingBehavior?: RulePropertiesMatchProcessingBehavior | undefined;
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
 }
 export interface CreateRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rules to create. */
-  properties?: RuleProperties;
+  properties?: RuleProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type BatchRulePropertiesInputConditionsList = Array<DeliveryRuleCondition>;
@@ -1679,22 +1693,25 @@ export interface BatchRulePropertiesInput {
   /** Name of the rule. */
   ruleName: string;
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
-  order?: number;
+  order?: number | undefined;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: BatchRulePropertiesInputConditionsList;
+  conditions?: BatchRulePropertiesInputConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
-  actions?: BatchRulePropertiesInputActionsList;
+  actions?: BatchRulePropertiesInputActionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
-  matchProcessingBehavior?: BatchRulePropertiesInputMatchProcessingBehavior | (string & {});
+  matchProcessingBehavior?:
+    | BatchRulePropertiesInputMatchProcessingBehavior
+    | (string & {})
+    | undefined;
 }
 /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
 export type RuleSetPropertiesInputRulesList = Array<BatchRulePropertiesInput>;
 /** The JSON object that contains the properties of the Rule Set to create. */
 export interface RuleSetPropertiesInput {
   /** Indicates whether rule set is in batch mode. When batch mode is enabled, rules will be processed in a batch along with the rule set. When batch mode is disabled, rules would need to be processed independently. This property can only be set during rule set creation and cannot be updated later. For switching modes, a new rule set needs to be created with the desired mode and rules need to be migrated to the new rule set. */
-  batchMode?: boolean;
+  batchMode?: boolean | undefined;
   /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
-  rules?: RuleSetPropertiesInputRulesList;
+  rules?: RuleSetPropertiesInputRulesList | undefined;
 }
 export interface CreateRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1706,7 +1723,7 @@ export interface CreateRuleSetRequest {
   /** Name of the rule set under the profile which is unique globally. */
   ruleSetName: string;
   /** The JSON object that contains the properties of the Rule Set to create. */
-  properties?: RuleSetPropertiesInput;
+  properties?: RuleSetPropertiesInput | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type BatchRulePropertiesConditionsList = Array<DeliveryRuleCondition>;
@@ -1719,47 +1736,47 @@ export interface BatchRuleProperties {
   /** Name of the rule. */
   ruleName: string;
   /** The name of the rule set containing the rule. */
-  ruleSetName?: string;
+  ruleSetName?: string | undefined;
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
-  order?: number;
+  order?: number | undefined;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: BatchRulePropertiesConditionsList;
+  conditions?: BatchRulePropertiesConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
-  actions?: BatchRulePropertiesActionsList;
+  actions?: BatchRulePropertiesActionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
-  matchProcessingBehavior?: BatchRulePropertiesMatchProcessingBehavior;
+  matchProcessingBehavior?: BatchRulePropertiesMatchProcessingBehavior | undefined;
 }
 /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
 export type RuleSetPropertiesRulesList = Array<BatchRuleProperties>;
 /** The JSON object that contains the properties of the Rule Set to create. */
 export interface RuleSetProperties {
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
   /** The name of the profile which holds the rule set. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Indicates whether rule set is in batch mode. When batch mode is enabled, rules will be processed in a batch along with the rule set. When batch mode is disabled, rules would need to be processed independently. This property can only be set during rule set creation and cannot be updated later. For switching modes, a new rule set needs to be created with the desired mode and rules need to be migrated to the new rule set. */
-  batchMode?: boolean;
+  batchMode?: boolean | undefined;
   /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
-  rules?: RuleSetPropertiesRulesList;
+  rules?: RuleSetPropertiesRulesList | undefined;
 }
 export interface CreateRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rule Set to create. */
-  properties?: RuleSetProperties;
+  properties?: RuleSetProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The type of the secret resource. */
 export type SecretType =
@@ -1773,28 +1790,28 @@ export interface SecretParameters {
   /** The type of the secret resource. */
   type: SecretType | (string & {});
   /** UrlSigningKey / CustomerCertificate / MtlsCertificateChain / AzureFirstPartyManagedCertificate: Key Vault secret reference. */
-  secretSource?: ResourceReference;
+  secretSource?: ResourceReference | undefined;
   /** Version of the Key Vault secret. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
   /** CustomerCertificate / MtlsCertificateChain: use the latest secret version automatically. */
-  useLatestVersion?: boolean;
+  useLatestVersion?: boolean | undefined;
   /** UrlSigningKey: key id used to sign URLs. */
-  keyId?: string;
+  keyId?: string | undefined;
   /** CustomerCertificate: list of subject alternative names (string array). */
-  subjectAlternativeNames?: unknown;
+  subjectAlternativeNames?: unknown | undefined;
   /** Certificate subject (read-only). */
-  subject?: string;
+  subject?: string | undefined;
   /** Certificate expiration date (read-only). */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Certificate issuing authority (read-only). */
-  certificateAuthority?: string;
+  certificateAuthority?: string | undefined;
   /** Certificate thumbprint (read-only). */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
 }
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretPropertiesInput {
   /** object which contains secret parameters */
-  parameters?: SecretParameters;
+  parameters?: SecretParameters | undefined;
 }
 export interface CreateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1806,35 +1823,35 @@ export interface CreateSecretRequest {
   /** Name of the Secret under the profile. */
   secretName: string;
   /** The JSON object that contains the properties of the Secret to create. */
-  properties?: SecretPropertiesInput;
+  properties?: SecretPropertiesInput | undefined;
 }
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretProperties {
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
   /** The name of the profile which holds the secret. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** object which contains secret parameters */
-  parameters?: SecretParameters;
+  parameters?: SecretParameters | undefined;
 }
 export interface CreateSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Secret to create. */
-  properties?: SecretProperties;
+  properties?: SecretProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of the Security policy to create. */
 export type SecurityPolicyType = "WebApplicationFirewall";
@@ -1843,14 +1860,14 @@ export interface SecurityPolicyPropertiesParameters {
   /** The type of the Security policy to create. */
   type: SecurityPolicyType | (string & {});
   /** WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies). */
-  wafPolicy?: ResourceReference;
+  wafPolicy?: ResourceReference | undefined;
   /** WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to. */
-  associations?: unknown;
+  associations?: unknown | undefined;
 }
 /** The json object that contains properties required to create a security policy */
 export interface SecurityPolicyPropertiesInput {
   /** object which contains security policy parameters */
-  parameters?: SecurityPolicyPropertiesParameters;
+  parameters?: SecurityPolicyPropertiesParameters | undefined;
 }
 export interface CreateSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1862,35 +1879,35 @@ export interface CreateSecurityPolicyRequest {
   /** Name of the security policy under the profile. */
   securityPolicyName: string;
   /** The json object that contains properties required to create a security policy */
-  properties?: SecurityPolicyPropertiesInput;
+  properties?: SecurityPolicyPropertiesInput | undefined;
 }
 /** The json object that contains properties required to create a security policy */
 export interface SecurityPolicyProperties {
   /** Provisioning status */
-  provisioningState?: AfdProvisioningState;
-  deploymentStatus?: DeploymentStatus;
+  provisioningState?: AfdProvisioningState | undefined;
+  deploymentStatus?: DeploymentStatus | undefined;
   /** The name of the profile which holds the security policy. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** object which contains security policy parameters */
-  parameters?: SecurityPolicyPropertiesParameters;
+  parameters?: SecurityPolicyPropertiesParameters | undefined;
 }
 export interface CreateSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The json object that contains properties required to create a security policy */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAFDCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1904,11 +1921,11 @@ export interface DeleteAFDCustomDomainRequest {
 }
 export interface DeleteAFDCustomDomainResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAFDEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1922,9 +1939,9 @@ export interface DeleteAFDEndpointRequest {
 }
 export interface DeleteAFDEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1940,11 +1957,11 @@ export interface DeleteAFDOriginRequest {
 }
 export interface DeleteAFDOriginResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAFDOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1958,9 +1975,9 @@ export interface DeleteAFDOriginGroupRequest {
 }
 export interface DeleteAFDOriginGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1976,7 +1993,7 @@ export interface DeleteCustomDomainRequest {
 }
 export interface DeleteCustomDomainResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1990,7 +2007,7 @@ export interface DeleteEndpointRequest {
 }
 export interface DeleteEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2006,7 +2023,7 @@ export interface DeleteOriginRequest {
 }
 export interface DeleteOriginResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2022,7 +2039,7 @@ export interface DeleteOriginGroupRequest {
 }
 export interface DeleteOriginGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2043,7 +2060,7 @@ export interface DeleteProfileRequest {
 }
 export interface DeleteProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2059,11 +2076,11 @@ export interface DeleteRouteRequest {
 }
 export interface DeleteRouteResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2079,11 +2096,11 @@ export interface DeleteRuleRequest {
 }
 export interface DeleteRuleResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2097,11 +2114,11 @@ export interface DeleteRuleSetRequest {
 }
 export interface DeleteRuleSetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2115,11 +2132,11 @@ export interface DeleteSecretRequest {
 }
 export interface DeleteSecretResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2133,11 +2150,11 @@ export interface DeleteSecurityPolicyRequest {
 }
 export interface DeleteSecurityPolicyResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableCustomDomainCustomHttpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2153,17 +2170,17 @@ export interface DisableCustomDomainCustomHttpsRequest {
 }
 export interface DisableCustomDomainCustomHttpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface EnableCustomDomainCustomHttpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2181,21 +2198,21 @@ export interface EnableCustomDomainCustomHttpsRequest {
   /** Defines the TLS extension protocol that is used for secure delivery. */
   protocolType: ProtocolType | (string & {});
   /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion | (string & {});
+  minimumTlsVersion?: MinimumTlsVersion | (string & {}) | undefined;
 }
 export interface EnableCustomDomainCustomHttpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The path to the content to be loaded. Path should be a relative file URL of the origin. */
 export type EndpointsLoadContentRequestContentPathsList = Array<string>;
@@ -2213,9 +2230,9 @@ export interface EndpointsLoadContentRequest {
 }
 export interface EndpointsLoadContentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateProfileSsoUriRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2228,7 +2245,7 @@ export interface GenerateProfileSsoUriRequest {
 /** The URI required to login to the supplemental portal from the Azure portal. */
 export interface SsoUri {
   /** The URI used to login to the supplemental portal. */
-  ssoUriValue?: string;
+  ssoUriValue?: string | undefined;
 }
 export interface GetAFDCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2242,15 +2259,15 @@ export interface GetAFDCustomDomainRequest {
 }
 export interface GetAFDCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainProperties;
+  properties?: AFDDomainProperties | undefined;
 }
 export interface GetAFDEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2266,19 +2283,19 @@ export interface GetAFDEndpointRequest {
 export type GetAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAFDEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAFDEndpointResponseTagsMap;
+  tags?: GetAFDEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: AFDEndpointProperties;
+  properties?: AFDEndpointProperties | undefined;
 }
 export interface GetAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2294,15 +2311,15 @@ export interface GetAFDOriginRequest {
 }
 export interface GetAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginProperties;
+  properties?: AFDOriginProperties | undefined;
 }
 export interface GetAFDOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2316,15 +2333,15 @@ export interface GetAFDOriginGroupRequest {
 }
 export interface GetAFDOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupProperties;
+  properties?: AFDOriginGroupProperties | undefined;
 }
 export interface GetCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2340,15 +2357,15 @@ export interface GetCustomDomainRequest {
 }
 export interface GetCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 export interface GetEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2364,19 +2381,19 @@ export interface GetEndpointRequest {
 export type GetEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEndpointResponseTagsMap;
+  tags?: GetEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 export interface GetLogAnalyticsLogAnalyticsLocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2387,18 +2404,18 @@ export interface GetLogAnalyticsLogAnalyticsLocationsRequest {
   profileName: string;
 }
 export interface ContinentsResponseContinentsItem {
-  id?: string;
+  id?: string | undefined;
 }
 export type ContinentsResponseContinentsList = Array<ContinentsResponseContinentsItem>;
 export interface ContinentsResponseCountryOrRegionsItem {
-  id?: string;
-  continentId?: string;
+  id?: string | undefined;
+  continentId?: string | undefined;
 }
 export type ContinentsResponseCountryOrRegionsList = Array<ContinentsResponseCountryOrRegionsItem>;
 /** Continents Response */
 export interface ContinentsResponse {
-  continents?: ContinentsResponseContinentsList;
-  countryOrRegions?: ContinentsResponseCountryOrRegionsList;
+  continents?: ContinentsResponseContinentsList | undefined;
+  countryOrRegions?: ContinentsResponseCountryOrRegionsList | undefined;
 }
 export type GetLogAnalyticsLogAnalyticsMetricsRequestMetricsItem =
   | "clientRequestCount"
@@ -2435,38 +2452,38 @@ export interface GetLogAnalyticsLogAnalyticsMetricsRequest {
   dateTimeBegin: string;
   dateTimeEnd: string;
   granularity: GetLogAnalyticsLogAnalyticsMetricsRequestGranularity | (string & {});
-  groupBy?: GetLogAnalyticsLogAnalyticsMetricsRequestGroupByList;
-  continents?: GetLogAnalyticsLogAnalyticsMetricsRequestContinentsList;
-  countryOrRegions?: GetLogAnalyticsLogAnalyticsMetricsRequestCountryOrRegionsList;
+  groupBy?: GetLogAnalyticsLogAnalyticsMetricsRequestGroupByList | undefined;
+  continents?: GetLogAnalyticsLogAnalyticsMetricsRequestContinentsList | undefined;
+  countryOrRegions?: GetLogAnalyticsLogAnalyticsMetricsRequestCountryOrRegionsList | undefined;
   customDomains: GetLogAnalyticsLogAnalyticsMetricsRequestCustomDomainsList;
   protocols: GetLogAnalyticsLogAnalyticsMetricsRequestProtocolsList;
 }
 export type MetricsGranularity = "PT5M" | "PT1H" | "P1D";
 export type MetricsSeriesUnit = "count" | "bytes" | "bitsPerSecond" | "milliSeconds";
 export interface MetricsResponseSeriesPropertiesItemsItem {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type MetricsResponseSeriesItemGroupsList = Array<MetricsResponseSeriesPropertiesItemsItem>;
 export interface Components1Gs0LlpSchemasMetricsresponsePropertiesSeriesItemsPropertiesDataItems {
-  dateTime?: string;
-  value?: number;
+  dateTime?: string | undefined;
+  value?: number | undefined;
 }
 export type MetricsResponseSeriesItemDataList =
   Array<Components1Gs0LlpSchemasMetricsresponsePropertiesSeriesItemsPropertiesDataItems>;
 export interface MetricsResponseSeriesItem {
-  metric?: string;
-  unit?: MetricsSeriesUnit;
-  groups?: MetricsResponseSeriesItemGroupsList;
-  data?: MetricsResponseSeriesItemDataList;
+  metric?: string | undefined;
+  unit?: MetricsSeriesUnit | undefined;
+  groups?: MetricsResponseSeriesItemGroupsList | undefined;
+  data?: MetricsResponseSeriesItemDataList | undefined;
 }
 export type MetricsResponseSeriesList = Array<MetricsResponseSeriesItem>;
 /** Metrics Response */
 export interface MetricsResponse {
-  dateTimeBegin?: string;
-  dateTimeEnd?: string;
-  granularity?: MetricsGranularity;
-  series?: MetricsResponseSeriesList;
+  dateTimeBegin?: string | undefined;
+  dateTimeEnd?: string | undefined;
+  granularity?: MetricsGranularity | undefined;
+  series?: MetricsResponseSeriesList | undefined;
 }
 export type GetLogAnalyticsLogAnalyticsRankingsRequestRankingsItem =
   | "url"
@@ -2500,30 +2517,30 @@ export interface GetLogAnalyticsLogAnalyticsRankingsRequest {
   maxRanking: number;
   dateTimeBegin: string;
   dateTimeEnd: string;
-  customDomains?: GetLogAnalyticsLogAnalyticsRankingsRequestCustomDomainsList;
+  customDomains?: GetLogAnalyticsLogAnalyticsRankingsRequestCustomDomainsList | undefined;
 }
 export interface RankingsResponseTablesPropertiesItemsMetricsItem {
-  metric?: string;
-  value?: number;
-  percentage?: number;
+  metric?: string | undefined;
+  value?: number | undefined;
+  percentage?: number | undefined;
 }
 export type RankingsResponseTablesPropertiesItemsItemMetricsList =
   Array<RankingsResponseTablesPropertiesItemsMetricsItem>;
 export interface RankingsResponseTablesPropertiesItemsItem {
-  name?: string;
-  metrics?: RankingsResponseTablesPropertiesItemsItemMetricsList;
+  name?: string | undefined;
+  metrics?: RankingsResponseTablesPropertiesItemsItemMetricsList | undefined;
 }
 export type RankingsResponseTablesItemDataList = Array<RankingsResponseTablesPropertiesItemsItem>;
 export interface RankingsResponseTablesItem {
-  ranking?: string;
-  data?: RankingsResponseTablesItemDataList;
+  ranking?: string | undefined;
+  data?: RankingsResponseTablesItemDataList | undefined;
 }
 export type RankingsResponseTablesList = Array<RankingsResponseTablesItem>;
 /** Rankings Response */
 export interface RankingsResponse {
-  dateTimeBegin?: string;
-  dateTimeEnd?: string;
-  tables?: RankingsResponseTablesList;
+  dateTimeBegin?: string | undefined;
+  dateTimeEnd?: string | undefined;
+  tables?: RankingsResponseTablesList | undefined;
 }
 export interface GetLogAnalyticsLogAnalyticsResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2534,18 +2551,18 @@ export interface GetLogAnalyticsLogAnalyticsResourcesRequest {
   profileName: string;
 }
 export interface ResourcesResponseEndpointsPropertiesItemsItem {
-  id?: string;
-  name?: string;
-  endpointId?: string;
-  history?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  endpointId?: string | undefined;
+  history?: boolean | undefined;
 }
 export type ResourcesResponseEndpointsItemCustomDomainsList =
   Array<ResourcesResponseEndpointsPropertiesItemsItem>;
 export interface ResourcesResponseEndpointsItem {
-  id?: string;
-  name?: string;
-  history?: boolean;
-  customDomains?: ResourcesResponseEndpointsItemCustomDomainsList;
+  id?: string | undefined;
+  name?: string | undefined;
+  history?: boolean | undefined;
+  customDomains?: ResourcesResponseEndpointsItemCustomDomainsList | undefined;
 }
 export type ResourcesResponseEndpointsList = Array<ResourcesResponseEndpointsItem>;
 export type ResourcesResponseCustomDomainsItem = ResourcesResponseEndpointsPropertiesItemsItem;
@@ -2553,8 +2570,8 @@ export type ResourcesResponseCustomDomainsList =
   Array<ResourcesResponseEndpointsPropertiesItemsItem>;
 /** Resources Response */
 export interface ResourcesResponse {
-  endpoints?: ResourcesResponseEndpointsList;
-  customDomains?: ResourcesResponseCustomDomainsList;
+  endpoints?: ResourcesResponseEndpointsList | undefined;
+  customDomains?: ResourcesResponseCustomDomainsList | undefined;
 }
 export type GetLogAnalyticsWafLogAnalyticsMetricsRequestMetricsItem = "clientRequestCount";
 export type GetLogAnalyticsWafLogAnalyticsMetricsRequestMetricsList = Array<
@@ -2593,9 +2610,9 @@ export interface GetLogAnalyticsWafLogAnalyticsMetricsRequest {
   dateTimeBegin: string;
   dateTimeEnd: string;
   granularity: GetLogAnalyticsWafLogAnalyticsMetricsRequestGranularity | (string & {});
-  actions?: GetLogAnalyticsWafLogAnalyticsMetricsRequestActionsList;
-  groupBy?: GetLogAnalyticsWafLogAnalyticsMetricsRequestGroupByList;
-  ruleTypes?: GetLogAnalyticsWafLogAnalyticsMetricsRequestRuleTypesList;
+  actions?: GetLogAnalyticsWafLogAnalyticsMetricsRequestActionsList | undefined;
+  groupBy?: GetLogAnalyticsWafLogAnalyticsMetricsRequestGroupByList | undefined;
+  ruleTypes?: GetLogAnalyticsWafLogAnalyticsMetricsRequestRuleTypesList | undefined;
 }
 export type WafMetricsGranularity = "PT5M" | "PT1H" | "P1D";
 export type WafMetricsSeriesUnit = "count";
@@ -2607,18 +2624,18 @@ export type Components18OrqelSchemasWafmetricsresponsePropertiesSeriesItemsPrope
 export type WafMetricsResponseSeriesItemDataList =
   Array<Components1Gs0LlpSchemasMetricsresponsePropertiesSeriesItemsPropertiesDataItems>;
 export interface WafMetricsResponseSeriesItem {
-  metric?: string;
-  unit?: WafMetricsSeriesUnit;
-  groups?: WafMetricsResponseSeriesItemGroupsList;
-  data?: WafMetricsResponseSeriesItemDataList;
+  metric?: string | undefined;
+  unit?: WafMetricsSeriesUnit | undefined;
+  groups?: WafMetricsResponseSeriesItemGroupsList | undefined;
+  data?: WafMetricsResponseSeriesItemDataList | undefined;
 }
 export type WafMetricsResponseSeriesList = Array<WafMetricsResponseSeriesItem>;
 /** Waf Metrics Response */
 export interface WafMetricsResponse {
-  dateTimeBegin?: string;
-  dateTimeEnd?: string;
-  granularity?: WafMetricsGranularity;
-  series?: WafMetricsResponseSeriesList;
+  dateTimeBegin?: string | undefined;
+  dateTimeEnd?: string | undefined;
+  granularity?: WafMetricsGranularity | undefined;
+  series?: WafMetricsResponseSeriesList | undefined;
 }
 export type GetLogAnalyticsWafLogAnalyticsRankingsRequestMetricsItem = "clientRequestCount";
 export type GetLogAnalyticsWafLogAnalyticsRankingsRequestMetricsList = Array<
@@ -2663,8 +2680,8 @@ export interface GetLogAnalyticsWafLogAnalyticsRankingsRequest {
   dateTimeEnd: string;
   maxRanking: number;
   rankings: GetLogAnalyticsWafLogAnalyticsRankingsRequestRankingsList;
-  actions?: GetLogAnalyticsWafLogAnalyticsRankingsRequestActionsList;
-  ruleTypes?: GetLogAnalyticsWafLogAnalyticsRankingsRequestRuleTypesList;
+  actions?: GetLogAnalyticsWafLogAnalyticsRankingsRequestActionsList | undefined;
+  ruleTypes?: GetLogAnalyticsWafLogAnalyticsRankingsRequestRuleTypesList | undefined;
 }
 export type WafRankingsResponseGroupsList = Array<string>;
 export type WafRankingsResponseDataItemGroupValuesList = Array<string>;
@@ -2673,16 +2690,16 @@ export type ComponentsKpo1PjSchemasWafrankingsresponsePropertiesDataItemsPropert
 export type WafRankingsResponseDataItemMetricsList =
   Array<RankingsResponseTablesPropertiesItemsMetricsItem>;
 export interface WafRankingsResponseDataItem {
-  groupValues?: WafRankingsResponseDataItemGroupValuesList;
-  metrics?: WafRankingsResponseDataItemMetricsList;
+  groupValues?: WafRankingsResponseDataItemGroupValuesList | undefined;
+  metrics?: WafRankingsResponseDataItemMetricsList | undefined;
 }
 export type WafRankingsResponseDataList = Array<WafRankingsResponseDataItem>;
 /** Waf Rankings Response */
 export interface WafRankingsResponse {
-  dateTimeBegin?: string;
-  dateTimeEnd?: string;
-  groups?: WafRankingsResponseGroupsList;
-  data?: WafRankingsResponseDataList;
+  dateTimeBegin?: string | undefined;
+  dateTimeEnd?: string | undefined;
+  groups?: WafRankingsResponseGroupsList | undefined;
+  data?: WafRankingsResponseDataList | undefined;
 }
 export interface GetOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2698,15 +2715,15 @@ export interface GetOriginRequest {
 }
 export interface GetOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginProperties;
+  properties?: OriginProperties | undefined;
 }
 export interface GetOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2722,15 +2739,15 @@ export interface GetOriginGroupRequest {
 }
 export interface GetOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupProperties;
+  properties?: OriginGroupProperties | undefined;
 }
 export interface GetPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2751,17 +2768,18 @@ export type PolicySettingsDefaultCustomBlockResponseStatusCode = 200 | 403 | 405
 /** Defines contents of a web application firewall global configuration */
 export interface PolicySettings {
   /** describes if the policy is in enabled state or disabled state */
-  enabledState?: PolicyEnabledState | (string & {});
+  enabledState?: PolicyEnabledState | (string & {}) | undefined;
   /** Describes if it is in detection mode or prevention mode at policy level. */
-  mode?: PolicyMode | (string & {});
+  mode?: PolicyMode | (string & {}) | undefined;
   /** If action type is redirect, this field represents the default redirect URL for the client. */
-  defaultRedirectUrl?: string;
+  defaultRedirectUrl?: string | undefined;
   /** If the action type is block, this field defines the default customer overridable http response status code. */
   defaultCustomBlockResponseStatusCode?:
     | PolicySettingsDefaultCustomBlockResponseStatusCode
-    | (number & {});
+    | (number & {})
+    | undefined;
   /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
-  defaultCustomBlockResponseBody?: string;
+  defaultCustomBlockResponseBody?: string | undefined;
 }
 /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
 export type CustomRuleEnabledState = "Disabled" | "Enabled";
@@ -2807,15 +2825,15 @@ export interface MatchCondition {
   /** Match variable to compare against. */
   matchVariable: WafMatchVariable | (string & {});
   /** Selector can used to match a specific key for QueryString, Cookies, RequestHeader or PostArgs. */
-  selector?: string;
+  selector?: string | undefined;
   /** Describes operator to be matched */
   operator: Operator | (string & {});
   /** Describes if the result of this condition should be negated. */
-  negateCondition?: boolean;
+  negateCondition?: boolean | undefined;
   /** List of possible match values. */
   matchValue: MatchConditionMatchValueList;
   /** List of transforms. */
-  transforms?: MatchConditionTransformsList;
+  transforms?: MatchConditionTransformsList | undefined;
 }
 /** List of match conditions. */
 export type RateLimitRuleMatchConditionsList = Array<MatchCondition>;
@@ -2826,7 +2844,7 @@ export interface RateLimitRule {
   /** Defines the name of the custom rule */
   name: string;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: CustomRuleEnabledState | (string & {});
+  enabledState?: CustomRuleEnabledState | (string & {}) | undefined;
   /** Defines in what order this rule be evaluated in the overall list of custom rules */
   priority: number;
   /** List of match conditions. */
@@ -2843,7 +2861,7 @@ export type RateLimitRuleListRulesList = Array<RateLimitRule>;
 /** Defines contents of rate limit rules */
 export interface RateLimitRuleList {
   /** List of rules */
-  rules?: RateLimitRuleListRulesList;
+  rules?: RateLimitRuleListRulesList | undefined;
 }
 /** List of match conditions. */
 export type CustomRuleMatchConditionsList = Array<MatchCondition>;
@@ -2852,7 +2870,7 @@ export interface CustomRule {
   /** Defines the name of the custom rule */
   name: string;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: CustomRuleEnabledState | (string & {});
+  enabledState?: CustomRuleEnabledState | (string & {}) | undefined;
   /** Defines in what order this rule be evaluated in the overall list of custom rules */
   priority: number;
   /** List of match conditions. */
@@ -2865,7 +2883,7 @@ export type CustomRuleListRulesList = Array<CustomRule>;
 /** Defines contents of custom rules */
 export interface CustomRuleList {
   /** List of rules */
-  rules?: CustomRuleListRulesList;
+  rules?: CustomRuleListRulesList | undefined;
 }
 /** Describes if the managed rule is in enabled or disabled state. */
 export type ManagedRuleEnabledState = "Disabled" | "Enabled";
@@ -2874,9 +2892,9 @@ export interface ManagedRuleOverride {
   /** Identifier for the managed rule. */
   ruleId: string;
   /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
-  enabledState?: ManagedRuleEnabledState | (string & {});
+  enabledState?: ManagedRuleEnabledState | (string & {}) | undefined;
   /** Describes the override action to be applied when rule matches. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
 }
 /** List of rules that will be enabled. If none specified, all rules in the group will be disabled. */
 export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
@@ -2885,7 +2903,7 @@ export interface ManagedRuleGroupOverride {
   /** Describes the managed rule group within the rule set to override */
   ruleGroupName: string;
   /** List of rules that will be enabled. If none specified, all rules in the group will be disabled. */
-  rules?: ManagedRuleGroupOverrideRulesList;
+  rules?: ManagedRuleGroupOverrideRulesList | undefined;
 }
 /** Defines the rule overrides to apply to the rule set. */
 export type ManagedRuleSetRuleGroupOverridesList = Array<ManagedRuleGroupOverride>;
@@ -2896,21 +2914,21 @@ export interface ManagedRuleSet {
   /** Defines the version of the rule set to use. */
   ruleSetVersion: string;
   /** Verizon only : If the rule set supports anomaly detection mode, this describes the threshold for blocking requests. */
-  anomalyScore?: number;
+  anomalyScore?: number | undefined;
   /** Defines the rule overrides to apply to the rule set. */
-  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList;
+  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList | undefined;
 }
 /** List of rule sets. */
 export type ManagedRuleSetListManagedRuleSetsList = Array<ManagedRuleSet>;
 /** Defines the list of managed rule sets for the policy. */
 export interface ManagedRuleSetList {
   /** List of rule sets. */
-  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList;
+  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList | undefined;
 }
 /** Defines the ARM Resource ID for the linked endpoints */
 export interface CdnEndpoint {
   /** ARM Resource ID string. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Describes Azure CDN endpoints associated with this Web Application Firewall policy. */
 export type CdnWebApplicationFirewallPolicyPropertiesEndpointLinksList = Array<CdnEndpoint>;
@@ -2931,39 +2949,39 @@ export type PolicyResourceState =
 /** Defines CDN web application firewall policy properties. */
 export interface CdnWebApplicationFirewallPolicyProperties {
   /** Describes policySettings for policy */
-  policySettings?: PolicySettings;
+  policySettings?: PolicySettings | undefined;
   /** Describes rate limit rules inside the policy. */
-  rateLimitRules?: RateLimitRuleList;
+  rateLimitRules?: RateLimitRuleList | undefined;
   /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
+  customRules?: CustomRuleList | undefined;
   /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
+  managedRules?: ManagedRuleSetList | undefined;
   /** Describes Azure CDN endpoints associated with this Web Application Firewall policy. */
-  endpointLinks?: CdnWebApplicationFirewallPolicyPropertiesEndpointLinksList;
+  endpointLinks?: CdnWebApplicationFirewallPolicyPropertiesEndpointLinksList | undefined;
   /** Key-Value pair representing additional properties for Web Application Firewall policy. */
-  extendedProperties?: CdnWebApplicationFirewallPolicyPropertiesExtendedPropertiesMap;
+  extendedProperties?: CdnWebApplicationFirewallPolicyPropertiesExtendedPropertiesMap | undefined;
   /** Provisioning state of the WebApplicationFirewallPolicy. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Resource status of the policy. */
-  resourceState?: PolicyResourceState;
+  resourceState?: PolicyResourceState | undefined;
 }
 export interface GetPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPolicyResponseTagsMap;
+  tags?: GetPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the web application firewall policy. */
-  properties?: CdnWebApplicationFirewallPolicyProperties;
+  properties?: CdnWebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku: Sku;
 }
@@ -2984,34 +3002,34 @@ export type GetProfileResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetProfileResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetProfileResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetProfileResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProfileResponseTagsMap;
+  tags?: GetProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetProfileResponseIdentity;
+  identity?: GetProfileResponseIdentity | undefined;
 }
 export interface GetRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3027,15 +3045,15 @@ export interface GetRouteRequest {
 }
 export interface GetRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Routes to create. */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
 }
 export interface GetRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3051,15 +3069,15 @@ export interface GetRuleRequest {
 }
 export interface GetRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rules to create. */
-  properties?: RuleProperties;
+  properties?: RuleProperties | undefined;
 }
 export interface GetRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3073,15 +3091,15 @@ export interface GetRuleSetRequest {
 }
 export interface GetRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rule Set to create. */
-  properties?: RuleSetProperties;
+  properties?: RuleSetProperties | undefined;
 }
 export interface GetSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3095,15 +3113,15 @@ export interface GetSecretRequest {
 }
 export interface GetSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Secret to create. */
-  properties?: SecretProperties;
+  properties?: SecretProperties | undefined;
 }
 export interface GetSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3117,15 +3135,15 @@ export interface GetSecurityPolicyRequest {
 }
 export interface GetSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The json object that contains properties required to create a security policy */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
 }
 export interface ListAFDCustomDomainByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3138,15 +3156,15 @@ export interface ListAFDCustomDomainByProfileRequest {
 /** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
 export interface AFDDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainProperties;
+  properties?: AFDDomainProperties | undefined;
 }
 /** The AFDDomain items on this page */
 export type AFDDomainListResultValueList = Array<AFDDomain>;
@@ -3155,7 +3173,7 @@ export interface AFDDomainListResult {
   /** The AFDDomain items on this page */
   value: AFDDomainListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAFDEndpointByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3170,19 +3188,19 @@ export type AFDEndpointTagsMap = { [key: string]: string | undefined };
 /** Azure Front Door endpoint is the entity within a Azure Front Door profile containing configuration information such as origin, protocol, content caching and delivery behavior. The AzureFrontDoor endpoint uses the URL format <endpointname>.azureedge.net. */
 export interface AFDEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AFDEndpointTagsMap;
+  tags?: AFDEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: AFDEndpointProperties;
+  properties?: AFDEndpointProperties | undefined;
 }
 /** The AFDEndpoint items on this page */
 export type AFDEndpointListResultValueList = Array<AFDEndpoint>;
@@ -3191,7 +3209,7 @@ export interface AFDEndpointListResult {
   /** The AFDEndpoint items on this page */
   value: AFDEndpointListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAFDEndpointResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3208,14 +3226,14 @@ export type UsageUnit = "Count";
 /** The usage names. */
 export interface UsageName {
   /** A string describing the resource name. */
-  value?: string;
+  value?: string | undefined;
   /** A localized string describing the resource name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes resource usage. */
 export interface Usage {
   /** Resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** An enum describing the unit of measurement. */
   unit: UsageUnit;
   /** The current value of the usage. */
@@ -3232,7 +3250,7 @@ export interface UsagesListResult {
   /** The Usage items on this page */
   value: UsagesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAFDOriginByOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3247,15 +3265,15 @@ export interface ListAFDOriginByOriginGroupRequest {
 /** Azure Front Door origin is the source of the content being delivered via Azure Front Door. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
 export interface AFDOrigin {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginProperties;
+  properties?: AFDOriginProperties | undefined;
 }
 /** The AFDOrigin items on this page */
 export type AFDOriginListResultValueList = Array<AFDOrigin>;
@@ -3264,7 +3282,7 @@ export interface AFDOriginListResult {
   /** The AFDOrigin items on this page */
   value: AFDOriginListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAFDOriginGroupByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3277,15 +3295,15 @@ export interface ListAFDOriginGroupByProfileRequest {
 /** AFDOrigin group comprising of origins is used for load balancing to origins when the content cannot be served from Azure Front Door. */
 export interface AFDOriginGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupProperties;
+  properties?: AFDOriginGroupProperties | undefined;
 }
 /** The AFDOriginGroup items on this page */
 export type AFDOriginGroupListResultValueList = Array<AFDOriginGroup>;
@@ -3294,7 +3312,7 @@ export interface AFDOriginGroupListResult {
   /** The AFDOriginGroup items on this page */
   value: AFDOriginGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAFDOriginGroupResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3327,15 +3345,15 @@ export interface ListCustomDomainByEndpointRequest {
 /** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
 export interface CustomDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the custom domain to create. */
-  properties?: CustomDomainProperties;
+  properties?: CustomDomainProperties | undefined;
 }
 /** The CustomDomain items on this page */
 export type CustomDomainListResultValueList = Array<CustomDomain>;
@@ -3344,15 +3362,15 @@ export interface CustomDomainListResult {
   /** The CustomDomain items on this page */
   value: CustomDomainListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEdgeNodesRequest {}
 /** CIDR Ip address */
 export interface CidrIpAddress {
   /** Ip address itself. */
-  baseIpAddress?: string;
+  baseIpAddress?: string | undefined;
   /** The length of the prefix of the ip address. */
-  prefixLength?: number;
+  prefixLength?: number | undefined;
 }
 /** The list of ip v4 addresses. */
 export type IpAddressGroupIpv4AddressesList = Array<CidrIpAddress>;
@@ -3361,11 +3379,11 @@ export type IpAddressGroupIpv6AddressesList = Array<CidrIpAddress>;
 /** CDN Ip address group */
 export interface IpAddressGroup {
   /** The delivery region of the ip address group */
-  deliveryRegion?: string;
+  deliveryRegion?: string | undefined;
   /** The list of ip v4 addresses. */
-  ipv4Addresses?: IpAddressGroupIpv4AddressesList;
+  ipv4Addresses?: IpAddressGroupIpv4AddressesList | undefined;
   /** The list of ip v6 addresses. */
-  ipv6Addresses?: IpAddressGroupIpv6AddressesList;
+  ipv6Addresses?: IpAddressGroupIpv6AddressesList | undefined;
 }
 /** List of ip address groups. */
 export type EdgeNodePropertiesIpAddressGroupsList = Array<IpAddressGroup>;
@@ -3377,15 +3395,15 @@ export interface EdgeNodeProperties {
 /** Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users. */
 export interface EdgeNode {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties required to create an edgenode. */
-  properties?: EdgeNodeProperties;
+  properties?: EdgeNodeProperties | undefined;
 }
 /** The EdgeNode items on this page */
 export type EdgenodeResultValueList = Array<EdgeNode>;
@@ -3394,7 +3412,7 @@ export interface EdgenodeResult {
   /** The EdgeNode items on this page */
   value: EdgenodeResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEndpointByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3409,19 +3427,19 @@ export type EndpointTagsMap = { [key: string]: string | undefined };
 /** CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net. */
 export interface Endpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EndpointTagsMap;
+  tags?: EndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
 }
 /** The Endpoint items on this page */
 export type EndpointListResultValueList = Array<Endpoint>;
@@ -3430,7 +3448,7 @@ export interface EndpointListResult {
   /** The Endpoint items on this page */
   value: EndpointListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEndpointResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3447,13 +3465,13 @@ export type ResourceUsageUnit = "count";
 /** Output of check resource usage API. */
 export interface ResourceUsage {
   /** Resource type for which the usage is provided. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Unit of the usage. e.g. count. */
-  unit?: ResourceUsageUnit;
+  unit?: ResourceUsageUnit | undefined;
   /** Actual value of usage on the specified resource type. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Quota of the specified resource type. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The ResourceUsage items on this page */
 export type ResourceUsageListResultValueList = Array<ResourceUsage>;
@@ -3462,7 +3480,7 @@ export interface ResourceUsageListResult {
   /** The ResourceUsage items on this page */
   value: ResourceUsageListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedRuleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3471,48 +3489,48 @@ export interface ListManagedRuleSetsRequest {
 /** Describes a managed rule definition. */
 export interface ManagedRuleDefinition {
   /** Identifier for the managed rule. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Describes the functionality of the managed rule. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of rules within the managed rule group. */
 export type ManagedRuleGroupDefinitionRulesList = Array<ManagedRuleDefinition>;
 /** Describes a managed rule group. */
 export interface ManagedRuleGroupDefinition {
   /** Name of the managed rule group. */
-  ruleGroupName?: string;
+  ruleGroupName?: string | undefined;
   /** Description of the managed rule group. */
-  description?: string;
+  description?: string | undefined;
   /** List of rules within the managed rule group. */
-  rules?: ManagedRuleGroupDefinitionRulesList;
+  rules?: ManagedRuleGroupDefinitionRulesList | undefined;
 }
 /** Rule groups of the managed rule set. */
 export type ManagedRuleSetDefinitionPropertiesRuleGroupsList = Array<ManagedRuleGroupDefinition>;
 /** Properties for a managed rule set definition. */
 export interface ManagedRuleSetDefinitionProperties {
   /** Provisioning state of the managed rule set. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Type of the managed rule set. */
-  ruleSetType?: string;
+  ruleSetType?: string | undefined;
   /** Version of the managed rule set type. */
-  ruleSetVersion?: string;
+  ruleSetVersion?: string | undefined;
   /** Rule groups of the managed rule set. */
-  ruleGroups?: ManagedRuleSetDefinitionPropertiesRuleGroupsList;
+  ruleGroups?: ManagedRuleSetDefinitionPropertiesRuleGroupsList | undefined;
 }
 /** Describes a managed rule set definition. */
 export interface ManagedRuleSetDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes managed rule set definition properties. */
-  properties?: ManagedRuleSetDefinitionProperties;
+  properties?: ManagedRuleSetDefinitionProperties | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The ManagedRuleSetDefinition items on this page */
 export type ManagedRuleSetDefinitionListValueList = Array<ManagedRuleSetDefinition>;
@@ -3521,37 +3539,37 @@ export interface ManagedRuleSetDefinitionList {
   /** The ManagedRuleSetDefinition items on this page */
   value: ManagedRuleSetDefinitionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Cdn */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Log specification of operation. */
 export interface LogSpecification {
   /** Name of log specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of log specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of specification. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
   /** Pattern to filter based on name */
-  logFilterPattern?: string;
+  logFilterPattern?: string | undefined;
 }
 /** Log specifications of operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Retention policy of a resource metric. */
 export interface MetricAvailability {
-  timeGrain?: string;
-  blobDuration?: string;
+  timeGrain?: string | undefined;
+  blobDuration?: string | undefined;
 }
 /** Retention policies of a resource metric. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
@@ -3560,65 +3578,65 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Type of operation: get, read, delete, etc. */
 export interface DimensionProperties {
   /** Name of dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Internal name of dimension. */
-  internalName?: string;
+  internalName?: string | undefined;
 }
 /** The dimensions of metric */
 export type MetricSpecificationDimensionsList = Array<DimensionProperties>;
 /** Metric specification of operation. */
 export interface MetricSpecification {
   /** Name of metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The metric unit. Possible values include: 'Bytes', 'Count', 'Milliseconds'. */
-  unit?: string;
+  unit?: string | undefined;
   /** The metric aggregation type. Possible values include: 'Average', 'Count', 'Total'. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Retention policies of a resource metric. */
-  availabilities?: MetricSpecificationAvailabilitiesList;
+  availabilities?: MetricSpecificationAvailabilitiesList | undefined;
   /** The supported time grain types for the metrics. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** The dimensions of metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Property to specify whether to fill gap with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Pattern to filter based on name */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** Property to specify metric is internal or not. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
 }
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** One property of operation, include log specifications. */
 export interface ServiceSpecification {
   /** Log specifications of operation. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Metric specifications of operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
   /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** CDN REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The origin of operations. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of operation, include metric specifications. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of CDN operations supported by the CDN resource provider. */
 export type OperationsListResultValueList = Array<Operation>;
@@ -3627,7 +3645,7 @@ export interface OperationsListResult {
   /** List of CDN operations supported by the CDN resource provider. */
   value: OperationsListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOriginByEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3642,15 +3660,15 @@ export interface ListOriginByEndpointRequest {
 /** CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
 export interface Origin {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginProperties;
+  properties?: OriginProperties | undefined;
 }
 /** The Origin items on this page */
 export type OriginListResultValueList = Array<Origin>;
@@ -3659,7 +3677,7 @@ export interface OriginListResult {
   /** The Origin items on this page */
   value: OriginListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOriginGroupByEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3674,15 +3692,15 @@ export interface ListOriginGroupByEndpointRequest {
 /** Origin group comprising of origins is used for load balancing to origins when the content cannot be served from CDN. */
 export interface OriginGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupProperties;
+  properties?: OriginGroupProperties | undefined;
 }
 /** The OriginGroup items on this page */
 export type OriginGroupListResultValueList = Array<OriginGroup>;
@@ -3691,7 +3709,7 @@ export interface OriginGroupListResult {
   /** The OriginGroup items on this page */
   value: OriginGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3704,21 +3722,21 @@ export type CdnWebApplicationFirewallPolicyTagsMap = { [key: string]: string | u
 /** Defines web application firewall policy for Azure CDN. */
 export interface CdnWebApplicationFirewallPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CdnWebApplicationFirewallPolicyTagsMap;
+  tags?: CdnWebApplicationFirewallPolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the web application firewall policy. */
-  properties?: CdnWebApplicationFirewallPolicyProperties;
+  properties?: CdnWebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku: Sku;
 }
@@ -3729,7 +3747,7 @@ export interface CdnWebApplicationFirewallPolicyList {
   /** The CdnWebApplicationFirewallPolicy items on this page */
   value: CdnWebApplicationFirewallPolicyListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProfileByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3746,35 +3764,35 @@ export type ProfileIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ProfileIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ProfileIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ProfileIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** A profile is a logical grouping of endpoints that share the same settings. */
 export interface Profile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProfileTagsMap;
+  tags?: ProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ProfileIdentity;
+  identity?: ProfileIdentity | undefined;
 }
 /** The Profile items on this page */
 export type ProfileListResultValueList = Array<Profile>;
@@ -3783,7 +3801,7 @@ export interface ProfileListResult {
   /** The Profile items on this page */
   value: ProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProfileResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3811,7 +3829,9 @@ export type SupportedOptimizationTypesListResultSupportedOptimizationTypesList =
 /** The result of the GetSupportedOptimizationTypes API */
 export interface SupportedOptimizationTypesListResult {
   /** Supported optimization types for a profile. */
-  supportedOptimizationTypes?: SupportedOptimizationTypesListResultSupportedOptimizationTypesList;
+  supportedOptimizationTypes?:
+    | SupportedOptimizationTypesListResultSupportedOptimizationTypesList
+    | undefined;
 }
 export interface ListResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3830,15 +3850,15 @@ export interface ListRouteByEndpointRequest {
 /** Friendly Routes name mapping to the any Routes or secret related information. */
 export interface Route {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Routes to create. */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
 }
 /** The Route items on this page */
 export type RouteListResultValueList = Array<Route>;
@@ -3847,7 +3867,7 @@ export interface RouteListResult {
   /** The Route items on this page */
   value: RouteListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRuleByRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3862,15 +3882,15 @@ export interface ListRuleByRuleSetRequest {
 /** Friendly Rules name mapping to the any Rules or secret related information. */
 export interface Rule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rules to create. */
-  properties?: RuleProperties;
+  properties?: RuleProperties | undefined;
 }
 /** The Rule items on this page */
 export type RuleListResultValueList = Array<Rule>;
@@ -3879,7 +3899,7 @@ export interface RuleListResult {
   /** The Rule items on this page */
   value: RuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRuleSetByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3892,15 +3912,15 @@ export interface ListRuleSetByProfileRequest {
 /** Friendly RuleSet name mapping to the any RuleSet or secret related information. */
 export interface RuleSet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rule Set to create. */
-  properties?: RuleSetProperties;
+  properties?: RuleSetProperties | undefined;
 }
 /** The RuleSet items on this page */
 export type RuleSetListResultValueList = Array<RuleSet>;
@@ -3909,7 +3929,7 @@ export interface RuleSetListResult {
   /** The RuleSet items on this page */
   value: RuleSetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRuleSetResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3932,15 +3952,15 @@ export interface ListSecretByProfileRequest {
 /** Friendly Secret name mapping to the any Secret or secret related information. */
 export interface Secret {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Secret to create. */
-  properties?: SecretProperties;
+  properties?: SecretProperties | undefined;
 }
 /** The Secret items on this page */
 export type SecretListResultValueList = Array<Secret>;
@@ -3949,7 +3969,7 @@ export interface SecretListResult {
   /** The Secret items on this page */
   value: SecretListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSecurityPolicyByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3962,15 +3982,15 @@ export interface ListSecurityPolicyByProfileRequest {
 /** SecurityPolicy association for AzureFrontDoor profile */
 export interface SecurityPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The json object that contains properties required to create a security policy */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
 }
 /** The SecurityPolicy items on this page */
 export type SecurityPolicyListResultValueList = Array<SecurityPolicy>;
@@ -3979,14 +3999,14 @@ export interface SecurityPolicyListResult {
   /** The SecurityPolicy items on this page */
   value: SecurityPolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Web Application Firewall Mapping */
 export interface MigrationWebApplicationFirewallMapping {
   /** Migration From Waf policy */
-  migratedFrom?: ResourceReference;
+  migratedFrom?: ResourceReference | undefined;
   /** Migration to Waf policy */
-  migratedTo?: ResourceReference;
+  migratedTo?: ResourceReference | undefined;
 }
 /** Waf mapping for the migrated profile */
 export type MigrateProfileRequestMigrationWebApplicationFirewallMappingsList =
@@ -4003,23 +4023,25 @@ export interface MigrateProfileRequest {
   /** Name of the new profile that need to be created. */
   profileName: string;
   /** Waf mapping for the migrated profile */
-  migrationWebApplicationFirewallMappings?: MigrateProfileRequestMigrationWebApplicationFirewallMappingsList;
+  migrationWebApplicationFirewallMappings?:
+    | MigrateProfileRequestMigrationWebApplicationFirewallMappingsList
+    | undefined;
 }
 export interface MigrateResultProperties {
   /** Arm resource id of the migrated profile */
-  migratedProfileResourceId?: ResourceReference;
+  migratedProfileResourceId?: ResourceReference | undefined;
 }
 /** Result for migrate operation. */
 export interface MigrateResult {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: MigrateResultProperties;
+  type?: string | undefined;
+  properties?: MigrateResultProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateProfilesCanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4034,33 +4056,33 @@ export type CanMigrateDefaultSku = "Standard_AzureFrontDoor" | "Premium_AzureFro
 /** Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message. */
 export interface MigrationErrorType {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Resource which has the problem. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Error message indicating why the operation failed. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Describes what needs to be done to fix the problem */
-  nextSteps?: string;
+  nextSteps?: string | undefined;
 }
 export type CanMigratePropertiesErrorsList = Array<MigrationErrorType>;
 export interface CanMigrateProperties {
   /** Flag that says if the profile can be migrated */
-  canMigrate?: boolean;
+  canMigrate?: boolean | undefined;
   /** Recommended sku for the migration */
-  defaultSku?: CanMigrateDefaultSku;
-  errors?: CanMigratePropertiesErrorsList;
+  defaultSku?: CanMigrateDefaultSku | undefined;
+  errors?: CanMigratePropertiesErrorsList | undefined;
 }
 /** Result for canMigrate operation. */
 export interface CanMigrateResult {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource type. */
-  type?: string;
-  properties?: CanMigrateProperties;
+  type?: string | undefined;
+  properties?: CanMigrateProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The json object that contains properties required to update a security policy */
 export type SecurityPolicyUpdateProperties = SecurityPolicyPropertiesInput;
@@ -4074,23 +4096,23 @@ export interface PatchSecurityPolicyRequest {
   /** Name of the security policy under the profile. */
   securityPolicyName: string;
   /** The json object that contains properties required to update a security policy */
-  properties?: SecurityPolicyPropertiesInput;
+  properties?: SecurityPolicyPropertiesInput | undefined;
 }
 export interface PatchSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The json object that contains properties required to create a security policy */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4101,15 +4123,17 @@ export type CdnWebApplicationFirewallPolicyPropertiesInputExtendedPropertiesMap 
 /** Defines CDN web application firewall policy properties. */
 export interface CdnWebApplicationFirewallPolicyPropertiesInput {
   /** Describes policySettings for policy */
-  policySettings?: PolicySettings;
+  policySettings?: PolicySettings | undefined;
   /** Describes rate limit rules inside the policy. */
-  rateLimitRules?: RateLimitRuleList;
+  rateLimitRules?: RateLimitRuleList | undefined;
   /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
+  customRules?: CustomRuleList | undefined;
   /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
+  managedRules?: ManagedRuleSetList | undefined;
   /** Key-Value pair representing additional properties for Web Application Firewall policy. */
-  extendedProperties?: CdnWebApplicationFirewallPolicyPropertiesInputExtendedPropertiesMap;
+  extendedProperties?:
+    | CdnWebApplicationFirewallPolicyPropertiesInputExtendedPropertiesMap
+    | undefined;
 }
 export interface PoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4119,13 +4143,13 @@ export interface PoliciesCreateOrUpdateRequest {
   /** The name of the CdnWebApplicationFirewallPolicy. */
   policyName: string;
   /** Resource tags. */
-  tags?: PoliciesCreateOrUpdateRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the web application firewall policy. */
-  properties?: CdnWebApplicationFirewallPolicyPropertiesInput;
+  properties?: CdnWebApplicationFirewallPolicyPropertiesInput | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku: Sku;
 }
@@ -4133,27 +4157,27 @@ export interface PoliciesCreateOrUpdateRequest {
 export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoliciesCreateOrUpdateResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the web application firewall policy. */
-  properties?: CdnWebApplicationFirewallPolicyProperties;
+  properties?: CdnWebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku: Sku;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface ProfilesCdnCanMigrateToAfdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4166,9 +4190,9 @@ export interface ProfilesCdnCanMigrateToAfdRequest {
 /** CDN Endpoint Mapping. */
 export interface MigrationEndpointMapping {
   /** Name of the classic CDN profile endpoint. */
-  migratedFrom?: string;
+  migratedFrom?: string | undefined;
   /** Name of the newly created migrated Azure Frontdoor Standard/Premium profile endpoint. This name will replace the name of the classic CDN endpoint resource. */
-  migratedTo?: string;
+  migratedTo?: string | undefined;
 }
 /** A name map between classic CDN endpoints and AFD Premium/Standard endpoints. */
 export type ProfilesCdnMigrateToAfdRequestMigrationEndpointMappingsList =
@@ -4183,7 +4207,9 @@ export interface ProfilesCdnMigrateToAfdRequest {
   /** Sku for the migration */
   sku: Sku;
   /** A name map between classic CDN endpoints and AFD Premium/Standard endpoints. */
-  migrationEndpointMappings?: ProfilesCdnMigrateToAfdRequestMigrationEndpointMappingsList;
+  migrationEndpointMappings?:
+    | ProfilesCdnMigrateToAfdRequestMigrationEndpointMappingsList
+    | undefined;
 }
 /** The path to the content to be purged. Can describe a file path or a wild card directory. */
 export type PurgeAFDEndpointContentRequestContentPathsList = Array<string>;
@@ -4201,15 +4227,15 @@ export interface PurgeAFDEndpointContentRequest {
   /** The path to the content to be purged. Can describe a file path or a wild card directory. */
   contentPaths: PurgeAFDEndpointContentRequestContentPathsList;
   /** List of domains. */
-  domains?: PurgeAFDEndpointContentRequestDomainsList;
+  domains?: PurgeAFDEndpointContentRequestDomainsList | undefined;
 }
 export interface PurgeAFDEndpointContentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The path to the content to be purged. Can describe a file path or a wild card directory. */
 export type PurgeEndpointContentRequestContentPathsList = Array<string>;
@@ -4227,9 +4253,9 @@ export interface PurgeEndpointContentRequest {
 }
 export interface PurgeEndpointContentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshAFDCustomDomainValidationTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4243,11 +4269,11 @@ export interface RefreshAFDCustomDomainValidationTokenRequest {
 }
 export interface RefreshAFDCustomDomainValidationTokenResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4263,21 +4289,21 @@ export interface StartEndpointRequest {
 export type StartEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface StartEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StartEndpointResponseTagsMap;
+  tags?: StartEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface StopEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4293,32 +4319,32 @@ export interface StopEndpointRequest {
 export type StopEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface StopEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StopEndpointResponseTagsMap;
+  tags?: StopEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The JSON object that contains the properties of the domain to create. */
 export interface AFDDomainUpdatePropertiesParametersInput {
   /** The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate or user's own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default. */
-  tlsSettings?: AFDDomainHttpsParameters;
+  tlsSettings?: AFDDomainHttpsParameters | undefined;
   /** The configuration specifying how to enable mutual TLS for the domain, including specifying allowed FQDNs and which server certificate(s) to use. */
-  mtlsSettings?: AFDDomainMtlsParameters;
+  mtlsSettings?: AFDDomainMtlsParameters | undefined;
   /** Resource reference to the Azure DNS zone */
-  azureDnsZone?: ResourceReference;
+  azureDnsZone?: ResourceReference | undefined;
   /** Resource reference to the Azure resource where custom domain ownership was prevalidated */
-  preValidatedCustomDomainResourceId?: ResourceReference;
+  preValidatedCustomDomainResourceId?: ResourceReference | undefined;
 }
 export interface UpdateAFDCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4330,34 +4356,34 @@ export interface UpdateAFDCustomDomainRequest {
   /** Name of the domain under the profile which is unique globally. */
   customDomainName: string;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainUpdatePropertiesParametersInput;
+  properties?: AFDDomainUpdatePropertiesParametersInput | undefined;
 }
 export interface UpdateAFDCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: AFDDomainProperties;
+  properties?: AFDDomainProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Endpoint tags. */
 export type UpdateAFDEndpointRequestTagsMap = { [key: string]: string | undefined };
 /** The JSON object containing endpoint update parameters. */
 export interface AFDEndpointPropertiesUpdateParametersInput {
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
   /** Set to Disabled by default. If set to Enabled, only custom domains with mTLS enabled can be added to child Route resources. */
-  enforceMtls?: EnforceMtlsEnabledState | (string & {});
+  enforceMtls?: EnforceMtlsEnabledState | (string & {}) | undefined;
 }
 export interface UpdateAFDEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4369,60 +4395,65 @@ export interface UpdateAFDEndpointRequest {
   /** Name of the endpoint under the profile which is unique globally. */
   endpointName: string;
   /** Endpoint tags. */
-  tags?: UpdateAFDEndpointRequestTagsMap;
+  tags?: UpdateAFDEndpointRequestTagsMap | undefined;
   /** The JSON object containing endpoint update parameters. */
-  properties?: AFDEndpointPropertiesUpdateParametersInput;
+  properties?: AFDEndpointPropertiesUpdateParametersInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAFDEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAFDEndpointResponseTagsMap;
+  tags?: UpdateAFDEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: AFDEndpointProperties;
+  properties?: AFDEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
 export type AFDOriginUpdatePropertiesParametersInputCustomCertificateSubjectsList = Array<string>;
 /** The JSON object that contains the properties of the origin. */
 export interface AFDOriginUpdatePropertiesParametersInput {
   /** Resource reference to the Azure origin resource. */
-  azureOrigin?: ResourceReference;
+  azureOrigin?: ResourceReference | undefined;
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure Front Door origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5 */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** The properties of the private link resource for private origin. */
-  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
+  sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties | undefined;
   /** Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool. */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
   /** Whether to enable certificate name check at origin level */
-  enforceCertificateNameCheck?: boolean;
+  enforceCertificateNameCheck?: boolean | undefined;
   /** The validation mode for certificate name check. Only applicable when enforceCertificateNameCheck is true. */
-  certificateNameCheckValidationMode?: CertificateNameCheckValidationMode | (string & {});
+  certificateNameCheckValidationMode?:
+    | CertificateNameCheckValidationMode
+    | (string & {})
+    | undefined;
   /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
-  customCertificateSubjects?: AFDOriginUpdatePropertiesParametersInputCustomCertificateSubjectsList;
+  customCertificateSubjects?:
+    | AFDOriginUpdatePropertiesParametersInputCustomCertificateSubjectsList
+    | undefined;
 }
 export interface UpdateAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4436,23 +4467,23 @@ export interface UpdateAFDOriginRequest {
   /** Name of the origin which is unique within the profile. */
   originName: string;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginUpdatePropertiesParametersInput;
+  properties?: AFDOriginUpdatePropertiesParametersInput | undefined;
 }
 export interface UpdateAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: AFDOriginProperties;
+  properties?: AFDOriginProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The JSON object that contains the properties of the origin group. */
 export type AFDOriginGroupUpdatePropertiesParametersInput = AFDOriginGroupPropertiesInput;
@@ -4466,25 +4497,25 @@ export interface UpdateAFDOriginGroupRequest {
   /** Name of the origin group which is unique within the endpoint. */
   originGroupName: string;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupPropertiesInput;
+  properties?: AFDOriginGroupPropertiesInput | undefined;
 }
 export interface UpdateAFDOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: AFDOriginGroupProperties;
+  properties?: AFDOriginGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Endpoint tags. */
 export type UpdateEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -4503,35 +4534,36 @@ export type EndpointPropertiesUpdateParametersUrlSigningKeysList = Array<UrlSign
 /** The JSON object containing endpoint update parameters. */
 export interface EndpointPropertiesUpdateParameters {
   /** A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** List of content types on which compression applies. The value should be a valid MIME type. */
-  contentTypesToCompress?: EndpointPropertiesUpdateParametersContentTypesToCompressList;
+  contentTypesToCompress?: EndpointPropertiesUpdateParametersContentTypesToCompressList | undefined;
   /** The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB. */
-  isCompressionEnabled?: boolean;
+  isCompressionEnabled?: boolean | undefined;
   /** Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpAllowed?: boolean;
+  isHttpAllowed?: boolean | undefined;
   /** Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed. */
-  isHttpsAllowed?: boolean;
+  isHttpsAllowed?: boolean | undefined;
   /** Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL. */
   queryStringCachingBehavior?:
     | EndpointPropertiesUpdateParametersQueryStringCachingBehavior
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization. */
-  optimizationType?: OptimizationType | (string & {});
+  optimizationType?: OptimizationType | (string & {}) | undefined;
   /** Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single origin. */
-  probePath?: string;
+  probePath?: string | undefined;
   /** List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule to a specified path or content, e.g. block APAC for path /pictures/ */
-  geoFilters?: EndpointPropertiesUpdateParametersGeoFiltersList;
+  geoFilters?: EndpointPropertiesUpdateParametersGeoFiltersList | undefined;
   /** A reference to the origin group. */
-  defaultOriginGroup?: ResourceReference;
+  defaultOriginGroup?: ResourceReference | undefined;
   /** List of keys used to validate the signed URL hashes. */
-  urlSigningKeys?: EndpointPropertiesUpdateParametersUrlSigningKeysList;
+  urlSigningKeys?: EndpointPropertiesUpdateParametersUrlSigningKeysList | undefined;
   /** A policy that specifies the delivery rules to be used for an endpoint. */
-  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+  deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy | undefined;
   /** Defines the Web Application Firewall policy for the endpoint (if applicable) */
-  webApplicationFirewallPolicyLink?: ResourceReference;
+  webApplicationFirewallPolicyLink?: ResourceReference | undefined;
 }
 export interface UpdateEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4543,54 +4575,54 @@ export interface UpdateEndpointRequest {
   /** Name of the endpoint under the profile which is unique globally. */
   endpointName: string;
   /** Endpoint tags. */
-  tags?: UpdateEndpointRequestTagsMap;
+  tags?: UpdateEndpointRequestTagsMap | undefined;
   /** The JSON object containing endpoint update parameters. */
-  properties?: EndpointPropertiesUpdateParameters;
+  properties?: EndpointPropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEndpointResponseTagsMap;
+  tags?: UpdateEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create an endpoint. */
-  properties?: EndpointProperties;
+  properties?: EndpointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The JSON object that contains the properties of the origin. */
 export interface OriginUpdatePropertiesParameters {
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The value of the HTTP port. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The value of the HTTPS port. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint */
-  originHostHeader?: string;
+  originHostHeader?: string | undefined;
   /** Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5 */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of the origin in given origin group for load balancing. Must be between 1 and 1000 */
-  weight?: number;
+  weight?: number | undefined;
   /** Origin is enabled for load balancing or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private' */
-  privateLinkAlias?: string;
+  privateLinkAlias?: string | undefined;
   /** The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private' */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated */
-  privateLinkLocation?: string;
+  privateLinkLocation?: string | undefined;
   /** A custom message to be included in the approval request to connect to the Private Link. */
-  privateLinkApprovalMessage?: string;
+  privateLinkApprovalMessage?: string | undefined;
 }
 export interface UpdateOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4604,34 +4636,36 @@ export interface UpdateOriginRequest {
   /** Name of the origin which is unique within the endpoint. */
   originName: string;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginUpdatePropertiesParameters;
+  properties?: OriginUpdatePropertiesParameters | undefined;
 }
 export interface UpdateOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin. */
-  properties?: OriginProperties;
+  properties?: OriginProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The source of the content being delivered via CDN within given origin group. */
 export type OriginGroupUpdatePropertiesParametersOriginsList = Array<ResourceReference>;
 /** The JSON object that contains the properties of the origin group. */
 export interface OriginGroupUpdatePropertiesParameters {
   /** Health probe settings to the origin that is used to determine the health of the origin. */
-  healthProbeSettings?: HealthProbeParameters;
+  healthProbeSettings?: HealthProbeParameters | undefined;
   /** The source of the content being delivered via CDN within given origin group. */
-  origins?: OriginGroupUpdatePropertiesParametersOriginsList;
+  origins?: OriginGroupUpdatePropertiesParametersOriginsList | undefined;
   /** Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported. */
-  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+  trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number | undefined;
   /** The JSON object that contains the properties to determine origin health using real requests/responses. This property is currently not supported. */
-  responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+  responseBasedOriginErrorDetectionSettings?:
+    | ResponseBasedOriginErrorDetectionParameters
+    | undefined;
 }
 export interface UpdateOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4645,21 +4679,21 @@ export interface UpdateOriginGroupRequest {
   /** Name of the origin group which is unique within the endpoint. */
   originGroupName: string;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupUpdatePropertiesParameters;
+  properties?: OriginGroupUpdatePropertiesParameters | undefined;
 }
 export interface UpdateOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the origin group. */
-  properties?: OriginGroupProperties;
+  properties?: OriginGroupProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** CdnWebApplicationFirewallPolicy tags */
 export type UpdatePolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -4671,31 +4705,31 @@ export interface UpdatePolicyRequest {
   /** The name of the CdnWebApplicationFirewallPolicy. */
   policyName: string;
   /** CdnWebApplicationFirewallPolicy tags */
-  tags?: UpdatePolicyRequestTagsMap;
+  tags?: UpdatePolicyRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePolicyResponseTagsMap;
+  tags?: UpdatePolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the web application firewall policy. */
-  properties?: CdnWebApplicationFirewallPolicyProperties;
+  properties?: CdnWebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku: Sku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Profile tags */
 export type UpdateProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -4707,14 +4741,14 @@ export type UpdateProfileRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateProfileRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateProfileRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateProfileRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The JSON object containing profile update parameters. */
 export interface ProfilePropertiesUpdateParameters {
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
-  originResponseTimeoutSeconds?: number;
+  originResponseTimeoutSeconds?: number | undefined;
   /** Defines rules to scrub sensitive fields in logs */
-  logScrubbing?: ProfileLogScrubbing;
+  logScrubbing?: ProfileLogScrubbing | undefined;
 }
 export interface UpdateProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4724,11 +4758,11 @@ export interface UpdateProfileRequest {
   /** Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile which is unique within the resource group. */
   profileName: string;
   /** Profile tags */
-  tags?: UpdateProfileRequestTagsMap;
+  tags?: UpdateProfileRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateProfileRequestIdentity;
+  identity?: UpdateProfileRequestIdentity | undefined;
   /** The JSON object containing profile update parameters. */
-  properties?: ProfilePropertiesUpdateParameters;
+  properties?: ProfilePropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -4739,36 +4773,36 @@ export type UpdateProfileResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateProfileResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateProfileResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateProfileResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProfileResponseTagsMap;
+  tags?: UpdateProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The JSON object that contains the properties required to create a profile. */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /** Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateProfileResponseIdentity;
+  identity?: UpdateProfileResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Domains referenced by this endpoint. */
 export type RouteUpdatePropertiesParametersInputCustomDomainsList = Array<ResourceReference>;
@@ -4792,27 +4826,33 @@ export type RouteUpdatePropertiesParametersInputHttpsRedirect = "Enabled" | "Dis
 /** The JSON object that contains the properties of the domain to create. */
 export interface RouteUpdatePropertiesParametersInput {
   /** Domains referenced by this endpoint. */
-  customDomains?: RouteUpdatePropertiesParametersInputCustomDomainsList;
+  customDomains?: RouteUpdatePropertiesParametersInputCustomDomainsList | undefined;
   /** A reference to the origin group. */
-  originGroup?: ResourceReference;
+  originGroup?: ResourceReference | undefined;
   /** A directory path on the origin that AzureFrontDoor can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
-  originPath?: string;
+  originPath?: string | undefined;
   /** rule sets referenced by this endpoint. */
-  ruleSets?: RouteUpdatePropertiesParametersInputRuleSetsList;
+  ruleSets?: RouteUpdatePropertiesParametersInputRuleSetsList | undefined;
   /** List of supported protocols for this route. */
-  supportedProtocols?: RouteUpdatePropertiesParametersInputSupportedProtocolsList;
+  supportedProtocols?: RouteUpdatePropertiesParametersInputSupportedProtocolsList | undefined;
   /** The route patterns of the rule. */
-  patternsToMatch?: RouteUpdatePropertiesParametersInputPatternsToMatchList;
+  patternsToMatch?: RouteUpdatePropertiesParametersInputPatternsToMatchList | undefined;
   /** The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object. */
-  cacheConfiguration?: AfdRouteCacheConfiguration;
+  cacheConfiguration?: AfdRouteCacheConfiguration | undefined;
   /** Protocol this rule will use when forwarding traffic to backends. */
-  forwardingProtocol?: RouteUpdatePropertiesParametersInputForwardingProtocol | (string & {});
+  forwardingProtocol?:
+    | RouteUpdatePropertiesParametersInputForwardingProtocol
+    | (string & {})
+    | undefined;
   /** whether this route will be linked to the default endpoint domain. */
-  linkToDefaultDomain?: RouteUpdatePropertiesParametersInputLinkToDefaultDomain | (string & {});
+  linkToDefaultDomain?:
+    | RouteUpdatePropertiesParametersInputLinkToDefaultDomain
+    | (string & {})
+    | undefined;
   /** Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed. */
-  httpsRedirect?: RouteUpdatePropertiesParametersInputHttpsRedirect | (string & {});
+  httpsRedirect?: RouteUpdatePropertiesParametersInputHttpsRedirect | (string & {}) | undefined;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: EnabledState | (string & {});
+  enabledState?: EnabledState | (string & {}) | undefined;
 }
 export interface UpdateRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4826,25 +4866,25 @@ export interface UpdateRouteRequest {
   /** Name of the routing rule. */
   routeName: string;
   /** The JSON object that contains the properties of the domain to create. */
-  properties?: RouteUpdatePropertiesParametersInput;
+  properties?: RouteUpdatePropertiesParametersInput | undefined;
 }
 export interface UpdateRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Routes to create. */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A list of conditions that must be matched for the actions to be executed */
 export type RuleUpdatePropertiesParametersInputConditionsList = Array<DeliveryRuleCondition>;
@@ -4855,15 +4895,16 @@ export type RuleUpdatePropertiesParametersInputMatchProcessingBehavior = "Contin
 /** The JSON object that contains the properties of the rule to update. */
 export interface RuleUpdatePropertiesParametersInput {
   /** The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,.........}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied. */
-  order?: number;
+  order?: number | undefined;
   /** A list of conditions that must be matched for the actions to be executed */
-  conditions?: RuleUpdatePropertiesParametersInputConditionsList;
+  conditions?: RuleUpdatePropertiesParametersInputConditionsList | undefined;
   /** A list of actions that are executed when all the conditions of a rule are satisfied. */
-  actions?: RuleUpdatePropertiesParametersInputActionsList;
+  actions?: RuleUpdatePropertiesParametersInputActionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
   matchProcessingBehavior?:
     | RuleUpdatePropertiesParametersInputMatchProcessingBehavior
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface UpdateRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4877,23 +4918,23 @@ export interface UpdateRuleRequest {
   /** Name of the delivery rule which is unique within the endpoint. */
   ruleName: string;
   /** The JSON object that contains the properties of the rule to update. */
-  properties?: RuleUpdatePropertiesParametersInput;
+  properties?: RuleUpdatePropertiesParametersInput | undefined;
 }
 export interface UpdateRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The JSON object that contains the properties of the Rules to create. */
-  properties?: RuleProperties;
+  properties?: RuleProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ValidateAFDEndpointCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4910,11 +4951,11 @@ export interface ValidateAFDEndpointCustomDomainRequest {
 /** Output of custom domain validation. */
 export interface ValidateCustomDomainOutput {
   /** Indicates whether the custom domain is valid or not. */
-  customDomainValidated?: boolean;
+  customDomainValidated?: boolean | undefined;
   /** The reason why the custom domain is not valid. */
-  reason?: string;
+  reason?: string | undefined;
   /** Error message describing why the custom domain is not valid. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ValidateAFDProfileSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4928,16 +4969,16 @@ export interface ValidateAFDProfileSecretRequest {
   /** Resource reference to the Azure Key Vault secret. Expected to be in format of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName} */
   secretSource: ResourceReference;
   /** Secret version, if customer is using a specific version. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** The validation status. */
 export type Status = "Valid" | "Invalid" | "AccessDenied" | "CertificateExpired";
 /** Output of the validated secret. */
 export interface ValidateSecretOutput {
   /** The validation status. */
-  status?: Status;
+  status?: Status | undefined;
   /** Detailed error message */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ValidateEndpointCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4960,11 +5001,11 @@ export interface ValidateProbeRequest {
 /** Output of the validate probe API. */
 export interface ValidateProbeOutput {
   /** Indicates whether the probe URL is accepted or not. */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Specifies the error code when the probe url is not accepted. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** The detailed error message describing why the probe URL is not accepted. */
-  message?: string;
+  message?: string | undefined;
 }
 export type AbortProfilesMigrationError = AzureOpError;
 /** Abort the migration to Azure Frontdoor Premium/Standard. */

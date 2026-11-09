@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -92,7 +93,7 @@ export class ResourceNotFoundException
 export type Locale = string;
 export type ListingId = string;
 export interface GetListingInput {
-  locale?: string;
+  locale?: string | undefined;
   listingId: string;
 }
 export type ProductId = string;
@@ -111,12 +112,12 @@ export type OfferId = string;
 export type NullableString = string;
 export interface OfferInformation {
   offerId: string;
-  offerName?: string;
+  offerName?: string | undefined;
   sellerOfRecord: SellerInformation;
 }
 export interface ListingAssociatedEntity {
-  product?: ProductInformation;
-  offer?: OfferInformation;
+  product?: ProductInformation | undefined;
+  offer?: OfferInformation | undefined;
 }
 export type ListingAssociatedEntityList = ListingAssociatedEntity[];
 export type ListingBadgeType =
@@ -181,18 +182,18 @@ export type PricingUnitList = PricingUnit[];
 export interface PromotionalEmbeddedImage {
   title: string;
   url: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PromotionalEmbeddedVideo {
   title: string;
   url: string;
   preview: string;
   thumbnail: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type PromotionalMedia =
-  | { embeddedImage: PromotionalEmbeddedImage; embeddedVideo?: never }
-  | { embeddedImage?: never; embeddedVideo: PromotionalEmbeddedVideo };
+  | { embeddedImage: PromotionalEmbeddedImage; embeddedVideo?: undefined }
+  | { embeddedImage?: undefined; embeddedVideo: PromotionalEmbeddedVideo };
 export type PromotionalMediaList = PromotionalMedia[];
 export type ResourceType = "MANUFACTURER_SUPPORT" | "MANUFACTURER_INSTRUCTIONS" | (string & {});
 export type ResourceContentType = "EMAIL" | "PHONE_NUMBER" | "LINK" | "OTHER" | (string & {});
@@ -200,7 +201,7 @@ export interface Resource {
   resourceType: ResourceType;
   contentType: ResourceContentType;
   value: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type ResourceList = Resource[];
 export type ReviewSourceId = "AWS_MARKETPLACE" | (string & {});
@@ -208,7 +209,7 @@ export type NonNegativeCount = number;
 export interface ReviewSourceSummary {
   sourceName: string;
   sourceId: ReviewSourceId;
-  sourceUrl?: string;
+  sourceUrl?: string | undefined;
   averageRating: string;
   totalReviews: number;
 }
@@ -234,14 +235,14 @@ export interface UseCaseEntry {
 }
 export type UseCaseList = UseCaseEntry[];
 export interface GetListingOutput {
-  locale?: string;
+  locale?: string | undefined;
   associatedEntities: ListingAssociatedEntity[];
   badges: ListingBadge[];
   catalog: string;
   categories: Category[];
   fulfillmentOptionSummaries: FulfillmentOptionSummary[];
   highlights: string[];
-  integrationGuide?: string;
+  integrationGuide?: string | undefined;
   listingId: string;
   listingName: string;
   logoThumbnailUrl: string;
@@ -251,13 +252,13 @@ export interface GetListingOutput {
   promotionalMedia: PromotionalMedia[];
   publisher: SellerInformation;
   resources: Resource[];
-  reviewSummary?: ReviewSummary;
+  reviewSummary?: ReviewSummary | undefined;
   sellerEngagements: SellerEngagement[];
   shortDescription: string;
   useCases: UseCaseEntry[];
 }
 export interface GetOfferInput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
 }
 export type OfferSetId = string;
@@ -267,7 +268,7 @@ export interface OfferSetInformation {
 }
 export interface OfferAssociatedEntity {
   product: ProductInformation;
-  offerSet?: OfferSetInformation;
+  offerSet?: OfferSetInformation | undefined;
 }
 export type OfferAssociatedEntityList = OfferAssociatedEntity[];
 export type AgreementResourceId = string;
@@ -283,21 +284,21 @@ export interface PurchaseOptionBadge {
 }
 export type PurchaseOptionBadgeList = PurchaseOptionBadge[];
 export interface GetOfferOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
   catalog: string;
-  offerName?: string;
-  expirationTime?: Date;
-  availableFromTime?: Date;
+  offerName?: string | undefined;
+  expirationTime?: Date | undefined;
+  availableFromTime?: Date | undefined;
   sellerOfRecord: SellerInformation;
   associatedEntities: OfferAssociatedEntity[];
   agreementProposalId: string;
-  replacementAgreementId?: string;
+  replacementAgreementId?: string | undefined;
   pricingModel: PricingModel;
   badges: PurchaseOptionBadge[];
 }
 export interface GetOfferSetInput {
-  locale?: string;
+  locale?: string | undefined;
   offerSetId: string;
 }
 export interface OfferSetAssociatedEntity {
@@ -306,23 +307,23 @@ export interface OfferSetAssociatedEntity {
 }
 export type OfferSetAssociatedEntityList = OfferSetAssociatedEntity[];
 export interface GetOfferSetOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerSetId: string;
   catalog: string;
-  offerSetName?: string;
-  availableFromTime?: Date;
-  expirationTime?: Date;
-  buyerNotes?: string;
+  offerSetName?: string | undefined;
+  availableFromTime?: Date | undefined;
+  expirationTime?: Date | undefined;
+  buyerNotes?: string | undefined;
   sellerOfRecord: SellerInformation;
   badges: PurchaseOptionBadge[];
   associatedEntities: OfferSetAssociatedEntity[];
 }
 export type NextToken = string;
 export interface GetOfferTermsInput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TermId = string;
 export type TermType =
@@ -360,14 +361,14 @@ export type DimensionLabelType = "Region" | "SagemakerOption" | (string & {});
 export interface DimensionLabel {
   labelType: DimensionLabelType;
   labelValue: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type DimensionLabelList = DimensionLabel[];
 export interface RateCardItem {
   dimensionKey: string;
   displayName: string;
-  description?: string;
-  dimensionLabels?: DimensionLabel[];
+  description?: string | undefined;
+  dimensionLabels?: DimensionLabel[] | undefined;
   unit: string;
   price: string;
 }
@@ -382,29 +383,29 @@ export interface ConfigurableUpfrontPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
-  rateCards?: ConfigurableUpfrontRateCardItem[];
+  rateCards?: ConfigurableUpfrontRateCardItem[] | undefined;
 }
 export interface GrantItem {
   dimensionKey: string;
   displayName: string;
-  description?: string;
-  dimensionLabels?: DimensionLabel[];
+  description?: string | undefined;
+  dimensionLabels?: DimensionLabel[] | undefined;
   unit: string;
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
 }
 export type GrantList = GrantItem[];
 export interface FixedUpfrontPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
-  duration?: string;
+  duration?: string | undefined;
   price: string;
   grants: GrantItem[];
 }
 export interface FreeTrialPricingTerm {
   id: string;
   type: TermType;
-  duration?: string;
+  duration?: string | undefined;
   grants: GrantItem[];
 }
 export type LegalDocumentType =
@@ -417,7 +418,7 @@ export type LegalDocumentType =
 export interface DocumentItem {
   type: LegalDocumentType;
   url: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type DocumentList = DocumentItem[];
 export interface LegalTerm {
@@ -453,12 +454,12 @@ export interface PercentageRange {
   defaultValue: string;
 }
 export type PriceIncrease =
-  | { fixedPercentage: FixedPercentage; percentageRange?: never }
-  | { fixedPercentage?: never; percentageRange: PercentageRange };
+  | { fixedPercentage: FixedPercentage; percentageRange?: undefined }
+  | { fixedPercentage?: undefined; percentageRange: PercentageRange };
 export interface PaymentScheduleEntry {
   chargeDateOffset: string;
   chargePercentage: string;
-  dayOfMonth?: number;
+  dayOfMonth?: number | undefined;
 }
 export type PaymentScheduleEntryList = PaymentScheduleEntry[];
 export interface PaymentScheduleTermTemplate {
@@ -469,11 +470,11 @@ export type TermTemplateList = TermTemplate[];
 export interface RenewalTerm {
   id: string;
   type: TermType;
-  maxRenewals?: number;
-  lockoutPeriod?: string;
-  adjustmentDeadline?: string;
-  priceIncrease?: PriceIncrease;
-  termTemplates?: TermTemplate[];
+  maxRenewals?: number | undefined;
+  lockoutPeriod?: string | undefined;
+  adjustmentDeadline?: string | undefined;
+  priceIncrease?: PriceIncrease | undefined;
+  termTemplates?: TermTemplate[] | undefined;
 }
 export interface SupportTerm {
   id: string;
@@ -493,9 +494,9 @@ export interface UsageBasedPricingTerm {
 export interface ValidityTerm {
   id: string;
   type: TermType;
-  agreementDuration?: string;
-  agreementEndDate?: Date;
-  agreementStartDate?: Date;
+  agreementDuration?: string | undefined;
+  agreementEndDate?: Date | undefined;
+  agreementStartDate?: Date | undefined;
 }
 export interface VariablePaymentTerm {
   id: string;
@@ -511,212 +512,212 @@ export interface NetPaymentTerm {
 export type OfferTerm =
   | {
       byolPricingTerm: ByolPricingTerm;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
+      byolPricingTerm?: undefined;
       configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
       fixedUpfrontPricingTerm: FixedUpfrontPricingTerm;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
       freeTrialPricingTerm: FreeTrialPricingTerm;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
       legalTerm: LegalTerm;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
       paymentScheduleTerm: PaymentScheduleTerm;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
       recurringPaymentTerm: RecurringPaymentTerm;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
       renewalTerm: RenewalTerm;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
       supportTerm: SupportTerm;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
       usageBasedPricingTerm: UsageBasedPricingTerm;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
       validityTerm: ValidityTerm;
-      variablePaymentTerm?: never;
-      netPaymentTerm?: never;
+      variablePaymentTerm?: undefined;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
       variablePaymentTerm: VariablePaymentTerm;
-      netPaymentTerm?: never;
+      netPaymentTerm?: undefined;
     }
   | {
-      byolPricingTerm?: never;
-      configurableUpfrontPricingTerm?: never;
-      fixedUpfrontPricingTerm?: never;
-      freeTrialPricingTerm?: never;
-      legalTerm?: never;
-      paymentScheduleTerm?: never;
-      recurringPaymentTerm?: never;
-      renewalTerm?: never;
-      supportTerm?: never;
-      usageBasedPricingTerm?: never;
-      validityTerm?: never;
-      variablePaymentTerm?: never;
+      byolPricingTerm?: undefined;
+      configurableUpfrontPricingTerm?: undefined;
+      fixedUpfrontPricingTerm?: undefined;
+      freeTrialPricingTerm?: undefined;
+      legalTerm?: undefined;
+      paymentScheduleTerm?: undefined;
+      recurringPaymentTerm?: undefined;
+      renewalTerm?: undefined;
+      supportTerm?: undefined;
+      usageBasedPricingTerm?: undefined;
+      validityTerm?: undefined;
+      variablePaymentTerm?: undefined;
       netPaymentTerm: NetPaymentTerm;
     };
 export type OfferTermsList = OfferTerm[];
 export interface GetOfferTermsOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerTerms: OfferTerm[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetProductInput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
 }
 export type DeployedOnAwsStatus = "DEPLOYED" | "NOT_DEPLOYED" | "NOT_APPLICABLE" | (string & {});
 export interface GetProductOutput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
   catalog: string;
   productName: string;
@@ -734,15 +735,15 @@ export interface GetProductOutput {
   listingId: string;
 }
 export interface ListFulfillmentOptionsInput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AmazonMachineImageOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
 }
 export type AmazonMachineImageOperatingSystemList = AmazonMachineImageOperatingSystem[];
 export type AmazonMachineImageCidrIpAddressList = string[];
@@ -755,29 +756,29 @@ export interface AmazonMachineImageSecurityGroup {
 export type AmazonMachineImageSecurityGroupList = AmazonMachineImageSecurityGroup[];
 export interface AmazonMachineImageRecommendation {
   instanceType: string;
-  securityGroups?: AmazonMachineImageSecurityGroup[];
+  securityGroups?: AmazonMachineImageSecurityGroup[] | undefined;
 }
 export type AmazonMachineImageEbsVolumeTypeList = string[];
 export interface AmazonMachineImageEbsVolume {
   volumeTypes: string[];
-  iops?: number;
+  iops?: number | undefined;
 }
 export interface AmazonMachineImageFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
-  fulfillmentOptionVersion?: string;
+  fulfillmentOptionVersion?: string | undefined;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
   operatingSystems: AmazonMachineImageOperatingSystem[];
-  recommendation?: AmazonMachineImageRecommendation;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  accessUrlTemplate?: string;
+  recommendation?: AmazonMachineImageRecommendation | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  accessUrlTemplate?: string | undefined;
   architecture: string;
-  amiAlias?: string;
-  ebsVolume?: AmazonMachineImageEbsVolume;
-  shortDescription?: string;
+  amiAlias?: string | undefined;
+  ebsVolume?: AmazonMachineImageEbsVolume | undefined;
+  shortDescription?: string | undefined;
 }
 export interface AwsSupportedService {
   supportedServiceType: string;
@@ -789,7 +790,7 @@ export interface ApiFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  usageInstructions?: string;
+  usageInstructions?: string | undefined;
   awsSupportedServices: AwsSupportedService[];
 }
 export interface CloudFormationFulfillmentOption {
@@ -797,12 +798,12 @@ export interface CloudFormationFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  shortDescription?: string;
-  longDescription?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  shortDescription?: string | undefined;
+  longDescription?: string | undefined;
 }
 export interface ContainerOperatingSystem {
   operatingSystemFamilyName: string;
@@ -814,11 +815,11 @@ export interface ContainerFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: ContainerOperatingSystem[];
-  awsSupportedServices?: AwsSupportedService[];
-  releaseNotes?: string;
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: ContainerOperatingSystem[] | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface HelmOperatingSystem {
   operatingSystemFamilyName: string;
@@ -830,11 +831,11 @@ export interface HelmFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: HelmOperatingSystem[];
-  releaseNotes?: string;
-  awsSupportedServices?: AwsSupportedService[];
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: HelmOperatingSystem[] | undefined;
+  releaseNotes?: string | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface EksAddOnOperatingSystem {
   operatingSystemFamilyName: string;
@@ -846,26 +847,26 @@ export interface EksAddOnFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: EksAddOnOperatingSystem[];
-  releaseNotes?: string;
-  usageInstructions?: string;
-  awsSupportedServices?: AwsSupportedService[];
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: EksAddOnOperatingSystem[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
 }
 export interface Ec2ImageBuilderComponentFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: ContainerOperatingSystem[];
-  awsSupportedServices?: AwsSupportedService[];
-  releaseNotes?: string;
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: ContainerOperatingSystem[] | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface DataArtifact {
-  description?: string;
-  resourceArn?: string;
+  description?: string | undefined;
+  resourceArn?: string | undefined;
   resourceType: string;
   dataClassification: string;
 }
@@ -874,7 +875,7 @@ export interface DataExchangeFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  dataArtifacts?: DataArtifact[];
+  dataArtifacts?: DataArtifact[] | undefined;
 }
 export interface ProfessionalServicesFulfillmentOption {
   fulfillmentOptionId: string;
@@ -886,29 +887,29 @@ export interface SaasFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentUrl?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  launchUrl?: string;
+  fulfillmentUrl?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  launchUrl?: string | undefined;
   quickLaunch: SaasQuickLaunchStatus;
 }
 export interface SageMakerAlgorithmRecommendation {
   recommendedBatchTransformInstanceType: string;
-  recommendedRealtimeInferenceInstanceType?: string;
+  recommendedRealtimeInferenceInstanceType?: string | undefined;
   recommendedTrainingInstanceType: string;
 }
 export interface SageMakerAlgorithmFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  recommendation?: SageMakerAlgorithmRecommendation;
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  recommendation?: SageMakerAlgorithmRecommendation | undefined;
 }
 export interface SageMakerModelRecommendation {
   recommendedBatchTransformInstanceType: string;
-  recommendedRealtimeInferenceInstanceType?: string;
+  recommendedRealtimeInferenceInstanceType?: string | undefined;
 }
 export type SageMakerModelContentTypeList = string[];
 export type SageMakerModelResponseMimeTypeList = string[];
@@ -916,187 +917,187 @@ export interface SageMakerModelFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  recommendation?: SageMakerModelRecommendation;
-  supportedContentTypes?: string[];
-  supportedResponseMimeTypes?: string[];
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  recommendation?: SageMakerModelRecommendation | undefined;
+  supportedContentTypes?: string[] | undefined;
+  supportedResponseMimeTypes?: string[] | undefined;
 }
 export type FulfillmentOption =
   | {
       amazonMachineImageFulfillmentOption: AmazonMachineImageFulfillmentOption;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
       apiFulfillmentOption: ApiFulfillmentOption;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
       cloudFormationFulfillmentOption: CloudFormationFulfillmentOption;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
       containerFulfillmentOption: ContainerFulfillmentOption;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
       helmFulfillmentOption: HelmFulfillmentOption;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
       eksAddOnFulfillmentOption: EksAddOnFulfillmentOption;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
       ec2ImageBuilderComponentFulfillmentOption: Ec2ImageBuilderComponentFulfillmentOption;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
       dataExchangeFulfillmentOption: DataExchangeFulfillmentOption;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
       professionalServicesFulfillmentOption: ProfessionalServicesFulfillmentOption;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
       saasFulfillmentOption: SaasFulfillmentOption;
-      sageMakerAlgorithmFulfillmentOption?: never;
-      sageMakerModelFulfillmentOption?: never;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
       sageMakerAlgorithmFulfillmentOption: SageMakerAlgorithmFulfillmentOption;
-      sageMakerModelFulfillmentOption?: never;
+      sageMakerModelFulfillmentOption?: undefined;
     }
   | {
-      amazonMachineImageFulfillmentOption?: never;
-      apiFulfillmentOption?: never;
-      cloudFormationFulfillmentOption?: never;
-      containerFulfillmentOption?: never;
-      helmFulfillmentOption?: never;
-      eksAddOnFulfillmentOption?: never;
-      ec2ImageBuilderComponentFulfillmentOption?: never;
-      dataExchangeFulfillmentOption?: never;
-      professionalServicesFulfillmentOption?: never;
-      saasFulfillmentOption?: never;
-      sageMakerAlgorithmFulfillmentOption?: never;
+      amazonMachineImageFulfillmentOption?: undefined;
+      apiFulfillmentOption?: undefined;
+      cloudFormationFulfillmentOption?: undefined;
+      containerFulfillmentOption?: undefined;
+      helmFulfillmentOption?: undefined;
+      eksAddOnFulfillmentOption?: undefined;
+      ec2ImageBuilderComponentFulfillmentOption?: undefined;
+      dataExchangeFulfillmentOption?: undefined;
+      professionalServicesFulfillmentOption?: undefined;
+      saasFulfillmentOption?: undefined;
+      sageMakerAlgorithmFulfillmentOption?: undefined;
       sageMakerModelFulfillmentOption: SageMakerModelFulfillmentOption;
     };
 export type FulfillmentOptionsList = FulfillmentOption[];
 export interface ListFulfillmentOptionsOutput {
-  locale?: string;
+  locale?: string | undefined;
   fulfillmentOptions: FulfillmentOption[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PurchaseOptionFilterType =
   | "PRODUCT_ID"
@@ -1114,33 +1115,33 @@ export interface PurchaseOptionFilter {
 export type PurchaseOptionFilterList = PurchaseOptionFilter[];
 export type MaxResults = number;
 export interface ListPurchaseOptionsInput {
-  locale?: string;
-  filters?: PurchaseOptionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  locale?: string | undefined;
+  filters?: PurchaseOptionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PurchaseOptionType = "OFFER" | "OFFERSET" | (string & {});
 export interface PurchaseOptionAssociatedEntity {
   product: ProductInformation;
   offer: OfferInformation;
-  offerSet?: OfferSetInformation;
+  offerSet?: OfferSetInformation | undefined;
 }
 export type PurchaseOptionAssociatedEntityList = PurchaseOptionAssociatedEntity[];
 export interface PurchaseOptionSummary {
   purchaseOptionId: string;
   catalog: string;
   purchaseOptionType: PurchaseOptionType;
-  purchaseOptionName?: string;
-  availableFromTime?: Date;
-  expirationTime?: Date;
+  purchaseOptionName?: string | undefined;
+  availableFromTime?: Date | undefined;
+  expirationTime?: Date | undefined;
   sellerOfRecord: SellerInformation;
-  badges?: PurchaseOptionBadge[];
+  badges?: PurchaseOptionBadge[] | undefined;
   associatedEntities: PurchaseOptionAssociatedEntity[];
 }
 export type PurchaseOptionSummaryList = PurchaseOptionSummary[];
 export interface ListPurchaseOptionsOutput {
-  purchaseOptions?: PurchaseOptionSummary[];
-  nextToken?: string;
+  purchaseOptions?: PurchaseOptionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SearchText = string;
 export type SearchFilterType =
@@ -1173,38 +1174,38 @@ export type SearchFacetType =
   | (string & {});
 export type FacetTypeList = SearchFacetType[];
 export interface SearchFacetsInput {
-  locale?: string;
-  searchText?: string;
-  filters?: SearchFilter[];
-  facetTypes?: SearchFacetType[];
-  nextToken?: string;
+  locale?: string | undefined;
+  searchText?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  facetTypes?: SearchFacetType[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListingFacet {
   value: string;
   displayName: string;
-  parent?: string;
+  parent?: string | undefined;
   count: number;
 }
 export type ListingFacetList = ListingFacet[];
-export type TypeToFacetMap = { [key in SearchFacetType]?: ListingFacet[] };
+export type TypeToFacetMap = { [key in SearchFacetType]?: ListingFacet[] | undefined };
 export interface SearchFacetsOutput {
   totalResults: number;
   listingFacets: { [key: string]: ListingFacet[] | undefined };
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchListingsSortBy = "RELEVANCE" | "AVERAGE_CUSTOMER_RATING" | (string & {});
 export type SearchListingsSortOrder = "DESCENDING" | "ASCENDING" | (string & {});
 export interface SearchListingsInput {
-  locale?: string;
-  searchText?: string;
-  filters?: SearchFilter[];
-  maxResults?: number;
-  sortBy?: SearchListingsSortBy;
-  sortOrder?: SearchListingsSortOrder;
-  nextToken?: string;
+  locale?: string | undefined;
+  searchText?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  maxResults?: number | undefined;
+  sortBy?: SearchListingsSortBy | undefined;
+  sortOrder?: SearchListingsSortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListingSummaryAssociatedEntity {
-  product?: ProductInformation;
+  product?: ProductInformation | undefined;
 }
 export type ListingSummaryAssociatedEntityList = ListingSummaryAssociatedEntity[];
 export interface ListingSummary {
@@ -1226,7 +1227,7 @@ export type ListingSummaryList = ListingSummary[];
 export interface SearchListingsOutput {
   totalResults: number;
   listingSummaries: ListingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type GetListingError = ResourceNotFoundException | CommonErrors;
@@ -1234,7 +1235,7 @@ export type GetListingError = ResourceNotFoundException | CommonErrors;
  * Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers.
  */
 export const getListing: API.OperationMethod<
-  GetListingInput,
+  GetListingInput & RegionInput,
   GetListingOutput,
   GetListingError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type GetOfferError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer, such as the pricing model, seller of record, availability dates, badges, and associated products.
  */
 export const getOffer: API.OperationMethod<
-  GetOfferInput,
+  GetOfferInput & RegionInput,
   GetOfferOutput,
   GetOfferError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetOfferSetError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer set, which is a bundle of offers across multiple products. Includes the seller, availability dates, buyer notes, and associated product-offer pairs.
  */
 export const getOfferSet: API.OperationMethod<
-  GetOfferSetInput,
+  GetOfferSetInput & RegionInput,
   GetOfferSetOutput,
   GetOfferSetError,
   Credentials | HttpClient.HttpClient
@@ -1294,7 +1295,7 @@ export type GetOfferTermsError = ResourceNotFoundException | CommonErrors;
  * Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.
  */
 export const getOfferTerms: API.PaginatedOperationMethod<
-  GetOfferTermsInput,
+  GetOfferTermsInput & RegionInput,
   GetOfferTermsOutput,
   GetOfferTermsError,
   Credentials | HttpClient.HttpClient,
@@ -1321,7 +1322,7 @@ export type GetProductError = ResourceNotFoundException | CommonErrors;
  * Provides details about a product, such as descriptions, highlights, categories, fulfillment option summaries, promotional media, and seller engagement options.
  */
 export const getProduct: API.OperationMethod<
-  GetProductInput,
+  GetProductInput & RegionInput,
   GetProductOutput,
   GetProductError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErro
  * Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
  */
 export const listFulfillmentOptions: API.PaginatedOperationMethod<
-  ListFulfillmentOptionsInput,
+  ListFulfillmentOptionsInput & RegionInput,
   ListFulfillmentOptionsOutput,
   ListFulfillmentOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1370,7 +1371,7 @@ export type ListPurchaseOptionsError = CommonErrors;
  * You must include at least one of the following filters in the request: a `PRODUCT_ID` filter to specify the product for which to retrieve purchase options, or a `VISIBILITY_SCOPE` filter to retrieve purchase options by visibility.
  */
 export const listPurchaseOptions: API.PaginatedOperationMethod<
-  ListPurchaseOptionsInput,
+  ListPurchaseOptionsInput & RegionInput,
   ListPurchaseOptionsOutput,
   ListPurchaseOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1396,7 +1397,7 @@ export type SearchFacetsError = CommonErrors;
  * Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.
  */
 export const searchFacets: API.PaginatedOperationMethod<
-  SearchFacetsInput,
+  SearchFacetsInput & RegionInput,
   SearchFacetsOutput,
   SearchFacetsError,
   Credentials | HttpClient.HttpClient,
@@ -1422,7 +1423,7 @@ export type SearchListingsError = CommonErrors;
  * Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating.
  */
 export const searchListings: API.PaginatedOperationMethod<
-  SearchListingsInput,
+  SearchListingsInput & RegionInput,
   SearchListingsOutput,
   SearchListingsError,
   Credentials | HttpClient.HttpClient,

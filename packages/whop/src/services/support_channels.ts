@@ -65,9 +65,9 @@ export interface CreateSupportChannelRequest {
   /** The unique identifier of the company to create the support channel in. */
   account_id: string;
   /** Optional custom display name for the support channel. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this support channel. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The user ID (e.g. 'user_xxxxx') or username of the customer to open a support channel for. */
   user_id: string;
 }
@@ -108,15 +108,15 @@ export type Direction = "asc" | "desc";
 /** Sort options for message channels */
 export type MessageChannelOrder = "created_at" | "last_post_sent_at";
 export interface ListSupportChannelRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  view?: SupportChannelView | (string & {});
-  open?: boolean;
-  direction?: Direction | (string & {});
-  order?: MessageChannelOrder | (string & {});
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  view?: SupportChannelView | (string & {}) | undefined;
+  open?: boolean | undefined;
+  direction?: Direction | (string & {}) | undefined;
+  order?: MessageChannelOrder | (string & {}) | undefined;
+  account_id?: string | undefined;
 }
 /** The customer who initiated this support conversation. Null if this is not a support chat. */
 export type SupportChannelListItemCustomerUser = SupportChannelCustomerUser;

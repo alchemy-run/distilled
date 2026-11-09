@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface InitializeRequest {
-  token: string;
+  token?: string | undefined;
 }
 export type InitializeResponseBodyMap = { [key: string]: string | undefined };
 export type InitializeResponse = InitializeResponseBodyMap;
@@ -34,11 +34,11 @@ export type UpdateEnvRequestSetMap = { [key: string]: string | undefined };
 export type UpdateEnvRequestUnsetList = Array<string>;
 export interface UpdateEnvRequest {
   /** Set maps env var names to values applied to the daemon's process env, so processes spawned after the call (exec, sessions, PTYs) inherit them. */
-  set?: UpdateEnvRequestSetMap;
+  set?: UpdateEnvRequestSetMap | undefined;
   /** Unset lists env var names to remove before Set is applied. */
-  unset?: UpdateEnvRequestUnsetList;
+  unset?: UpdateEnvRequestUnsetList | undefined;
   /** UnsetValuePrefix removes every env var whose value has this prefix and whose name is not a key of Set, before Set is applied. Used to reconcile secret placeholder vars without the caller knowing the daemon's env. */
-  unsetValuePrefix?: string;
+  unsetValuePrefix?: string | undefined;
 }
 export type UpdateEnvResponseBodyMap = { [key: string]: string | undefined };
 export type UpdateEnvResponse = UpdateEnvResponseBodyMap;
@@ -82,7 +82,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/init", code: 200 })),
       ).annotate({ identifier: "InitializeRequest" });
   }

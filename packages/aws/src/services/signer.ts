@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -192,14 +193,14 @@ export type ProfileName = string;
 export type ProfileVersion = string;
 export interface AddProfilePermissionRequest {
   profileName: string;
-  profileVersion?: string;
+  profileVersion?: string | undefined;
   action: string;
   principal: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
   statementId: string;
 }
 export interface AddProfilePermissionResponse {
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export interface CancelSigningProfileRequest {
   profileName: string;
@@ -218,24 +219,24 @@ export interface S3Source {
   version: string;
 }
 export interface Source {
-  s3?: S3Source;
+  s3?: S3Source | undefined;
 }
 export type CertificateArn = string;
 export interface SigningMaterial {
-  certificateArn?: string;
+  certificateArn?: string | undefined;
 }
 export type PlatformId = string;
 export type DisplayName = string;
 export type EncryptionAlgorithm = "RSA" | "ECDSA" | (string & {});
 export type HashAlgorithm = "SHA1" | "SHA256" | (string & {});
 export interface SigningConfigurationOverrides {
-  encryptionAlgorithm?: EncryptionAlgorithm;
-  hashAlgorithm?: HashAlgorithm;
+  encryptionAlgorithm?: EncryptionAlgorithm | undefined;
+  hashAlgorithm?: HashAlgorithm | undefined;
 }
 export type ImageFormat = "JSON" | "JSONEmbedded" | "JSONDetached" | (string & {});
 export interface SigningPlatformOverrides {
-  signingConfiguration?: SigningConfigurationOverrides;
-  signingImageFormat?: ImageFormat;
+  signingConfiguration?: SigningConfigurationOverrides | undefined;
+  signingImageFormat?: ImageFormat | undefined;
 }
 export type SigningParameterKey = string;
 export type SigningParameterValue = string;
@@ -244,38 +245,38 @@ export type RequestedBy = string;
 export type SigningStatus = "InProgress" | "Failed" | "Succeeded" | (string & {});
 export type StatusReason = string;
 export interface SigningJobRevocationRecord {
-  reason?: string;
-  revokedAt?: Date;
-  revokedBy?: string;
+  reason?: string | undefined;
+  revokedAt?: Date | undefined;
+  revokedBy?: string | undefined;
 }
 export interface S3SignedObject {
-  bucketName?: string;
-  key?: string;
+  bucketName?: string | undefined;
+  key?: string | undefined;
 }
 export interface SignedObject {
-  s3?: S3SignedObject;
+  s3?: S3SignedObject | undefined;
 }
 export type AccountId = string;
 export interface DescribeSigningJobResponse {
-  jobId?: string;
-  source?: Source;
-  signingMaterial?: SigningMaterial;
-  platformId?: string;
-  platformDisplayName?: string;
-  profileName?: string;
-  profileVersion?: string;
-  overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string | undefined };
-  createdAt?: Date;
-  completedAt?: Date;
-  signatureExpiresAt?: Date;
-  requestedBy?: string;
-  status?: SigningStatus;
-  statusReason?: string;
-  revocationRecord?: SigningJobRevocationRecord;
-  signedObject?: SignedObject;
-  jobOwner?: string;
-  jobInvoker?: string;
+  jobId?: string | undefined;
+  source?: Source | undefined;
+  signingMaterial?: SigningMaterial | undefined;
+  platformId?: string | undefined;
+  platformDisplayName?: string | undefined;
+  profileName?: string | undefined;
+  profileVersion?: string | undefined;
+  overrides?: SigningPlatformOverrides | undefined;
+  signingParameters?: { [key: string]: string | undefined } | undefined;
+  createdAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  signatureExpiresAt?: Date | undefined;
+  requestedBy?: string | undefined;
+  status?: SigningStatus | undefined;
+  statusReason?: string | undefined;
+  revocationRecord?: SigningJobRevocationRecord | undefined;
+  signedObject?: SignedObject | undefined;
+  jobOwner?: string | undefined;
+  jobInvoker?: string | undefined;
 }
 export type Arn = string;
 export type CertificateHashes = string[];
@@ -288,7 +289,7 @@ export interface GetRevocationStatusRequest {
 }
 export type RevokedEntities = string[];
 export interface GetRevocationStatusResponse {
-  revokedEntities?: string[];
+  revokedEntities?: string[] | undefined;
 }
 export interface GetSigningPlatformRequest {
   platformId: string;
@@ -315,170 +316,170 @@ export interface SigningImageFormat {
 }
 export type MaxSizeInMB = number;
 export interface GetSigningPlatformResponse {
-  platformId?: string;
-  displayName?: string;
-  partner?: string;
-  target?: string;
-  category?: Category;
-  signingConfiguration?: SigningConfiguration;
-  signingImageFormat?: SigningImageFormat;
-  maxSizeInMB?: number;
-  revocationSupported?: boolean;
+  platformId?: string | undefined;
+  displayName?: string | undefined;
+  partner?: string | undefined;
+  target?: string | undefined;
+  category?: Category | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
+  signingImageFormat?: SigningImageFormat | undefined;
+  maxSizeInMB?: number | undefined;
+  revocationSupported?: boolean | undefined;
 }
 export interface GetSigningProfileRequest {
   profileName: string;
-  profileOwner?: string;
+  profileOwner?: string | undefined;
 }
 export interface SigningProfileRevocationRecord {
-  revocationEffectiveFrom?: Date;
-  revokedAt?: Date;
-  revokedBy?: string;
+  revocationEffectiveFrom?: Date | undefined;
+  revokedAt?: Date | undefined;
+  revokedBy?: string | undefined;
 }
 export type ValidityType = "DAYS" | "MONTHS" | "YEARS" | (string & {});
 export interface SignatureValidityPeriod {
-  value?: number;
-  type?: ValidityType;
+  value?: number | undefined;
+  type?: ValidityType | undefined;
 }
 export type SigningProfileStatus = "Active" | "Canceled" | "Revoked" | (string & {});
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface GetSigningProfileResponse {
-  profileName?: string;
-  profileVersion?: string;
-  profileVersionArn?: string;
-  revocationRecord?: SigningProfileRevocationRecord;
-  signingMaterial?: SigningMaterial;
-  platformId?: string;
-  platformDisplayName?: string;
-  signatureValidityPeriod?: SignatureValidityPeriod;
-  overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string | undefined };
-  status?: SigningProfileStatus;
-  statusReason?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  profileName?: string | undefined;
+  profileVersion?: string | undefined;
+  profileVersionArn?: string | undefined;
+  revocationRecord?: SigningProfileRevocationRecord | undefined;
+  signingMaterial?: SigningMaterial | undefined;
+  platformId?: string | undefined;
+  platformDisplayName?: string | undefined;
+  signatureValidityPeriod?: SignatureValidityPeriod | undefined;
+  overrides?: SigningPlatformOverrides | undefined;
+  signingParameters?: { [key: string]: string | undefined } | undefined;
+  status?: SigningProfileStatus | undefined;
+  statusReason?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListProfilePermissionsRequest {
   profileName: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PolicySizeBytes = number;
 export interface Permission {
-  action?: string;
-  principal?: string;
-  statementId?: string;
-  profileVersion?: string;
+  action?: string | undefined;
+  principal?: string | undefined;
+  statementId?: string | undefined;
+  profileVersion?: string | undefined;
 }
 export type Permissions = Permission[];
 export interface ListProfilePermissionsResponse {
-  revisionId?: string;
-  policySizeBytes?: number;
-  permissions?: Permission[];
-  nextToken?: string;
+  revisionId?: string | undefined;
+  policySizeBytes?: number | undefined;
+  permissions?: Permission[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListSigningJobsRequest {
-  status?: SigningStatus;
-  platformId?: string;
-  requestedBy?: string;
-  maxResults?: number;
-  nextToken?: string;
-  isRevoked?: boolean;
-  signatureExpiresBefore?: Date;
-  signatureExpiresAfter?: Date;
-  jobInvoker?: string;
+  status?: SigningStatus | undefined;
+  platformId?: string | undefined;
+  requestedBy?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  isRevoked?: boolean | undefined;
+  signatureExpiresBefore?: Date | undefined;
+  signatureExpiresAfter?: Date | undefined;
+  jobInvoker?: string | undefined;
 }
 export interface SigningJob {
-  jobId?: string;
-  source?: Source;
-  signedObject?: SignedObject;
-  signingMaterial?: SigningMaterial;
-  createdAt?: Date;
-  status?: SigningStatus;
-  isRevoked?: boolean;
-  profileName?: string;
-  profileVersion?: string;
-  platformId?: string;
-  platformDisplayName?: string;
-  signatureExpiresAt?: Date;
-  jobOwner?: string;
-  jobInvoker?: string;
+  jobId?: string | undefined;
+  source?: Source | undefined;
+  signedObject?: SignedObject | undefined;
+  signingMaterial?: SigningMaterial | undefined;
+  createdAt?: Date | undefined;
+  status?: SigningStatus | undefined;
+  isRevoked?: boolean | undefined;
+  profileName?: string | undefined;
+  profileVersion?: string | undefined;
+  platformId?: string | undefined;
+  platformDisplayName?: string | undefined;
+  signatureExpiresAt?: Date | undefined;
+  jobOwner?: string | undefined;
+  jobInvoker?: string | undefined;
 }
 export type SigningJobs = SigningJob[];
 export interface ListSigningJobsResponse {
-  jobs?: SigningJob[];
-  nextToken?: string;
+  jobs?: SigningJob[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSigningPlatformsRequest {
-  category?: string;
-  partner?: string;
-  target?: string;
-  maxResults?: number;
-  nextToken?: string;
+  category?: string | undefined;
+  partner?: string | undefined;
+  target?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SigningPlatform {
-  platformId?: string;
-  displayName?: string;
-  partner?: string;
-  target?: string;
-  category?: Category;
-  signingConfiguration?: SigningConfiguration;
-  signingImageFormat?: SigningImageFormat;
-  maxSizeInMB?: number;
-  revocationSupported?: boolean;
+  platformId?: string | undefined;
+  displayName?: string | undefined;
+  partner?: string | undefined;
+  target?: string | undefined;
+  category?: Category | undefined;
+  signingConfiguration?: SigningConfiguration | undefined;
+  signingImageFormat?: SigningImageFormat | undefined;
+  maxSizeInMB?: number | undefined;
+  revocationSupported?: boolean | undefined;
 }
 export type SigningPlatforms = SigningPlatform[];
 export interface ListSigningPlatformsResponse {
-  platforms?: SigningPlatform[];
-  nextToken?: string;
+  platforms?: SigningPlatform[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Statuses = SigningProfileStatus[];
 export interface ListSigningProfilesRequest {
-  includeCanceled?: boolean;
-  maxResults?: number;
-  nextToken?: string;
-  platformId?: string;
-  statuses?: SigningProfileStatus[];
+  includeCanceled?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  platformId?: string | undefined;
+  statuses?: SigningProfileStatus[] | undefined;
 }
 export interface SigningProfile {
-  profileName?: string;
-  profileVersion?: string;
-  profileVersionArn?: string;
-  signingMaterial?: SigningMaterial;
-  signatureValidityPeriod?: SignatureValidityPeriod;
-  platformId?: string;
-  platformDisplayName?: string;
-  signingParameters?: { [key: string]: string | undefined };
-  status?: SigningProfileStatus;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  profileName?: string | undefined;
+  profileVersion?: string | undefined;
+  profileVersionArn?: string | undefined;
+  signingMaterial?: SigningMaterial | undefined;
+  signatureValidityPeriod?: SignatureValidityPeriod | undefined;
+  platformId?: string | undefined;
+  platformDisplayName?: string | undefined;
+  signingParameters?: { [key: string]: string | undefined } | undefined;
+  status?: SigningProfileStatus | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SigningProfiles = SigningProfile[];
 export interface ListSigningProfilesResponse {
-  profiles?: SigningProfile[];
-  nextToken?: string;
+  profiles?: SigningProfile[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutSigningProfileRequest {
   profileName: string;
-  signingMaterial?: SigningMaterial;
-  signatureValidityPeriod?: SignatureValidityPeriod;
+  signingMaterial?: SigningMaterial | undefined;
+  signatureValidityPeriod?: SignatureValidityPeriod | undefined;
   platformId: string;
-  overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  overrides?: SigningPlatformOverrides | undefined;
+  signingParameters?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutSigningProfileResponse {
-  arn?: string;
-  profileVersion?: string;
-  profileVersionArn?: string;
+  arn?: string | undefined;
+  profileVersion?: string | undefined;
+  profileVersionArn?: string | undefined;
 }
 export interface RemoveProfilePermissionRequest {
   profileName: string;
@@ -486,12 +487,12 @@ export interface RemoveProfilePermissionRequest {
   statementId: string;
 }
 export interface RemoveProfilePermissionResponse {
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export type RevocationReasonString = string;
 export interface RevokeSignatureRequest {
   jobId: string;
-  jobOwner?: string;
+  jobOwner?: string | undefined;
   reason: string;
 }
 export interface RevokeSignatureResponse {}
@@ -505,24 +506,24 @@ export interface RevokeSigningProfileResponse {}
 export type Payload = Uint8Array;
 export interface SignPayloadRequest {
   profileName: string;
-  profileOwner?: string;
+  profileOwner?: string | undefined;
   payload: Uint8Array;
   payloadFormat: string;
 }
 export type Metadata = { [key: string]: string | undefined };
 export interface SignPayloadResponse {
-  jobId?: string;
-  jobOwner?: string;
-  metadata?: { [key: string]: string | undefined };
-  signature?: Uint8Array;
+  jobId?: string | undefined;
+  jobOwner?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  signature?: Uint8Array | undefined;
 }
 export type Prefix = string;
 export interface S3Destination {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface Destination {
-  s3?: S3Destination;
+  s3?: S3Destination | undefined;
 }
 export type ClientRequestToken = string;
 export interface StartSigningJobRequest {
@@ -530,11 +531,11 @@ export interface StartSigningJobRequest {
   destination: Destination;
   profileName: string;
   clientRequestToken: string;
-  profileOwner?: string;
+  profileOwner?: string | undefined;
 }
 export interface StartSigningJobResponse {
-  jobId?: string;
-  jobOwner?: string;
+  jobId?: string | undefined;
+  jobOwner?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -562,7 +563,7 @@ export type AddProfilePermissionError =
  * Adds cross-account permissions to a signing profile.
  */
 export const addProfilePermission: API.OperationMethod<
-  AddProfilePermissionRequest,
+  AddProfilePermissionRequest & RegionInput,
   AddProfilePermissionResponse,
   AddProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -597,7 +598,7 @@ export type CancelSigningProfileError =
  * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
 export const cancelSigningProfile: API.OperationMethod<
-  CancelSigningProfileRequest,
+  CancelSigningProfileRequest & RegionInput,
   CancelSigningProfileResponse,
   CancelSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -629,7 +630,7 @@ export type DescribeSigningJobError =
  * operation.
  */
 export const describeSigningJob: API.OperationMethod<
-  DescribeSigningJobRequest,
+  DescribeSigningJobRequest & RegionInput,
   DescribeSigningJobResponse,
   DescribeSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type GetRevocationStatusError =
  * and signing certificate.
  */
 export const getRevocationStatus: API.OperationMethod<
-  GetRevocationStatusRequest,
+  GetRevocationStatusRequest & RegionInput,
   GetRevocationStatusResponse,
   GetRevocationStatusError,
   Credentials | HttpClient.HttpClient
@@ -691,7 +692,7 @@ export type GetSigningPlatformError =
  * Returns information on a specific signing platform.
  */
 export const getSigningPlatform: API.OperationMethod<
-  GetSigningPlatformRequest,
+  GetSigningPlatformRequest & RegionInput,
   GetSigningPlatformResponse,
   GetSigningPlatformError,
   Credentials | HttpClient.HttpClient
@@ -721,7 +722,7 @@ export type GetSigningProfileError =
  * Returns information on a specific signing profile.
  */
 export const getSigningProfile: API.OperationMethod<
-  GetSigningProfileRequest,
+  GetSigningProfileRequest & RegionInput,
   GetSigningProfileResponse,
   GetSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -752,7 +753,7 @@ export type ListProfilePermissionsError =
  * Lists the cross-account permissions associated with a signing profile.
  */
 export const listProfilePermissions: API.OperationMethod<
-  ListProfilePermissionsRequest,
+  ListProfilePermissionsRequest & RegionInput,
   ListProfilePermissionsResponse,
   ListProfilePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -789,7 +790,7 @@ export type ListSigningJobsError =
  * parameter until all of your signing jobs have been returned.
  */
 export const listSigningJobs: API.PaginatedOperationMethod<
-  ListSigningJobsRequest,
+  ListSigningJobsRequest & RegionInput,
   ListSigningJobsResponse,
   ListSigningJobsError,
   Credentials | HttpClient.HttpClient,
@@ -831,7 +832,7 @@ export type ListSigningPlatformsError =
  * returned.
  */
 export const listSigningPlatforms: API.PaginatedOperationMethod<
-  ListSigningPlatformsRequest,
+  ListSigningPlatformsRequest & RegionInput,
   ListSigningPlatformsResponse,
   ListSigningPlatformsError,
   Credentials | HttpClient.HttpClient,
@@ -873,7 +874,7 @@ export type ListSigningProfilesError =
  * your signing jobs have been returned.
  */
 export const listSigningProfiles: API.PaginatedOperationMethod<
-  ListSigningProfilesRequest,
+  ListSigningProfilesRequest & RegionInput,
   ListSigningProfilesResponse,
   ListSigningProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags associated with a signing profile resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type PutSigningProfileError =
  * carry out a pre-defined signing job.
  */
 export const putSigningProfile: API.OperationMethod<
-  PutSigningProfileRequest,
+  PutSigningProfileRequest & RegionInput,
   PutSigningProfileResponse,
   PutSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type RemoveProfilePermissionError =
  * Removes cross-account permissions from a signing profile.
  */
 export const removeProfilePermission: API.OperationMethod<
-  RemoveProfilePermissionRequest,
+  RemoveProfilePermissionRequest & RegionInput,
   RemoveProfilePermissionResponse,
   RemoveProfilePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1005,7 +1006,7 @@ export type RevokeSignatureError =
  * longer valid.
  */
 export const revokeSignature: API.OperationMethod<
-  RevokeSignatureRequest,
+  RevokeSignatureRequest & RegionInput,
   RevokeSignatureResponse,
   RevokeSignatureError,
   Credentials | HttpClient.HttpClient
@@ -1041,7 +1042,7 @@ export type RevokeSigningProfileError =
  * for more information on scheduled deletion of a revoked signing profile.
  */
 export const revokeSigningProfile: API.OperationMethod<
-  RevokeSigningProfileRequest,
+  RevokeSigningProfileRequest & RegionInput,
   RevokeSigningProfileResponse,
   RevokeSigningProfileError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type SignPayloadError =
  * Signs a binary payload and returns a signature envelope.
  */
 export const signPayload: API.OperationMethod<
-  SignPayloadRequest,
+  SignPayloadRequest & RegionInput,
   SignPayloadResponse,
   SignPayloadError,
   Credentials | HttpClient.HttpClient
@@ -1127,7 +1128,7 @@ export type StartSigningJobError =
  * For a Java example that shows how to use this action, see StartSigningJob.
  */
 export const startSigningJob: API.OperationMethod<
-  StartSigningJobRequest,
+  StartSigningJobRequest & RegionInput,
   StartSigningJobResponse,
   StartSigningJobError,
   Credentials | HttpClient.HttpClient
@@ -1162,7 +1163,7 @@ export type TagResourceError =
  * the tag, use a key-value pair.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1193,7 +1194,7 @@ export type UntagResourceError =
  * tag keys.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

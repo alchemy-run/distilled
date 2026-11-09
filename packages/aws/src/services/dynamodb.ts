@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -602,122 +603,122 @@ export type BooleanAttributeValue = boolean;
 export type AttributeValue =
   | {
       S: string;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
+      S?: undefined;
       N: string;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
+      S?: undefined;
+      N?: undefined;
       B: Uint8Array;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
       SS: string[];
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
       NS: string[];
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
       BS: Uint8Array[];
-      M?: never;
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
       M: { [key: string]: AttributeValue | undefined };
-      L?: never;
-      NULL?: never;
-      BOOL?: never;
+      L?: undefined;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
       L: AttributeValue[];
-      NULL?: never;
-      BOOL?: never;
+      NULL?: undefined;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
       NULL: boolean;
-      BOOL?: never;
+      BOOL?: undefined;
     }
   | {
-      S?: never;
-      N?: never;
-      B?: never;
-      SS?: never;
-      NS?: never;
-      BS?: never;
-      M?: never;
-      L?: never;
-      NULL?: never;
+      S?: undefined;
+      N?: undefined;
+      B?: undefined;
+      SS?: undefined;
+      NS?: undefined;
+      BS?: undefined;
+      M?: undefined;
+      L?: undefined;
+      NULL?: undefined;
       BOOL: boolean;
     };
 export type PreparedStatementParameters = AttributeValue[];
@@ -725,15 +726,15 @@ export type ConsistentRead = boolean;
 export type ReturnValuesOnConditionCheckFailure = "ALL_OLD" | "NONE" | (string & {});
 export interface BatchStatementRequest {
   Statement: string;
-  Parameters?: AttributeValue[];
-  ConsistentRead?: boolean;
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  Parameters?: AttributeValue[] | undefined;
+  ConsistentRead?: boolean | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export type PartiQLBatchRequest = BatchStatementRequest[];
 export type ReturnConsumedCapacity = "INDEXES" | "TOTAL" | "NONE" | (string & {});
 export interface BatchExecuteStatementInput {
   Statements: BatchStatementRequest[];
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
 }
 export type BatchStatementErrorCodeEnum =
   | "ConditionalCheckFailed"
@@ -750,45 +751,45 @@ export type BatchStatementErrorCodeEnum =
   | (string & {});
 export type AttributeMap = { [key: string]: AttributeValue | undefined };
 export interface BatchStatementError {
-  Code?: BatchStatementErrorCodeEnum;
-  Message?: string;
-  Item?: { [key: string]: AttributeValue | undefined };
+  Code?: BatchStatementErrorCodeEnum | undefined;
+  Message?: string | undefined;
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export type TableName = string;
 export interface BatchStatementResponse {
-  Error?: BatchStatementError;
-  TableName?: string;
-  Item?: { [key: string]: AttributeValue | undefined };
+  Error?: BatchStatementError | undefined;
+  TableName?: string | undefined;
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export type PartiQLBatchResponse = BatchStatementResponse[];
 export type TableArn = string;
 export type ConsumedCapacityUnits = number;
 export interface Capacity {
-  ReadCapacityUnits?: number;
-  WriteCapacityUnits?: number;
-  CapacityUnits?: number;
+  ReadCapacityUnits?: number | undefined;
+  WriteCapacityUnits?: number | undefined;
+  CapacityUnits?: number | undefined;
 }
 export type IndexName = string;
 export type SecondaryIndexesCapacityMap = { [key: string]: Capacity | undefined };
 export interface VectorCapacity {
-  VectorSearchRequestBytes?: number;
-  VectorWriteRequestBytes?: number;
+  VectorSearchRequestBytes?: number | undefined;
+  VectorWriteRequestBytes?: number | undefined;
 }
 export type VectorIndexesCapacityMap = { [key: string]: VectorCapacity | undefined };
 export interface ConsumedCapacity {
-  TableName?: string;
-  CapacityUnits?: number;
-  ReadCapacityUnits?: number;
-  WriteCapacityUnits?: number;
-  Table?: Capacity;
-  LocalSecondaryIndexes?: { [key: string]: Capacity | undefined };
-  GlobalSecondaryIndexes?: { [key: string]: Capacity | undefined };
-  VectorIndexes?: { [key: string]: VectorCapacity | undefined };
+  TableName?: string | undefined;
+  CapacityUnits?: number | undefined;
+  ReadCapacityUnits?: number | undefined;
+  WriteCapacityUnits?: number | undefined;
+  Table?: Capacity | undefined;
+  LocalSecondaryIndexes?: { [key: string]: Capacity | undefined } | undefined;
+  GlobalSecondaryIndexes?: { [key: string]: Capacity | undefined } | undefined;
+  VectorIndexes?: { [key: string]: VectorCapacity | undefined } | undefined;
 }
 export type ConsumedCapacityMultiple = ConsumedCapacity[];
 export interface BatchExecuteStatementOutput {
-  Responses?: BatchStatementResponse[];
-  ConsumedCapacity?: ConsumedCapacity[];
+  Responses?: BatchStatementResponse[] | undefined;
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
 }
 export type Key = { [key: string]: AttributeValue | undefined };
 export type KeyList = { [key: string]: AttributeValue | undefined }[];
@@ -798,24 +799,26 @@ export type ExpressionAttributeNameVariable = string;
 export type ExpressionAttributeNameMap = { [key: string]: string | undefined };
 export interface KeysAndAttributes {
   Keys: { [key: string]: AttributeValue | undefined }[];
-  AttributesToGet?: string[];
-  ConsistentRead?: boolean;
-  ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  AttributesToGet?: string[] | undefined;
+  ConsistentRead?: boolean | undefined;
+  ProjectionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
 }
 export type BatchGetRequestMap = { [key: string]: KeysAndAttributes | undefined };
 export interface BatchGetItemInput {
   RequestItems: { [key: string]: KeysAndAttributes | undefined };
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
 }
 export type ItemList = { [key: string]: AttributeValue | undefined }[];
 export type BatchGetResponseMap = {
   [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined;
 };
 export interface BatchGetItemOutput {
-  Responses?: { [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined };
-  UnprocessedKeys?: { [key: string]: KeysAndAttributes | undefined };
-  ConsumedCapacity?: ConsumedCapacity[];
+  Responses?:
+    | { [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined }
+    | undefined;
+  UnprocessedKeys?: { [key: string]: KeysAndAttributes | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
 }
 export type PutItemInputAttributeMap = { [key: string]: AttributeValue | undefined };
 export interface PutRequest {
@@ -825,30 +828,30 @@ export interface DeleteRequest {
   Key: { [key: string]: AttributeValue | undefined };
 }
 export interface WriteRequest {
-  PutRequest?: PutRequest;
-  DeleteRequest?: DeleteRequest;
+  PutRequest?: PutRequest | undefined;
+  DeleteRequest?: DeleteRequest | undefined;
 }
 export type WriteRequests = WriteRequest[];
 export type BatchWriteItemRequestMap = { [key: string]: WriteRequest[] | undefined };
 export type ReturnItemCollectionMetrics = "SIZE" | "NONE" | (string & {});
 export interface BatchWriteItemInput {
   RequestItems: { [key: string]: WriteRequest[] | undefined };
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics | undefined;
 }
 export type ItemCollectionKeyAttributeMap = { [key: string]: AttributeValue | undefined };
 export type ItemCollectionSizeEstimateBound = number;
 export type ItemCollectionSizeEstimateRange = number[];
 export interface ItemCollectionMetrics {
-  ItemCollectionKey?: { [key: string]: AttributeValue | undefined };
-  SizeEstimateRangeGB?: number[];
+  ItemCollectionKey?: { [key: string]: AttributeValue | undefined } | undefined;
+  SizeEstimateRangeGB?: number[] | undefined;
 }
 export type ItemCollectionMetricsMultiple = ItemCollectionMetrics[];
 export type ItemCollectionMetricsPerTable = { [key: string]: ItemCollectionMetrics[] | undefined };
 export interface BatchWriteItemOutput {
-  UnprocessedItems?: { [key: string]: WriteRequest[] | undefined };
-  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined };
-  ConsumedCapacity?: ConsumedCapacity[];
+  UnprocessedItems?: { [key: string]: WriteRequest[] | undefined } | undefined;
+  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
 }
 export type BackupName = string;
 export interface CreateBackupInput {
@@ -863,18 +866,18 @@ export type BackupCreationDateTime = Date;
 export interface BackupDetails {
   BackupArn: string;
   BackupName: string;
-  BackupSizeBytes?: number;
+  BackupSizeBytes?: number | undefined;
   BackupStatus: BackupStatus;
   BackupType: BackupType;
   BackupCreationDateTime: Date;
-  BackupExpiryDateTime?: Date;
+  BackupExpiryDateTime?: Date | undefined;
 }
 export interface CreateBackupOutput {
-  BackupDetails?: BackupDetails;
+  BackupDetails?: BackupDetails | undefined;
 }
 export type RegionName = string;
 export interface Replica {
-  RegionName?: string;
+  RegionName?: string | undefined;
 }
 export type ReplicaList = Replica[];
 export interface CreateGlobalTableInput {
@@ -898,11 +901,11 @@ export type ReplicaStatusPercentProgress = string;
 export type KMSMasterKeyId = string;
 export type PositiveLongObject = number;
 export interface ProvisionedThroughputOverride {
-  ReadCapacityUnits?: number;
+  ReadCapacityUnits?: number | undefined;
 }
 export type LongObject = number;
 export interface OnDemandThroughputOverride {
-  MaxReadRequestUnits?: number;
+  MaxReadRequestUnits?: number | undefined;
 }
 export type TableStatus =
   | "CREATING"
@@ -915,27 +918,27 @@ export type TableStatus =
   | "REPLICATION_NOT_AUTHORIZED"
   | (string & {});
 export interface TableWarmThroughputDescription {
-  ReadUnitsPerSecond?: number;
-  WriteUnitsPerSecond?: number;
-  Status?: TableStatus;
+  ReadUnitsPerSecond?: number | undefined;
+  WriteUnitsPerSecond?: number | undefined;
+  Status?: TableStatus | undefined;
 }
 export type IndexStatus = "CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface GlobalSecondaryIndexWarmThroughputDescription {
-  ReadUnitsPerSecond?: number;
-  WriteUnitsPerSecond?: number;
-  Status?: IndexStatus;
+  ReadUnitsPerSecond?: number | undefined;
+  WriteUnitsPerSecond?: number | undefined;
+  Status?: IndexStatus | undefined;
 }
 export interface ReplicaGlobalSecondaryIndexDescription {
-  IndexName?: string;
-  ProvisionedThroughputOverride?: ProvisionedThroughputOverride;
-  OnDemandThroughputOverride?: OnDemandThroughputOverride;
-  WarmThroughput?: GlobalSecondaryIndexWarmThroughputDescription;
+  IndexName?: string | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughputOverride | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughputOverride | undefined;
+  WarmThroughput?: GlobalSecondaryIndexWarmThroughputDescription | undefined;
 }
 export type ReplicaGlobalSecondaryIndexDescriptionList = ReplicaGlobalSecondaryIndexDescription[];
 export type TableClass = "STANDARD" | "STANDARD_INFREQUENT_ACCESS" | (string & {});
 export interface TableClassSummary {
-  TableClass?: TableClass;
-  LastUpdateDateTime?: Date;
+  TableClass?: TableClass | undefined;
+  LastUpdateDateTime?: Date | undefined;
 }
 export type GlobalTableSettingsReplicationMode =
   | "ENABLED"
@@ -943,32 +946,32 @@ export type GlobalTableSettingsReplicationMode =
   | "ENABLED_WITH_OVERRIDES"
   | (string & {});
 export interface ReplicaDescription {
-  RegionName?: string;
-  ReplicaStatus?: ReplicaStatus;
-  ReplicaArn?: string;
-  ReplicaStatusDescription?: string;
-  ReplicaStatusPercentProgress?: string;
-  KMSMasterKeyId?: string;
-  ProvisionedThroughputOverride?: ProvisionedThroughputOverride;
-  OnDemandThroughputOverride?: OnDemandThroughputOverride;
-  WarmThroughput?: TableWarmThroughputDescription;
-  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexDescription[];
-  ReplicaInaccessibleDateTime?: Date;
-  ReplicaTableClassSummary?: TableClassSummary;
-  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
+  RegionName?: string | undefined;
+  ReplicaStatus?: ReplicaStatus | undefined;
+  ReplicaArn?: string | undefined;
+  ReplicaStatusDescription?: string | undefined;
+  ReplicaStatusPercentProgress?: string | undefined;
+  KMSMasterKeyId?: string | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughputOverride | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughputOverride | undefined;
+  WarmThroughput?: TableWarmThroughputDescription | undefined;
+  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexDescription[] | undefined;
+  ReplicaInaccessibleDateTime?: Date | undefined;
+  ReplicaTableClassSummary?: TableClassSummary | undefined;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode | undefined;
 }
 export type ReplicaDescriptionList = ReplicaDescription[];
 export type GlobalTableArnString = string;
 export type GlobalTableStatus = "CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | (string & {});
 export interface GlobalTableDescription {
-  ReplicationGroup?: ReplicaDescription[];
-  GlobalTableArn?: string;
-  CreationDateTime?: Date;
-  GlobalTableStatus?: GlobalTableStatus;
-  GlobalTableName?: string;
+  ReplicationGroup?: ReplicaDescription[] | undefined;
+  GlobalTableArn?: string | undefined;
+  CreationDateTime?: Date | undefined;
+  GlobalTableStatus?: GlobalTableStatus | undefined;
+  GlobalTableName?: string | undefined;
 }
 export interface CreateGlobalTableOutput {
-  GlobalTableDescription?: GlobalTableDescription;
+  GlobalTableDescription?: GlobalTableDescription | undefined;
 }
 export type KeySchemaAttributeName = string;
 export type ScalarAttributeType = "S" | "N" | "B" | (string & {});
@@ -987,8 +990,8 @@ export type ProjectionType = "ALL" | "KEYS_ONLY" | "INCLUDE" | (string & {});
 export type NonKeyAttributeName = string;
 export type NonKeyAttributeNameList = string[];
 export interface Projection {
-  ProjectionType?: ProjectionType;
-  NonKeyAttributes?: string[];
+  ProjectionType?: ProjectionType | undefined;
+  NonKeyAttributes?: string[] | undefined;
 }
 export interface LocalSecondaryIndex {
   IndexName: string;
@@ -1001,20 +1004,20 @@ export interface ProvisionedThroughput {
   WriteCapacityUnits: number;
 }
 export interface OnDemandThroughput {
-  MaxReadRequestUnits?: number;
-  MaxWriteRequestUnits?: number;
+  MaxReadRequestUnits?: number | undefined;
+  MaxWriteRequestUnits?: number | undefined;
 }
 export interface WarmThroughput {
-  ReadUnitsPerSecond?: number;
-  WriteUnitsPerSecond?: number;
+  ReadUnitsPerSecond?: number | undefined;
+  WriteUnitsPerSecond?: number | undefined;
 }
 export interface GlobalSecondaryIndex {
   IndexName: string;
   KeySchema: KeySchemaElement[];
   Projection: Projection;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: WarmThroughput;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: WarmThroughput | undefined;
 }
 export type GlobalSecondaryIndexList = GlobalSecondaryIndex[];
 export type BillingMode = "PROVISIONED" | "PAY_PER_REQUEST" | (string & {});
@@ -1027,14 +1030,14 @@ export type StreamViewType =
   | (string & {});
 export interface StreamSpecification {
   StreamEnabled: boolean;
-  StreamViewType?: StreamViewType;
+  StreamViewType?: StreamViewType | undefined;
 }
 export type SSEEnabled = boolean;
 export type SSEType = "AES256" | "KMS" | (string & {});
 export interface SSESpecification {
-  Enabled?: boolean;
-  SSEType?: SSEType;
-  KMSMasterKeyId?: string;
+  Enabled?: boolean | undefined;
+  SSEType?: SSEType | undefined;
+  KMSMasterKeyId?: string | undefined;
 }
 export type TagKeyString = string;
 export type TagValueString = string;
@@ -1059,80 +1062,80 @@ export type VectorDistanceFunction = "COSINE" | "DOT_PRODUCT" | "EUCLIDEAN" | (s
 export interface VectorIndex {
   IndexName: string;
   VectorAttribute: VectorAttributeDefinition;
-  SearchSchema?: SearchSchemaElement[];
+  SearchSchema?: SearchSchemaElement[] | undefined;
   Projection: Projection;
   Dimensions: number;
   DistanceFunction: VectorDistanceFunction;
 }
 export type VectorIndexList = VectorIndex[];
 export interface CreateTableInput {
-  AttributeDefinitions?: AttributeDefinition[];
+  AttributeDefinitions?: AttributeDefinition[] | undefined;
   TableName: string;
-  KeySchema?: KeySchemaElement[];
-  LocalSecondaryIndexes?: LocalSecondaryIndex[];
-  GlobalSecondaryIndexes?: GlobalSecondaryIndex[];
-  BillingMode?: BillingMode;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  StreamSpecification?: StreamSpecification;
-  SSESpecification?: SSESpecification;
-  Tags?: Tag[];
-  TableClass?: TableClass;
-  DeletionProtectionEnabled?: boolean;
-  WarmThroughput?: WarmThroughput;
-  ResourcePolicy?: string;
-  OnDemandThroughput?: OnDemandThroughput;
-  GlobalTableSourceArn?: string;
-  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
-  VectorIndexes?: VectorIndex[];
+  KeySchema?: KeySchemaElement[] | undefined;
+  LocalSecondaryIndexes?: LocalSecondaryIndex[] | undefined;
+  GlobalSecondaryIndexes?: GlobalSecondaryIndex[] | undefined;
+  BillingMode?: BillingMode | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  StreamSpecification?: StreamSpecification | undefined;
+  SSESpecification?: SSESpecification | undefined;
+  Tags?: Tag[] | undefined;
+  TableClass?: TableClass | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  WarmThroughput?: WarmThroughput | undefined;
+  ResourcePolicy?: string | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  GlobalTableSourceArn?: string | undefined;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode | undefined;
+  VectorIndexes?: VectorIndex[] | undefined;
 }
 export type NonNegativeLongObject = number;
 export interface ProvisionedThroughputDescription {
-  LastIncreaseDateTime?: Date;
-  LastDecreaseDateTime?: Date;
-  NumberOfDecreasesToday?: number;
-  ReadCapacityUnits?: number;
-  WriteCapacityUnits?: number;
+  LastIncreaseDateTime?: Date | undefined;
+  LastDecreaseDateTime?: Date | undefined;
+  NumberOfDecreasesToday?: number | undefined;
+  ReadCapacityUnits?: number | undefined;
+  WriteCapacityUnits?: number | undefined;
 }
 export type TableId = string;
 export interface BillingModeSummary {
-  BillingMode?: BillingMode;
-  LastUpdateToPayPerRequestDateTime?: Date;
+  BillingMode?: BillingMode | undefined;
+  LastUpdateToPayPerRequestDateTime?: Date | undefined;
 }
 export interface LocalSecondaryIndexDescription {
-  IndexName?: string;
-  KeySchema?: KeySchemaElement[];
-  Projection?: Projection;
-  IndexSizeBytes?: number;
-  ItemCount?: number;
-  IndexArn?: string;
+  IndexName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Projection?: Projection | undefined;
+  IndexSizeBytes?: number | undefined;
+  ItemCount?: number | undefined;
+  IndexArn?: string | undefined;
 }
 export type LocalSecondaryIndexDescriptionList = LocalSecondaryIndexDescription[];
 export type Backfilling = boolean;
 export interface GlobalSecondaryIndexDescription {
-  IndexName?: string;
-  KeySchema?: KeySchemaElement[];
-  Projection?: Projection;
-  IndexStatus?: IndexStatus;
-  Backfilling?: boolean;
-  ProvisionedThroughput?: ProvisionedThroughputDescription;
-  IndexSizeBytes?: number;
-  ItemCount?: number;
-  IndexArn?: string;
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: GlobalSecondaryIndexWarmThroughputDescription;
+  IndexName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Projection?: Projection | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  Backfilling?: boolean | undefined;
+  ProvisionedThroughput?: ProvisionedThroughputDescription | undefined;
+  IndexSizeBytes?: number | undefined;
+  ItemCount?: number | undefined;
+  IndexArn?: string | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: GlobalSecondaryIndexWarmThroughputDescription | undefined;
 }
 export type GlobalSecondaryIndexDescriptionList = GlobalSecondaryIndexDescription[];
 export type StreamArn = string;
 export type WitnessStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface GlobalTableWitnessDescription {
-  RegionName?: string;
-  WitnessStatus?: WitnessStatus;
+  RegionName?: string | undefined;
+  WitnessStatus?: WitnessStatus | undefined;
 }
 export type GlobalTableWitnessDescriptionList = GlobalTableWitnessDescription[];
 export type RestoreInProgress = boolean;
 export interface RestoreSummary {
-  SourceBackupArn?: string;
-  SourceTableArn?: string;
+  SourceBackupArn?: string | undefined;
+  SourceTableArn?: string | undefined;
   RestoreDateTime: Date;
   RestoreInProgress: boolean;
 }
@@ -1145,65 +1148,65 @@ export type SSEStatus =
   | (string & {});
 export type KMSMasterKeyArn = string;
 export interface SSEDescription {
-  Status?: SSEStatus;
-  SSEType?: SSEType;
-  KMSMasterKeyArn?: string;
-  InaccessibleEncryptionDateTime?: Date;
+  Status?: SSEStatus | undefined;
+  SSEType?: SSEType | undefined;
+  KMSMasterKeyArn?: string | undefined;
+  InaccessibleEncryptionDateTime?: Date | undefined;
 }
 export type ArchivalReason = string;
 export interface ArchivalSummary {
-  ArchivalDateTime?: Date;
-  ArchivalReason?: string;
-  ArchivalBackupArn?: string;
+  ArchivalDateTime?: Date | undefined;
+  ArchivalReason?: string | undefined;
+  ArchivalBackupArn?: string | undefined;
 }
 export type MultiRegionConsistency = "EVENTUAL" | "STRONG" | (string & {});
 export interface VectorIndexDescription {
-  IndexName?: string;
-  SearchSchema?: SearchSchemaElement[];
-  Projection?: Projection;
-  VectorAttribute?: VectorAttributeDefinition;
-  Dimensions?: number;
-  DistanceFunction?: VectorDistanceFunction;
-  IndexStatus?: IndexStatus;
-  Backfilling?: boolean;
-  IndexSizeBytes?: number;
-  ItemCount?: number;
-  IndexArn?: string;
+  IndexName?: string | undefined;
+  SearchSchema?: SearchSchemaElement[] | undefined;
+  Projection?: Projection | undefined;
+  VectorAttribute?: VectorAttributeDefinition | undefined;
+  Dimensions?: number | undefined;
+  DistanceFunction?: VectorDistanceFunction | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  Backfilling?: boolean | undefined;
+  IndexSizeBytes?: number | undefined;
+  ItemCount?: number | undefined;
+  IndexArn?: string | undefined;
 }
 export type VectorIndexDescriptionList = VectorIndexDescription[];
 export interface TableDescription {
-  AttributeDefinitions?: AttributeDefinition[];
-  TableName?: string;
-  KeySchema?: KeySchemaElement[];
-  TableStatus?: TableStatus;
-  CreationDateTime?: Date;
-  ProvisionedThroughput?: ProvisionedThroughputDescription;
-  TableSizeBytes?: number;
-  ItemCount?: number;
-  TableArn?: string;
-  TableId?: string;
-  BillingModeSummary?: BillingModeSummary;
-  LocalSecondaryIndexes?: LocalSecondaryIndexDescription[];
-  GlobalSecondaryIndexes?: GlobalSecondaryIndexDescription[];
-  StreamSpecification?: StreamSpecification;
-  LatestStreamLabel?: string;
-  LatestStreamArn?: string;
-  GlobalTableVersion?: string;
-  Replicas?: ReplicaDescription[];
-  GlobalTableWitnesses?: GlobalTableWitnessDescription[];
-  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
-  RestoreSummary?: RestoreSummary;
-  SSEDescription?: SSEDescription;
-  ArchivalSummary?: ArchivalSummary;
-  TableClassSummary?: TableClassSummary;
-  DeletionProtectionEnabled?: boolean;
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: TableWarmThroughputDescription;
-  MultiRegionConsistency?: MultiRegionConsistency;
-  VectorIndexes?: VectorIndexDescription[];
+  AttributeDefinitions?: AttributeDefinition[] | undefined;
+  TableName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  TableStatus?: TableStatus | undefined;
+  CreationDateTime?: Date | undefined;
+  ProvisionedThroughput?: ProvisionedThroughputDescription | undefined;
+  TableSizeBytes?: number | undefined;
+  ItemCount?: number | undefined;
+  TableArn?: string | undefined;
+  TableId?: string | undefined;
+  BillingModeSummary?: BillingModeSummary | undefined;
+  LocalSecondaryIndexes?: LocalSecondaryIndexDescription[] | undefined;
+  GlobalSecondaryIndexes?: GlobalSecondaryIndexDescription[] | undefined;
+  StreamSpecification?: StreamSpecification | undefined;
+  LatestStreamLabel?: string | undefined;
+  LatestStreamArn?: string | undefined;
+  GlobalTableVersion?: string | undefined;
+  Replicas?: ReplicaDescription[] | undefined;
+  GlobalTableWitnesses?: GlobalTableWitnessDescription[] | undefined;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode | undefined;
+  RestoreSummary?: RestoreSummary | undefined;
+  SSEDescription?: SSEDescription | undefined;
+  ArchivalSummary?: ArchivalSummary | undefined;
+  TableClassSummary?: TableClassSummary | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: TableWarmThroughputDescription | undefined;
+  MultiRegionConsistency?: MultiRegionConsistency | undefined;
+  VectorIndexes?: VectorIndexDescription[] | undefined;
 }
 export interface CreateTableOutput {
-  TableDescription?: TableDescription;
+  TableDescription?: TableDescription | undefined;
 }
 export interface DeleteBackupInput {
   BackupArn: string;
@@ -1213,59 +1216,59 @@ export type ItemCount = number;
 export interface SourceTableDetails {
   TableName: string;
   TableId: string;
-  TableArn?: string;
-  TableSizeBytes?: number;
+  TableArn?: string | undefined;
+  TableSizeBytes?: number | undefined;
   KeySchema: KeySchemaElement[];
   TableCreationDateTime: Date;
   ProvisionedThroughput: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
-  ItemCount?: number;
-  BillingMode?: BillingMode;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  ItemCount?: number | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export interface LocalSecondaryIndexInfo {
-  IndexName?: string;
-  KeySchema?: KeySchemaElement[];
-  Projection?: Projection;
+  IndexName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Projection?: Projection | undefined;
 }
 export type LocalSecondaryIndexes = LocalSecondaryIndexInfo[];
 export interface GlobalSecondaryIndexInfo {
-  IndexName?: string;
-  KeySchema?: KeySchemaElement[];
-  Projection?: Projection;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
+  IndexName?: string | undefined;
+  KeySchema?: KeySchemaElement[] | undefined;
+  Projection?: Projection | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
 }
 export type GlobalSecondaryIndexes = GlobalSecondaryIndexInfo[];
 export type TimeToLiveStatus = "ENABLING" | "DISABLING" | "ENABLED" | "DISABLED" | (string & {});
 export type TimeToLiveAttributeName = string;
 export interface TimeToLiveDescription {
-  TimeToLiveStatus?: TimeToLiveStatus;
-  AttributeName?: string;
+  TimeToLiveStatus?: TimeToLiveStatus | undefined;
+  AttributeName?: string | undefined;
 }
 export interface VectorIndexInfo {
-  IndexName?: string;
-  VectorAttribute?: VectorAttributeDefinition;
-  SearchSchema?: SearchSchemaElement[];
-  Projection?: Projection;
-  Dimensions?: number;
-  DistanceFunction?: VectorDistanceFunction;
+  IndexName?: string | undefined;
+  VectorAttribute?: VectorAttributeDefinition | undefined;
+  SearchSchema?: SearchSchemaElement[] | undefined;
+  Projection?: Projection | undefined;
+  Dimensions?: number | undefined;
+  DistanceFunction?: VectorDistanceFunction | undefined;
 }
 export type VectorIndexes = VectorIndexInfo[];
 export interface SourceTableFeatureDetails {
-  LocalSecondaryIndexes?: LocalSecondaryIndexInfo[];
-  GlobalSecondaryIndexes?: GlobalSecondaryIndexInfo[];
-  StreamDescription?: StreamSpecification;
-  TimeToLiveDescription?: TimeToLiveDescription;
-  SSEDescription?: SSEDescription;
-  VectorIndexes?: VectorIndexInfo[];
+  LocalSecondaryIndexes?: LocalSecondaryIndexInfo[] | undefined;
+  GlobalSecondaryIndexes?: GlobalSecondaryIndexInfo[] | undefined;
+  StreamDescription?: StreamSpecification | undefined;
+  TimeToLiveDescription?: TimeToLiveDescription | undefined;
+  SSEDescription?: SSEDescription | undefined;
+  VectorIndexes?: VectorIndexInfo[] | undefined;
 }
 export interface BackupDescription {
-  BackupDetails?: BackupDetails;
-  SourceTableDetails?: SourceTableDetails;
-  SourceTableFeatureDetails?: SourceTableFeatureDetails;
+  BackupDetails?: BackupDetails | undefined;
+  SourceTableDetails?: SourceTableDetails | undefined;
+  SourceTableFeatureDetails?: SourceTableFeatureDetails | undefined;
 }
 export interface DeleteBackupOutput {
-  BackupDescription?: BackupDescription;
+  BackupDescription?: BackupDescription | undefined;
 }
 export type ComparisonOperator =
   | "EQ"
@@ -1284,10 +1287,10 @@ export type ComparisonOperator =
   | (string & {});
 export type AttributeValueList = AttributeValue[];
 export interface ExpectedAttributeValue {
-  Value?: AttributeValue;
-  Exists?: boolean;
-  ComparisonOperator?: ComparisonOperator;
-  AttributeValueList?: AttributeValue[];
+  Value?: AttributeValue | undefined;
+  Exists?: boolean | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  AttributeValueList?: AttributeValue[] | undefined;
 }
 export type ExpectedAttributeMap = { [key: string]: ExpectedAttributeValue | undefined };
 export type ConditionalOperator = "AND" | "OR" | (string & {});
@@ -1304,41 +1307,41 @@ export type ExpressionAttributeValueMap = { [key: string]: AttributeValue | unde
 export interface DeleteItemInput {
   TableName: string;
   Key: { [key: string]: AttributeValue | undefined };
-  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
-  ConditionalOperator?: ConditionalOperator;
-  ReturnValues?: ReturnValue;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined } | undefined;
+  ConditionalOperator?: ConditionalOperator | undefined;
+  ReturnValues?: ReturnValue | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics | undefined;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface DeleteItemOutput {
-  Attributes?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
-  ItemCollectionMetrics?: ItemCollectionMetrics;
+  Attributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
+  ItemCollectionMetrics?: ItemCollectionMetrics | undefined;
 }
 export type ResourceArnString = string;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyInput {
   ResourceArn: string;
-  ExpectedRevisionId?: string;
+  ExpectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyOutput {
-  RevisionId?: string;
+  RevisionId?: string | undefined;
 }
 export interface DeleteTableInput {
   TableName: string;
 }
 export interface DeleteTableOutput {
-  TableDescription?: TableDescription;
+  TableDescription?: TableDescription | undefined;
 }
 export interface DescribeBackupInput {
   BackupArn: string;
 }
 export interface DescribeBackupOutput {
-  BackupDescription?: BackupDescription;
+  BackupDescription?: BackupDescription | undefined;
 }
 export interface DescribeContinuousBackupsInput {
   TableName: string;
@@ -1347,21 +1350,21 @@ export type ContinuousBackupsStatus = "ENABLED" | "DISABLED" | (string & {});
 export type PointInTimeRecoveryStatus = "ENABLED" | "DISABLED" | (string & {});
 export type RecoveryPeriodInDays = number;
 export interface PointInTimeRecoveryDescription {
-  PointInTimeRecoveryStatus?: PointInTimeRecoveryStatus;
-  RecoveryPeriodInDays?: number;
-  EarliestRestorableDateTime?: Date;
-  LatestRestorableDateTime?: Date;
+  PointInTimeRecoveryStatus?: PointInTimeRecoveryStatus | undefined;
+  RecoveryPeriodInDays?: number | undefined;
+  EarliestRestorableDateTime?: Date | undefined;
+  LatestRestorableDateTime?: Date | undefined;
 }
 export interface ContinuousBackupsDescription {
   ContinuousBackupsStatus: ContinuousBackupsStatus;
-  PointInTimeRecoveryDescription?: PointInTimeRecoveryDescription;
+  PointInTimeRecoveryDescription?: PointInTimeRecoveryDescription | undefined;
 }
 export interface DescribeContinuousBackupsOutput {
-  ContinuousBackupsDescription?: ContinuousBackupsDescription;
+  ContinuousBackupsDescription?: ContinuousBackupsDescription | undefined;
 }
 export interface DescribeContributorInsightsInput {
   TableName: string;
-  IndexName?: string;
+  IndexName?: string | undefined;
 }
 export type ContributorInsightsRule = string;
 export type ContributorInsightsRuleList = string[];
@@ -1376,21 +1379,21 @@ export type LastUpdateDateTime = Date;
 export type ExceptionName = string;
 export type ExceptionDescription = string;
 export interface FailureException {
-  ExceptionName?: string;
-  ExceptionDescription?: string;
+  ExceptionName?: string | undefined;
+  ExceptionDescription?: string | undefined;
 }
 export type ContributorInsightsMode =
   | "ACCESSED_AND_THROTTLED_KEYS"
   | "THROTTLED_KEYS"
   | (string & {});
 export interface DescribeContributorInsightsOutput {
-  TableName?: string;
-  IndexName?: string;
-  ContributorInsightsRuleList?: string[];
-  ContributorInsightsStatus?: ContributorInsightsStatus;
-  LastUpdateDateTime?: Date;
-  FailureException?: FailureException;
-  ContributorInsightsMode?: ContributorInsightsMode;
+  TableName?: string | undefined;
+  IndexName?: string | undefined;
+  ContributorInsightsRuleList?: string[] | undefined;
+  ContributorInsightsStatus?: ContributorInsightsStatus | undefined;
+  LastUpdateDateTime?: Date | undefined;
+  FailureException?: FailureException | undefined;
+  ContributorInsightsMode?: ContributorInsightsMode | undefined;
 }
 export interface DescribeEndpointsRequest {}
 export interface Endpoint {
@@ -1426,50 +1429,50 @@ export type ExportFromTime = Date;
 export type ExportToTime = Date;
 export type ExportViewType = "NEW_IMAGE" | "NEW_AND_OLD_IMAGES" | (string & {});
 export interface IncrementalExportSpecification {
-  ExportFromTime?: Date;
-  ExportToTime?: Date;
-  ExportViewType?: ExportViewType;
+  ExportFromTime?: Date | undefined;
+  ExportToTime?: Date | undefined;
+  ExportViewType?: ExportViewType | undefined;
 }
 export type KeyExpression = string;
 export interface FilterSpecification {
-  FilterExpression?: string;
-  ProjectionExpression?: string;
-  KeyConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
+  FilterExpression?: string | undefined;
+  ProjectionExpression?: string | undefined;
+  KeyConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface ExportDescription {
-  ExportArn?: string;
-  ExportStatus?: ExportStatus;
-  StartTime?: Date;
-  EndTime?: Date;
-  ExportManifest?: string;
-  TableArn?: string;
-  TableId?: string;
-  ExportTime?: Date;
-  ClientToken?: string;
-  S3Bucket?: string;
-  S3BucketOwner?: string;
-  S3Prefix?: string;
-  S3SseAlgorithm?: S3SseAlgorithm;
-  S3SseKmsKeyId?: string;
-  FailureCode?: string;
-  FailureMessage?: string;
-  ExportFormat?: ExportFormat;
-  BilledSizeBytes?: number;
-  ItemCount?: number;
-  ExportType?: ExportType;
-  IncrementalExportSpecification?: IncrementalExportSpecification;
-  FilterSpecification?: FilterSpecification;
+  ExportArn?: string | undefined;
+  ExportStatus?: ExportStatus | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ExportManifest?: string | undefined;
+  TableArn?: string | undefined;
+  TableId?: string | undefined;
+  ExportTime?: Date | undefined;
+  ClientToken?: string | undefined;
+  S3Bucket?: string | undefined;
+  S3BucketOwner?: string | undefined;
+  S3Prefix?: string | undefined;
+  S3SseAlgorithm?: S3SseAlgorithm | undefined;
+  S3SseKmsKeyId?: string | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
+  ExportFormat?: ExportFormat | undefined;
+  BilledSizeBytes?: number | undefined;
+  ItemCount?: number | undefined;
+  ExportType?: ExportType | undefined;
+  IncrementalExportSpecification?: IncrementalExportSpecification | undefined;
+  FilterSpecification?: FilterSpecification | undefined;
 }
 export interface DescribeExportOutput {
-  ExportDescription?: ExportDescription;
+  ExportDescription?: ExportDescription | undefined;
 }
 export interface DescribeGlobalTableInput {
   GlobalTableName: string;
 }
 export interface DescribeGlobalTableOutput {
-  GlobalTableDescription?: GlobalTableDescription;
+  GlobalTableDescription?: GlobalTableDescription | undefined;
 }
 export interface DescribeGlobalTableSettingsInput {
   GlobalTableName: string;
@@ -1478,48 +1481,52 @@ export type AutoScalingPolicyName = string;
 export type IntegerObject = number;
 export type DoubleObject = number;
 export interface AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
-  DisableScaleIn?: boolean;
-  ScaleInCooldown?: number;
-  ScaleOutCooldown?: number;
+  DisableScaleIn?: boolean | undefined;
+  ScaleInCooldown?: number | undefined;
+  ScaleOutCooldown?: number | undefined;
   TargetValue: number;
 }
 export interface AutoScalingPolicyDescription {
-  PolicyName?: string;
-  TargetTrackingScalingPolicyConfiguration?: AutoScalingTargetTrackingScalingPolicyConfigurationDescription;
+  PolicyName?: string | undefined;
+  TargetTrackingScalingPolicyConfiguration?:
+    | AutoScalingTargetTrackingScalingPolicyConfigurationDescription
+    | undefined;
 }
 export type AutoScalingPolicyDescriptionList = AutoScalingPolicyDescription[];
 export interface AutoScalingSettingsDescription {
-  MinimumUnits?: number;
-  MaximumUnits?: number;
-  AutoScalingDisabled?: boolean;
-  AutoScalingRoleArn?: string;
-  ScalingPolicies?: AutoScalingPolicyDescription[];
+  MinimumUnits?: number | undefined;
+  MaximumUnits?: number | undefined;
+  AutoScalingDisabled?: boolean | undefined;
+  AutoScalingRoleArn?: string | undefined;
+  ScalingPolicies?: AutoScalingPolicyDescription[] | undefined;
 }
 export interface ReplicaGlobalSecondaryIndexSettingsDescription {
   IndexName: string;
-  IndexStatus?: IndexStatus;
-  ProvisionedReadCapacityUnits?: number;
-  ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ProvisionedWriteCapacityUnits?: number;
-  ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
+  IndexStatus?: IndexStatus | undefined;
+  ProvisionedReadCapacityUnits?: number | undefined;
+  ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ProvisionedWriteCapacityUnits?: number | undefined;
+  ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
 }
 export type ReplicaGlobalSecondaryIndexSettingsDescriptionList =
   ReplicaGlobalSecondaryIndexSettingsDescription[];
 export interface ReplicaSettingsDescription {
   RegionName: string;
-  ReplicaStatus?: ReplicaStatus;
-  ReplicaBillingModeSummary?: BillingModeSummary;
-  ReplicaProvisionedReadCapacityUnits?: number;
-  ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ReplicaProvisionedWriteCapacityUnits?: number;
-  ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ReplicaGlobalSecondaryIndexSettings?: ReplicaGlobalSecondaryIndexSettingsDescription[];
-  ReplicaTableClassSummary?: TableClassSummary;
+  ReplicaStatus?: ReplicaStatus | undefined;
+  ReplicaBillingModeSummary?: BillingModeSummary | undefined;
+  ReplicaProvisionedReadCapacityUnits?: number | undefined;
+  ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ReplicaProvisionedWriteCapacityUnits?: number | undefined;
+  ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ReplicaGlobalSecondaryIndexSettings?:
+    | ReplicaGlobalSecondaryIndexSettingsDescription[]
+    | undefined;
+  ReplicaTableClassSummary?: TableClassSummary | undefined;
 }
 export type ReplicaSettingsDescriptionList = ReplicaSettingsDescription[];
 export interface DescribeGlobalTableSettingsOutput {
-  GlobalTableName?: string;
-  ReplicaSettings?: ReplicaSettingsDescription[];
+  GlobalTableName?: string | undefined;
+  ReplicaSettings?: ReplicaSettingsDescription[] | undefined;
 }
 export type ImportArn = string;
 export interface DescribeImportInput {
@@ -1533,9 +1540,9 @@ export type ImportStatus =
   | "FAILED"
   | (string & {});
 export interface S3BucketSource {
-  S3BucketOwner?: string;
+  S3BucketOwner?: string | undefined;
   S3Bucket: string;
-  S3KeyPrefix?: string;
+  S3KeyPrefix?: string | undefined;
 }
 export type ErrorCount = number;
 export type CloudWatchLogGroupArn = string;
@@ -1544,48 +1551,48 @@ export type CsvDelimiter = string;
 export type CsvHeader = string;
 export type CsvHeaderList = string[];
 export interface CsvOptions {
-  Delimiter?: string;
-  HeaderList?: string[];
+  Delimiter?: string | undefined;
+  HeaderList?: string[] | undefined;
 }
 export interface InputFormatOptions {
-  Csv?: CsvOptions;
+  Csv?: CsvOptions | undefined;
 }
 export type InputCompressionType = "GZIP" | "ZSTD" | "NONE" | (string & {});
 export interface TableCreationParameters {
   TableName: string;
   AttributeDefinitions: AttributeDefinition[];
   KeySchema: KeySchemaElement[];
-  BillingMode?: BillingMode;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
-  SSESpecification?: SSESpecification;
-  GlobalSecondaryIndexes?: GlobalSecondaryIndex[];
-  VectorIndexes?: VectorIndex[];
+  BillingMode?: BillingMode | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  SSESpecification?: SSESpecification | undefined;
+  GlobalSecondaryIndexes?: GlobalSecondaryIndex[] | undefined;
+  VectorIndexes?: VectorIndex[] | undefined;
 }
 export type ImportStartTime = Date;
 export type ImportEndTime = Date;
 export type ProcessedItemCount = number;
 export type ImportedItemCount = number;
 export interface ImportTableDescription {
-  ImportArn?: string;
-  ImportStatus?: ImportStatus;
-  TableArn?: string;
-  TableId?: string;
-  ClientToken?: string;
-  S3BucketSource?: S3BucketSource;
-  ErrorCount?: number;
-  CloudWatchLogGroupArn?: string;
-  InputFormat?: InputFormat;
-  InputFormatOptions?: InputFormatOptions;
-  InputCompressionType?: InputCompressionType;
-  TableCreationParameters?: TableCreationParameters;
-  StartTime?: Date;
-  EndTime?: Date;
-  ProcessedSizeBytes?: number;
-  ProcessedItemCount?: number;
-  ImportedItemCount?: number;
-  FailureCode?: string;
-  FailureMessage?: string;
+  ImportArn?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  TableArn?: string | undefined;
+  TableId?: string | undefined;
+  ClientToken?: string | undefined;
+  S3BucketSource?: S3BucketSource | undefined;
+  ErrorCount?: number | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
+  InputFormat?: InputFormat | undefined;
+  InputFormatOptions?: InputFormatOptions | undefined;
+  InputCompressionType?: InputCompressionType | undefined;
+  TableCreationParameters?: TableCreationParameters | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ProcessedSizeBytes?: number | undefined;
+  ProcessedItemCount?: number | undefined;
+  ImportedItemCount?: number | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
 }
 export interface DescribeImportOutput {
   ImportTableDescription: ImportTableDescription;
@@ -1603,156 +1610,156 @@ export type DestinationStatus =
   | (string & {});
 export type ApproximateCreationDateTimePrecision = "MILLISECOND" | "MICROSECOND" | (string & {});
 export interface KinesisDataStreamDestination {
-  StreamArn?: string;
-  DestinationStatus?: DestinationStatus;
-  DestinationStatusDescription?: string;
-  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision;
+  StreamArn?: string | undefined;
+  DestinationStatus?: DestinationStatus | undefined;
+  DestinationStatusDescription?: string | undefined;
+  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision | undefined;
 }
 export type KinesisDataStreamDestinations = KinesisDataStreamDestination[];
 export interface DescribeKinesisStreamingDestinationOutput {
-  TableName?: string;
-  KinesisDataStreamDestinations?: KinesisDataStreamDestination[];
+  TableName?: string | undefined;
+  KinesisDataStreamDestinations?: KinesisDataStreamDestination[] | undefined;
 }
 export interface DescribeLimitsInput {}
 export interface DescribeLimitsOutput {
-  AccountMaxReadCapacityUnits?: number;
-  AccountMaxWriteCapacityUnits?: number;
-  TableMaxReadCapacityUnits?: number;
-  TableMaxWriteCapacityUnits?: number;
+  AccountMaxReadCapacityUnits?: number | undefined;
+  AccountMaxWriteCapacityUnits?: number | undefined;
+  TableMaxReadCapacityUnits?: number | undefined;
+  TableMaxWriteCapacityUnits?: number | undefined;
 }
 export interface DescribeTableInput {
   TableName: string;
 }
 export interface DescribeTableOutput {
-  Table?: TableDescription;
+  Table?: TableDescription | undefined;
 }
 export interface DescribeTableReplicaAutoScalingInput {
   TableName: string;
 }
 export interface ReplicaGlobalSecondaryIndexAutoScalingDescription {
-  IndexName?: string;
-  IndexStatus?: IndexStatus;
-  ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
+  IndexName?: string | undefined;
+  IndexStatus?: IndexStatus | undefined;
+  ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
 }
 export type ReplicaGlobalSecondaryIndexAutoScalingDescriptionList =
   ReplicaGlobalSecondaryIndexAutoScalingDescription[];
 export interface ReplicaAutoScalingDescription {
-  RegionName?: string;
-  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexAutoScalingDescription[];
-  ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ReplicaStatus?: ReplicaStatus;
+  RegionName?: string | undefined;
+  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexAutoScalingDescription[] | undefined;
+  ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription | undefined;
+  ReplicaStatus?: ReplicaStatus | undefined;
 }
 export type ReplicaAutoScalingDescriptionList = ReplicaAutoScalingDescription[];
 export interface TableAutoScalingDescription {
-  TableName?: string;
-  TableStatus?: TableStatus;
-  Replicas?: ReplicaAutoScalingDescription[];
+  TableName?: string | undefined;
+  TableStatus?: TableStatus | undefined;
+  Replicas?: ReplicaAutoScalingDescription[] | undefined;
 }
 export interface DescribeTableReplicaAutoScalingOutput {
-  TableAutoScalingDescription?: TableAutoScalingDescription;
+  TableAutoScalingDescription?: TableAutoScalingDescription | undefined;
 }
 export interface DescribeTimeToLiveInput {
   TableName: string;
 }
 export interface DescribeTimeToLiveOutput {
-  TimeToLiveDescription?: TimeToLiveDescription;
+  TimeToLiveDescription?: TimeToLiveDescription | undefined;
 }
 export interface EnableKinesisStreamingConfiguration {
-  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision;
+  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision | undefined;
 }
 export interface KinesisStreamingDestinationInput {
   TableName: string;
   StreamArn: string;
-  EnableKinesisStreamingConfiguration?: EnableKinesisStreamingConfiguration;
+  EnableKinesisStreamingConfiguration?: EnableKinesisStreamingConfiguration | undefined;
 }
 export interface KinesisStreamingDestinationOutput {
-  TableName?: string;
-  StreamArn?: string;
-  DestinationStatus?: DestinationStatus;
-  EnableKinesisStreamingConfiguration?: EnableKinesisStreamingConfiguration;
+  TableName?: string | undefined;
+  StreamArn?: string | undefined;
+  DestinationStatus?: DestinationStatus | undefined;
+  EnableKinesisStreamingConfiguration?: EnableKinesisStreamingConfiguration | undefined;
 }
 export type PartiQLNextToken = string;
 export type PositiveIntegerObject = number;
 export interface ExecuteStatementInput {
   Statement: string;
-  Parameters?: AttributeValue[];
-  ConsistentRead?: boolean;
-  NextToken?: string;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  Limit?: number;
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  Parameters?: AttributeValue[] | undefined;
+  ConsistentRead?: boolean | undefined;
+  NextToken?: string | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  Limit?: number | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface ExecuteStatementOutput {
-  Items?: { [key: string]: AttributeValue | undefined }[];
-  NextToken?: string;
-  ConsumedCapacity?: ConsumedCapacity;
-  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
+  Items?: { [key: string]: AttributeValue | undefined }[] | undefined;
+  NextToken?: string | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface ParameterizedStatement {
   Statement: string;
-  Parameters?: AttributeValue[];
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  Parameters?: AttributeValue[] | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export type ParameterizedStatements = ParameterizedStatement[];
 export type ClientRequestToken = string;
 export interface ExecuteTransactionInput {
   TransactStatements: ParameterizedStatement[];
-  ClientRequestToken?: string;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
+  ClientRequestToken?: string | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
 }
 export interface ItemResponse {
-  Item?: { [key: string]: AttributeValue | undefined };
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export type ItemResponseList = ItemResponse[];
 export interface ExecuteTransactionOutput {
-  Responses?: ItemResponse[];
-  ConsumedCapacity?: ConsumedCapacity[];
+  Responses?: ItemResponse[] | undefined;
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
 }
 export interface ExportTableToPointInTimeInput {
   TableArn: string;
-  ExportTime?: Date;
-  ClientToken?: string;
+  ExportTime?: Date | undefined;
+  ClientToken?: string | undefined;
   S3Bucket: string;
-  S3BucketOwner?: string;
-  S3Prefix?: string;
-  S3SseAlgorithm?: S3SseAlgorithm;
-  S3SseKmsKeyId?: string;
-  ExportFormat?: ExportFormat;
-  ExportType?: ExportType;
-  IncrementalExportSpecification?: IncrementalExportSpecification;
-  FilterSpecification?: FilterSpecification;
+  S3BucketOwner?: string | undefined;
+  S3Prefix?: string | undefined;
+  S3SseAlgorithm?: S3SseAlgorithm | undefined;
+  S3SseKmsKeyId?: string | undefined;
+  ExportFormat?: ExportFormat | undefined;
+  ExportType?: ExportType | undefined;
+  IncrementalExportSpecification?: IncrementalExportSpecification | undefined;
+  FilterSpecification?: FilterSpecification | undefined;
 }
 export interface ExportTableToPointInTimeOutput {
-  ExportDescription?: ExportDescription;
+  ExportDescription?: ExportDescription | undefined;
 }
 export interface GetItemInput {
   TableName: string;
   Key: { [key: string]: AttributeValue | undefined };
-  AttributesToGet?: string[];
-  ConsistentRead?: boolean;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  AttributesToGet?: string[] | undefined;
+  ConsistentRead?: boolean | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ProjectionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetItemOutput {
-  Item?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
 }
 export interface GetResourcePolicyInput {
   ResourceArn: string;
 }
 export interface GetResourcePolicyOutput {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface ImportTableInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   S3BucketSource: S3BucketSource;
   InputFormat: InputFormat;
-  InputFormatOptions?: InputFormatOptions;
-  InputCompressionType?: InputCompressionType;
+  InputFormatOptions?: InputFormatOptions | undefined;
+  InputCompressionType?: InputCompressionType | undefined;
   TableCreationParameters: TableCreationParameters;
 }
 export interface ImportTableOutput {
@@ -1763,146 +1770,146 @@ export type TimeRangeLowerBound = Date;
 export type TimeRangeUpperBound = Date;
 export type BackupTypeFilter = "USER" | "SYSTEM" | "AWS_BACKUP" | "ALL" | (string & {});
 export interface ListBackupsInput {
-  TableName?: string;
-  Limit?: number;
-  TimeRangeLowerBound?: Date;
-  TimeRangeUpperBound?: Date;
-  ExclusiveStartBackupArn?: string;
-  BackupType?: BackupTypeFilter;
+  TableName?: string | undefined;
+  Limit?: number | undefined;
+  TimeRangeLowerBound?: Date | undefined;
+  TimeRangeUpperBound?: Date | undefined;
+  ExclusiveStartBackupArn?: string | undefined;
+  BackupType?: BackupTypeFilter | undefined;
 }
 export interface BackupSummary {
-  TableName?: string;
-  TableId?: string;
-  TableArn?: string;
-  BackupArn?: string;
-  BackupName?: string;
-  BackupCreationDateTime?: Date;
-  BackupExpiryDateTime?: Date;
-  BackupStatus?: BackupStatus;
-  BackupType?: BackupType;
-  BackupSizeBytes?: number;
+  TableName?: string | undefined;
+  TableId?: string | undefined;
+  TableArn?: string | undefined;
+  BackupArn?: string | undefined;
+  BackupName?: string | undefined;
+  BackupCreationDateTime?: Date | undefined;
+  BackupExpiryDateTime?: Date | undefined;
+  BackupStatus?: BackupStatus | undefined;
+  BackupType?: BackupType | undefined;
+  BackupSizeBytes?: number | undefined;
 }
 export type BackupSummaries = BackupSummary[];
 export interface ListBackupsOutput {
-  BackupSummaries?: BackupSummary[];
-  LastEvaluatedBackupArn?: string;
+  BackupSummaries?: BackupSummary[] | undefined;
+  LastEvaluatedBackupArn?: string | undefined;
 }
 export type NextTokenString = string;
 export type ListContributorInsightsLimit = number;
 export interface ListContributorInsightsInput {
-  TableName?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  TableName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContributorInsightsSummary {
-  TableName?: string;
-  IndexName?: string;
-  ContributorInsightsStatus?: ContributorInsightsStatus;
-  ContributorInsightsMode?: ContributorInsightsMode;
+  TableName?: string | undefined;
+  IndexName?: string | undefined;
+  ContributorInsightsStatus?: ContributorInsightsStatus | undefined;
+  ContributorInsightsMode?: ContributorInsightsMode | undefined;
 }
 export type ContributorInsightsSummaries = ContributorInsightsSummary[];
 export interface ListContributorInsightsOutput {
-  ContributorInsightsSummaries?: ContributorInsightsSummary[];
-  NextToken?: string;
+  ContributorInsightsSummaries?: ContributorInsightsSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListExportsMaxLimit = number;
 export type ExportNextToken = string;
 export interface ListExportsInput {
-  TableArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TableArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExportSummary {
-  ExportArn?: string;
-  ExportStatus?: ExportStatus;
-  ExportType?: ExportType;
+  ExportArn?: string | undefined;
+  ExportStatus?: ExportStatus | undefined;
+  ExportType?: ExportType | undefined;
 }
 export type ExportSummaries = ExportSummary[];
 export interface ListExportsOutput {
-  ExportSummaries?: ExportSummary[];
-  NextToken?: string;
+  ExportSummaries?: ExportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGlobalTablesInput {
-  ExclusiveStartGlobalTableName?: string;
-  Limit?: number;
-  RegionName?: string;
+  ExclusiveStartGlobalTableName?: string | undefined;
+  Limit?: number | undefined;
+  RegionName?: string | undefined;
 }
 export interface GlobalTable {
-  GlobalTableName?: string;
-  ReplicationGroup?: Replica[];
+  GlobalTableName?: string | undefined;
+  ReplicationGroup?: Replica[] | undefined;
 }
 export type GlobalTableList = GlobalTable[];
 export interface ListGlobalTablesOutput {
-  GlobalTables?: GlobalTable[];
-  LastEvaluatedGlobalTableName?: string;
+  GlobalTables?: GlobalTable[] | undefined;
+  LastEvaluatedGlobalTableName?: string | undefined;
 }
 export type ListImportsMaxLimit = number;
 export type ImportNextToken = string;
 export interface ListImportsInput {
-  TableArn?: string;
-  PageSize?: number;
-  NextToken?: string;
+  TableArn?: string | undefined;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportSummary {
-  ImportArn?: string;
-  ImportStatus?: ImportStatus;
-  TableArn?: string;
-  S3BucketSource?: S3BucketSource;
-  CloudWatchLogGroupArn?: string;
-  InputFormat?: InputFormat;
-  StartTime?: Date;
-  EndTime?: Date;
+  ImportArn?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  TableArn?: string | undefined;
+  S3BucketSource?: S3BucketSource | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
+  InputFormat?: InputFormat | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type ImportSummaryList = ImportSummary[];
 export interface ListImportsOutput {
-  ImportSummaryList?: ImportSummary[];
-  NextToken?: string;
+  ImportSummaryList?: ImportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListTablesInputLimit = number;
 export interface ListTablesInput {
-  ExclusiveStartTableName?: string;
-  Limit?: number;
+  ExclusiveStartTableName?: string | undefined;
+  Limit?: number | undefined;
 }
 export type TableNameList = string[];
 export interface ListTablesOutput {
-  TableNames?: string[];
-  LastEvaluatedTableName?: string;
+  TableNames?: string[] | undefined;
+  LastEvaluatedTableName?: string | undefined;
 }
 export interface ListTagsOfResourceInput {
   ResourceArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsOfResourceOutput {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutItemInput {
   TableName: string;
   Item: { [key: string]: AttributeValue | undefined };
-  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
-  ReturnValues?: ReturnValue;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
-  ConditionalOperator?: ConditionalOperator;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined } | undefined;
+  ReturnValues?: ReturnValue | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics | undefined;
+  ConditionalOperator?: ConditionalOperator | undefined;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface PutItemOutput {
-  Attributes?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
-  ItemCollectionMetrics?: ItemCollectionMetrics;
+  Attributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
+  ItemCollectionMetrics?: ItemCollectionMetrics | undefined;
 }
 export type ConfirmRemoveSelfResourceAccess = boolean;
 export interface PutResourcePolicyInput {
   ResourceArn: string;
   Policy: string;
-  ExpectedRevisionId?: string;
-  ConfirmRemoveSelfResourceAccess?: boolean;
+  ExpectedRevisionId?: string | undefined;
+  ConfirmRemoveSelfResourceAccess?: boolean | undefined;
 }
 export interface PutResourcePolicyOutput {
-  RevisionId?: string;
+  RevisionId?: string | undefined;
 }
 export type Select =
   | "ALL_ATTRIBUTES"
@@ -1911,117 +1918,117 @@ export type Select =
   | "COUNT"
   | (string & {});
 export interface Condition {
-  AttributeValueList?: AttributeValue[];
+  AttributeValueList?: AttributeValue[] | undefined;
   ComparisonOperator: ComparisonOperator;
 }
 export type KeyConditions = { [key: string]: Condition | undefined };
 export type FilterConditionMap = { [key: string]: Condition | undefined };
 export interface QueryInput {
   TableName: string;
-  IndexName?: string;
-  Select?: Select;
-  AttributesToGet?: string[];
-  Limit?: number;
-  ConsistentRead?: boolean;
-  KeyConditions?: { [key: string]: Condition | undefined };
-  QueryFilter?: { [key: string]: Condition | undefined };
-  ConditionalOperator?: ConditionalOperator;
-  ScanIndexForward?: boolean;
-  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined };
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ProjectionExpression?: string;
-  FilterExpression?: string;
-  KeyConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
+  IndexName?: string | undefined;
+  Select?: Select | undefined;
+  AttributesToGet?: string[] | undefined;
+  Limit?: number | undefined;
+  ConsistentRead?: boolean | undefined;
+  KeyConditions?: { [key: string]: Condition | undefined } | undefined;
+  QueryFilter?: { [key: string]: Condition | undefined } | undefined;
+  ConditionalOperator?: ConditionalOperator | undefined;
+  ScanIndexForward?: boolean | undefined;
+  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ProjectionExpression?: string | undefined;
+  FilterExpression?: string | undefined;
+  KeyConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface QueryOutput {
-  Items?: { [key: string]: AttributeValue | undefined }[];
-  Count?: number;
-  ScannedCount?: number;
-  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
+  Items?: { [key: string]: AttributeValue | undefined }[] | undefined;
+  Count?: number | undefined;
+  ScannedCount?: number | undefined;
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
 }
 export interface RestoreTableFromBackupInput {
   TargetTableName: string;
   BackupArn: string;
-  BillingModeOverride?: BillingMode;
-  GlobalSecondaryIndexOverride?: GlobalSecondaryIndex[];
-  LocalSecondaryIndexOverride?: LocalSecondaryIndex[];
-  ProvisionedThroughputOverride?: ProvisionedThroughput;
-  OnDemandThroughputOverride?: OnDemandThroughput;
-  SSESpecificationOverride?: SSESpecification;
-  VectorIndexOverride?: VectorIndex[];
+  BillingModeOverride?: BillingMode | undefined;
+  GlobalSecondaryIndexOverride?: GlobalSecondaryIndex[] | undefined;
+  LocalSecondaryIndexOverride?: LocalSecondaryIndex[] | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughput | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughput | undefined;
+  SSESpecificationOverride?: SSESpecification | undefined;
+  VectorIndexOverride?: VectorIndex[] | undefined;
 }
 export interface RestoreTableFromBackupOutput {
-  TableDescription?: TableDescription;
+  TableDescription?: TableDescription | undefined;
 }
 export interface RestoreTableToPointInTimeInput {
-  SourceTableArn?: string;
-  SourceTableName?: string;
+  SourceTableArn?: string | undefined;
+  SourceTableName?: string | undefined;
   TargetTableName: string;
-  UseLatestRestorableTime?: boolean;
-  RestoreDateTime?: Date;
-  BillingModeOverride?: BillingMode;
-  GlobalSecondaryIndexOverride?: GlobalSecondaryIndex[];
-  LocalSecondaryIndexOverride?: LocalSecondaryIndex[];
-  ProvisionedThroughputOverride?: ProvisionedThroughput;
-  OnDemandThroughputOverride?: OnDemandThroughput;
-  SSESpecificationOverride?: SSESpecification;
-  VectorIndexOverride?: VectorIndex[];
+  UseLatestRestorableTime?: boolean | undefined;
+  RestoreDateTime?: Date | undefined;
+  BillingModeOverride?: BillingMode | undefined;
+  GlobalSecondaryIndexOverride?: GlobalSecondaryIndex[] | undefined;
+  LocalSecondaryIndexOverride?: LocalSecondaryIndex[] | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughput | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughput | undefined;
+  SSESpecificationOverride?: SSESpecification | undefined;
+  VectorIndexOverride?: VectorIndex[] | undefined;
 }
 export interface RestoreTableToPointInTimeOutput {
-  TableDescription?: TableDescription;
+  TableDescription?: TableDescription | undefined;
 }
 export type ScanTotalSegments = number;
 export type ScanSegment = number;
 export interface ScanInput {
   TableName: string;
-  IndexName?: string;
-  AttributesToGet?: string[];
-  Limit?: number;
-  Select?: Select;
-  ScanFilter?: { [key: string]: Condition | undefined };
-  ConditionalOperator?: ConditionalOperator;
-  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined };
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  TotalSegments?: number;
-  Segment?: number;
-  ProjectionExpression?: string;
-  FilterExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ConsistentRead?: boolean;
+  IndexName?: string | undefined;
+  AttributesToGet?: string[] | undefined;
+  Limit?: number | undefined;
+  Select?: Select | undefined;
+  ScanFilter?: { [key: string]: Condition | undefined } | undefined;
+  ConditionalOperator?: ConditionalOperator | undefined;
+  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  TotalSegments?: number | undefined;
+  Segment?: number | undefined;
+  ProjectionExpression?: string | undefined;
+  FilterExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsistentRead?: boolean | undefined;
 }
 export interface ScanOutput {
-  Items?: { [key: string]: AttributeValue | undefined }[];
-  Count?: number;
-  ScannedCount?: number;
-  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
+  Items?: { [key: string]: AttributeValue | undefined }[] | undefined;
+  Count?: number | undefined;
+  ScannedCount?: number | undefined;
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
 }
 export type SearchVectorList = AttributeValue[];
 export type TopKInteger = number;
 export interface SearchVectorsInput {
   TableName: string;
   IndexName: string;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ProjectionExpression?: string;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ProjectionExpression?: string | undefined;
   SearchVector: AttributeValue[];
-  SearchConditionExpression?: string;
+  SearchConditionExpression?: string | undefined;
   TopK: number;
 }
 export type ScoreNumber = number;
 export interface SearchResultItem {
-  Item?: { [key: string]: AttributeValue | undefined };
-  Score?: number;
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
+  Score?: number | undefined;
 }
 export type SearchResultList = SearchResultItem[];
 export interface SearchVectorsOutput {
-  ConsumedCapacity?: VectorCapacity;
-  SearchResults?: SearchResultItem[];
+  ConsumedCapacity?: VectorCapacity | undefined;
+  SearchResults?: SearchResultItem[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -2031,8 +2038,8 @@ export interface TagResourceResponse {}
 export interface Get {
   Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
-  ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ProjectionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
 }
 export interface TransactGetItem {
   Get: Get;
@@ -2040,62 +2047,62 @@ export interface TransactGetItem {
 export type TransactGetItemList = TransactGetItem[];
 export interface TransactGetItemsInput {
   TransactItems: TransactGetItem[];
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
 }
 export interface TransactGetItemsOutput {
-  ConsumedCapacity?: ConsumedCapacity[];
-  Responses?: ItemResponse[];
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
+  Responses?: ItemResponse[] | undefined;
 }
 export interface ConditionCheck {
   Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
   ConditionExpression: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface Put {
   Item: { [key: string]: AttributeValue | undefined };
   TableName: string;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface Delete {
   Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export type UpdateExpression = string;
 export interface Update {
   Key: { [key: string]: AttributeValue | undefined };
   UpdateExpression: string;
   TableName: string;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface TransactWriteItem {
-  ConditionCheck?: ConditionCheck;
-  Put?: Put;
-  Delete?: Delete;
-  Update?: Update;
+  ConditionCheck?: ConditionCheck | undefined;
+  Put?: Put | undefined;
+  Delete?: Delete | undefined;
+  Update?: Update | undefined;
 }
 export type TransactWriteItemList = TransactWriteItem[];
 export interface TransactWriteItemsInput {
   TransactItems: TransactWriteItem[];
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
-  ClientRequestToken?: string;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface TransactWriteItemsOutput {
-  ConsumedCapacity?: ConsumedCapacity[];
-  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined };
+  ConsumedCapacity?: ConsumedCapacity[] | undefined;
+  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] | undefined } | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceInput {
@@ -2105,27 +2112,27 @@ export interface UntagResourceInput {
 export interface UntagResourceResponse {}
 export interface PointInTimeRecoverySpecification {
   PointInTimeRecoveryEnabled: boolean;
-  RecoveryPeriodInDays?: number;
+  RecoveryPeriodInDays?: number | undefined;
 }
 export interface UpdateContinuousBackupsInput {
   TableName: string;
   PointInTimeRecoverySpecification: PointInTimeRecoverySpecification;
 }
 export interface UpdateContinuousBackupsOutput {
-  ContinuousBackupsDescription?: ContinuousBackupsDescription;
+  ContinuousBackupsDescription?: ContinuousBackupsDescription | undefined;
 }
 export type ContributorInsightsAction = "ENABLE" | "DISABLE" | (string & {});
 export interface UpdateContributorInsightsInput {
   TableName: string;
-  IndexName?: string;
+  IndexName?: string | undefined;
   ContributorInsightsAction: ContributorInsightsAction;
-  ContributorInsightsMode?: ContributorInsightsMode;
+  ContributorInsightsMode?: ContributorInsightsMode | undefined;
 }
 export interface UpdateContributorInsightsOutput {
-  TableName?: string;
-  IndexName?: string;
-  ContributorInsightsStatus?: ContributorInsightsStatus;
-  ContributorInsightsMode?: ContributorInsightsMode;
+  TableName?: string | undefined;
+  IndexName?: string | undefined;
+  ContributorInsightsStatus?: ContributorInsightsStatus | undefined;
+  ContributorInsightsMode?: ContributorInsightsMode | undefined;
 }
 export interface CreateReplicaAction {
   RegionName: string;
@@ -2134,8 +2141,8 @@ export interface DeleteReplicaAction {
   RegionName: string;
 }
 export interface ReplicaUpdate {
-  Create?: CreateReplicaAction;
-  Delete?: DeleteReplicaAction;
+  Create?: CreateReplicaAction | undefined;
+  Delete?: DeleteReplicaAction | undefined;
 }
 export type ReplicaUpdateList = ReplicaUpdate[];
 export interface UpdateGlobalTableInput {
@@ -2143,152 +2150,158 @@ export interface UpdateGlobalTableInput {
   ReplicaUpdates: ReplicaUpdate[];
 }
 export interface UpdateGlobalTableOutput {
-  GlobalTableDescription?: GlobalTableDescription;
+  GlobalTableDescription?: GlobalTableDescription | undefined;
 }
 export type AutoScalingRoleArn = string;
 export interface AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
-  DisableScaleIn?: boolean;
-  ScaleInCooldown?: number;
-  ScaleOutCooldown?: number;
+  DisableScaleIn?: boolean | undefined;
+  ScaleInCooldown?: number | undefined;
+  ScaleOutCooldown?: number | undefined;
   TargetValue: number;
 }
 export interface AutoScalingPolicyUpdate {
-  PolicyName?: string;
+  PolicyName?: string | undefined;
   TargetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationUpdate;
 }
 export interface AutoScalingSettingsUpdate {
-  MinimumUnits?: number;
-  MaximumUnits?: number;
-  AutoScalingDisabled?: boolean;
-  AutoScalingRoleArn?: string;
-  ScalingPolicyUpdate?: AutoScalingPolicyUpdate;
+  MinimumUnits?: number | undefined;
+  MaximumUnits?: number | undefined;
+  AutoScalingDisabled?: boolean | undefined;
+  AutoScalingRoleArn?: string | undefined;
+  ScalingPolicyUpdate?: AutoScalingPolicyUpdate | undefined;
 }
 export interface GlobalTableGlobalSecondaryIndexSettingsUpdate {
   IndexName: string;
-  ProvisionedWriteCapacityUnits?: number;
-  ProvisionedWriteCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate;
+  ProvisionedWriteCapacityUnits?: number | undefined;
+  ProvisionedWriteCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate | undefined;
 }
 export type GlobalTableGlobalSecondaryIndexSettingsUpdateList =
   GlobalTableGlobalSecondaryIndexSettingsUpdate[];
 export interface ReplicaGlobalSecondaryIndexSettingsUpdate {
   IndexName: string;
-  ProvisionedReadCapacityUnits?: number;
-  ProvisionedReadCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate;
+  ProvisionedReadCapacityUnits?: number | undefined;
+  ProvisionedReadCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate | undefined;
 }
 export type ReplicaGlobalSecondaryIndexSettingsUpdateList =
   ReplicaGlobalSecondaryIndexSettingsUpdate[];
 export interface ReplicaSettingsUpdate {
   RegionName: string;
-  ReplicaProvisionedReadCapacityUnits?: number;
-  ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate;
-  ReplicaGlobalSecondaryIndexSettingsUpdate?: ReplicaGlobalSecondaryIndexSettingsUpdate[];
-  ReplicaTableClass?: TableClass;
+  ReplicaProvisionedReadCapacityUnits?: number | undefined;
+  ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate | undefined;
+  ReplicaGlobalSecondaryIndexSettingsUpdate?:
+    | ReplicaGlobalSecondaryIndexSettingsUpdate[]
+    | undefined;
+  ReplicaTableClass?: TableClass | undefined;
 }
 export type ReplicaSettingsUpdateList = ReplicaSettingsUpdate[];
 export interface UpdateGlobalTableSettingsInput {
   GlobalTableName: string;
-  GlobalTableBillingMode?: BillingMode;
-  GlobalTableProvisionedWriteCapacityUnits?: number;
-  GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate?: AutoScalingSettingsUpdate;
-  GlobalTableGlobalSecondaryIndexSettingsUpdate?: GlobalTableGlobalSecondaryIndexSettingsUpdate[];
-  ReplicaSettingsUpdate?: ReplicaSettingsUpdate[];
+  GlobalTableBillingMode?: BillingMode | undefined;
+  GlobalTableProvisionedWriteCapacityUnits?: number | undefined;
+  GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate?:
+    | AutoScalingSettingsUpdate
+    | undefined;
+  GlobalTableGlobalSecondaryIndexSettingsUpdate?:
+    | GlobalTableGlobalSecondaryIndexSettingsUpdate[]
+    | undefined;
+  ReplicaSettingsUpdate?: ReplicaSettingsUpdate[] | undefined;
 }
 export interface UpdateGlobalTableSettingsOutput {
-  GlobalTableName?: string;
-  ReplicaSettings?: ReplicaSettingsDescription[];
+  GlobalTableName?: string | undefined;
+  ReplicaSettings?: ReplicaSettingsDescription[] | undefined;
 }
 export type AttributeAction = "ADD" | "PUT" | "DELETE" | (string & {});
 export interface AttributeValueUpdate {
-  Value?: AttributeValue;
-  Action?: AttributeAction;
+  Value?: AttributeValue | undefined;
+  Action?: AttributeAction | undefined;
 }
 export type AttributeUpdates = { [key: string]: AttributeValueUpdate | undefined };
 export interface UpdateItemInput {
   TableName: string;
   Key: { [key: string]: AttributeValue | undefined };
-  AttributeUpdates?: { [key: string]: AttributeValueUpdate | undefined };
-  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
-  ConditionalOperator?: ConditionalOperator;
-  ReturnValues?: ReturnValue;
-  ReturnConsumedCapacity?: ReturnConsumedCapacity;
-  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
-  UpdateExpression?: string;
-  ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string | undefined };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
-  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
+  AttributeUpdates?: { [key: string]: AttributeValueUpdate | undefined } | undefined;
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined } | undefined;
+  ConditionalOperator?: ConditionalOperator | undefined;
+  ReturnValues?: ReturnValue | undefined;
+  ReturnConsumedCapacity?: ReturnConsumedCapacity | undefined;
+  ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics | undefined;
+  UpdateExpression?: string | undefined;
+  ConditionExpression?: string | undefined;
+  ExpressionAttributeNames?: { [key: string]: string | undefined } | undefined;
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure | undefined;
 }
 export interface UpdateItemOutput {
-  Attributes?: { [key: string]: AttributeValue | undefined };
-  ConsumedCapacity?: ConsumedCapacity;
-  ItemCollectionMetrics?: ItemCollectionMetrics;
+  Attributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  ConsumedCapacity?: ConsumedCapacity | undefined;
+  ItemCollectionMetrics?: ItemCollectionMetrics | undefined;
 }
 export interface UpdateKinesisStreamingConfiguration {
-  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision;
+  ApproximateCreationDateTimePrecision?: ApproximateCreationDateTimePrecision | undefined;
 }
 export interface UpdateKinesisStreamingDestinationInput {
   TableName: string;
   StreamArn: string;
-  UpdateKinesisStreamingConfiguration?: UpdateKinesisStreamingConfiguration;
+  UpdateKinesisStreamingConfiguration?: UpdateKinesisStreamingConfiguration | undefined;
 }
 export interface UpdateKinesisStreamingDestinationOutput {
-  TableName?: string;
-  StreamArn?: string;
-  DestinationStatus?: DestinationStatus;
-  UpdateKinesisStreamingConfiguration?: UpdateKinesisStreamingConfiguration;
+  TableName?: string | undefined;
+  StreamArn?: string | undefined;
+  DestinationStatus?: DestinationStatus | undefined;
+  UpdateKinesisStreamingConfiguration?: UpdateKinesisStreamingConfiguration | undefined;
 }
 export interface UpdateGlobalSecondaryIndexAction {
   IndexName: string;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: WarmThroughput;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: WarmThroughput | undefined;
 }
 export interface CreateGlobalSecondaryIndexAction {
   IndexName: string;
   KeySchema: KeySchemaElement[];
   Projection: Projection;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: WarmThroughput;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: WarmThroughput | undefined;
 }
 export interface DeleteGlobalSecondaryIndexAction {
   IndexName: string;
 }
 export interface GlobalSecondaryIndexUpdate {
-  Update?: UpdateGlobalSecondaryIndexAction;
-  Create?: CreateGlobalSecondaryIndexAction;
-  Delete?: DeleteGlobalSecondaryIndexAction;
+  Update?: UpdateGlobalSecondaryIndexAction | undefined;
+  Create?: CreateGlobalSecondaryIndexAction | undefined;
+  Delete?: DeleteGlobalSecondaryIndexAction | undefined;
 }
 export type GlobalSecondaryIndexUpdateList = GlobalSecondaryIndexUpdate[];
 export interface ReplicaGlobalSecondaryIndex {
   IndexName: string;
-  ProvisionedThroughputOverride?: ProvisionedThroughputOverride;
-  OnDemandThroughputOverride?: OnDemandThroughputOverride;
+  ProvisionedThroughputOverride?: ProvisionedThroughputOverride | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughputOverride | undefined;
 }
 export type ReplicaGlobalSecondaryIndexList = ReplicaGlobalSecondaryIndex[];
 export interface CreateReplicationGroupMemberAction {
   RegionName: string;
-  KMSMasterKeyId?: string;
-  ProvisionedThroughputOverride?: ProvisionedThroughputOverride;
-  OnDemandThroughputOverride?: OnDemandThroughputOverride;
-  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndex[];
-  TableClassOverride?: TableClass;
+  KMSMasterKeyId?: string | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughputOverride | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughputOverride | undefined;
+  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndex[] | undefined;
+  TableClassOverride?: TableClass | undefined;
 }
 export interface UpdateReplicationGroupMemberAction {
   RegionName: string;
-  KMSMasterKeyId?: string;
-  ProvisionedThroughputOverride?: ProvisionedThroughputOverride;
-  OnDemandThroughputOverride?: OnDemandThroughputOverride;
-  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndex[];
-  TableClassOverride?: TableClass;
+  KMSMasterKeyId?: string | undefined;
+  ProvisionedThroughputOverride?: ProvisionedThroughputOverride | undefined;
+  OnDemandThroughputOverride?: OnDemandThroughputOverride | undefined;
+  GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndex[] | undefined;
+  TableClassOverride?: TableClass | undefined;
 }
 export interface DeleteReplicationGroupMemberAction {
   RegionName: string;
 }
 export interface ReplicationGroupUpdate {
-  Create?: CreateReplicationGroupMemberAction;
-  Update?: UpdateReplicationGroupMemberAction;
-  Delete?: DeleteReplicationGroupMemberAction;
+  Create?: CreateReplicationGroupMemberAction | undefined;
+  Update?: UpdateReplicationGroupMemberAction | undefined;
+  Delete?: DeleteReplicationGroupMemberAction | undefined;
 }
 export type ReplicationGroupUpdateList = ReplicationGroupUpdate[];
 export interface CreateGlobalTableWitnessGroupMemberAction {
@@ -2298,14 +2311,14 @@ export interface DeleteGlobalTableWitnessGroupMemberAction {
   RegionName: string;
 }
 export interface GlobalTableWitnessGroupUpdate {
-  Create?: CreateGlobalTableWitnessGroupMemberAction;
-  Delete?: DeleteGlobalTableWitnessGroupMemberAction;
+  Create?: CreateGlobalTableWitnessGroupMemberAction | undefined;
+  Delete?: DeleteGlobalTableWitnessGroupMemberAction | undefined;
 }
 export type GlobalTableWitnessGroupUpdateList = GlobalTableWitnessGroupUpdate[];
 export interface CreateVectorIndexAction {
   IndexName: string;
   VectorAttribute: VectorAttributeDefinition;
-  SearchSchema?: SearchSchemaElement[];
+  SearchSchema?: SearchSchemaElement[] | undefined;
   Projection: Projection;
   Dimensions: number;
   DistanceFunction: VectorDistanceFunction;
@@ -2314,56 +2327,56 @@ export interface DeleteVectorIndexAction {
   IndexName: string;
 }
 export interface VectorIndexUpdate {
-  Create?: CreateVectorIndexAction;
-  Delete?: DeleteVectorIndexAction;
+  Create?: CreateVectorIndexAction | undefined;
+  Delete?: DeleteVectorIndexAction | undefined;
 }
 export type VectorIndexUpdateList = VectorIndexUpdate[];
 export interface UpdateTableInput {
-  AttributeDefinitions?: AttributeDefinition[];
+  AttributeDefinitions?: AttributeDefinition[] | undefined;
   TableName: string;
-  BillingMode?: BillingMode;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  GlobalSecondaryIndexUpdates?: GlobalSecondaryIndexUpdate[];
-  StreamSpecification?: StreamSpecification;
-  SSESpecification?: SSESpecification;
-  ReplicaUpdates?: ReplicationGroupUpdate[];
-  TableClass?: TableClass;
-  DeletionProtectionEnabled?: boolean;
-  MultiRegionConsistency?: MultiRegionConsistency;
-  GlobalTableWitnessUpdates?: GlobalTableWitnessGroupUpdate[];
-  OnDemandThroughput?: OnDemandThroughput;
-  WarmThroughput?: WarmThroughput;
-  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
-  VectorIndexUpdates?: VectorIndexUpdate[];
+  BillingMode?: BillingMode | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  GlobalSecondaryIndexUpdates?: GlobalSecondaryIndexUpdate[] | undefined;
+  StreamSpecification?: StreamSpecification | undefined;
+  SSESpecification?: SSESpecification | undefined;
+  ReplicaUpdates?: ReplicationGroupUpdate[] | undefined;
+  TableClass?: TableClass | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
+  MultiRegionConsistency?: MultiRegionConsistency | undefined;
+  GlobalTableWitnessUpdates?: GlobalTableWitnessGroupUpdate[] | undefined;
+  OnDemandThroughput?: OnDemandThroughput | undefined;
+  WarmThroughput?: WarmThroughput | undefined;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode | undefined;
+  VectorIndexUpdates?: VectorIndexUpdate[] | undefined;
 }
 export interface UpdateTableOutput {
-  TableDescription?: TableDescription;
+  TableDescription?: TableDescription | undefined;
 }
 export interface GlobalSecondaryIndexAutoScalingUpdate {
-  IndexName?: string;
-  ProvisionedWriteCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate;
+  IndexName?: string | undefined;
+  ProvisionedWriteCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate | undefined;
 }
 export type GlobalSecondaryIndexAutoScalingUpdateList = GlobalSecondaryIndexAutoScalingUpdate[];
 export interface ReplicaGlobalSecondaryIndexAutoScalingUpdate {
-  IndexName?: string;
-  ProvisionedReadCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate;
+  IndexName?: string | undefined;
+  ProvisionedReadCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate | undefined;
 }
 export type ReplicaGlobalSecondaryIndexAutoScalingUpdateList =
   ReplicaGlobalSecondaryIndexAutoScalingUpdate[];
 export interface ReplicaAutoScalingUpdate {
   RegionName: string;
-  ReplicaGlobalSecondaryIndexUpdates?: ReplicaGlobalSecondaryIndexAutoScalingUpdate[];
-  ReplicaProvisionedReadCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate;
+  ReplicaGlobalSecondaryIndexUpdates?: ReplicaGlobalSecondaryIndexAutoScalingUpdate[] | undefined;
+  ReplicaProvisionedReadCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate | undefined;
 }
 export type ReplicaAutoScalingUpdateList = ReplicaAutoScalingUpdate[];
 export interface UpdateTableReplicaAutoScalingInput {
-  GlobalSecondaryIndexUpdates?: GlobalSecondaryIndexAutoScalingUpdate[];
+  GlobalSecondaryIndexUpdates?: GlobalSecondaryIndexAutoScalingUpdate[] | undefined;
   TableName: string;
-  ProvisionedWriteCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate;
-  ReplicaUpdates?: ReplicaAutoScalingUpdate[];
+  ProvisionedWriteCapacityAutoScalingUpdate?: AutoScalingSettingsUpdate | undefined;
+  ReplicaUpdates?: ReplicaAutoScalingUpdate[] | undefined;
 }
 export interface UpdateTableReplicaAutoScalingOutput {
-  TableAutoScalingDescription?: TableAutoScalingDescription;
+  TableAutoScalingDescription?: TableAutoScalingDescription | undefined;
 }
 export type TimeToLiveEnabled = boolean;
 export interface TimeToLiveSpecification {
@@ -2375,22 +2388,22 @@ export interface UpdateTimeToLiveInput {
   TimeToLiveSpecification: TimeToLiveSpecification;
 }
 export interface UpdateTimeToLiveOutput {
-  TimeToLiveSpecification?: TimeToLiveSpecification;
+  TimeToLiveSpecification?: TimeToLiveSpecification | undefined;
 }
 export type ErrorMessage = string;
 export type Reason = string;
 export type Resource = string;
 export interface ThrottlingReason {
-  reason?: string;
-  resource?: string;
+  reason?: string | undefined;
+  resource?: string | undefined;
 }
 export type ThrottlingReasonList = ThrottlingReason[];
 export type AvailabilityErrorMessage = string;
 export type Code = string;
 export interface CancellationReason {
-  Item?: { [key: string]: AttributeValue | undefined };
-  Code?: string;
-  Message?: string;
+  Item?: { [key: string]: AttributeValue | undefined } | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type CancellationReasonList = CancellationReason[];
 export type BatchExecuteStatementError =
@@ -2412,7 +2425,7 @@ export type BatchExecuteStatementError =
  * statement.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementInput,
+  BatchExecuteStatementInput & RegionInput,
   BatchExecuteStatementOutput,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -2500,7 +2513,7 @@ export type BatchGetItemError =
  * same key is specified multiple times.
  */
 export const batchGetItem: API.OperationMethod<
-  BatchGetItemInput,
+  BatchGetItemInput & RegionInput,
   BatchGetItemOutput,
   BatchGetItemError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2638,7 @@ export type BatchWriteItemError =
  * bytes.
  */
 export const batchWriteItem: API.OperationMethod<
-  BatchWriteItemInput,
+  BatchWriteItemInput & RegionInput,
   BatchWriteItemOutput,
   BatchWriteItemError,
   Credentials | HttpClient.HttpClient
@@ -2698,7 +2711,7 @@ export type CreateBackupError =
  * - Provisioned read and write capacity
  */
 export const createBackup: API.OperationMethod<
-  CreateBackupInput,
+  CreateBackupInput & RegionInput,
   CreateBackupOutput,
   CreateBackupError,
   Credentials | HttpClient.HttpClient
@@ -2784,7 +2797,7 @@ export type CreateGlobalTableError =
  * your global table.
  */
 export const createGlobalTable: API.OperationMethod<
-  CreateGlobalTableInput,
+  CreateGlobalTableInput & RegionInput,
   CreateGlobalTableOutput,
   CreateGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -2829,7 +2842,7 @@ export type CreateTableError =
  * You can use the `DescribeTable` action to check the table status.
  */
 export const createTable: API.OperationMethod<
-  CreateTableInput,
+  CreateTableInput & RegionInput,
   CreateTableOutput,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -2872,7 +2885,7 @@ export type DeleteBackupError =
  * second.
  */
 export const deleteBackup: API.OperationMethod<
-  DeleteBackupInput,
+  DeleteBackupInput & RegionInput,
   DeleteBackupOutput,
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2935,7 @@ export type DeleteItemError =
  * deleted.
  */
 export const deleteItem: API.OperationMethod<
-  DeleteItemInput,
+  DeleteItemInput & RegionInput,
   DeleteItemOutput,
   DeleteItemError,
   Credentials | HttpClient.HttpClient
@@ -2990,7 +3003,7 @@ export type DeleteResourcePolicyError =
  * request again.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3056,7 @@ export type DeleteTableError =
  * Use the `DescribeTable` action to check the status of the table.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableInput,
+  DeleteTableInput & RegionInput,
   DeleteTableOutput,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -3085,7 +3098,7 @@ export type DescribeBackupError =
  * second.
  */
 export const describeBackup: API.OperationMethod<
-  DescribeBackupInput,
+  DescribeBackupInput & RegionInput,
   DescribeBackupOutput,
   DescribeBackupError,
   Credentials | HttpClient.HttpClient
@@ -3123,7 +3136,7 @@ export type DescribeContinuousBackupsError =
  * second.
  */
 export const describeContinuousBackups: API.OperationMethod<
-  DescribeContinuousBackupsInput,
+  DescribeContinuousBackupsInput & RegionInput,
   DescribeContinuousBackupsOutput,
   DescribeContinuousBackupsError,
   Credentials | HttpClient.HttpClient
@@ -3156,7 +3169,7 @@ export type DescribeContributorInsightsError =
  * index.
  */
 export const describeContributorInsights: API.OperationMethod<
-  DescribeContributorInsightsInput,
+  DescribeContributorInsightsInput & RegionInput,
   DescribeContributorInsightsOutput,
   DescribeContributorInsightsError,
   Credentials | HttpClient.HttpClient
@@ -3187,7 +3200,7 @@ export type DescribeEndpointsError = CommonErrors;
  * please see Internetwork traffic privacy.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -3211,7 +3224,7 @@ export type DescribeExportError =
  * Describes an existing table export.
  */
 export const describeExport: API.OperationMethod<
-  DescribeExportInput,
+  DescribeExportInput & RegionInput,
   DescribeExportOutput,
   DescribeExportError,
   Credentials | HttpClient.HttpClient
@@ -3239,7 +3252,7 @@ export type DescribeGlobalTableError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const describeGlobalTable: API.OperationMethod<
-  DescribeGlobalTableInput,
+  DescribeGlobalTableInput & RegionInput,
   DescribeGlobalTableOutput,
   DescribeGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3280,7 @@ export type DescribeGlobalTableSettingsError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const describeGlobalTableSettings: API.OperationMethod<
-  DescribeGlobalTableSettingsInput,
+  DescribeGlobalTableSettingsInput & RegionInput,
   DescribeGlobalTableSettingsOutput,
   DescribeGlobalTableSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3290,7 +3303,7 @@ export type DescribeImportError = ImportNotFoundException | CommonErrors;
  * Represents the properties of the import.
  */
 export const describeImport: API.OperationMethod<
-  DescribeImportInput,
+  DescribeImportInput & RegionInput,
   DescribeImportOutput,
   DescribeImportError,
   Credentials | HttpClient.HttpClient
@@ -3314,7 +3327,7 @@ export type DescribeKinesisStreamingDestinationError =
  * Returns information about the status of Kinesis streaming.
  */
 export const describeKinesisStreamingDestination: API.OperationMethod<
-  DescribeKinesisStreamingDestinationInput,
+  DescribeKinesisStreamingDestinationInput & RegionInput,
   DescribeKinesisStreamingDestinationOutput,
   DescribeKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3405,7 +3418,7 @@ export type DescribeLimitsError = InternalServerError | InvalidEndpointException
  * The `DescribeLimits` Request element has no content.
  */
 export const describeLimits: API.OperationMethod<
-  DescribeLimitsInput,
+  DescribeLimitsInput & RegionInput,
   DescribeLimitsOutput,
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3437,7 +3450,7 @@ export type DescribeTableError =
  * then try the `DescribeTable` request again.
  */
 export const describeTable: API.OperationMethod<
-  DescribeTableInput,
+  DescribeTableInput & RegionInput,
   DescribeTableOutput,
   DescribeTableError,
   Credentials | HttpClient.HttpClient
@@ -3469,7 +3482,7 @@ export type DescribeTableReplicaAutoScalingError =
  * Describes auto scaling settings across replicas of the global table at once.
  */
 export const describeTableReplicaAutoScaling: API.OperationMethod<
-  DescribeTableReplicaAutoScalingInput,
+  DescribeTableReplicaAutoScalingInput & RegionInput,
   DescribeTableReplicaAutoScalingOutput,
   DescribeTableReplicaAutoScalingError,
   Credentials | HttpClient.HttpClient
@@ -3502,7 +3515,7 @@ export type DescribeTimeToLiveError =
  * Gives a description of the Time to Live (TTL) status on the specified table.
  */
 export const describeTimeToLive: API.OperationMethod<
-  DescribeTimeToLiveInput,
+  DescribeTimeToLiveInput & RegionInput,
   DescribeTimeToLiveOutput,
   DescribeTimeToLiveError,
   Credentials | HttpClient.HttpClient
@@ -3538,7 +3551,7 @@ export type DisableKinesisStreamingDestinationError =
  * is done without deleting either of the resources.
  */
 export const disableKinesisStreamingDestination: API.OperationMethod<
-  KinesisStreamingDestinationInput,
+  KinesisStreamingDestinationInput & RegionInput,
   KinesisStreamingDestinationOutput,
   DisableKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3582,7 +3595,7 @@ export type EnableKinesisStreamingDestinationError =
  * is ACTIVE.
  */
 export const enableKinesisStreamingDestination: API.OperationMethod<
-  KinesisStreamingDestinationInput,
+  KinesisStreamingDestinationInput & RegionInput,
   KinesisStreamingDestinationOutput,
   EnableKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3641,7 +3654,7 @@ export type ExecuteStatementError =
  * and include `NextToken`.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementInput,
+  ExecuteStatementInput & RegionInput,
   ExecuteStatementOutput,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -3696,7 +3709,7 @@ export type ExecuteTransactionError =
  * manner to `ConditionCheck` in the TransactWriteItems API.
  */
 export const executeTransaction: API.OperationMethod<
-  ExecuteTransactionInput,
+  ExecuteTransactionInput & RegionInput,
   ExecuteTransactionOutput,
   ExecuteTransactionError,
   Credentials | HttpClient.HttpClient
@@ -3740,7 +3753,7 @@ export type ExportTableToPointInTimeError =
  * window.
  */
 export const exportTableToPointInTime: API.OperationMethod<
-  ExportTableToPointInTimeInput,
+  ExportTableToPointInTimeInput & RegionInput,
   ExportTableToPointInTimeOutput,
   ExportTableToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -3784,7 +3797,7 @@ export type GetItemError =
  * eventually consistent read, it always returns the last updated value.
  */
 export const getItem: API.OperationMethod<
-  GetItemInput,
+  GetItemInput & RegionInput,
   GetItemOutput,
   GetItemError,
   Credentials | HttpClient.HttpClient
@@ -3863,7 +3876,7 @@ export type GetResourcePolicyError =
  * request will always be applied to all requests for that table.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3892,7 +3905,7 @@ export type ImportTableError =
  * Imports table data from an S3 bucket.
  */
 export const importTable: API.OperationMethod<
-  ImportTableInput,
+  ImportTableInput & RegionInput,
   ImportTableOutput,
   ImportTableError,
   Credentials | HttpClient.HttpClient
@@ -3925,7 +3938,7 @@ export type ListBackupsError = InternalServerError | InvalidEndpointException | 
  * list API.
  */
 export const listBackups: API.OperationMethod<
-  ListBackupsInput,
+  ListBackupsInput & RegionInput,
   ListBackupsOutput,
   ListBackupsError,
   Credentials | HttpClient.HttpClient
@@ -3959,7 +3972,7 @@ export type ListContributorInsightsError =
  * indexes.
  */
 export const listContributorInsights: API.PaginatedOperationMethod<
-  ListContributorInsightsInput,
+  ListContributorInsightsInput & RegionInput,
   ListContributorInsightsOutput,
   ListContributorInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -3994,7 +4007,7 @@ export type ListExportsError = InternalServerError | LimitExceededException | Co
  * Lists completed exports within the past 90 days, in reverse alphanumeric order of `ExportArn`.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsInput,
+  ListExportsInput & RegionInput,
   ListExportsOutput,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4024,7 +4037,7 @@ export type ListGlobalTablesError = InternalServerError | InvalidEndpointExcepti
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const listGlobalTables: API.OperationMethod<
-  ListGlobalTablesInput,
+  ListGlobalTablesInput & RegionInput,
   ListGlobalTablesOutput,
   ListGlobalTablesError,
   Credentials | HttpClient.HttpClient
@@ -4048,7 +4061,7 @@ export type ListImportsError = LimitExceededException | CommonErrors;
  * Lists completed imports within the past 90 days.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsInput,
+  ListImportsInput & RegionInput,
   ListImportsOutput,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -4072,7 +4085,7 @@ export type ListTablesError = InternalServerError | InvalidEndpointException | C
  * 100 table names.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesInput,
+  ListTablesInput & RegionInput,
   ListTablesOutput,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -4114,7 +4127,7 @@ export type ListTagsOfResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const listTagsOfResource: API.OperationMethod<
-  ListTagsOfResourceInput,
+  ListTagsOfResourceInput & RegionInput,
   ListTagsOfResourceOutput,
   ListTagsOfResourceError,
   Credentials | HttpClient.HttpClient
@@ -4172,7 +4185,7 @@ export type PutItemError =
  * Items in the *Amazon DynamoDB Developer Guide*.
  */
 export const putItem: API.OperationMethod<
-  PutItemInput,
+  PutItemInput & RegionInput,
   PutItemOutput,
   PutItemError,
   Credentials | HttpClient.HttpClient
@@ -4241,7 +4254,7 @@ export type PutResourcePolicyError =
  * few seconds, and then try the `GetResourcePolicy` request again.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4326,7 +4339,7 @@ export type QueryError =
  * index.
  */
 export const query: API.PaginatedOperationMethod<
-  QueryInput,
+  QueryInput & RegionInput,
   QueryOutput,
   QueryError,
   Credentials | HttpClient.HttpClient,
@@ -4407,7 +4420,7 @@ export type RestoreTableFromBackupError =
  * - Time to Live (TTL) settings
  */
 export const restoreTableFromBackup: API.OperationMethod<
-  RestoreTableFromBackupInput,
+  RestoreTableFromBackupInput & RegionInput,
   RestoreTableFromBackupOutput,
   RestoreTableFromBackupError,
   Credentials | HttpClient.HttpClient
@@ -4484,7 +4497,7 @@ export type RestoreTableToPointInTimeError =
  * - Point in time recovery settings
  */
 export const restoreTableToPointInTime: API.OperationMethod<
-  RestoreTableToPointInTimeInput,
+  RestoreTableToPointInTimeInput & RegionInput,
   RestoreTableToPointInTimeOutput,
   RestoreTableToPointInTimeError,
   Credentials | HttpClient.HttpClient
@@ -4565,7 +4578,7 @@ export type ScanError =
  * the table when the scan operation was requested.
  */
 export const scan: API.PaginatedOperationMethod<
-  ScanInput,
+  ScanInput & RegionInput,
   ScanOutput,
   ScanError,
   Credentials | HttpClient.HttpClient,
@@ -4641,7 +4654,7 @@ export type SearchVectorsError =
  * highest scores. Higher scores indicate higher similarity.
  */
 export const searchVectors: API.OperationMethod<
-  SearchVectorsInput,
+  SearchVectorsInput & RegionInput,
   SearchVectorsOutput,
   SearchVectorsError,
   Credentials | HttpClient.HttpClient
@@ -4705,7 +4718,7 @@ export type TagResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4759,7 +4772,7 @@ export type TransactGetItemsError =
  * - The aggregate size of the items in the transaction exceeded 4 MB.
  */
 export const transactGetItems: API.OperationMethod<
-  TransactGetItemsInput,
+  TransactGetItemsInput & RegionInput,
   TransactGetItemsOutput,
   TransactGetItemsError,
   Credentials | HttpClient.HttpClient
@@ -4858,7 +4871,7 @@ export type TransactWriteItemsError =
  * - There is a user error, such as an invalid data format.
  */
 export const transactWriteItems: API.OperationMethod<
-  TransactWriteItemsInput,
+  TransactWriteItemsInput & RegionInput,
   TransactWriteItemsOutput,
   TransactWriteItemsError,
   Credentials | HttpClient.HttpClient
@@ -4917,7 +4930,7 @@ export type UntagResourceError =
  * in the *Amazon DynamoDB Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4960,7 +4973,7 @@ export type UpdateContinuousBackupsError =
  * `RecoveryPeriodInDays` to any value between 1 and 35 days.
  */
 export const updateContinuousBackups: API.OperationMethod<
-  UpdateContinuousBackupsInput,
+  UpdateContinuousBackupsInput & RegionInput,
   UpdateContinuousBackupsOutput,
   UpdateContinuousBackupsError,
   Credentials | HttpClient.HttpClient
@@ -5003,7 +5016,7 @@ export type UpdateContributorInsightsError =
  * for this table.
  */
 export const updateContributorInsights: API.OperationMethod<
-  UpdateContributorInsightsInput,
+  UpdateContributorInsightsInput & RegionInput,
   UpdateContributorInsightsOutput,
   UpdateContributorInsightsError,
   Credentials | HttpClient.HttpClient
@@ -5065,7 +5078,7 @@ export type UpdateGlobalTableError =
  * capacity units.
  */
 export const updateGlobalTable: API.OperationMethod<
-  UpdateGlobalTableInput,
+  UpdateGlobalTableInput & RegionInput,
   UpdateGlobalTableOutput,
   UpdateGlobalTableError,
   Credentials | HttpClient.HttpClient
@@ -5104,7 +5117,7 @@ export type UpdateGlobalTableSettingsError =
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
 export const updateGlobalTableSettings: API.OperationMethod<
-  UpdateGlobalTableSettingsInput,
+  UpdateGlobalTableSettingsInput & RegionInput,
   UpdateGlobalTableSettingsOutput,
   UpdateGlobalTableSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5153,7 +5166,7 @@ export type UpdateItemError =
  * operation using the `ReturnValues` parameter.
  */
 export const updateItem: API.OperationMethod<
-  UpdateItemInput,
+  UpdateItemInput & RegionInput,
   UpdateItemOutput,
   UpdateItemError,
   Credentials | HttpClient.HttpClient
@@ -5202,7 +5215,7 @@ export type UpdateKinesisStreamingDestinationError =
  * The command to update the Kinesis stream destination.
  */
 export const updateKinesisStreamingDestination: API.OperationMethod<
-  UpdateKinesisStreamingDestinationInput,
+  UpdateKinesisStreamingDestinationInput & RegionInput,
   UpdateKinesisStreamingDestinationOutput,
   UpdateKinesisStreamingDestinationError,
   Credentials | HttpClient.HttpClient
@@ -5260,7 +5273,7 @@ export type UpdateTableError =
  * operation is complete.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableInput,
+  UpdateTableInput & RegionInput,
   UpdateTableOutput,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -5300,7 +5313,7 @@ export type UpdateTableReplicaAutoScalingError =
  * Updates auto scaling settings on your global tables at once.
  */
 export const updateTableReplicaAutoScaling: API.OperationMethod<
-  UpdateTableReplicaAutoScalingInput,
+  UpdateTableReplicaAutoScalingInput & RegionInput,
   UpdateTableReplicaAutoScalingOutput,
   UpdateTableReplicaAutoScalingError,
   Credentials | HttpClient.HttpClient
@@ -5366,7 +5379,7 @@ export type UpdateTimeToLiveError =
  * Amazon DynamoDB Developer Guide.
  */
 export const updateTimeToLive: API.OperationMethod<
-  UpdateTimeToLiveInput,
+  UpdateTimeToLiveInput & RegionInput,
   UpdateTimeToLiveOutput,
   UpdateTimeToLiveError,
   Credentials | HttpClient.HttpClient

@@ -340,7 +340,7 @@ export interface V1VendorDecisionCreatedRequestVendorDecision {
   /** When the decision was last updated (ISO 8601). */
   lastUpdatedAt: string;
   /** Optional comments on the decision. */
-  comments?: string;
+  comments?: string | undefined;
 }
 export interface V1VendorDecisionCreatedRequestVendor {
   /** The vendor ID. */

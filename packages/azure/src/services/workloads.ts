@@ -47,29 +47,29 @@ export interface CreateMonitorRequestIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateMonitorRequestIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: CreateMonitorRequestIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
 export type MonitorPropertiesInputRoutingPreference = "Default" | "RouteAll";
 /** Managed resource group configuration */
 export interface ManagedRGConfiguration {
   /** Managed resource group name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Describes the properties of a SAP monitor. */
 export interface MonitorPropertiesInput {
   /** The SAP monitor resources will be deployed in the SAP monitoring region. The subnet region should be same as the SAP monitoring region. */
-  appLocation?: string;
+  appLocation?: string | undefined;
   /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
-  routingPreference?: MonitorPropertiesInputRoutingPreference | (string & {});
+  routingPreference?: MonitorPropertiesInputRoutingPreference | (string & {}) | undefined;
   /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
-  zoneRedundancyPreference?: string;
+  zoneRedundancyPreference?: string | undefined;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
   /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
-  logAnalyticsWorkspaceArmId?: string;
+  logAnalyticsWorkspaceArmId?: string | undefined;
   /** The subnet which the SAP monitor will be deployed in */
-  monitorSubnet?: string;
+  monitorSubnet?: string | undefined;
 }
 export interface CreateMonitorRequest {
   /** The ID of the target subscription. */
@@ -79,13 +79,13 @@ export interface CreateMonitorRequest {
   /** Name of the SAP monitor resource. */
   monitorName: string;
   /** Resource tags. */
-  tags?: CreateMonitorRequestTagsMap;
+  tags?: CreateMonitorRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateMonitorRequestIdentity;
+  identity?: CreateMonitorRequestIdentity | undefined;
   /** SAP monitor properties */
-  properties?: MonitorPropertiesInput;
+  properties?: MonitorPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -94,26 +94,26 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateMonitorResponseTagsMap = { [key: string]: string | undefined };
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateMonitorResponseIdentityUserAssignedIdentitiesMap = {
@@ -124,7 +124,10 @@ export interface CreateMonitorResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateMonitorResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | CreateMonitorResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 /** State of provisioning of the SAP monitor. */
 export type MonitorPropertiesProvisioningState =
@@ -139,63 +142,63 @@ export type MonitorPropertiesProvisioningState =
 export type ErrorDetailsList = Array<Error>;
 /** Object containing more specific information than the current object about the error. */
 export interface ErrorInnerError {
-  innerError?: Error;
+  innerError?: Error | undefined;
 }
 /** Standard error object. */
 export interface Error {
   /** Server-defined set of error codes. */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable representation of the error. */
-  message?: string;
+  message?: string | undefined;
   /** Target of the error. */
-  target?: string;
+  target?: string | undefined;
   /** Array of details about specific errors that led to this reported error. */
-  details?: ErrorDetailsList;
+  details?: ErrorDetailsList | undefined;
   /** Object containing more specific information than the current object about the error. */
-  innerError?: ErrorInnerError;
+  innerError?: ErrorInnerError | undefined;
 }
 /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
 export type MonitorPropertiesRoutingPreference = "Default" | "RouteAll";
 /** Describes the properties of a SAP monitor. */
 export interface MonitorProperties {
   /** State of provisioning of the SAP monitor. */
-  provisioningState?: MonitorPropertiesProvisioningState;
+  provisioningState?: MonitorPropertiesProvisioningState | undefined;
   /** Defines the SAP monitor errors. */
-  errors?: Error;
+  errors?: Error | undefined;
   /** The SAP monitor resources will be deployed in the SAP monitoring region. The subnet region should be same as the SAP monitoring region. */
-  appLocation?: string;
+  appLocation?: string | undefined;
   /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
-  routingPreference?: MonitorPropertiesRoutingPreference;
+  routingPreference?: MonitorPropertiesRoutingPreference | undefined;
   /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
-  zoneRedundancyPreference?: string;
+  zoneRedundancyPreference?: string | undefined;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
   /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
-  logAnalyticsWorkspaceArmId?: string;
+  logAnalyticsWorkspaceArmId?: string | undefined;
   /** The subnet which the SAP monitor will be deployed in */
-  monitorSubnet?: string;
+  monitorSubnet?: string | undefined;
   /** The ARM ID of the MSI used for SAP monitoring. */
-  msiArmId?: string;
+  msiArmId?: string | undefined;
   /** The ARM ID of the Storage account used for SAP monitoring. */
-  storageAccountArmId?: string;
+  storageAccountArmId?: string | undefined;
 }
 export interface CreateMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateMonitorResponseTagsMap;
+  tags?: CreateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateMonitorResponseIdentity;
+  identity?: CreateMonitorResponseIdentity | undefined;
   /** SAP monitor properties */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateProviderInstanceRequestIdentityUserAssignedIdentitiesMap = {
@@ -206,7 +209,10 @@ export interface CreateProviderInstanceRequestIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateProviderInstanceRequestIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | CreateProviderInstanceRequestIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 /** Host file entries (SapNetWeaver). */
 export type ProviderSapHostFileEntriesList = Array<string>;
@@ -215,56 +221,56 @@ export interface ProviderSpecificProperties {
   /** The provider type. For example, the value can be SapHana. */
   providerType: string;
   /** Host name (SapHana, MsSqlServer, Db2, PrometheusHaCluster). */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Database name (SapHana, Db2). */
-  dbName?: string;
+  dbName?: string | undefined;
   /** SQL port (SapHana). */
-  sqlPort?: string;
+  sqlPort?: string | undefined;
   /** Database instance number (SapHana). */
-  instanceNumber?: string;
+  instanceNumber?: string | undefined;
   /** Database port (MsSqlServer, Db2). */
-  dbPort?: string;
+  dbPort?: string | undefined;
   /** Database user name. */
-  dbUsername?: string;
+  dbUsername?: string | undefined;
   /** Database password. */
-  dbPassword?: string;
+  dbPassword?: string | undefined;
   /** Key Vault secret URI of the database password. */
-  dbPasswordUri?: string;
+  dbPasswordUri?: string | undefined;
   /** Host name in the SSL certificate (SapHana). */
-  sslHostNameInCertificate?: string;
+  sslHostNameInCertificate?: string | undefined;
   /** SAP system identifier. */
-  sapSid?: string;
+  sapSid?: string | undefined;
   /** SAP NetWeaver host name. */
-  sapHostname?: string;
+  sapHostname?: string | undefined;
   /** SAP NetWeaver instance number. */
-  sapInstanceNr?: string;
+  sapInstanceNr?: string | undefined;
   /** SAP NetWeaver user name. */
-  sapUsername?: string;
+  sapUsername?: string | undefined;
   /** SAP NetWeaver password. */
-  sapPassword?: string;
+  sapPassword?: string | undefined;
   /** Key Vault secret URI of the SAP password. */
-  sapPasswordUri?: string;
+  sapPasswordUri?: string | undefined;
   /** SAP client ID. */
-  sapClientId?: string;
+  sapClientId?: string | undefined;
   /** SAP HTTP port number. */
-  sapPortNumber?: string;
+  sapPortNumber?: string | undefined;
   /** URL of the node exporter / HA cluster exporter endpoint (PrometheusOS, PrometheusHaCluster). */
-  prometheusUrl?: string;
+  prometheusUrl?: string | undefined;
   /** Cluster SID (PrometheusHaCluster). */
-  sid?: string;
+  sid?: string | undefined;
   /** Cluster name (PrometheusHaCluster). */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Blob URI of the SSL certificate. */
-  sslCertificateUri?: string;
+  sslCertificateUri?: string | undefined;
   /** SSL preference: Disabled, RootCertificate or ServerCertificate. */
-  sslPreference?: string;
+  sslPreference?: string | undefined;
   /** Host file entries (SapNetWeaver). */
-  sapHostFileEntries?: ProviderSapHostFileEntriesList;
+  sapHostFileEntries?: ProviderSapHostFileEntriesList | undefined;
 }
 /** Describes the properties of a provider instance. */
 export interface ProviderInstancePropertiesInput {
   /** Defines the provider specific properties. */
-  providerSettings?: ProviderSpecificProperties;
+  providerSettings?: ProviderSpecificProperties | undefined;
 }
 export interface CreateProviderInstanceRequest {
   /** The ID of the target subscription. */
@@ -276,9 +282,9 @@ export interface CreateProviderInstanceRequest {
   /** Name of the provider instance. */
   providerInstanceName: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateProviderInstanceRequestIdentity;
+  identity?: CreateProviderInstanceRequestIdentity | undefined;
   /** Provider Instance properties */
-  properties?: ProviderInstancePropertiesInput;
+  properties?: ProviderInstancePropertiesInput | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateProviderInstanceResponseIdentityUserAssignedIdentitiesMap = {
@@ -289,7 +295,10 @@ export interface CreateProviderInstanceResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateProviderInstanceResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | CreateProviderInstanceResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 /** State of provisioning of the provider instance */
 export type ProviderInstancePropertiesProvisioningState =
@@ -303,25 +312,25 @@ export type ProviderInstancePropertiesProvisioningState =
 /** Describes the properties of a provider instance. */
 export interface ProviderInstanceProperties {
   /** State of provisioning of the provider instance */
-  provisioningState?: ProviderInstancePropertiesProvisioningState;
+  provisioningState?: ProviderInstancePropertiesProvisioningState | undefined;
   /** Defines the provider instance errors. */
-  errors?: Error;
+  errors?: Error | undefined;
   /** Defines the provider specific properties. */
-  providerSettings?: ProviderSpecificProperties;
+  providerSettings?: ProviderSpecificProperties | undefined;
 }
 export interface CreateProviderInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateProviderInstanceResponseIdentity;
+  identity?: CreateProviderInstanceResponseIdentity | undefined;
   /** Provider Instance properties */
-  properties?: ProviderInstanceProperties;
+  properties?: ProviderInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSapApplicationServerInstanceRequestTagsMap = {
@@ -339,11 +348,11 @@ export interface CreateSapApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSapApplicationServerInstanceRequestTagsMap;
+  tags?: CreateSapApplicationServerInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateSapApplicationServerInstanceResponseTagsMap = {
@@ -352,25 +361,25 @@ export type CreateSapApplicationServerInstanceResponseTagsMap = {
 /** The Load Balancer details such as Load Balancer ID. */
 export interface LoadBalancerDetails {
   /** Fully qualified resource ID for the load balancer. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Defines the type of application server VM. */
 export type ApplicationServerVirtualMachineType = "Active" | "Standby" | "Unknown";
 /** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
 export interface StorageInformation {
   /** Fully qualified resource ID for the storage account. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage. */
 export type ApplicationServerVmDetailsStorageDetailsList = Array<StorageInformation>;
 /** The Application Server VM Details. */
 export interface ApplicationServerVmDetails {
   /** Defines the type of application server VM. */
-  type?: ApplicationServerVirtualMachineType;
+  type?: ApplicationServerVirtualMachineType | undefined;
   /** The virtual machine id. */
-  virtualMachineId?: string;
+  virtualMachineId?: string | undefined;
   /** Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: ApplicationServerVmDetailsStorageDetailsList;
+  storageDetails?: ApplicationServerVmDetailsStorageDetailsList | undefined;
 }
 /** The list of virtual machines. */
 export type SAPApplicationServerPropertiesVmDetailsList = Array<ApplicationServerVmDetails>;
@@ -398,71 +407,71 @@ export type ErrorDefinitionDetailsList = Array<ErrorDefinition>;
 /** Error definition. */
 export interface ErrorDefinition {
   /** Service specific error code which serves as the substatus for the HTTP error code. */
-  code?: string;
+  code?: string | undefined;
   /** Description of the error. */
-  message?: string;
+  message?: string | undefined;
   /** Internal error details. */
-  details?: ErrorDefinitionDetailsList;
+  details?: ErrorDefinitionDetailsList | undefined;
 }
 /** An error response from the Virtual Instance for SAP Workload service. */
 export interface SAPVirtualInstanceError {
   /** The Virtual Instance for SAP error body. */
-  properties?: ErrorDefinition;
+  properties?: ErrorDefinition | undefined;
 }
 /** Defines the SAP Application Server instance properties. */
 export interface SAPApplicationServerProperties {
   /** Application server Instance Number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** Application server Subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Application server instance SAP hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Application server instance SAP Kernel Version. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** Application server instance SAP Kernel Patch level. */
-  kernelPatch?: string;
+  kernelPatch?: string | undefined;
   /** Application server instance SAP IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Application server instance gateway Port. */
-  gatewayPort?: number;
+  gatewayPort?: number | undefined;
   /** Application server instance ICM HTTP Port. */
-  icmHttpPort?: number;
+  icmHttpPort?: number | undefined;
   /** Application server instance ICM HTTPS Port. */
-  icmHttpsPort?: number;
+  icmHttpsPort?: number | undefined;
   /** Application server instance dispatcher status. */
-  dispatcherStatus?: string;
+  dispatcherStatus?: string | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to Application Server Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails;
+  loadBalancerDetails?: LoadBalancerDetails | undefined;
   /** The list of virtual machines. */
-  vmDetails?: SAPApplicationServerPropertiesVmDetailsList;
+  vmDetails?: SAPApplicationServerPropertiesVmDetailsList | undefined;
   /** Defines the SAP Instance status. */
-  status?: SAPVirtualInstanceStatus;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
   /** Defines the provisioning states. */
-  provisioningState?: SapVirtualInstanceProvisioningState;
+  provisioningState?: SapVirtualInstanceProvisioningState | undefined;
   /** Defines the Application Instance errors. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSapApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSapApplicationServerInstanceResponseTagsMap;
+  tags?: CreateSapApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPApplicationServerProperties;
+  properties?: SAPApplicationServerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSAPApplicationServerInstanceRequestTagsMap = {
@@ -478,10 +487,10 @@ export interface CreateSAPApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSAPApplicationServerInstanceRequestTagsMap;
+  tags?: CreateSAPApplicationServerInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateSAPApplicationServerInstanceResponseTagsMap = {
@@ -489,7 +498,7 @@ export type CreateSAPApplicationServerInstanceResponseTagsMap = {
 };
 /** The Load Balancer details such as Load Balancer ID. */
 export interface LoadBalancerDetails_2 {
-  id?: string;
+  id?: string | undefined;
 }
 /** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
 export type StorageInformation_2 = LoadBalancerDetails_2;
@@ -497,10 +506,10 @@ export type StorageInformation_2 = LoadBalancerDetails_2;
 export type ApplicationServerVmDetailsStorageDetailsList_2 = Array<LoadBalancerDetails_2>;
 /** The Application Server VM Details. */
 export interface ApplicationServerVmDetails_2 {
-  type?: ApplicationServerVirtualMachineType;
-  virtualMachineId?: string;
+  type?: ApplicationServerVirtualMachineType | undefined;
+  virtualMachineId?: string | undefined;
   /** Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: ApplicationServerVmDetailsStorageDetailsList_2;
+  storageDetails?: ApplicationServerVmDetailsStorageDetailsList_2 | undefined;
 }
 /** The list of virtual machines. */
 export type SAPApplicationServerPropertiesVmDetailsList_2 = Array<ApplicationServerVmDetails_2>;
@@ -511,47 +520,47 @@ export type ProvisioningState = "Succeeded" | "Updating" | "Creating" | "Failed"
 /** Defines the SAP Application Server instance properties. */
 export interface SAPApplicationServerProperties_2 {
   /** Application server Instance Number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** Application server Subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Application server instance SAP hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Application server instance SAP Kernel Version. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** Application server instance SAP Kernel Patch level. */
-  kernelPatch?: string;
+  kernelPatch?: string | undefined;
   /** Application server instance SAP IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Application server instance gateway Port. */
-  gatewayPort?: number | null;
+  gatewayPort?: number | null | undefined;
   /** Application server instance ICM HTTP Port. */
-  icmHttpPort?: number | null;
+  icmHttpPort?: number | null | undefined;
   /** Application server instance ICM HTTPS Port. */
-  icmHttpsPort?: number | null;
+  icmHttpsPort?: number | null | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to Application Server Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails_2;
+  loadBalancerDetails?: LoadBalancerDetails_2 | undefined;
   /** The list of virtual machines. */
-  vmDetails?: SAPApplicationServerPropertiesVmDetailsList_2;
-  status?: SAPVirtualInstanceStatus;
-  health?: HealthState;
-  provisioningState?: ProvisioningState;
+  vmDetails?: SAPApplicationServerPropertiesVmDetailsList_2 | undefined;
+  status?: SAPVirtualInstanceStatus | undefined;
+  health?: HealthState | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Defines the Application Instance errors. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSAPApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSAPApplicationServerInstanceResponseTagsMap;
+  tags?: CreateSAPApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPApplicationServerProperties_2;
+  properties?: SAPApplicationServerProperties_2 | undefined;
 }
 /** Resource tags. */
 export type CreateSAPCentralInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -565,10 +574,10 @@ export type GatewayServerPropertiesInput = UserAssignedIdentityInput;
 export type EnqueueReplicationServerPropertiesInput = UserAssignedIdentityInput;
 /** Defines the SAP Central Services Instance properties. */
 export interface SAPCentralServerPropertiesInput_2 {
-  messageServerProperties?: UserAssignedIdentityInput;
-  enqueueServerProperties?: UserAssignedIdentityInput;
-  gatewayServerProperties?: UserAssignedIdentityInput;
-  enqueueReplicationServerProperties?: UserAssignedIdentityInput;
+  messageServerProperties?: UserAssignedIdentityInput | undefined;
+  enqueueServerProperties?: UserAssignedIdentityInput | undefined;
+  gatewayServerProperties?: UserAssignedIdentityInput | undefined;
+  enqueueReplicationServerProperties?: UserAssignedIdentityInput | undefined;
 }
 export interface CreateSAPCentralInstanceRequest {
   /** The ID of the target subscription. */
@@ -580,61 +589,61 @@ export interface CreateSAPCentralInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSAPCentralInstanceRequestTagsMap;
+  tags?: CreateSAPCentralInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPCentralServerPropertiesInput_2;
+  properties?: SAPCentralServerPropertiesInput_2 | undefined;
 }
 /** Resource tags. */
 export type CreateSAPCentralInstanceResponseTagsMap = { [key: string]: string | undefined };
 /** Defines the SAP Message Server properties. */
 export interface MessageServerProperties_2 {
   /** Message Server port. */
-  msPort?: number | null;
+  msPort?: number | null | undefined;
   /** Message Server internal MS port. */
-  internalMsPort?: number | null;
+  internalMsPort?: number | null | undefined;
   /** Message Server HTTP Port. */
-  httpPort?: number | null;
+  httpPort?: number | null | undefined;
   /** Message Server HTTPS Port. */
-  httpsPort?: number | null;
+  httpsPort?: number | null | undefined;
   /** Message Server SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Message server IP Address. */
-  ipAddress?: string;
-  health?: HealthState;
+  ipAddress?: string | undefined;
+  health?: HealthState | undefined;
 }
 /** Defines the SAP Enqueue Server properties. */
 export interface EnqueueServerProperties_2 {
   /** Enqueue Server SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Enqueue Server SAP IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Enqueue Server Port. */
-  port?: number | null;
-  health?: HealthState;
+  port?: number | null | undefined;
+  health?: HealthState | undefined;
 }
 /** Defines the SAP Gateway Server properties. */
 export interface GatewayServerProperties_2 {
   /** Gateway Port. */
-  port?: number | null;
-  health?: HealthState;
+  port?: number | null | undefined;
+  health?: HealthState | undefined;
 }
 /** Defines the type of Enqueue Replication Server. */
 export type EnqueueReplicationServerType = "EnqueueReplicator1" | "EnqueueReplicator2";
 /** Defines the SAP Enqueue Replication Server (ERS) properties. */
 export interface EnqueueReplicationServerProperties_2 {
-  ersVersion?: EnqueueReplicationServerType;
+  ersVersion?: EnqueueReplicationServerType | undefined;
   /** ERS Instance Number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** ERS SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** ERS SAP Kernel Version. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** ERS SAP Kernel Patch level. */
-  kernelPatch?: string;
+  kernelPatch?: string | undefined;
   /** ERS SAP IP Address. */
-  ipAddress?: string;
-  health?: HealthState;
+  ipAddress?: string | undefined;
+  health?: HealthState | undefined;
 }
 /** Defines the type of central server VM. */
 export type CentralServerVirtualMachineType =
@@ -649,51 +658,51 @@ export type CentralServerVirtualMachineType =
 export type CentralServerVmDetailsStorageDetailsList_2 = Array<LoadBalancerDetails_2>;
 /** The SAP Central Services Instance VM details. */
 export interface CentralServerVmDetails_2 {
-  type?: CentralServerVirtualMachineType;
-  virtualMachineId?: string;
+  type?: CentralServerVirtualMachineType | undefined;
+  virtualMachineId?: string | undefined;
   /** Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: CentralServerVmDetailsStorageDetailsList_2;
+  storageDetails?: CentralServerVmDetailsStorageDetailsList_2 | undefined;
 }
 /** The list of virtual machines corresponding to the Central Services instance. */
 export type SAPCentralServerPropertiesVmDetailsList_2 = Array<CentralServerVmDetails_2>;
 /** Defines the SAP Central Services Instance properties. */
 export interface SAPCentralServerProperties_2 {
   /** The central services instance number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** The central services instance subnet. */
-  subnet?: string;
-  messageServerProperties?: MessageServerProperties_2;
-  enqueueServerProperties?: EnqueueServerProperties_2;
-  gatewayServerProperties?: GatewayServerProperties_2;
-  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties_2;
+  subnet?: string | undefined;
+  messageServerProperties?: MessageServerProperties_2 | undefined;
+  enqueueServerProperties?: EnqueueServerProperties_2 | undefined;
+  gatewayServerProperties?: GatewayServerProperties_2 | undefined;
+  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties_2 | undefined;
   /** The central services instance Kernel Version. */
-  kernelVersion?: string | null;
+  kernelVersion?: string | null | undefined;
   /** The central services instance Kernel Patch level. */
-  kernelPatch?: string | null;
+  kernelPatch?: string | null | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails_2;
+  loadBalancerDetails?: LoadBalancerDetails_2 | undefined;
   /** The list of virtual machines corresponding to the Central Services instance. */
-  vmDetails?: SAPCentralServerPropertiesVmDetailsList_2;
-  status?: SAPVirtualInstanceStatus;
-  health?: HealthState;
-  provisioningState?: ProvisioningState;
+  vmDetails?: SAPCentralServerPropertiesVmDetailsList_2 | undefined;
+  status?: SAPVirtualInstanceStatus | undefined;
+  health?: HealthState | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Defines the errors related to SAP Central Services Instance resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSAPCentralInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSAPCentralInstanceResponseTagsMap;
+  tags?: CreateSAPCentralInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPCentralServerProperties_2;
+  properties?: SAPCentralServerProperties_2 | undefined;
 }
 /** Resource tags. */
 export type CreateSapCentralServerInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -702,13 +711,13 @@ export type MessageServerPropertiesInput = UserAssignedIdentityInput;
 /** Defines the SAP Central Services Instance properties. */
 export interface SAPCentralServerPropertiesInput {
   /** Defines the SAP message server properties. */
-  messageServerProperties?: UserAssignedIdentityInput;
+  messageServerProperties?: UserAssignedIdentityInput | undefined;
   /** Defines the SAP Enqueue Server properties. */
-  enqueueServerProperties?: UserAssignedIdentityInput;
+  enqueueServerProperties?: UserAssignedIdentityInput | undefined;
   /** Defines the SAP Gateway Server properties. */
-  gatewayServerProperties?: UserAssignedIdentityInput;
+  gatewayServerProperties?: UserAssignedIdentityInput | undefined;
   /** Defines the SAP Enqueue Replication Server (ERS) properties. */
-  enqueueReplicationServerProperties?: UserAssignedIdentityInput;
+  enqueueReplicationServerProperties?: UserAssignedIdentityInput | undefined;
 }
 export interface CreateSapCentralServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -720,129 +729,129 @@ export interface CreateSapCentralServerInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSapCentralServerInstanceRequestTagsMap;
+  tags?: CreateSapCentralServerInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPCentralServerPropertiesInput;
+  properties?: SAPCentralServerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateSapCentralServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 /** Defines the SAP message server properties. */
 export interface MessageServerProperties {
   /** message server port. */
-  msPort?: number;
+  msPort?: number | undefined;
   /** message server internal MS port. */
-  internalMsPort?: number;
+  internalMsPort?: number | undefined;
   /** message server HTTP Port. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** message server HTTPS Port. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** message server SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** message server IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
 }
 /** Defines the SAP Enqueue Server properties. */
 export interface EnqueueServerProperties {
   /** Enqueue Server SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Enqueue Server SAP IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Enqueue Server Port. */
-  port?: number;
+  port?: number | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
 }
 /** Defines the SAP Gateway Server properties. */
 export interface GatewayServerProperties {
   /** Gateway Port. */
-  port?: number;
+  port?: number | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
 }
 /** Defines the SAP Enqueue Replication Server (ERS) properties. */
 export interface EnqueueReplicationServerProperties {
   /** Defines the type of Enqueue Replication Server. */
-  ersVersion?: EnqueueReplicationServerType;
+  ersVersion?: EnqueueReplicationServerType | undefined;
   /** ERS Instance Number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** ERS SAP Hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** ERS SAP Kernel Version. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** ERS SAP Kernel Patch level. */
-  kernelPatch?: string;
+  kernelPatch?: string | undefined;
   /** ERS SAP IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
 }
 /** Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage. */
 export type CentralServerVmDetailsStorageDetailsList = Array<StorageInformation>;
 /** The SAP Central Services Instance VM details. */
 export interface CentralServerVmDetails {
   /** Defines the type of central server VM. */
-  type?: CentralServerVirtualMachineType;
+  type?: CentralServerVirtualMachineType | undefined;
   /** The virtual machine id. */
-  virtualMachineId?: string;
+  virtualMachineId?: string | undefined;
   /** Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: CentralServerVmDetailsStorageDetailsList;
+  storageDetails?: CentralServerVmDetailsStorageDetailsList | undefined;
 }
 /** The list of virtual machines corresponding to the Central Services instance. */
 export type SAPCentralServerPropertiesVmDetailsList = Array<CentralServerVmDetails>;
 /** Defines the SAP Central Services Instance properties. */
 export interface SAPCentralServerProperties {
   /** The central services instance number. */
-  instanceNo?: string;
+  instanceNo?: string | undefined;
   /** The central services instance subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Defines the SAP message server properties. */
-  messageServerProperties?: MessageServerProperties;
+  messageServerProperties?: MessageServerProperties | undefined;
   /** Defines the SAP Enqueue Server properties. */
-  enqueueServerProperties?: EnqueueServerProperties;
+  enqueueServerProperties?: EnqueueServerProperties | undefined;
   /** Defines the SAP Gateway Server properties. */
-  gatewayServerProperties?: GatewayServerProperties;
+  gatewayServerProperties?: GatewayServerProperties | undefined;
   /** Defines the SAP Enqueue Replication Server (ERS) properties. */
-  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
+  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties | undefined;
   /** The central services instance Kernel Version. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** The central services instance Kernel Patch level. */
-  kernelPatch?: string;
+  kernelPatch?: string | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails;
+  loadBalancerDetails?: LoadBalancerDetails | undefined;
   /** The list of virtual machines corresponding to the Central Services instance. */
-  vmDetails?: SAPCentralServerPropertiesVmDetailsList;
+  vmDetails?: SAPCentralServerPropertiesVmDetailsList | undefined;
   /** Defines the SAP Instance status. */
-  status?: SAPVirtualInstanceStatus;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
   /** Defines the provisioning states. */
-  provisioningState?: SapVirtualInstanceProvisioningState;
+  provisioningState?: SapVirtualInstanceProvisioningState | undefined;
   /** Defines the errors related to SAP Central Services Instance resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSapCentralServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSapCentralServerInstanceResponseTagsMap;
+  tags?: CreateSapCentralServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPCentralServerProperties;
+  properties?: SAPCentralServerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSapDatabaseInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -858,11 +867,11 @@ export interface CreateSapDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSapDatabaseInstanceRequestTagsMap;
+  tags?: CreateSapDatabaseInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateSapDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -871,54 +880,54 @@ export type DatabaseVmDetailsStorageDetailsList = Array<StorageInformation>;
 /** Database VM details. */
 export interface DatabaseVmDetails {
   /** The virtual machine id. */
-  virtualMachineId?: string;
+  virtualMachineId?: string | undefined;
   /** Defines the SAP Instance status. */
-  status?: SAPVirtualInstanceStatus;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Storage details of all the Storage Accounts attached to the Database Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: DatabaseVmDetailsStorageDetailsList;
+  storageDetails?: DatabaseVmDetailsStorageDetailsList | undefined;
 }
 /** The list of virtual machines corresponding to the Database resource. */
 export type SAPDatabasePropertiesVmDetailsList = Array<DatabaseVmDetails>;
 /** Defines the Database properties. */
 export interface SAPDatabaseProperties {
   /** Database subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Database SID name. */
-  databaseSid?: string;
+  databaseSid?: string | undefined;
   /** Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server. */
-  databaseType?: string;
+  databaseType?: string | undefined;
   /** Database IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails;
+  loadBalancerDetails?: LoadBalancerDetails | undefined;
   /** The list of virtual machines corresponding to the Database resource. */
-  vmDetails?: SAPDatabasePropertiesVmDetailsList;
+  vmDetails?: SAPDatabasePropertiesVmDetailsList | undefined;
   /** Defines the SAP Instance status. */
-  status?: SAPVirtualInstanceStatus;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Defines the provisioning states. */
-  provisioningState?: SapVirtualInstanceProvisioningState;
+  provisioningState?: SapVirtualInstanceProvisioningState | undefined;
   /** Defines the errors related to Database resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSapDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSapDatabaseInstanceResponseTagsMap;
+  tags?: CreateSapDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPDatabaseProperties;
+  properties?: SAPDatabaseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSAPDatabaseInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -932,10 +941,10 @@ export interface CreateSAPDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSAPDatabaseInstanceRequestTagsMap;
+  tags?: CreateSAPDatabaseInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateSAPDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -943,55 +952,55 @@ export type CreateSAPDatabaseInstanceResponseTagsMap = { [key: string]: string |
 export type DatabaseVmDetailsStorageDetailsList_2 = Array<LoadBalancerDetails_2>;
 /** Database VM details. */
 export interface DatabaseVmDetails_2 {
-  virtualMachineId?: string;
-  status?: SAPVirtualInstanceStatus;
+  virtualMachineId?: string | undefined;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Storage details of all the Storage Accounts attached to the Database Virtual Machine. For e.g. NFS on AFS Shared Storage. */
-  storageDetails?: DatabaseVmDetailsStorageDetailsList_2;
+  storageDetails?: DatabaseVmDetailsStorageDetailsList_2 | undefined;
 }
 /** The list of virtual machines corresponding to the Database resource. */
 export type SAPDatabasePropertiesVmDetailsList_2 = Array<DatabaseVmDetails_2>;
 /** Defines the Database properties. */
 export interface SAPDatabaseProperties_2 {
   /** Database subnet. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Database SID name. */
-  databaseSid?: string;
+  databaseSid?: string | undefined;
   /** Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server. */
-  databaseType?: string;
+  databaseType?: string | undefined;
   /** Database IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines */
-  loadBalancerDetails?: LoadBalancerDetails_2;
+  loadBalancerDetails?: LoadBalancerDetails_2 | undefined;
   /** The list of virtual machines corresponding to the Database resource. */
-  vmDetails?: SAPDatabasePropertiesVmDetailsList_2;
-  status?: SAPVirtualInstanceStatus;
-  provisioningState?: ProvisioningState;
+  vmDetails?: SAPDatabasePropertiesVmDetailsList_2 | undefined;
+  status?: SAPVirtualInstanceStatus | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Defines the errors related to Database resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSAPDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSAPDatabaseInstanceResponseTagsMap;
+  tags?: CreateSAPDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPDatabaseProperties_2;
+  properties?: SAPDatabaseProperties_2 | undefined;
 }
 /** Gets or sets the list of SID's. */
 export type SapLandscapeMonitorSidMappingTopSidList = Array<string>;
 /** Gets or sets the mapping for SID to Environment/Applications. */
 export interface SapLandscapeMonitorSidMapping {
   /** Gets or sets the name of the grouping. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the list of SID's. */
-  topSid?: SapLandscapeMonitorSidMappingTopSidList;
+  topSid?: SapLandscapeMonitorSidMappingTopSidList | undefined;
 }
 /** Gets or sets the list of landscape to SID mappings. */
 export type SapLandscapeMonitorPropertiesInputGroupingLandscapeList =
@@ -1002,20 +1011,20 @@ export type SapLandscapeMonitorPropertiesInputGroupingSapApplicationList =
 /** Gets or sets the SID groupings by landscape and Environment. */
 export interface SapLandscapeMonitorPropertiesInputGrouping {
   /** Gets or sets the list of landscape to SID mappings. */
-  landscape?: SapLandscapeMonitorPropertiesInputGroupingLandscapeList;
+  landscape?: SapLandscapeMonitorPropertiesInputGroupingLandscapeList | undefined;
   /** Gets or sets the list of Sap Applications to SID mappings. */
-  sapApplication?: SapLandscapeMonitorPropertiesInputGroupingSapApplicationList;
+  sapApplication?: SapLandscapeMonitorPropertiesInputGroupingSapApplicationList | undefined;
 }
 /** Gets or sets the Threshold Values for Top Metrics Health. */
 export interface SapLandscapeMonitorMetricThresholds {
   /** Gets or sets the name of the threshold. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the threshold value for Green. */
-  green?: number;
+  green?: number | undefined;
   /** Gets or sets the threshold value for Yellow. */
-  yellow?: number;
+  yellow?: number | undefined;
   /** Gets or sets the threshold value for Red. */
-  red?: number;
+  red?: number | undefined;
 }
 /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
 export type SapLandscapeMonitorPropertiesInputTopMetricsThresholdsList =
@@ -1023,9 +1032,9 @@ export type SapLandscapeMonitorPropertiesInputTopMetricsThresholdsList =
 /** Gets or sets the properties for Sap Landscape Monitor Dashboard. */
 export interface SapLandscapeMonitorPropertiesInput {
   /** Gets or sets the SID groupings by landscape and Environment. */
-  grouping?: SapLandscapeMonitorPropertiesInputGrouping;
+  grouping?: SapLandscapeMonitorPropertiesInputGrouping | undefined;
   /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
-  topMetricsThresholds?: SapLandscapeMonitorPropertiesInputTopMetricsThresholdsList;
+  topMetricsThresholds?: SapLandscapeMonitorPropertiesInputTopMetricsThresholdsList | undefined;
 }
 export interface CreateSapLandscapeMonitorRequest {
   /** The ID of the target subscription. */
@@ -1035,7 +1044,7 @@ export interface CreateSapLandscapeMonitorRequest {
   /** Name of the SAP monitor resource. */
   monitorName: string;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorPropertiesInput;
+  properties?: SapLandscapeMonitorPropertiesInput | undefined;
 }
 /** State of provisioning of the SAP monitor. */
 export type SapLandscapeMonitorPropertiesProvisioningState =
@@ -1053,9 +1062,9 @@ export type SapLandscapeMonitorPropertiesGroupingSapApplicationList =
 /** Gets or sets the SID groupings by landscape and Environment. */
 export interface SapLandscapeMonitorPropertiesGrouping {
   /** Gets or sets the list of landscape to SID mappings. */
-  landscape?: SapLandscapeMonitorPropertiesGroupingLandscapeList;
+  landscape?: SapLandscapeMonitorPropertiesGroupingLandscapeList | undefined;
   /** Gets or sets the list of Sap Applications to SID mappings. */
-  sapApplication?: SapLandscapeMonitorPropertiesGroupingSapApplicationList;
+  sapApplication?: SapLandscapeMonitorPropertiesGroupingSapApplicationList | undefined;
 }
 /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
 export type SapLandscapeMonitorPropertiesTopMetricsThresholdsList =
@@ -1063,23 +1072,23 @@ export type SapLandscapeMonitorPropertiesTopMetricsThresholdsList =
 /** Gets or sets the properties for Sap Landscape Monitor Dashboard. */
 export interface SapLandscapeMonitorProperties {
   /** State of provisioning of the SAP monitor. */
-  provisioningState?: SapLandscapeMonitorPropertiesProvisioningState;
+  provisioningState?: SapLandscapeMonitorPropertiesProvisioningState | undefined;
   /** Gets or sets the SID groupings by landscape and Environment. */
-  grouping?: SapLandscapeMonitorPropertiesGrouping;
+  grouping?: SapLandscapeMonitorPropertiesGrouping | undefined;
   /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
-  topMetricsThresholds?: SapLandscapeMonitorPropertiesTopMetricsThresholdsList;
+  topMetricsThresholds?: SapLandscapeMonitorPropertiesTopMetricsThresholdsList | undefined;
 }
 export interface CreateSapLandscapeMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorProperties;
+  properties?: SapLandscapeMonitorProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSapVirtualInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -1103,11 +1112,11 @@ export interface SAPVirtualInstancePropertiesInput {
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType | (string & {});
   /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
-  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType | (string & {});
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType | (string & {}) | undefined;
   /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfiguration;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
 }
 /** Type of managed service identity (where only None and UserAssigned types are allowed). */
 export type SAPVirtualInstanceIdentityType = "None" | "UserAssigned";
@@ -1122,7 +1131,7 @@ export interface SAPVirtualInstanceIdentityInput {
   /** The type of managed identity assigned to this resource. */
   type: SAPVirtualInstanceIdentityType | (string & {});
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: SAPVirtualInstanceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: SAPVirtualInstanceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateSapVirtualInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1132,13 +1141,13 @@ export interface CreateSapVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSapVirtualInstanceRequestTagsMap;
+  tags?: CreateSapVirtualInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPVirtualInstancePropertiesInput;
+  properties?: SAPVirtualInstancePropertiesInput | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: SAPVirtualInstanceIdentityInput;
+  identity?: SAPVirtualInstanceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type CreateSapVirtualInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -1164,21 +1173,21 @@ export interface SAPVirtualInstanceProperties {
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
   /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
-  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType | undefined;
   /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfiguration;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
   /** Defines the SAP Instance status. */
-  status?: SAPVirtualInstanceStatus;
+  status?: SAPVirtualInstanceStatus | undefined;
   /** Defines the health of SAP Instances. */
-  health?: SAPHealthState;
+  health?: SAPHealthState | undefined;
   /** Defines the Virtual Instance for SAP state. */
-  state?: SAPVirtualInstanceState;
+  state?: SAPVirtualInstanceState | undefined;
   /** Defines the provisioning states. */
-  provisioningState?: SapVirtualInstanceProvisioningState;
+  provisioningState?: SapVirtualInstanceProvisioningState | undefined;
   /** Indicates any errors on the Virtual Instance for SAP solutions resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 /** User assigned identity properties */
 export type SAPVirtualInstanceIdentityUserAssignedIdentitiesValue = UserAssignedIdentity;
@@ -1191,29 +1200,29 @@ export interface SAPVirtualInstanceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: SAPVirtualInstanceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: SAPVirtualInstanceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: SAPVirtualInstanceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateSapVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSapVirtualInstanceResponseTagsMap;
+  tags?: CreateSapVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPVirtualInstanceProperties;
+  properties?: SAPVirtualInstanceProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: SAPVirtualInstanceIdentity;
+  identity?: SAPVirtualInstanceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSAPVirtualInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -1226,7 +1235,10 @@ export interface CreateSAPVirtualInstanceRequestIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateSAPVirtualInstanceRequestIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | CreateSAPVirtualInstanceRequestIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 /** Defines the environment type - Production/Non Production. */
 export type EnvironmentType = "NonProd" | "Prod";
@@ -1236,17 +1248,17 @@ export type ConfigurationType = "Deployment" | "Discovery" | "DeploymentWithOSCo
 export interface SAPConfiguration_2 {
   configurationType: ConfigurationType | (string & {});
   /** Region of the SAP system's managed resources (Deployment, DeploymentWithOSConfig, Discovery). */
-  appLocation?: string;
+  appLocation?: string | undefined;
   /** ARM id of the central server VM of an existing SAP system (Discovery). */
-  centralServerVmId?: string;
+  centralServerVmId?: string | undefined;
   /** Custom storage account name in the managed resource group (Discovery). */
-  managedRgStorageAccountName?: string;
+  managedRgStorageAccountName?: string | undefined;
   /** Infrastructure configuration (Deployment, DeploymentWithOSConfig); polymorphic on `deploymentType`. */
-  infrastructureConfiguration?: unknown;
+  infrastructureConfiguration?: unknown | undefined;
   /** Software configuration (Deployment, DeploymentWithOSConfig); polymorphic on `softwareInstallationType`. */
-  softwareConfiguration?: unknown;
+  softwareConfiguration?: unknown | undefined;
   /** OS and SAP configuration (DeploymentWithOSConfig). */
-  osSapConfiguration?: unknown;
+  osSapConfiguration?: unknown | undefined;
 }
 /** Defines the Virtual Instance for SAP solutions resource properties. */
 export interface SAPVirtualInstancePropertiesInput_2 {
@@ -1255,7 +1267,7 @@ export interface SAPVirtualInstancePropertiesInput_2 {
   /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfiguration_2;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
 }
 export interface CreateSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -1265,11 +1277,11 @@ export interface CreateSAPVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** Resource tags. */
-  tags?: CreateSAPVirtualInstanceRequestTagsMap;
+  tags?: CreateSAPVirtualInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateSAPVirtualInstanceRequestIdentity;
+  identity?: CreateSAPVirtualInstanceRequestIdentity | undefined;
   properties: SAPVirtualInstancePropertiesInput_2;
 }
 /** Resource tags. */
@@ -1283,7 +1295,10 @@ export interface CreateSAPVirtualInstanceResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | CreateSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 /** Defines the Virtual Instance for SAP state. */
 export type SAPVirtualInstanceState_2 =
@@ -1306,29 +1321,29 @@ export interface SAPVirtualInstanceProperties_2 {
   /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfiguration_2;
   /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
-  status?: SAPVirtualInstanceStatus;
-  health?: HealthState;
-  state?: SAPVirtualInstanceState_2;
-  provisioningState?: ProvisioningState;
+  managedResourceGroupConfiguration?: ManagedRGConfiguration | undefined;
+  status?: SAPVirtualInstanceStatus | undefined;
+  health?: HealthState | undefined;
+  state?: SAPVirtualInstanceState_2 | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** Indicates any errors on the Virtual Instance for SAP solutions resource. */
-  errors?: SAPVirtualInstanceError;
+  errors?: SAPVirtualInstanceError | undefined;
 }
 export interface CreateSAPVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSAPVirtualInstanceResponseTagsMap;
+  tags?: CreateSAPVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: CreateSAPVirtualInstanceResponseIdentity;
+  identity?: CreateSAPVirtualInstanceResponseIdentity | undefined;
   properties: SAPVirtualInstanceProperties_2;
 }
 export interface DeleteMonitorRequest {
@@ -1346,63 +1361,63 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult_3 {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList_3;
+  operations?: OperationStatusResultOperationsList_3 | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type DeleteMonitorResponseOperationsList = Array<OperationStatusResult_3>;
 export interface DeleteMonitorResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteMonitorResponseOperationsList;
+  operations?: DeleteMonitorResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface DeleteProviderInstanceRequest {
   /** The ID of the target subscription. */
@@ -1418,21 +1433,21 @@ export interface DeleteProviderInstanceRequest {
 export type DeleteProviderInstanceResponseOperationsList = Array<OperationStatusResult_3>;
 export interface DeleteProviderInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteProviderInstanceResponseOperationsList;
+  operations?: DeleteProviderInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface DeleteSapApplicationServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1446,9 +1461,9 @@ export interface DeleteSapApplicationServerInstanceRequest {
 }
 export interface DeleteSapApplicationServerInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSAPApplicationServerInstanceRequest {
   /** The ID of the target subscription. */
@@ -1465,42 +1480,42 @@ export type OperationStatusResultOperationsList_2 = Array<OperationStatusResult_
 /** The current status of an async operation. */
 export interface OperationStatusResult_2 {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList_2;
+  operations?: OperationStatusResultOperationsList_2 | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type DeleteSAPApplicationServerInstanceResponseOperationsList =
   Array<OperationStatusResult_2>;
 export interface DeleteSAPApplicationServerInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteSAPApplicationServerInstanceResponseOperationsList;
+  operations?: DeleteSAPApplicationServerInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface DeleteSAPCentralInstanceRequest {
   /** The ID of the target subscription. */
@@ -1516,21 +1531,21 @@ export interface DeleteSAPCentralInstanceRequest {
 export type DeleteSAPCentralInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface DeleteSAPCentralInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteSAPCentralInstanceResponseOperationsList;
+  operations?: DeleteSAPCentralInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface DeleteSapCentralServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1544,9 +1559,9 @@ export interface DeleteSapCentralServerInstanceRequest {
 }
 export interface DeleteSapCentralServerInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSapDatabaseInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1560,9 +1575,9 @@ export interface DeleteSapDatabaseInstanceRequest {
 }
 export interface DeleteSapDatabaseInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSAPDatabaseInstanceRequest {
   /** The ID of the target subscription. */
@@ -1578,21 +1593,21 @@ export interface DeleteSAPDatabaseInstanceRequest {
 export type DeleteSAPDatabaseInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface DeleteSAPDatabaseInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteSAPDatabaseInstanceResponseOperationsList;
+  operations?: DeleteSAPDatabaseInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface DeleteSapLandscapeMonitorRequest {
   /** The ID of the target subscription. */
@@ -1613,9 +1628,9 @@ export interface DeleteSapVirtualInstanceRequest {
 }
 export interface DeleteSapVirtualInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -1629,21 +1644,21 @@ export interface DeleteSAPVirtualInstanceRequest {
 export type DeleteSAPVirtualInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface DeleteSAPVirtualInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DeleteSAPVirtualInstanceResponseOperationsList;
+  operations?: DeleteSAPVirtualInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface GetMonitorRequest {
   /** The ID of the target subscription. */
@@ -1664,25 +1679,25 @@ export interface GetMonitorResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetMonitorResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: GetMonitorResponseIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 export interface GetMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMonitorResponseTagsMap;
+  tags?: GetMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: GetMonitorResponseIdentity;
+  identity?: GetMonitorResponseIdentity | undefined;
   /** SAP monitor properties */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
 }
 export interface GetProviderInstanceRequest {
   /** The ID of the target subscription. */
@@ -1703,21 +1718,24 @@ export interface GetProviderInstanceResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetProviderInstanceResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | GetProviderInstanceResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 export interface GetProviderInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: GetProviderInstanceResponseIdentity;
+  identity?: GetProviderInstanceResponseIdentity | undefined;
   /** Provider Instance properties */
-  properties?: ProviderInstanceProperties;
+  properties?: ProviderInstanceProperties | undefined;
 }
 export interface GetSapApplicationServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1733,19 +1751,19 @@ export interface GetSapApplicationServerInstanceRequest {
 export type GetSapApplicationServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSapApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSapApplicationServerInstanceResponseTagsMap;
+  tags?: GetSapApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPApplicationServerProperties;
+  properties?: SAPApplicationServerProperties | undefined;
 }
 export interface GetSAPApplicationServerInstanceRequest {
   /** The ID of the target subscription. */
@@ -1761,18 +1779,18 @@ export interface GetSAPApplicationServerInstanceRequest {
 export type GetSAPApplicationServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSAPApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSAPApplicationServerInstanceResponseTagsMap;
+  tags?: GetSAPApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPApplicationServerProperties_2;
+  properties?: SAPApplicationServerProperties_2 | undefined;
 }
 export interface GetSAPCentralInstanceRequest {
   /** The ID of the target subscription. */
@@ -1788,18 +1806,18 @@ export interface GetSAPCentralInstanceRequest {
 export type GetSAPCentralInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSAPCentralInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSAPCentralInstanceResponseTagsMap;
+  tags?: GetSAPCentralInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPCentralServerProperties_2;
+  properties?: SAPCentralServerProperties_2 | undefined;
 }
 export interface GetSapCentralServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1815,19 +1833,19 @@ export interface GetSapCentralServerInstanceRequest {
 export type GetSapCentralServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSapCentralServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSapCentralServerInstanceResponseTagsMap;
+  tags?: GetSapCentralServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPCentralServerProperties;
+  properties?: SAPCentralServerProperties | undefined;
 }
 export interface GetSapDatabaseInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1843,19 +1861,19 @@ export interface GetSapDatabaseInstanceRequest {
 export type GetSapDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSapDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSapDatabaseInstanceResponseTagsMap;
+  tags?: GetSapDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPDatabaseProperties;
+  properties?: SAPDatabaseProperties | undefined;
 }
 export interface GetSAPDatabaseInstanceRequest {
   /** The ID of the target subscription. */
@@ -1871,18 +1889,18 @@ export interface GetSAPDatabaseInstanceRequest {
 export type GetSAPDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSAPDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSAPDatabaseInstanceResponseTagsMap;
+  tags?: GetSAPDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPDatabaseProperties_2;
+  properties?: SAPDatabaseProperties_2 | undefined;
 }
 export interface GetSapLandscapeMonitorRequest {
   /** The ID of the target subscription. */
@@ -1894,15 +1912,15 @@ export interface GetSapLandscapeMonitorRequest {
 }
 export interface GetSapLandscapeMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorProperties;
+  properties?: SapLandscapeMonitorProperties | undefined;
 }
 export interface GetSapVirtualInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1916,21 +1934,21 @@ export interface GetSapVirtualInstanceRequest {
 export type GetSapVirtualInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSapVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSapVirtualInstanceResponseTagsMap;
+  tags?: GetSapVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPVirtualInstanceProperties;
+  properties?: SAPVirtualInstanceProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: SAPVirtualInstanceIdentity;
+  identity?: SAPVirtualInstanceIdentity | undefined;
 }
 export interface GetSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -1951,23 +1969,26 @@ export interface GetSAPVirtualInstanceResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | GetSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 export interface GetSAPVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSAPVirtualInstanceResponseTagsMap;
+  tags?: GetSAPVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: GetSAPVirtualInstanceResponseIdentity;
+  identity?: GetSAPVirtualInstanceResponseIdentity | undefined;
   properties: SAPVirtualInstanceProperties_2;
 }
 /** Defines the supported SAP Database types. */
@@ -1987,9 +2008,9 @@ export interface InvokeSapVirtualInstanceAvailabilityZoneDetailsRequest {
 /** The SAP Availability Zone Pair. */
 export interface SAPAvailabilityZonePair {
   /** The zone A. */
-  zoneA?: number;
+  zoneA?: number | undefined;
   /** The zone B. */
-  zoneB?: number;
+  zoneB?: number | undefined;
 }
 /** Gets the list of availability zone pairs. */
 export type SAPAvailabilityZoneDetailsResultAvailabilityZonePairsList =
@@ -1997,7 +2018,7 @@ export type SAPAvailabilityZoneDetailsResultAvailabilityZonePairsList =
 /** The list of supported availability zone pairs which are part of SAP HA deployment. */
 export interface SAPAvailabilityZoneDetailsResult {
   /** Gets the list of availability zone pairs. */
-  availabilityZonePairs?: SAPAvailabilityZoneDetailsResultAvailabilityZonePairsList;
+  availabilityZonePairs?: SAPAvailabilityZoneDetailsResultAvailabilityZonePairsList | undefined;
 }
 /** The type of SAP deployment, single server or Three tier. */
 export type SAPDeploymentType = "SingleServer" | "ThreeTier";
@@ -2031,42 +2052,42 @@ export type DiskSkuName =
 /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
 export interface DiskSku {
   /** Defines the disk sku name. */
-  name?: DiskSkuName;
+  name?: DiskSkuName | undefined;
 }
 /** The disk configuration required for the selected volume. */
 export interface DiskVolumeConfiguration {
   /** The total number of disks required for the concerned volume. */
-  count?: number;
+  count?: number | undefined;
   /** The disk size in GB. */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
   /** The disk SKU details. */
-  sku?: DiskSku;
+  sku?: DiskSku | undefined;
 }
 /** The supported disk size details for a disk type. */
 export interface DiskDetails {
   /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
-  sku?: DiskSku;
+  sku?: DiskSku | undefined;
   /** The disk size in GB. */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
   /** The minimum supported disk count. */
-  minimumSupportedDiskCount?: number;
+  minimumSupportedDiskCount?: number | undefined;
   /** The maximum supported disk count. */
-  maximumSupportedDiskCount?: number;
+  maximumSupportedDiskCount?: number | undefined;
   /** The disk Iops. */
-  iopsReadWrite?: number;
+  iopsReadWrite?: number | undefined;
   /** The disk provisioned throughput in MBps. */
-  mbpsReadWrite?: number;
+  mbpsReadWrite?: number | undefined;
   /** The disk tier, e.g. P10, E10. */
-  diskTier?: string;
+  diskTier?: string | undefined;
 }
 /** The list of supported disks for a given VM Sku. */
 export type SAPDiskConfigurationSupportedConfigurationsList = Array<DiskDetails>;
 /** The SAP Disk Configuration contains 'recommended disk' details and list of supported disks detail for a volume type. */
 export interface SAPDiskConfiguration {
   /** The recommended disk details for a given VM Sku. */
-  recommendedConfiguration?: DiskVolumeConfiguration;
+  recommendedConfiguration?: DiskVolumeConfiguration | undefined;
   /** The list of supported disks for a given VM Sku. */
-  supportedConfigurations?: SAPDiskConfigurationSupportedConfigurationsList;
+  supportedConfigurations?: SAPDiskConfigurationSupportedConfigurationsList | undefined;
 }
 /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
 export type SAPDiskConfigurationsResultVolumeConfigurationsMap = {
@@ -2075,7 +2096,7 @@ export type SAPDiskConfigurationsResultVolumeConfigurationsMap = {
 /** The list of disk configuration for vmSku which are part of SAP deployment. */
 export interface SAPDiskConfigurationsResult {
   /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
-  volumeConfigurations?: SAPDiskConfigurationsResultVolumeConfigurationsMap;
+  volumeConfigurations?: SAPDiskConfigurationsResultVolumeConfigurationsMap | undefined;
 }
 /** The high availability type (AvailabilitySet or AvailabilityZone). */
 export type SAPHighAvailabilityType = "AvailabilitySet" | "AvailabilityZone";
@@ -2095,23 +2116,23 @@ export interface InvokeSapVirtualInstanceSapSupportedSkuRequest {
   /** The database type. Eg: HANA, DB2, etc */
   databaseType: SAPDatabaseType | (string & {});
   /** The high availability type. */
-  highAvailabilityType?: SAPHighAvailabilityType | (string & {});
+  highAvailabilityType?: SAPHighAvailabilityType | (string & {}) | undefined;
 }
 /** The SAP supported SKU. */
 export interface SAPSupportedSku {
   /** The VM Sku. */
-  vmSku?: string;
+  vmSku?: string | undefined;
   /** True if the Sku is certified for App server in the SAP system. */
-  isAppServerCertified?: boolean;
+  isAppServerCertified?: boolean | undefined;
   /** True if the Sku is certified for Database server in the SAP system. */
-  isDatabaseCertified?: boolean;
+  isDatabaseCertified?: boolean | undefined;
 }
 /** Gets the list of SAP supported SKUs. */
 export type SAPSupportedResourceSkusResultSupportedSkusList = Array<SAPSupportedSku>;
 /** The list of supported SKUs for different resources which are part of SAP deployment. */
 export interface SAPSupportedResourceSkusResult {
   /** Gets the list of SAP supported SKUs. */
-  supportedSkus?: SAPSupportedResourceSkusResultSupportedSkusList;
+  supportedSkus?: SAPSupportedResourceSkusResultSupportedSkusList | undefined;
 }
 /** The database scale method. */
 export type SAPDatabaseScaleMethod = "ScaleUp";
@@ -2135,9 +2156,9 @@ export interface InvokeSapVirtualInstanceSizingRecommendationsRequest {
   /** The database type. */
   databaseType: SAPDatabaseType | (string & {});
   /** The DB scale method. */
-  dbScaleMethod?: SAPDatabaseScaleMethod | (string & {});
+  dbScaleMethod?: SAPDatabaseScaleMethod | (string & {}) | undefined;
   /** The high availability type. */
-  highAvailabilityType?: SAPHighAvailabilityType | (string & {});
+  highAvailabilityType?: SAPHighAvailabilityType | (string & {}) | undefined;
 }
 /** The SAP sizing recommendation result. */
 export interface SAPSizingRecommendationResult {
@@ -2161,35 +2182,35 @@ export interface MonitorIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MonitorIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: MonitorIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
 export interface Monitor {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MonitorTagsMap;
+  tags?: MonitorTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: MonitorIdentity;
+  identity?: MonitorIdentity | undefined;
   /** SAP monitor properties */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
 }
 /** The list of SAP monitors. */
 export type MonitorListResultValueList = Array<Monitor>;
 /** The response from the List SAP monitors operation. */
 export interface MonitorListResult {
   /** The list of SAP monitors. */
-  value?: MonitorListResultValueList;
+  value?: MonitorListResultValueList | undefined;
   /** The URL to get the next set of SAP monitors. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. */
@@ -2199,13 +2220,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2214,23 +2235,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProviderInstancesRequest {
   /** The ID of the target subscription. */
@@ -2249,31 +2270,31 @@ export interface ProviderInstanceIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ProviderInstanceIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: ProviderInstanceIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 /** A provider instance associated with SAP monitor. */
 export interface ProviderInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: ProviderInstanceIdentity;
+  identity?: ProviderInstanceIdentity | undefined;
   /** Provider Instance properties */
-  properties?: ProviderInstanceProperties;
+  properties?: ProviderInstanceProperties | undefined;
 }
 /** The list of provider instances. */
 export type ProviderInstanceListResultValueList = Array<ProviderInstance>;
 /** The response from the List provider instances operation. */
 export interface ProviderInstanceListResult {
   /** The list of provider instances. */
-  value?: ProviderInstanceListResultValueList;
+  value?: ProviderInstanceListResultValueList | undefined;
   /** The URL to get the next set of provider instances. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapApplicationServerInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2288,19 +2309,19 @@ export type SAPApplicationServerInstanceTagsMap = { [key: string]: string | unde
 /** Define the SAP Application Server Instance resource. */
 export interface SAPApplicationServerInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPApplicationServerInstanceTagsMap;
+  tags?: SAPApplicationServerInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPApplicationServerProperties;
+  properties?: SAPApplicationServerProperties | undefined;
 }
 /** The SAPApplicationServerInstance items on this page */
 export type SAPApplicationServerInstanceListResultValueList = Array<SAPApplicationServerInstance>;
@@ -2309,7 +2330,7 @@ export interface SAPApplicationServerInstanceListResult {
   /** The SAPApplicationServerInstance items on this page */
   value: SAPApplicationServerInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSAPApplicationServerInstancesRequest {
   /** The ID of the target subscription. */
@@ -2322,27 +2343,27 @@ export interface ListSAPApplicationServerInstancesRequest {
 /** Define the SAP Application Server Instance resource. */
 export interface SAPApplicationServerInstance_2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPApplicationServerInstanceTagsMap;
+  tags?: SAPApplicationServerInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPApplicationServerProperties_2;
+  properties?: SAPApplicationServerProperties_2 | undefined;
 }
 /** Gets the list of SAP Application Server instance resources. */
 export type SAPApplicationServerInstanceListValueList = Array<SAPApplicationServerInstance_2>;
 /** Defines the collection of SAP Application Server Instance resources. */
 export interface SAPApplicationServerInstanceList {
   /** Gets the list of SAP Application Server instance resources. */
-  value?: SAPApplicationServerInstanceListValueList;
+  value?: SAPApplicationServerInstanceListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSAPCentralInstancesRequest {
   /** The ID of the target subscription. */
@@ -2357,27 +2378,27 @@ export type SAPCentralServerInstanceTagsMap = { [key: string]: string | undefine
 /** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance_2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPCentralServerInstanceTagsMap;
+  tags?: SAPCentralServerInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPCentralServerProperties_2;
+  properties?: SAPCentralServerProperties_2 | undefined;
 }
 /** Gets the list of SAP central services instance resources. */
 export type SAPCentralInstanceListValueList = Array<SAPCentralServerInstance_2>;
 /** Defines the collection of SAP Central Services Instance resources. */
 export interface SAPCentralInstanceList {
   /** Gets the list of SAP central services instance resources. */
-  value?: SAPCentralInstanceListValueList;
+  value?: SAPCentralInstanceListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapCentralServerInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2390,19 +2411,19 @@ export interface ListSapCentralServerInstancesRequest {
 /** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPCentralServerInstanceTagsMap;
+  tags?: SAPCentralServerInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPCentralServerProperties;
+  properties?: SAPCentralServerProperties | undefined;
 }
 /** The SAPCentralServerInstance items on this page */
 export type SAPCentralServerInstanceListResultValueList = Array<SAPCentralServerInstance>;
@@ -2411,7 +2432,7 @@ export interface SAPCentralServerInstanceListResult {
   /** The SAPCentralServerInstance items on this page */
   value: SAPCentralServerInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapDatabaseInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2426,19 +2447,19 @@ export type SAPDatabaseInstanceTagsMap = { [key: string]: string | undefined };
 /** Define the Database resource. */
 export interface SAPDatabaseInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPDatabaseInstanceTagsMap;
+  tags?: SAPDatabaseInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPDatabaseProperties;
+  properties?: SAPDatabaseProperties | undefined;
 }
 /** The SAPDatabaseInstance items on this page */
 export type SAPDatabaseInstanceListResultValueList = Array<SAPDatabaseInstance>;
@@ -2447,7 +2468,7 @@ export interface SAPDatabaseInstanceListResult {
   /** The SAPDatabaseInstance items on this page */
   value: SAPDatabaseInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSAPDatabaseInstancesRequest {
   /** The ID of the target subscription. */
@@ -2460,27 +2481,27 @@ export interface ListSAPDatabaseInstancesRequest {
 /** Define the Database resource. */
 export interface SAPDatabaseInstance_2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPDatabaseInstanceTagsMap;
+  tags?: SAPDatabaseInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPDatabaseProperties_2;
+  properties?: SAPDatabaseProperties_2 | undefined;
 }
 /** Gets the list of SAP Database instances. */
 export type SAPDatabaseInstanceListValueList = Array<SAPDatabaseInstance_2>;
 /** Defines the collection of SAP Database Instances. */
 export interface SAPDatabaseInstanceList {
   /** Gets the list of SAP Database instances. */
-  value?: SAPDatabaseInstanceListValueList;
+  value?: SAPDatabaseInstanceListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapLandscapeMonitorRequest {
   /** The ID of the target subscription. */
@@ -2493,24 +2514,24 @@ export interface ListSapLandscapeMonitorRequest {
 /** configuration associated with SAP Landscape Monitor Dashboard. */
 export interface SapLandscapeMonitor {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorProperties;
+  properties?: SapLandscapeMonitorProperties | undefined;
 }
 /** The list of Sap Landscape Monitor configuration. */
 export type SapLandscapeMonitorListResultValueList = Array<SapLandscapeMonitor>;
 /** The response from the List SAP Landscape Monitor Dashboard operation. */
 export interface SapLandscapeMonitorListResult {
   /** The list of Sap Landscape Monitor configuration. */
-  value?: SapLandscapeMonitorListResultValueList;
+  value?: SapLandscapeMonitorListResultValueList | undefined;
   /** The URL to get the next set of SAP Landscape Monitor Dashboard. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapVirtualInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2523,21 +2544,21 @@ export type SAPVirtualInstanceTagsMap = { [key: string]: string | undefined };
 /** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPVirtualInstanceTagsMap;
+  tags?: SAPVirtualInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPVirtualInstanceProperties;
+  properties?: SAPVirtualInstanceProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: SAPVirtualInstanceIdentity;
+  identity?: SAPVirtualInstanceIdentity | undefined;
 }
 /** The SAPVirtualInstance items on this page */
 export type SAPVirtualInstanceListResultValueList = Array<SAPVirtualInstance>;
@@ -2546,7 +2567,7 @@ export interface SAPVirtualInstanceListResult {
   /** The SAPVirtualInstance items on this page */
   value: SAPVirtualInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSAPVirtualInstanceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2563,24 +2584,24 @@ export interface SAPVirtualInstanceIdentity_2 {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: SAPVirtualInstanceIdentityUserAssignedIdentitiesMap_2 | null;
+  userAssignedIdentities?: SAPVirtualInstanceIdentityUserAssignedIdentitiesMap_2 | null | undefined;
 }
 /** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance_2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SAPVirtualInstanceTagsMap;
+  tags?: SAPVirtualInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: SAPVirtualInstanceIdentity_2;
+  identity?: SAPVirtualInstanceIdentity_2 | undefined;
   properties: SAPVirtualInstanceProperties_2;
 }
 /** Gets the list of Virtual Instances for SAP solutions resources. */
@@ -2588,9 +2609,9 @@ export type SAPVirtualInstanceListValueList = Array<SAPVirtualInstance_2>;
 /** Defines the collection of Virtual Instance for SAP solutions resources. */
 export interface SAPVirtualInstanceList {
   /** Gets the list of Virtual Instances for SAP solutions resources. */
-  value?: SAPVirtualInstanceListValueList;
+  value?: SAPVirtualInstanceListValueList | undefined;
   /** Gets the value of next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSapVirtualInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2631,41 +2652,41 @@ export interface SAPDiskConfigurationsRequest {
 }
 /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
 export interface DiskSku_2 {
-  name?: DiskSkuName;
+  name?: DiskSkuName | undefined;
 }
 /** The disk configuration required for the selected volume. */
 export interface DiskVolumeConfiguration_2 {
   /** The total number of disks required for the concerned volume. */
-  count?: number;
+  count?: number | undefined;
   /** The disk size in GB. */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
   /** The disk SKU details. */
-  sku?: DiskSku_2;
+  sku?: DiskSku_2 | undefined;
 }
 /** The supported disk size details for a disk type. */
 export interface DiskDetails_2 {
-  sku?: DiskSku_2;
+  sku?: DiskSku_2 | undefined;
   /** The disk size in GB. */
-  sizeGB?: number;
+  sizeGB?: number | undefined;
   /** The minimum supported disk count. */
-  minimumSupportedDiskCount?: number;
+  minimumSupportedDiskCount?: number | undefined;
   /** The maximum supported disk count. */
-  maximumSupportedDiskCount?: number;
+  maximumSupportedDiskCount?: number | undefined;
   /** The disk Iops. */
-  iopsReadWrite?: number;
+  iopsReadWrite?: number | undefined;
   /** The disk provisioned throughput in MBps. */
-  mbpsReadWrite?: number;
+  mbpsReadWrite?: number | undefined;
   /** The disk tier, e.g. P10, E10. */
-  diskTier?: string;
+  diskTier?: string | undefined;
 }
 /** The list of supported disks for a given VM Sku. */
 export type SAPDiskConfigurationSupportedConfigurationsList_2 = Array<DiskDetails_2>;
 /** The SAP Disk Configuration contains 'recommended disk' details and list of supported disks detail for a volume type. */
 export interface SAPDiskConfiguration_2 {
   /** The recommended disk details for a given VM Sku. */
-  recommendedConfiguration?: DiskVolumeConfiguration_2;
+  recommendedConfiguration?: DiskVolumeConfiguration_2 | undefined;
   /** The list of supported disks for a given VM Sku. */
-  supportedConfigurations?: SAPDiskConfigurationSupportedConfigurationsList_2;
+  supportedConfigurations?: SAPDiskConfigurationSupportedConfigurationsList_2 | undefined;
 }
 /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
 export type SAPDiskConfigurationsResultVolumeConfigurationsMap_2 = {
@@ -2674,7 +2695,7 @@ export type SAPDiskConfigurationsResultVolumeConfigurationsMap_2 = {
 /** The list of disk configuration for vmSku which are part of SAP deployment. */
 export interface SAPDiskConfigurationsResult_2 {
   /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
-  volumeConfigurations?: SAPDiskConfigurationsResultVolumeConfigurationsMap_2;
+  volumeConfigurations?: SAPDiskConfigurationsResultVolumeConfigurationsMap_2 | undefined;
 }
 /** The database scale method. */
 export type DatabaseScaleMethod = "ScaleUp";
@@ -2698,9 +2719,9 @@ export interface SAPSizingRecommendationsRequest {
   /** The database type. */
   databaseType: SAPDatabaseType | (string & {});
   /** The DB scale method. */
-  dbScaleMethod?: DatabaseScaleMethod | (string & {});
+  dbScaleMethod?: DatabaseScaleMethod | (string & {}) | undefined;
   /** The high availability type. */
-  highAvailabilityType?: HighAvailabilityType | (string & {});
+  highAvailabilityType?: HighAvailabilityType | (string & {}) | undefined;
 }
 /** The SAP sizing recommendation result. */
 export interface SAPSizingRecommendationResult_2 {
@@ -2720,7 +2741,7 @@ export interface SAPSupportedSkuRequest {
   /** The database type. Eg: HANA, DB2, etc */
   databaseType: SAPDatabaseType | (string & {});
   /** The high availability type. */
-  highAvailabilityType?: HighAvailabilityType | (string & {});
+  highAvailabilityType?: HighAvailabilityType | (string & {}) | undefined;
 }
 export interface StartSapApplicationServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2732,56 +2753,56 @@ export interface StartSapApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
-  startVm?: boolean;
+  startVm?: boolean | undefined;
 }
 /** The operations list. */
 export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type StartSapApplicationServerInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StartSapApplicationServerInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSapApplicationServerInstanceResponseOperationsList;
+  operations?: StartSapApplicationServerInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartSAPApplicationServerInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -2798,21 +2819,21 @@ export type StartSAPApplicationServerInstanceInstanceResponseOperationsList =
   Array<OperationStatusResult_2>;
 export interface StartSAPApplicationServerInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSAPApplicationServerInstanceInstanceResponseOperationsList;
+  operations?: StartSAPApplicationServerInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StartSAPCentralInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -2828,21 +2849,21 @@ export interface StartSAPCentralInstanceInstanceRequest {
 export type StartSAPCentralInstanceInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StartSAPCentralInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSAPCentralInstanceInstanceResponseOperationsList;
+  operations?: StartSAPCentralInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StartSapCentralServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2854,33 +2875,33 @@ export interface StartSapCentralServerInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
-  startVm?: boolean;
+  startVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StartSapCentralServerInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StartSapCentralServerInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSapCentralServerInstanceResponseOperationsList;
+  operations?: StartSapCentralServerInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartSapDatabaseInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2892,33 +2913,33 @@ export interface StartSapDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
-  startVm?: boolean;
+  startVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StartSapDatabaseInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StartSapDatabaseInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSapDatabaseInstanceResponseOperationsList;
+  operations?: StartSapDatabaseInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartSAPDatabaseInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -2934,21 +2955,21 @@ export interface StartSAPDatabaseInstanceInstanceRequest {
 export type StartSAPDatabaseInstanceInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StartSAPDatabaseInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSAPDatabaseInstanceInstanceResponseOperationsList;
+  operations?: StartSAPDatabaseInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StartSapVirtualInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2958,33 +2979,33 @@ export interface StartSapVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
-  startVm?: boolean;
+  startVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StartSapVirtualInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StartSapVirtualInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSapVirtualInstanceResponseOperationsList;
+  operations?: StartSapVirtualInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -2998,21 +3019,21 @@ export interface StartSAPVirtualInstanceRequest {
 export type StartSAPVirtualInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StartSAPVirtualInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartSAPVirtualInstanceResponseOperationsList;
+  operations?: StartSAPVirtualInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StopSapApplicationServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3024,35 +3045,35 @@ export interface StopSapApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
   /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
-  deallocateVm?: boolean;
+  deallocateVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StopSapApplicationServerInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StopSapApplicationServerInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSapApplicationServerInstanceResponseOperationsList;
+  operations?: StopSapApplicationServerInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopSAPApplicationServerInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -3064,28 +3085,28 @@ export interface StopSAPApplicationServerInstanceInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
 }
 /** The operations list. */
 export type StopSAPApplicationServerInstanceInstanceResponseOperationsList =
   Array<OperationStatusResult_2>;
 export interface StopSAPApplicationServerInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSAPApplicationServerInstanceInstanceResponseOperationsList;
+  operations?: StopSAPApplicationServerInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StopSAPCentralInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -3097,27 +3118,27 @@ export interface StopSAPCentralInstanceInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
 }
 /** The operations list. */
 export type StopSAPCentralInstanceInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StopSAPCentralInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSAPCentralInstanceInstanceResponseOperationsList;
+  operations?: StopSAPCentralInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StopSapCentralServerInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3129,35 +3150,35 @@ export interface StopSapCentralServerInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
   /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
-  deallocateVm?: boolean;
+  deallocateVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StopSapCentralServerInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StopSapCentralServerInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSapCentralServerInstanceResponseOperationsList;
+  operations?: StopSapCentralServerInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopSapDatabaseInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3169,35 +3190,35 @@ export interface StopSapDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
   /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
-  deallocateVm?: boolean;
+  deallocateVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StopSapDatabaseInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StopSapDatabaseInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSapDatabaseInstanceResponseOperationsList;
+  operations?: StopSapDatabaseInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopSAPDatabaseInstanceInstanceRequest {
   /** The ID of the target subscription. */
@@ -3209,27 +3230,27 @@ export interface StopSAPDatabaseInstanceInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
 }
 /** The operations list. */
 export type StopSAPDatabaseInstanceInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StopSAPDatabaseInstanceInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSAPDatabaseInstanceInstanceResponseOperationsList;
+  operations?: StopSAPDatabaseInstanceInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface StopSapVirtualInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3239,35 +3260,35 @@ export interface StopSapVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
   /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
-  deallocateVm?: boolean;
+  deallocateVm?: boolean | undefined;
 }
 /** The operations list. */
 export type StopSapVirtualInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StopSapVirtualInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSapVirtualInstanceResponseOperationsList;
+  operations?: StopSapVirtualInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -3277,27 +3298,27 @@ export interface StopSAPVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
+  softStopTimeoutSeconds?: number | undefined;
 }
 /** The operations list. */
 export type StopSAPVirtualInstanceResponseOperationsList = Array<OperationStatusResult_2>;
 export interface StopSAPVirtualInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StopSAPVirtualInstanceResponseOperationsList;
+  operations?: StopSAPVirtualInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -3310,7 +3331,7 @@ export interface UpdateMonitorRequestIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateMonitorRequestIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: UpdateMonitorRequestIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 export interface UpdateMonitorRequest {
   /** The ID of the target subscription. */
@@ -3320,9 +3341,9 @@ export interface UpdateMonitorRequest {
   /** Name of the SAP monitor resource. */
   monitorName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateMonitorRequestTagsMap;
+  tags?: UpdateMonitorRequestTagsMap | undefined;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: UpdateMonitorRequestIdentity;
+  identity?: UpdateMonitorRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateMonitorResponseTagsMap = { [key: string]: string | undefined };
@@ -3335,25 +3356,28 @@ export interface UpdateMonitorResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateMonitorResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | UpdateMonitorResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 export interface UpdateMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMonitorResponseTagsMap;
+  tags?: UpdateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: UpdateMonitorResponseIdentity;
+  identity?: UpdateMonitorResponseIdentity | undefined;
   /** SAP monitor properties */
-  properties?: MonitorProperties;
+  properties?: MonitorProperties | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSapApplicationServerInstanceRequestTagsMap = {
@@ -3369,7 +3393,7 @@ export interface UpdateSapApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSapApplicationServerInstanceRequestTagsMap;
+  tags?: UpdateSapApplicationServerInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSapApplicationServerInstanceResponseTagsMap = {
@@ -3377,19 +3401,19 @@ export type UpdateSapApplicationServerInstanceResponseTagsMap = {
 };
 export interface UpdateSapApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSapApplicationServerInstanceResponseTagsMap;
+  tags?: UpdateSapApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPApplicationServerProperties;
+  properties?: SAPApplicationServerProperties | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSAPApplicationServerInstanceRequestTagsMap = {
@@ -3405,7 +3429,7 @@ export interface UpdateSAPApplicationServerInstanceRequest {
   /** The name of SAP Application Server instance resource. */
   applicationInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSAPApplicationServerInstanceRequestTagsMap;
+  tags?: UpdateSAPApplicationServerInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSAPApplicationServerInstanceResponseTagsMap = {
@@ -3413,18 +3437,18 @@ export type UpdateSAPApplicationServerInstanceResponseTagsMap = {
 };
 export interface UpdateSAPApplicationServerInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSAPApplicationServerInstanceResponseTagsMap;
+  tags?: UpdateSAPApplicationServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPApplicationServerProperties_2;
+  properties?: SAPApplicationServerProperties_2 | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSAPCentralInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3438,24 +3462,24 @@ export interface UpdateSAPCentralInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSAPCentralInstanceRequestTagsMap;
+  tags?: UpdateSAPCentralInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSAPCentralInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSAPCentralInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSAPCentralInstanceResponseTagsMap;
+  tags?: UpdateSAPCentralInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPCentralServerProperties_2;
+  properties?: SAPCentralServerProperties_2 | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSapCentralServerInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3469,25 +3493,25 @@ export interface UpdateSapCentralServerInstanceRequest {
   /** Central Services Instance resource name string modeled as parameter for auto generation to work correctly. */
   centralInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSapCentralServerInstanceRequestTagsMap;
+  tags?: UpdateSapCentralServerInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSapCentralServerInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSapCentralServerInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSapCentralServerInstanceResponseTagsMap;
+  tags?: UpdateSapCentralServerInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPCentralServerProperties;
+  properties?: SAPCentralServerProperties | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSapDatabaseInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3501,25 +3525,25 @@ export interface UpdateSapDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSapDatabaseInstanceRequestTagsMap;
+  tags?: UpdateSapDatabaseInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSapDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSapDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSapDatabaseInstanceResponseTagsMap;
+  tags?: UpdateSapDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPDatabaseProperties;
+  properties?: SAPDatabaseProperties | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSAPDatabaseInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3533,24 +3557,24 @@ export interface UpdateSAPDatabaseInstanceRequest {
   /** Database resource name string modeled as parameter for auto generation to work correctly. */
   databaseInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSAPDatabaseInstanceRequestTagsMap;
+  tags?: UpdateSAPDatabaseInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSAPDatabaseInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSAPDatabaseInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSAPDatabaseInstanceResponseTagsMap;
+  tags?: UpdateSAPDatabaseInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SAPDatabaseProperties_2;
+  properties?: SAPDatabaseProperties_2 | undefined;
 }
 export interface UpdateSapLandscapeMonitorRequest {
   /** The ID of the target subscription. */
@@ -3560,26 +3584,26 @@ export interface UpdateSapLandscapeMonitorRequest {
   /** Name of the SAP monitor resource. */
   monitorName: string;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorPropertiesInput;
+  properties?: SapLandscapeMonitorPropertiesInput | undefined;
 }
 export interface UpdateSapLandscapeMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Sap Landscape Monitor properties */
-  properties?: SapLandscapeMonitorProperties;
+  properties?: SapLandscapeMonitorProperties | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSapVirtualInstanceRequestTagsMap = { [key: string]: string | undefined };
 /** Defines the update request body properties for updating Virtual Instance for SAP. */
 export interface UpdateSAPVirtualInstanceProperties {
   /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
-  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType | (string & {});
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType | (string & {}) | undefined;
 }
 export interface UpdateSapVirtualInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3589,35 +3613,35 @@ export interface UpdateSapVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSapVirtualInstanceRequestTagsMap;
+  tags?: UpdateSapVirtualInstanceRequestTagsMap | undefined;
   /** Managed service identity (user assigned identities) */
-  identity?: SAPVirtualInstanceIdentityInput;
+  identity?: SAPVirtualInstanceIdentityInput | undefined;
   /** The update properties. */
-  properties?: UpdateSAPVirtualInstanceProperties;
+  properties?: UpdateSAPVirtualInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSapVirtualInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSapVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSapVirtualInstanceResponseTagsMap;
+  tags?: UpdateSapVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SAPVirtualInstanceProperties;
+  properties?: SAPVirtualInstanceProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: SAPVirtualInstanceIdentity;
+  identity?: SAPVirtualInstanceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type UpdateSAPVirtualInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3630,7 +3654,10 @@ export interface UpdateSAPVirtualInstanceRequestIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateSAPVirtualInstanceRequestIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | UpdateSAPVirtualInstanceRequestIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 export interface UpdateSAPVirtualInstanceRequest {
   /** The ID of the target subscription. */
@@ -3640,9 +3667,9 @@ export interface UpdateSAPVirtualInstanceRequest {
   /** The name of the Virtual Instances for SAP solutions resource */
   sapVirtualInstanceName: string;
   /** Gets or sets the Resource tags. */
-  tags?: UpdateSAPVirtualInstanceRequestTagsMap;
+  tags?: UpdateSAPVirtualInstanceRequestTagsMap | undefined;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: UpdateSAPVirtualInstanceRequestIdentity;
+  identity?: UpdateSAPVirtualInstanceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateSAPVirtualInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -3655,23 +3682,26 @@ export interface UpdateSAPVirtualInstanceResponseIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?:
+    | UpdateSAPVirtualInstanceResponseIdentityUserAssignedIdentitiesMap
+    | null
+    | undefined;
 }
 export interface UpdateSAPVirtualInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSAPVirtualInstanceResponseTagsMap;
+  tags?: UpdateSAPVirtualInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
-  identity?: UpdateSAPVirtualInstanceResponseIdentity;
+  identity?: UpdateSAPVirtualInstanceResponseIdentity | undefined;
   properties: SAPVirtualInstanceProperties_2;
 }
 export type CreateMonitorError = AzureOpError;

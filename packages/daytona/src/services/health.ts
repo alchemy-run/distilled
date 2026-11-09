@@ -26,6 +26,7 @@ const TELEMETRY = {
 export interface CheckHealthControllerRequest {}
 export interface HealthControllerCheck200ResponseInfoValue {
   status: string;
+  [key: string]: unknown;
 }
 export type HealthControllerCheck200ResponseInfoMap = {
   [key: string]: HealthControllerCheck200ResponseInfoValue | undefined;
@@ -37,10 +38,10 @@ export type HealthControllerCheck200ResponseDetailsMap = {
   [key: string]: HealthControllerCheck200ResponseInfoValue | undefined;
 };
 export interface HealthControllerCheck200Response {
-  status?: string;
-  info?: HealthControllerCheck200ResponseInfoMap | null;
-  error?: HealthControllerCheck200ResponseErrorMap | null;
-  details?: HealthControllerCheck200ResponseDetailsMap;
+  status?: string | undefined;
+  info?: HealthControllerCheck200ResponseInfoMap | null | undefined;
+  error?: HealthControllerCheck200ResponseErrorMap | null | undefined;
+  details?: HealthControllerCheck200ResponseDetailsMap | undefined;
 }
 export interface HealthControllerLiveRequest {}
 export interface HealthControllerLiveResponse {}
@@ -85,9 +86,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CheckHealthControllerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            status: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "HealthControllerCheck200ResponseInfoValue" });
     case 2:
       return S.Record(S.String, __S(1, __c0, 1));

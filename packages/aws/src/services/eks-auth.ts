@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -158,9 +159,9 @@ export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
-  eksNodeName?: string;
-  instanceId?: string;
-  zone?: string;
+  eksNodeName?: string | undefined;
+  instanceId?: string | undefined;
+  zone?: string | undefined;
 }
 export interface Subject {
   namespace: string;
@@ -204,7 +205,7 @@ export type AssumeRoleForPodIdentityError =
  * We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically.
  */
 export const assumeRoleForPodIdentity: API.OperationMethod<
-  AssumeRoleForPodIdentityRequest,
+  AssumeRoleForPodIdentityRequest & RegionInput,
   AssumeRoleForPodIdentityResponse,
   AssumeRoleForPodIdentityError,
   Creds | HttpClient.HttpClient

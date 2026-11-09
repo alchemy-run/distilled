@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -162,7 +163,7 @@ export interface BatchDeleteAdvancedPromptOptimizationJobRequest {
 export interface BatchDeleteAdvancedPromptOptimizationJobError_ {
   jobIdentifier: string;
   code: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchDeleteAdvancedPromptOptimizationJobErrors =
   BatchDeleteAdvancedPromptOptimizationJobError_[];
@@ -193,7 +194,7 @@ export interface BatchDeleteEvaluationJobRequest {
 export interface BatchDeleteEvaluationJobError_ {
   jobIdentifier: string | redacted.Redacted<string>;
   code: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchDeleteEvaluationJobErrors = BatchDeleteEvaluationJobError_[];
 export type EvaluationJobStatus =
@@ -242,28 +243,28 @@ export type TagList = Tag[];
 export type AdvancedPromptOptimizationModelIdentifier = string;
 export type NonEmptyStringList = string[];
 export interface InferenceConfiguration {
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  stopSequences?: string[];
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type AdditionalModelRequestFieldsKey = string;
 export type AdditionalModelRequestFieldsValue = unknown;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export interface ModelConfiguration {
   modelId: string;
-  inferenceConfig?: InferenceConfiguration;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  inferenceConfig?: InferenceConfiguration | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type ModelConfigurations = ModelConfiguration[];
 export interface CreateAdvancedPromptOptimizationJobRequest {
   jobName: string;
-  jobDescription?: string;
-  clientToken?: string;
+  jobDescription?: string | undefined;
+  clientToken?: string | undefined;
   inputConfig: AdvancedPromptOptimizationInputConfig;
   outputConfig: AdvancedPromptOptimizationOutputConfig;
-  encryptionKeyArn?: string;
-  tags?: Tag[];
+  encryptionKeyArn?: string | undefined;
+  tags?: Tag[] | undefined;
   modelConfigurations: ModelConfiguration[];
 }
 export type AdvancedPromptOptimizationJobArn = string;
@@ -281,13 +282,13 @@ export type AutomatedReasoningPolicyDefinitionTypeValueDescription =
   | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyDefinitionTypeValue {
   value: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyDefinitionTypeValueList =
   AutomatedReasoningPolicyDefinitionTypeValue[];
 export interface AutomatedReasoningPolicyDefinitionType {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   values: AutomatedReasoningPolicyDefinitionTypeValue[];
 }
 export type AutomatedReasoningPolicyDefinitionTypeList = AutomatedReasoningPolicyDefinitionType[];
@@ -299,7 +300,7 @@ export type AutomatedReasoningPolicyDefinitionRuleAlternateExpression =
 export interface AutomatedReasoningPolicyDefinitionRule {
   id: string;
   expression: string | redacted.Redacted<string>;
-  alternateExpression?: string | redacted.Redacted<string>;
+  alternateExpression?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyDefinitionRuleList = AutomatedReasoningPolicyDefinitionRule[];
 export type AutomatedReasoningPolicyDefinitionVariableName = string | redacted.Redacted<string>;
@@ -314,19 +315,19 @@ export interface AutomatedReasoningPolicyDefinitionVariable {
 export type AutomatedReasoningPolicyDefinitionVariableList =
   AutomatedReasoningPolicyDefinitionVariable[];
 export interface AutomatedReasoningPolicyDefinition {
-  version?: string;
-  types?: AutomatedReasoningPolicyDefinitionType[];
-  rules?: AutomatedReasoningPolicyDefinitionRule[];
-  variables?: AutomatedReasoningPolicyDefinitionVariable[];
+  version?: string | undefined;
+  types?: AutomatedReasoningPolicyDefinitionType[] | undefined;
+  rules?: AutomatedReasoningPolicyDefinitionRule[] | undefined;
+  variables?: AutomatedReasoningPolicyDefinitionVariable[] | undefined;
 }
 export type KmsKeyId = string;
 export interface CreateAutomatedReasoningPolicyRequest {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
-  policyDefinition?: AutomatedReasoningPolicyDefinition;
-  kmsKeyId?: string;
-  tags?: Tag[];
+  description?: string | redacted.Redacted<string> | undefined;
+  clientRequestToken?: string | undefined;
+  policyDefinition?: AutomatedReasoningPolicyDefinition | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type AutomatedReasoningPolicyVersion = string;
 export type AutomatedReasoningPolicyHash = string;
@@ -334,8 +335,8 @@ export interface CreateAutomatedReasoningPolicyResponse {
   policyArn: string;
   version: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  definitionHash?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  definitionHash?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -354,10 +355,10 @@ export type AutomatedReasoningCheckTranslationConfidence = number;
 export interface CreateAutomatedReasoningPolicyTestCaseRequest {
   policyArn: string;
   guardContent: string | redacted.Redacted<string>;
-  queryContent?: string | redacted.Redacted<string>;
+  queryContent?: string | redacted.Redacted<string> | undefined;
   expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
-  clientRequestToken?: string;
-  confidenceThreshold?: number;
+  clientRequestToken?: string | undefined;
+  confidenceThreshold?: number | undefined;
 }
 export type AutomatedReasoningPolicyTestCaseId = string;
 export interface CreateAutomatedReasoningPolicyTestCaseResponse {
@@ -366,15 +367,15 @@ export interface CreateAutomatedReasoningPolicyTestCaseResponse {
 }
 export interface CreateAutomatedReasoningPolicyVersionRequest {
   policyArn: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   lastUpdatedDefinitionHash: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateAutomatedReasoningPolicyVersionResponse {
   policyArn: string;
   version: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   definitionHash: string;
   createdAt: Date;
 }
@@ -391,12 +392,12 @@ export type CustomModelDataSource = { modelPackageArnDataSource: ModelPackageArn
 export type RoleArn = string;
 export interface CreateCustomModelRequest {
   modelName: string;
-  modelSourceConfig?: ModelDataSource;
-  customModelDataSource?: CustomModelDataSource;
-  modelKmsKeyArn?: string;
-  roleArn?: string;
-  modelTags?: Tag[];
-  clientRequestToken?: string;
+  modelSourceConfig?: ModelDataSource | undefined;
+  customModelDataSource?: CustomModelDataSource | undefined;
+  modelKmsKeyArn?: string | undefined;
+  roleArn?: string | undefined;
+  modelTags?: Tag[] | undefined;
+  clientRequestToken?: string | undefined;
 }
 export type ModelArn = string;
 export interface CreateCustomModelResponse {
@@ -408,9 +409,9 @@ export type CustomModelDeploymentDescription = string;
 export interface CreateCustomModelDeploymentRequest {
   modelDeploymentName: string;
   modelArn: string;
-  description?: string;
-  tags?: Tag[];
-  clientRequestToken?: string;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  clientRequestToken?: string | undefined;
 }
 export type CustomModelDeploymentArn = string;
 export interface CreateCustomModelDeploymentResponse {
@@ -430,7 +431,7 @@ export type EvaluationDatasetName = string | redacted.Redacted<string>;
 export type EvaluationDatasetLocation = { s3Uri: string };
 export interface EvaluationDataset {
   name: string | redacted.Redacted<string>;
-  datasetLocation?: EvaluationDatasetLocation;
+  datasetLocation?: EvaluationDatasetLocation | undefined;
 }
 export type EvaluationMetricName = string | redacted.Redacted<string>;
 export type EvaluationMetricNames = (string | redacted.Redacted<string>)[];
@@ -450,8 +451,8 @@ export type MetricName = string | redacted.Redacted<string>;
 export type CustomMetricInstructions = string;
 export type RatingScaleItemDefinition = string;
 export type RatingScaleItemValue =
-  | { stringValue: string; floatValue?: never }
-  | { stringValue?: never; floatValue: number };
+  | { stringValue: string; floatValue?: undefined }
+  | { stringValue?: undefined; floatValue: number };
 export interface RatingScaleItem {
   definition: string;
   value: RatingScaleItemValue;
@@ -460,7 +461,7 @@ export type RatingScale = RatingScaleItem[];
 export interface CustomMetricDefinition {
   name: string | redacted.Redacted<string>;
   instructions: string;
-  ratingScale?: RatingScaleItem[];
+  ratingScale?: RatingScaleItem[] | undefined;
 }
 export type AutomatedEvaluationCustomMetricSource = {
   customMetricDefinition: CustomMetricDefinition;
@@ -479,49 +480,49 @@ export interface AutomatedEvaluationCustomMetricConfig {
 }
 export interface AutomatedEvaluationConfig {
   datasetMetricConfigs: EvaluationDatasetMetricConfig[];
-  evaluatorModelConfig?: EvaluatorModelConfig;
-  customMetricConfig?: AutomatedEvaluationCustomMetricConfig;
+  evaluatorModelConfig?: EvaluatorModelConfig | undefined;
+  customMetricConfig?: AutomatedEvaluationCustomMetricConfig | undefined;
 }
 export type SageMakerFlowDefinitionArn = string;
 export type HumanTaskInstructions = string | redacted.Redacted<string>;
 export interface HumanWorkflowConfig {
   flowDefinitionArn: string;
-  instructions?: string | redacted.Redacted<string>;
+  instructions?: string | redacted.Redacted<string> | undefined;
 }
 export type EvaluationMetricDescription = string | redacted.Redacted<string>;
 export type EvaluationRatingMethod = string;
 export interface HumanEvaluationCustomMetric {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   ratingMethod: string;
 }
 export type HumanEvaluationCustomMetrics = HumanEvaluationCustomMetric[];
 export interface HumanEvaluationConfig {
-  humanWorkflowConfig?: HumanWorkflowConfig;
-  customMetrics?: HumanEvaluationCustomMetric[];
+  humanWorkflowConfig?: HumanWorkflowConfig | undefined;
+  customMetrics?: HumanEvaluationCustomMetric[] | undefined;
   datasetMetricConfigs: EvaluationDatasetMetricConfig[];
 }
 export type EvaluationConfig =
-  | { automated: AutomatedEvaluationConfig; human?: never }
-  | { automated?: never; human: HumanEvaluationConfig };
+  | { automated: AutomatedEvaluationConfig; human?: undefined }
+  | { automated?: undefined; human: HumanEvaluationConfig };
 export type EvaluationBedrockModelIdentifier = string;
 export type EvaluationModelInferenceParams = string | redacted.Redacted<string>;
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export interface EvaluationBedrockModel {
   modelIdentifier: string;
-  inferenceParams?: string | redacted.Redacted<string>;
-  performanceConfig?: PerformanceConfiguration;
+  inferenceParams?: string | redacted.Redacted<string> | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type EvaluationPrecomputedInferenceSourceIdentifier = string;
 export interface EvaluationPrecomputedInferenceSource {
   inferenceSourceIdentifier: string;
 }
 export type EvaluationModelConfig =
-  | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: never }
-  | { bedrockModel?: never; precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
+  | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: undefined }
+  | { bedrockModel?: undefined; precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
 export type EvaluationModelConfigs = EvaluationModelConfig[];
 export type KnowledgeBaseId = string;
 export type SearchType = "HYBRID" | "SEMANTIC" | (string & {});
@@ -535,197 +536,197 @@ export type RetrievalFilterList = RetrievalFilter[];
 export type RetrievalFilter =
   | {
       equals: FilterAttribute;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
+      equals?: undefined;
       notEquals: FilterAttribute;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
       greaterThan: FilterAttribute;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEquals: FilterAttribute;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
       lessThan: FilterAttribute;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
       lessThanOrEquals: FilterAttribute;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
       in: FilterAttribute;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
       notIn: FilterAttribute;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
       startsWith: FilterAttribute;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
       listContains: FilterAttribute;
-      stringContains?: never;
-      andAll?: never;
-      orAll?: never;
+      stringContains?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
       stringContains: FilterAttribute;
-      andAll?: never;
-      orAll?: never;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
       andAll: RetrievalFilter[];
-      orAll?: never;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
-      notEquals?: never;
-      greaterThan?: never;
-      greaterThanOrEquals?: never;
-      lessThan?: never;
-      lessThanOrEquals?: never;
-      in?: never;
-      notIn?: never;
-      startsWith?: never;
-      listContains?: never;
-      stringContains?: never;
-      andAll?: never;
+      equals?: undefined;
+      notEquals?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEquals?: undefined;
+      lessThan?: undefined;
+      lessThanOrEquals?: undefined;
+      in?: undefined;
+      notIn?: undefined;
+      startsWith?: undefined;
+      listContains?: undefined;
+      stringContains?: undefined;
+      andAll?: undefined;
       orAll: RetrievalFilter[];
     };
 export type AttributeType = "STRING" | "NUMBER" | "BOOLEAN" | "STRING_LIST" | (string & {});
@@ -744,7 +745,7 @@ export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" |
 export type BedrockRerankingModelArn = string;
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL" | (string & {});
 export interface FieldForReranking {
@@ -752,27 +753,27 @@ export interface FieldForReranking {
 }
 export type FieldsForReranking = FieldForReranking[];
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
-  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: undefined }
+  | { fieldsToInclude?: undefined; fieldsToExclude: FieldForReranking[] };
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
-  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
+  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration | undefined;
 }
 export interface VectorSearchBedrockRerankingConfiguration {
   modelConfiguration: VectorSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface VectorSearchRerankingConfiguration {
   type: VectorSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration | undefined;
 }
 export interface KnowledgeBaseVectorSearchConfiguration {
-  numberOfResults?: number;
-  overrideSearchType?: SearchType;
-  filter?: RetrievalFilter;
-  implicitFilterConfiguration?: ImplicitFilterConfiguration;
-  rerankingConfiguration?: VectorSearchRerankingConfiguration;
+  numberOfResults?: number | undefined;
+  overrideSearchType?: SearchType | undefined;
+  filter?: RetrievalFilter | undefined;
+  implicitFilterConfiguration?: ImplicitFilterConfiguration | undefined;
+  rerankingConfiguration?: VectorSearchRerankingConfiguration | undefined;
 }
 export interface KnowledgeBaseRetrievalConfiguration {
   vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration;
@@ -784,7 +785,7 @@ export interface RetrieveConfig {
 export type RetrieveAndGenerateType = "KNOWLEDGE_BASE" | "EXTERNAL_SOURCES" | (string & {});
 export type TextPromptTemplate = string | redacted.Redacted<string>;
 export interface PromptTemplate {
-  textPromptTemplate?: string | redacted.Redacted<string>;
+  textPromptTemplate?: string | redacted.Redacted<string> | undefined;
 }
 export interface GuardrailConfiguration {
   guardrailId: string;
@@ -795,19 +796,19 @@ export type TopP = number;
 export type MaxTokens = number;
 export type RAGStopSequences = string[];
 export interface TextInferenceConfig {
-  temperature?: number;
-  topP?: number;
-  maxTokens?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  maxTokens?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export interface KbInferenceConfig {
-  textInferenceConfig?: TextInferenceConfig;
+  textInferenceConfig?: TextInferenceConfig | undefined;
 }
 export interface GenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  kbInferenceConfig?: KbInferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  kbInferenceConfig?: KbInferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type QueryTransformationType = "QUERY_DECOMPOSITION" | (string & {});
 export interface QueryTransformationConfiguration {
@@ -819,9 +820,9 @@ export interface OrchestrationConfiguration {
 export interface KnowledgeBaseRetrieveAndGenerateConfiguration {
   knowledgeBaseId: string;
   modelArn: string;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
-  generationConfiguration?: GenerationConfiguration;
-  orchestrationConfiguration?: OrchestrationConfiguration;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
+  generationConfiguration?: GenerationConfiguration | undefined;
+  orchestrationConfiguration?: OrchestrationConfiguration | undefined;
 }
 export type ExternalSourceType = "S3" | "BYTE_CONTENT" | (string & {});
 export type KBS3Uri = string;
@@ -838,29 +839,29 @@ export interface ByteContentDoc {
 }
 export interface ExternalSource {
   sourceType: ExternalSourceType;
-  s3Location?: S3ObjectDoc;
-  byteContent?: ByteContentDoc;
+  s3Location?: S3ObjectDoc | undefined;
+  byteContent?: ByteContentDoc | undefined;
 }
 export type ExternalSources = ExternalSource[];
 export interface ExternalSourcesGenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  kbInferenceConfig?: KbInferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  kbInferenceConfig?: KbInferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export interface ExternalSourcesRetrieveAndGenerateConfiguration {
   modelArn: string;
   sources: ExternalSource[];
-  generationConfiguration?: ExternalSourcesGenerationConfiguration;
+  generationConfiguration?: ExternalSourcesGenerationConfiguration | undefined;
 }
 export interface RetrieveAndGenerateConfiguration {
   type: RetrieveAndGenerateType;
-  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration;
-  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration;
+  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration | undefined;
+  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration | undefined;
 }
 export type KnowledgeBaseConfig =
-  | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: never }
-  | { retrieveConfig?: never; retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
+  | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: undefined }
+  | { retrieveConfig?: undefined; retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
 export type EvaluationPrecomputedRagSourceIdentifier = string;
 export interface EvaluationPrecomputedRetrieveSourceConfig {
   ragSourceIdentifier: string;
@@ -871,33 +872,33 @@ export interface EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
 export type EvaluationPrecomputedRagSourceConfig =
   | {
       retrieveSourceConfig: EvaluationPrecomputedRetrieveSourceConfig;
-      retrieveAndGenerateSourceConfig?: never;
+      retrieveAndGenerateSourceConfig?: undefined;
     }
   | {
-      retrieveSourceConfig?: never;
+      retrieveSourceConfig?: undefined;
       retrieveAndGenerateSourceConfig: EvaluationPrecomputedRetrieveAndGenerateSourceConfig;
     };
 export type RAGConfig =
-  | { knowledgeBaseConfig: KnowledgeBaseConfig; precomputedRagSourceConfig?: never }
+  | { knowledgeBaseConfig: KnowledgeBaseConfig; precomputedRagSourceConfig?: undefined }
   | {
-      knowledgeBaseConfig?: never;
+      knowledgeBaseConfig?: undefined;
       precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig;
     };
 export type RagConfigs = RAGConfig[];
 export type EvaluationInferenceConfig =
-  | { models: EvaluationModelConfig[]; ragConfigs?: never }
-  | { models?: never; ragConfigs: RAGConfig[] };
+  | { models: EvaluationModelConfig[]; ragConfigs?: undefined }
+  | { models?: undefined; ragConfigs: RAGConfig[] };
 export interface EvaluationOutputDataConfig {
   s3Uri: string;
 }
 export interface CreateEvaluationJobRequest {
   jobName: string;
-  jobDescription?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
+  jobDescription?: string | redacted.Redacted<string> | undefined;
+  clientRequestToken?: string | undefined;
   roleArn: string;
-  customerEncryptionKeyId?: string;
-  jobTags?: Tag[];
-  applicationType?: ApplicationType;
+  customerEncryptionKeyId?: string | undefined;
+  jobTags?: Tag[] | undefined;
+  applicationType?: ApplicationType | undefined;
   evaluationConfig: EvaluationConfig;
   inferenceConfig: EvaluationInferenceConfig;
   outputDataConfig: EvaluationOutputDataConfig;
@@ -926,12 +927,12 @@ export type GuardrailTopicAction = "BLOCK" | "NONE" | (string & {});
 export interface GuardrailTopicConfig {
   name: string | redacted.Redacted<string>;
   definition: string | redacted.Redacted<string>;
-  examples?: (string | redacted.Redacted<string>)[];
+  examples?: (string | redacted.Redacted<string>)[] | undefined;
   type: GuardrailTopicType;
-  inputAction?: GuardrailTopicAction;
-  outputAction?: GuardrailTopicAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailTopicAction | undefined;
+  outputAction?: GuardrailTopicAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailTopicsConfig = GuardrailTopicConfig[];
 export type GuardrailTopicsTierName = "CLASSIC" | "STANDARD" | (string & {});
@@ -940,7 +941,7 @@ export interface GuardrailTopicsTierConfig {
 }
 export interface GuardrailTopicPolicyConfig {
   topicsConfig: GuardrailTopicConfig[];
-  tierConfig?: GuardrailTopicsTierConfig;
+  tierConfig?: GuardrailTopicsTierConfig | undefined;
 }
 export type GuardrailContentFilterType =
   | "SEXUAL"
@@ -958,12 +959,12 @@ export interface GuardrailContentFilterConfig {
   type: GuardrailContentFilterType;
   inputStrength: GuardrailFilterStrength;
   outputStrength: GuardrailFilterStrength;
-  inputModalities?: GuardrailModality[];
-  outputModalities?: GuardrailModality[];
-  inputAction?: GuardrailContentFilterAction;
-  outputAction?: GuardrailContentFilterAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputModalities?: GuardrailModality[] | undefined;
+  outputModalities?: GuardrailModality[] | undefined;
+  inputAction?: GuardrailContentFilterAction | undefined;
+  outputAction?: GuardrailContentFilterAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailContentFiltersConfig = GuardrailContentFilterConfig[];
 export type GuardrailContentFiltersTierName = "CLASSIC" | "STANDARD" | (string & {});
@@ -972,29 +973,29 @@ export interface GuardrailContentFiltersTierConfig {
 }
 export interface GuardrailContentPolicyConfig {
   filtersConfig: GuardrailContentFilterConfig[];
-  tierConfig?: GuardrailContentFiltersTierConfig;
+  tierConfig?: GuardrailContentFiltersTierConfig | undefined;
 }
 export type GuardrailWordAction = "BLOCK" | "NONE" | (string & {});
 export interface GuardrailWordConfig {
   text: string;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailWordAction | undefined;
+  outputAction?: GuardrailWordAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailWordsConfig = GuardrailWordConfig[];
 export type GuardrailManagedWordsType = "PROFANITY" | (string & {});
 export interface GuardrailManagedWordsConfig {
   type: GuardrailManagedWordsType;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailWordAction | undefined;
+  outputAction?: GuardrailWordAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailManagedWordListsConfig = GuardrailManagedWordsConfig[];
 export interface GuardrailWordPolicyConfig {
-  wordsConfig?: GuardrailWordConfig[];
-  managedWordListsConfig?: GuardrailManagedWordsConfig[];
+  wordsConfig?: GuardrailWordConfig[] | undefined;
+  managedWordListsConfig?: GuardrailManagedWordsConfig[] | undefined;
 }
 export type GuardrailPiiEntityType =
   | "ADDRESS"
@@ -1033,34 +1034,34 @@ export type GuardrailSensitiveInformationAction = "BLOCK" | "ANONYMIZE" | "NONE"
 export interface GuardrailPiiEntityConfig {
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailSensitiveInformationAction | undefined;
+  outputAction?: GuardrailSensitiveInformationAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailPiiEntitiesConfig = GuardrailPiiEntityConfig[];
 export interface GuardrailRegexConfig {
   name: string;
-  description?: string;
+  description?: string | undefined;
   pattern: string;
   action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailSensitiveInformationAction | undefined;
+  outputAction?: GuardrailSensitiveInformationAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailRegexesConfig = GuardrailRegexConfig[];
 export interface GuardrailSensitiveInformationPolicyConfig {
-  piiEntitiesConfig?: GuardrailPiiEntityConfig[];
-  regexesConfig?: GuardrailRegexConfig[];
+  piiEntitiesConfig?: GuardrailPiiEntityConfig[] | undefined;
+  regexesConfig?: GuardrailRegexConfig[] | undefined;
 }
 export type GuardrailContextualGroundingFilterType = "GROUNDING" | "RELEVANCE" | (string & {});
 export type GuardrailContextualGroundingAction = "BLOCK" | "NONE" | (string & {});
 export interface GuardrailContextualGroundingFilterConfig {
   type: GuardrailContextualGroundingFilterType;
   threshold: number;
-  action?: GuardrailContextualGroundingAction;
-  enabled?: boolean;
+  action?: GuardrailContextualGroundingAction | undefined;
+  enabled?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFiltersConfig = GuardrailContextualGroundingFilterConfig[];
 export interface GuardrailContextualGroundingPolicyConfig {
@@ -1070,7 +1071,7 @@ export type AutomatedReasoningPolicyArnList = string[];
 export type AutomatedReasoningConfidenceFilterThreshold = number;
 export interface GuardrailAutomatedReasoningPolicyConfig {
   policies: string[];
-  confidenceThreshold?: number;
+  confidenceThreshold?: number | undefined;
 }
 export type GuardrailCrossRegionGuardrailProfileIdentifier = string;
 export interface GuardrailCrossRegionConfig {
@@ -1079,19 +1080,19 @@ export interface GuardrailCrossRegionConfig {
 export type GuardrailBlockedMessaging = string | redacted.Redacted<string>;
 export interface CreateGuardrailRequest {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: GuardrailTopicPolicyConfig;
-  contentPolicyConfig?: GuardrailContentPolicyConfig;
-  wordPolicyConfig?: GuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig;
-  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig;
-  crossRegionConfig?: GuardrailCrossRegionConfig;
+  description?: string | redacted.Redacted<string> | undefined;
+  topicPolicyConfig?: GuardrailTopicPolicyConfig | undefined;
+  contentPolicyConfig?: GuardrailContentPolicyConfig | undefined;
+  wordPolicyConfig?: GuardrailWordPolicyConfig | undefined;
+  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig | undefined;
+  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig | undefined;
+  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig | undefined;
+  crossRegionConfig?: GuardrailCrossRegionConfig | undefined;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
-  kmsKeyId?: string;
-  tags?: Tag[];
-  clientRequestToken?: string;
+  kmsKeyId?: string | undefined;
+  tags?: Tag[] | undefined;
+  clientRequestToken?: string | undefined;
 }
 export type GuardrailId = string;
 export type GuardrailArn = string;
@@ -1105,8 +1106,8 @@ export interface CreateGuardrailResponse {
 export type GuardrailIdentifier = string;
 export interface CreateGuardrailVersionRequest {
   guardrailIdentifier: string;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientRequestToken?: string | undefined;
 }
 export type GuardrailNumericalVersion = string;
 export interface CreateGuardrailVersionResponse {
@@ -1119,16 +1120,16 @@ export type InferenceProfileModelSourceArn = string;
 export type InferenceProfileModelSource = { copyFrom: string };
 export interface CreateInferenceProfileRequest {
   inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientRequestToken?: string | undefined;
   modelSource: InferenceProfileModelSource;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type InferenceProfileArn = string;
 export type InferenceProfileStatus = "ACTIVE" | (string & {});
 export interface CreateInferenceProfileResponse {
   inferenceProfileArn: string;
-  status?: InferenceProfileStatus;
+  status?: InferenceProfileStatus | undefined;
 }
 export type ModelSourceIdentifier = string;
 export type InstanceCount = number;
@@ -1145,8 +1146,8 @@ export interface SageMakerEndpoint {
   initialInstanceCount: number;
   instanceType: string;
   executionRole: string;
-  kmsEncryptionKey?: string;
-  vpc?: VpcConfig;
+  kmsEncryptionKey?: string | undefined;
+  vpc?: VpcConfig | undefined;
 }
 export type EndpointConfig = { sageMaker: SageMakerEndpoint };
 export type AcceptEula = boolean;
@@ -1154,23 +1155,23 @@ export type EndpointName = string;
 export interface CreateMarketplaceModelEndpointRequest {
   modelSourceIdentifier: string;
   endpointConfig: EndpointConfig;
-  acceptEula?: boolean;
+  acceptEula?: boolean | undefined;
   endpointName: string;
-  clientRequestToken?: string;
-  tags?: Tag[];
+  clientRequestToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type Status = "REGISTERED" | "INCOMPATIBLE_ENDPOINT" | (string & {});
 export interface MarketplaceModelEndpoint {
   endpointArn: string;
   modelSourceIdentifier: string;
-  status?: Status;
-  statusMessage?: string;
+  status?: Status | undefined;
+  statusMessage?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
   endpointConfig: EndpointConfig;
   endpointStatus: string;
-  endpointStatusMessage?: string;
+  endpointStatusMessage?: string | undefined;
 }
 export interface CreateMarketplaceModelEndpointResponse {
   marketplaceModelEndpoint: MarketplaceModelEndpoint;
@@ -1178,9 +1179,9 @@ export interface CreateMarketplaceModelEndpointResponse {
 export interface CreateModelCopyJobRequest {
   sourceModelArn: string;
   targetModelName: string;
-  modelKmsKeyId?: string;
-  targetModelTags?: Tag[];
-  clientRequestToken?: string;
+  modelKmsKeyId?: string | undefined;
+  targetModelTags?: Tag[] | undefined;
+  clientRequestToken?: string | undefined;
 }
 export type ModelCopyJobArn = string;
 export interface CreateModelCopyJobResponse {
@@ -1199,33 +1200,43 @@ export type UsePromptResponse = boolean;
 export type InvocationLogSource = { s3Uri: string };
 export type RequestMetadataMap = { [key: string]: string | undefined };
 export interface RequestMetadataBaseFilters {
-  equals?: { [key: string]: string | undefined };
-  notEquals?: { [key: string]: string | undefined };
+  equals?: { [key: string]: string | undefined } | undefined;
+  notEquals?: { [key: string]: string | undefined } | undefined;
 }
 export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
 export type RequestMetadataFilters =
   | {
       equals: { [key: string]: string | undefined };
-      notEquals?: never;
-      andAll?: never;
-      orAll?: never;
+      notEquals?: undefined;
+      andAll?: undefined;
+      orAll?: undefined;
     }
   | {
-      equals?: never;
+      equals?: undefined;
       notEquals: { [key: string]: string | undefined };
-      andAll?: never;
-      orAll?: never;
+      andAll?: undefined;
+      orAll?: undefined;
     }
-  | { equals?: never; notEquals?: never; andAll: RequestMetadataBaseFilters[]; orAll?: never }
-  | { equals?: never; notEquals?: never; andAll?: never; orAll: RequestMetadataBaseFilters[] };
+  | {
+      equals?: undefined;
+      notEquals?: undefined;
+      andAll: RequestMetadataBaseFilters[];
+      orAll?: undefined;
+    }
+  | {
+      equals?: undefined;
+      notEquals?: undefined;
+      andAll?: undefined;
+      orAll: RequestMetadataBaseFilters[];
+    };
 export interface InvocationLogsConfig {
-  usePromptResponse?: boolean;
+  usePromptResponse?: boolean | undefined;
   invocationLogSource: InvocationLogSource;
-  requestMetadataFilters?: RequestMetadataFilters;
+  requestMetadataFilters?: RequestMetadataFilters | undefined;
 }
 export interface TrainingDataConfig {
-  s3Uri?: string;
-  invocationLogsConfig?: InvocationLogsConfig;
+  s3Uri?: string | undefined;
+  invocationLogsConfig?: InvocationLogsConfig | undefined;
 }
 export interface Validator {
   s3Uri: string;
@@ -1241,7 +1252,7 @@ export type ModelCustomizationHyperParameters = { [key: string]: string | undefi
 export type TeacherModelIdentifier = string;
 export interface TeacherModelConfig {
   teacherModelIdentifier: string;
-  maxResponseLengthForInference?: number;
+  maxResponseLengthForInference?: number | undefined;
 }
 export interface DistillationConfig {
   teacherModelConfig: TeacherModelConfig;
@@ -1260,38 +1271,38 @@ export type RFTInferenceMaxTokens = number;
 export type ReasoningEffort = "low" | "medium" | "high" | (string & {});
 export type RFTEvalInterval = number;
 export interface RFTHyperParameters {
-  epochCount?: number;
-  batchSize?: number;
-  learningRate?: number;
-  maxPromptLength?: number;
-  trainingSamplePerPrompt?: number;
-  inferenceMaxTokens?: number;
-  reasoningEffort?: ReasoningEffort;
-  evalInterval?: number;
+  epochCount?: number | undefined;
+  batchSize?: number | undefined;
+  learningRate?: number | undefined;
+  maxPromptLength?: number | undefined;
+  trainingSamplePerPrompt?: number | undefined;
+  inferenceMaxTokens?: number | undefined;
+  reasoningEffort?: ReasoningEffort | undefined;
+  evalInterval?: number | undefined;
 }
 export interface RFTConfig {
-  graderConfig?: GraderConfig;
-  hyperParameters?: RFTHyperParameters;
+  graderConfig?: GraderConfig | undefined;
+  hyperParameters?: RFTHyperParameters | undefined;
 }
 export type CustomizationConfig =
-  | { distillationConfig: DistillationConfig; rftConfig?: never }
-  | { distillationConfig?: never; rftConfig: RFTConfig };
+  | { distillationConfig: DistillationConfig; rftConfig?: undefined }
+  | { distillationConfig?: undefined; rftConfig: RFTConfig };
 export interface CreateModelCustomizationJobRequest {
   jobName: string;
   customModelName: string;
   roleArn: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   baseModelIdentifier: string;
-  customizationType?: CustomizationType;
-  customModelKmsKeyId?: string;
-  jobTags?: Tag[];
-  customModelTags?: Tag[];
+  customizationType?: CustomizationType | undefined;
+  customModelKmsKeyId?: string | undefined;
+  jobTags?: Tag[] | undefined;
+  customModelTags?: Tag[] | undefined;
   trainingDataConfig: TrainingDataConfig;
-  validationDataConfig?: ValidationDataConfig;
+  validationDataConfig?: ValidationDataConfig | undefined;
   outputDataConfig: OutputDataConfig;
-  hyperParameters?: { [key: string]: string | undefined };
-  vpcConfig?: VpcConfig;
-  customizationConfig?: CustomizationConfig;
+  hyperParameters?: { [key: string]: string | undefined } | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  customizationConfig?: CustomizationConfig | undefined;
 }
 export type ModelCustomizationJobArn = string;
 export interface CreateModelCustomizationJobResponse {
@@ -1303,11 +1314,11 @@ export interface CreateModelImportJobRequest {
   importedModelName: string;
   roleArn: string;
   modelDataSource: ModelDataSource;
-  jobTags?: Tag[];
-  importedModelTags?: Tag[];
-  clientRequestToken?: string;
-  vpcConfig?: VpcConfig;
-  importedModelKmsKeyId?: string;
+  jobTags?: Tag[] | undefined;
+  importedModelTags?: Tag[] | undefined;
+  clientRequestToken?: string | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  importedModelKmsKeyId?: string | undefined;
 }
 export type ModelImportJobArn = string;
 export interface CreateModelImportJobResponse {
@@ -1319,17 +1330,17 @@ export type ModelId = string;
 export type S3InputFormat = "JSONL" | (string & {});
 export type AccountId = string;
 export interface ModelInvocationJobS3InputDataConfig {
-  s3InputFormat?: S3InputFormat;
+  s3InputFormat?: S3InputFormat | undefined;
   s3Uri: string;
-  s3BucketOwner?: string;
+  s3BucketOwner?: string | undefined;
 }
 export type ModelInvocationJobInputDataConfig = {
   s3InputDataConfig: ModelInvocationJobS3InputDataConfig;
 };
 export interface ModelInvocationJobS3OutputDataConfig {
   s3Uri: string;
-  s3EncryptionKeyId?: string;
-  s3BucketOwner?: string;
+  s3EncryptionKeyId?: string | undefined;
+  s3BucketOwner?: string | undefined;
 }
 export type ModelInvocationJobOutputDataConfig = {
   s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig;
@@ -1339,14 +1350,14 @@ export type ModelInvocationType = "InvokeModel" | "Converse" | (string & {});
 export interface CreateModelInvocationJobRequest {
   jobName: string;
   roleArn: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   modelId: string;
   inputDataConfig: ModelInvocationJobInputDataConfig;
   outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  tags?: Tag[];
-  modelInvocationType?: ModelInvocationType;
+  vpcConfig?: VpcConfig | undefined;
+  timeoutDurationInHours?: number | undefined;
+  tags?: Tag[] | undefined;
+  modelInvocationType?: ModelInvocationType | undefined;
 }
 export type ModelInvocationJobArn = string;
 export interface CreateModelInvocationJobResponse {
@@ -1355,7 +1366,7 @@ export interface CreateModelInvocationJobResponse {
 export type PromptRouterName = string;
 export type PromptRouterTargetModelArn = string;
 export interface PromptRouterTargetModel {
-  modelArn?: string;
+  modelArn?: string | undefined;
 }
 export type PromptRouterTargetModels = PromptRouterTargetModel[];
 export type PromptRouterDescription = string | redacted.Redacted<string>;
@@ -1363,29 +1374,29 @@ export interface RoutingCriteria {
   responseQualityDifference: number;
 }
 export interface CreatePromptRouterRequest {
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   promptRouterName: string;
   models: PromptRouterTargetModel[];
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   routingCriteria: RoutingCriteria;
   fallbackModel: PromptRouterTargetModel;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type PromptRouterArn = string;
 export interface CreatePromptRouterResponse {
-  promptRouterArn?: string;
+  promptRouterArn?: string | undefined;
 }
 export type PositiveInteger = number;
 export type ProvisionedModelName = string;
 export type ModelIdentifier = string;
 export type CommitmentDuration = "OneMonth" | "SixMonths" | (string & {});
 export interface CreateProvisionedModelThroughputRequest {
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   modelUnits: number;
   provisionedModelName: string;
   modelId: string;
-  commitmentDuration?: CommitmentDuration;
-  tags?: Tag[];
+  commitmentDuration?: CommitmentDuration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ProvisionedModelArn = string;
 export interface CreateProvisionedModelThroughputResponse {
@@ -1393,7 +1404,7 @@ export interface CreateProvisionedModelThroughputResponse {
 }
 export interface DeleteAutomatedReasoningPolicyRequest {
   policyArn: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteAutomatedReasoningPolicyResponse {}
 export interface DeleteAutomatedReasoningPolicyBuildWorkflowRequest {
@@ -1428,7 +1439,7 @@ export interface DeleteFoundationModelAgreementRequest {
 export interface DeleteFoundationModelAgreementResponse {}
 export interface DeleteGuardrailRequest {
   guardrailIdentifier: string;
-  guardrailVersion?: string;
+  guardrailVersion?: string | undefined;
 }
 export interface DeleteGuardrailResponse {}
 export type ImportedModelIdentifier = string;
@@ -1481,7 +1492,7 @@ export type DataRetentionMode =
   | (string & {});
 export interface GetAccountDataRetentionResponse {
   mode: DataRetentionMode;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface GetAdvancedPromptOptimizationJobRequest {
   jobIdentifier: string;
@@ -1490,14 +1501,14 @@ export type ErrorMessage = string;
 export interface GetAdvancedPromptOptimizationJobResponse {
   jobArn: string;
   jobName: string;
-  jobDescription?: string;
+  jobDescription?: string | undefined;
   jobStatus: AdvancedPromptOptimizationJobStatus;
   inputConfig: AdvancedPromptOptimizationInputConfig;
   outputConfig: AdvancedPromptOptimizationOutputConfig;
-  encryptionKeyArn?: string;
+  encryptionKeyArn?: string | undefined;
   creationTime: Date;
-  lastModifiedTime?: Date;
-  failureMessage?: string;
+  lastModifiedTime?: Date | undefined;
+  failureMessage?: string | undefined;
   modelConfigurations: ModelConfiguration[];
 }
 export interface GetAutomatedReasoningPolicyRequest {
@@ -1509,10 +1520,10 @@ export interface GetAutomatedReasoningPolicyResponse {
   name: string | redacted.Redacted<string>;
   version: string;
   policyId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   definitionHash: string;
-  kmsKeyArn?: string;
-  createdAt?: Date;
+  kmsKeyArn?: string | undefined;
+  createdAt?: Date | undefined;
   updatedAt: Date;
 }
 export interface GetAutomatedReasoningPolicyAnnotationsRequest {
@@ -1526,12 +1537,12 @@ export interface AutomatedReasoningPolicyAddTypeAnnotation {
 }
 export interface AutomatedReasoningPolicyAddTypeValue {
   value: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface AutomatedReasoningPolicyUpdateTypeValue {
   value: string;
-  newValue?: string;
-  description?: string | redacted.Redacted<string>;
+  newValue?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface AutomatedReasoningPolicyDeleteTypeValue {
   value: string;
@@ -1539,25 +1550,25 @@ export interface AutomatedReasoningPolicyDeleteTypeValue {
 export type AutomatedReasoningPolicyTypeValueAnnotation =
   | {
       addTypeValue: AutomatedReasoningPolicyAddTypeValue;
-      updateTypeValue?: never;
-      deleteTypeValue?: never;
+      updateTypeValue?: undefined;
+      deleteTypeValue?: undefined;
     }
   | {
-      addTypeValue?: never;
+      addTypeValue?: undefined;
       updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue;
-      deleteTypeValue?: never;
+      deleteTypeValue?: undefined;
     }
   | {
-      addTypeValue?: never;
-      updateTypeValue?: never;
+      addTypeValue?: undefined;
+      updateTypeValue?: undefined;
       deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue;
     };
 export type AutomatedReasoningPolicyTypeValueAnnotationList =
   AutomatedReasoningPolicyTypeValueAnnotation[];
 export interface AutomatedReasoningPolicyUpdateTypeAnnotation {
   name: string | redacted.Redacted<string>;
-  newName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  newName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   values: AutomatedReasoningPolicyTypeValueAnnotation[];
 }
 export interface AutomatedReasoningPolicyDeleteTypeAnnotation {
@@ -1570,8 +1581,8 @@ export interface AutomatedReasoningPolicyAddVariableAnnotation {
 }
 export interface AutomatedReasoningPolicyUpdateVariableAnnotation {
   name: string | redacted.Redacted<string>;
-  newName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  newName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface AutomatedReasoningPolicyDeleteVariableAnnotation {
   name: string | redacted.Redacted<string>;
@@ -1597,14 +1608,14 @@ export type AutomatedReasoningPolicyAnnotationFeedbackNaturalLanguage =
   | string
   | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation {
-  ruleIds?: string[];
+  ruleIds?: string[] | undefined;
   feedback: string | redacted.Redacted<string>;
 }
 export type AutomatedReasoningPolicyScenarioExpression = string | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation {
-  ruleIds?: string[];
+  ruleIds?: string[] | undefined;
   scenarioExpression: string | redacted.Redacted<string>;
-  feedback?: string | redacted.Redacted<string>;
+  feedback?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyAnnotationIngestContent = string | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyIngestContentAnnotation {
@@ -1613,197 +1624,197 @@ export interface AutomatedReasoningPolicyIngestContentAnnotation {
 export type AutomatedReasoningPolicyAnnotation =
   | {
       addType: AutomatedReasoningPolicyAddTypeAnnotation;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
+      addType?: undefined;
       updateType: AutomatedReasoningPolicyUpdateTypeAnnotation;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
+      addType?: undefined;
+      updateType?: undefined;
       deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
       addVariable: AutomatedReasoningPolicyAddVariableAnnotation;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
       updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
       deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
       addRule: AutomatedReasoningPolicyAddRuleAnnotation;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
       updateRule: AutomatedReasoningPolicyUpdateRuleAnnotation;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
       deleteRule: AutomatedReasoningPolicyDeleteRuleAnnotation;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
       addRuleFromNaturalLanguage: AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
       updateFromRulesFeedback: AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation;
-      updateFromScenarioFeedback?: never;
-      ingestContent?: never;
+      updateFromScenarioFeedback?: undefined;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
       updateFromScenarioFeedback: AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation;
-      ingestContent?: never;
+      ingestContent?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
-      addRuleFromNaturalLanguage?: never;
-      updateFromRulesFeedback?: never;
-      updateFromScenarioFeedback?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
+      addRuleFromNaturalLanguage?: undefined;
+      updateFromRulesFeedback?: undefined;
+      updateFromScenarioFeedback?: undefined;
       ingestContent: AutomatedReasoningPolicyIngestContentAnnotation;
     };
 export type AutomatedReasoningPolicyAnnotationList = AutomatedReasoningPolicyAnnotation[];
@@ -1846,9 +1857,9 @@ export interface GetAutomatedReasoningPolicyBuildWorkflowResponse {
   buildWorkflowId: string;
   status: AutomatedReasoningPolicyBuildWorkflowStatus;
   buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
-  documentName?: string | redacted.Redacted<string>;
-  documentContentType?: AutomatedReasoningPolicyBuildDocumentContentType;
-  documentDescription?: string | redacted.Redacted<string>;
+  documentName?: string | redacted.Redacted<string> | undefined;
+  documentContentType?: AutomatedReasoningPolicyBuildDocumentContentType | undefined;
+  documentDescription?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -1867,7 +1878,7 @@ export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest {
   policyArn: string;
   buildWorkflowId: string;
   assetType: AutomatedReasoningPolicyBuildResultAssetType;
-  assetId?: string;
+  assetId?: string | undefined;
 }
 export type AutomatedReasoningPolicyDefinitionTypeNameList = (string | redacted.Redacted<string>)[];
 export interface AutomatedReasoningPolicyDefinitionTypeValuePair {
@@ -1929,120 +1940,120 @@ export interface AutomatedReasoningPolicyDeleteRuleMutation {
 export type AutomatedReasoningPolicyMutation =
   | {
       addType: AutomatedReasoningPolicyAddTypeMutation;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
+      addType?: undefined;
       updateType: AutomatedReasoningPolicyUpdateTypeMutation;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
+      addType?: undefined;
+      updateType?: undefined;
       deleteType: AutomatedReasoningPolicyDeleteTypeMutation;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
       addVariable: AutomatedReasoningPolicyAddVariableMutation;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
       updateVariable: AutomatedReasoningPolicyUpdateVariableMutation;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
       deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation;
-      addRule?: never;
-      updateRule?: never;
-      deleteRule?: never;
+      addRule?: undefined;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
       addRule: AutomatedReasoningPolicyAddRuleMutation;
-      updateRule?: never;
-      deleteRule?: never;
+      updateRule?: undefined;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
       updateRule: AutomatedReasoningPolicyUpdateRuleMutation;
-      deleteRule?: never;
+      deleteRule?: undefined;
     }
   | {
-      addType?: never;
-      updateType?: never;
-      deleteType?: never;
-      addVariable?: never;
-      updateVariable?: never;
-      deleteVariable?: never;
-      addRule?: never;
-      updateRule?: never;
+      addType?: undefined;
+      updateType?: undefined;
+      deleteType?: undefined;
+      addVariable?: undefined;
+      updateVariable?: undefined;
+      deleteVariable?: undefined;
+      addRule?: undefined;
+      updateRule?: undefined;
       deleteRule: AutomatedReasoningPolicyDeleteRuleMutation;
     };
 export type AutomatedReasoningPolicyBuildStepContext =
-  | { planning: AutomatedReasoningPolicyPlanning; mutation?: never }
-  | { planning?: never; mutation: AutomatedReasoningPolicyMutation };
+  | { planning: AutomatedReasoningPolicyPlanning; mutation?: undefined }
+  | { planning?: undefined; mutation: AutomatedReasoningPolicyMutation };
 export type AutomatedReasoningPolicyDefinitionElement =
   | {
       policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable;
-      policyDefinitionType?: never;
-      policyDefinitionRule?: never;
+      policyDefinitionType?: undefined;
+      policyDefinitionRule?: undefined;
     }
   | {
-      policyDefinitionVariable?: never;
+      policyDefinitionVariable?: undefined;
       policyDefinitionType: AutomatedReasoningPolicyDefinitionType;
-      policyDefinitionRule?: never;
+      policyDefinitionRule?: undefined;
     }
   | {
-      policyDefinitionVariable?: never;
-      policyDefinitionType?: never;
+      policyDefinitionVariable?: undefined;
+      policyDefinitionType?: undefined;
       policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
     };
 export type AutomatedReasoningPolicyBuildMessageType = "INFO" | "WARNING" | "ERROR" | (string & {});
@@ -2054,7 +2065,7 @@ export type AutomatedReasoningPolicyBuildStepMessageList =
   AutomatedReasoningPolicyBuildStepMessage[];
 export interface AutomatedReasoningPolicyBuildStep {
   context: AutomatedReasoningPolicyBuildStepContext;
-  priorElement?: AutomatedReasoningPolicyDefinitionElement;
+  priorElement?: AutomatedReasoningPolicyDefinitionElement | undefined;
   messages: AutomatedReasoningPolicyBuildStepMessage[];
 }
 export type AutomatedReasoningPolicyBuildStepList = AutomatedReasoningPolicyBuildStep[];
@@ -2093,8 +2104,8 @@ export interface AutomatedReasoningPolicyScenarios {
 export type AutomatedReasoningPolicyBuildResultAssetName = string | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyBuildResultAssetManifestEntry {
   assetType: AutomatedReasoningPolicyBuildResultAssetType;
-  assetName?: string | redacted.Redacted<string>;
-  assetId?: string;
+  assetName?: string | redacted.Redacted<string> | undefined;
+  assetId?: string | undefined;
 }
 export type AutomatedReasoningPolicyBuildResultAssetManifestList =
   AutomatedReasoningPolicyBuildResultAssetManifestEntry[];
@@ -2107,7 +2118,7 @@ export interface AutomatedReasoningPolicySourceDocument {
   document: Uint8Array | redacted.Redacted<Uint8Array>;
   documentContentType: AutomatedReasoningPolicyBuildDocumentContentType;
   documentName: string | redacted.Redacted<string>;
-  documentDescription?: string | redacted.Redacted<string>;
+  documentDescription?: string | redacted.Redacted<string> | undefined;
   documentHash: string;
 }
 export type AutomatedReasoningPolicyCoverageScore = number;
@@ -2124,20 +2135,20 @@ export type AutomatedReasoningPolicyJustificationText = string | redacted.Redact
 export type AutomatedReasoningPolicyJustificationList = (string | redacted.Redacted<string>)[];
 export interface AutomatedReasoningPolicyRuleReport {
   rule: string;
-  groundingStatements?: AutomatedReasoningPolicyStatementReference[];
-  groundingJustifications?: (string | redacted.Redacted<string>)[];
-  accuracyScore?: number;
-  accuracyJustification?: string | redacted.Redacted<string>;
+  groundingStatements?: AutomatedReasoningPolicyStatementReference[] | undefined;
+  groundingJustifications?: (string | redacted.Redacted<string>)[] | undefined;
+  accuracyScore?: number | undefined;
+  accuracyJustification?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyRuleReportMap = {
   [key: string]: AutomatedReasoningPolicyRuleReport | undefined;
 };
 export interface AutomatedReasoningPolicyVariableReport {
   policyVariable: string | redacted.Redacted<string>;
-  groundingStatements?: AutomatedReasoningPolicyStatementReference[];
-  groundingJustifications?: (string | redacted.Redacted<string>)[];
-  accuracyScore?: number;
-  accuracyJustification?: string | redacted.Redacted<string>;
+  groundingStatements?: AutomatedReasoningPolicyStatementReference[] | undefined;
+  groundingJustifications?: (string | redacted.Redacted<string>)[] | undefined;
+  accuracyScore?: number | undefined;
+  accuracyJustification?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyVariableReportMap = {
   [key: string]: AutomatedReasoningPolicyVariableReport | undefined;
@@ -2155,8 +2166,8 @@ export interface AutomatedReasoningPolicyAtomicStatement {
 export type AutomatedReasoningPolicyAtomicStatementList = AutomatedReasoningPolicyAtomicStatement[];
 export type AutomatedReasoningPolicyLineText = string | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyAnnotatedLine {
-  lineNumber?: number;
-  lineText?: string | redacted.Redacted<string>;
+  lineNumber?: number | undefined;
+  lineText?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyAnnotatedContent = {
   line: AutomatedReasoningPolicyAnnotatedLine;
@@ -2164,7 +2175,7 @@ export type AutomatedReasoningPolicyAnnotatedContent = {
 export type AutomatedReasoningPolicyAnnotatedContentList =
   AutomatedReasoningPolicyAnnotatedContent[];
 export interface AutomatedReasoningPolicyAnnotatedChunk {
-  pageNumber?: number;
+  pageNumber?: number | undefined;
   content: AutomatedReasoningPolicyAnnotatedContent[];
 }
 export type AutomatedReasoningPolicyAnnotatedChunkList = AutomatedReasoningPolicyAnnotatedChunk[];
@@ -2187,88 +2198,88 @@ export interface AutomatedReasoningPolicyFidelityReport {
 export type AutomatedReasoningPolicyBuildResultAssets =
   | {
       policyDefinition: AutomatedReasoningPolicyDefinition;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
+      policyDefinition?: undefined;
       qualityReport: AutomatedReasoningPolicyDefinitionQualityReport;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
       buildLog: AutomatedReasoningPolicyBuildLog;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
       generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
       policyScenarios: AutomatedReasoningPolicyScenarios;
-      assetManifest?: never;
-      document?: never;
-      fidelityReport?: never;
+      assetManifest?: undefined;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
       assetManifest: AutomatedReasoningPolicyBuildResultAssetManifest;
-      document?: never;
-      fidelityReport?: never;
+      document?: undefined;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
       document: AutomatedReasoningPolicySourceDocument;
-      fidelityReport?: never;
+      fidelityReport?: undefined;
     }
   | {
-      policyDefinition?: never;
-      qualityReport?: never;
-      buildLog?: never;
-      generatedTestCases?: never;
-      policyScenarios?: never;
-      assetManifest?: never;
-      document?: never;
+      policyDefinition?: undefined;
+      qualityReport?: undefined;
+      buildLog?: undefined;
+      generatedTestCases?: undefined;
+      policyScenarios?: undefined;
+      assetManifest?: undefined;
+      document?: undefined;
       fidelityReport: AutomatedReasoningPolicyFidelityReport;
     };
 export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
   policyArn: string;
   buildWorkflowId: string;
-  buildWorkflowAssets?: AutomatedReasoningPolicyBuildResultAssets;
+  buildWorkflowAssets?: AutomatedReasoningPolicyBuildResultAssets | undefined;
 }
 export interface GetAutomatedReasoningPolicyNextScenarioRequest {
   policyArn: string;
@@ -2276,7 +2287,7 @@ export interface GetAutomatedReasoningPolicyNextScenarioRequest {
 }
 export interface GetAutomatedReasoningPolicyNextScenarioResponse {
   policyArn: string;
-  scenario?: AutomatedReasoningPolicyScenario;
+  scenario?: AutomatedReasoningPolicyScenario | undefined;
 }
 export interface GetAutomatedReasoningPolicyTestCaseRequest {
   policyArn: string;
@@ -2285,11 +2296,11 @@ export interface GetAutomatedReasoningPolicyTestCaseRequest {
 export interface AutomatedReasoningPolicyTestCase {
   testCaseId: string;
   guardContent: string | redacted.Redacted<string>;
-  queryContent?: string | redacted.Redacted<string>;
-  expectedAggregatedFindingsResult?: AutomatedReasoningCheckResult;
+  queryContent?: string | redacted.Redacted<string> | undefined;
+  expectedAggregatedFindingsResult?: AutomatedReasoningCheckResult | undefined;
   createdAt: Date;
   updatedAt: Date;
-  confidenceThreshold?: number;
+  confidenceThreshold?: number | undefined;
 }
 export interface GetAutomatedReasoningPolicyTestCaseResponse {
   policyArn: string;
@@ -2311,27 +2322,27 @@ export type AutomatedReasoningLogicStatementContent = string | redacted.Redacted
 export type AutomatedReasoningNaturalLanguageStatementContent = string | redacted.Redacted<string>;
 export interface AutomatedReasoningLogicStatement {
   logic: string | redacted.Redacted<string>;
-  naturalLanguage?: string | redacted.Redacted<string>;
+  naturalLanguage?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningLogicStatementList = AutomatedReasoningLogicStatement[];
 export interface AutomatedReasoningCheckInputTextReference {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningCheckInputTextReferenceList =
   AutomatedReasoningCheckInputTextReference[];
 export interface AutomatedReasoningCheckTranslation {
-  premises?: AutomatedReasoningLogicStatement[];
+  premises?: AutomatedReasoningLogicStatement[] | undefined;
   claims: AutomatedReasoningLogicStatement[];
-  untranslatedPremises?: AutomatedReasoningCheckInputTextReference[];
-  untranslatedClaims?: AutomatedReasoningCheckInputTextReference[];
+  untranslatedPremises?: AutomatedReasoningCheckInputTextReference[] | undefined;
+  untranslatedClaims?: AutomatedReasoningCheckInputTextReference[] | undefined;
   confidence: number;
 }
 export interface AutomatedReasoningCheckScenario {
-  statements?: AutomatedReasoningLogicStatement[];
+  statements?: AutomatedReasoningLogicStatement[] | undefined;
 }
 export interface AutomatedReasoningCheckRule {
-  id?: string;
-  policyVersionArn?: string;
+  id?: string | undefined;
+  policyVersionArn?: string | undefined;
 }
 export type AutomatedReasoningCheckRuleList = AutomatedReasoningCheckRule[];
 export type AutomatedReasoningCheckLogicWarningType =
@@ -2339,107 +2350,107 @@ export type AutomatedReasoningCheckLogicWarningType =
   | "ALWAYS_FALSE"
   | (string & {});
 export interface AutomatedReasoningCheckLogicWarning {
-  type?: AutomatedReasoningCheckLogicWarningType;
-  premises?: AutomatedReasoningLogicStatement[];
-  claims?: AutomatedReasoningLogicStatement[];
+  type?: AutomatedReasoningCheckLogicWarningType | undefined;
+  premises?: AutomatedReasoningLogicStatement[] | undefined;
+  claims?: AutomatedReasoningLogicStatement[] | undefined;
 }
 export interface AutomatedReasoningCheckValidFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  claimsTrueScenario?: AutomatedReasoningCheckScenario;
-  supportingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
+  translation?: AutomatedReasoningCheckTranslation | undefined;
+  claimsTrueScenario?: AutomatedReasoningCheckScenario | undefined;
+  supportingRules?: AutomatedReasoningCheckRule[] | undefined;
+  logicWarning?: AutomatedReasoningCheckLogicWarning | undefined;
 }
 export interface AutomatedReasoningCheckInvalidFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  contradictingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
+  translation?: AutomatedReasoningCheckTranslation | undefined;
+  contradictingRules?: AutomatedReasoningCheckRule[] | undefined;
+  logicWarning?: AutomatedReasoningCheckLogicWarning | undefined;
 }
 export interface AutomatedReasoningCheckSatisfiableFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  claimsTrueScenario?: AutomatedReasoningCheckScenario;
-  claimsFalseScenario?: AutomatedReasoningCheckScenario;
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
+  translation?: AutomatedReasoningCheckTranslation | undefined;
+  claimsTrueScenario?: AutomatedReasoningCheckScenario | undefined;
+  claimsFalseScenario?: AutomatedReasoningCheckScenario | undefined;
+  logicWarning?: AutomatedReasoningCheckLogicWarning | undefined;
 }
 export interface AutomatedReasoningCheckImpossibleFinding {
-  translation?: AutomatedReasoningCheckTranslation;
-  contradictingRules?: AutomatedReasoningCheckRule[];
-  logicWarning?: AutomatedReasoningCheckLogicWarning;
+  translation?: AutomatedReasoningCheckTranslation | undefined;
+  contradictingRules?: AutomatedReasoningCheckRule[] | undefined;
+  logicWarning?: AutomatedReasoningCheckLogicWarning | undefined;
 }
 export type AutomatedReasoningCheckTranslationList = AutomatedReasoningCheckTranslation[];
 export interface AutomatedReasoningCheckTranslationOption {
-  translations?: AutomatedReasoningCheckTranslation[];
+  translations?: AutomatedReasoningCheckTranslation[] | undefined;
 }
 export type AutomatedReasoningCheckTranslationOptionList =
   AutomatedReasoningCheckTranslationOption[];
 export type AutomatedReasoningCheckDifferenceScenarioList = AutomatedReasoningCheckScenario[];
 export interface AutomatedReasoningCheckTranslationAmbiguousFinding {
-  options?: AutomatedReasoningCheckTranslationOption[];
-  differenceScenarios?: AutomatedReasoningCheckScenario[];
+  options?: AutomatedReasoningCheckTranslationOption[] | undefined;
+  differenceScenarios?: AutomatedReasoningCheckScenario[] | undefined;
 }
 export interface AutomatedReasoningCheckTooComplexFinding {}
 export interface AutomatedReasoningCheckNoTranslationsFinding {}
 export type AutomatedReasoningCheckFinding =
   | {
       valid: AutomatedReasoningCheckValidFinding;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
+      valid?: undefined;
       invalid: AutomatedReasoningCheckInvalidFinding;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
+      valid?: undefined;
+      invalid?: undefined;
       satisfiable: AutomatedReasoningCheckSatisfiableFinding;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
       impossible: AutomatedReasoningCheckImpossibleFinding;
-      translationAmbiguous?: never;
-      tooComplex?: never;
-      noTranslations?: never;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
       translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding;
-      tooComplex?: never;
-      noTranslations?: never;
+      tooComplex?: undefined;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
       tooComplex: AutomatedReasoningCheckTooComplexFinding;
-      noTranslations?: never;
+      noTranslations?: undefined;
     }
   | {
-      valid?: never;
-      invalid?: never;
-      satisfiable?: never;
-      impossible?: never;
-      translationAmbiguous?: never;
-      tooComplex?: never;
+      valid?: undefined;
+      invalid?: undefined;
+      satisfiable?: undefined;
+      impossible?: undefined;
+      translationAmbiguous?: undefined;
+      tooComplex?: undefined;
       noTranslations: AutomatedReasoningCheckNoTranslationsFinding;
     };
 export type AutomatedReasoningCheckFindingList = AutomatedReasoningCheckFinding[];
@@ -2448,9 +2459,9 @@ export interface AutomatedReasoningPolicyTestResult {
   testCase: AutomatedReasoningPolicyTestCase;
   policyArn: string;
   testRunStatus: AutomatedReasoningPolicyTestRunStatus;
-  testFindings?: AutomatedReasoningCheckFinding[];
-  testRunResult?: AutomatedReasoningPolicyTestRunResult;
-  aggregatedTestFindingsResult?: AutomatedReasoningCheckResult;
+  testFindings?: AutomatedReasoningCheckFinding[] | undefined;
+  testRunResult?: AutomatedReasoningPolicyTestRunResult | undefined;
+  aggregatedTestFindingsResult?: AutomatedReasoningCheckResult | undefined;
   updatedAt: Date;
 }
 export interface GetAutomatedReasoningPolicyTestResultResponse {
@@ -2461,31 +2472,31 @@ export interface GetCustomModelRequest {
 }
 export type MetricFloat = number;
 export interface TrainingMetrics {
-  trainingLoss?: number;
+  trainingLoss?: number | undefined;
 }
 export interface ValidatorMetric {
-  validationLoss?: number;
+  validationLoss?: number | undefined;
 }
 export type ValidationMetrics = ValidatorMetric[];
 export type ModelStatus = "Active" | "Creating" | "Failed" | (string & {});
 export interface GetCustomModelResponse {
   modelArn: string;
   modelName: string;
-  jobName?: string;
-  jobArn?: string;
-  baseModelArn?: string;
-  customizationType?: CustomizationType;
-  modelKmsKeyArn?: string;
-  hyperParameters?: { [key: string]: string | undefined };
-  trainingDataConfig?: TrainingDataConfig;
-  validationDataConfig?: ValidationDataConfig;
-  outputDataConfig?: OutputDataConfig;
-  trainingMetrics?: TrainingMetrics;
-  validationMetrics?: ValidatorMetric[];
+  jobName?: string | undefined;
+  jobArn?: string | undefined;
+  baseModelArn?: string | undefined;
+  customizationType?: CustomizationType | undefined;
+  modelKmsKeyArn?: string | undefined;
+  hyperParameters?: { [key: string]: string | undefined } | undefined;
+  trainingDataConfig?: TrainingDataConfig | undefined;
+  validationDataConfig?: ValidationDataConfig | undefined;
+  outputDataConfig?: OutputDataConfig | undefined;
+  trainingMetrics?: TrainingMetrics | undefined;
+  validationMetrics?: ValidatorMetric[] | undefined;
   creationTime: Date;
-  customizationConfig?: CustomizationConfig;
-  modelStatus?: ModelStatus;
-  failureMessage?: string;
+  customizationConfig?: CustomizationConfig | undefined;
+  modelStatus?: ModelStatus | undefined;
+  failureMessage?: string | undefined;
 }
 export interface GetCustomModelDeploymentRequest {
   customModelDeploymentIdentifier: string;
@@ -2506,10 +2517,10 @@ export interface GetCustomModelDeploymentResponse {
   modelArn: string;
   createdAt: Date;
   status: CustomModelDeploymentStatus;
-  description?: string;
-  updateDetails?: CustomModelDeploymentUpdateDetails;
-  failureMessage?: string;
-  lastUpdatedAt?: Date;
+  description?: string | undefined;
+  updateDetails?: CustomModelDeploymentUpdateDetails | undefined;
+  failureMessage?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetEvaluationJobRequest {
   jobIdentifier: string | redacted.Redacted<string>;
@@ -2520,17 +2531,17 @@ export interface GetEvaluationJobResponse {
   jobName: string;
   status: EvaluationJobStatus;
   jobArn: string;
-  jobDescription?: string | redacted.Redacted<string>;
+  jobDescription?: string | redacted.Redacted<string> | undefined;
   roleArn: string;
-  customerEncryptionKeyId?: string;
+  customerEncryptionKeyId?: string | undefined;
   jobType: EvaluationJobType;
-  applicationType?: ApplicationType;
+  applicationType?: ApplicationType | undefined;
   evaluationConfig: EvaluationConfig;
   inferenceConfig: EvaluationInferenceConfig;
   outputDataConfig: EvaluationOutputDataConfig;
   creationTime: Date;
-  lastModifiedTime?: Date;
-  failureMessages?: string[];
+  lastModifiedTime?: Date | undefined;
+  failureMessages?: string[] | undefined;
 }
 export type GetFoundationModelIdentifier = string;
 export interface GetFoundationModelRequest {
@@ -2551,25 +2562,25 @@ export type InferenceTypeList = InferenceType[];
 export type FoundationModelLifecycleStatus = "ACTIVE" | "LEGACY" | (string & {});
 export interface FoundationModelLifecycle {
   status: FoundationModelLifecycleStatus;
-  startOfLifeTime?: Date;
-  endOfLifeTime?: Date;
-  legacyTime?: Date;
-  publicExtendedAccessTime?: Date;
+  startOfLifeTime?: Date | undefined;
+  endOfLifeTime?: Date | undefined;
+  legacyTime?: Date | undefined;
+  publicExtendedAccessTime?: Date | undefined;
 }
 export interface FoundationModelDetails {
   modelArn: string;
   modelId: string;
-  modelName?: string;
-  providerName?: string;
-  inputModalities?: ModelModality[];
-  outputModalities?: ModelModality[];
-  responseStreamingSupported?: boolean;
-  customizationsSupported?: ModelCustomization[];
-  inferenceTypesSupported?: InferenceType[];
-  modelLifecycle?: FoundationModelLifecycle;
+  modelName?: string | undefined;
+  providerName?: string | undefined;
+  inputModalities?: ModelModality[] | undefined;
+  outputModalities?: ModelModality[] | undefined;
+  responseStreamingSupported?: boolean | undefined;
+  customizationsSupported?: ModelCustomization[] | undefined;
+  inferenceTypesSupported?: InferenceType[] | undefined;
+  modelLifecycle?: FoundationModelLifecycle | undefined;
 }
 export interface GetFoundationModelResponse {
-  modelDetails?: FoundationModelDetails;
+  modelDetails?: FoundationModelDetails | undefined;
 }
 export interface GetFoundationModelAvailabilityRequest {
   modelId: string;
@@ -2577,7 +2588,7 @@ export interface GetFoundationModelAvailabilityRequest {
 export type AgreementStatus = "AVAILABLE" | "PENDING" | "NOT_AVAILABLE" | "ERROR" | (string & {});
 export interface AgreementAvailability {
   status: AgreementStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type AuthorizationStatus = "AUTHORIZED" | "NOT_AUTHORIZED" | (string & {});
 export type EntitlementAvailability = "AVAILABLE" | "NOT_AVAILABLE" | (string & {});
@@ -2592,7 +2603,7 @@ export interface GetFoundationModelAvailabilityResponse {
 export type GuardrailVersion = string;
 export interface GetGuardrailRequest {
   guardrailIdentifier: string;
-  guardrailVersion?: string;
+  guardrailVersion?: string | undefined;
 }
 export type GuardrailStatus =
   | "CREATING"
@@ -2605,12 +2616,12 @@ export type GuardrailStatus =
 export interface GuardrailTopic {
   name: string | redacted.Redacted<string>;
   definition: string | redacted.Redacted<string>;
-  examples?: (string | redacted.Redacted<string>)[];
-  type?: GuardrailTopicType;
-  inputAction?: GuardrailTopicAction;
-  outputAction?: GuardrailTopicAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  examples?: (string | redacted.Redacted<string>)[] | undefined;
+  type?: GuardrailTopicType | undefined;
+  inputAction?: GuardrailTopicAction | undefined;
+  outputAction?: GuardrailTopicAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailTopics = GuardrailTopic[];
 export interface GuardrailTopicsTier {
@@ -2618,76 +2629,76 @@ export interface GuardrailTopicsTier {
 }
 export interface GuardrailTopicPolicy {
   topics: GuardrailTopic[];
-  tier?: GuardrailTopicsTier;
+  tier?: GuardrailTopicsTier | undefined;
 }
 export interface GuardrailContentFilter {
   type: GuardrailContentFilterType;
   inputStrength: GuardrailFilterStrength;
   outputStrength: GuardrailFilterStrength;
-  inputModalities?: GuardrailModality[];
-  outputModalities?: GuardrailModality[];
-  inputAction?: GuardrailContentFilterAction;
-  outputAction?: GuardrailContentFilterAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputModalities?: GuardrailModality[] | undefined;
+  outputModalities?: GuardrailModality[] | undefined;
+  inputAction?: GuardrailContentFilterAction | undefined;
+  outputAction?: GuardrailContentFilterAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailContentFilters = GuardrailContentFilter[];
 export interface GuardrailContentFiltersTier {
   tierName: GuardrailContentFiltersTierName;
 }
 export interface GuardrailContentPolicy {
-  filters?: GuardrailContentFilter[];
-  tier?: GuardrailContentFiltersTier;
+  filters?: GuardrailContentFilter[] | undefined;
+  tier?: GuardrailContentFiltersTier | undefined;
 }
 export interface GuardrailWord {
   text: string;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailWordAction | undefined;
+  outputAction?: GuardrailWordAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailWords = GuardrailWord[];
 export interface GuardrailManagedWords {
   type: GuardrailManagedWordsType;
-  inputAction?: GuardrailWordAction;
-  outputAction?: GuardrailWordAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailWordAction | undefined;
+  outputAction?: GuardrailWordAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailManagedWordLists = GuardrailManagedWords[];
 export interface GuardrailWordPolicy {
-  words?: GuardrailWord[];
-  managedWordLists?: GuardrailManagedWords[];
+  words?: GuardrailWord[] | undefined;
+  managedWordLists?: GuardrailManagedWords[] | undefined;
 }
 export interface GuardrailPiiEntity {
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailSensitiveInformationAction | undefined;
+  outputAction?: GuardrailSensitiveInformationAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailPiiEntities = GuardrailPiiEntity[];
 export interface GuardrailRegex {
   name: string;
-  description?: string;
+  description?: string | undefined;
   pattern: string;
   action: GuardrailSensitiveInformationAction;
-  inputAction?: GuardrailSensitiveInformationAction;
-  outputAction?: GuardrailSensitiveInformationAction;
-  inputEnabled?: boolean;
-  outputEnabled?: boolean;
+  inputAction?: GuardrailSensitiveInformationAction | undefined;
+  outputAction?: GuardrailSensitiveInformationAction | undefined;
+  inputEnabled?: boolean | undefined;
+  outputEnabled?: boolean | undefined;
 }
 export type GuardrailRegexes = GuardrailRegex[];
 export interface GuardrailSensitiveInformationPolicy {
-  piiEntities?: GuardrailPiiEntity[];
-  regexes?: GuardrailRegex[];
+  piiEntities?: GuardrailPiiEntity[] | undefined;
+  regexes?: GuardrailRegex[] | undefined;
 }
 export interface GuardrailContextualGroundingFilter {
   type: GuardrailContextualGroundingFilterType;
   threshold: number;
-  action?: GuardrailContextualGroundingAction;
-  enabled?: boolean;
+  action?: GuardrailContextualGroundingAction | undefined;
+  enabled?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFilters = GuardrailContextualGroundingFilter[];
 export interface GuardrailContextualGroundingPolicy {
@@ -2695,13 +2706,13 @@ export interface GuardrailContextualGroundingPolicy {
 }
 export interface GuardrailAutomatedReasoningPolicy {
   policies: string[];
-  confidenceThreshold?: number;
+  confidenceThreshold?: number | undefined;
 }
 export type GuardrailCrossRegionGuardrailProfileId = string;
 export type GuardrailCrossRegionGuardrailProfileArn = string;
 export interface GuardrailCrossRegionDetails {
-  guardrailProfileId?: string;
-  guardrailProfileArn?: string;
+  guardrailProfileId?: string | undefined;
+  guardrailProfileArn?: string | undefined;
 }
 export type GuardrailStatusReason = string | redacted.Redacted<string>;
 export type GuardrailStatusReasons = (string | redacted.Redacted<string>)[];
@@ -2709,25 +2720,25 @@ export type GuardrailFailureRecommendation = string | redacted.Redacted<string>;
 export type GuardrailFailureRecommendations = (string | redacted.Redacted<string>)[];
 export interface GetGuardrailResponse {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   guardrailId: string;
   guardrailArn: string;
   version: string;
   status: GuardrailStatus;
-  topicPolicy?: GuardrailTopicPolicy;
-  contentPolicy?: GuardrailContentPolicy;
-  wordPolicy?: GuardrailWordPolicy;
-  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicy;
-  contextualGroundingPolicy?: GuardrailContextualGroundingPolicy;
-  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicy;
-  crossRegionDetails?: GuardrailCrossRegionDetails;
+  topicPolicy?: GuardrailTopicPolicy | undefined;
+  contentPolicy?: GuardrailContentPolicy | undefined;
+  wordPolicy?: GuardrailWordPolicy | undefined;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicy | undefined;
+  contextualGroundingPolicy?: GuardrailContextualGroundingPolicy | undefined;
+  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicy | undefined;
+  crossRegionDetails?: GuardrailCrossRegionDetails | undefined;
   createdAt: Date;
   updatedAt: Date;
-  statusReasons?: (string | redacted.Redacted<string>)[];
-  failureRecommendations?: (string | redacted.Redacted<string>)[];
+  statusReasons?: (string | redacted.Redacted<string>)[] | undefined;
+  failureRecommendations?: (string | redacted.Redacted<string>)[] | undefined;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export interface GetImportedModelRequest {
   modelIdentifier: string;
@@ -2736,35 +2747,35 @@ export type ImportedModelArn = string;
 export type InstructSupported = boolean;
 export type CustomModelUnitsVersion = string;
 export interface CustomModelUnits {
-  customModelUnitsPerModelCopy?: number;
-  customModelUnitsVersion?: string;
+  customModelUnitsPerModelCopy?: number | undefined;
+  customModelUnitsVersion?: string | undefined;
 }
 export interface GetImportedModelResponse {
-  modelArn?: string;
-  modelName?: string;
-  jobName?: string;
-  jobArn?: string;
-  modelDataSource?: ModelDataSource;
-  creationTime?: Date;
-  modelArchitecture?: string;
-  modelKmsKeyArn?: string;
-  instructSupported?: boolean;
-  customModelUnits?: CustomModelUnits;
+  modelArn?: string | undefined;
+  modelName?: string | undefined;
+  jobName?: string | undefined;
+  jobArn?: string | undefined;
+  modelDataSource?: ModelDataSource | undefined;
+  creationTime?: Date | undefined;
+  modelArchitecture?: string | undefined;
+  modelKmsKeyArn?: string | undefined;
+  instructSupported?: boolean | undefined;
+  customModelUnits?: CustomModelUnits | undefined;
 }
 export interface GetInferenceProfileRequest {
   inferenceProfileIdentifier: string;
 }
 export interface InferenceProfileModel {
-  modelArn?: string;
+  modelArn?: string | undefined;
 }
 export type InferenceProfileModels = InferenceProfileModel[];
 export type InferenceProfileId = string;
 export type InferenceProfileType = "SYSTEM_DEFINED" | "APPLICATION" | (string & {});
 export interface GetInferenceProfileResponse {
   inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   inferenceProfileArn: string;
   models: InferenceProfileModel[];
   inferenceProfileId: string;
@@ -2775,7 +2786,7 @@ export interface GetMarketplaceModelEndpointRequest {
   endpointArn: string;
 }
 export interface GetMarketplaceModelEndpointResponse {
-  marketplaceModelEndpoint?: MarketplaceModelEndpoint;
+  marketplaceModelEndpoint?: MarketplaceModelEndpoint | undefined;
 }
 export interface GetModelCopyJobRequest {
   jobArn: string;
@@ -2786,13 +2797,13 @@ export interface GetModelCopyJobResponse {
   status: ModelCopyJobStatus;
   creationTime: Date;
   targetModelArn: string;
-  targetModelName?: string;
+  targetModelName?: string | undefined;
   sourceAccountId: string;
   sourceModelArn: string;
-  targetModelKmsKeyArn?: string;
-  targetModelTags?: Tag[];
-  failureMessage?: string;
-  sourceModelName?: string;
+  targetModelKmsKeyArn?: string | undefined;
+  targetModelTags?: Tag[] | undefined;
+  failureMessage?: string | undefined;
+  sourceModelName?: string | undefined;
 }
 export type ModelCustomizationJobIdentifier = string;
 export interface GetModelCustomizationJobRequest {
@@ -2814,49 +2825,49 @@ export type JobStatusDetails =
   | "NotStarted"
   | (string & {});
 export interface ValidationDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
+  status?: JobStatusDetails | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export interface DataProcessingDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
+  status?: JobStatusDetails | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export interface TrainingDetails {
-  status?: JobStatusDetails;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
+  status?: JobStatusDetails | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export interface StatusDetails {
-  validationDetails?: ValidationDetails;
-  dataProcessingDetails?: DataProcessingDetails;
-  trainingDetails?: TrainingDetails;
+  validationDetails?: ValidationDetails | undefined;
+  dataProcessingDetails?: DataProcessingDetails | undefined;
+  trainingDetails?: TrainingDetails | undefined;
 }
 export interface GetModelCustomizationJobResponse {
   jobArn: string;
   jobName: string;
   outputModelName: string;
-  outputModelArn?: string;
-  clientRequestToken?: string;
+  outputModelArn?: string | undefined;
+  clientRequestToken?: string | undefined;
   roleArn: string;
-  status?: ModelCustomizationJobStatus;
-  statusDetails?: StatusDetails;
-  failureMessage?: string;
+  status?: ModelCustomizationJobStatus | undefined;
+  statusDetails?: StatusDetails | undefined;
+  failureMessage?: string | undefined;
   creationTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   baseModelArn: string;
-  hyperParameters?: { [key: string]: string | undefined };
+  hyperParameters?: { [key: string]: string | undefined } | undefined;
   trainingDataConfig: TrainingDataConfig;
   validationDataConfig: ValidationDataConfig;
   outputDataConfig: OutputDataConfig;
-  customizationType?: CustomizationType;
-  outputModelKmsKeyArn?: string;
-  trainingMetrics?: TrainingMetrics;
-  validationMetrics?: ValidatorMetric[];
-  vpcConfig?: VpcConfig;
-  customizationConfig?: CustomizationConfig;
+  customizationType?: CustomizationType | undefined;
+  outputModelKmsKeyArn?: string | undefined;
+  trainingMetrics?: TrainingMetrics | undefined;
+  validationMetrics?: ValidatorMetric[] | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  customizationConfig?: CustomizationConfig | undefined;
 }
 export type ModelImportJobIdentifier = string;
 export interface GetModelImportJobRequest {
@@ -2864,19 +2875,19 @@ export interface GetModelImportJobRequest {
 }
 export type ModelImportJobStatus = "InProgress" | "Completed" | "Failed" | (string & {});
 export interface GetModelImportJobResponse {
-  jobArn?: string;
-  jobName?: string;
-  importedModelName?: string;
-  importedModelArn?: string;
-  roleArn?: string;
-  modelDataSource?: ModelDataSource;
-  status?: ModelImportJobStatus;
-  failureMessage?: string;
-  creationTime?: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
-  vpcConfig?: VpcConfig;
-  importedModelKmsKeyArn?: string;
+  jobArn?: string | undefined;
+  jobName?: string | undefined;
+  importedModelName?: string | undefined;
+  importedModelArn?: string | undefined;
+  roleArn?: string | undefined;
+  modelDataSource?: ModelDataSource | undefined;
+  status?: ModelImportJobStatus | undefined;
+  failureMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  importedModelKmsKeyArn?: string | undefined;
 }
 export type ModelInvocationJobIdentifier = string;
 export interface GetModelInvocationJobRequest {
@@ -2898,25 +2909,25 @@ export type Message = string | redacted.Redacted<string>;
 export type NonNegativeLong = number;
 export interface GetModelInvocationJobResponse {
   jobArn: string;
-  jobName?: string;
+  jobName?: string | undefined;
   modelId: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   roleArn: string;
-  status?: ModelInvocationJobStatus;
-  message?: string | redacted.Redacted<string>;
+  status?: ModelInvocationJobStatus | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   inputDataConfig: ModelInvocationJobInputDataConfig;
   outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  jobExpirationTime?: Date;
-  modelInvocationType?: ModelInvocationType;
-  totalRecordCount?: number;
-  processedRecordCount?: number;
-  successRecordCount?: number;
-  errorRecordCount?: number;
+  vpcConfig?: VpcConfig | undefined;
+  timeoutDurationInHours?: number | undefined;
+  jobExpirationTime?: Date | undefined;
+  modelInvocationType?: ModelInvocationType | undefined;
+  totalRecordCount?: number | undefined;
+  processedRecordCount?: number | undefined;
+  successRecordCount?: number | undefined;
+  errorRecordCount?: number | undefined;
 }
 export interface GetModelInvocationLoggingConfigurationRequest {}
 export type LogGroupName = string;
@@ -2924,24 +2935,24 @@ export type BucketName = string;
 export type KeyPrefix = string;
 export interface S3Config {
   bucketName: string;
-  keyPrefix?: string;
+  keyPrefix?: string | undefined;
 }
 export interface CloudWatchConfig {
   logGroupName: string;
   roleArn: string;
-  largeDataDeliveryS3Config?: S3Config;
+  largeDataDeliveryS3Config?: S3Config | undefined;
 }
 export interface LoggingConfig {
-  cloudWatchConfig?: CloudWatchConfig;
-  s3Config?: S3Config;
-  textDataDeliveryEnabled?: boolean;
-  imageDataDeliveryEnabled?: boolean;
-  embeddingDataDeliveryEnabled?: boolean;
-  videoDataDeliveryEnabled?: boolean;
-  audioDataDeliveryEnabled?: boolean;
+  cloudWatchConfig?: CloudWatchConfig | undefined;
+  s3Config?: S3Config | undefined;
+  textDataDeliveryEnabled?: boolean | undefined;
+  imageDataDeliveryEnabled?: boolean | undefined;
+  embeddingDataDeliveryEnabled?: boolean | undefined;
+  videoDataDeliveryEnabled?: boolean | undefined;
+  audioDataDeliveryEnabled?: boolean | undefined;
 }
 export interface GetModelInvocationLoggingConfigurationResponse {
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface GetPromptRouterRequest {
   promptRouterArn: string;
@@ -2951,9 +2962,9 @@ export type PromptRouterType = "custom" | "default" | (string & {});
 export interface GetPromptRouterResponse {
   promptRouterName: string;
   routingCriteria: RoutingCriteria;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   promptRouterArn: string;
   models: (PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn })[];
   fallbackModel: PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn };
@@ -2980,16 +2991,16 @@ export interface GetProvisionedModelThroughputResponse {
   status: ProvisionedModelStatus;
   creationTime: Date;
   lastModifiedTime: Date;
-  failureMessage?: string;
-  commitmentDuration?: CommitmentDuration;
-  commitmentExpirationTime?: Date;
+  failureMessage?: string | undefined;
+  commitmentDuration?: CommitmentDuration | undefined;
+  commitmentExpirationTime?: Date | undefined;
 }
 export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
 export type ResourcePolicyDocument = string;
 export interface GetResourcePolicyResponse {
-  resourcePolicy?: string;
+  resourcePolicy?: string | undefined;
 }
 export interface GetUseCaseForModelAccessRequest {}
 export type AcknowledgementFormDataBody = Uint8Array;
@@ -3001,32 +3012,32 @@ export type PaginationToken = string;
 export type SortJobsBy = "CreationTime" | (string & {});
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export interface ListAdvancedPromptOptimizationJobsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface AdvancedPromptOptimizationJobSummary {
   jobArn: string;
   jobName: string;
   jobStatus: AdvancedPromptOptimizationJobStatus;
   creationTime: Date;
-  lastModifiedTime?: Date;
+  lastModifiedTime?: Date | undefined;
 }
 export type AdvancedPromptOptimizationJobSummaries = AdvancedPromptOptimizationJobSummary[];
 export interface ListAdvancedPromptOptimizationJobsResponse {
-  jobSummaries?: AdvancedPromptOptimizationJobSummary[];
-  nextToken?: string;
+  jobSummaries?: AdvancedPromptOptimizationJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAutomatedReasoningPoliciesRequest {
-  policyArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  policyArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AutomatedReasoningPolicySummary {
   policyArn: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   version: string;
   policyId: string;
   createdAt: Date;
@@ -3035,12 +3046,12 @@ export interface AutomatedReasoningPolicySummary {
 export type AutomatedReasoningPolicySummaries = AutomatedReasoningPolicySummary[];
 export interface ListAutomatedReasoningPoliciesResponse {
   automatedReasoningPolicySummaries: AutomatedReasoningPolicySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAutomatedReasoningPolicyBuildWorkflowsRequest {
   policyArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AutomatedReasoningPolicyBuildWorkflowSummary {
   policyArn: string;
@@ -3054,40 +3065,40 @@ export type AutomatedReasoningPolicyBuildWorkflowSummaries =
   AutomatedReasoningPolicyBuildWorkflowSummary[];
 export interface ListAutomatedReasoningPolicyBuildWorkflowsResponse {
   automatedReasoningPolicyBuildWorkflowSummaries: AutomatedReasoningPolicyBuildWorkflowSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAutomatedReasoningPolicyTestCasesRequest {
   policyArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AutomatedReasoningPolicyTestCaseList = AutomatedReasoningPolicyTestCase[];
 export interface ListAutomatedReasoningPolicyTestCasesResponse {
   testCases: AutomatedReasoningPolicyTestCase[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAutomatedReasoningPolicyTestResultsRequest {
   policyArn: string;
   buildWorkflowId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AutomatedReasoningPolicyTestList = AutomatedReasoningPolicyTestResult[];
 export interface ListAutomatedReasoningPolicyTestResultsResponse {
   testResults: AutomatedReasoningPolicyTestResult[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SortModelsBy = "CreationTime" | (string & {});
 export interface ListCustomModelDeploymentsRequest {
-  createdBefore?: Date;
-  createdAfter?: Date;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
-  statusEquals?: CustomModelDeploymentStatus;
-  modelArnEquals?: string;
+  createdBefore?: Date | undefined;
+  createdAfter?: Date | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortModelsBy | undefined;
+  sortOrder?: SortOrder | undefined;
+  statusEquals?: CustomModelDeploymentStatus | undefined;
+  modelArnEquals?: string | undefined;
 }
 export interface CustomModelDeploymentSummary {
   customModelDeploymentArn: string;
@@ -3095,26 +3106,26 @@ export interface CustomModelDeploymentSummary {
   modelArn: string;
   createdAt: Date;
   status: CustomModelDeploymentStatus;
-  lastUpdatedAt?: Date;
-  failureMessage?: string;
+  lastUpdatedAt?: Date | undefined;
+  failureMessage?: string | undefined;
 }
 export type CustomModelDeploymentSummaryList = CustomModelDeploymentSummary[];
 export interface ListCustomModelDeploymentsResponse {
-  nextToken?: string;
-  modelDeploymentSummaries?: CustomModelDeploymentSummary[];
+  nextToken?: string | undefined;
+  modelDeploymentSummaries?: CustomModelDeploymentSummary[] | undefined;
 }
 export interface ListCustomModelsRequest {
-  creationTimeBefore?: Date;
-  creationTimeAfter?: Date;
-  nameContains?: string;
-  baseModelArnEquals?: string;
-  foundationModelArnEquals?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
-  isOwned?: boolean;
-  modelStatus?: ModelStatus;
+  creationTimeBefore?: Date | undefined;
+  creationTimeAfter?: Date | undefined;
+  nameContains?: string | undefined;
+  baseModelArnEquals?: string | undefined;
+  foundationModelArnEquals?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortModelsBy | undefined;
+  sortOrder?: SortOrder | undefined;
+  isOwned?: boolean | undefined;
+  modelStatus?: ModelStatus | undefined;
 }
 export type ModelName = string;
 export interface CustomModelSummary {
@@ -3123,23 +3134,23 @@ export interface CustomModelSummary {
   creationTime: Date;
   baseModelArn: string;
   baseModelName: string;
-  customizationType?: CustomizationType;
-  ownerAccountId?: string;
-  modelStatus?: ModelStatus;
+  customizationType?: CustomizationType | undefined;
+  ownerAccountId?: string | undefined;
+  modelStatus?: ModelStatus | undefined;
 }
 export type CustomModelSummaryList = CustomModelSummary[];
 export interface ListCustomModelsResponse {
-  nextToken?: string;
-  modelSummaries?: CustomModelSummary[];
+  nextToken?: string | undefined;
+  modelSummaries?: CustomModelSummary[] | undefined;
 }
 export interface ListEnforcedGuardrailsConfigurationRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type InputTags = "HONOR" | "IGNORE" | (string & {});
 export type SelectiveGuardingMode = "SELECTIVE" | "COMPREHENSIVE" | (string & {});
 export interface SelectiveContentGuarding {
-  system?: SelectiveGuardingMode;
-  messages?: SelectiveGuardingMode;
+  system?: SelectiveGuardingMode | undefined;
+  messages?: SelectiveGuardingMode | undefined;
 }
 export type ConfigurationOwner = string;
 export type IncludedModelId = string;
@@ -3151,35 +3162,35 @@ export interface ModelEnforcement {
   excludedModels: string[];
 }
 export interface AccountEnforcedGuardrailOutputConfiguration {
-  configId?: string;
-  guardrailArn?: string;
-  guardrailId?: string;
-  inputTags?: InputTags;
-  selectiveContentGuarding?: SelectiveContentGuarding;
-  guardrailVersion?: string;
-  createdAt?: Date;
-  createdBy?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  owner?: string;
-  modelEnforcement?: ModelEnforcement;
+  configId?: string | undefined;
+  guardrailArn?: string | undefined;
+  guardrailId?: string | undefined;
+  inputTags?: InputTags | undefined;
+  selectiveContentGuarding?: SelectiveContentGuarding | undefined;
+  guardrailVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  owner?: string | undefined;
+  modelEnforcement?: ModelEnforcement | undefined;
 }
 export type AccountEnforcedGuardrailsOutputConfiguration =
   AccountEnforcedGuardrailOutputConfiguration[];
 export interface ListEnforcedGuardrailsConfigurationResponse {
   guardrailsConfig: AccountEnforcedGuardrailOutputConfiguration[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEvaluationJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: EvaluationJobStatus;
-  applicationTypeEquals?: ApplicationType;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  statusEquals?: EvaluationJobStatus | undefined;
+  applicationTypeEquals?: ApplicationType | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export type EvaluationTaskTypes = EvaluationTaskType[];
 export type EvaluationBedrockModelIdentifiers = string[];
@@ -3187,17 +3198,17 @@ export type EvaluationBedrockKnowledgeBaseIdentifiers = string[];
 export type EvaluatorModelIdentifiers = string[];
 export type EvaluationPrecomputedInferenceSourceIdentifiers = string[];
 export interface EvaluationModelConfigSummary {
-  bedrockModelIdentifiers?: string[];
-  precomputedInferenceSourceIdentifiers?: string[];
+  bedrockModelIdentifiers?: string[] | undefined;
+  precomputedInferenceSourceIdentifiers?: string[] | undefined;
 }
 export type EvaluationPrecomputedRagSourceIdentifiers = string[];
 export interface EvaluationRagConfigSummary {
-  bedrockKnowledgeBaseIdentifiers?: string[];
-  precomputedRagSourceIdentifiers?: string[];
+  bedrockKnowledgeBaseIdentifiers?: string[] | undefined;
+  precomputedRagSourceIdentifiers?: string[] | undefined;
 }
 export interface EvaluationInferenceConfigSummary {
-  modelConfigSummary?: EvaluationModelConfigSummary;
-  ragConfigSummary?: EvaluationRagConfigSummary;
+  modelConfigSummary?: EvaluationModelConfigSummary | undefined;
+  ragConfigSummary?: EvaluationRagConfigSummary | undefined;
 }
 export interface EvaluationSummary {
   jobArn: string;
@@ -3206,51 +3217,51 @@ export interface EvaluationSummary {
   creationTime: Date;
   jobType: EvaluationJobType;
   evaluationTaskTypes: EvaluationTaskType[];
-  modelIdentifiers?: string[];
-  ragIdentifiers?: string[];
-  evaluatorModelIdentifiers?: string[];
-  customMetricsEvaluatorModelIdentifiers?: string[];
-  inferenceConfigSummary?: EvaluationInferenceConfigSummary;
-  applicationType?: ApplicationType;
+  modelIdentifiers?: string[] | undefined;
+  ragIdentifiers?: string[] | undefined;
+  evaluatorModelIdentifiers?: string[] | undefined;
+  customMetricsEvaluatorModelIdentifiers?: string[] | undefined;
+  inferenceConfigSummary?: EvaluationInferenceConfigSummary | undefined;
+  applicationType?: ApplicationType | undefined;
 }
 export type EvaluationSummaries = EvaluationSummary[];
 export interface ListEvaluationJobsResponse {
-  nextToken?: string;
-  jobSummaries?: EvaluationSummary[];
+  nextToken?: string | undefined;
+  jobSummaries?: EvaluationSummary[] | undefined;
 }
 export type OfferType = "ALL" | "PUBLIC" | (string & {});
 export interface ListFoundationModelAgreementOffersRequest {
   modelId: string;
-  offerType?: OfferType;
+  offerType?: OfferType | undefined;
 }
 export type OfferId = string;
 export interface DimensionalPriceRate {
-  dimension?: string;
-  price?: string;
-  description?: string;
-  unit?: string;
+  dimension?: string | undefined;
+  price?: string | undefined;
+  description?: string | undefined;
+  unit?: string | undefined;
 }
 export type RateCard = DimensionalPriceRate[];
 export interface PricingTerm {
   rateCard: DimensionalPriceRate[];
 }
 export interface LegalTerm {
-  url?: string;
+  url?: string | undefined;
 }
 export interface SupportTerm {
-  refundPolicyDescription?: string;
+  refundPolicyDescription?: string | undefined;
 }
 export interface ValidityTerm {
-  agreementDuration?: string;
+  agreementDuration?: string | undefined;
 }
 export interface TermDetails {
   usageBasedPricingTerm: PricingTerm;
   legalTerm: LegalTerm;
   supportTerm: SupportTerm;
-  validityTerm?: ValidityTerm;
+  validityTerm?: ValidityTerm | undefined;
 }
 export interface Offer {
-  offerId?: string;
+  offerId?: string | undefined;
   offerToken: string;
   termDetails: TermDetails;
 }
@@ -3261,80 +3272,80 @@ export interface ListFoundationModelAgreementOffersResponse {
 }
 export type Provider = string;
 export interface ListFoundationModelsRequest {
-  byProvider?: string;
-  byCustomizationType?: ModelCustomization;
-  byOutputModality?: ModelModality;
-  byInferenceType?: InferenceType;
+  byProvider?: string | undefined;
+  byCustomizationType?: ModelCustomization | undefined;
+  byOutputModality?: ModelModality | undefined;
+  byInferenceType?: InferenceType | undefined;
 }
 export interface FoundationModelSummary {
   modelArn: string;
   modelId: string;
-  modelName?: string;
-  providerName?: string;
-  inputModalities?: ModelModality[];
-  outputModalities?: ModelModality[];
-  responseStreamingSupported?: boolean;
-  customizationsSupported?: ModelCustomization[];
-  inferenceTypesSupported?: InferenceType[];
-  modelLifecycle?: FoundationModelLifecycle;
+  modelName?: string | undefined;
+  providerName?: string | undefined;
+  inputModalities?: ModelModality[] | undefined;
+  outputModalities?: ModelModality[] | undefined;
+  responseStreamingSupported?: boolean | undefined;
+  customizationsSupported?: ModelCustomization[] | undefined;
+  inferenceTypesSupported?: InferenceType[] | undefined;
+  modelLifecycle?: FoundationModelLifecycle | undefined;
 }
 export type FoundationModelSummaryList = FoundationModelSummary[];
 export interface ListFoundationModelsResponse {
-  modelSummaries?: FoundationModelSummary[];
+  modelSummaries?: FoundationModelSummary[] | undefined;
 }
 export interface ListGuardrailsRequest {
-  guardrailIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  guardrailIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GuardrailSummary {
   id: string;
   arn: string;
   status: GuardrailStatus;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   version: string;
   createdAt: Date;
   updatedAt: Date;
-  crossRegionDetails?: GuardrailCrossRegionDetails;
+  crossRegionDetails?: GuardrailCrossRegionDetails | undefined;
 }
 export type GuardrailSummaries = GuardrailSummary[];
 export interface ListGuardrailsResponse {
   guardrails: GuardrailSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListImportedModelsRequest {
-  creationTimeBefore?: Date;
-  creationTimeAfter?: Date;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortModelsBy;
-  sortOrder?: SortOrder;
+  creationTimeBefore?: Date | undefined;
+  creationTimeAfter?: Date | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortModelsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export type ModelArchitecture = string;
 export interface ImportedModelSummary {
   modelArn: string;
   modelName: string;
   creationTime: Date;
-  instructSupported?: boolean;
-  modelArchitecture?: string;
+  instructSupported?: boolean | undefined;
+  modelArchitecture?: string | undefined;
 }
 export type ImportedModelSummaryList = ImportedModelSummary[];
 export interface ListImportedModelsResponse {
-  nextToken?: string;
-  modelSummaries?: ImportedModelSummary[];
+  nextToken?: string | undefined;
+  modelSummaries?: ImportedModelSummary[] | undefined;
 }
 export interface ListInferenceProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  typeEquals?: InferenceProfileType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  typeEquals?: InferenceProfileType | undefined;
 }
 export interface InferenceProfileSummary {
   inferenceProfileName: string;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   inferenceProfileArn: string;
   models: InferenceProfileModel[];
   inferenceProfileId: string;
@@ -3343,56 +3354,56 @@ export interface InferenceProfileSummary {
 }
 export type InferenceProfileSummaries = InferenceProfileSummary[];
 export interface ListInferenceProfilesResponse {
-  inferenceProfileSummaries?: InferenceProfileSummary[];
-  nextToken?: string;
+  inferenceProfileSummaries?: InferenceProfileSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMarketplaceModelEndpointsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  modelSourceEquals?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  modelSourceEquals?: string | undefined;
 }
 export interface MarketplaceModelEndpointSummary {
   endpointArn: string;
   modelSourceIdentifier: string;
-  status?: Status;
-  statusMessage?: string;
+  status?: Status | undefined;
+  statusMessage?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type MarketplaceModelEndpointSummaries = MarketplaceModelEndpointSummary[];
 export interface ListMarketplaceModelEndpointsResponse {
-  marketplaceModelEndpoints?: MarketplaceModelEndpointSummary[];
-  nextToken?: string;
+  marketplaceModelEndpoints?: MarketplaceModelEndpointSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListModelCopyJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ModelCopyJobStatus;
-  sourceAccountEquals?: string;
-  sourceModelArnEquals?: string;
-  targetModelNameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  statusEquals?: ModelCopyJobStatus | undefined;
+  sourceAccountEquals?: string | undefined;
+  sourceModelArnEquals?: string | undefined;
+  targetModelNameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface ModelCopyJobSummary {
   jobArn: string;
   status: ModelCopyJobStatus;
   creationTime: Date;
   targetModelArn: string;
-  targetModelName?: string;
+  targetModelName?: string | undefined;
   sourceAccountId: string;
   sourceModelArn: string;
-  targetModelKmsKeyArn?: string;
-  targetModelTags?: Tag[];
-  failureMessage?: string;
-  sourceModelName?: string;
+  targetModelKmsKeyArn?: string | undefined;
+  targetModelTags?: Tag[] | undefined;
+  failureMessage?: string | undefined;
+  sourceModelName?: string | undefined;
 }
 export type ModelCopyJobSummaries = ModelCopyJobSummary[];
 export interface ListModelCopyJobsResponse {
-  nextToken?: string;
-  modelCopyJobSummaries?: ModelCopyJobSummary[];
+  nextToken?: string | undefined;
+  modelCopyJobSummaries?: ModelCopyJobSummary[] | undefined;
 }
 export type FineTuningJobStatus =
   | "InProgress"
@@ -3402,106 +3413,106 @@ export type FineTuningJobStatus =
   | "Stopped"
   | (string & {});
 export interface ListModelCustomizationJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: FineTuningJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  statusEquals?: FineTuningJobStatus | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface ModelCustomizationJobSummary {
   jobArn: string;
   baseModelArn: string;
   jobName: string;
   status: ModelCustomizationJobStatus;
-  statusDetails?: StatusDetails;
-  lastModifiedTime?: Date;
+  statusDetails?: StatusDetails | undefined;
+  lastModifiedTime?: Date | undefined;
   creationTime: Date;
-  endTime?: Date;
-  customModelArn?: string;
-  customModelName?: string;
-  customizationType?: CustomizationType;
+  endTime?: Date | undefined;
+  customModelArn?: string | undefined;
+  customModelName?: string | undefined;
+  customizationType?: CustomizationType | undefined;
 }
 export type ModelCustomizationJobSummaries = ModelCustomizationJobSummary[];
 export interface ListModelCustomizationJobsResponse {
-  nextToken?: string;
-  modelCustomizationJobSummaries?: ModelCustomizationJobSummary[];
+  nextToken?: string | undefined;
+  modelCustomizationJobSummaries?: ModelCustomizationJobSummary[] | undefined;
 }
 export interface ListModelImportJobsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ModelImportJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  statusEquals?: ModelImportJobStatus | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface ModelImportJobSummary {
   jobArn: string;
   jobName: string;
   status: ModelImportJobStatus;
-  lastModifiedTime?: Date;
+  lastModifiedTime?: Date | undefined;
   creationTime: Date;
-  endTime?: Date;
-  importedModelArn?: string;
-  importedModelName?: string;
+  endTime?: Date | undefined;
+  importedModelArn?: string | undefined;
+  importedModelName?: string | undefined;
 }
 export type ModelImportJobSummaries = ModelImportJobSummary[];
 export interface ListModelImportJobsResponse {
-  nextToken?: string;
-  modelImportJobSummaries?: ModelImportJobSummary[];
+  nextToken?: string | undefined;
+  modelImportJobSummaries?: ModelImportJobSummary[] | undefined;
 }
 export interface ListModelInvocationJobsRequest {
-  submitTimeAfter?: Date;
-  submitTimeBefore?: Date;
-  statusEquals?: ModelInvocationJobStatus;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortJobsBy;
-  sortOrder?: SortOrder;
+  submitTimeAfter?: Date | undefined;
+  submitTimeBefore?: Date | undefined;
+  statusEquals?: ModelInvocationJobStatus | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortJobsBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface ModelInvocationJobSummary {
   jobArn: string;
   jobName: string;
   modelId: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   roleArn: string;
-  status?: ModelInvocationJobStatus;
-  message?: string | redacted.Redacted<string>;
+  status?: ModelInvocationJobStatus | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   inputDataConfig: ModelInvocationJobInputDataConfig;
   outputDataConfig: ModelInvocationJobOutputDataConfig;
-  vpcConfig?: VpcConfig;
-  timeoutDurationInHours?: number;
-  jobExpirationTime?: Date;
-  modelInvocationType?: ModelInvocationType;
-  totalRecordCount?: number;
-  processedRecordCount?: number;
-  successRecordCount?: number;
-  errorRecordCount?: number;
+  vpcConfig?: VpcConfig | undefined;
+  timeoutDurationInHours?: number | undefined;
+  jobExpirationTime?: Date | undefined;
+  modelInvocationType?: ModelInvocationType | undefined;
+  totalRecordCount?: number | undefined;
+  processedRecordCount?: number | undefined;
+  successRecordCount?: number | undefined;
+  errorRecordCount?: number | undefined;
 }
 export type ModelInvocationJobSummaries = ModelInvocationJobSummary[];
 export interface ListModelInvocationJobsResponse {
-  nextToken?: string;
-  invocationJobSummaries?: ModelInvocationJobSummary[];
+  nextToken?: string | undefined;
+  invocationJobSummaries?: ModelInvocationJobSummary[] | undefined;
 }
 export interface ListPromptRoutersRequest {
-  maxResults?: number;
-  nextToken?: string;
-  type?: PromptRouterType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  type?: PromptRouterType | undefined;
 }
 export interface PromptRouterSummary {
   promptRouterName: string;
   routingCriteria: RoutingCriteria;
-  description?: string | redacted.Redacted<string>;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   promptRouterArn: string;
   models: PromptRouterTargetModel[];
   fallbackModel: PromptRouterTargetModel;
@@ -3510,23 +3521,25 @@ export interface PromptRouterSummary {
 }
 export type PromptRouterSummaries = PromptRouterSummary[];
 export interface ListPromptRoutersResponse {
-  promptRouterSummaries?: (PromptRouterSummary & {
-    models: (PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn })[];
-    fallbackModel: PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn };
-  })[];
-  nextToken?: string;
+  promptRouterSummaries?:
+    | (PromptRouterSummary & {
+        models: (PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn })[];
+        fallbackModel: PromptRouterTargetModel & { modelArn: PromptRouterTargetModelArn };
+      })[]
+    | undefined;
+  nextToken?: string | undefined;
 }
 export type SortByProvisionedModels = "CreationTime" | (string & {});
 export interface ListProvisionedModelThroughputsRequest {
-  creationTimeAfter?: Date;
-  creationTimeBefore?: Date;
-  statusEquals?: ProvisionedModelStatus;
-  modelArnEquals?: string;
-  nameContains?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortByProvisionedModels;
-  sortOrder?: SortOrder;
+  creationTimeAfter?: Date | undefined;
+  creationTimeBefore?: Date | undefined;
+  statusEquals?: ProvisionedModelStatus | undefined;
+  modelArnEquals?: string | undefined;
+  nameContains?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortByProvisionedModels | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface ProvisionedModelSummary {
   provisionedModelName: string;
@@ -3537,44 +3550,44 @@ export interface ProvisionedModelSummary {
   modelUnits: number;
   desiredModelUnits: number;
   status: ProvisionedModelStatus;
-  commitmentDuration?: CommitmentDuration;
-  commitmentExpirationTime?: Date;
+  commitmentDuration?: CommitmentDuration | undefined;
+  commitmentExpirationTime?: Date | undefined;
   creationTime: Date;
   lastModifiedTime: Date;
 }
 export type ProvisionedModelSummaries = ProvisionedModelSummary[];
 export interface ListProvisionedModelThroughputsResponse {
-  nextToken?: string;
-  provisionedModelSummaries?: ProvisionedModelSummary[];
+  nextToken?: string | undefined;
+  provisionedModelSummaries?: ProvisionedModelSummary[] | undefined;
 }
 export type TaggableResourcesArn = string;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface PutAccountDataRetentionRequest {
   mode: DataRetentionMode;
 }
 export interface PutAccountDataRetentionResponse {
   mode: DataRetentionMode;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface AccountEnforcedGuardrailInferenceInputConfiguration {
   guardrailIdentifier: string;
   guardrailVersion: string;
-  selectiveContentGuarding?: SelectiveContentGuarding;
-  modelEnforcement?: ModelEnforcement;
+  selectiveContentGuarding?: SelectiveContentGuarding | undefined;
+  modelEnforcement?: ModelEnforcement | undefined;
 }
 export interface PutEnforcedGuardrailConfigurationRequest {
-  configId?: string;
+  configId?: string | undefined;
   guardrailInferenceConfig: AccountEnforcedGuardrailInferenceInputConfiguration;
 }
 export interface PutEnforcedGuardrailConfigurationResponse {
-  configId?: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  configId?: string | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface PutModelInvocationLoggingConfigurationRequest {
   loggingConfig: LoggingConfig;
@@ -3585,7 +3598,7 @@ export interface PutResourcePolicyRequest {
   resourcePolicy: string;
 }
 export interface PutResourcePolicyResponse {
-  resourceArn?: string;
+  resourceArn?: string | undefined;
 }
 export interface PutUseCaseForModelAccessRequest {
   formData: Uint8Array;
@@ -3602,7 +3615,7 @@ export interface AutomatedReasoningPolicyBuildWorkflowDocument {
   document: Uint8Array | redacted.Redacted<Uint8Array>;
   documentContentType: AutomatedReasoningPolicyBuildDocumentContentType;
   documentName: string | redacted.Redacted<string>;
-  documentDescription?: string | redacted.Redacted<string>;
+  documentDescription?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyBuildWorkflowDocumentList =
   AutomatedReasoningPolicyBuildWorkflowDocument[];
@@ -3619,41 +3632,41 @@ export type AutomatedReasoningPolicyIterativeRefinementDocumentList =
 export type AutomatedReasoningPolicyBuildFeedback = string | redacted.Redacted<string>;
 export interface AutomatedReasoningPolicyIterativeRefinementContent {
   documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
-  feedback?: string | redacted.Redacted<string>;
+  feedback?: string | redacted.Redacted<string> | undefined;
 }
 export type AutomatedReasoningPolicyWorkflowTypeContent =
   | {
       documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
-      policyRepairAssets?: never;
-      generateFidelityReportContent?: never;
-      iterativeRefinementContent?: never;
+      policyRepairAssets?: undefined;
+      generateFidelityReportContent?: undefined;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
+      documents?: undefined;
       policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
-      generateFidelityReportContent?: never;
-      iterativeRefinementContent?: never;
+      generateFidelityReportContent?: undefined;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
-      policyRepairAssets?: never;
+      documents?: undefined;
+      policyRepairAssets?: undefined;
       generateFidelityReportContent: AutomatedReasoningPolicyGenerateFidelityReportContent;
-      iterativeRefinementContent?: never;
+      iterativeRefinementContent?: undefined;
     }
   | {
-      documents?: never;
-      policyRepairAssets?: never;
-      generateFidelityReportContent?: never;
+      documents?: undefined;
+      policyRepairAssets?: undefined;
+      generateFidelityReportContent?: undefined;
       iterativeRefinementContent: AutomatedReasoningPolicyIterativeRefinementContent;
     };
 export interface AutomatedReasoningPolicyBuildWorkflowSource {
-  policyDefinition?: AutomatedReasoningPolicyDefinition;
-  workflowContent?: AutomatedReasoningPolicyWorkflowTypeContent;
+  policyDefinition?: AutomatedReasoningPolicyDefinition | undefined;
+  workflowContent?: AutomatedReasoningPolicyWorkflowTypeContent | undefined;
 }
 export interface StartAutomatedReasoningPolicyBuildWorkflowRequest {
   policyArn: string;
   buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   sourceContent: AutomatedReasoningPolicyBuildWorkflowSource;
 }
 export interface StartAutomatedReasoningPolicyBuildWorkflowResponse {
@@ -3664,8 +3677,8 @@ export type AutomatedReasoningPolicyTestCaseIdList = string[];
 export interface StartAutomatedReasoningPolicyTestWorkflowRequest {
   policyArn: string;
   buildWorkflowId: string;
-  testCaseIds?: string[];
-  clientRequestToken?: string;
+  testCaseIds?: string[] | undefined;
+  clientRequestToken?: string | undefined;
 }
 export interface StartAutomatedReasoningPolicyTestWorkflowResponse {
   policyArn: string;
@@ -3700,8 +3713,8 @@ export interface UntagResourceResponse {}
 export interface UpdateAutomatedReasoningPolicyRequest {
   policyArn: string;
   policyDefinition: AutomatedReasoningPolicyDefinition;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateAutomatedReasoningPolicyResponse {
   policyArn: string;
@@ -3725,11 +3738,11 @@ export interface UpdateAutomatedReasoningPolicyTestCaseRequest {
   policyArn: string;
   testCaseId: string;
   guardContent: string | redacted.Redacted<string>;
-  queryContent?: string | redacted.Redacted<string>;
+  queryContent?: string | redacted.Redacted<string> | undefined;
   lastUpdatedAt: Date;
   expectedAggregatedFindingsResult: AutomatedReasoningCheckResult;
-  confidenceThreshold?: number;
-  clientRequestToken?: string;
+  confidenceThreshold?: number | undefined;
+  clientRequestToken?: string | undefined;
 }
 export interface UpdateAutomatedReasoningPolicyTestCaseResponse {
   policyArn: string;
@@ -3745,17 +3758,17 @@ export interface UpdateCustomModelDeploymentResponse {
 export interface UpdateGuardrailRequest {
   guardrailIdentifier: string;
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  topicPolicyConfig?: GuardrailTopicPolicyConfig;
-  contentPolicyConfig?: GuardrailContentPolicyConfig;
-  wordPolicyConfig?: GuardrailWordPolicyConfig;
-  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig;
-  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig;
-  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig;
-  crossRegionConfig?: GuardrailCrossRegionConfig;
+  description?: string | redacted.Redacted<string> | undefined;
+  topicPolicyConfig?: GuardrailTopicPolicyConfig | undefined;
+  contentPolicyConfig?: GuardrailContentPolicyConfig | undefined;
+  wordPolicyConfig?: GuardrailWordPolicyConfig | undefined;
+  sensitiveInformationPolicyConfig?: GuardrailSensitiveInformationPolicyConfig | undefined;
+  contextualGroundingPolicyConfig?: GuardrailContextualGroundingPolicyConfig | undefined;
+  automatedReasoningPolicyConfig?: GuardrailAutomatedReasoningPolicyConfig | undefined;
+  crossRegionConfig?: GuardrailCrossRegionConfig | undefined;
   blockedInputMessaging: string | redacted.Redacted<string>;
   blockedOutputsMessaging: string | redacted.Redacted<string>;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface UpdateGuardrailResponse {
   guardrailId: string;
@@ -3766,15 +3779,15 @@ export interface UpdateGuardrailResponse {
 export interface UpdateMarketplaceModelEndpointRequest {
   endpointArn: string;
   endpointConfig: EndpointConfig;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
 }
 export interface UpdateMarketplaceModelEndpointResponse {
   marketplaceModelEndpoint: MarketplaceModelEndpoint;
 }
 export interface UpdateProvisionedModelThroughputRequest {
   provisionedModelId: string;
-  desiredProvisionedModelName?: string;
-  desiredModelId?: string;
+  desiredProvisionedModelName?: string | undefined;
+  desiredModelId?: string | undefined;
 }
 export interface UpdateProvisionedModelThroughputResponse {}
 export type NonBlankString = string;
@@ -3788,7 +3801,7 @@ export type BatchDeleteAdvancedPromptOptimizationJobError =
  * Deletes one or more advanced prompt optimization jobs.
  */
 export const batchDeleteAdvancedPromptOptimizationJob: API.OperationMethod<
-  BatchDeleteAdvancedPromptOptimizationJobRequest,
+  BatchDeleteAdvancedPromptOptimizationJobRequest & RegionInput,
   BatchDeleteAdvancedPromptOptimizationJobResponse,
   BatchDeleteAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -3820,7 +3833,7 @@ export type BatchDeleteEvaluationJobError =
  * Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs be deleted in a single request.
  */
 export const batchDeleteEvaluationJob: API.OperationMethod<
-  BatchDeleteEvaluationJobRequest,
+  BatchDeleteEvaluationJobRequest & RegionInput,
   BatchDeleteEvaluationJobResponse,
   BatchDeleteEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -3853,7 +3866,7 @@ export type CancelAutomatedReasoningPolicyBuildWorkflowError =
  * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
  */
 export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  CancelAutomatedReasoningPolicyBuildWorkflowRequest,
+  CancelAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   CancelAutomatedReasoningPolicyBuildWorkflowResponse,
   CancelAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3892,7 +3905,7 @@ export type CreateAdvancedPromptOptimizationJobError =
  * Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria.
  */
 export const createAdvancedPromptOptimizationJob: API.OperationMethod<
-  CreateAdvancedPromptOptimizationJobRequest,
+  CreateAdvancedPromptOptimizationJobRequest & RegionInput,
   CreateAdvancedPromptOptimizationJobResponse,
   CreateAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -3932,7 +3945,7 @@ export type CreateAutomatedReasoningPolicyError =
  * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
  */
 export const createAutomatedReasoningPolicy: API.OperationMethod<
-  CreateAutomatedReasoningPolicyRequest,
+  CreateAutomatedReasoningPolicyRequest & RegionInput,
   CreateAutomatedReasoningPolicyResponse,
   CreateAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3969,7 +3982,7 @@ export type CreateAutomatedReasoningPolicyTestCaseError =
  * Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
  */
 export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  CreateAutomatedReasoningPolicyTestCaseRequest,
+  CreateAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   CreateAutomatedReasoningPolicyTestCaseResponse,
   CreateAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -4006,7 +4019,7 @@ export type CreateAutomatedReasoningPolicyVersionError =
  * Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
  */
 export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
-  CreateAutomatedReasoningPolicyVersionRequest,
+  CreateAutomatedReasoningPolicyVersionRequest & RegionInput,
   CreateAutomatedReasoningPolicyVersionResponse,
   CreateAutomatedReasoningPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4068,7 +4081,7 @@ export type CreateCustomModelError =
  * - DeleteCustomModel
  */
 export const createCustomModel: API.OperationMethod<
-  CreateCustomModelRequest,
+  CreateCustomModelRequest & RegionInput,
   CreateCustomModelResponse,
   CreateCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -4115,7 +4128,7 @@ export type CreateCustomModelDeploymentError =
  * - DeleteCustomModelDeployment
  */
 export const createCustomModelDeployment: API.OperationMethod<
-  CreateCustomModelDeploymentRequest,
+  CreateCustomModelDeploymentRequest & RegionInput,
   CreateCustomModelDeploymentResponse,
   CreateCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4151,7 +4164,7 @@ export type CreateEvaluationJobError =
  * Creates an evaluation job.
  */
 export const createEvaluationJob: API.OperationMethod<
-  CreateEvaluationJobRequest,
+  CreateEvaluationJobRequest & RegionInput,
   CreateEvaluationJobResponse,
   CreateEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -4186,7 +4199,7 @@ export type CreateFoundationModelAgreementError =
  * Request a model access agreement for the specified model.
  */
 export const createFoundationModelAgreement: API.OperationMethod<
-  CreateFoundationModelAgreementRequest,
+  CreateFoundationModelAgreementRequest & RegionInput,
   CreateFoundationModelAgreementResponse,
   CreateFoundationModelAgreementError,
   Credentials | HttpClient.HttpClient
@@ -4236,7 +4249,7 @@ export type CreateGuardrailError =
  * For more information, see Amazon Bedrock Guardrails in the *Amazon Bedrock User Guide*.
  */
 export const createGuardrail: API.OperationMethod<
-  CreateGuardrailRequest,
+  CreateGuardrailRequest & RegionInput,
   CreateGuardrailResponse,
   CreateGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4273,7 +4286,7 @@ export type CreateGuardrailVersionError =
  * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
  */
 export const createGuardrailVersion: API.OperationMethod<
-  CreateGuardrailVersionRequest,
+  CreateGuardrailVersionRequest & RegionInput,
   CreateGuardrailVersionResponse,
   CreateGuardrailVersionError,
   Credentials | HttpClient.HttpClient
@@ -4310,7 +4323,7 @@ export type CreateInferenceProfileError =
  * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const createInferenceProfile: API.OperationMethod<
-  CreateInferenceProfileRequest,
+  CreateInferenceProfileRequest & RegionInput,
   CreateInferenceProfileResponse,
   CreateInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4347,7 +4360,7 @@ export type CreateMarketplaceModelEndpointError =
  * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
  */
 export const createMarketplaceModelEndpoint: API.OperationMethod<
-  CreateMarketplaceModelEndpointRequest,
+  CreateMarketplaceModelEndpointRequest & RegionInput,
   CreateMarketplaceModelEndpointResponse,
   CreateMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4380,7 +4393,7 @@ export type CreateModelCopyJobError =
  * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const createModelCopyJob: API.OperationMethod<
-  CreateModelCopyJobRequest,
+  CreateModelCopyJobRequest & RegionInput,
   CreateModelCopyJobResponse,
   CreateModelCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -4422,7 +4435,7 @@ export type CreateModelCustomizationJobError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const createModelCustomizationJob: API.OperationMethod<
-  CreateModelCustomizationJobRequest,
+  CreateModelCustomizationJobRequest & RegionInput,
   CreateModelCustomizationJobResponse,
   CreateModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -4460,7 +4473,7 @@ export type CreateModelImportJobError =
  * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
  */
 export const createModelImportJob: API.OperationMethod<
-  CreateModelImportJobRequest,
+  CreateModelImportJobRequest & RegionInput,
   CreateModelImportJobResponse,
   CreateModelImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4499,7 +4512,7 @@ export type CreateModelInvocationJobError =
  * The response returns a `jobArn` that you can use to stop or get details about the job.
  */
 export const createModelInvocationJob: API.OperationMethod<
-  CreateModelInvocationJobRequest,
+  CreateModelInvocationJobRequest & RegionInput,
   CreateModelInvocationJobResponse,
   CreateModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -4536,7 +4549,7 @@ export type CreatePromptRouterError =
  * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
  */
 export const createPromptRouter: API.OperationMethod<
-  CreatePromptRouterRequest,
+  CreatePromptRouterRequest & RegionInput,
   CreatePromptRouterResponse,
   CreatePromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -4573,7 +4586,7 @@ export type CreateProvisionedModelThroughputError =
  * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const createProvisionedModelThroughput: API.OperationMethod<
-  CreateProvisionedModelThroughputRequest,
+  CreateProvisionedModelThroughputRequest & RegionInput,
   CreateProvisionedModelThroughputResponse,
   CreateProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -4609,7 +4622,7 @@ export type DeleteAutomatedReasoningPolicyError =
  * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
  */
 export const deleteAutomatedReasoningPolicy: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyRequest,
+  DeleteAutomatedReasoningPolicyRequest & RegionInput,
   DeleteAutomatedReasoningPolicyResponse,
   DeleteAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4645,7 +4658,7 @@ export type DeleteAutomatedReasoningPolicyBuildWorkflowError =
  * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
  */
 export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
+  DeleteAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
   DeleteAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -4685,7 +4698,7 @@ export type DeleteAutomatedReasoningPolicyTestCaseError =
  * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
  */
 export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  DeleteAutomatedReasoningPolicyTestCaseRequest,
+  DeleteAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   DeleteAutomatedReasoningPolicyTestCaseResponse,
   DeleteAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -4720,7 +4733,7 @@ export type DeleteCustomModelError =
  * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const deleteCustomModel: API.OperationMethod<
-  DeleteCustomModelRequest,
+  DeleteCustomModelRequest & RegionInput,
   DeleteCustomModelResponse,
   DeleteCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -4762,7 +4775,7 @@ export type DeleteCustomModelDeploymentError =
  * - ListCustomModelDeployments
  */
 export const deleteCustomModelDeployment: API.OperationMethod<
-  DeleteCustomModelDeploymentRequest,
+  DeleteCustomModelDeploymentRequest & RegionInput,
   DeleteCustomModelDeploymentResponse,
   DeleteCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4795,7 +4808,7 @@ export type DeleteEnforcedGuardrailConfigurationError =
  * Deletes the account-level enforced guardrail configuration.
  */
 export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
-  DeleteEnforcedGuardrailConfigurationRequest,
+  DeleteEnforcedGuardrailConfigurationRequest & RegionInput,
   DeleteEnforcedGuardrailConfigurationResponse,
   DeleteEnforcedGuardrailConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4828,7 +4841,7 @@ export type DeleteFoundationModelAgreementError =
  * Delete the model access agreement for the specified model.
  */
 export const deleteFoundationModelAgreement: API.OperationMethod<
-  DeleteFoundationModelAgreementRequest,
+  DeleteFoundationModelAgreementRequest & RegionInput,
   DeleteFoundationModelAgreementResponse,
   DeleteFoundationModelAgreementError,
   Credentials | HttpClient.HttpClient
@@ -4867,7 +4880,7 @@ export type DeleteGuardrailError =
  * - To delete a version of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field and the version in the `guardrailVersion` field.
  */
 export const deleteGuardrail: API.OperationMethod<
-  DeleteGuardrailRequest,
+  DeleteGuardrailRequest & RegionInput,
   DeleteGuardrailResponse,
   DeleteGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -4902,7 +4915,7 @@ export type DeleteImportedModelError =
  * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const deleteImportedModel: API.OperationMethod<
-  DeleteImportedModelRequest,
+  DeleteImportedModelRequest & RegionInput,
   DeleteImportedModelResponse,
   DeleteImportedModelError,
   Credentials | HttpClient.HttpClient
@@ -4936,7 +4949,7 @@ export type DeleteInferenceProfileError =
  * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const deleteInferenceProfile: API.OperationMethod<
-  DeleteInferenceProfileRequest,
+  DeleteInferenceProfileRequest & RegionInput,
   DeleteInferenceProfileResponse,
   DeleteInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -4969,7 +4982,7 @@ export type DeleteMarketplaceModelEndpointError =
  * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const deleteMarketplaceModelEndpoint: API.OperationMethod<
-  DeleteMarketplaceModelEndpointRequest,
+  DeleteMarketplaceModelEndpointRequest & RegionInput,
   DeleteMarketplaceModelEndpointResponse,
   DeleteMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4999,7 +5012,7 @@ export type DeleteModelInvocationLoggingConfigurationError =
  * Delete the invocation logging.
  */
 export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
-  DeleteModelInvocationLoggingConfigurationRequest,
+  DeleteModelInvocationLoggingConfigurationRequest & RegionInput,
   DeleteModelInvocationLoggingConfigurationResponse,
   DeleteModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5025,7 +5038,7 @@ export type DeletePromptRouterError =
  * Deletes a specified prompt router. This action cannot be undone.
  */
 export const deletePromptRouter: API.OperationMethod<
-  DeletePromptRouterRequest,
+  DeletePromptRouterRequest & RegionInput,
   DeletePromptRouterResponse,
   DeletePromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -5058,7 +5071,7 @@ export type DeleteProvisionedModelThroughputError =
  * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const deleteProvisionedModelThroughput: API.OperationMethod<
-  DeleteProvisionedModelThroughputRequest,
+  DeleteProvisionedModelThroughputRequest & RegionInput,
   DeleteProvisionedModelThroughputResponse,
   DeleteProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -5091,7 +5104,7 @@ export type DeleteResourcePolicyError =
  * Deletes a previously created Bedrock resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5124,7 +5137,7 @@ export type DeregisterMarketplaceModelEndpointError =
  * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
  */
 export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
-  DeregisterMarketplaceModelEndpointRequest,
+  DeregisterMarketplaceModelEndpointRequest & RegionInput,
   DeregisterMarketplaceModelEndpointResponse,
   DeregisterMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5157,7 +5170,7 @@ export type ExportAutomatedReasoningPolicyVersionError =
  * Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
  */
 export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
-  ExportAutomatedReasoningPolicyVersionRequest,
+  ExportAutomatedReasoningPolicyVersionRequest & RegionInput,
   ExportAutomatedReasoningPolicyVersionResponse,
   ExportAutomatedReasoningPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -5188,7 +5201,7 @@ export type GetAccountDataRetentionError =
  * Returns the account-wide data retention mode for Amazon Bedrock.
  */
 export const getAccountDataRetention: API.OperationMethod<
-  GetAccountDataRetentionRequest,
+  GetAccountDataRetentionRequest & RegionInput,
   GetAccountDataRetentionResponse,
   GetAccountDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -5219,7 +5232,7 @@ export type GetAdvancedPromptOptimizationJobError =
  * Gets information about an advanced prompt optimization job.
  */
 export const getAdvancedPromptOptimizationJob: API.OperationMethod<
-  GetAdvancedPromptOptimizationJobRequest,
+  GetAdvancedPromptOptimizationJobRequest & RegionInput,
   GetAdvancedPromptOptimizationJobResponse,
   GetAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -5251,7 +5264,7 @@ export type GetAutomatedReasoningPolicyError =
  * Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
  */
 export const getAutomatedReasoningPolicy: API.OperationMethod<
-  GetAutomatedReasoningPolicyRequest,
+  GetAutomatedReasoningPolicyRequest & RegionInput,
   GetAutomatedReasoningPolicyResponse,
   GetAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5283,7 +5296,7 @@ export type GetAutomatedReasoningPolicyAnnotationsError =
  * Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
  */
 export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
-  GetAutomatedReasoningPolicyAnnotationsRequest,
+  GetAutomatedReasoningPolicyAnnotationsRequest & RegionInput,
   GetAutomatedReasoningPolicyAnnotationsResponse,
   GetAutomatedReasoningPolicyAnnotationsError,
   Credentials | HttpClient.HttpClient
@@ -5315,7 +5328,7 @@ export type GetAutomatedReasoningPolicyBuildWorkflowError =
  * Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
  */
 export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  GetAutomatedReasoningPolicyBuildWorkflowRequest,
+  GetAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   GetAutomatedReasoningPolicyBuildWorkflowResponse,
   GetAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -5347,7 +5360,7 @@ export type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError =
  * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
  */
 export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.OperationMethod<
-  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest & RegionInput,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError,
   Credentials | HttpClient.HttpClient
@@ -5387,7 +5400,7 @@ export type GetAutomatedReasoningPolicyNextScenarioError =
  * Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
  */
 export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
-  GetAutomatedReasoningPolicyNextScenarioRequest,
+  GetAutomatedReasoningPolicyNextScenarioRequest & RegionInput,
   GetAutomatedReasoningPolicyNextScenarioResponse,
   GetAutomatedReasoningPolicyNextScenarioError,
   Credentials | HttpClient.HttpClient
@@ -5419,7 +5432,7 @@ export type GetAutomatedReasoningPolicyTestCaseError =
  * Retrieves details about a specific Automated Reasoning policy test.
  */
 export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  GetAutomatedReasoningPolicyTestCaseRequest,
+  GetAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   GetAutomatedReasoningPolicyTestCaseResponse,
   GetAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -5451,7 +5464,7 @@ export type GetAutomatedReasoningPolicyTestResultError =
  * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
  */
 export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
-  GetAutomatedReasoningPolicyTestResultRequest,
+  GetAutomatedReasoningPolicyTestResultRequest & RegionInput,
   GetAutomatedReasoningPolicyTestResultResponse,
   GetAutomatedReasoningPolicyTestResultError,
   Credentials | HttpClient.HttpClient
@@ -5483,7 +5496,7 @@ export type GetCustomModelError =
  * Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getCustomModel: API.OperationMethod<
-  GetCustomModelRequest,
+  GetCustomModelRequest & RegionInput,
   GetCustomModelResponse,
   GetCustomModelError,
   Credentials | HttpClient.HttpClient
@@ -5523,7 +5536,7 @@ export type GetCustomModelDeploymentError =
  * - DeleteCustomModelDeployment
  */
 export const getCustomModelDeployment: API.OperationMethod<
-  GetCustomModelDeploymentRequest,
+  GetCustomModelDeploymentRequest & RegionInput,
   GetCustomModelDeploymentResponse,
   GetCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -5555,7 +5568,7 @@ export type GetEvaluationJobError =
  * Gets information about an evaluation job, such as the status of the job.
  */
 export const getEvaluationJob: API.OperationMethod<
-  GetEvaluationJobRequest,
+  GetEvaluationJobRequest & RegionInput,
   GetEvaluationJobResponse,
   GetEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -5587,7 +5600,7 @@ export type GetFoundationModelError =
  * Get details about a Amazon Bedrock foundation model.
  */
 export const getFoundationModel: API.OperationMethod<
-  GetFoundationModelRequest,
+  GetFoundationModelRequest & RegionInput,
   GetFoundationModelResponse,
   GetFoundationModelError,
   Credentials | HttpClient.HttpClient
@@ -5619,7 +5632,7 @@ export type GetFoundationModelAvailabilityError =
  * Get information about the Foundation model availability.
  */
 export const getFoundationModelAvailability: API.OperationMethod<
-  GetFoundationModelAvailabilityRequest,
+  GetFoundationModelAvailabilityRequest & RegionInput,
   GetFoundationModelAvailabilityResponse,
   GetFoundationModelAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -5651,7 +5664,7 @@ export type GetGuardrailError =
  * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
  */
 export const getGuardrail: API.OperationMethod<
-  GetGuardrailRequest,
+  GetGuardrailRequest & RegionInput,
   GetGuardrailResponse,
   GetGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -5683,7 +5696,7 @@ export type GetImportedModelError =
  * Gets properties associated with a customized model you imported.
  */
 export const getImportedModel: API.OperationMethod<
-  GetImportedModelRequest,
+  GetImportedModelRequest & RegionInput,
   GetImportedModelResponse,
   GetImportedModelError,
   Credentials | HttpClient.HttpClient
@@ -5715,7 +5728,7 @@ export type GetInferenceProfileError =
  * Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const getInferenceProfile: API.OperationMethod<
-  GetInferenceProfileRequest,
+  GetInferenceProfileRequest & RegionInput,
   GetInferenceProfileResponse,
   GetInferenceProfileError,
   Credentials | HttpClient.HttpClient
@@ -5747,7 +5760,7 @@ export type GetMarketplaceModelEndpointError =
  * Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const getMarketplaceModelEndpoint: API.OperationMethod<
-  GetMarketplaceModelEndpointRequest,
+  GetMarketplaceModelEndpointRequest & RegionInput,
   GetMarketplaceModelEndpointResponse,
   GetMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5779,7 +5792,7 @@ export type GetModelCopyJobError =
  * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const getModelCopyJob: API.OperationMethod<
-  GetModelCopyJobRequest,
+  GetModelCopyJobRequest & RegionInput,
   GetModelCopyJobResponse,
   GetModelCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -5811,7 +5824,7 @@ export type GetModelCustomizationJobError =
  * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const getModelCustomizationJob: API.OperationMethod<
-  GetModelCustomizationJobRequest,
+  GetModelCustomizationJobRequest & RegionInput,
   GetModelCustomizationJobResponse,
   GetModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -5843,7 +5856,7 @@ export type GetModelImportJobError =
  * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const getModelImportJob: API.OperationMethod<
-  GetModelImportJobRequest,
+  GetModelImportJobRequest & RegionInput,
   GetModelImportJobResponse,
   GetModelImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5875,7 +5888,7 @@ export type GetModelInvocationJobError =
  * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
  */
 export const getModelInvocationJob: API.OperationMethod<
-  GetModelInvocationJobRequest,
+  GetModelInvocationJobRequest & RegionInput,
   GetModelInvocationJobResponse,
   GetModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -5905,7 +5918,7 @@ export type GetModelInvocationLoggingConfigurationError =
  * Get the current configuration values for model invocation logging.
  */
 export const getModelInvocationLoggingConfiguration: API.OperationMethod<
-  GetModelInvocationLoggingConfigurationRequest,
+  GetModelInvocationLoggingConfigurationRequest & RegionInput,
   GetModelInvocationLoggingConfigurationResponse,
   GetModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5931,7 +5944,7 @@ export type GetPromptRouterError =
  * Retrieves details about a prompt router.
  */
 export const getPromptRouter: API.OperationMethod<
-  GetPromptRouterRequest,
+  GetPromptRouterRequest & RegionInput,
   GetPromptRouterResponse,
   GetPromptRouterError,
   Credentials | HttpClient.HttpClient
@@ -5963,7 +5976,7 @@ export type GetProvisionedModelThroughputError =
  * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const getProvisionedModelThroughput: API.OperationMethod<
-  GetProvisionedModelThroughputRequest,
+  GetProvisionedModelThroughputRequest & RegionInput,
   GetProvisionedModelThroughputResponse,
   GetProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient
@@ -5995,7 +6008,7 @@ export type GetResourcePolicyError =
  * Gets the resource policy document for a Bedrock resource
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6026,7 +6039,7 @@ export type GetUseCaseForModelAccessError =
  * Get usecase for model access.
  */
 export const getUseCaseForModelAccess: API.OperationMethod<
-  GetUseCaseForModelAccessRequest,
+  GetUseCaseForModelAccessRequest & RegionInput,
   GetUseCaseForModelAccessResponse,
   GetUseCaseForModelAccessError,
   Credentials | HttpClient.HttpClient
@@ -6056,7 +6069,7 @@ export type ListAdvancedPromptOptimizationJobsError =
  * Lists the advanced prompt optimization jobs in your account.
  */
 export const listAdvancedPromptOptimizationJobs: API.PaginatedOperationMethod<
-  ListAdvancedPromptOptimizationJobsRequest,
+  ListAdvancedPromptOptimizationJobsRequest & RegionInput,
   ListAdvancedPromptOptimizationJobsResponse,
   ListAdvancedPromptOptimizationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6094,7 +6107,7 @@ export type ListAutomatedReasoningPoliciesError =
  * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
  */
 export const listAutomatedReasoningPolicies: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPoliciesRequest,
+  ListAutomatedReasoningPoliciesRequest & RegionInput,
   ListAutomatedReasoningPoliciesResponse,
   ListAutomatedReasoningPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6133,7 +6146,7 @@ export type ListAutomatedReasoningPolicyBuildWorkflowsError =
  * Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
  */
 export const listAutomatedReasoningPolicyBuildWorkflows: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyBuildWorkflowsRequest,
+  ListAutomatedReasoningPolicyBuildWorkflowsRequest & RegionInput,
   ListAutomatedReasoningPolicyBuildWorkflowsResponse,
   ListAutomatedReasoningPolicyBuildWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -6176,7 +6189,7 @@ export type ListAutomatedReasoningPolicyTestCasesError =
  * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listAutomatedReasoningPolicyTestCases: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyTestCasesRequest,
+  ListAutomatedReasoningPolicyTestCasesRequest & RegionInput,
   ListAutomatedReasoningPolicyTestCasesResponse,
   ListAutomatedReasoningPolicyTestCasesError,
   Credentials | HttpClient.HttpClient,
@@ -6216,7 +6229,7 @@ export type ListAutomatedReasoningPolicyTestResultsError =
  * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
  */
 export const listAutomatedReasoningPolicyTestResults: API.PaginatedOperationMethod<
-  ListAutomatedReasoningPolicyTestResultsRequest,
+  ListAutomatedReasoningPolicyTestResultsRequest & RegionInput,
   ListAutomatedReasoningPolicyTestResultsResponse,
   ListAutomatedReasoningPolicyTestResultsError,
   Credentials | HttpClient.HttpClient,
@@ -6265,7 +6278,7 @@ export type ListCustomModelDeploymentsError =
  * - DeleteCustomModelDeployment
  */
 export const listCustomModelDeployments: API.PaginatedOperationMethod<
-  ListCustomModelDeploymentsRequest,
+  ListCustomModelDeploymentsRequest & RegionInput,
   ListCustomModelDeploymentsResponse,
   ListCustomModelDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -6304,7 +6317,7 @@ export type ListCustomModelsError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const listCustomModels: API.PaginatedOperationMethod<
-  ListCustomModelsRequest,
+  ListCustomModelsRequest & RegionInput,
   ListCustomModelsResponse,
   ListCustomModelsError,
   Credentials | HttpClient.HttpClient,
@@ -6342,7 +6355,7 @@ export type ListEnforcedGuardrailsConfigurationError =
  * Lists the account-level enforced guardrail configurations.
  */
 export const listEnforcedGuardrailsConfiguration: API.PaginatedOperationMethod<
-  ListEnforcedGuardrailsConfigurationRequest,
+  ListEnforcedGuardrailsConfigurationRequest & RegionInput,
   ListEnforcedGuardrailsConfigurationResponse,
   ListEnforcedGuardrailsConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -6379,7 +6392,7 @@ export type ListEvaluationJobsError =
  * Lists all existing evaluation jobs.
  */
 export const listEvaluationJobs: API.PaginatedOperationMethod<
-  ListEvaluationJobsRequest,
+  ListEvaluationJobsRequest & RegionInput,
   ListEvaluationJobsResponse,
   ListEvaluationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6417,7 +6430,7 @@ export type ListFoundationModelAgreementOffersError =
  * Get the offers associated with the specified model.
  */
 export const listFoundationModelAgreementOffers: API.OperationMethod<
-  ListFoundationModelAgreementOffersRequest,
+  ListFoundationModelAgreementOffersRequest & RegionInput,
   ListFoundationModelAgreementOffersResponse,
   ListFoundationModelAgreementOffersError,
   Credentials | HttpClient.HttpClient
@@ -6448,7 +6461,7 @@ export type ListFoundationModelsError =
  * Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
  */
 export const listFoundationModels: API.OperationMethod<
-  ListFoundationModelsRequest,
+  ListFoundationModelsRequest & RegionInput,
   ListFoundationModelsResponse,
   ListFoundationModelsError,
   Credentials | HttpClient.HttpClient
@@ -6481,7 +6494,7 @@ export type ListGuardrailsError =
  * You can set the maximum number of results to return in a response in the `maxResults` field. If there are more results than the number you set, the response returns a `nextToken` that you can send in another `ListGuardrails` request to see the next batch of results.
  */
 export const listGuardrails: API.PaginatedOperationMethod<
-  ListGuardrailsRequest,
+  ListGuardrailsRequest & RegionInput,
   ListGuardrailsResponse,
   ListGuardrailsError,
   Credentials | HttpClient.HttpClient,
@@ -6519,7 +6532,7 @@ export type ListImportedModelsError =
  * Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listImportedModels: API.PaginatedOperationMethod<
-  ListImportedModelsRequest,
+  ListImportedModelsRequest & RegionInput,
   ListImportedModelsResponse,
   ListImportedModelsError,
   Credentials | HttpClient.HttpClient,
@@ -6556,7 +6569,7 @@ export type ListInferenceProfilesError =
  * Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
 export const listInferenceProfiles: API.PaginatedOperationMethod<
-  ListInferenceProfilesRequest,
+  ListInferenceProfilesRequest & RegionInput,
   ListInferenceProfilesResponse,
   ListInferenceProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -6594,7 +6607,7 @@ export type ListMarketplaceModelEndpointsError =
  * Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
  */
 export const listMarketplaceModelEndpoints: API.PaginatedOperationMethod<
-  ListMarketplaceModelEndpointsRequest,
+  ListMarketplaceModelEndpointsRequest & RegionInput,
   ListMarketplaceModelEndpointsResponse,
   ListMarketplaceModelEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -6633,7 +6646,7 @@ export type ListModelCopyJobsError =
  * Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
 export const listModelCopyJobs: API.PaginatedOperationMethod<
-  ListModelCopyJobsRequest,
+  ListModelCopyJobsRequest & RegionInput,
   ListModelCopyJobsResponse,
   ListModelCopyJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6673,7 +6686,7 @@ export type ListModelCustomizationJobsError =
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const listModelCustomizationJobs: API.PaginatedOperationMethod<
-  ListModelCustomizationJobsRequest,
+  ListModelCustomizationJobsRequest & RegionInput,
   ListModelCustomizationJobsResponse,
   ListModelCustomizationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6710,7 +6723,7 @@ export type ListModelImportJobsError =
  * Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
 export const listModelImportJobs: API.PaginatedOperationMethod<
-  ListModelImportJobsRequest,
+  ListModelImportJobsRequest & RegionInput,
   ListModelImportJobsResponse,
   ListModelImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6747,7 +6760,7 @@ export type ListModelInvocationJobsError =
  * Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
  */
 export const listModelInvocationJobs: API.PaginatedOperationMethod<
-  ListModelInvocationJobsRequest,
+  ListModelInvocationJobsRequest & RegionInput,
   ListModelInvocationJobsResponse,
   ListModelInvocationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6784,7 +6797,7 @@ export type ListPromptRoutersError =
  * Retrieves a list of prompt routers.
  */
 export const listPromptRouters: API.PaginatedOperationMethod<
-  ListPromptRoutersRequest,
+  ListPromptRoutersRequest & RegionInput,
   ListPromptRoutersResponse,
   ListPromptRoutersError,
   Credentials | HttpClient.HttpClient,
@@ -6821,7 +6834,7 @@ export type ListProvisionedModelThroughputsError =
  * Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const listProvisionedModelThroughputs: API.PaginatedOperationMethod<
-  ListProvisionedModelThroughputsRequest,
+  ListProvisionedModelThroughputsRequest & RegionInput,
   ListProvisionedModelThroughputsResponse,
   ListProvisionedModelThroughputsError,
   Credentials | HttpClient.HttpClient,
@@ -6861,7 +6874,7 @@ export type ListTagsForResourceError =
  * For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6892,7 +6905,7 @@ export type PutAccountDataRetentionError =
  * Sets the account-wide data retention mode for Amazon Bedrock.
  */
 export const putAccountDataRetention: API.OperationMethod<
-  PutAccountDataRetentionRequest,
+  PutAccountDataRetentionRequest & RegionInput,
   PutAccountDataRetentionResponse,
   PutAccountDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -6924,7 +6937,7 @@ export type PutEnforcedGuardrailConfigurationError =
  * Sets the account-level enforced guardrail configuration.
  */
 export const putEnforcedGuardrailConfiguration: API.OperationMethod<
-  PutEnforcedGuardrailConfigurationRequest,
+  PutEnforcedGuardrailConfigurationRequest & RegionInput,
   PutEnforcedGuardrailConfigurationResponse,
   PutEnforcedGuardrailConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6956,7 +6969,7 @@ export type PutModelInvocationLoggingConfigurationError =
  * Set the configuration values for model invocation logging.
  */
 export const putModelInvocationLoggingConfiguration: API.OperationMethod<
-  PutModelInvocationLoggingConfigurationRequest,
+  PutModelInvocationLoggingConfigurationRequest & RegionInput,
   PutModelInvocationLoggingConfigurationResponse,
   PutModelInvocationLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6987,7 +7000,7 @@ export type PutResourcePolicyError =
  * Adds a resource policy for a Bedrock resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7018,7 +7031,7 @@ export type PutUseCaseForModelAccessError =
  * Put usecase for model access.
  */
 export const putUseCaseForModelAccess: API.OperationMethod<
-  PutUseCaseForModelAccessRequest,
+  PutUseCaseForModelAccessRequest & RegionInput,
   PutUseCaseForModelAccessResponse,
   PutUseCaseForModelAccessError,
   Credentials | HttpClient.HttpClient
@@ -7050,7 +7063,7 @@ export type RegisterMarketplaceModelEndpointError =
  * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
  */
 export const registerMarketplaceModelEndpoint: API.OperationMethod<
-  RegisterMarketplaceModelEndpointRequest,
+  RegisterMarketplaceModelEndpointRequest & RegionInput,
   RegisterMarketplaceModelEndpointResponse,
   RegisterMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7086,7 +7099,7 @@ export type StartAutomatedReasoningPolicyBuildWorkflowError =
  * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
  */
 export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyBuildWorkflowRequest,
+  StartAutomatedReasoningPolicyBuildWorkflowRequest & RegionInput,
   StartAutomatedReasoningPolicyBuildWorkflowResponse,
   StartAutomatedReasoningPolicyBuildWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -7122,7 +7135,7 @@ export type StartAutomatedReasoningPolicyTestWorkflowError =
  * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
  */
 export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
-  StartAutomatedReasoningPolicyTestWorkflowRequest,
+  StartAutomatedReasoningPolicyTestWorkflowRequest & RegionInput,
   StartAutomatedReasoningPolicyTestWorkflowResponse,
   StartAutomatedReasoningPolicyTestWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -7156,7 +7169,7 @@ export type StopAdvancedPromptOptimizationJobError =
  * Stops an advanced prompt optimization job that is in progress.
  */
 export const stopAdvancedPromptOptimizationJob: API.OperationMethod<
-  StopAdvancedPromptOptimizationJobRequest,
+  StopAdvancedPromptOptimizationJobRequest & RegionInput,
   StopAdvancedPromptOptimizationJobResponse,
   StopAdvancedPromptOptimizationJobError,
   Credentials | HttpClient.HttpClient
@@ -7190,7 +7203,7 @@ export type StopEvaluationJobError =
  * Stops an evaluation job that is current being created or running.
  */
 export const stopEvaluationJob: API.OperationMethod<
-  StopEvaluationJobRequest,
+  StopEvaluationJobRequest & RegionInput,
   StopEvaluationJobResponse,
   StopEvaluationJobError,
   Credentials | HttpClient.HttpClient
@@ -7224,7 +7237,7 @@ export type StopModelCustomizationJobError =
  * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
 export const stopModelCustomizationJob: API.OperationMethod<
-  StopModelCustomizationJobRequest,
+  StopModelCustomizationJobRequest & RegionInput,
   StopModelCustomizationJobResponse,
   StopModelCustomizationJobError,
   Credentials | HttpClient.HttpClient
@@ -7258,7 +7271,7 @@ export type StopModelInvocationJobError =
  * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
  */
 export const stopModelInvocationJob: API.OperationMethod<
-  StopModelInvocationJobRequest,
+  StopModelInvocationJobRequest & RegionInput,
   StopModelInvocationJobResponse,
   StopModelInvocationJobError,
   Credentials | HttpClient.HttpClient
@@ -7292,7 +7305,7 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7325,7 +7338,7 @@ export type UntagResourceError =
  * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7359,7 +7372,7 @@ export type UpdateAutomatedReasoningPolicyError =
  * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
  */
 export const updateAutomatedReasoningPolicy: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyRequest,
+  UpdateAutomatedReasoningPolicyRequest & RegionInput,
   UpdateAutomatedReasoningPolicyResponse,
   UpdateAutomatedReasoningPolicyError,
   Credentials | HttpClient.HttpClient
@@ -7394,7 +7407,7 @@ export type UpdateAutomatedReasoningPolicyAnnotationsError =
  * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
  */
 export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyAnnotationsRequest,
+  UpdateAutomatedReasoningPolicyAnnotationsRequest & RegionInput,
   UpdateAutomatedReasoningPolicyAnnotationsResponse,
   UpdateAutomatedReasoningPolicyAnnotationsError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7442,7 @@ export type UpdateAutomatedReasoningPolicyTestCaseError =
  * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
  */
 export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
-  UpdateAutomatedReasoningPolicyTestCaseRequest,
+  UpdateAutomatedReasoningPolicyTestCaseRequest & RegionInput,
   UpdateAutomatedReasoningPolicyTestCaseResponse,
   UpdateAutomatedReasoningPolicyTestCaseError,
   Credentials | HttpClient.HttpClient
@@ -7463,7 +7476,7 @@ export type UpdateCustomModelDeploymentError =
  * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
  */
 export const updateCustomModelDeployment: API.OperationMethod<
-  UpdateCustomModelDeploymentRequest,
+  UpdateCustomModelDeploymentRequest & RegionInput,
   UpdateCustomModelDeploymentResponse,
   UpdateCustomModelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -7517,7 +7530,7 @@ export type UpdateGuardrailError =
  * - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
  */
 export const updateGuardrail: API.OperationMethod<
-  UpdateGuardrailRequest,
+  UpdateGuardrailRequest & RegionInput,
   UpdateGuardrailResponse,
   UpdateGuardrailError,
   Credentials | HttpClient.HttpClient
@@ -7553,7 +7566,7 @@ export type UpdateMarketplaceModelEndpointError =
  * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
  */
 export const updateMarketplaceModelEndpoint: API.OperationMethod<
-  UpdateMarketplaceModelEndpointRequest,
+  UpdateMarketplaceModelEndpointRequest & RegionInput,
   UpdateMarketplaceModelEndpointResponse,
   UpdateMarketplaceModelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -7587,7 +7600,7 @@ export type UpdateProvisionedModelThroughputError =
  * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
 export const updateProvisionedModelThroughput: API.OperationMethod<
-  UpdateProvisionedModelThroughputRequest,
+  UpdateProvisionedModelThroughputRequest & RegionInput,
   UpdateProvisionedModelThroughputResponse,
   UpdateProvisionedModelThroughputError,
   Credentials | HttpClient.HttpClient

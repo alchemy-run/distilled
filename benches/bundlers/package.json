@@ -1,0 +1,21 @@
+{
+  "name": "@distilled.cloud/bench-bundlers",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Bundles the published Distilled SDKs with esbuild, rolldown, Vite and webpack: a CI check that every bundler handles their lazy imports, and a bundle time / size benchmark.",
+  "type": "module",
+  "scripts": {
+    "bench": "node run.ts",
+    "test": "vitest run",
+    "typecheck": "tsrs --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "esbuild": "catalog:",
+    "rolldown": "catalog:",
+    "tsrs": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "webpack": "catalog:"
+  }
+}

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -297,19 +298,19 @@ export type NetworkFunctionGroupName = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ProposedSegmentChange {
-  Tags?: Tag[];
-  AttachmentPolicyRuleNumber?: number;
-  SegmentName?: string;
+  Tags?: Tag[] | undefined;
+  AttachmentPolicyRuleNumber?: number | undefined;
+  SegmentName?: string | undefined;
 }
 export interface ProposedNetworkFunctionGroupChange {
-  Tags?: Tag[];
-  AttachmentPolicyRuleNumber?: number;
-  NetworkFunctionGroupName?: string;
+  Tags?: Tag[] | undefined;
+  AttachmentPolicyRuleNumber?: number | undefined;
+  NetworkFunctionGroupName?: string | undefined;
 }
 export type AttachmentErrorCode =
   | "VPC_NOT_FOUND"
@@ -328,34 +329,34 @@ export type AttachmentErrorCode =
   | (string & {});
 export type ServerSideString = string;
 export interface AttachmentError {
-  Code?: AttachmentErrorCode;
-  Message?: string;
-  ResourceArn?: string;
-  RequestId?: string;
+  Code?: AttachmentErrorCode | undefined;
+  Message?: string | undefined;
+  ResourceArn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type AttachmentErrorList = AttachmentError[];
 export interface Attachment {
-  CoreNetworkId?: string;
-  CoreNetworkArn?: string;
-  AttachmentId?: string;
-  OwnerAccountId?: string;
-  AttachmentType?: AttachmentType;
-  State?: AttachmentState;
-  EdgeLocation?: string;
-  EdgeLocations?: string[];
-  ResourceArn?: string;
-  AttachmentPolicyRuleNumber?: number;
-  SegmentName?: string;
-  NetworkFunctionGroupName?: string;
-  Tags?: Tag[];
-  ProposedSegmentChange?: ProposedSegmentChange;
-  ProposedNetworkFunctionGroupChange?: ProposedNetworkFunctionGroupChange;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LastModificationErrors?: AttachmentError[];
+  CoreNetworkId?: string | undefined;
+  CoreNetworkArn?: string | undefined;
+  AttachmentId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  AttachmentType?: AttachmentType | undefined;
+  State?: AttachmentState | undefined;
+  EdgeLocation?: string | undefined;
+  EdgeLocations?: string[] | undefined;
+  ResourceArn?: string | undefined;
+  AttachmentPolicyRuleNumber?: number | undefined;
+  SegmentName?: string | undefined;
+  NetworkFunctionGroupName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ProposedSegmentChange?: ProposedSegmentChange | undefined;
+  ProposedNetworkFunctionGroupChange?: ProposedNetworkFunctionGroupChange | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LastModificationErrors?: AttachmentError[] | undefined;
 }
 export interface AcceptAttachmentResponse {
-  Attachment?: Attachment;
+  Attachment?: Attachment | undefined;
 }
 export type GlobalNetworkId = string;
 export type ConnectPeerId = string;
@@ -365,7 +366,7 @@ export interface AssociateConnectPeerRequest {
   GlobalNetworkId: string;
   ConnectPeerId: string;
   DeviceId: string;
-  LinkId?: string;
+  LinkId?: string | undefined;
 }
 export type ConnectPeerAssociationState =
   | "PENDING"
@@ -374,21 +375,21 @@ export type ConnectPeerAssociationState =
   | "DELETED"
   | (string & {});
 export interface ConnectPeerAssociation {
-  ConnectPeerId?: string;
-  GlobalNetworkId?: string;
-  DeviceId?: string;
-  LinkId?: string;
-  State?: ConnectPeerAssociationState;
+  ConnectPeerId?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  DeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  State?: ConnectPeerAssociationState | undefined;
 }
 export interface AssociateConnectPeerResponse {
-  ConnectPeerAssociation?: ConnectPeerAssociation;
+  ConnectPeerAssociation?: ConnectPeerAssociation | undefined;
 }
 export type CustomerGatewayArn = string;
 export interface AssociateCustomerGatewayRequest {
   CustomerGatewayArn: string;
   GlobalNetworkId: string;
   DeviceId: string;
-  LinkId?: string;
+  LinkId?: string | undefined;
 }
 export type CustomerGatewayAssociationState =
   | "PENDING"
@@ -397,14 +398,14 @@ export type CustomerGatewayAssociationState =
   | "DELETED"
   | (string & {});
 export interface CustomerGatewayAssociation {
-  CustomerGatewayArn?: string;
-  GlobalNetworkId?: string;
-  DeviceId?: string;
-  LinkId?: string;
-  State?: CustomerGatewayAssociationState;
+  CustomerGatewayArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  DeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  State?: CustomerGatewayAssociationState | undefined;
 }
 export interface AssociateCustomerGatewayResponse {
-  CustomerGatewayAssociation?: CustomerGatewayAssociation;
+  CustomerGatewayAssociation?: CustomerGatewayAssociation | undefined;
 }
 export interface AssociateLinkRequest {
   GlobalNetworkId: string;
@@ -413,20 +414,20 @@ export interface AssociateLinkRequest {
 }
 export type LinkAssociationState = "PENDING" | "AVAILABLE" | "DELETING" | "DELETED" | (string & {});
 export interface LinkAssociation {
-  GlobalNetworkId?: string;
-  DeviceId?: string;
-  LinkId?: string;
-  LinkAssociationState?: LinkAssociationState;
+  GlobalNetworkId?: string | undefined;
+  DeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  LinkAssociationState?: LinkAssociationState | undefined;
 }
 export interface AssociateLinkResponse {
-  LinkAssociation?: LinkAssociation;
+  LinkAssociation?: LinkAssociation | undefined;
 }
 export type TransitGatewayConnectPeerArn = string;
 export interface AssociateTransitGatewayConnectPeerRequest {
   GlobalNetworkId: string;
   TransitGatewayConnectPeerArn: string;
   DeviceId: string;
-  LinkId?: string;
+  LinkId?: string | undefined;
 }
 export type TransitGatewayConnectPeerAssociationState =
   | "PENDING"
@@ -435,95 +436,95 @@ export type TransitGatewayConnectPeerAssociationState =
   | "DELETED"
   | (string & {});
 export interface TransitGatewayConnectPeerAssociation {
-  TransitGatewayConnectPeerArn?: string;
-  GlobalNetworkId?: string;
-  DeviceId?: string;
-  LinkId?: string;
-  State?: TransitGatewayConnectPeerAssociationState;
+  TransitGatewayConnectPeerArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  DeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  State?: TransitGatewayConnectPeerAssociationState | undefined;
 }
 export interface AssociateTransitGatewayConnectPeerResponse {
-  TransitGatewayConnectPeerAssociation?: TransitGatewayConnectPeerAssociation;
+  TransitGatewayConnectPeerAssociation?: TransitGatewayConnectPeerAssociation | undefined;
 }
 export type TunnelProtocol = "GRE" | "NO_ENCAP" | (string & {});
 export interface ConnectAttachmentOptions {
-  Protocol?: TunnelProtocol;
+  Protocol?: TunnelProtocol | undefined;
 }
 export type ClientToken = string;
 export interface CreateConnectAttachmentRequest {
   CoreNetworkId: string;
   EdgeLocation: string;
   TransportAttachmentId: string;
-  RoutingPolicyLabel?: string;
+  RoutingPolicyLabel?: string | undefined;
   Options: ConnectAttachmentOptions;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface ConnectAttachment {
-  Attachment?: Attachment;
-  TransportAttachmentId?: string;
-  Options?: ConnectAttachmentOptions;
+  Attachment?: Attachment | undefined;
+  TransportAttachmentId?: string | undefined;
+  Options?: ConnectAttachmentOptions | undefined;
 }
 export interface CreateConnectAttachmentResponse {
-  ConnectAttachment?: ConnectAttachment;
+  ConnectAttachment?: ConnectAttachment | undefined;
 }
 export interface CreateConnectionRequest {
   GlobalNetworkId: string;
   DeviceId: string;
   ConnectedDeviceId: string;
-  LinkId?: string;
-  ConnectedLinkId?: string;
-  Description?: string;
-  Tags?: Tag[];
+  LinkId?: string | undefined;
+  ConnectedLinkId?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ConnectionId = string;
 export type ConnectionArn = string;
 export type ConnectionState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING" | (string & {});
 export interface Connection {
-  ConnectionId?: string;
-  ConnectionArn?: string;
-  GlobalNetworkId?: string;
-  DeviceId?: string;
-  ConnectedDeviceId?: string;
-  LinkId?: string;
-  ConnectedLinkId?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  State?: ConnectionState;
-  Tags?: Tag[];
+  ConnectionId?: string | undefined;
+  ConnectionArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  DeviceId?: string | undefined;
+  ConnectedDeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  ConnectedLinkId?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  State?: ConnectionState | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export type IPAddress = string;
 export interface BgpOptions {
-  PeerAsn?: number;
+  PeerAsn?: number | undefined;
 }
 export type ConstrainedStringList = string[];
 export type SubnetArn = string;
 export interface CreateConnectPeerRequest {
   ConnectAttachmentId: string;
-  CoreNetworkAddress?: string;
+  CoreNetworkAddress?: string | undefined;
   PeerAddress: string;
-  BgpOptions?: BgpOptions;
-  InsideCidrBlocks?: string[];
-  Tags?: Tag[];
-  ClientToken?: string;
-  SubnetArn?: string;
+  BgpOptions?: BgpOptions | undefined;
+  InsideCidrBlocks?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
+  SubnetArn?: string | undefined;
 }
 export type ConnectPeerState = "CREATING" | "FAILED" | "AVAILABLE" | "DELETING" | (string & {});
 export interface ConnectPeerBgpConfiguration {
-  CoreNetworkAsn?: number;
-  PeerAsn?: number;
-  CoreNetworkAddress?: string;
-  PeerAddress?: string;
+  CoreNetworkAsn?: number | undefined;
+  PeerAsn?: number | undefined;
+  CoreNetworkAddress?: string | undefined;
+  PeerAddress?: string | undefined;
 }
 export type ConnectPeerBgpConfigurationList = ConnectPeerBgpConfiguration[];
 export interface ConnectPeerConfiguration {
-  CoreNetworkAddress?: string;
-  PeerAddress?: string;
-  InsideCidrBlocks?: string[];
-  Protocol?: TunnelProtocol;
-  BgpConfigurations?: ConnectPeerBgpConfiguration[];
+  CoreNetworkAddress?: string | undefined;
+  PeerAddress?: string | undefined;
+  InsideCidrBlocks?: string[] | undefined;
+  Protocol?: TunnelProtocol | undefined;
+  BgpConfigurations?: ConnectPeerBgpConfiguration[] | undefined;
 }
 export type ConnectPeerErrorCode =
   | "EDGE_LOCATION_NO_FREE_IPS"
@@ -534,234 +535,234 @@ export type ConnectPeerErrorCode =
   | "NO_ASSOCIATED_CIDR_BLOCK"
   | (string & {});
 export interface ConnectPeerError {
-  Code?: ConnectPeerErrorCode;
-  Message?: string;
-  ResourceArn?: string;
-  RequestId?: string;
+  Code?: ConnectPeerErrorCode | undefined;
+  Message?: string | undefined;
+  ResourceArn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type ConnectPeerErrorList = ConnectPeerError[];
 export interface ConnectPeer {
-  CoreNetworkId?: string;
-  ConnectAttachmentId?: string;
-  ConnectPeerId?: string;
-  EdgeLocation?: string;
-  State?: ConnectPeerState;
-  CreatedAt?: Date;
-  Configuration?: ConnectPeerConfiguration;
-  Tags?: Tag[];
-  SubnetArn?: string;
-  LastModificationErrors?: ConnectPeerError[];
+  CoreNetworkId?: string | undefined;
+  ConnectAttachmentId?: string | undefined;
+  ConnectPeerId?: string | undefined;
+  EdgeLocation?: string | undefined;
+  State?: ConnectPeerState | undefined;
+  CreatedAt?: Date | undefined;
+  Configuration?: ConnectPeerConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  SubnetArn?: string | undefined;
+  LastModificationErrors?: ConnectPeerError[] | undefined;
 }
 export interface CreateConnectPeerResponse {
-  ConnectPeer?: ConnectPeer;
+  ConnectPeer?: ConnectPeer | undefined;
 }
 export type CoreNetworkPolicyDocument = string;
 export interface CreateCoreNetworkRequest {
   GlobalNetworkId: string;
-  Description?: string;
-  Tags?: Tag[];
-  PolicyDocument?: string;
-  ClientToken?: string;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  PolicyDocument?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export type CoreNetworkState = "CREATING" | "UPDATING" | "AVAILABLE" | "DELETING" | (string & {});
 export interface CoreNetworkSegment {
-  Name?: string;
-  EdgeLocations?: string[];
-  SharedSegments?: string[];
+  Name?: string | undefined;
+  EdgeLocations?: string[] | undefined;
+  SharedSegments?: string[] | undefined;
 }
 export type CoreNetworkSegmentList = CoreNetworkSegment[];
 export interface ServiceInsertionSegments {
-  SendVia?: string[];
-  SendTo?: string[];
+  SendVia?: string[] | undefined;
+  SendTo?: string[] | undefined;
 }
 export interface CoreNetworkNetworkFunctionGroup {
-  Name?: string;
-  EdgeLocations?: string[];
-  Segments?: ServiceInsertionSegments;
+  Name?: string | undefined;
+  EdgeLocations?: string[] | undefined;
+  Segments?: ServiceInsertionSegments | undefined;
 }
 export type CoreNetworkNetworkFunctionGroupList = CoreNetworkNetworkFunctionGroup[];
 export interface CoreNetworkEdge {
-  EdgeLocation?: string;
-  Asn?: number;
-  InsideCidrBlocks?: string[];
+  EdgeLocation?: string | undefined;
+  Asn?: number | undefined;
+  InsideCidrBlocks?: string[] | undefined;
 }
 export type CoreNetworkEdgeList = CoreNetworkEdge[];
 export interface CoreNetwork {
-  GlobalNetworkId?: string;
-  CoreNetworkId?: string;
-  CoreNetworkArn?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  State?: CoreNetworkState;
-  Segments?: CoreNetworkSegment[];
-  NetworkFunctionGroups?: CoreNetworkNetworkFunctionGroup[];
-  Edges?: CoreNetworkEdge[];
-  Tags?: Tag[];
+  GlobalNetworkId?: string | undefined;
+  CoreNetworkId?: string | undefined;
+  CoreNetworkArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  State?: CoreNetworkState | undefined;
+  Segments?: CoreNetworkSegment[] | undefined;
+  NetworkFunctionGroups?: CoreNetworkNetworkFunctionGroup[] | undefined;
+  Edges?: CoreNetworkEdge[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateCoreNetworkResponse {
-  CoreNetwork?: CoreNetwork;
+  CoreNetwork?: CoreNetwork | undefined;
 }
 export type PrefixListArn = string;
 export interface CreateCoreNetworkPrefixListAssociationRequest {
   CoreNetworkId: string;
   PrefixListArn: string;
   PrefixListAlias: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreateCoreNetworkPrefixListAssociationResponse {
-  CoreNetworkId?: string;
-  PrefixListArn?: string;
-  PrefixListAlias?: string;
+  CoreNetworkId?: string | undefined;
+  PrefixListArn?: string | undefined;
+  PrefixListAlias?: string | undefined;
 }
 export interface AWSLocation {
-  Zone?: string;
-  SubnetArn?: string;
+  Zone?: string | undefined;
+  SubnetArn?: string | undefined;
 }
 export interface Location {
-  Address?: string;
-  Latitude?: string;
-  Longitude?: string;
+  Address?: string | undefined;
+  Latitude?: string | undefined;
+  Longitude?: string | undefined;
 }
 export type SiteId = string;
 export interface CreateDeviceRequest {
   GlobalNetworkId: string;
-  AWSLocation?: AWSLocation;
-  Description?: string;
-  Type?: string;
-  Vendor?: string;
-  Model?: string;
-  SerialNumber?: string;
-  Location?: Location;
-  SiteId?: string;
-  Tags?: Tag[];
+  AWSLocation?: AWSLocation | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  Vendor?: string | undefined;
+  Model?: string | undefined;
+  SerialNumber?: string | undefined;
+  Location?: Location | undefined;
+  SiteId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DeviceArn = string;
 export type DeviceState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING" | (string & {});
 export interface Device {
-  DeviceId?: string;
-  DeviceArn?: string;
-  GlobalNetworkId?: string;
-  AWSLocation?: AWSLocation;
-  Description?: string;
-  Type?: string;
-  Vendor?: string;
-  Model?: string;
-  SerialNumber?: string;
-  Location?: Location;
-  SiteId?: string;
-  CreatedAt?: Date;
-  State?: DeviceState;
-  Tags?: Tag[];
+  DeviceId?: string | undefined;
+  DeviceArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  AWSLocation?: AWSLocation | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  Vendor?: string | undefined;
+  Model?: string | undefined;
+  SerialNumber?: string | undefined;
+  Location?: Location | undefined;
+  SiteId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  State?: DeviceState | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDeviceResponse {
-  Device?: Device;
+  Device?: Device | undefined;
 }
 export type DirectConnectGatewayArn = string;
 export interface CreateDirectConnectGatewayAttachmentRequest {
   CoreNetworkId: string;
   DirectConnectGatewayArn: string;
-  RoutingPolicyLabel?: string;
+  RoutingPolicyLabel?: string | undefined;
   EdgeLocations: string[];
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DirectConnectGatewayAttachment {
-  Attachment?: Attachment;
-  DirectConnectGatewayArn?: string;
+  Attachment?: Attachment | undefined;
+  DirectConnectGatewayArn?: string | undefined;
 }
 export interface CreateDirectConnectGatewayAttachmentResponse {
-  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment;
+  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment | undefined;
 }
 export interface CreateGlobalNetworkRequest {
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type GlobalNetworkArn = string;
 export type GlobalNetworkState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING" | (string & {});
 export interface GlobalNetwork {
-  GlobalNetworkId?: string;
-  GlobalNetworkArn?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  State?: GlobalNetworkState;
-  Tags?: Tag[];
+  GlobalNetworkId?: string | undefined;
+  GlobalNetworkArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  State?: GlobalNetworkState | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateGlobalNetworkResponse {
-  GlobalNetwork?: GlobalNetwork;
+  GlobalNetwork?: GlobalNetwork | undefined;
 }
 export interface Bandwidth {
-  UploadSpeed?: number;
-  DownloadSpeed?: number;
+  UploadSpeed?: number | undefined;
+  DownloadSpeed?: number | undefined;
 }
 export interface CreateLinkRequest {
   GlobalNetworkId: string;
-  Description?: string;
-  Type?: string;
+  Description?: string | undefined;
+  Type?: string | undefined;
   Bandwidth: Bandwidth;
-  Provider?: string;
+  Provider?: string | undefined;
   SiteId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type LinkArn = string;
 export type LinkState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING" | (string & {});
 export interface Link {
-  LinkId?: string;
-  LinkArn?: string;
-  GlobalNetworkId?: string;
-  SiteId?: string;
-  Description?: string;
-  Type?: string;
-  Bandwidth?: Bandwidth;
-  Provider?: string;
-  CreatedAt?: Date;
-  State?: LinkState;
-  Tags?: Tag[];
+  LinkId?: string | undefined;
+  LinkArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  SiteId?: string | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  Bandwidth?: Bandwidth | undefined;
+  Provider?: string | undefined;
+  CreatedAt?: Date | undefined;
+  State?: LinkState | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateLinkResponse {
-  Link?: Link;
+  Link?: Link | undefined;
 }
 export interface CreateSiteRequest {
   GlobalNetworkId: string;
-  Description?: string;
-  Location?: Location;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Location?: Location | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type SiteArn = string;
 export type SiteState = "PENDING" | "AVAILABLE" | "DELETING" | "UPDATING" | (string & {});
 export interface Site {
-  SiteId?: string;
-  SiteArn?: string;
-  GlobalNetworkId?: string;
-  Description?: string;
-  Location?: Location;
-  CreatedAt?: Date;
-  State?: SiteState;
-  Tags?: Tag[];
+  SiteId?: string | undefined;
+  SiteArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  Description?: string | undefined;
+  Location?: Location | undefined;
+  CreatedAt?: Date | undefined;
+  State?: SiteState | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSiteResponse {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export type VpnConnectionArn = string;
 export interface CreateSiteToSiteVpnAttachmentRequest {
   CoreNetworkId: string;
   VpnConnectionArn: string;
-  RoutingPolicyLabel?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  RoutingPolicyLabel?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface SiteToSiteVpnAttachment {
-  Attachment?: Attachment;
-  VpnConnectionArn?: string;
+  Attachment?: Attachment | undefined;
+  VpnConnectionArn?: string | undefined;
 }
 export interface CreateSiteToSiteVpnAttachmentResponse {
-  SiteToSiteVpnAttachment?: SiteToSiteVpnAttachment;
+  SiteToSiteVpnAttachment?: SiteToSiteVpnAttachment | undefined;
 }
 export type TransitGatewayArn = string;
 export interface CreateTransitGatewayPeeringRequest {
   CoreNetworkId: string;
   TransitGatewayArn: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type PeeringId = string;
 export type PeeringType = "TRANSIT_GATEWAY" | (string & {});
@@ -775,103 +776,103 @@ export type PeeringErrorCode =
   | "INVALID_TRANSIT_GATEWAY_STATE"
   | (string & {});
 export interface PermissionsErrorContext {
-  MissingPermission?: string;
+  MissingPermission?: string | undefined;
 }
 export interface PeeringError {
-  Code?: PeeringErrorCode;
-  Message?: string;
-  ResourceArn?: string;
-  RequestId?: string;
-  MissingPermissionsContext?: PermissionsErrorContext;
+  Code?: PeeringErrorCode | undefined;
+  Message?: string | undefined;
+  ResourceArn?: string | undefined;
+  RequestId?: string | undefined;
+  MissingPermissionsContext?: PermissionsErrorContext | undefined;
 }
 export type PeeringErrorList = PeeringError[];
 export interface Peering {
-  CoreNetworkId?: string;
-  CoreNetworkArn?: string;
-  PeeringId?: string;
-  OwnerAccountId?: string;
-  PeeringType?: PeeringType;
-  State?: PeeringState;
-  EdgeLocation?: string;
-  ResourceArn?: string;
-  Tags?: Tag[];
-  CreatedAt?: Date;
-  LastModificationErrors?: PeeringError[];
+  CoreNetworkId?: string | undefined;
+  CoreNetworkArn?: string | undefined;
+  PeeringId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  PeeringType?: PeeringType | undefined;
+  State?: PeeringState | undefined;
+  EdgeLocation?: string | undefined;
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastModificationErrors?: PeeringError[] | undefined;
 }
 export type TransitGatewayPeeringAttachmentId = string;
 export interface TransitGatewayPeering {
-  Peering?: Peering;
-  TransitGatewayArn?: string;
-  TransitGatewayPeeringAttachmentId?: string;
+  Peering?: Peering | undefined;
+  TransitGatewayArn?: string | undefined;
+  TransitGatewayPeeringAttachmentId?: string | undefined;
 }
 export interface CreateTransitGatewayPeeringResponse {
-  TransitGatewayPeering?: TransitGatewayPeering;
+  TransitGatewayPeering?: TransitGatewayPeering | undefined;
 }
 export type TransitGatewayRouteTableArn = string;
 export interface CreateTransitGatewayRouteTableAttachmentRequest {
   PeeringId: string;
   TransitGatewayRouteTableArn: string;
-  RoutingPolicyLabel?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  RoutingPolicyLabel?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface TransitGatewayRouteTableAttachment {
-  Attachment?: Attachment;
-  PeeringId?: string;
-  TransitGatewayRouteTableArn?: string;
+  Attachment?: Attachment | undefined;
+  PeeringId?: string | undefined;
+  TransitGatewayRouteTableArn?: string | undefined;
 }
 export interface CreateTransitGatewayRouteTableAttachmentResponse {
-  TransitGatewayRouteTableAttachment?: TransitGatewayRouteTableAttachment;
+  TransitGatewayRouteTableAttachment?: TransitGatewayRouteTableAttachment | undefined;
 }
 export type VpcArn = string;
 export type SubnetArnList = string[];
 export interface VpcOptions {
-  Ipv6Support?: boolean;
-  ApplianceModeSupport?: boolean;
-  DnsSupport?: boolean;
-  SecurityGroupReferencingSupport?: boolean;
+  Ipv6Support?: boolean | undefined;
+  ApplianceModeSupport?: boolean | undefined;
+  DnsSupport?: boolean | undefined;
+  SecurityGroupReferencingSupport?: boolean | undefined;
 }
 export interface CreateVpcAttachmentRequest {
   CoreNetworkId: string;
   VpcArn: string;
   SubnetArns: string[];
-  Options?: VpcOptions;
-  RoutingPolicyLabel?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Options?: VpcOptions | undefined;
+  RoutingPolicyLabel?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface VpcAttachment {
-  Attachment?: Attachment;
-  SubnetArns?: string[];
-  Options?: VpcOptions;
+  Attachment?: Attachment | undefined;
+  SubnetArns?: string[] | undefined;
+  Options?: VpcOptions | undefined;
 }
 export interface CreateVpcAttachmentResponse {
-  VpcAttachment?: VpcAttachment;
+  VpcAttachment?: VpcAttachment | undefined;
 }
 export interface DeleteAttachmentRequest {
   AttachmentId: string;
 }
 export interface DeleteAttachmentResponse {
-  Attachment?: Attachment;
+  Attachment?: Attachment | undefined;
 }
 export interface DeleteConnectionRequest {
   GlobalNetworkId: string;
   ConnectionId: string;
 }
 export interface DeleteConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface DeleteConnectPeerRequest {
   ConnectPeerId: string;
 }
 export interface DeleteConnectPeerResponse {
-  ConnectPeer?: ConnectPeer;
+  ConnectPeer?: ConnectPeer | undefined;
 }
 export interface DeleteCoreNetworkRequest {
   CoreNetworkId: string;
 }
 export interface DeleteCoreNetworkResponse {
-  CoreNetwork?: CoreNetwork;
+  CoreNetwork?: CoreNetwork | undefined;
 }
 export interface DeleteCoreNetworkPolicyVersionRequest {
   CoreNetworkId: string;
@@ -889,56 +890,56 @@ export type ChangeSetState =
 export interface CoreNetworkPolicyError {
   ErrorCode: string;
   Message: string;
-  Path?: string;
+  Path?: string | undefined;
 }
 export type CoreNetworkPolicyErrorList = CoreNetworkPolicyError[];
 export type SynthesizedJsonCoreNetworkPolicyDocument = string;
 export interface CoreNetworkPolicy {
-  CoreNetworkId?: string;
-  PolicyVersionId?: number;
-  Alias?: CoreNetworkPolicyAlias;
-  Description?: string;
-  CreatedAt?: Date;
-  ChangeSetState?: ChangeSetState;
-  PolicyErrors?: CoreNetworkPolicyError[];
-  PolicyDocument?: string;
+  CoreNetworkId?: string | undefined;
+  PolicyVersionId?: number | undefined;
+  Alias?: CoreNetworkPolicyAlias | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ChangeSetState?: ChangeSetState | undefined;
+  PolicyErrors?: CoreNetworkPolicyError[] | undefined;
+  PolicyDocument?: string | undefined;
 }
 export interface DeleteCoreNetworkPolicyVersionResponse {
-  CoreNetworkPolicy?: CoreNetworkPolicy;
+  CoreNetworkPolicy?: CoreNetworkPolicy | undefined;
 }
 export interface DeleteCoreNetworkPrefixListAssociationRequest {
   CoreNetworkId: string;
   PrefixListArn: string;
 }
 export interface DeleteCoreNetworkPrefixListAssociationResponse {
-  CoreNetworkId?: string;
-  PrefixListArn?: string;
+  CoreNetworkId?: string | undefined;
+  PrefixListArn?: string | undefined;
 }
 export interface DeleteDeviceRequest {
   GlobalNetworkId: string;
   DeviceId: string;
 }
 export interface DeleteDeviceResponse {
-  Device?: Device;
+  Device?: Device | undefined;
 }
 export interface DeleteGlobalNetworkRequest {
   GlobalNetworkId: string;
 }
 export interface DeleteGlobalNetworkResponse {
-  GlobalNetwork?: GlobalNetwork;
+  GlobalNetwork?: GlobalNetwork | undefined;
 }
 export interface DeleteLinkRequest {
   GlobalNetworkId: string;
   LinkId: string;
 }
 export interface DeleteLinkResponse {
-  Link?: Link;
+  Link?: Link | undefined;
 }
 export interface DeletePeeringRequest {
   PeeringId: string;
 }
 export interface DeletePeeringResponse {
-  Peering?: Peering;
+  Peering?: Peering | undefined;
 }
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
@@ -949,7 +950,7 @@ export interface DeleteSiteRequest {
   SiteId: string;
 }
 export interface DeleteSiteResponse {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export interface DeregisterTransitGatewayRequest {
   GlobalNetworkId: string;
@@ -963,43 +964,43 @@ export type TransitGatewayRegistrationState =
   | "FAILED"
   | (string & {});
 export interface TransitGatewayRegistrationStateReason {
-  Code?: TransitGatewayRegistrationState;
-  Message?: string;
+  Code?: TransitGatewayRegistrationState | undefined;
+  Message?: string | undefined;
 }
 export interface TransitGatewayRegistration {
-  GlobalNetworkId?: string;
-  TransitGatewayArn?: string;
-  State?: TransitGatewayRegistrationStateReason;
+  GlobalNetworkId?: string | undefined;
+  TransitGatewayArn?: string | undefined;
+  State?: TransitGatewayRegistrationStateReason | undefined;
 }
 export interface DeregisterTransitGatewayResponse {
-  TransitGatewayRegistration?: TransitGatewayRegistration;
+  TransitGatewayRegistration?: TransitGatewayRegistration | undefined;
 }
 export type GlobalNetworkIdList = string[];
 export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeGlobalNetworksRequest {
-  GlobalNetworkIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  GlobalNetworkIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GlobalNetworkList = GlobalNetwork[];
 export interface DescribeGlobalNetworksResponse {
-  GlobalNetworks?: GlobalNetwork[];
-  NextToken?: string;
+  GlobalNetworks?: GlobalNetwork[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisassociateConnectPeerRequest {
   GlobalNetworkId: string;
   ConnectPeerId: string;
 }
 export interface DisassociateConnectPeerResponse {
-  ConnectPeerAssociation?: ConnectPeerAssociation;
+  ConnectPeerAssociation?: ConnectPeerAssociation | undefined;
 }
 export interface DisassociateCustomerGatewayRequest {
   GlobalNetworkId: string;
   CustomerGatewayArn: string;
 }
 export interface DisassociateCustomerGatewayResponse {
-  CustomerGatewayAssociation?: CustomerGatewayAssociation;
+  CustomerGatewayAssociation?: CustomerGatewayAssociation | undefined;
 }
 export interface DisassociateLinkRequest {
   GlobalNetworkId: string;
@@ -1007,14 +1008,14 @@ export interface DisassociateLinkRequest {
   LinkId: string;
 }
 export interface DisassociateLinkResponse {
-  LinkAssociation?: LinkAssociation;
+  LinkAssociation?: LinkAssociation | undefined;
 }
 export interface DisassociateTransitGatewayConnectPeerRequest {
   GlobalNetworkId: string;
   TransitGatewayConnectPeerArn: string;
 }
 export interface DisassociateTransitGatewayConnectPeerResponse {
-  TransitGatewayConnectPeerAssociation?: TransitGatewayConnectPeerAssociation;
+  TransitGatewayConnectPeerAssociation?: TransitGatewayConnectPeerAssociation | undefined;
 }
 export interface ExecuteCoreNetworkChangeSetRequest {
   CoreNetworkId: string;
@@ -1025,50 +1026,50 @@ export interface GetConnectAttachmentRequest {
   AttachmentId: string;
 }
 export interface GetConnectAttachmentResponse {
-  ConnectAttachment?: ConnectAttachment;
+  ConnectAttachment?: ConnectAttachment | undefined;
 }
 export type ConnectionIdList = string[];
 export interface GetConnectionsRequest {
   GlobalNetworkId: string;
-  ConnectionIds?: string[];
-  DeviceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ConnectionIds?: string[] | undefined;
+  DeviceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionList = Connection[];
 export interface GetConnectionsResponse {
-  Connections?: Connection[];
-  NextToken?: string;
+  Connections?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetConnectPeerRequest {
   ConnectPeerId: string;
 }
 export interface GetConnectPeerResponse {
-  ConnectPeer?: ConnectPeer;
+  ConnectPeer?: ConnectPeer | undefined;
 }
 export type ConnectPeerIdList = string[];
 export interface GetConnectPeerAssociationsRequest {
   GlobalNetworkId: string;
-  ConnectPeerIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  ConnectPeerIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectPeerAssociationList = ConnectPeerAssociation[];
 export interface GetConnectPeerAssociationsResponse {
-  ConnectPeerAssociations?: ConnectPeerAssociation[];
-  NextToken?: string;
+  ConnectPeerAssociations?: ConnectPeerAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCoreNetworkRequest {
   CoreNetworkId: string;
 }
 export interface GetCoreNetworkResponse {
-  CoreNetwork?: CoreNetwork;
+  CoreNetwork?: CoreNetwork | undefined;
 }
 export interface GetCoreNetworkChangeEventsRequest {
   CoreNetworkId: string;
   PolicyVersionId: number;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ChangeType =
   | "CORE_NETWORK_SEGMENT"
@@ -1090,244 +1091,244 @@ export type ChangeAction = "ADD" | "MODIFY" | "REMOVE" | (string & {});
 export type ChangeStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export type RoutingPolicyDirection = "inbound" | "outbound" | (string & {});
 export interface RoutingPolicyAssociationDetail {
-  RoutingPolicyNames?: string[];
-  SharedSegments?: string[];
+  RoutingPolicyNames?: string[] | undefined;
+  SharedSegments?: string[] | undefined;
 }
 export type RoutingPolicyAssociationDetailsList = RoutingPolicyAssociationDetail[];
 export interface CoreNetworkChangeEventValues {
-  EdgeLocation?: string;
-  PeerEdgeLocation?: string;
-  RoutingPolicyDirection?: RoutingPolicyDirection;
-  SegmentName?: string;
-  NetworkFunctionGroupName?: string;
-  AttachmentId?: string;
-  Cidr?: string;
-  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[];
+  EdgeLocation?: string | undefined;
+  PeerEdgeLocation?: string | undefined;
+  RoutingPolicyDirection?: RoutingPolicyDirection | undefined;
+  SegmentName?: string | undefined;
+  NetworkFunctionGroupName?: string | undefined;
+  AttachmentId?: string | undefined;
+  Cidr?: string | undefined;
+  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[] | undefined;
 }
 export interface CoreNetworkChangeEvent {
-  Type?: ChangeType;
-  Action?: ChangeAction;
-  IdentifierPath?: string;
-  EventTime?: Date;
-  Status?: ChangeStatus;
-  Values?: CoreNetworkChangeEventValues;
+  Type?: ChangeType | undefined;
+  Action?: ChangeAction | undefined;
+  IdentifierPath?: string | undefined;
+  EventTime?: Date | undefined;
+  Status?: ChangeStatus | undefined;
+  Values?: CoreNetworkChangeEventValues | undefined;
 }
 export type CoreNetworkChangeEventList = CoreNetworkChangeEvent[];
 export interface GetCoreNetworkChangeEventsResponse {
-  CoreNetworkChangeEvents?: CoreNetworkChangeEvent[];
-  NextToken?: string;
+  CoreNetworkChangeEvents?: CoreNetworkChangeEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCoreNetworkChangeSetRequest {
   CoreNetworkId: string;
   PolicyVersionId: number;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SegmentActionServiceInsertion = "send-via" | "send-to" | (string & {});
 export type SendViaMode = "dual-hop" | "single-hop" | (string & {});
 export type WhenSentToSegmentsList = string[];
 export interface WhenSentTo {
-  WhenSentToSegmentsList?: string[];
+  WhenSentToSegmentsList?: string[] | undefined;
 }
 export interface NetworkFunctionGroup {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type NetworkFunctionGroupList = NetworkFunctionGroup[];
 export type EdgeSet = string[];
 export type EdgeSetList = string[][];
 export interface EdgeOverride {
-  EdgeSets?: string[][];
-  UseEdge?: string;
+  EdgeSets?: string[][] | undefined;
+  UseEdge?: string | undefined;
 }
 export type WithEdgeOverridesList = EdgeOverride[];
 export interface Via {
-  NetworkFunctionGroups?: NetworkFunctionGroup[];
-  WithEdgeOverrides?: EdgeOverride[];
+  NetworkFunctionGroups?: NetworkFunctionGroup[] | undefined;
+  WithEdgeOverrides?: EdgeOverride[] | undefined;
 }
 export interface ServiceInsertionAction {
-  Action?: SegmentActionServiceInsertion;
-  Mode?: SendViaMode;
-  WhenSentTo?: WhenSentTo;
-  Via?: Via;
+  Action?: SegmentActionServiceInsertion | undefined;
+  Mode?: SendViaMode | undefined;
+  WhenSentTo?: WhenSentTo | undefined;
+  Via?: Via | undefined;
 }
 export type ServiceInsertionActionList = ServiceInsertionAction[];
 export interface CoreNetworkChangeValues {
-  SegmentName?: string;
-  NetworkFunctionGroupName?: string;
-  EdgeLocations?: string[];
-  Asn?: number;
-  Cidr?: string;
-  DestinationIdentifier?: string;
-  InsideCidrBlocks?: string[];
-  SharedSegments?: string[];
-  ServiceInsertionActions?: ServiceInsertionAction[];
-  VpnEcmpSupport?: boolean;
-  DnsSupport?: boolean;
-  SecurityGroupReferencingSupport?: boolean;
-  RoutingPolicyDirection?: RoutingPolicyDirection;
-  RoutingPolicy?: string;
-  PeerEdgeLocations?: string[];
-  AttachmentId?: string;
-  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[];
+  SegmentName?: string | undefined;
+  NetworkFunctionGroupName?: string | undefined;
+  EdgeLocations?: string[] | undefined;
+  Asn?: number | undefined;
+  Cidr?: string | undefined;
+  DestinationIdentifier?: string | undefined;
+  InsideCidrBlocks?: string[] | undefined;
+  SharedSegments?: string[] | undefined;
+  ServiceInsertionActions?: ServiceInsertionAction[] | undefined;
+  VpnEcmpSupport?: boolean | undefined;
+  DnsSupport?: boolean | undefined;
+  SecurityGroupReferencingSupport?: boolean | undefined;
+  RoutingPolicyDirection?: RoutingPolicyDirection | undefined;
+  RoutingPolicy?: string | undefined;
+  PeerEdgeLocations?: string[] | undefined;
+  AttachmentId?: string | undefined;
+  RoutingPolicyAssociationDetails?: RoutingPolicyAssociationDetail[] | undefined;
 }
 export interface CoreNetworkChange {
-  Type?: ChangeType;
-  Action?: ChangeAction;
-  Identifier?: string;
-  PreviousValues?: CoreNetworkChangeValues;
-  NewValues?: CoreNetworkChangeValues;
-  IdentifierPath?: string;
+  Type?: ChangeType | undefined;
+  Action?: ChangeAction | undefined;
+  Identifier?: string | undefined;
+  PreviousValues?: CoreNetworkChangeValues | undefined;
+  NewValues?: CoreNetworkChangeValues | undefined;
+  IdentifierPath?: string | undefined;
 }
 export type CoreNetworkChangeList = CoreNetworkChange[];
 export interface GetCoreNetworkChangeSetResponse {
-  CoreNetworkChanges?: CoreNetworkChange[];
-  NextToken?: string;
+  CoreNetworkChanges?: CoreNetworkChange[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCoreNetworkPolicyRequest {
   CoreNetworkId: string;
-  PolicyVersionId?: number;
-  Alias?: CoreNetworkPolicyAlias;
+  PolicyVersionId?: number | undefined;
+  Alias?: CoreNetworkPolicyAlias | undefined;
 }
 export interface GetCoreNetworkPolicyResponse {
-  CoreNetworkPolicy?: CoreNetworkPolicy;
+  CoreNetworkPolicy?: CoreNetworkPolicy | undefined;
 }
 export type CustomerGatewayArnList = string[];
 export interface GetCustomerGatewayAssociationsRequest {
   GlobalNetworkId: string;
-  CustomerGatewayArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  CustomerGatewayArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomerGatewayAssociationList = CustomerGatewayAssociation[];
 export interface GetCustomerGatewayAssociationsResponse {
-  CustomerGatewayAssociations?: CustomerGatewayAssociation[];
-  NextToken?: string;
+  CustomerGatewayAssociations?: CustomerGatewayAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DeviceIdList = string[];
 export interface GetDevicesRequest {
   GlobalNetworkId: string;
-  DeviceIds?: string[];
-  SiteId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DeviceIds?: string[] | undefined;
+  SiteId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeviceList = Device[];
 export interface GetDevicesResponse {
-  Devices?: Device[];
-  NextToken?: string;
+  Devices?: Device[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDirectConnectGatewayAttachmentRequest {
   AttachmentId: string;
 }
 export interface GetDirectConnectGatewayAttachmentResponse {
-  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment;
+  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment | undefined;
 }
 export interface GetLinkAssociationsRequest {
   GlobalNetworkId: string;
-  DeviceId?: string;
-  LinkId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DeviceId?: string | undefined;
+  LinkId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LinkAssociationList = LinkAssociation[];
 export interface GetLinkAssociationsResponse {
-  LinkAssociations?: LinkAssociation[];
-  NextToken?: string;
+  LinkAssociations?: LinkAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LinkIdList = string[];
 export interface GetLinksRequest {
   GlobalNetworkId: string;
-  LinkIds?: string[];
-  SiteId?: string;
-  Type?: string;
-  Provider?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  LinkIds?: string[] | undefined;
+  SiteId?: string | undefined;
+  Type?: string | undefined;
+  Provider?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LinkList = Link[];
 export interface GetLinksResponse {
-  Links?: Link[];
-  NextToken?: string;
+  Links?: Link[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetNetworkResourceCountsRequest {
   GlobalNetworkId: string;
-  ResourceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface NetworkResourceCount {
-  ResourceType?: string;
-  Count?: number;
+  ResourceType?: string | undefined;
+  Count?: number | undefined;
 }
 export type NetworkResourceCountList = NetworkResourceCount[];
 export interface GetNetworkResourceCountsResponse {
-  NetworkResourceCounts?: NetworkResourceCount[];
-  NextToken?: string;
+  NetworkResourceCounts?: NetworkResourceCount[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetNetworkResourceRelationshipsRequest {
   GlobalNetworkId: string;
-  CoreNetworkId?: string;
-  RegisteredGatewayArn?: string;
-  AwsRegion?: string;
-  AccountId?: string;
-  ResourceType?: string;
-  ResourceArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  RegisteredGatewayArn?: string | undefined;
+  AwsRegion?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Relationship {
-  From?: string;
-  To?: string;
+  From?: string | undefined;
+  To?: string | undefined;
 }
 export type RelationshipList = Relationship[];
 export interface GetNetworkResourceRelationshipsResponse {
-  Relationships?: Relationship[];
-  NextToken?: string;
+  Relationships?: Relationship[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetNetworkResourcesRequest {
   GlobalNetworkId: string;
-  CoreNetworkId?: string;
-  RegisteredGatewayArn?: string;
-  AwsRegion?: string;
-  AccountId?: string;
-  ResourceType?: string;
-  ResourceArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  RegisteredGatewayArn?: string | undefined;
+  AwsRegion?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type NetworkResourceMetadataMap = { [key: string]: string | undefined };
 export interface NetworkResource {
-  RegisteredGatewayArn?: string;
-  CoreNetworkId?: string;
-  AwsRegion?: string;
-  AccountId?: string;
-  ResourceType?: string;
-  ResourceId?: string;
-  ResourceArn?: string;
-  Definition?: string;
-  DefinitionTimestamp?: Date;
-  Tags?: Tag[];
-  Metadata?: { [key: string]: string | undefined };
+  RegisteredGatewayArn?: string | undefined;
+  CoreNetworkId?: string | undefined;
+  AwsRegion?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceArn?: string | undefined;
+  Definition?: string | undefined;
+  DefinitionTimestamp?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkResourceList = NetworkResource[];
 export interface GetNetworkResourcesResponse {
-  NetworkResources?: NetworkResource[];
-  NextToken?: string;
+  NetworkResources?: NetworkResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface CoreNetworkSegmentEdgeIdentifier {
-  CoreNetworkId?: string;
-  SegmentName?: string;
-  EdgeLocation?: string;
+  CoreNetworkId?: string | undefined;
+  SegmentName?: string | undefined;
+  EdgeLocation?: string | undefined;
 }
 export interface CoreNetworkNetworkFunctionGroupIdentifier {
-  CoreNetworkId?: string;
-  NetworkFunctionGroupName?: string;
-  EdgeLocation?: string;
+  CoreNetworkId?: string | undefined;
+  NetworkFunctionGroupName?: string | undefined;
+  EdgeLocation?: string | undefined;
 }
 export interface RouteTableIdentifier {
-  TransitGatewayRouteTableArn?: string;
-  CoreNetworkSegmentEdge?: CoreNetworkSegmentEdgeIdentifier;
-  CoreNetworkNetworkFunctionGroup?: CoreNetworkNetworkFunctionGroupIdentifier;
+  TransitGatewayRouteTableArn?: string | undefined;
+  CoreNetworkSegmentEdge?: CoreNetworkSegmentEdgeIdentifier | undefined;
+  CoreNetworkNetworkFunctionGroup?: CoreNetworkNetworkFunctionGroupIdentifier | undefined;
 }
 export type RouteState = "ACTIVE" | "BLACKHOLE" | (string & {});
 export type RouteStateList = RouteState[];
@@ -1340,14 +1341,14 @@ export type FilterMap = { [key: string]: string[] | undefined };
 export interface GetNetworkRoutesRequest {
   GlobalNetworkId: string;
   RouteTableIdentifier: RouteTableIdentifier;
-  ExactCidrMatches?: string[];
-  LongestPrefixMatches?: string[];
-  SubnetOfMatches?: string[];
-  SupernetOfMatches?: string[];
-  PrefixListIds?: string[];
-  States?: RouteState[];
-  Types?: RouteType[];
-  DestinationFilters?: { [key: string]: string[] | undefined };
+  ExactCidrMatches?: string[] | undefined;
+  LongestPrefixMatches?: string[] | undefined;
+  SubnetOfMatches?: string[] | undefined;
+  SupernetOfMatches?: string[] | undefined;
+  PrefixListIds?: string[] | undefined;
+  States?: RouteState[] | undefined;
+  Types?: RouteType[] | undefined;
+  DestinationFilters?: { [key: string]: string[] | undefined } | undefined;
 }
 export type RouteTableType =
   | "TRANSIT_GATEWAY_ROUTE_TABLE"
@@ -1356,70 +1357,70 @@ export type RouteTableType =
   | (string & {});
 export type TransitGatewayAttachmentId = string;
 export interface NetworkRouteDestination {
-  CoreNetworkAttachmentId?: string;
-  TransitGatewayAttachmentId?: string;
-  SegmentName?: string;
-  NetworkFunctionGroupName?: string;
-  EdgeLocation?: string;
-  ResourceType?: string;
-  ResourceId?: string;
+  CoreNetworkAttachmentId?: string | undefined;
+  TransitGatewayAttachmentId?: string | undefined;
+  SegmentName?: string | undefined;
+  NetworkFunctionGroupName?: string | undefined;
+  EdgeLocation?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
 }
 export type NetworkRouteDestinationList = NetworkRouteDestination[];
 export interface NetworkRoute {
-  DestinationCidrBlock?: string;
-  Destinations?: NetworkRouteDestination[];
-  PrefixListId?: string;
-  State?: RouteState;
-  Type?: RouteType;
+  DestinationCidrBlock?: string | undefined;
+  Destinations?: NetworkRouteDestination[] | undefined;
+  PrefixListId?: string | undefined;
+  State?: RouteState | undefined;
+  Type?: RouteType | undefined;
 }
 export type NetworkRouteList = NetworkRoute[];
 export interface GetNetworkRoutesResponse {
-  RouteTableArn?: string;
-  CoreNetworkSegmentEdge?: CoreNetworkSegmentEdgeIdentifier;
-  RouteTableType?: RouteTableType;
-  RouteTableTimestamp?: Date;
-  NetworkRoutes?: NetworkRoute[];
+  RouteTableArn?: string | undefined;
+  CoreNetworkSegmentEdge?: CoreNetworkSegmentEdgeIdentifier | undefined;
+  RouteTableType?: RouteTableType | undefined;
+  RouteTableTimestamp?: Date | undefined;
+  NetworkRoutes?: NetworkRoute[] | undefined;
 }
 export interface GetNetworkTelemetryRequest {
   GlobalNetworkId: string;
-  CoreNetworkId?: string;
-  RegisteredGatewayArn?: string;
-  AwsRegion?: string;
-  AccountId?: string;
-  ResourceType?: string;
-  ResourceArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  RegisteredGatewayArn?: string | undefined;
+  AwsRegion?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionType = "BGP" | "IPSEC" | (string & {});
 export type ConnectionStatus = "UP" | "DOWN" | (string & {});
 export interface ConnectionHealth {
-  Type?: ConnectionType;
-  Status?: ConnectionStatus;
-  Timestamp?: Date;
+  Type?: ConnectionType | undefined;
+  Status?: ConnectionStatus | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface NetworkTelemetry {
-  RegisteredGatewayArn?: string;
-  CoreNetworkId?: string;
-  AwsRegion?: string;
-  AccountId?: string;
-  ResourceType?: string;
-  ResourceId?: string;
-  ResourceArn?: string;
-  Address?: string;
-  Health?: ConnectionHealth;
+  RegisteredGatewayArn?: string | undefined;
+  CoreNetworkId?: string | undefined;
+  AwsRegion?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceArn?: string | undefined;
+  Address?: string | undefined;
+  Health?: ConnectionHealth | undefined;
 }
 export type NetworkTelemetryList = NetworkTelemetry[];
 export interface GetNetworkTelemetryResponse {
-  NetworkTelemetry?: NetworkTelemetry[];
-  NextToken?: string;
+  NetworkTelemetry?: NetworkTelemetry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type SynthesizedJsonResourcePolicyDocument = string;
 export interface GetResourcePolicyResponse {
-  PolicyDocument?: string;
+  PolicyDocument?: string | undefined;
 }
 export interface GetRouteAnalysisRequest {
   GlobalNetworkId: string;
@@ -1428,9 +1429,9 @@ export interface GetRouteAnalysisRequest {
 export type RouteAnalysisStatus = "RUNNING" | "COMPLETED" | "FAILED" | (string & {});
 export type TransitGatewayAttachmentArn = string;
 export interface RouteAnalysisEndpointOptions {
-  TransitGatewayAttachmentArn?: string;
-  TransitGatewayArn?: string;
-  IpAddress?: string;
+  TransitGatewayAttachmentArn?: string | undefined;
+  TransitGatewayArn?: string | undefined;
+  IpAddress?: string | undefined;
 }
 export type RouteAnalysisCompletionResultCode = "CONNECTED" | "NOT_CONNECTED" | (string & {});
 export type RouteAnalysisCompletionReasonCode =
@@ -1450,302 +1451,302 @@ export type ReasonContextKey = string;
 export type ReasonContextValue = string;
 export type ReasonContextMap = { [key: string]: string | undefined };
 export interface RouteAnalysisCompletion {
-  ResultCode?: RouteAnalysisCompletionResultCode;
-  ReasonCode?: RouteAnalysisCompletionReasonCode;
-  ReasonContext?: { [key: string]: string | undefined };
+  ResultCode?: RouteAnalysisCompletionResultCode | undefined;
+  ReasonCode?: RouteAnalysisCompletionReasonCode | undefined;
+  ReasonContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface NetworkResourceSummary {
-  RegisteredGatewayArn?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  Definition?: string;
-  NameTag?: string;
-  IsMiddlebox?: boolean;
+  RegisteredGatewayArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  Definition?: string | undefined;
+  NameTag?: string | undefined;
+  IsMiddlebox?: boolean | undefined;
 }
 export interface PathComponent {
-  Sequence?: number;
-  Resource?: NetworkResourceSummary;
-  DestinationCidrBlock?: string;
+  Sequence?: number | undefined;
+  Resource?: NetworkResourceSummary | undefined;
+  DestinationCidrBlock?: string | undefined;
 }
 export type PathComponentList = PathComponent[];
 export interface RouteAnalysisPath {
-  CompletionStatus?: RouteAnalysisCompletion;
-  Path?: PathComponent[];
+  CompletionStatus?: RouteAnalysisCompletion | undefined;
+  Path?: PathComponent[] | undefined;
 }
 export interface RouteAnalysis {
-  GlobalNetworkId?: string;
-  OwnerAccountId?: string;
-  RouteAnalysisId?: string;
-  StartTimestamp?: Date;
-  Status?: RouteAnalysisStatus;
-  Source?: RouteAnalysisEndpointOptions;
-  Destination?: RouteAnalysisEndpointOptions;
-  IncludeReturnPath?: boolean;
-  UseMiddleboxes?: boolean;
-  ForwardPath?: RouteAnalysisPath;
-  ReturnPath?: RouteAnalysisPath;
+  GlobalNetworkId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  RouteAnalysisId?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  Status?: RouteAnalysisStatus | undefined;
+  Source?: RouteAnalysisEndpointOptions | undefined;
+  Destination?: RouteAnalysisEndpointOptions | undefined;
+  IncludeReturnPath?: boolean | undefined;
+  UseMiddleboxes?: boolean | undefined;
+  ForwardPath?: RouteAnalysisPath | undefined;
+  ReturnPath?: RouteAnalysisPath | undefined;
 }
 export interface GetRouteAnalysisResponse {
-  RouteAnalysis?: RouteAnalysis;
+  RouteAnalysis?: RouteAnalysis | undefined;
 }
 export type SiteIdList = string[];
 export interface GetSitesRequest {
   GlobalNetworkId: string;
-  SiteIds?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  SiteIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SiteList = Site[];
 export interface GetSitesResponse {
-  Sites?: Site[];
-  NextToken?: string;
+  Sites?: Site[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSiteToSiteVpnAttachmentRequest {
   AttachmentId: string;
 }
 export interface GetSiteToSiteVpnAttachmentResponse {
-  SiteToSiteVpnAttachment?: SiteToSiteVpnAttachment;
+  SiteToSiteVpnAttachment?: SiteToSiteVpnAttachment | undefined;
 }
 export type TransitGatewayConnectPeerArnList = string[];
 export interface GetTransitGatewayConnectPeerAssociationsRequest {
   GlobalNetworkId: string;
-  TransitGatewayConnectPeerArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  TransitGatewayConnectPeerArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TransitGatewayConnectPeerAssociationList = TransitGatewayConnectPeerAssociation[];
 export interface GetTransitGatewayConnectPeerAssociationsResponse {
-  TransitGatewayConnectPeerAssociations?: TransitGatewayConnectPeerAssociation[];
-  NextToken?: string;
+  TransitGatewayConnectPeerAssociations?: TransitGatewayConnectPeerAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTransitGatewayPeeringRequest {
   PeeringId: string;
 }
 export interface GetTransitGatewayPeeringResponse {
-  TransitGatewayPeering?: TransitGatewayPeering;
+  TransitGatewayPeering?: TransitGatewayPeering | undefined;
 }
 export type TransitGatewayArnList = string[];
 export interface GetTransitGatewayRegistrationsRequest {
   GlobalNetworkId: string;
-  TransitGatewayArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  TransitGatewayArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TransitGatewayRegistrationList = TransitGatewayRegistration[];
 export interface GetTransitGatewayRegistrationsResponse {
-  TransitGatewayRegistrations?: TransitGatewayRegistration[];
-  NextToken?: string;
+  TransitGatewayRegistrations?: TransitGatewayRegistration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTransitGatewayRouteTableAttachmentRequest {
   AttachmentId: string;
 }
 export interface GetTransitGatewayRouteTableAttachmentResponse {
-  TransitGatewayRouteTableAttachment?: TransitGatewayRouteTableAttachment;
+  TransitGatewayRouteTableAttachment?: TransitGatewayRouteTableAttachment | undefined;
 }
 export interface GetVpcAttachmentRequest {
   AttachmentId: string;
 }
 export interface GetVpcAttachmentResponse {
-  VpcAttachment?: VpcAttachment;
+  VpcAttachment?: VpcAttachment | undefined;
 }
 export interface ListAttachmentRoutingPolicyAssociationsRequest {
   CoreNetworkId: string;
-  AttachmentId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  AttachmentId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AttachmentRoutingPolicyAssociationSummary {
-  AttachmentId?: string;
-  PendingRoutingPolicies?: string[];
-  AssociatedRoutingPolicies?: string[];
-  RoutingPolicyLabel?: string;
+  AttachmentId?: string | undefined;
+  PendingRoutingPolicies?: string[] | undefined;
+  AssociatedRoutingPolicies?: string[] | undefined;
+  RoutingPolicyLabel?: string | undefined;
 }
 export type AttachmentRoutingPolicyAssociationsList = AttachmentRoutingPolicyAssociationSummary[];
 export interface ListAttachmentRoutingPolicyAssociationsResponse {
-  AttachmentRoutingPolicyAssociations?: AttachmentRoutingPolicyAssociationSummary[];
-  NextToken?: string;
+  AttachmentRoutingPolicyAssociations?: AttachmentRoutingPolicyAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAttachmentsRequest {
-  CoreNetworkId?: string;
-  AttachmentType?: AttachmentType;
-  EdgeLocation?: string;
-  State?: AttachmentState;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  AttachmentType?: AttachmentType | undefined;
+  EdgeLocation?: string | undefined;
+  State?: AttachmentState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AttachmentList = Attachment[];
 export interface ListAttachmentsResponse {
-  Attachments?: Attachment[];
-  NextToken?: string;
+  Attachments?: Attachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectPeersRequest {
-  CoreNetworkId?: string;
-  ConnectAttachmentId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  ConnectAttachmentId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectPeerSummary {
-  CoreNetworkId?: string;
-  ConnectAttachmentId?: string;
-  ConnectPeerId?: string;
-  EdgeLocation?: string;
-  ConnectPeerState?: ConnectPeerState;
-  CreatedAt?: Date;
-  Tags?: Tag[];
-  SubnetArn?: string;
+  CoreNetworkId?: string | undefined;
+  ConnectAttachmentId?: string | undefined;
+  ConnectPeerId?: string | undefined;
+  EdgeLocation?: string | undefined;
+  ConnectPeerState?: ConnectPeerState | undefined;
+  CreatedAt?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  SubnetArn?: string | undefined;
 }
 export type ConnectPeerSummaryList = ConnectPeerSummary[];
 export interface ListConnectPeersResponse {
-  ConnectPeers?: ConnectPeerSummary[];
-  NextToken?: string;
+  ConnectPeers?: ConnectPeerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreNetworkPolicyVersionsRequest {
   CoreNetworkId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CoreNetworkPolicyVersion {
-  CoreNetworkId?: string;
-  PolicyVersionId?: number;
-  Alias?: CoreNetworkPolicyAlias;
-  Description?: string;
-  CreatedAt?: Date;
-  ChangeSetState?: ChangeSetState;
+  CoreNetworkId?: string | undefined;
+  PolicyVersionId?: number | undefined;
+  Alias?: CoreNetworkPolicyAlias | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ChangeSetState?: ChangeSetState | undefined;
 }
 export type CoreNetworkPolicyVersionList = CoreNetworkPolicyVersion[];
 export interface ListCoreNetworkPolicyVersionsResponse {
-  CoreNetworkPolicyVersions?: CoreNetworkPolicyVersion[];
-  NextToken?: string;
+  CoreNetworkPolicyVersions?: CoreNetworkPolicyVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreNetworkPrefixListAssociationsRequest {
   CoreNetworkId: string;
-  PrefixListArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  PrefixListArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PrefixListAssociation {
-  CoreNetworkId?: string;
-  PrefixListArn?: string;
-  PrefixListAlias?: string;
+  CoreNetworkId?: string | undefined;
+  PrefixListArn?: string | undefined;
+  PrefixListAlias?: string | undefined;
 }
 export type PrefixListAssociationList = PrefixListAssociation[];
 export interface ListCoreNetworkPrefixListAssociationsResponse {
-  PrefixListAssociations?: PrefixListAssociation[];
-  NextToken?: string;
+  PrefixListAssociations?: PrefixListAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreNetworkRoutingInformationRequest {
   CoreNetworkId: string;
   SegmentName: string;
   EdgeLocation: string;
-  NextHopFilters?: { [key: string]: string[] | undefined };
-  LocalPreferenceMatches?: string[];
-  ExactAsPathMatches?: string[];
-  MedMatches?: string[];
-  CommunityMatches?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  NextHopFilters?: { [key: string]: string[] | undefined } | undefined;
+  LocalPreferenceMatches?: string[] | undefined;
+  ExactAsPathMatches?: string[] | undefined;
+  MedMatches?: string[] | undefined;
+  CommunityMatches?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RoutingInformationNextHop {
-  IpAddress?: string;
-  CoreNetworkAttachmentId?: string;
-  ResourceId?: string;
-  ResourceType?: string;
-  SegmentName?: string;
-  EdgeLocation?: string;
+  IpAddress?: string | undefined;
+  CoreNetworkAttachmentId?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  SegmentName?: string | undefined;
+  EdgeLocation?: string | undefined;
 }
 export interface CoreNetworkRoutingInformation {
-  Prefix?: string;
-  NextHop?: RoutingInformationNextHop;
-  LocalPreference?: string;
-  Med?: string;
-  AsPath?: string[];
-  Communities?: string[];
+  Prefix?: string | undefined;
+  NextHop?: RoutingInformationNextHop | undefined;
+  LocalPreference?: string | undefined;
+  Med?: string | undefined;
+  AsPath?: string[] | undefined;
+  Communities?: string[] | undefined;
 }
 export type CoreNetworkRoutingInformationList = CoreNetworkRoutingInformation[];
 export interface ListCoreNetworkRoutingInformationResponse {
-  CoreNetworkRoutingInformation?: CoreNetworkRoutingInformation[];
-  NextToken?: string;
+  CoreNetworkRoutingInformation?: CoreNetworkRoutingInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreNetworksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CoreNetworkSummary {
-  CoreNetworkId?: string;
-  CoreNetworkArn?: string;
-  GlobalNetworkId?: string;
-  OwnerAccountId?: string;
-  State?: CoreNetworkState;
-  Description?: string;
-  Tags?: Tag[];
+  CoreNetworkId?: string | undefined;
+  CoreNetworkArn?: string | undefined;
+  GlobalNetworkId?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  State?: CoreNetworkState | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CoreNetworkSummaryList = CoreNetworkSummary[];
 export interface ListCoreNetworksResponse {
-  CoreNetworks?: CoreNetworkSummary[];
-  NextToken?: string;
+  CoreNetworks?: CoreNetworkSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrganizationServiceAccessStatusRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OrganizationId = string;
 export type OrganizationAwsServiceAccessStatus = string;
 export type SLRDeploymentStatus = string;
 export type AccountId = string;
 export interface AccountStatus {
-  AccountId?: string;
-  SLRDeploymentStatus?: string;
+  AccountId?: string | undefined;
+  SLRDeploymentStatus?: string | undefined;
 }
 export type AccountStatusList = AccountStatus[];
 export interface OrganizationStatus {
-  OrganizationId?: string;
-  OrganizationAwsServiceAccessStatus?: string;
-  SLRDeploymentStatus?: string;
-  AccountStatusList?: AccountStatus[];
+  OrganizationId?: string | undefined;
+  OrganizationAwsServiceAccessStatus?: string | undefined;
+  SLRDeploymentStatus?: string | undefined;
+  AccountStatusList?: AccountStatus[] | undefined;
 }
 export interface ListOrganizationServiceAccessStatusResponse {
-  OrganizationStatus?: OrganizationStatus;
-  NextToken?: string;
+  OrganizationStatus?: OrganizationStatus | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPeeringsRequest {
-  CoreNetworkId?: string;
-  PeeringType?: PeeringType;
-  EdgeLocation?: string;
-  State?: PeeringState;
-  MaxResults?: number;
-  NextToken?: string;
+  CoreNetworkId?: string | undefined;
+  PeeringType?: PeeringType | undefined;
+  EdgeLocation?: string | undefined;
+  State?: PeeringState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PeeringList = Peering[];
 export interface ListPeeringsResponse {
-  Peerings?: Peering[];
-  NextToken?: string;
+  Peerings?: Peering[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface PutAttachmentRoutingPolicyLabelRequest {
   CoreNetworkId: string;
   AttachmentId: string;
   RoutingPolicyLabel: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAttachmentRoutingPolicyLabelResponse {
-  CoreNetworkId?: string;
-  AttachmentId?: string;
-  RoutingPolicyLabel?: string;
+  CoreNetworkId?: string | undefined;
+  AttachmentId?: string | undefined;
+  RoutingPolicyLabel?: string | undefined;
 }
 export interface PutCoreNetworkPolicyRequest {
   CoreNetworkId: string;
   PolicyDocument: string;
-  Description?: string;
-  LatestVersionId?: number;
-  ClientToken?: string;
+  Description?: string | undefined;
+  LatestVersionId?: number | undefined;
+  ClientToken?: string | undefined;
 }
 export interface PutCoreNetworkPolicyResponse {
-  CoreNetworkPolicy?: CoreNetworkPolicy;
+  CoreNetworkPolicy?: CoreNetworkPolicy | undefined;
 }
 export interface PutResourcePolicyRequest {
   PolicyDocument: string;
@@ -1757,50 +1758,50 @@ export interface RegisterTransitGatewayRequest {
   TransitGatewayArn: string;
 }
 export interface RegisterTransitGatewayResponse {
-  TransitGatewayRegistration?: TransitGatewayRegistration;
+  TransitGatewayRegistration?: TransitGatewayRegistration | undefined;
 }
 export interface RejectAttachmentRequest {
   AttachmentId: string;
 }
 export interface RejectAttachmentResponse {
-  Attachment?: Attachment;
+  Attachment?: Attachment | undefined;
 }
 export interface RemoveAttachmentRoutingPolicyLabelRequest {
   CoreNetworkId: string;
   AttachmentId: string;
 }
 export interface RemoveAttachmentRoutingPolicyLabelResponse {
-  CoreNetworkId?: string;
-  AttachmentId?: string;
-  RoutingPolicyLabel?: string;
+  CoreNetworkId?: string | undefined;
+  AttachmentId?: string | undefined;
+  RoutingPolicyLabel?: string | undefined;
 }
 export interface RestoreCoreNetworkPolicyVersionRequest {
   CoreNetworkId: string;
   PolicyVersionId: number;
 }
 export interface RestoreCoreNetworkPolicyVersionResponse {
-  CoreNetworkPolicy?: CoreNetworkPolicy;
+  CoreNetworkPolicy?: CoreNetworkPolicy | undefined;
 }
 export type Action = string;
 export interface StartOrganizationServiceAccessUpdateRequest {
   Action: string;
 }
 export interface StartOrganizationServiceAccessUpdateResponse {
-  OrganizationStatus?: OrganizationStatus;
+  OrganizationStatus?: OrganizationStatus | undefined;
 }
 export interface RouteAnalysisEndpointOptionsSpecification {
-  TransitGatewayAttachmentArn?: string;
-  IpAddress?: string;
+  TransitGatewayAttachmentArn?: string | undefined;
+  IpAddress?: string | undefined;
 }
 export interface StartRouteAnalysisRequest {
   GlobalNetworkId: string;
   Source: RouteAnalysisEndpointOptionsSpecification;
   Destination: RouteAnalysisEndpointOptionsSpecification;
-  IncludeReturnPath?: boolean;
-  UseMiddleboxes?: boolean;
+  IncludeReturnPath?: boolean | undefined;
+  UseMiddleboxes?: boolean | undefined;
 }
 export interface StartRouteAnalysisResponse {
-  RouteAnalysis?: RouteAnalysis;
+  RouteAnalysis?: RouteAnalysis | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1816,59 +1817,59 @@ export interface UntagResourceResponse {}
 export interface UpdateConnectionRequest {
   GlobalNetworkId: string;
   ConnectionId: string;
-  LinkId?: string;
-  ConnectedLinkId?: string;
-  Description?: string;
+  LinkId?: string | undefined;
+  ConnectedLinkId?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface UpdateCoreNetworkRequest {
   CoreNetworkId: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateCoreNetworkResponse {
-  CoreNetwork?: CoreNetwork;
+  CoreNetwork?: CoreNetwork | undefined;
 }
 export interface UpdateDeviceRequest {
   GlobalNetworkId: string;
   DeviceId: string;
-  AWSLocation?: AWSLocation;
-  Description?: string;
-  Type?: string;
-  Vendor?: string;
-  Model?: string;
-  SerialNumber?: string;
-  Location?: Location;
-  SiteId?: string;
+  AWSLocation?: AWSLocation | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  Vendor?: string | undefined;
+  Model?: string | undefined;
+  SerialNumber?: string | undefined;
+  Location?: Location | undefined;
+  SiteId?: string | undefined;
 }
 export interface UpdateDeviceResponse {
-  Device?: Device;
+  Device?: Device | undefined;
 }
 export interface UpdateDirectConnectGatewayAttachmentRequest {
   AttachmentId: string;
-  EdgeLocations?: string[];
+  EdgeLocations?: string[] | undefined;
 }
 export interface UpdateDirectConnectGatewayAttachmentResponse {
-  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment;
+  DirectConnectGatewayAttachment?: DirectConnectGatewayAttachment | undefined;
 }
 export interface UpdateGlobalNetworkRequest {
   GlobalNetworkId: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateGlobalNetworkResponse {
-  GlobalNetwork?: GlobalNetwork;
+  GlobalNetwork?: GlobalNetwork | undefined;
 }
 export interface UpdateLinkRequest {
   GlobalNetworkId: string;
   LinkId: string;
-  Description?: string;
-  Type?: string;
-  Bandwidth?: Bandwidth;
-  Provider?: string;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  Bandwidth?: Bandwidth | undefined;
+  Provider?: string | undefined;
 }
 export interface UpdateLinkResponse {
-  Link?: Link;
+  Link?: Link | undefined;
 }
 export interface UpdateNetworkResourceMetadataRequest {
   GlobalNetworkId: string;
@@ -1876,26 +1877,26 @@ export interface UpdateNetworkResourceMetadataRequest {
   Metadata: { [key: string]: string | undefined };
 }
 export interface UpdateNetworkResourceMetadataResponse {
-  ResourceArn?: string;
-  Metadata?: { [key: string]: string | undefined };
+  ResourceArn?: string | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSiteRequest {
   GlobalNetworkId: string;
   SiteId: string;
-  Description?: string;
-  Location?: Location;
+  Description?: string | undefined;
+  Location?: Location | undefined;
 }
 export interface UpdateSiteResponse {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export interface UpdateVpcAttachmentRequest {
   AttachmentId: string;
-  AddSubnetArns?: string[];
-  RemoveSubnetArns?: string[];
-  Options?: VpcOptions;
+  AddSubnetArns?: string[] | undefined;
+  RemoveSubnetArns?: string[] | undefined;
+  Options?: VpcOptions | undefined;
 }
 export interface UpdateVpcAttachmentResponse {
-  VpcAttachment?: VpcAttachment;
+  VpcAttachment?: VpcAttachment | undefined;
 }
 export type RetryAfterSeconds = number;
 export type ExceptionContextKey = string;
@@ -1927,7 +1928,7 @@ export type AcceptAttachmentError =
  * created and connected to a core network.
  */
 export const acceptAttachment: API.OperationMethod<
-  AcceptAttachmentRequest,
+  AcceptAttachmentRequest & RegionInput,
   AcceptAttachmentResponse,
   AcceptAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type AssociateConnectPeerError =
  * attachment on a core network.
  */
 export const associateConnectPeer: API.OperationMethod<
-  AssociateConnectPeerRequest,
+  AssociateConnectPeerRequest & RegionInput,
   AssociateConnectPeerResponse,
   AssociateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2012,7 +2013,7 @@ export type AssociateCustomerGatewayError =
  * You cannot associate a customer gateway with more than one device and link.
  */
 export const associateCustomerGateway: API.OperationMethod<
-  AssociateCustomerGatewayRequest,
+  AssociateCustomerGatewayRequest & RegionInput,
   AssociateCustomerGatewayResponse,
   AssociateCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2048,7 +2049,7 @@ export type AssociateLinkError =
  * Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
  */
 export const associateLink: API.OperationMethod<
-  AssociateLinkRequest,
+  AssociateLinkRequest & RegionInput,
   AssociateLinkResponse,
   AssociateLinkError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type AssociateTransitGatewayConnectPeerError =
  * You cannot associate a transit gateway Connect peer with more than one device and link.
  */
 export const associateTransitGatewayConnectPeer: API.OperationMethod<
-  AssociateTransitGatewayConnectPeerRequest,
+  AssociateTransitGatewayConnectPeerRequest & RegionInput,
   AssociateTransitGatewayConnectPeerResponse,
   AssociateTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2129,7 +2130,7 @@ export type CreateConnectAttachmentError =
  * attachment uses an existing VPC attachment as the underlying transport mechanism.
  */
 export const createConnectAttachment: API.OperationMethod<
-  CreateConnectAttachmentRequest,
+  CreateConnectAttachmentRequest & RegionInput,
   CreateConnectAttachmentResponse,
   CreateConnectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2163,7 +2164,7 @@ export type CreateConnectionError =
  * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2198,7 +2199,7 @@ export type CreateConnectPeerError =
  * The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
  */
 export const createConnectPeer: API.OperationMethod<
-  CreateConnectPeerRequest,
+  CreateConnectPeerRequest & RegionInput,
   CreateConnectPeerResponse,
   CreateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type CreateCoreNetworkError =
  * Creates a core network as part of your global network, and optionally, with a core network policy.
  */
 export const createCoreNetwork: API.OperationMethod<
-  CreateCoreNetworkRequest,
+  CreateCoreNetworkRequest & RegionInput,
   CreateCoreNetworkResponse,
   CreateCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2269,7 +2270,7 @@ export type CreateCoreNetworkPrefixListAssociationError =
  * Creates an association between a core network and a prefix list for routing control.
  */
 export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
-  CreateCoreNetworkPrefixListAssociationRequest,
+  CreateCoreNetworkPrefixListAssociationRequest & RegionInput,
   CreateCoreNetworkPrefixListAssociationResponse,
   CreateCoreNetworkPrefixListAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2306,7 +2307,7 @@ export type CreateDeviceError =
  * location, the location of the site is used for visualization in the Network Manager console.
  */
 export const createDevice: API.OperationMethod<
-  CreateDeviceRequest,
+  CreateDeviceRequest & RegionInput,
   CreateDeviceResponse,
   CreateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2341,7 +2342,7 @@ export type CreateDirectConnectGatewayAttachmentError =
  * Creates an Amazon Web Services Direct Connect gateway attachment
  */
 export const createDirectConnectGatewayAttachment: API.OperationMethod<
-  CreateDirectConnectGatewayAttachmentRequest,
+  CreateDirectConnectGatewayAttachmentRequest & RegionInput,
   CreateDirectConnectGatewayAttachmentResponse,
   CreateDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2375,7 +2376,7 @@ export type CreateGlobalNetworkError =
  * Creates a new, empty global network.
  */
 export const createGlobalNetwork: API.OperationMethod<
-  CreateGlobalNetworkRequest,
+  CreateGlobalNetworkRequest & RegionInput,
   CreateGlobalNetworkResponse,
   CreateGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2410,7 +2411,7 @@ export type CreateLinkError =
  * Creates a new link for a specified site.
  */
 export const createLink: API.OperationMethod<
-  CreateLinkRequest,
+  CreateLinkRequest & RegionInput,
   CreateLinkResponse,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
@@ -2446,7 +2447,7 @@ export type CreateSiteError =
  * Creates a new site in a global network.
  */
 export const createSite: API.OperationMethod<
-  CreateSiteRequest,
+  CreateSiteRequest & RegionInput,
   CreateSiteResponse,
   CreateSiteError,
   Credentials | HttpClient.HttpClient
@@ -2481,7 +2482,7 @@ export type CreateSiteToSiteVpnAttachmentError =
  * Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
  */
 export const createSiteToSiteVpnAttachment: API.OperationMethod<
-  CreateSiteToSiteVpnAttachmentRequest,
+  CreateSiteToSiteVpnAttachmentRequest & RegionInput,
   CreateSiteToSiteVpnAttachmentResponse,
   CreateSiteToSiteVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type CreateTransitGatewayPeeringError =
  * Creates a transit gateway peering connection.
  */
 export const createTransitGatewayPeering: API.OperationMethod<
-  CreateTransitGatewayPeeringRequest,
+  CreateTransitGatewayPeeringRequest & RegionInput,
   CreateTransitGatewayPeeringResponse,
   CreateTransitGatewayPeeringError,
   Credentials | HttpClient.HttpClient
@@ -2549,7 +2550,7 @@ export type CreateTransitGatewayRouteTableAttachmentError =
  * Creates a transit gateway route table attachment.
  */
 export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
-  CreateTransitGatewayRouteTableAttachmentRequest,
+  CreateTransitGatewayRouteTableAttachmentRequest & RegionInput,
   CreateTransitGatewayRouteTableAttachmentResponse,
   CreateTransitGatewayRouteTableAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2583,7 +2584,7 @@ export type CreateVpcAttachmentError =
  * Creates a VPC attachment on an edge location of a core network.
  */
 export const createVpcAttachment: API.OperationMethod<
-  CreateVpcAttachmentRequest,
+  CreateVpcAttachmentRequest & RegionInput,
   CreateVpcAttachmentResponse,
   CreateVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2617,7 +2618,7 @@ export type DeleteAttachmentError =
  * Deletes an attachment. Supports all attachment types.
  */
 export const deleteAttachment: API.OperationMethod<
-  DeleteAttachmentRequest,
+  DeleteAttachmentRequest & RegionInput,
   DeleteAttachmentResponse,
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2651,7 +2652,7 @@ export type DeleteConnectionError =
  * Deletes the specified connection in your global network.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2685,7 +2686,7 @@ export type DeleteConnectPeerError =
  * Deletes a Connect peer.
  */
 export const deleteConnectPeer: API.OperationMethod<
-  DeleteConnectPeerRequest,
+  DeleteConnectPeerRequest & RegionInput,
   DeleteConnectPeerResponse,
   DeleteConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -2719,7 +2720,7 @@ export type DeleteCoreNetworkError =
  * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
  */
 export const deleteCoreNetwork: API.OperationMethod<
-  DeleteCoreNetworkRequest,
+  DeleteCoreNetworkRequest & RegionInput,
   DeleteCoreNetworkResponse,
   DeleteCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2753,7 +2754,7 @@ export type DeleteCoreNetworkPolicyVersionError =
  * Deletes a policy version from a core network. You can't delete the current LIVE policy.
  */
 export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
-  DeleteCoreNetworkPolicyVersionRequest,
+  DeleteCoreNetworkPolicyVersionRequest & RegionInput,
   DeleteCoreNetworkPolicyVersionResponse,
   DeleteCoreNetworkPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type DeleteCoreNetworkPrefixListAssociationError =
  * Deletes an association between a core network and a prefix list.
  */
 export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
-  DeleteCoreNetworkPrefixListAssociationRequest,
+  DeleteCoreNetworkPrefixListAssociationRequest & RegionInput,
   DeleteCoreNetworkPrefixListAssociationResponse,
   DeleteCoreNetworkPrefixListAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2825,7 @@ export type DeleteDeviceError =
  * customer gateways.
  */
 export const deleteDevice: API.OperationMethod<
-  DeleteDeviceRequest,
+  DeleteDeviceRequest & RegionInput,
   DeleteDeviceResponse,
   DeleteDeviceError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2860,7 @@ export type DeleteGlobalNetworkError =
  * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
  */
 export const deleteGlobalNetwork: API.OperationMethod<
-  DeleteGlobalNetworkRequest,
+  DeleteGlobalNetworkRequest & RegionInput,
   DeleteGlobalNetworkResponse,
   DeleteGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2894,7 +2895,7 @@ export type DeleteLinkError =
  * customer gateways.
  */
 export const deleteLink: API.OperationMethod<
-  DeleteLinkRequest,
+  DeleteLinkRequest & RegionInput,
   DeleteLinkResponse,
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
@@ -2928,7 +2929,7 @@ export type DeletePeeringError =
  * Deletes an existing peering connection.
  */
 export const deletePeering: API.OperationMethod<
-  DeletePeeringRequest,
+  DeletePeeringRequest & RegionInput,
   DeletePeeringResponse,
   DeletePeeringError,
   Credentials | HttpClient.HttpClient
@@ -2961,7 +2962,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2994,7 +2995,7 @@ export type DeleteSiteError =
  * Deletes an existing site. The site cannot be associated with any device or link.
  */
 export const deleteSite: API.OperationMethod<
-  DeleteSiteRequest,
+  DeleteSiteRequest & RegionInput,
   DeleteSiteResponse,
   DeleteSiteError,
   Credentials | HttpClient.HttpClient
@@ -3029,7 +3030,7 @@ export type DeregisterTransitGatewayError =
  * your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
  */
 export const deregisterTransitGateway: API.OperationMethod<
-  DeregisterTransitGatewayRequest,
+  DeregisterTransitGatewayRequest & RegionInput,
   DeregisterTransitGatewayResponse,
   DeregisterTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3065,7 +3066,7 @@ export type DescribeGlobalNetworksError =
  * network, use GetTransitGatewayRegistrations.
  */
 export const describeGlobalNetworks: API.PaginatedOperationMethod<
-  DescribeGlobalNetworksRequest,
+  DescribeGlobalNetworksRequest & RegionInput,
   DescribeGlobalNetworksResponse,
   DescribeGlobalNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -3105,7 +3106,7 @@ export type DisassociateConnectPeerError =
  * Disassociates a core network Connect peer from a device and a link.
  */
 export const disassociateConnectPeer: API.OperationMethod<
-  DisassociateConnectPeerRequest,
+  DisassociateConnectPeerRequest & RegionInput,
   DisassociateConnectPeerResponse,
   DisassociateConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3139,7 +3140,7 @@ export type DisassociateCustomerGatewayError =
  * Disassociates a customer gateway from a device and a link.
  */
 export const disassociateCustomerGateway: API.OperationMethod<
-  DisassociateCustomerGatewayRequest,
+  DisassociateCustomerGatewayRequest & RegionInput,
   DisassociateCustomerGatewayResponse,
   DisassociateCustomerGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3174,7 +3175,7 @@ export type DisassociateLinkError =
  * gateways that are associated with the link.
  */
 export const disassociateLink: API.OperationMethod<
-  DisassociateLinkRequest,
+  DisassociateLinkRequest & RegionInput,
   DisassociateLinkResponse,
   DisassociateLinkError,
   Credentials | HttpClient.HttpClient
@@ -3208,7 +3209,7 @@ export type DisassociateTransitGatewayConnectPeerError =
  * Disassociates a transit gateway Connect peer from a device and link.
  */
 export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
-  DisassociateTransitGatewayConnectPeerRequest,
+  DisassociateTransitGatewayConnectPeerRequest & RegionInput,
   DisassociateTransitGatewayConnectPeerResponse,
   DisassociateTransitGatewayConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3242,7 +3243,7 @@ export type ExecuteCoreNetworkChangeSetError =
  * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
  */
 export const executeCoreNetworkChangeSet: API.OperationMethod<
-  ExecuteCoreNetworkChangeSetRequest,
+  ExecuteCoreNetworkChangeSetRequest & RegionInput,
   ExecuteCoreNetworkChangeSetResponse,
   ExecuteCoreNetworkChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3276,7 @@ export type GetConnectAttachmentError =
  * Returns information about a core network Connect attachment.
  */
 export const getConnectAttachment: API.OperationMethod<
-  GetConnectAttachmentRequest,
+  GetConnectAttachmentRequest & RegionInput,
   GetConnectAttachmentResponse,
   GetConnectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3307,7 +3308,7 @@ export type GetConnectionsError =
  * Gets information about one or more of your connections in a global network.
  */
 export const getConnections: API.PaginatedOperationMethod<
-  GetConnectionsRequest,
+  GetConnectionsRequest & RegionInput,
   GetConnectionsResponse,
   GetConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3346,7 +3347,7 @@ export type GetConnectPeerError =
  * Returns information about a core network Connect peer.
  */
 export const getConnectPeer: API.OperationMethod<
-  GetConnectPeerRequest,
+  GetConnectPeerRequest & RegionInput,
   GetConnectPeerResponse,
   GetConnectPeerError,
   Credentials | HttpClient.HttpClient
@@ -3379,7 +3380,7 @@ export type GetConnectPeerAssociationsError =
  * Returns information about a core network Connect peer associations.
  */
 export const getConnectPeerAssociations: API.PaginatedOperationMethod<
-  GetConnectPeerAssociationsRequest,
+  GetConnectPeerAssociationsRequest & RegionInput,
   GetConnectPeerAssociationsResponse,
   GetConnectPeerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3419,7 +3420,7 @@ export type GetCoreNetworkError =
  * Returns information about the LIVE policy for a core network.
  */
 export const getCoreNetwork: API.OperationMethod<
-  GetCoreNetworkRequest,
+  GetCoreNetworkRequest & RegionInput,
   GetCoreNetworkResponse,
   GetCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -3451,7 +3452,7 @@ export type GetCoreNetworkChangeEventsError =
  * Returns information about a core network change event.
  */
 export const getCoreNetworkChangeEvents: API.PaginatedOperationMethod<
-  GetCoreNetworkChangeEventsRequest,
+  GetCoreNetworkChangeEventsRequest & RegionInput,
   GetCoreNetworkChangeEventsResponse,
   GetCoreNetworkChangeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3490,7 +3491,7 @@ export type GetCoreNetworkChangeSetError =
  * Returns a change set between the LIVE core network policy and a submitted policy.
  */
 export const getCoreNetworkChangeSet: API.PaginatedOperationMethod<
-  GetCoreNetworkChangeSetRequest,
+  GetCoreNetworkChangeSetRequest & RegionInput,
   GetCoreNetworkChangeSetResponse,
   GetCoreNetworkChangeSetError,
   Credentials | HttpClient.HttpClient,
@@ -3529,7 +3530,7 @@ export type GetCoreNetworkPolicyError =
  * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
  */
 export const getCoreNetworkPolicy: API.OperationMethod<
-  GetCoreNetworkPolicyRequest,
+  GetCoreNetworkPolicyRequest & RegionInput,
   GetCoreNetworkPolicyResponse,
   GetCoreNetworkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3563,7 +3564,7 @@ export type GetCustomerGatewayAssociationsError =
  * devices and links in your global network.
  */
 export const getCustomerGatewayAssociations: API.PaginatedOperationMethod<
-  GetCustomerGatewayAssociationsRequest,
+  GetCustomerGatewayAssociationsRequest & RegionInput,
   GetCustomerGatewayAssociationsResponse,
   GetCustomerGatewayAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3603,7 +3604,7 @@ export type GetDevicesError =
  * Gets information about one or more of your devices in a global network.
  */
 export const getDevices: API.PaginatedOperationMethod<
-  GetDevicesRequest,
+  GetDevicesRequest & RegionInput,
   GetDevicesResponse,
   GetDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -3642,7 +3643,7 @@ export type GetDirectConnectGatewayAttachmentError =
  * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
  */
 export const getDirectConnectGatewayAttachment: API.OperationMethod<
-  GetDirectConnectGatewayAttachmentRequest,
+  GetDirectConnectGatewayAttachmentRequest & RegionInput,
   GetDirectConnectGatewayAttachmentResponse,
   GetDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3675,7 +3676,7 @@ export type GetLinkAssociationsError =
  * must be specified.
  */
 export const getLinkAssociations: API.PaginatedOperationMethod<
-  GetLinkAssociationsRequest,
+  GetLinkAssociationsRequest & RegionInput,
   GetLinkAssociationsResponse,
   GetLinkAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3716,7 +3717,7 @@ export type GetLinksError =
  * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
  */
 export const getLinks: API.PaginatedOperationMethod<
-  GetLinksRequest,
+  GetLinksRequest & RegionInput,
   GetLinksResponse,
   GetLinksError,
   Credentials | HttpClient.HttpClient,
@@ -3754,7 +3755,7 @@ export type GetNetworkResourceCountsError =
  * Gets the count of network resources, by resource type, for the specified global network.
  */
 export const getNetworkResourceCounts: API.PaginatedOperationMethod<
-  GetNetworkResourceCountsRequest,
+  GetNetworkResourceCountsRequest & RegionInput,
   GetNetworkResourceCountsResponse,
   GetNetworkResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -3792,7 +3793,7 @@ export type GetNetworkResourceRelationshipsError =
  * Gets the network resource relationships for the specified global network.
  */
 export const getNetworkResourceRelationships: API.PaginatedOperationMethod<
-  GetNetworkResourceRelationshipsRequest,
+  GetNetworkResourceRelationshipsRequest & RegionInput,
   GetNetworkResourceRelationshipsResponse,
   GetNetworkResourceRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -3833,7 +3834,7 @@ export type GetNetworkResourcesError =
  * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
  */
 export const getNetworkResources: API.PaginatedOperationMethod<
-  GetNetworkResourcesRequest,
+  GetNetworkResourcesRequest & RegionInput,
   GetNetworkResourcesResponse,
   GetNetworkResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3872,7 +3873,7 @@ export type GetNetworkRoutesError =
  * Gets the network routes of the specified global network.
  */
 export const getNetworkRoutes: API.OperationMethod<
-  GetNetworkRoutesRequest,
+  GetNetworkRoutesRequest & RegionInput,
   GetNetworkRoutesResponse,
   GetNetworkRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3904,7 +3905,7 @@ export type GetNetworkTelemetryError =
  * Gets the network telemetry of the specified global network.
  */
 export const getNetworkTelemetry: API.PaginatedOperationMethod<
-  GetNetworkTelemetryRequest,
+  GetNetworkTelemetryRequest & RegionInput,
   GetNetworkTelemetryResponse,
   GetNetworkTelemetryError,
   Credentials | HttpClient.HttpClient,
@@ -3942,7 +3943,7 @@ export type GetResourcePolicyError =
  * Returns information about a resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3973,7 +3974,7 @@ export type GetRouteAnalysisError =
  * Gets information about the specified route analysis.
  */
 export const getRouteAnalysis: API.OperationMethod<
-  GetRouteAnalysisRequest,
+  GetRouteAnalysisRequest & RegionInput,
   GetRouteAnalysisResponse,
   GetRouteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -4005,7 +4006,7 @@ export type GetSitesError =
  * Gets information about one or more of your sites in a global network.
  */
 export const getSites: API.PaginatedOperationMethod<
-  GetSitesRequest,
+  GetSitesRequest & RegionInput,
   GetSitesResponse,
   GetSitesError,
   Credentials | HttpClient.HttpClient,
@@ -4044,7 +4045,7 @@ export type GetSiteToSiteVpnAttachmentError =
  * Returns information about a site-to-site VPN attachment.
  */
 export const getSiteToSiteVpnAttachment: API.OperationMethod<
-  GetSiteToSiteVpnAttachmentRequest,
+  GetSiteToSiteVpnAttachmentRequest & RegionInput,
   GetSiteToSiteVpnAttachmentResponse,
   GetSiteToSiteVpnAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4077,7 +4078,7 @@ export type GetTransitGatewayConnectPeerAssociationsError =
  * Gets information about one or more of your transit gateway Connect peer associations in a global network.
  */
 export const getTransitGatewayConnectPeerAssociations: API.PaginatedOperationMethod<
-  GetTransitGatewayConnectPeerAssociationsRequest,
+  GetTransitGatewayConnectPeerAssociationsRequest & RegionInput,
   GetTransitGatewayConnectPeerAssociationsResponse,
   GetTransitGatewayConnectPeerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4117,7 +4118,7 @@ export type GetTransitGatewayPeeringError =
  * Returns information about a transit gateway peer.
  */
 export const getTransitGatewayPeering: API.OperationMethod<
-  GetTransitGatewayPeeringRequest,
+  GetTransitGatewayPeeringRequest & RegionInput,
   GetTransitGatewayPeeringResponse,
   GetTransitGatewayPeeringError,
   Credentials | HttpClient.HttpClient
@@ -4150,7 +4151,7 @@ export type GetTransitGatewayRegistrationsError =
  * global network.
  */
 export const getTransitGatewayRegistrations: API.PaginatedOperationMethod<
-  GetTransitGatewayRegistrationsRequest,
+  GetTransitGatewayRegistrationsRequest & RegionInput,
   GetTransitGatewayRegistrationsResponse,
   GetTransitGatewayRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4189,7 +4190,7 @@ export type GetTransitGatewayRouteTableAttachmentError =
  * Returns information about a transit gateway route table attachment.
  */
 export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
-  GetTransitGatewayRouteTableAttachmentRequest,
+  GetTransitGatewayRouteTableAttachmentRequest & RegionInput,
   GetTransitGatewayRouteTableAttachmentResponse,
   GetTransitGatewayRouteTableAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4221,7 +4222,7 @@ export type GetVpcAttachmentError =
  * Returns information about a VPC attachment.
  */
 export const getVpcAttachment: API.OperationMethod<
-  GetVpcAttachmentRequest,
+  GetVpcAttachmentRequest & RegionInput,
   GetVpcAttachmentResponse,
   GetVpcAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4253,7 +4254,7 @@ export type ListAttachmentRoutingPolicyAssociationsError =
  * Lists the routing policy associations for attachments in a core network.
  */
 export const listAttachmentRoutingPolicyAssociations: API.PaginatedOperationMethod<
-  ListAttachmentRoutingPolicyAssociationsRequest,
+  ListAttachmentRoutingPolicyAssociationsRequest & RegionInput,
   ListAttachmentRoutingPolicyAssociationsResponse,
   ListAttachmentRoutingPolicyAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4291,7 +4292,7 @@ export type ListAttachmentsError =
  * Returns a list of core network attachments.
  */
 export const listAttachments: API.PaginatedOperationMethod<
-  ListAttachmentsRequest,
+  ListAttachmentsRequest & RegionInput,
   ListAttachmentsResponse,
   ListAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -4328,7 +4329,7 @@ export type ListConnectPeersError =
  * Returns a list of core network Connect peers.
  */
 export const listConnectPeers: API.PaginatedOperationMethod<
-  ListConnectPeersRequest,
+  ListConnectPeersRequest & RegionInput,
   ListConnectPeersResponse,
   ListConnectPeersError,
   Credentials | HttpClient.HttpClient,
@@ -4366,7 +4367,7 @@ export type ListCoreNetworkPolicyVersionsError =
  * Returns a list of core network policy versions.
  */
 export const listCoreNetworkPolicyVersions: API.PaginatedOperationMethod<
-  ListCoreNetworkPolicyVersionsRequest,
+  ListCoreNetworkPolicyVersionsRequest & RegionInput,
   ListCoreNetworkPolicyVersionsResponse,
   ListCoreNetworkPolicyVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4405,7 +4406,7 @@ export type ListCoreNetworkPrefixListAssociationsError =
  * Lists the prefix list associations for a core network.
  */
 export const listCoreNetworkPrefixListAssociations: API.PaginatedOperationMethod<
-  ListCoreNetworkPrefixListAssociationsRequest,
+  ListCoreNetworkPrefixListAssociationsRequest & RegionInput,
   ListCoreNetworkPrefixListAssociationsResponse,
   ListCoreNetworkPrefixListAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4444,7 +4445,7 @@ export type ListCoreNetworkRoutingInformationError =
  * Lists routing information for a core network, including routes and their attributes.
  */
 export const listCoreNetworkRoutingInformation: API.PaginatedOperationMethod<
-  ListCoreNetworkRoutingInformationRequest,
+  ListCoreNetworkRoutingInformationRequest & RegionInput,
   ListCoreNetworkRoutingInformationResponse,
   ListCoreNetworkRoutingInformationError,
   Credentials | HttpClient.HttpClient,
@@ -4482,7 +4483,7 @@ export type ListCoreNetworksError =
  * Returns a list of owned and shared core networks.
  */
 export const listCoreNetworks: API.PaginatedOperationMethod<
-  ListCoreNetworksRequest,
+  ListCoreNetworksRequest & RegionInput,
   ListCoreNetworksResponse,
   ListCoreNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -4514,7 +4515,7 @@ export type ListOrganizationServiceAccessStatusError = CommonErrors;
  * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
  */
 export const listOrganizationServiceAccessStatus: API.OperationMethod<
-  ListOrganizationServiceAccessStatusRequest,
+  ListOrganizationServiceAccessStatusRequest & RegionInput,
   ListOrganizationServiceAccessStatusResponse,
   ListOrganizationServiceAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -4539,7 +4540,7 @@ export type ListPeeringsError =
  * Lists the peerings for a core network.
  */
 export const listPeerings: API.PaginatedOperationMethod<
-  ListPeeringsRequest,
+  ListPeeringsRequest & RegionInput,
   ListPeeringsResponse,
   ListPeeringsError,
   Credentials | HttpClient.HttpClient,
@@ -4577,7 +4578,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4612,7 @@ export type PutAttachmentRoutingPolicyLabelError =
  * Applies a routing policy label to an attachment for traffic routing decisions.
  */
 export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
-  PutAttachmentRoutingPolicyLabelRequest,
+  PutAttachmentRoutingPolicyLabelRequest & RegionInput,
   PutAttachmentRoutingPolicyLabelResponse,
   PutAttachmentRoutingPolicyLabelError,
   Credentials | HttpClient.HttpClient
@@ -4647,7 +4648,7 @@ export type PutCoreNetworkPolicyError =
  * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
  */
 export const putCoreNetworkPolicy: API.OperationMethod<
-  PutCoreNetworkPolicyRequest,
+  PutCoreNetworkPolicyRequest & RegionInput,
   PutCoreNetworkPolicyResponse,
   PutCoreNetworkPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4682,7 +4683,7 @@ export type PutResourcePolicyError =
  * Creates or updates a resource policy.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4720,7 +4721,7 @@ export type RegisterTransitGatewayError =
  * network. You cannot register a transit gateway in more than one global network.
  */
 export const registerTransitGateway: API.OperationMethod<
-  RegisterTransitGatewayRequest,
+  RegisterTransitGatewayRequest & RegionInput,
   RegisterTransitGatewayResponse,
   RegisterTransitGatewayError,
   Credentials | HttpClient.HttpClient
@@ -4754,7 +4755,7 @@ export type RejectAttachmentError =
  * Rejects a core network attachment request.
  */
 export const rejectAttachment: API.OperationMethod<
-  RejectAttachmentRequest,
+  RejectAttachmentRequest & RegionInput,
   RejectAttachmentResponse,
   RejectAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4789,7 +4790,7 @@ export type RemoveAttachmentRoutingPolicyLabelError =
  * Removes a routing policy label from an attachment.
  */
 export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
-  RemoveAttachmentRoutingPolicyLabelRequest,
+  RemoveAttachmentRoutingPolicyLabelRequest & RegionInput,
   RemoveAttachmentRoutingPolicyLabelResponse,
   RemoveAttachmentRoutingPolicyLabelError,
   Credentials | HttpClient.HttpClient
@@ -4824,7 +4825,7 @@ export type RestoreCoreNetworkPolicyVersionError =
  * Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
  */
 export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
-  RestoreCoreNetworkPolicyVersionRequest,
+  RestoreCoreNetworkPolicyVersionRequest & RegionInput,
   RestoreCoreNetworkPolicyVersionResponse,
   RestoreCoreNetworkPolicyVersionError,
   Credentials | HttpClient.HttpClient
@@ -4858,7 +4859,7 @@ export type StartOrganizationServiceAccessUpdateError =
  * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
  */
 export const startOrganizationServiceAccessUpdate: API.OperationMethod<
-  StartOrganizationServiceAccessUpdateRequest,
+  StartOrganizationServiceAccessUpdateRequest & RegionInput,
   StartOrganizationServiceAccessUpdateResponse,
   StartOrganizationServiceAccessUpdateError,
   Credentials | HttpClient.HttpClient
@@ -4893,7 +4894,7 @@ export type StartRouteAnalysisError =
  * see Route Analyzer.
  */
 export const startRouteAnalysis: API.OperationMethod<
-  StartRouteAnalysisRequest,
+  StartRouteAnalysisRequest & RegionInput,
   StartRouteAnalysisResponse,
   StartRouteAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -4928,7 +4929,7 @@ export type TagResourceError =
  * Tags a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4963,7 +4964,7 @@ export type UntagResourceError =
  * Removes tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4998,7 +4999,7 @@ export type UpdateConnectionError =
  * specify an empty string.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -5032,7 +5033,7 @@ export type UpdateCoreNetworkError =
  * Updates the description of a core network.
  */
 export const updateCoreNetwork: API.OperationMethod<
-  UpdateCoreNetworkRequest,
+  UpdateCoreNetworkRequest & RegionInput,
   UpdateCoreNetworkResponse,
   UpdateCoreNetworkError,
   Credentials | HttpClient.HttpClient
@@ -5067,7 +5068,7 @@ export type UpdateDeviceError =
  * parameters, specify an empty string.
  */
 export const updateDevice: API.OperationMethod<
-  UpdateDeviceRequest,
+  UpdateDeviceRequest & RegionInput,
   UpdateDeviceResponse,
   UpdateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -5101,7 +5102,7 @@ export type UpdateDirectConnectGatewayAttachmentError =
  * Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
  */
 export const updateDirectConnectGatewayAttachment: API.OperationMethod<
-  UpdateDirectConnectGatewayAttachmentRequest,
+  UpdateDirectConnectGatewayAttachmentRequest & RegionInput,
   UpdateDirectConnectGatewayAttachmentResponse,
   UpdateDirectConnectGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -5136,7 +5137,7 @@ export type UpdateGlobalNetworkError =
  * specify an empty string.
  */
 export const updateGlobalNetwork: API.OperationMethod<
-  UpdateGlobalNetworkRequest,
+  UpdateGlobalNetworkRequest & RegionInput,
   UpdateGlobalNetworkResponse,
   UpdateGlobalNetworkError,
   Credentials | HttpClient.HttpClient
@@ -5172,7 +5173,7 @@ export type UpdateLinkError =
  * parameters, specify an empty string.
  */
 export const updateLink: API.OperationMethod<
-  UpdateLinkRequest,
+  UpdateLinkRequest & RegionInput,
   UpdateLinkResponse,
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
@@ -5207,7 +5208,7 @@ export type UpdateNetworkResourceMetadataError =
  * Updates the resource metadata for the specified global network.
  */
 export const updateNetworkResourceMetadata: API.OperationMethod<
-  UpdateNetworkResourceMetadataRequest,
+  UpdateNetworkResourceMetadataRequest & RegionInput,
   UpdateNetworkResourceMetadataResponse,
   UpdateNetworkResourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -5242,7 +5243,7 @@ export type UpdateSiteError =
  * parameters, specify an empty string.
  */
 export const updateSite: API.OperationMethod<
-  UpdateSiteRequest,
+  UpdateSiteRequest & RegionInput,
   UpdateSiteResponse,
   UpdateSiteError,
   Credentials | HttpClient.HttpClient
@@ -5276,7 +5277,7 @@ export type UpdateVpcAttachmentError =
  * Updates a VPC attachment.
  */
 export const updateVpcAttachment: API.OperationMethod<
-  UpdateVpcAttachmentRequest,
+  UpdateVpcAttachmentRequest & RegionInput,
   UpdateVpcAttachmentResponse,
   UpdateVpcAttachmentError,
   Credentials | HttpClient.HttpClient

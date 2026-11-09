@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -156,13 +157,28 @@ export type FieldId = string;
 export type OperandOne = { fieldId: string };
 export interface EmptyOperandValue {}
 export type OperandTwo =
-  | { stringValue: string; booleanValue?: never; doubleValue?: never; emptyValue?: never }
-  | { stringValue?: never; booleanValue: boolean; doubleValue?: never; emptyValue?: never }
-  | { stringValue?: never; booleanValue?: never; doubleValue: number; emptyValue?: never }
   | {
-      stringValue?: never;
-      booleanValue?: never;
-      doubleValue?: never;
+      stringValue: string;
+      booleanValue?: undefined;
+      doubleValue?: undefined;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue: boolean;
+      doubleValue?: undefined;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue?: undefined;
+      doubleValue: number;
+      emptyValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      booleanValue?: undefined;
+      doubleValue?: undefined;
       emptyValue: EmptyOperandValue;
     };
 export interface BooleanOperands {
@@ -174,10 +190,10 @@ export interface CompoundCondition {
   conditions: BooleanCondition[];
 }
 export type BooleanCondition =
-  | { equalTo: BooleanOperands; notEqualTo?: never; andAll?: never; orAll?: never }
-  | { equalTo?: never; notEqualTo: BooleanOperands; andAll?: never; orAll?: never }
-  | { equalTo?: never; notEqualTo?: never; andAll: CompoundCondition; orAll?: never }
-  | { equalTo?: never; notEqualTo?: never; andAll?: never; orAll: CompoundCondition };
+  | { equalTo: BooleanOperands; notEqualTo?: undefined; andAll?: undefined; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo: BooleanOperands; andAll?: undefined; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo?: undefined; andAll: CompoundCondition; orAll?: undefined }
+  | { equalTo?: undefined; notEqualTo?: undefined; andAll?: undefined; orAll: CompoundCondition };
 export type BooleanConditionList = BooleanCondition[];
 export interface RequiredCaseRule {
   defaultValue: boolean;
@@ -191,8 +207,8 @@ export interface ParentChildFieldOptionsMapping {
 }
 export type ParentChildFieldOptionsMappingList = ParentChildFieldOptionsMapping[];
 export interface FieldOptionsCaseRule {
-  parentFieldId?: string;
-  childFieldId?: string;
+  parentFieldId?: string | undefined;
+  childFieldId?: string | undefined;
   parentChildFieldOptionsMappings: ParentChildFieldOptionsMapping[];
 }
 export interface HiddenCaseRule {
@@ -200,9 +216,9 @@ export interface HiddenCaseRule {
   conditions: BooleanCondition[];
 }
 export type CaseRuleDetails =
-  | { required: RequiredCaseRule; fieldOptions?: never; hidden?: never }
-  | { required?: never; fieldOptions: FieldOptionsCaseRule; hidden?: never }
-  | { required?: never; fieldOptions?: never; hidden: HiddenCaseRule };
+  | { required: RequiredCaseRule; fieldOptions?: undefined; hidden?: undefined }
+  | { required?: undefined; fieldOptions: FieldOptionsCaseRule; hidden?: undefined }
+  | { required?: undefined; fieldOptions?: undefined; hidden: HiddenCaseRule };
 export type CaseRuleDescription = string;
 export type Deleted = boolean;
 export type CreatedTime = Date;
@@ -213,24 +229,24 @@ export interface GetCaseRuleResponse {
   name: string;
   caseRuleArn: string;
   rule: CaseRuleDetails;
-  description?: string;
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BatchGetCaseRuleList = GetCaseRuleResponse[];
 export interface CaseRuleError {
   id: string;
   errorCode: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchGetCaseRuleErrorList = CaseRuleError[];
 export type BatchGetCaseRuleUnprocessedList = string[];
 export interface BatchGetCaseRuleResponse {
   caseRules: GetCaseRuleResponse[];
   errors: CaseRuleError[];
-  unprocessedCaseRules?: string[];
+  unprocessedCaseRules?: string[] | undefined;
 }
 export interface FieldIdentifier {
   id: string;
@@ -253,20 +269,20 @@ export interface GetFieldResponse {
   fieldId: string;
   name: string;
   fieldArn: string;
-  description?: string;
+  description?: string | undefined;
   type: string;
   namespace: string;
-  tags?: { [key: string]: string | undefined };
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  attributes?: FieldAttributes;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export type BatchGetFieldList = GetFieldResponse[];
 export interface FieldError {
   id: string;
   errorCode: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchGetFieldErrorList = FieldError[];
 export interface BatchGetFieldResponse {
@@ -293,44 +309,44 @@ export interface FieldOptionError {
 }
 export type FieldOptionErrorList = FieldOptionError[];
 export interface BatchPutFieldOptionsResponse {
-  errors?: FieldOptionError[];
+  errors?: FieldOptionError[] | undefined;
 }
 export type TemplateId = string;
 export interface EmptyFieldValue {}
 export type FieldValueUnion =
   | {
       stringValue: string;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
+      stringValue?: undefined;
       doubleValue: number;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
       booleanValue: boolean;
-      emptyValue?: never;
-      userArnValue?: never;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
       emptyValue: EmptyFieldValue;
-      userArnValue?: never;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
       userArnValue: string;
     };
 export interface FieldValue {
@@ -341,8 +357,8 @@ export type FieldValueList = FieldValue[];
 export type UserArn = string;
 export type CustomEntity = string | redacted.Redacted<string>;
 export type UserUnion =
-  | { userArn: string; customEntity?: never }
-  | { userArn?: never; customEntity: string | redacted.Redacted<string> };
+  | { userArn: string; customEntity?: undefined }
+  | { userArn?: undefined; customEntity: string | redacted.Redacted<string> };
 export type MutableTagKey = string;
 export type TagValueString = string;
 export type MutableTags = { [key: string]: string | undefined };
@@ -350,9 +366,9 @@ export interface CreateCaseRequest {
   domainId: string;
   templateId: string;
   fields: FieldValue[];
-  clientToken?: string;
-  performedBy?: UserUnion;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  performedBy?: UserUnion | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CaseId = string;
 export type CaseArn = string;
@@ -363,7 +379,7 @@ export interface CreateCaseResponse {
 export interface CreateCaseRuleRequest {
   domainId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   rule: CaseRuleDetails;
 }
 export interface CreateCaseRuleResponse {
@@ -385,8 +401,8 @@ export interface CreateFieldRequest {
   domainId: string;
   name: string;
   type: string;
-  description?: string;
-  attributes?: FieldAttributes;
+  description?: string | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export interface CreateFieldResponse {
   fieldId: string;
@@ -398,17 +414,17 @@ export interface FieldItem {
 }
 export type FieldList = FieldItem[];
 export interface FieldGroup {
-  name?: string;
+  name?: string | undefined;
   fields: FieldItem[];
 }
 export type Section = { fieldGroup: FieldGroup };
 export type SectionsList = Section[];
 export interface LayoutSections {
-  sections?: Section[];
+  sections?: Section[] | undefined;
 }
 export interface BasicLayout {
-  topPanel?: LayoutSections;
-  moreInfo?: LayoutSections;
+  topPanel?: LayoutSections | undefined;
+  moreInfo?: LayoutSections | undefined;
 }
 export type LayoutContent = { basic: BasicLayout };
 export interface CreateLayoutRequest {
@@ -444,8 +460,8 @@ export type TargetSlaMinutes = number;
 export interface SlaInputConfiguration {
   name: string | redacted.Redacted<string>;
   type: string;
-  fieldId?: string;
-  targetFieldValues?: FieldValueUnion[];
+  fieldId?: string | undefined;
+  targetFieldValues?: FieldValueUnion[] | undefined;
   targetSlaMinutes: number;
 }
 export type SlaInputContent = { slaInputConfiguration: SlaInputConfiguration };
@@ -458,50 +474,50 @@ export interface CustomInputContent {
 export type RelatedItemInputContent =
   | {
       contact: Contact;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentContent;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileContent;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaInputContent;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseInputContent;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomInputContent;
     };
 export interface CreateRelatedItemRequest {
@@ -509,7 +525,7 @@ export interface CreateRelatedItemRequest {
   caseId: string;
   type: string;
   content: RelatedItemInputContent;
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export type RelatedItemId = string;
 export type RelatedItemArn = string;
@@ -520,7 +536,7 @@ export interface CreateRelatedItemResponse {
 export type TemplateName = string;
 export type TemplateDescription = string;
 export interface LayoutConfiguration {
-  defaultLayout?: string;
+  defaultLayout?: string | undefined;
 }
 export interface RequiredField {
   fieldId: string;
@@ -529,7 +545,7 @@ export type RequiredFieldList = RequiredField[];
 export type TemplateStatus = string;
 export interface TemplateRule {
   caseRuleId: string;
-  fieldId?: string;
+  fieldId?: string | undefined;
 }
 export type TemplateCaseRuleList = TemplateRule[];
 export type TagPropagationResourceType = string;
@@ -541,12 +557,12 @@ export type TagPropagationConfigurationList = TagPropagationConfiguration[];
 export interface CreateTemplateRequest {
   domainId: string;
   name: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  status?: string;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  status?: string | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type TemplateArn = string;
 export interface CreateTemplateResponse {
@@ -594,19 +610,19 @@ export interface GetCaseRequest {
   caseId: string;
   domainId: string;
   fields: FieldIdentifier[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetCaseResponse {
   fields: FieldValue[];
   templateId: string;
-  nextToken?: string;
-  tags?: { [key: string]: string | undefined };
+  nextToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCaseAuditEventsRequest {
   caseId: string;
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AuditEventId = string;
 export type AuditEventType = string;
@@ -615,61 +631,61 @@ export type AuditEventFieldId = string;
 export type AuditEventFieldValueUnion =
   | {
       stringValue: string;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
+      stringValue?: undefined;
       doubleValue: number;
-      booleanValue?: never;
-      emptyValue?: never;
-      userArnValue?: never;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
       booleanValue: boolean;
-      emptyValue?: never;
-      userArnValue?: never;
+      emptyValue?: undefined;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
       emptyValue: EmptyFieldValue;
-      userArnValue?: never;
+      userArnValue?: undefined;
     }
   | {
-      stringValue?: never;
-      doubleValue?: never;
-      booleanValue?: never;
-      emptyValue?: never;
+      stringValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+      emptyValue?: undefined;
       userArnValue: string;
     };
 export interface AuditEventField {
   eventFieldId: string;
-  oldValue?: AuditEventFieldValueUnion;
+  oldValue?: AuditEventFieldValueUnion | undefined;
   newValue: AuditEventFieldValueUnion;
 }
 export type AuditEventFieldList = AuditEventField[];
 export type IamPrincipalArn = string;
 export interface AuditEventPerformedBy {
-  user?: UserUnion;
+  user?: UserUnion | undefined;
   iamPrincipalArn: string;
 }
 export interface AuditEvent {
   eventId: string;
   type: string;
-  relatedItemType?: string;
+  relatedItemType?: string | undefined;
   performedTime: Date;
   fields: AuditEventField[];
-  performedBy?: AuditEventPerformedBy;
+  performedBy?: AuditEventPerformedBy | undefined;
 }
 export type AuditEventsList = AuditEvent[];
 export interface GetCaseAuditEventsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   auditEvents: AuditEvent[];
 }
 export interface GetCaseEventConfigurationRequest {
@@ -682,12 +698,12 @@ export interface RelatedItemEventIncludedData {
   includeContent: boolean;
 }
 export interface EventIncludedData {
-  caseData?: CaseEventIncludedData;
-  relatedItemData?: RelatedItemEventIncludedData;
+  caseData?: CaseEventIncludedData | undefined;
+  relatedItemData?: RelatedItemEventIncludedData | undefined;
 }
 export interface EventBridgeConfiguration {
   enabled: boolean;
-  includedData?: EventIncludedData;
+  includedData?: EventIncludedData | undefined;
 }
 export interface GetCaseEventConfigurationResponse {
   eventBridge: EventBridgeConfiguration;
@@ -701,7 +717,7 @@ export interface GetDomainResponse {
   name: string;
   createdTime: Date;
   domainStatus: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLayoutRequest {
   domainId: string;
@@ -712,10 +728,10 @@ export interface GetLayoutResponse {
   layoutArn: string;
   name: string;
   content: LayoutContent;
-  tags?: { [key: string]: string | undefined };
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export interface GetTemplateRequest {
   domainId: string;
@@ -725,22 +741,22 @@ export interface GetTemplateResponse {
   templateId: string;
   templateArn: string;
   name: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   status: string;
-  deleted?: boolean;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  deleted?: boolean | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type MaxResults = number;
 export interface ListCaseRulesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RuleType = string;
 export interface CaseRuleSummary {
@@ -748,18 +764,18 @@ export interface CaseRuleSummary {
   name: string;
   caseRuleArn: string;
   ruleType: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type CaseRuleSummaryList = CaseRuleSummary[];
 export interface ListCaseRulesResponse {
   caseRules: CaseRuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCasesForContactRequest {
   domainId: string;
   contactArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface CaseSummary {
   caseId: string;
@@ -768,11 +784,11 @@ export interface CaseSummary {
 export type CaseSummaryList = CaseSummary[];
 export interface ListCasesForContactResponse {
   cases: CaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDomainsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainSummary {
   domainId: string;
@@ -782,25 +798,25 @@ export interface DomainSummary {
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResponse {
   domains: DomainSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Value = string;
 export type ValuesList = string[];
 export interface ListFieldOptionsRequest {
   domainId: string;
   fieldId: string;
-  maxResults?: number;
-  nextToken?: string;
-  values?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  values?: string[] | undefined;
 }
 export interface ListFieldOptionsResponse {
   options: FieldOption[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFieldsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FieldSummary {
   fieldId: string;
@@ -808,17 +824,17 @@ export interface FieldSummary {
   name: string;
   type: string;
   namespace: string;
-  attributes?: FieldAttributes;
+  attributes?: FieldAttributes | undefined;
 }
 export type FieldSummaryList = FieldSummary[];
 export interface ListFieldsResponse {
   fields: FieldSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLayoutsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface LayoutSummary {
   layoutId: string;
@@ -828,33 +844,33 @@ export interface LayoutSummary {
 export type LayoutSummaryList = LayoutSummary[];
 export interface ListLayoutsResponse {
   layouts: LayoutSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TemplateStatusFilters = string[];
 export interface ListTemplatesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  status?: string[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: string[] | undefined;
 }
 export interface TemplateSummary {
   templateId: string;
   templateArn: string;
   name: string;
   status: string;
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListTemplatesResponse {
   templates: TemplateSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutCaseEventConfigurationRequest {
   domainId: string;
@@ -864,126 +880,126 @@ export interface PutCaseEventConfigurationResponse {}
 export type Channel = string;
 export type ChannelList = string[];
 export interface ContactFilter {
-  channel?: string[];
-  contactArn?: string;
+  channel?: string[] | undefined;
+  contactArn?: string | undefined;
 }
 export interface CommentFilter {}
 export interface FileFilter {
-  fileArn?: string;
+  fileArn?: string | undefined;
 }
 export type SlaStatus = string;
 export interface SlaFilter {
-  name?: string | redacted.Redacted<string>;
-  status?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  status?: string | undefined;
 }
 export interface ConnectCaseFilter {
-  caseId?: string;
+  caseId?: string | undefined;
 }
 export type FieldFilter =
   | {
       equalTo: FieldValue;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
+      equalTo?: undefined;
       contains: FieldValue;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
+      equalTo?: undefined;
+      contains?: undefined;
       greaterThan: FieldValue;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
       greaterThanOrEqualTo: FieldValue;
-      lessThan?: never;
-      lessThanOrEqualTo?: never;
+      lessThan?: undefined;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
       lessThan: FieldValue;
-      lessThanOrEqualTo?: never;
+      lessThanOrEqualTo?: undefined;
     }
   | {
-      equalTo?: never;
-      contains?: never;
-      greaterThan?: never;
-      greaterThanOrEqualTo?: never;
-      lessThan?: never;
+      equalTo?: undefined;
+      contains?: undefined;
+      greaterThan?: undefined;
+      greaterThanOrEqualTo?: undefined;
+      lessThan?: undefined;
       lessThanOrEqualTo: FieldValue;
     };
 export type CustomFieldsFilterList = CustomFieldsFilter[];
 export type CustomFieldsFilter =
-  | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
-  | { field?: never; not: CustomFieldsFilter; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; andAll: CustomFieldsFilter[]; orAll?: never }
-  | { field?: never; not?: never; andAll?: never; orAll: CustomFieldsFilter[] };
+  | { field: FieldFilter; not?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not: CustomFieldsFilter; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; andAll: CustomFieldsFilter[]; orAll?: undefined }
+  | { field?: undefined; not?: undefined; andAll?: undefined; orAll: CustomFieldsFilter[] };
 export interface CustomFilter {
-  fields?: CustomFieldsFilter;
+  fields?: CustomFieldsFilter | undefined;
 }
 export type RelatedItemTypeFilter =
   | {
       contact: ContactFilter;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentFilter;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileFilter;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaFilter;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseFilter;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomFilter;
     };
 export type RelatedItemFilterList = RelatedItemTypeFilter[];
@@ -996,10 +1012,10 @@ export interface SearchAllRelatedItemsSort {
 export type SearchAllRelatedItemsSortList = SearchAllRelatedItemsSort[];
 export interface SearchAllRelatedItemsRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RelatedItemTypeFilter[];
-  sorts?: SearchAllRelatedItemsSort[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RelatedItemTypeFilter[] | undefined;
+  sorts?: SearchAllRelatedItemsSort[] | undefined;
 }
 export type AssociationTime = Date;
 export type ConnectedToSystemTime = Date;
@@ -1014,10 +1030,10 @@ export interface SlaConfiguration {
   name: string | redacted.Redacted<string>;
   type: string;
   status: string;
-  fieldId?: string;
-  targetFieldValues?: FieldValueUnion[];
+  fieldId?: string | undefined;
+  targetFieldValues?: FieldValueUnion[] | undefined;
   targetTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export interface SlaContent {
   slaConfiguration: SlaConfiguration;
@@ -1031,50 +1047,50 @@ export interface CustomContent {
 export type RelatedItemContent =
   | {
       contact: ContactContent;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
+      contact?: undefined;
       comment: CommentContent;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
+      contact?: undefined;
+      comment?: undefined;
       file: FileContent;
-      sla?: never;
-      connectCase?: never;
-      custom?: never;
+      sla?: undefined;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
       sla: SlaContent;
-      connectCase?: never;
-      custom?: never;
+      connectCase?: undefined;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
       connectCase: ConnectCaseContent;
-      custom?: never;
+      custom?: undefined;
     }
   | {
-      contact?: never;
-      comment?: never;
-      file?: never;
-      sla?: never;
-      connectCase?: never;
+      contact?: undefined;
+      comment?: undefined;
+      file?: undefined;
+      sla?: undefined;
+      connectCase?: undefined;
       custom: CustomContent;
     };
 export interface SearchAllRelatedItemsResponseItem {
@@ -1083,27 +1099,33 @@ export interface SearchAllRelatedItemsResponseItem {
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  performedBy?: UserUnion;
-  tags?: { [key: string]: string | undefined };
+  performedBy?: UserUnion | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SearchAllRelatedItemsResponseItemList = SearchAllRelatedItemsResponseItem[];
 export interface SearchAllRelatedItemsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   relatedItems: SearchAllRelatedItemsResponseItem[];
 }
 export type SearchTagKey = string;
 export interface TagValue {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagFilter = { equalTo: TagValue };
 export type CaseFilterList = CaseFilter[];
 export type CaseFilter =
-  | { field: FieldFilter; not?: never; tag?: never; andAll?: never; orAll?: never }
-  | { field?: never; not: CaseFilter; tag?: never; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; tag: TagFilter; andAll?: never; orAll?: never }
-  | { field?: never; not?: never; tag?: never; andAll: CaseFilter[]; orAll?: never }
-  | { field?: never; not?: never; tag?: never; andAll?: never; orAll: CaseFilter[] };
+  | { field: FieldFilter; not?: undefined; tag?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not: CaseFilter; tag?: undefined; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; tag: TagFilter; andAll?: undefined; orAll?: undefined }
+  | { field?: undefined; not?: undefined; tag?: undefined; andAll: CaseFilter[]; orAll?: undefined }
+  | {
+      field?: undefined;
+      not?: undefined;
+      tag?: undefined;
+      andAll?: undefined;
+      orAll: CaseFilter[];
+    };
 export interface Sort {
   fieldId: string;
   sortOrder: string;
@@ -1111,44 +1133,44 @@ export interface Sort {
 export type SortList = Sort[];
 export interface SearchCasesRequest {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
-  searchTerm?: string;
-  filter?: CaseFilter;
-  sorts?: Sort[];
-  fields?: FieldIdentifier[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  searchTerm?: string | undefined;
+  filter?: CaseFilter | undefined;
+  sorts?: Sort[] | undefined;
+  fields?: FieldIdentifier[] | undefined;
 }
 export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
   fields: FieldValue[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SearchCasesResponseItemList = SearchCasesResponseItem[];
 export type TotalCount = number;
 export interface SearchCasesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   cases: SearchCasesResponseItem[];
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface SearchRelatedItemsRequest {
   domainId: string;
   caseId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filters?: RelatedItemTypeFilter[];
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: RelatedItemTypeFilter[] | undefined;
 }
 export interface SearchRelatedItemsResponseItem {
   relatedItemId: string;
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  tags?: { [key: string]: string | undefined };
-  performedBy?: UserUnion;
+  tags?: { [key: string]: string | undefined } | undefined;
+  performedBy?: UserUnion | undefined;
 }
 export type SearchRelatedItemsResponseItemList = SearchRelatedItemsResponseItem[];
 export interface SearchRelatedItemsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   relatedItems: SearchRelatedItemsResponseItem[];
 }
 export interface TagResourceRequest {
@@ -1167,30 +1189,30 @@ export interface UpdateCaseRequest {
   domainId: string;
   caseId: string;
   fields: FieldValue[];
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export interface UpdateCaseResponse {}
 export interface UpdateCaseRuleRequest {
   domainId: string;
   caseRuleId: string;
-  name?: string;
-  description?: string;
-  rule?: CaseRuleDetails;
+  name?: string | undefined;
+  description?: string | undefined;
+  rule?: CaseRuleDetails | undefined;
 }
 export interface UpdateCaseRuleResponse {}
 export interface UpdateFieldRequest {
   domainId: string;
   fieldId: string;
-  name?: string;
-  description?: string;
-  attributes?: FieldAttributes;
+  name?: string | undefined;
+  description?: string | undefined;
+  attributes?: FieldAttributes | undefined;
 }
 export interface UpdateFieldResponse {}
 export interface UpdateLayoutRequest {
   domainId: string;
   layoutId: string;
-  name?: string;
-  content?: LayoutContent;
+  name?: string | undefined;
+  content?: LayoutContent | undefined;
 }
 export interface UpdateLayoutResponse {}
 export interface CommentUpdateContent {
@@ -1201,14 +1223,14 @@ export interface CustomUpdateContent {
   fields: FieldValue[];
 }
 export type RelatedItemUpdateContent =
-  | { comment: CommentUpdateContent; custom?: never }
-  | { comment?: never; custom: CustomUpdateContent };
+  | { comment: CommentUpdateContent; custom?: undefined }
+  | { comment?: undefined; custom: CustomUpdateContent };
 export interface UpdateRelatedItemRequest {
   domainId: string;
   caseId: string;
   relatedItemId: string;
   content: RelatedItemUpdateContent;
-  performedBy?: UserUnion;
+  performedBy?: UserUnion | undefined;
 }
 export interface UpdateRelatedItemResponse {
   relatedItemId: string;
@@ -1216,20 +1238,20 @@ export interface UpdateRelatedItemResponse {
   type: string;
   content: RelatedItemContent;
   associationTime: Date;
-  tags?: { [key: string]: string | undefined };
-  lastUpdatedUser?: UserUnion;
-  createdBy?: UserUnion;
+  tags?: { [key: string]: string | undefined } | undefined;
+  lastUpdatedUser?: UserUnion | undefined;
+  createdBy?: UserUnion | undefined;
 }
 export interface UpdateTemplateRequest {
   domainId: string;
   templateId: string;
-  name?: string;
-  description?: string;
-  layoutConfiguration?: LayoutConfiguration;
-  requiredFields?: RequiredField[];
-  status?: string;
-  rules?: TemplateRule[];
-  tagPropagationConfigurations?: TagPropagationConfiguration[];
+  name?: string | undefined;
+  description?: string | undefined;
+  layoutConfiguration?: LayoutConfiguration | undefined;
+  requiredFields?: RequiredField[] | undefined;
+  status?: string | undefined;
+  rules?: TemplateRule[] | undefined;
+  tagPropagationConfigurations?: TagPropagationConfiguration[] | undefined;
 }
 export interface UpdateTemplateResponse {}
 export type BatchGetCaseRuleError =
@@ -1243,7 +1265,7 @@ export type BatchGetCaseRuleError =
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const batchGetCaseRule: API.OperationMethod<
-  BatchGetCaseRuleRequest,
+  BatchGetCaseRuleRequest & RegionInput,
   BatchGetCaseRuleResponse,
   BatchGetCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1297,7 @@ export type BatchGetFieldError =
  * Returns the description for the list of fields in the request parameters.
  */
 export const batchGetField: API.OperationMethod<
-  BatchGetFieldRequest,
+  BatchGetFieldRequest & RegionInput,
   BatchGetFieldResponse,
   BatchGetFieldError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1330,7 @@ export type BatchPutFieldOptionsError =
  * Creates and updates a set of field options for a single select field in a Cases domain.
  */
 export const batchPutFieldOptions: API.OperationMethod<
-  BatchPutFieldOptionsRequest,
+  BatchPutFieldOptionsRequest & RegionInput,
   BatchPutFieldOptionsResponse,
   BatchPutFieldOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1352,7 +1374,7 @@ export type CreateCaseError =
  * - `title`
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -1387,7 +1409,7 @@ export type CreateCaseRuleError =
  * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const createCaseRule: API.OperationMethod<
-  CreateCaseRuleRequest,
+  CreateCaseRuleRequest & RegionInput,
   CreateCaseRuleResponse,
   CreateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1446,7 @@ export type CreateDomainError =
  * This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1459,7 +1481,7 @@ export type CreateFieldError =
  * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
  */
 export const createField: API.OperationMethod<
-  CreateFieldRequest,
+  CreateFieldRequest & RegionInput,
   CreateFieldResponse,
   CreateFieldError,
   Credentials | HttpClient.HttpClient
@@ -1501,7 +1523,7 @@ export type CreateLayoutError =
  * Title and Status fields cannot be part of layouts since they are not configurable.
  */
 export const createLayout: API.OperationMethod<
-  CreateLayoutRequest,
+  CreateLayoutRequest & RegionInput,
   CreateLayoutResponse,
   CreateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1588,7 @@ export type CreateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const createRelatedItem: API.OperationMethod<
-  CreateRelatedItemRequest,
+  CreateRelatedItemRequest & RegionInput,
   CreateRelatedItemResponse,
   CreateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1611,7 +1633,7 @@ export type CreateTemplateError =
  * - UpdateTemplate
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1675,7 @@ export type DeleteCaseError =
  * This action is irreversible. After you delete a case, you cannot recover its data.
  */
 export const deleteCase: API.OperationMethod<
-  DeleteCaseRequest,
+  DeleteCaseRequest & RegionInput,
   DeleteCaseResponse,
   DeleteCaseError,
   Credentials | HttpClient.HttpClient
@@ -1685,7 +1707,7 @@ export type DeleteCaseRuleError =
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const deleteCaseRule: API.OperationMethod<
-  DeleteCaseRuleRequest,
+  DeleteCaseRuleRequest & RegionInput,
   DeleteCaseRuleResponse,
   DeleteCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1720,7 +1742,7 @@ export type DeleteDomainError =
  * After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1803,7 @@ export type DeleteFieldError =
  * - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
  */
 export const deleteField: API.OperationMethod<
-  DeleteFieldRequest,
+  DeleteFieldRequest & RegionInput,
   DeleteFieldResponse,
   DeleteFieldError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1846,7 @@ export type DeleteLayoutError =
  * - Deleted layouts are not included in the `ListLayouts` response.
  */
 export const deleteLayout: API.OperationMethod<
-  DeleteLayoutRequest,
+  DeleteLayoutRequest & RegionInput,
   DeleteLayoutResponse,
   DeleteLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1859,7 +1881,7 @@ export type DeleteRelatedItemError =
  * This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
  */
 export const deleteRelatedItem: API.OperationMethod<
-  DeleteRelatedItemRequest,
+  DeleteRelatedItemRequest & RegionInput,
   DeleteRelatedItemResponse,
   DeleteRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1902,7 +1924,7 @@ export type DeleteTemplateError =
  * - Deleted templates are not included in the `ListTemplates` response.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1935,7 +1957,7 @@ export type GetCaseError =
  * Returns information about a specific case if it exists.
  */
 export const getCase: API.PaginatedOperationMethod<
-  GetCaseRequest,
+  GetCaseRequest & RegionInput,
   GetCaseResponse,
   GetCaseError,
   Credentials | HttpClient.HttpClient,
@@ -1969,7 +1991,7 @@ export type GetCaseAuditEventsError =
  * Returns the audit history about a specific case if it exists.
  */
 export const getCaseAuditEvents: API.PaginatedOperationMethod<
-  GetCaseAuditEventsRequest,
+  GetCaseAuditEventsRequest & RegionInput,
   GetCaseAuditEventsResponse,
   GetCaseAuditEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2007,7 +2029,7 @@ export type GetCaseEventConfigurationError =
  * Returns the case event publishing configuration.
  */
 export const getCaseEventConfiguration: API.OperationMethod<
-  GetCaseEventConfigurationRequest,
+  GetCaseEventConfigurationRequest & RegionInput,
   GetCaseEventConfigurationResponse,
   GetCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2039,7 +2061,7 @@ export type GetDomainError =
  * Returns information about a specific domain if it exists.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -2071,7 +2093,7 @@ export type GetLayoutError =
  * Returns the details for the requested layout.
  */
 export const getLayout: API.OperationMethod<
-  GetLayoutRequest,
+  GetLayoutRequest & RegionInput,
   GetLayoutResponse,
   GetLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2111,7 +2133,7 @@ export type GetTemplateError =
  * - UpdateTemplate
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2143,7 +2165,7 @@ export type ListCaseRulesError =
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const listCaseRules: API.PaginatedOperationMethod<
-  ListCaseRulesRequest,
+  ListCaseRulesRequest & RegionInput,
   ListCaseRulesResponse,
   ListCaseRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2182,7 +2204,7 @@ export type ListCasesForContactError =
  * Lists cases for a given contact.
  */
 export const listCasesForContact: API.PaginatedOperationMethod<
-  ListCasesForContactRequest,
+  ListCasesForContactRequest & RegionInput,
   ListCasesForContactResponse,
   ListCasesForContactError,
   Credentials | HttpClient.HttpClient,
@@ -2219,7 +2241,7 @@ export type ListDomainsError =
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2256,7 +2278,7 @@ export type ListFieldOptionsError =
  * Lists all of the field options for a field identifier in the domain.
  */
 export const listFieldOptions: API.PaginatedOperationMethod<
-  ListFieldOptionsRequest,
+  ListFieldOptionsRequest & RegionInput,
   ListFieldOptionsResponse,
   ListFieldOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2294,7 +2316,7 @@ export type ListFieldsError =
  * Lists all fields in a Cases domain.
  */
 export const listFields: API.PaginatedOperationMethod<
-  ListFieldsRequest,
+  ListFieldsRequest & RegionInput,
   ListFieldsResponse,
   ListFieldsError,
   Credentials | HttpClient.HttpClient,
@@ -2332,7 +2354,7 @@ export type ListLayoutsError =
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
 export const listLayouts: API.PaginatedOperationMethod<
-  ListLayoutsRequest,
+  ListLayoutsRequest & RegionInput,
   ListLayoutsResponse,
   ListLayoutsError,
   Credentials | HttpClient.HttpClient,
@@ -2370,7 +2392,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2434,7 @@ export type ListTemplatesError =
  * - UpdateTemplate
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2451,7 +2473,7 @@ export type PutCaseEventConfigurationError =
  * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
  */
 export const putCaseEventConfiguration: API.OperationMethod<
-  PutCaseEventConfigurationRequest,
+  PutCaseEventConfigurationRequest & RegionInput,
   PutCaseEventConfigurationResponse,
   PutCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2502,7 +2524,7 @@ export type SearchAllRelatedItemsError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const searchAllRelatedItems: API.PaginatedOperationMethod<
-  SearchAllRelatedItemsRequest,
+  SearchAllRelatedItemsRequest & RegionInput,
   SearchAllRelatedItemsResponse,
   SearchAllRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2543,7 +2565,7 @@ export type SearchCasesError =
  * For `customer_id` you must provide the full customer profile ARN in this format: ` arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
  */
 export const searchCases: API.PaginatedOperationMethod<
-  SearchCasesRequest,
+  SearchCasesRequest & RegionInput,
   SearchCasesResponse,
   SearchCasesError,
   Credentials | HttpClient.HttpClient,
@@ -2584,7 +2606,7 @@ export type SearchRelatedItemsError =
  * If no filters are provided, this returns all related items associated with a case.
  */
 export const searchRelatedItems: API.PaginatedOperationMethod<
-  SearchRelatedItemsRequest,
+  SearchRelatedItemsRequest & RegionInput,
   SearchRelatedItemsResponse,
   SearchRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2623,7 +2645,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2655,7 +2677,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2691,7 +2713,7 @@ export type UpdateCaseError =
  * If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const updateCase: API.OperationMethod<
-  UpdateCaseRequest,
+  UpdateCaseRequest & RegionInput,
   UpdateCaseResponse,
   UpdateCaseError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2747,7 @@ export type UpdateCaseRuleError =
  * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const updateCaseRule: API.OperationMethod<
-  UpdateCaseRuleRequest,
+  UpdateCaseRuleRequest & RegionInput,
   UpdateCaseRuleResponse,
   UpdateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -2760,7 +2782,7 @@ export type UpdateFieldError =
  * Updates the properties of an existing field.
  */
 export const updateField: API.OperationMethod<
-  UpdateFieldRequest,
+  UpdateFieldRequest & RegionInput,
   UpdateFieldResponse,
   UpdateFieldError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2823,7 @@ export type UpdateLayoutError =
  * Title and Status fields cannot be part of layouts because they are not configurable.
  */
 export const updateLayout: API.OperationMethod<
-  UpdateLayoutRequest,
+  UpdateLayoutRequest & RegionInput,
   UpdateLayoutResponse,
   UpdateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2850,7 +2872,7 @@ export type UpdateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const updateRelatedItem: API.OperationMethod<
-  UpdateRelatedItemRequest,
+  UpdateRelatedItemRequest & RegionInput,
   UpdateRelatedItemResponse,
   UpdateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -2895,7 +2917,7 @@ export type UpdateTemplateError =
  * - ListTemplates
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient

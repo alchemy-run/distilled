@@ -71,49 +71,49 @@ export type FeatureFlagFilterPropertyGenericSchemaOperatorEnum =
   | "lte";
 export interface FeatureFlagFilterPropertyGenericSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum | (string & {});
+  type?: PropertyGroupTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Comparison value for the property filter. Supports strings, numbers, booleans, and arrays. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Operator used to compare the property value. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex * `gt` - gt * `gte` - gte * `lt` - lt * `lte` - lte */
-  operator?: FeatureFlagFilterPropertyGenericSchemaOperatorEnum | (string & {});
+  operator?: FeatureFlagFilterPropertyGenericSchemaOperatorEnum | (string & {}) | undefined;
 }
 /** * `is_set` - is_set * `is_not_set` - is_not_set */
 export type ExistenceOperatorEnum = "is_set" | "is_not_set";
 export interface FeatureFlagFilterPropertyExistsSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum | (string & {});
+  type?: PropertyGroupTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Existence operator. * `is_set` - is_set * `is_not_set` - is_not_set */
-  operator?: ExistenceOperatorEnum | (string & {});
+  operator?: ExistenceOperatorEnum | (string & {}) | undefined;
   /** Optional value. Runtime behavior determines whether this is ignored. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after */
 export type DateOperatorEnum = "is_date_exact" | "is_date_before" | "is_date_after";
 export interface FeatureFlagFilterPropertyDateSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum | (string & {});
+  type?: PropertyGroupTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Date comparison operator. * `is_date_exact` - is_date_exact * `is_date_after` - is_date_after * `is_date_before` - is_date_before */
-  operator?: DateOperatorEnum | (string & {});
+  operator?: DateOperatorEnum | (string & {}) | undefined;
   /** Date value in ISO format or relative date expression. */
-  value?: string;
+  value?: string | undefined;
 }
 /** * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
 export type FeatureFlagFilterPropertySemverSchemaOperatorEnum =
@@ -128,17 +128,17 @@ export type FeatureFlagFilterPropertySemverSchemaOperatorEnum =
   | "semver_wildcard";
 export interface FeatureFlagFilterPropertySemverSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum | (string & {});
+  type?: PropertyGroupTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Semantic version comparison operator. * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-  operator?: FeatureFlagFilterPropertySemverSchemaOperatorEnum | (string & {});
+  operator?: FeatureFlagFilterPropertySemverSchemaOperatorEnum | (string & {}) | undefined;
   /** Semantic version string. */
-  value?: string;
+  value?: string | undefined;
 }
 /** * `icontains_multi` - icontains_multi * `not_icontains_multi` - not_icontains_multi */
 export type FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum =
@@ -148,17 +148,17 @@ export type FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum =
 export type FeatureFlagFilterPropertyMultiContainsSchemaValueList = Array<string>;
 export interface FeatureFlagFilterPropertyMultiContainsSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum | (string & {});
+  type?: PropertyGroupTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Multi-contains operator. * `icontains_multi` - icontains_multi * `not_icontains_multi` - not_icontains_multi */
-  operator?: FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum | (string & {});
+  operator?: FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum | (string & {}) | undefined;
   /** List of strings to evaluate against. */
-  value?: FeatureFlagFilterPropertyMultiContainsSchemaValueList;
+  value?: FeatureFlagFilterPropertyMultiContainsSchemaValueList | undefined;
 }
 /** * `cohort` - cohort */
 export type FeatureFlagFilterPropertyCohortInSchemaTypeEnum = "cohort";
@@ -166,17 +166,17 @@ export type FeatureFlagFilterPropertyCohortInSchemaTypeEnum = "cohort";
 export type FeatureFlagFilterPropertyCohortInSchemaOperatorEnum = "in" | "not_in";
 export interface FeatureFlagFilterPropertyCohortInSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Cohort property type required for in/not_in operators. * `cohort` - cohort */
-  type?: FeatureFlagFilterPropertyCohortInSchemaTypeEnum | (string & {});
+  type?: FeatureFlagFilterPropertyCohortInSchemaTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Membership operator for cohort properties. * `in` - in * `not_in` - not_in */
-  operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | (string & {});
+  operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | (string & {}) | undefined;
   /** Cohort comparison value (single or list, depending on usage). */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** * `flag` - flag */
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
@@ -184,17 +184,17 @@ export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum = "flag_evaluates_to";
 export interface FeatureFlagFilterPropertyFlagEvaluatesSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Flag property type required for flag dependency checks. * `flag` - flag */
-  type?: FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum | (string & {});
+  type?: FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum | (string & {}) | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Operator for feature flag dependency evaluation. * `flag_evaluates_to` - flag_evaluates_to */
-  operator?: FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum | (string & {});
+  operator?: FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum | (string & {}) | undefined;
   /** Value to compare flag evaluation against. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type FeatureFlagFilterPropertySchema =
   | FeatureFlagFilterPropertyGenericSchema
@@ -208,13 +208,13 @@ export type FeatureFlagFilterPropertySchema =
 export type FeatureFlagConditionGroupSchemaPropertiesList = Array<FeatureFlagFilterPropertySchema>;
 export interface FeatureFlagConditionGroupSchema {
   /** Property conditions for this release condition group. */
-  properties?: FeatureFlagConditionGroupSchemaPropertiesList;
+  properties?: FeatureFlagConditionGroupSchemaPropertiesList | undefined;
   /** Rollout percentage for this release condition group. */
-  rollout_percentage?: number;
+  rollout_percentage?: number | undefined;
   /** Variant key override for multivariate flags. */
-  variant?: string | null;
+  variant?: string | null | undefined;
   /** Group type index for this condition set. None means person-level aggregation. */
-  aggregation_group_type_index?: number | null;
+  aggregation_group_type_index?: number | null | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type CreateExperimentHoldoutRequestFiltersList = Array<FeatureFlagConditionGroupSchema>;
@@ -222,11 +222,11 @@ export interface CreateExperimentHoldoutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name for the holdout group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this holdout reserves and why. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
-  filters?: CreateExperimentHoldoutRequestFiltersList;
+  filters?: CreateExperimentHoldoutRequestFiltersList | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type ExperimentHoldoutFiltersList = Array<FeatureFlagConditionGroupSchema>;
@@ -245,30 +245,30 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** A holdout group -- a stable slice of users excluded from experiment exposure. */
 export interface ExperimentHoldout {
-  id?: number;
+  id?: number | undefined;
   /** Human-readable name for the holdout group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this holdout reserves and why. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
-  filters?: ExperimentHoldoutFiltersList;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
+  filters?: ExperimentHoldoutFiltersList | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface ExperimentHoldoutsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -287,16 +287,16 @@ export interface ListExperimentHoldoutsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedExperimentHoldoutListResultsList = Array<ExperimentHoldout>;
 export interface PaginatedExperimentHoldoutList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedExperimentHoldoutListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedExperimentHoldoutListResultsList | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type UpdateExperimentHoldoutRequestFiltersList = Array<FeatureFlagConditionGroupSchema>;
@@ -306,11 +306,11 @@ export interface UpdateExperimentHoldoutRequest {
   /** A unique integer value identifying this experiment holdout. */
   id: number;
   /** Human-readable name for the holdout group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this holdout reserves and why. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
-  filters?: UpdateExperimentHoldoutRequestFiltersList;
+  filters?: UpdateExperimentHoldoutRequestFiltersList | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type UpdateExperimentHoldoutsPartialRequestFiltersList =
@@ -321,11 +321,11 @@ export interface UpdateExperimentHoldoutsPartialRequest {
   /** A unique integer value identifying this experiment holdout. */
   id: number;
   /** Human-readable name for the holdout group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this holdout reserves and why. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
-  filters?: UpdateExperimentHoldoutsPartialRequestFiltersList;
+  filters?: UpdateExperimentHoldoutsPartialRequestFiltersList | undefined;
 }
 export type CreateExperimentHoldoutError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create, read, update and delete experiment holdouts. */

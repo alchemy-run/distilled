@@ -30,7 +30,7 @@ export interface CreateCommentRequestAttachmentsItem {
   /** ID of a FileUpload object that has the status `uploaded`. */
   file_upload_id: string;
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
 }
 /** An array of files to attach to the comment. Maximum of 3 allowed. */
 export type CreateCommentRequestAttachmentsList = Array<CreateCommentRequestAttachmentsItem>;
@@ -62,13 +62,13 @@ export interface CreateCommentRequestParentCase0 {
   /** The ID of the parent page (with or without dashes), for example, 195de9221179449fab8075a27c979105 */
   page_id: string;
   /** Always `page_id` */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateCommentRequestParentCase1 {
   /** The ID of the parent block (with or without dashes), for example, 195de9221179449fab8075a27c979105 */
   block_id: string;
   /** Always `block_id` */
-  type?: string;
+  type?: string | undefined;
 }
 /** The parent of the comment. This can be a page or a block. */
 export type CreateCommentRequestParent =
@@ -98,17 +98,17 @@ export type ApiColor =
   | "red_background";
 export interface AnnotationRequest {
   /** Whether the text is formatted as bold. */
-  bold?: boolean;
+  bold?: boolean | undefined;
   /** Whether the text is formatted as italic. */
-  italic?: boolean;
+  italic?: boolean | undefined;
   /** Whether the text is formatted with a strikethrough. */
-  strikethrough?: boolean;
+  strikethrough?: boolean | undefined;
   /** Whether the text is formatted with an underline. */
-  underline?: boolean;
+  underline?: boolean | undefined;
   /** Whether the text is formatted as code. */
-  code?: boolean;
+  code?: boolean | undefined;
   /** The color of the text. */
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface RichTextItemRequestTextLink {
   /** The URL of the link. */
@@ -119,17 +119,17 @@ export interface RichTextItemRequestText {
   /** The actual text content of the text. */
   content: string;
   /** An object with information about any inline link in this text, if included. */
-  link?: RichTextItemRequestTextLink | null;
+  link?: RichTextItemRequestTextLink | null | undefined;
 }
 export interface PartialUserObjectRequest {
   /** The ID of the user. */
   id: string;
   /** The user object type name. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase0 {
   /** Always `user` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the user mention. */
   user: PartialUserObjectRequest;
 }
@@ -137,13 +137,13 @@ export interface DateRequest {
   /** The start date of the date object. */
   start: string;
   /** The end date of the date object, if any. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc. */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
 }
 export interface RichTextItemRequestMentionCase1 {
   /** Always `date` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the date mention. */
   date: DateRequest;
 }
@@ -154,7 +154,7 @@ export interface RichTextItemRequestMentionCase2Page {
 }
 export interface RichTextItemRequestMentionCase2 {
   /** Always `page` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the page mention. */
   page: RichTextItemRequestMentionCase2Page;
 }
@@ -165,7 +165,7 @@ export interface RichTextItemRequestMentionCase3Database {
 }
 export interface RichTextItemRequestMentionCase3 {
   /** Always `database` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the database mention. */
   database: RichTextItemRequestMentionCase3Database;
 }
@@ -173,7 +173,7 @@ export interface RichTextItemRequestMentionCase3 {
 export type TemplateMentionDateTemplateMentionRequestTemplateMentionDate = "today" | "now";
 export interface TemplateMentionDateTemplateMentionRequest {
   /** Always `template_mention_date` */
-  type?: string;
+  type?: string | undefined;
   /** The date of the template mention. */
   template_mention_date:
     | TemplateMentionDateTemplateMentionRequestTemplateMentionDate
@@ -181,7 +181,7 @@ export interface TemplateMentionDateTemplateMentionRequest {
 }
 export interface TemplateMentionUserTemplateMentionRequest {
   /** Always `template_mention_user` */
-  type?: string;
+  type?: string | undefined;
   /** The user of the template mention. */
   template_mention_user: string;
 }
@@ -190,7 +190,7 @@ export type TemplateMentionRequest =
   | TemplateMentionUserTemplateMentionRequest;
 export interface RichTextItemRequestMentionCase4 {
   /** Always `template_mention` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the template mention. */
   template_mention: TemplateMentionRequest;
 }
@@ -199,13 +199,13 @@ export interface RichTextItemRequestMentionCase5CustomEmoji {
   /** The ID of the custom emoji. */
   id: string;
   /** The name of the custom emoji. */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the custom emoji. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase5 {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the custom emoji mention. */
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
@@ -224,33 +224,33 @@ export interface RichTextItemRequestEquation {
 }
 export interface RichTextItemRequest {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
-  annotations?: AnnotationRequest;
+  annotations?: AnnotationRequest | undefined;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemRequestText;
+  text?: RichTextItemRequestText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemRequestMention;
+  mention?: RichTextItemRequestMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** An array of rich text objects that represent the content of the comment. */
 export type CreateCommentRequestRichTextList = Array<RichTextItemRequest>;
 export interface CreateCommentRequest {
   /** An array of files to attach to the comment. Maximum of 3 allowed. */
-  attachments?: CreateCommentRequestAttachmentsList;
+  attachments?: CreateCommentRequestAttachmentsList | undefined;
   /** Display name for the comment. */
-  display_name?: CreateCommentRequestDisplayName;
+  display_name?: CreateCommentRequestDisplayName | undefined;
   /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
-  markdown_version?: CreateCommentRequestMarkdownVersion | (string & {});
+  markdown_version?: CreateCommentRequestMarkdownVersion | (string & {}) | undefined;
   /** The parent of the comment. This can be a page or a block. */
-  parent?: CreateCommentRequestParent;
+  parent?: CreateCommentRequestParent | undefined;
   /** An array of rich text objects that represent the content of the comment. */
-  rich_text?: CreateCommentRequestRichTextList;
+  rich_text?: CreateCommentRequestRichTextList | undefined;
   /** The content of the comment as a Markdown string. Comment Markdown supports inline formatting only (bold, italic, strikethrough, code, links), inline equations ($expression$), and mentions. Block-level Markdown such as fenced code blocks, headings, lists, tables, and blockquotes does not render as structured blocks in comments. */
-  markdown?: string;
+  markdown?: string | undefined;
   /** The ID of the discussion to comment on. */
-  discussion_id?: string;
+  discussion_id?: string | undefined;
 }
 export interface PartialCommentObjectResponse {
   /** The comment object type name. */
@@ -293,9 +293,9 @@ export interface RichTextItemResponseText {
 /** Details about the person, when the `type` of the user is `person`. */
 export interface UserObjectResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = UserObjectResponsePerson;
@@ -358,11 +358,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: UserObjectResponsePerson;
+  person?: UserObjectResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type UserValueResponse = PartialUserObjectResponse | UserObjectResponse;
 export interface RichTextItemResponseMentionCase0 {
@@ -399,25 +399,25 @@ export interface LinkMentionResponse {
   /** The href of the link mention. */
   href: string;
   /** The title of the link. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the link. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the link. */
-  link_author?: string;
+  link_author?: string | undefined;
   /** The provider of the link. */
-  link_provider?: string;
+  link_provider?: string | undefined;
   /** The thumbnail URL of the link. */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /** The icon URL of the link. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The iframe URL of the link. */
-  iframe_url?: string;
+  iframe_url?: string | undefined;
   /** The height of the link preview iframe. */
-  height?: number;
+  height?: number | undefined;
   /** The padding of the link preview iframe. */
-  padding?: number;
+  padding?: number | undefined;
   /** The top padding of the link preview iframe. */
-  padding_top?: number;
+  padding_top?: number | undefined;
 }
 export interface RichTextItemResponseMentionCase3 {
   /** Always `link_mention` */
@@ -498,13 +498,13 @@ export interface RichTextItemResponse {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
   annotations: AnnotationResponse;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemResponseText;
+  text?: RichTextItemResponseText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemResponseMention;
+  mention?: RichTextItemResponseMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** The rich text content of the comment. */
 export type CommentObjectResponseRichTextList = Array<RichTextItemResponse>;
@@ -560,7 +560,7 @@ export interface CommentObjectResponse {
   /** Whether any file attachments on this comment are still uploading. Pending files are not listed in `attachments` yet. A `comment.updated` webhook is sent when each upload finishes. */
   has_pending_attachments: boolean;
   /** Any file attachments associated with the comment. */
-  attachments?: CommentObjectResponseAttachmentsList;
+  attachments?: CommentObjectResponseAttachmentsList | undefined;
 }
 export type CreateCommentResponseBody = PartialCommentObjectResponse | CommentObjectResponse;
 export type CreateCommentResponse = CreateCommentResponseBody;
@@ -576,8 +576,8 @@ export type GetCommentResponseBody = PartialCommentObjectResponse | CommentObjec
 export type GetCommentResponse = GetCommentResponseBody;
 export interface ListCommentsRequest {
   block_id: string;
-  start_cursor?: string;
-  page_size?: number;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export type ListCommentsResponseResultsList = Array<CommentObjectResponse>;
 /** Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit). */
@@ -586,7 +586,7 @@ export interface RequestStatusResponse {
   /** Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit). */
   type: RequestStatusResponseType;
   /** Why the result set is incomplete. Only present when `type` is `incomplete`. */
-  incomplete_reason?: string;
+  incomplete_reason?: string | undefined;
 }
 export interface ListCommentsResponse {
   /** Always `list` */
@@ -597,7 +597,7 @@ export interface ListCommentsResponse {
   /** Always `comment` */
   type: string;
   comment: unknown;
-  request_status?: RequestStatusResponse;
+  request_status?: RequestStatusResponse | undefined;
 }
 /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
 export type UpdateCommentRequestMarkdownVersion = "v1" | "v2";
@@ -606,11 +606,11 @@ export type UpdateCommentRequestRichTextList = Array<RichTextItemRequest>;
 export interface UpdateCommentRequest {
   comment_id: string;
   /** The Markdown syntax to use. `v1` (the default) is enhanced markdown. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown), an opt-in preview. */
-  markdown_version?: UpdateCommentRequestMarkdownVersion | (string & {});
+  markdown_version?: UpdateCommentRequestMarkdownVersion | (string & {}) | undefined;
   /** An array of rich text objects that represent the updated content of the comment. */
-  rich_text?: UpdateCommentRequestRichTextList;
+  rich_text?: UpdateCommentRequestRichTextList | undefined;
   /** The updated content of the comment as a Markdown string. Comment Markdown supports inline formatting only (bold, italic, strikethrough, code, links), inline equations ($expression$), and mentions. Block-level Markdown such as fenced code blocks, headings, lists, tables, and blockquotes does not render as structured blocks in comments. */
-  markdown?: string;
+  markdown?: string | undefined;
 }
 export type UpdateCommentResponseBody = PartialCommentObjectResponse | CommentObjectResponse;
 export type UpdateCommentResponse = UpdateCommentResponseBody;

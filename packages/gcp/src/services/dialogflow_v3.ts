@@ -85,36 +85,36 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface GoogleCloudDialogflowCxV3BatchDeleteTestCasesRequest {
-  names?: StringList;
+  names?: StringList | undefined;
 }
 export interface BatchDeleteProjectsLocationsAgentsTestCasesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3BatchDeleteTestCasesRequest;
+  body?: GoogleCloudDialogflowCxV3BatchDeleteTestCasesRequest | undefined;
 }
 export interface GoogleProtobufEmpty {}
 export interface GoogleCloudDialogflowCxV3BatchRunTestCasesRequest {
-  environment?: string;
-  testCases?: StringList;
+  environment?: string | undefined;
+  testCases?: StringList | undefined;
 }
 export interface BatchRunProjectsLocationsAgentsTestCasesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3BatchRunTestCasesRequest;
+  body?: GoogleCloudDialogflowCxV3BatchRunTestCasesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 export interface GoogleRpcStatus {
-  message?: string;
-  code?: number;
-  details?: DocumentMapList;
+  message?: string | undefined;
+  code?: number | undefined;
+  details?: DocumentMapList | undefined;
 }
 export interface GoogleLongrunningOperation {
-  response?: DocumentMap;
-  name?: string;
-  metadata?: DocumentMap;
-  error?: GoogleRpcStatus;
-  done?: boolean;
+  response?: DocumentMap | undefined;
+  name?: string | undefined;
+  metadata?: DocumentMap | undefined;
+  error?: GoogleRpcStatus | undefined;
+  done?: boolean | undefined;
 }
 export type CalculateCoverageProjectsLocationsAgentsTestCasesTypeEnum =
   | "COVERAGE_TYPE_UNSPECIFIED"
@@ -122,58 +122,58 @@ export type CalculateCoverageProjectsLocationsAgentsTestCasesTypeEnum =
   | "PAGE_TRANSITION"
   | "TRANSITION_ROUTE_GROUP";
 export interface CalculateCoverageProjectsLocationsAgentsTestCasesRequest {
-  type?: CalculateCoverageProjectsLocationsAgentsTestCasesTypeEnum | (string & {});
+  type?: CalculateCoverageProjectsLocationsAgentsTestCasesTypeEnum | (string & {}) | undefined;
   agent: string;
 }
 export interface GoogleCloudDialogflowCxV3GcsDestination {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings {
-  enableStackdriverLogging?: boolean;
-  enableInteractionLogging?: boolean;
-  enableConsentBasedRedaction?: boolean;
+  enableStackdriverLogging?: boolean | undefined;
+  enableInteractionLogging?: boolean | undefined;
+  enableConsentBasedRedaction?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings {
-  finishDigit?: string;
-  enabled?: boolean;
-  endpointingTimeoutDuration?: string;
-  interdigitTimeoutDuration?: string;
-  maxDigits?: number;
+  finishDigit?: string | undefined;
+  enabled?: boolean | undefined;
+  endpointingTimeoutDuration?: string | undefined;
+  interdigitTimeoutDuration?: string | undefined;
+  maxDigits?: number | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings {
-  useTimeoutBasedEndpointing?: boolean;
-  endpointerSensitivity?: number;
-  models?: StringMap;
-  noSpeechTimeout?: string;
+  useTimeoutBasedEndpointing?: boolean | undefined;
+  endpointerSensitivity?: number | undefined;
+  models?: StringMap | undefined;
+  noSpeechTimeout?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AdvancedSettings {
-  audioExportGcsDestination?: GoogleCloudDialogflowCxV3GcsDestination;
-  loggingSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings;
-  dtmfSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings;
-  speechSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings;
+  audioExportGcsDestination?: GoogleCloudDialogflowCxV3GcsDestination | undefined;
+  loggingSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings | undefined;
+  dtmfSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings | undefined;
+  speechSettings?: GoogleCloudDialogflowCxV3AdvancedSettingsSpeechSettings | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall {
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard {}
 export interface GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff {
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegment {
-  audio?: string;
-  uri?: string;
-  allowPlaybackInterruption?: boolean;
+  audio?: string | undefined;
+  uri?: string | undefined;
+  allowPlaybackInterruption?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegmentList =
   Array<GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegment>;
 export interface GoogleCloudDialogflowCxV3ResponseMessageMixedAudio {
-  segments?: GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegmentList;
+  segments?: GoogleCloudDialogflowCxV3ResponseMessageMixedAudioSegmentList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ResponseMessageOutputAudioText {
-  allowPlaybackInterruption?: boolean;
-  ssml?: string;
-  text?: string;
+  allowPlaybackInterruption?: boolean | undefined;
+  ssml?: string | undefined;
+  text?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResponseMessageResponseTypeEnum =
   | "RESPONSE_TYPE_UNSPECIFIED"
@@ -181,118 +181,121 @@ export type GoogleCloudDialogflowCxV3ResponseMessageResponseTypeEnum =
   | "PARAMETER_PROMPT"
   | "HANDLER_PROMPT";
 export interface GoogleCloudDialogflowCxV3ResponseMessageText {
-  allowPlaybackInterruption?: boolean;
-  text?: StringList;
+  allowPlaybackInterruption?: boolean | undefined;
+  text?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResponseMessageEndInteraction =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface GoogleCloudDialogflowCxV3ToolCall {
-  inputParameters?: DocumentMap;
-  tool?: string;
-  action?: string;
+  inputParameters?: DocumentMap | undefined;
+  tool?: string | undefined;
+  action?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResponseMessageConversationSuccess =
   GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff;
 export interface GoogleCloudDialogflowCxV3ResponseMessagePlayAudio {
-  audioUri?: string;
-  allowPlaybackInterruption?: boolean;
+  audioUri?: string | undefined;
+  allowPlaybackInterruption?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ResponseMessage {
-  telephonyTransferCall?: GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall;
-  knowledgeInfoCard?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
-  liveAgentHandoff?: GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff;
-  mixedAudio?: GoogleCloudDialogflowCxV3ResponseMessageMixedAudio;
-  outputAudioText?: GoogleCloudDialogflowCxV3ResponseMessageOutputAudioText;
-  channel?: string;
-  responseType?: GoogleCloudDialogflowCxV3ResponseMessageResponseTypeEnum | (string & {});
-  text?: GoogleCloudDialogflowCxV3ResponseMessageText;
-  endInteraction?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
-  toolCall?: GoogleCloudDialogflowCxV3ToolCall;
-  conversationSuccess?: GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff;
-  payload?: DocumentMap;
-  playAudio?: GoogleCloudDialogflowCxV3ResponseMessagePlayAudio;
+  telephonyTransferCall?: GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall | undefined;
+  knowledgeInfoCard?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
+  liveAgentHandoff?: GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff | undefined;
+  mixedAudio?: GoogleCloudDialogflowCxV3ResponseMessageMixedAudio | undefined;
+  outputAudioText?: GoogleCloudDialogflowCxV3ResponseMessageOutputAudioText | undefined;
+  channel?: string | undefined;
+  responseType?:
+    | GoogleCloudDialogflowCxV3ResponseMessageResponseTypeEnum
+    | (string & {})
+    | undefined;
+  text?: GoogleCloudDialogflowCxV3ResponseMessageText | undefined;
+  endInteraction?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
+  toolCall?: GoogleCloudDialogflowCxV3ToolCall | undefined;
+  conversationSuccess?: GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff | undefined;
+  payload?: DocumentMap | undefined;
+  playAudio?: GoogleCloudDialogflowCxV3ResponseMessagePlayAudio | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResponseMessageList =
   Array<GoogleCloudDialogflowCxV3ResponseMessage>;
 export interface GoogleCloudDialogflowCxV3FulfillmentGeneratorSettings {
-  inputParameters?: StringMap;
-  generator?: string;
-  outputParameter?: string;
+  inputParameters?: StringMap | undefined;
+  generator?: string | undefined;
+  outputParameter?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3FulfillmentGeneratorSettingsList =
   Array<GoogleCloudDialogflowCxV3FulfillmentGeneratorSettings>;
 export interface GoogleCloudDialogflowCxV3FulfillmentSetParameterAction {
-  parameter?: string;
-  value?: unknown;
+  parameter?: string | undefined;
+  value?: unknown | undefined;
 }
 export type GoogleCloudDialogflowCxV3FulfillmentSetParameterActionList =
   Array<GoogleCloudDialogflowCxV3FulfillmentSetParameterAction>;
 export interface GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContent {
-  additionalCases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCases;
-  message?: GoogleCloudDialogflowCxV3ResponseMessage;
+  additionalCases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCases | undefined;
+  message?: GoogleCloudDialogflowCxV3ResponseMessage | undefined;
 }
 export type GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContentList =
   Array<GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContent>;
 export interface GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCase {
-  condition?: string;
-  caseContent?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContentList;
+  condition?: string | undefined;
+  caseContent?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContentList | undefined;
 }
 export type GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseList =
   Array<GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCase>;
 export interface GoogleCloudDialogflowCxV3FulfillmentConditionalCases {
-  cases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseList;
+  cases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseList | undefined;
 }
 export type GoogleCloudDialogflowCxV3FulfillmentConditionalCasesList =
   Array<GoogleCloudDialogflowCxV3FulfillmentConditionalCases>;
 export interface GoogleCloudDialogflowCxV3Fulfillment {
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  messages?: GoogleCloudDialogflowCxV3ResponseMessageList;
-  generators?: GoogleCloudDialogflowCxV3FulfillmentGeneratorSettingsList;
-  setParameterActions?: GoogleCloudDialogflowCxV3FulfillmentSetParameterActionList;
-  conditionalCases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesList;
-  codeBlockFunction?: string;
-  returnPartialResponses?: boolean;
-  enableGenerativeFallback?: boolean;
-  tag?: string;
-  webhook?: string;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  messages?: GoogleCloudDialogflowCxV3ResponseMessageList | undefined;
+  generators?: GoogleCloudDialogflowCxV3FulfillmentGeneratorSettingsList | undefined;
+  setParameterActions?: GoogleCloudDialogflowCxV3FulfillmentSetParameterActionList | undefined;
+  conditionalCases?: GoogleCloudDialogflowCxV3FulfillmentConditionalCasesList | undefined;
+  codeBlockFunction?: string | undefined;
+  returnPartialResponses?: boolean | undefined;
+  enableGenerativeFallback?: boolean | undefined;
+  tag?: string | undefined;
+  webhook?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3EventHandler {
-  targetPage?: string;
-  event?: string;
-  name?: string;
-  targetFlow?: string;
-  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
-  targetPlaybook?: string;
+  targetPage?: string | undefined;
+  event?: string | undefined;
+  name?: string | undefined;
+  targetFlow?: string | undefined;
+  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
+  targetPlaybook?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3EventHandlerList =
   Array<GoogleCloudDialogflowCxV3EventHandler>;
 export interface GoogleCloudDialogflowCxV3FormParameterFillBehavior {
-  repromptEventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList;
-  initialPromptFulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
+  repromptEventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList | undefined;
+  initialPromptFulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
 }
 export interface GoogleCloudDialogflowCxV3FormParameter {
-  redact?: boolean;
-  required?: boolean;
-  displayName?: string;
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  fillBehavior?: GoogleCloudDialogflowCxV3FormParameterFillBehavior;
-  defaultValue?: unknown;
-  entityType?: string;
-  isList?: boolean;
+  redact?: boolean | undefined;
+  required?: boolean | undefined;
+  displayName?: string | undefined;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  fillBehavior?: GoogleCloudDialogflowCxV3FormParameterFillBehavior | undefined;
+  defaultValue?: unknown | undefined;
+  entityType?: string | undefined;
+  isList?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3FormParameterList =
   Array<GoogleCloudDialogflowCxV3FormParameter>;
 export interface GoogleCloudDialogflowCxV3Form {
-  parameters?: GoogleCloudDialogflowCxV3FormParameterList;
+  parameters?: GoogleCloudDialogflowCxV3FormParameterList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TransitionRoute {
-  name?: string;
-  intent?: string;
-  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
-  description?: string;
-  targetFlow?: string;
-  condition?: string;
-  targetPage?: string;
+  name?: string | undefined;
+  intent?: string | undefined;
+  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
+  description?: string | undefined;
+  targetFlow?: string | undefined;
+  condition?: string | undefined;
+  targetPage?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3TransitionRouteList =
   Array<GoogleCloudDialogflowCxV3TransitionRoute>;
@@ -306,32 +309,36 @@ export type GoogleCloudDialogflowCxV3DataStoreConnectionDocumentProcessingModeEn
   | "DOCUMENTS"
   | "CHUNKS";
 export interface GoogleCloudDialogflowCxV3DataStoreConnection {
-  dataStoreType?: GoogleCloudDialogflowCxV3DataStoreConnectionDataStoreTypeEnum | (string & {});
+  dataStoreType?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionDataStoreTypeEnum
+    | (string & {})
+    | undefined;
   documentProcessingMode?:
     | GoogleCloudDialogflowCxV3DataStoreConnectionDocumentProcessingModeEnum
-    | (string & {});
-  dataStore?: string;
+    | (string & {})
+    | undefined;
+  dataStore?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3DataStoreConnectionList =
   Array<GoogleCloudDialogflowCxV3DataStoreConnection>;
 export interface GoogleCloudDialogflowCxV3KnowledgeConnectorSettings {
-  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
-  targetPage?: string;
-  dataStoreConnections?: GoogleCloudDialogflowCxV3DataStoreConnectionList;
-  enabled?: boolean;
-  targetFlow?: string;
+  triggerFulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
+  targetPage?: string | undefined;
+  dataStoreConnections?: GoogleCloudDialogflowCxV3DataStoreConnectionList | undefined;
+  enabled?: boolean | undefined;
+  targetFlow?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Page {
-  name?: string;
-  description?: string;
-  form?: GoogleCloudDialogflowCxV3Form;
-  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList;
-  entryFulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
-  knowledgeConnectorSettings?: GoogleCloudDialogflowCxV3KnowledgeConnectorSettings;
-  eventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList;
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  displayName?: string;
-  transitionRouteGroups?: StringList;
+  name?: string | undefined;
+  description?: string | undefined;
+  form?: GoogleCloudDialogflowCxV3Form | undefined;
+  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList | undefined;
+  entryFulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
+  knowledgeConnectorSettings?: GoogleCloudDialogflowCxV3KnowledgeConnectorSettings | undefined;
+  eventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList | undefined;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  displayName?: string | undefined;
+  transitionRouteGroups?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3ParameterDefinitionTypeEnum =
   | "PARAMETER_TYPE_UNSPECIFIED"
@@ -348,22 +355,22 @@ export type GoogleCloudDialogflowCxV3InlineSchemaTypeEnum =
   | "BOOLEAN"
   | "ARRAY";
 export interface GoogleCloudDialogflowCxV3InlineSchema {
-  type?: GoogleCloudDialogflowCxV3InlineSchemaTypeEnum | (string & {});
-  items?: GoogleCloudDialogflowCxV3TypeSchema;
+  type?: GoogleCloudDialogflowCxV3InlineSchemaTypeEnum | (string & {}) | undefined;
+  items?: GoogleCloudDialogflowCxV3TypeSchema | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TypeSchemaSchemaReference {
-  tool?: string;
-  schema?: string;
+  tool?: string | undefined;
+  schema?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TypeSchema {
-  inlineSchema?: GoogleCloudDialogflowCxV3InlineSchema;
-  schemaReference?: GoogleCloudDialogflowCxV3TypeSchemaSchemaReference;
+  inlineSchema?: GoogleCloudDialogflowCxV3InlineSchema | undefined;
+  schemaReference?: GoogleCloudDialogflowCxV3TypeSchemaSchemaReference | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ParameterDefinition {
-  name?: string;
-  description?: string;
-  type?: GoogleCloudDialogflowCxV3ParameterDefinitionTypeEnum | (string & {});
-  typeSchema?: GoogleCloudDialogflowCxV3TypeSchema;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: GoogleCloudDialogflowCxV3ParameterDefinitionTypeEnum | (string & {}) | undefined;
+  typeSchema?: GoogleCloudDialogflowCxV3TypeSchema | undefined;
 }
 export type GoogleCloudDialogflowCxV3ParameterDefinitionList =
   Array<GoogleCloudDialogflowCxV3ParameterDefinition>;
@@ -376,84 +383,89 @@ export type GoogleCloudDialogflowCxV3NluSettingsModelTrainingModeEnum =
   | "MODEL_TRAINING_MODE_AUTOMATIC"
   | "MODEL_TRAINING_MODE_MANUAL";
 export interface GoogleCloudDialogflowCxV3NluSettings {
-  modelType?: GoogleCloudDialogflowCxV3NluSettingsModelTypeEnum | (string & {});
-  modelTrainingMode?: GoogleCloudDialogflowCxV3NluSettingsModelTrainingModeEnum | (string & {});
-  classificationThreshold?: number;
+  modelType?: GoogleCloudDialogflowCxV3NluSettingsModelTypeEnum | (string & {}) | undefined;
+  modelTrainingMode?:
+    | GoogleCloudDialogflowCxV3NluSettingsModelTrainingModeEnum
+    | (string & {})
+    | undefined;
+  classificationThreshold?: number | undefined;
 }
 export interface GoogleCloudDialogflowCxV3FlowMultiLanguageSettings {
-  supportedResponseLanguageCodes?: StringList;
-  enableMultiLanguageDetection?: boolean;
+  supportedResponseLanguageCodes?: StringList | undefined;
+  enableMultiLanguageDetection?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Flow {
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  eventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList;
-  description?: string;
-  transitionRouteGroups?: StringList;
-  displayName?: string;
-  knowledgeConnectorSettings?: GoogleCloudDialogflowCxV3KnowledgeConnectorSettings;
-  inputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList;
-  outputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList;
-  nluSettings?: GoogleCloudDialogflowCxV3NluSettings;
-  locked?: boolean;
-  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList;
-  name?: string;
-  multiLanguageSettings?: GoogleCloudDialogflowCxV3FlowMultiLanguageSettings;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  eventHandlers?: GoogleCloudDialogflowCxV3EventHandlerList | undefined;
+  description?: string | undefined;
+  transitionRouteGroups?: StringList | undefined;
+  displayName?: string | undefined;
+  knowledgeConnectorSettings?: GoogleCloudDialogflowCxV3KnowledgeConnectorSettings | undefined;
+  inputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList | undefined;
+  outputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList | undefined;
+  nluSettings?: GoogleCloudDialogflowCxV3NluSettings | undefined;
+  locked?: boolean | undefined;
+  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList | undefined;
+  name?: string | undefined;
+  multiLanguageSettings?: GoogleCloudDialogflowCxV3FlowMultiLanguageSettings | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode {
-  page?: GoogleCloudDialogflowCxV3Page;
-  flow?: GoogleCloudDialogflowCxV3Flow;
+  page?: GoogleCloudDialogflowCxV3Page | undefined;
+  flow?: GoogleCloudDialogflowCxV3Flow | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TransitionCoverageTransition {
-  target?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode;
-  transitionRoute?: GoogleCloudDialogflowCxV3TransitionRoute;
-  covered?: boolean;
-  eventHandler?: GoogleCloudDialogflowCxV3EventHandler;
-  index?: number;
-  source?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode;
+  target?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode | undefined;
+  transitionRoute?: GoogleCloudDialogflowCxV3TransitionRoute | undefined;
+  covered?: boolean | undefined;
+  eventHandler?: GoogleCloudDialogflowCxV3EventHandler | undefined;
+  index?: number | undefined;
+  source?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode | undefined;
 }
 export type GoogleCloudDialogflowCxV3TransitionCoverageTransitionList =
   Array<GoogleCloudDialogflowCxV3TransitionCoverageTransition>;
 export interface GoogleCloudDialogflowCxV3TransitionCoverage {
-  coverageScore?: number;
-  transitions?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionList;
+  coverageScore?: number | undefined;
+  transitions?: GoogleCloudDialogflowCxV3TransitionCoverageTransitionList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3IntentCoverageIntent {
-  covered?: boolean;
-  intent?: string;
+  covered?: boolean | undefined;
+  intent?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3IntentCoverageIntentList =
   Array<GoogleCloudDialogflowCxV3IntentCoverageIntent>;
 export interface GoogleCloudDialogflowCxV3IntentCoverage {
-  intents?: GoogleCloudDialogflowCxV3IntentCoverageIntentList;
-  coverageScore?: number;
+  intents?: GoogleCloudDialogflowCxV3IntentCoverageIntentList | undefined;
+  coverageScore?: number | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TransitionRouteGroup {
-  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList;
-  name?: string;
-  displayName?: string;
+  transitionRoutes?: GoogleCloudDialogflowCxV3TransitionRouteList | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransition {
-  covered?: boolean;
-  transitionRoute?: GoogleCloudDialogflowCxV3TransitionRoute;
+  covered?: boolean | undefined;
+  transitionRoute?: GoogleCloudDialogflowCxV3TransitionRoute | undefined;
 }
 export type GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransitionList =
   Array<GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransition>;
 export interface GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverage {
-  routeGroup?: GoogleCloudDialogflowCxV3TransitionRouteGroup;
-  transitions?: GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransitionList;
-  coverageScore?: number;
+  routeGroup?: GoogleCloudDialogflowCxV3TransitionRouteGroup | undefined;
+  transitions?:
+    | GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransitionList
+    | undefined;
+  coverageScore?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageList =
   Array<GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverage>;
 export interface GoogleCloudDialogflowCxV3TransitionRouteGroupCoverage {
-  coverageScore?: number;
-  coverages?: GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageList;
+  coverageScore?: number | undefined;
+  coverages?: GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3CalculateCoverageResponse {
-  transitionCoverage?: GoogleCloudDialogflowCxV3TransitionCoverage;
-  intentCoverage?: GoogleCloudDialogflowCxV3IntentCoverage;
-  agent?: string;
-  routeGroupCoverage?: GoogleCloudDialogflowCxV3TransitionRouteGroupCoverage;
+  transitionCoverage?: GoogleCloudDialogflowCxV3TransitionCoverage | undefined;
+  intentCoverage?: GoogleCloudDialogflowCxV3IntentCoverage | undefined;
+  agent?: string | undefined;
+  routeGroupCoverage?: GoogleCloudDialogflowCxV3TransitionRouteGroupCoverage | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   name: string;
@@ -462,34 +474,34 @@ export interface CancelProjectsOperationsRequest {
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3CompareVersionsRequest {
-  targetVersion?: string;
-  languageCode?: string;
+  targetVersion?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface CompareVersionsProjectsLocationsAgentsFlowsVersionsRequest {
   baseVersion: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3CompareVersionsRequest;
+  body?: GoogleCloudDialogflowCxV3CompareVersionsRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3CompareVersionsResponse {
-  baseVersionContentJson?: string;
-  compareTime?: string;
-  targetVersionContentJson?: string;
+  baseVersionContentJson?: string | undefined;
+  compareTime?: string | undefined;
+  targetVersionContentJson?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings {
-  engine?: string;
+  engine?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentPersonalizationSettings {
-  defaultEndUserMetadata?: DocumentMap;
+  defaultEndUserMetadata?: DocumentMap | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentGitIntegrationSettingsGithubSettings {
-  accessToken?: string;
-  displayName?: string;
-  repositoryUri?: string;
-  trackingBranch?: string;
-  branches?: StringList;
+  accessToken?: string | undefined;
+  displayName?: string | undefined;
+  repositoryUri?: string | undefined;
+  trackingBranch?: string | undefined;
+  branches?: StringList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentGitIntegrationSettings {
-  githubSettings?: GoogleCloudDialogflowCxV3AgentGitIntegrationSettingsGithubSettings;
+  githubSettings?: GoogleCloudDialogflowCxV3AgentGitIntegrationSettingsGithubSettings | undefined;
 }
 export type GoogleCloudDialogflowCxV3VoiceSelectionParamsSsmlGenderEnum =
   | "SSML_VOICE_GENDER_UNSPECIFIED"
@@ -497,69 +509,72 @@ export type GoogleCloudDialogflowCxV3VoiceSelectionParamsSsmlGenderEnum =
   | "SSML_VOICE_GENDER_FEMALE"
   | "SSML_VOICE_GENDER_NEUTRAL";
 export interface GoogleCloudDialogflowCxV3VoiceSelectionParams {
-  name?: string;
-  ssmlGender?: GoogleCloudDialogflowCxV3VoiceSelectionParamsSsmlGenderEnum | (string & {});
+  name?: string | undefined;
+  ssmlGender?:
+    | GoogleCloudDialogflowCxV3VoiceSelectionParamsSsmlGenderEnum
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SynthesizeSpeechConfig {
-  volumeGainDb?: number;
-  pitch?: number;
-  speakingRate?: number;
-  effectsProfileId?: StringList;
-  voice?: GoogleCloudDialogflowCxV3VoiceSelectionParams;
+  volumeGainDb?: number | undefined;
+  pitch?: number | undefined;
+  speakingRate?: number | undefined;
+  effectsProfileId?: StringList | undefined;
+  voice?: GoogleCloudDialogflowCxV3VoiceSelectionParams | undefined;
 }
 export type GoogleCloudDialogflowCxV3SynthesizeSpeechConfigMap = {
   [key: string]: GoogleCloudDialogflowCxV3SynthesizeSpeechConfig | undefined;
 };
 export interface GoogleCloudDialogflowCxV3TextToSpeechSettings {
-  synthesizeSpeechConfigs?: GoogleCloudDialogflowCxV3SynthesizeSpeechConfigMap;
+  synthesizeSpeechConfigs?: GoogleCloudDialogflowCxV3SynthesizeSpeechConfigMap | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SpeechToTextSettings {
-  enableSpeechAdaptation?: boolean;
+  enableSpeechAdaptation?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentClientCertificateSettings {
-  privateKey?: string;
-  sslCertificate?: string;
-  passphrase?: string;
+  privateKey?: string | undefined;
+  sslCertificate?: string | undefined;
+  passphrase?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings {
-  enableAnswerFeedback?: boolean;
+  enableAnswerFeedback?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Agent {
-  genAppBuilderSettings?: GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings;
-  defaultLanguageCode?: string;
-  displayName?: string;
-  supportedLanguageCodes?: StringList;
-  name?: string;
-  personalizationSettings?: GoogleCloudDialogflowCxV3AgentPersonalizationSettings;
-  startFlow?: string;
-  satisfiesPzs?: boolean;
-  satisfiesPzi?: boolean;
-  enableMultiLanguageTraining?: boolean;
-  startPlaybook?: string;
-  gitIntegrationSettings?: GoogleCloudDialogflowCxV3AgentGitIntegrationSettings;
-  enableStackdriverLogging?: boolean;
-  textToSpeechSettings?: GoogleCloudDialogflowCxV3TextToSpeechSettings;
-  securitySettings?: string;
-  speechToTextSettings?: GoogleCloudDialogflowCxV3SpeechToTextSettings;
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  enableSpellCorrection?: boolean;
-  avatarUri?: string;
-  timeZone?: string;
-  clientCertificateSettings?: GoogleCloudDialogflowCxV3AgentClientCertificateSettings;
-  answerFeedbackSettings?: GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings;
-  description?: string;
-  locked?: boolean;
+  genAppBuilderSettings?: GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings | undefined;
+  defaultLanguageCode?: string | undefined;
+  displayName?: string | undefined;
+  supportedLanguageCodes?: StringList | undefined;
+  name?: string | undefined;
+  personalizationSettings?: GoogleCloudDialogflowCxV3AgentPersonalizationSettings | undefined;
+  startFlow?: string | undefined;
+  satisfiesPzs?: boolean | undefined;
+  satisfiesPzi?: boolean | undefined;
+  enableMultiLanguageTraining?: boolean | undefined;
+  startPlaybook?: string | undefined;
+  gitIntegrationSettings?: GoogleCloudDialogflowCxV3AgentGitIntegrationSettings | undefined;
+  enableStackdriverLogging?: boolean | undefined;
+  textToSpeechSettings?: GoogleCloudDialogflowCxV3TextToSpeechSettings | undefined;
+  securitySettings?: string | undefined;
+  speechToTextSettings?: GoogleCloudDialogflowCxV3SpeechToTextSettings | undefined;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  enableSpellCorrection?: boolean | undefined;
+  avatarUri?: string | undefined;
+  timeZone?: string | undefined;
+  clientCertificateSettings?: GoogleCloudDialogflowCxV3AgentClientCertificateSettings | undefined;
+  answerFeedbackSettings?: GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings | undefined;
+  description?: string | undefined;
+  locked?: boolean | undefined;
 }
 export interface CreateProjectsLocationsAgentsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Agent;
+  body?: GoogleCloudDialogflowCxV3Agent | undefined;
 }
 export type GoogleCloudDialogflowCxV3EntityTypeAutoExpansionModeEnum =
   | "AUTO_EXPANSION_MODE_UNSPECIFIED"
   | "AUTO_EXPANSION_MODE_DEFAULT";
 export interface GoogleCloudDialogflowCxV3EntityTypeExcludedPhrase {
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3EntityTypeExcludedPhraseList =
   Array<GoogleCloudDialogflowCxV3EntityTypeExcludedPhrase>;
@@ -569,34 +584,37 @@ export type GoogleCloudDialogflowCxV3EntityTypeKindEnum =
   | "KIND_LIST"
   | "KIND_REGEXP";
 export interface GoogleCloudDialogflowCxV3EntityTypeEntity {
-  value?: string;
-  synonyms?: StringList;
+  value?: string | undefined;
+  synonyms?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3EntityTypeEntityList =
   Array<GoogleCloudDialogflowCxV3EntityTypeEntity>;
 export interface GoogleCloudDialogflowCxV3EntityType {
-  autoExpansionMode?: GoogleCloudDialogflowCxV3EntityTypeAutoExpansionModeEnum | (string & {});
-  excludedPhrases?: GoogleCloudDialogflowCxV3EntityTypeExcludedPhraseList;
-  kind?: GoogleCloudDialogflowCxV3EntityTypeKindEnum | (string & {});
-  enableFuzzyExtraction?: boolean;
-  entities?: GoogleCloudDialogflowCxV3EntityTypeEntityList;
-  redact?: boolean;
-  name?: string;
-  displayName?: string;
+  autoExpansionMode?:
+    | GoogleCloudDialogflowCxV3EntityTypeAutoExpansionModeEnum
+    | (string & {})
+    | undefined;
+  excludedPhrases?: GoogleCloudDialogflowCxV3EntityTypeExcludedPhraseList | undefined;
+  kind?: GoogleCloudDialogflowCxV3EntityTypeKindEnum | (string & {}) | undefined;
+  enableFuzzyExtraction?: boolean | undefined;
+  entities?: GoogleCloudDialogflowCxV3EntityTypeEntityList | undefined;
+  redact?: boolean | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsEntityTypesRequest {
   parent: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3EntityType;
+  body?: GoogleCloudDialogflowCxV3EntityType | undefined;
 }
 export interface GoogleCloudDialogflowCxV3EnvironmentVersionConfig {
-  version?: string;
+  version?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3EnvironmentVersionConfigList =
   Array<GoogleCloudDialogflowCxV3EnvironmentVersionConfig>;
 export interface GoogleCloudDialogflowCxV3WebhookGenericWebServiceSecretVersionHeaderValue {
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3WebhookGenericWebServiceSecretVersionHeaderValueMap = {
   [key: string]:
@@ -618,71 +636,82 @@ export type GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAgentAuthEnu
   | "ID_TOKEN"
   | "ACCESS_TOKEN";
 export interface GoogleCloudDialogflowCxV3WebhookGenericWebServiceOAuthConfig {
-  clientSecret?: string;
-  clientId?: string;
-  secretVersionForClientSecret?: string;
-  scopes?: StringList;
-  tokenEndpoint?: string;
+  clientSecret?: string | undefined;
+  clientId?: string | undefined;
+  secretVersionForClientSecret?: string | undefined;
+  scopes?: StringList | undefined;
+  tokenEndpoint?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig {
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3WebhookGenericWebServiceWebhookTypeEnum =
   | "WEBHOOK_TYPE_UNSPECIFIED"
   | "STANDARD"
   | "FLEXIBLE";
 export interface GoogleCloudDialogflowCxV3WebhookGenericWebService {
-  password?: string;
-  secretVersionForUsernamePassword?: string;
-  requestHeaders?: StringMap;
-  parameterMapping?: StringMap;
-  secretVersionsForRequestHeaders?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceSecretVersionHeaderValueMap;
-  allowedCaCerts?: StringList;
-  username?: string;
-  httpMethod?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceHttpMethodEnum | (string & {});
-  requestBody?: string;
+  password?: string | undefined;
+  secretVersionForUsernamePassword?: string | undefined;
+  requestHeaders?: StringMap | undefined;
+  parameterMapping?: StringMap | undefined;
+  secretVersionsForRequestHeaders?:
+    | GoogleCloudDialogflowCxV3WebhookGenericWebServiceSecretVersionHeaderValueMap
+    | undefined;
+  allowedCaCerts?: StringList | undefined;
+  username?: string | undefined;
+  httpMethod?:
+    | GoogleCloudDialogflowCxV3WebhookGenericWebServiceHttpMethodEnum
+    | (string & {})
+    | undefined;
+  requestBody?: string | undefined;
   serviceAgentAuth?:
     | GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAgentAuthEnum
-    | (string & {});
-  uri?: string;
-  oauthConfig?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceOAuthConfig;
-  serviceAccountAuthConfig?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig;
-  webhookType?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceWebhookTypeEnum | (string & {});
+    | (string & {})
+    | undefined;
+  uri?: string | undefined;
+  oauthConfig?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceOAuthConfig | undefined;
+  serviceAccountAuthConfig?:
+    | GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig
+    | undefined;
+  webhookType?:
+    | GoogleCloudDialogflowCxV3WebhookGenericWebServiceWebhookTypeEnum
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3WebhookServiceDirectoryConfig {
-  service?: string;
-  genericWebService?: GoogleCloudDialogflowCxV3WebhookGenericWebService;
+  service?: string | undefined;
+  genericWebService?: GoogleCloudDialogflowCxV3WebhookGenericWebService | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Webhook {
-  serviceDirectory?: GoogleCloudDialogflowCxV3WebhookServiceDirectoryConfig;
-  name?: string;
-  displayName?: string;
-  timeout?: string;
-  disabled?: boolean;
-  genericWebService?: GoogleCloudDialogflowCxV3WebhookGenericWebService;
+  serviceDirectory?: GoogleCloudDialogflowCxV3WebhookServiceDirectoryConfig | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  timeout?: string | undefined;
+  disabled?: boolean | undefined;
+  genericWebService?: GoogleCloudDialogflowCxV3WebhookGenericWebService | undefined;
 }
 export type GoogleCloudDialogflowCxV3WebhookList = Array<GoogleCloudDialogflowCxV3Webhook>;
 export interface GoogleCloudDialogflowCxV3EnvironmentWebhookConfig {
-  webhookOverrides?: GoogleCloudDialogflowCxV3WebhookList;
+  webhookOverrides?: GoogleCloudDialogflowCxV3WebhookList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3EnvironmentTestCasesConfig {
-  enableContinuousRun?: boolean;
-  testCases?: StringList;
-  enablePredeploymentRun?: boolean;
+  enableContinuousRun?: boolean | undefined;
+  testCases?: StringList | undefined;
+  enablePredeploymentRun?: boolean | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Environment {
-  description?: string;
-  updateTime?: string;
-  versionConfigs?: GoogleCloudDialogflowCxV3EnvironmentVersionConfigList;
-  webhookConfig?: GoogleCloudDialogflowCxV3EnvironmentWebhookConfig;
-  testCasesConfig?: GoogleCloudDialogflowCxV3EnvironmentTestCasesConfig;
-  name?: string;
-  displayName?: string;
+  description?: string | undefined;
+  updateTime?: string | undefined;
+  versionConfigs?: GoogleCloudDialogflowCxV3EnvironmentVersionConfigList | undefined;
+  webhookConfig?: GoogleCloudDialogflowCxV3EnvironmentWebhookConfig | undefined;
+  testCasesConfig?: GoogleCloudDialogflowCxV3EnvironmentTestCasesConfig | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsEnvironmentsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Environment;
+  body?: GoogleCloudDialogflowCxV3Environment | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExperimentResultMetricTypeEnum =
   | "METRIC_UNSPECIFIED"
@@ -692,10 +721,10 @@ export type GoogleCloudDialogflowCxV3ExperimentResultMetricTypeEnum =
   | "ABANDONED_SESSION_RATE"
   | "SESSION_END_RATE";
 export interface GoogleCloudDialogflowCxV3ExperimentResultConfidenceInterval {
-  upperBound?: number;
-  lowerBound?: number;
-  ratio?: number;
-  confidenceLevel?: number;
+  upperBound?: number | undefined;
+  lowerBound?: number | undefined;
+  ratio?: number | undefined;
+  confidenceLevel?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExperimentResultMetricCountTypeEnum =
   | "COUNT_TYPE_UNSPECIFIED"
@@ -703,56 +732,59 @@ export type GoogleCloudDialogflowCxV3ExperimentResultMetricCountTypeEnum =
   | "TOTAL_TURN_COUNT"
   | "AVERAGE_TURN_COUNT";
 export interface GoogleCloudDialogflowCxV3ExperimentResultMetric {
-  count?: number;
-  type?: GoogleCloudDialogflowCxV3ExperimentResultMetricTypeEnum | (string & {});
-  confidenceInterval?: GoogleCloudDialogflowCxV3ExperimentResultConfidenceInterval;
-  ratio?: number;
-  countType?: GoogleCloudDialogflowCxV3ExperimentResultMetricCountTypeEnum | (string & {});
+  count?: number | undefined;
+  type?: GoogleCloudDialogflowCxV3ExperimentResultMetricTypeEnum | (string & {}) | undefined;
+  confidenceInterval?: GoogleCloudDialogflowCxV3ExperimentResultConfidenceInterval | undefined;
+  ratio?: number | undefined;
+  countType?:
+    | GoogleCloudDialogflowCxV3ExperimentResultMetricCountTypeEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExperimentResultMetricList =
   Array<GoogleCloudDialogflowCxV3ExperimentResultMetric>;
 export interface GoogleCloudDialogflowCxV3ExperimentResultVersionMetrics {
-  sessionCount?: number;
-  version?: string;
-  metrics?: GoogleCloudDialogflowCxV3ExperimentResultMetricList;
+  sessionCount?: number | undefined;
+  version?: string | undefined;
+  metrics?: GoogleCloudDialogflowCxV3ExperimentResultMetricList | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExperimentResultVersionMetricsList =
   Array<GoogleCloudDialogflowCxV3ExperimentResultVersionMetrics>;
 export interface GoogleCloudDialogflowCxV3ExperimentResult {
-  versionMetrics?: GoogleCloudDialogflowCxV3ExperimentResultVersionMetricsList;
-  lastUpdateTime?: string;
+  versionMetrics?: GoogleCloudDialogflowCxV3ExperimentResultVersionMetricsList | undefined;
+  lastUpdateTime?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3VersionVariantsVariant {
-  version?: string;
-  trafficAllocation?: number;
-  isControlGroup?: boolean;
+  version?: string | undefined;
+  trafficAllocation?: number | undefined;
+  isControlGroup?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3VersionVariantsVariantList =
   Array<GoogleCloudDialogflowCxV3VersionVariantsVariant>;
 export interface GoogleCloudDialogflowCxV3VersionVariants {
-  variants?: GoogleCloudDialogflowCxV3VersionVariantsVariantList;
+  variants?: GoogleCloudDialogflowCxV3VersionVariantsVariantList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3VariantsHistory {
-  updateTime?: string;
-  versionVariants?: GoogleCloudDialogflowCxV3VersionVariants;
+  updateTime?: string | undefined;
+  versionVariants?: GoogleCloudDialogflowCxV3VersionVariants | undefined;
 }
 export type GoogleCloudDialogflowCxV3VariantsHistoryList =
   Array<GoogleCloudDialogflowCxV3VariantsHistory>;
 export interface GoogleCloudDialogflowCxV3RolloutConfigRolloutStep {
-  minDuration?: string;
-  trafficPercent?: number;
-  displayName?: string;
+  minDuration?: string | undefined;
+  trafficPercent?: number | undefined;
+  displayName?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3RolloutConfigRolloutStepList =
   Array<GoogleCloudDialogflowCxV3RolloutConfigRolloutStep>;
 export interface GoogleCloudDialogflowCxV3RolloutConfig {
-  failureCondition?: string;
-  rolloutSteps?: GoogleCloudDialogflowCxV3RolloutConfigRolloutStepList;
-  rolloutCondition?: string;
+  failureCondition?: string | undefined;
+  rolloutSteps?: GoogleCloudDialogflowCxV3RolloutConfigRolloutStepList | undefined;
+  rolloutCondition?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ExperimentDefinition {
-  versionVariants?: GoogleCloudDialogflowCxV3VersionVariants;
-  condition?: string;
+  versionVariants?: GoogleCloudDialogflowCxV3VersionVariants | undefined;
+  condition?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExperimentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -761,31 +793,31 @@ export type GoogleCloudDialogflowCxV3ExperimentStateEnum =
   | "DONE"
   | "ROLLOUT_FAILED";
 export interface GoogleCloudDialogflowCxV3RolloutState {
-  startTime?: string;
-  stepIndex?: number;
-  step?: string;
+  startTime?: string | undefined;
+  stepIndex?: number | undefined;
+  step?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Experiment {
-  lastUpdateTime?: string;
-  name?: string;
-  startTime?: string;
-  experimentLength?: string;
-  displayName?: string;
-  result?: GoogleCloudDialogflowCxV3ExperimentResult;
-  variantsHistory?: GoogleCloudDialogflowCxV3VariantsHistoryList;
-  rolloutFailureReason?: string;
-  endTime?: string;
-  rolloutConfig?: GoogleCloudDialogflowCxV3RolloutConfig;
-  description?: string;
-  definition?: GoogleCloudDialogflowCxV3ExperimentDefinition;
-  createTime?: string;
-  state?: GoogleCloudDialogflowCxV3ExperimentStateEnum | (string & {});
-  rolloutState?: GoogleCloudDialogflowCxV3RolloutState;
+  lastUpdateTime?: string | undefined;
+  name?: string | undefined;
+  startTime?: string | undefined;
+  experimentLength?: string | undefined;
+  displayName?: string | undefined;
+  result?: GoogleCloudDialogflowCxV3ExperimentResult | undefined;
+  variantsHistory?: GoogleCloudDialogflowCxV3VariantsHistoryList | undefined;
+  rolloutFailureReason?: string | undefined;
+  endTime?: string | undefined;
+  rolloutConfig?: GoogleCloudDialogflowCxV3RolloutConfig | undefined;
+  description?: string | undefined;
+  definition?: GoogleCloudDialogflowCxV3ExperimentDefinition | undefined;
+  createTime?: string | undefined;
+  state?: GoogleCloudDialogflowCxV3ExperimentStateEnum | (string & {}) | undefined;
+  rolloutState?: GoogleCloudDialogflowCxV3RolloutState | undefined;
 }
 export interface CreateProjectsLocationsAgentsEnvironmentsExperimentsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Experiment;
+  body?: GoogleCloudDialogflowCxV3Experiment | undefined;
 }
 export type GoogleCloudDialogflowCxV3SessionEntityTypeEntityOverrideModeEnum =
   | "ENTITY_OVERRIDE_MODE_UNSPECIFIED"
@@ -794,32 +826,33 @@ export type GoogleCloudDialogflowCxV3SessionEntityTypeEntityOverrideModeEnum =
 export interface GoogleCloudDialogflowCxV3SessionEntityType {
   entityOverrideMode?:
     | GoogleCloudDialogflowCxV3SessionEntityTypeEntityOverrideModeEnum
-    | (string & {});
-  entities?: GoogleCloudDialogflowCxV3EntityTypeEntityList;
-  name?: string;
+    | (string & {})
+    | undefined;
+  entities?: GoogleCloudDialogflowCxV3EntityTypeEntityList | undefined;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SessionEntityType;
+  body?: GoogleCloudDialogflowCxV3SessionEntityType | undefined;
 }
 export interface CreateProjectsLocationsAgentsFlowsRequest {
   parent: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Flow;
+  body?: GoogleCloudDialogflowCxV3Flow | undefined;
 }
 export interface CreateProjectsLocationsAgentsFlowsPagesRequest {
   parent: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Page;
+  body?: GoogleCloudDialogflowCxV3Page | undefined;
 }
 export interface CreateProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup;
+  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup | undefined;
 }
 export type GoogleCloudDialogflowCxV3VersionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -827,150 +860,150 @@ export type GoogleCloudDialogflowCxV3VersionStateEnum =
   | "SUCCEEDED"
   | "FAILED";
 export interface GoogleCloudDialogflowCxV3Version {
-  nluSettings?: GoogleCloudDialogflowCxV3NluSettings;
-  state?: GoogleCloudDialogflowCxV3VersionStateEnum | (string & {});
-  displayName?: string;
-  name?: string;
-  description?: string;
-  createTime?: string;
+  nluSettings?: GoogleCloudDialogflowCxV3NluSettings | undefined;
+  state?: GoogleCloudDialogflowCxV3VersionStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsFlowsVersionsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Version;
+  body?: GoogleCloudDialogflowCxV3Version | undefined;
 }
 export interface GoogleCloudDialogflowCxV3GeneratorModelParameter {
-  topP?: number;
-  topK?: number;
-  temperature?: number;
-  maxDecodeSteps?: number;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  temperature?: number | undefined;
+  maxDecodeSteps?: number | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Phrase {
-  text?: string;
+  text?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3LlmModelSettings {
-  promptText?: string;
-  model?: string;
+  promptText?: string | undefined;
+  model?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3GeneratorPlaceholder {
-  name?: string;
-  id?: string;
+  name?: string | undefined;
+  id?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3GeneratorPlaceholderList =
   Array<GoogleCloudDialogflowCxV3GeneratorPlaceholder>;
 export interface GoogleCloudDialogflowCxV3Generator {
-  modelParameter?: GoogleCloudDialogflowCxV3GeneratorModelParameter;
-  name?: string;
-  displayName?: string;
-  promptText?: GoogleCloudDialogflowCxV3Phrase;
-  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings;
-  placeholders?: GoogleCloudDialogflowCxV3GeneratorPlaceholderList;
+  modelParameter?: GoogleCloudDialogflowCxV3GeneratorModelParameter | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  promptText?: GoogleCloudDialogflowCxV3Phrase | undefined;
+  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings | undefined;
+  placeholders?: GoogleCloudDialogflowCxV3GeneratorPlaceholderList | undefined;
 }
 export interface CreateProjectsLocationsAgentsGeneratorsRequest {
   parent: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Generator;
+  body?: GoogleCloudDialogflowCxV3Generator | undefined;
 }
 export interface GoogleCloudDialogflowCxV3IntentTrainingPhrasePart {
-  text?: string;
-  parameterId?: string;
+  text?: string | undefined;
+  parameterId?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3IntentTrainingPhrasePartList =
   Array<GoogleCloudDialogflowCxV3IntentTrainingPhrasePart>;
 export interface GoogleCloudDialogflowCxV3IntentTrainingPhrase {
-  repeatCount?: number;
-  parts?: GoogleCloudDialogflowCxV3IntentTrainingPhrasePartList;
-  id?: string;
+  repeatCount?: number | undefined;
+  parts?: GoogleCloudDialogflowCxV3IntentTrainingPhrasePartList | undefined;
+  id?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3IntentTrainingPhraseList =
   Array<GoogleCloudDialogflowCxV3IntentTrainingPhrase>;
 export interface GoogleCloudDialogflowCxV3IntentParameter {
-  entityType?: string;
-  redact?: boolean;
-  id?: string;
-  isList?: boolean;
+  entityType?: string | undefined;
+  redact?: boolean | undefined;
+  id?: string | undefined;
+  isList?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3IntentParameterList =
   Array<GoogleCloudDialogflowCxV3IntentParameter>;
 export interface GoogleCloudDialogflowCxV3Intent {
-  trainingPhrases?: GoogleCloudDialogflowCxV3IntentTrainingPhraseList;
-  dtmfPattern?: string;
-  description?: string;
-  labels?: StringMap;
-  isFallback?: boolean;
-  priority?: number;
-  name?: string;
-  displayName?: string;
-  parameters?: GoogleCloudDialogflowCxV3IntentParameterList;
+  trainingPhrases?: GoogleCloudDialogflowCxV3IntentTrainingPhraseList | undefined;
+  dtmfPattern?: string | undefined;
+  description?: string | undefined;
+  labels?: StringMap | undefined;
+  isFallback?: boolean | undefined;
+  priority?: number | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  parameters?: GoogleCloudDialogflowCxV3IntentParameterList | undefined;
 }
 export interface CreateProjectsLocationsAgentsIntentsRequest {
   parent: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Intent;
+  body?: GoogleCloudDialogflowCxV3Intent | undefined;
 }
 export interface GoogleCloudDialogflowCxV3HandlerLifecycleHandler {
-  fulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
-  condition?: string;
-  lifecycleStage?: string;
+  fulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
+  condition?: string | undefined;
+  lifecycleStage?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3HandlerEventHandler {
-  condition?: string;
-  event?: string;
-  fulfillment?: GoogleCloudDialogflowCxV3Fulfillment;
+  condition?: string | undefined;
+  event?: string | undefined;
+  fulfillment?: GoogleCloudDialogflowCxV3Fulfillment | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Handler {
-  lifecycleHandler?: GoogleCloudDialogflowCxV3HandlerLifecycleHandler;
-  eventHandler?: GoogleCloudDialogflowCxV3HandlerEventHandler;
+  lifecycleHandler?: GoogleCloudDialogflowCxV3HandlerLifecycleHandler | undefined;
+  eventHandler?: GoogleCloudDialogflowCxV3HandlerEventHandler | undefined;
 }
 export type GoogleCloudDialogflowCxV3HandlerList = Array<GoogleCloudDialogflowCxV3Handler>;
 export interface GoogleCloudDialogflowCxV3CodeBlock {
-  code?: string;
+  code?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3PlaybookPlaybookTypeEnum =
   | "PLAYBOOK_TYPE_UNSPECIFIED"
   | "TASK"
   | "ROUTINE";
 export interface GoogleCloudDialogflowCxV3PlaybookStep {
-  text?: string;
-  steps?: GoogleCloudDialogflowCxV3PlaybookStepList;
+  text?: string | undefined;
+  steps?: GoogleCloudDialogflowCxV3PlaybookStepList | undefined;
 }
 export type GoogleCloudDialogflowCxV3PlaybookStepList =
   Array<GoogleCloudDialogflowCxV3PlaybookStep>;
 export interface GoogleCloudDialogflowCxV3PlaybookInstruction {
-  guidelines?: string;
-  steps?: GoogleCloudDialogflowCxV3PlaybookStepList;
+  guidelines?: string | undefined;
+  steps?: GoogleCloudDialogflowCxV3PlaybookStepList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Playbook {
-  createTime?: string;
-  name?: string;
-  handlers?: GoogleCloudDialogflowCxV3HandlerList;
-  referencedPlaybooks?: StringList;
-  tokenCount?: string;
-  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings;
-  referencedTools?: StringList;
-  goal?: string;
-  displayName?: string;
-  inlineActions?: StringList;
-  codeBlock?: GoogleCloudDialogflowCxV3CodeBlock;
-  playbookType?: GoogleCloudDialogflowCxV3PlaybookPlaybookTypeEnum | (string & {});
-  referencedFlows?: StringList;
-  inputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList;
-  outputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList;
-  instruction?: GoogleCloudDialogflowCxV3PlaybookInstruction;
-  updateTime?: string;
+  createTime?: string | undefined;
+  name?: string | undefined;
+  handlers?: GoogleCloudDialogflowCxV3HandlerList | undefined;
+  referencedPlaybooks?: StringList | undefined;
+  tokenCount?: string | undefined;
+  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings | undefined;
+  referencedTools?: StringList | undefined;
+  goal?: string | undefined;
+  displayName?: string | undefined;
+  inlineActions?: StringList | undefined;
+  codeBlock?: GoogleCloudDialogflowCxV3CodeBlock | undefined;
+  playbookType?: GoogleCloudDialogflowCxV3PlaybookPlaybookTypeEnum | (string & {}) | undefined;
+  referencedFlows?: StringList | undefined;
+  inputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList | undefined;
+  outputParameterDefinitions?: GoogleCloudDialogflowCxV3ParameterDefinitionList | undefined;
+  instruction?: GoogleCloudDialogflowCxV3PlaybookInstruction | undefined;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsPlaybooksRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Playbook;
+  body?: GoogleCloudDialogflowCxV3Playbook | undefined;
 }
 export interface GoogleCloudDialogflowCxV3PlaybookOutput {
-  executionSummary?: string;
+  executionSummary?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3PlaybookInput {
-  precedingConversationSummary?: string;
+  precedingConversationSummary?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExampleConversationStateEnum =
   | "OUTPUT_STATE_UNSPECIFIED"
@@ -980,20 +1013,20 @@ export type GoogleCloudDialogflowCxV3ExampleConversationStateEnum =
   | "OUTPUT_STATE_ESCALATED"
   | "OUTPUT_STATE_PENDING";
 export interface GoogleCloudDialogflowCxV3FlowTransition {
-  displayName?: string;
-  flow?: string;
+  displayName?: string | undefined;
+  flow?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3PlaybookTransition {
-  playbook?: string;
-  displayName?: string;
+  playbook?: string | undefined;
+  displayName?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3UserUtterance = GoogleCloudDialogflowCxV3Phrase;
 export interface GoogleCloudDialogflowCxV3ToolUse {
-  inputActionParameters?: DocumentMap;
-  action?: string;
-  tool?: string;
-  displayName?: string;
-  outputActionParameters?: DocumentMap;
+  inputActionParameters?: DocumentMap | undefined;
+  action?: string | undefined;
+  tool?: string | undefined;
+  displayName?: string | undefined;
+  outputActionParameters?: DocumentMap | undefined;
 }
 export type GoogleCloudDialogflowCxV3AgentUtterance = GoogleCloudDialogflowCxV3Phrase;
 export type GoogleCloudDialogflowCxV3PlaybookInvocationPlaybookStateEnum =
@@ -1004,11 +1037,14 @@ export type GoogleCloudDialogflowCxV3PlaybookInvocationPlaybookStateEnum =
   | "OUTPUT_STATE_ESCALATED"
   | "OUTPUT_STATE_PENDING";
 export interface GoogleCloudDialogflowCxV3PlaybookInvocation {
-  playbookState?: GoogleCloudDialogflowCxV3PlaybookInvocationPlaybookStateEnum | (string & {});
-  playbookOutput?: GoogleCloudDialogflowCxV3PlaybookOutput;
-  displayName?: string;
-  playbook?: string;
-  playbookInput?: GoogleCloudDialogflowCxV3PlaybookInput;
+  playbookState?:
+    | GoogleCloudDialogflowCxV3PlaybookInvocationPlaybookStateEnum
+    | (string & {})
+    | undefined;
+  playbookOutput?: GoogleCloudDialogflowCxV3PlaybookOutput | undefined;
+  displayName?: string | undefined;
+  playbook?: string | undefined;
+  playbookInput?: GoogleCloudDialogflowCxV3PlaybookInput | undefined;
 }
 export type GoogleCloudDialogflowCxV3FlowInvocationFlowStateEnum =
   | "OUTPUT_STATE_UNSPECIFIED"
@@ -1018,60 +1054,63 @@ export type GoogleCloudDialogflowCxV3FlowInvocationFlowStateEnum =
   | "OUTPUT_STATE_ESCALATED"
   | "OUTPUT_STATE_PENDING";
 export interface GoogleCloudDialogflowCxV3FlowInvocation {
-  flowState?: GoogleCloudDialogflowCxV3FlowInvocationFlowStateEnum | (string & {});
-  displayName?: string;
-  flow?: string;
+  flowState?: GoogleCloudDialogflowCxV3FlowInvocationFlowStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  flow?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3Action {
-  flowTransition?: GoogleCloudDialogflowCxV3FlowTransition;
-  playbookTransition?: GoogleCloudDialogflowCxV3PlaybookTransition;
-  userUtterance?: GoogleCloudDialogflowCxV3Phrase;
-  toolUse?: GoogleCloudDialogflowCxV3ToolUse;
-  agentUtterance?: GoogleCloudDialogflowCxV3Phrase;
-  playbookInvocation?: GoogleCloudDialogflowCxV3PlaybookInvocation;
-  flowInvocation?: GoogleCloudDialogflowCxV3FlowInvocation;
+  flowTransition?: GoogleCloudDialogflowCxV3FlowTransition | undefined;
+  playbookTransition?: GoogleCloudDialogflowCxV3PlaybookTransition | undefined;
+  userUtterance?: GoogleCloudDialogflowCxV3Phrase | undefined;
+  toolUse?: GoogleCloudDialogflowCxV3ToolUse | undefined;
+  agentUtterance?: GoogleCloudDialogflowCxV3Phrase | undefined;
+  playbookInvocation?: GoogleCloudDialogflowCxV3PlaybookInvocation | undefined;
+  flowInvocation?: GoogleCloudDialogflowCxV3FlowInvocation | undefined;
 }
 export type GoogleCloudDialogflowCxV3ActionList = Array<GoogleCloudDialogflowCxV3Action>;
 export interface GoogleCloudDialogflowCxV3Example {
-  playbookOutput?: GoogleCloudDialogflowCxV3PlaybookOutput;
-  updateTime?: string;
-  description?: string;
-  playbookInput?: GoogleCloudDialogflowCxV3PlaybookInput;
-  tokenCount?: string;
-  languageCode?: string;
-  name?: string;
-  conversationState?: GoogleCloudDialogflowCxV3ExampleConversationStateEnum | (string & {});
-  actions?: GoogleCloudDialogflowCxV3ActionList;
-  displayName?: string;
-  createTime?: string;
+  playbookOutput?: GoogleCloudDialogflowCxV3PlaybookOutput | undefined;
+  updateTime?: string | undefined;
+  description?: string | undefined;
+  playbookInput?: GoogleCloudDialogflowCxV3PlaybookInput | undefined;
+  tokenCount?: string | undefined;
+  languageCode?: string | undefined;
+  name?: string | undefined;
+  conversationState?:
+    | GoogleCloudDialogflowCxV3ExampleConversationStateEnum
+    | (string & {})
+    | undefined;
+  actions?: GoogleCloudDialogflowCxV3ActionList | undefined;
+  displayName?: string | undefined;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsPlaybooksExamplesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Example;
+  body?: GoogleCloudDialogflowCxV3Example | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExampleList = Array<GoogleCloudDialogflowCxV3Example>;
 export interface GoogleCloudDialogflowCxV3PlaybookVersion {
-  updateTime?: string;
-  name?: string;
-  playbook?: GoogleCloudDialogflowCxV3Playbook;
-  description?: string;
-  examples?: GoogleCloudDialogflowCxV3ExampleList;
+  updateTime?: string | undefined;
+  name?: string | undefined;
+  playbook?: GoogleCloudDialogflowCxV3Playbook | undefined;
+  description?: string | undefined;
+  examples?: GoogleCloudDialogflowCxV3ExampleList | undefined;
 }
 export interface CreateProjectsLocationsAgentsPlaybooksVersionsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3PlaybookVersion;
+  body?: GoogleCloudDialogflowCxV3PlaybookVersion | undefined;
 }
 export interface CreateProjectsLocationsAgentsSessionsEntityTypesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SessionEntityType;
+  body?: GoogleCloudDialogflowCxV3SessionEntityType | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TestConfig {
-  trackingParameters?: StringList;
-  flow?: string;
-  page?: string;
+  trackingParameters?: StringList | undefined;
+  flow?: string | undefined;
+  page?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3TestCaseResultTestResultEnum =
   | "TEST_RESULT_UNSPECIFIED"
@@ -1087,24 +1126,24 @@ export type GoogleCloudDialogflowCxV3TestRunDifferenceTypeEnum =
   | "UTTERANCE"
   | "FLOW";
 export interface GoogleCloudDialogflowCxV3TestRunDifference {
-  type?: GoogleCloudDialogflowCxV3TestRunDifferenceTypeEnum | (string & {});
-  description?: string;
+  type?: GoogleCloudDialogflowCxV3TestRunDifferenceTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3TestRunDifferenceList =
   Array<GoogleCloudDialogflowCxV3TestRunDifference>;
 export interface GoogleCloudDialogflowCxV3ConversationTurnVirtualAgentOutput {
-  triggeredIntent?: GoogleCloudDialogflowCxV3Intent;
-  textResponses?: GoogleCloudDialogflowCxV3ResponseMessageTextList;
-  status?: GoogleRpcStatus;
-  differences?: GoogleCloudDialogflowCxV3TestRunDifferenceList;
-  sessionParameters?: DocumentMap;
-  diagnosticInfo?: DocumentMap;
-  currentPage?: GoogleCloudDialogflowCxV3Page;
+  triggeredIntent?: GoogleCloudDialogflowCxV3Intent | undefined;
+  textResponses?: GoogleCloudDialogflowCxV3ResponseMessageTextList | undefined;
+  status?: GoogleRpcStatus | undefined;
+  differences?: GoogleCloudDialogflowCxV3TestRunDifferenceList | undefined;
+  sessionParameters?: DocumentMap | undefined;
+  diagnosticInfo?: DocumentMap | undefined;
+  currentPage?: GoogleCloudDialogflowCxV3Page | undefined;
 }
 export type GoogleCloudDialogflowCxV3TextInput = GoogleCloudDialogflowCxV3Phrase;
 export interface GoogleCloudDialogflowCxV3BargeInConfig {
-  noBargeInDuration?: string;
-  totalDuration?: string;
+  noBargeInDuration?: string | undefined;
+  totalDuration?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3InputAudioConfigModelVariantEnum =
   | "SPEECH_MODEL_VARIANT_UNSPECIFIED"
@@ -1122,84 +1161,90 @@ export type GoogleCloudDialogflowCxV3InputAudioConfigAudioEncodingEnum =
   | "AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE"
   | "AUDIO_ENCODING_ALAW";
 export interface GoogleCloudDialogflowCxV3InputAudioConfig {
-  bargeInConfig?: GoogleCloudDialogflowCxV3BargeInConfig;
-  phraseHints?: StringList;
-  sampleRateHertz?: number;
-  enableWordInfo?: boolean;
-  singleUtterance?: boolean;
-  modelVariant?: GoogleCloudDialogflowCxV3InputAudioConfigModelVariantEnum | (string & {});
-  model?: string;
-  optOutConformerModelMigration?: boolean;
-  audioEncoding?: GoogleCloudDialogflowCxV3InputAudioConfigAudioEncodingEnum | (string & {});
+  bargeInConfig?: GoogleCloudDialogflowCxV3BargeInConfig | undefined;
+  phraseHints?: StringList | undefined;
+  sampleRateHertz?: number | undefined;
+  enableWordInfo?: boolean | undefined;
+  singleUtterance?: boolean | undefined;
+  modelVariant?:
+    | GoogleCloudDialogflowCxV3InputAudioConfigModelVariantEnum
+    | (string & {})
+    | undefined;
+  model?: string | undefined;
+  optOutConformerModelMigration?: boolean | undefined;
+  audioEncoding?:
+    | GoogleCloudDialogflowCxV3InputAudioConfigAudioEncodingEnum
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AudioInput {
-  config?: GoogleCloudDialogflowCxV3InputAudioConfig;
-  audio?: string;
+  config?: GoogleCloudDialogflowCxV3InputAudioConfig | undefined;
+  audio?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3DtmfInput {
-  finishDigit?: string;
-  digits?: string;
+  finishDigit?: string | undefined;
+  digits?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3IntentInput {
-  intent?: string;
+  intent?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolCallResultError {
-  message?: string;
+  message?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolCallResult {
-  tool?: string;
-  action?: string;
-  error?: GoogleCloudDialogflowCxV3ToolCallResultError;
-  outputParameters?: DocumentMap;
+  tool?: string | undefined;
+  action?: string | undefined;
+  error?: GoogleCloudDialogflowCxV3ToolCallResultError | undefined;
+  outputParameters?: DocumentMap | undefined;
 }
 export interface GoogleCloudDialogflowCxV3EventInput {
-  event?: string;
+  event?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3QueryInput {
-  text?: GoogleCloudDialogflowCxV3Phrase;
-  audio?: GoogleCloudDialogflowCxV3AudioInput;
-  languageCode?: string;
-  dtmf?: GoogleCloudDialogflowCxV3DtmfInput;
-  intent?: GoogleCloudDialogflowCxV3IntentInput;
-  toolCallResult?: GoogleCloudDialogflowCxV3ToolCallResult;
-  event?: GoogleCloudDialogflowCxV3EventInput;
+  text?: GoogleCloudDialogflowCxV3Phrase | undefined;
+  audio?: GoogleCloudDialogflowCxV3AudioInput | undefined;
+  languageCode?: string | undefined;
+  dtmf?: GoogleCloudDialogflowCxV3DtmfInput | undefined;
+  intent?: GoogleCloudDialogflowCxV3IntentInput | undefined;
+  toolCallResult?: GoogleCloudDialogflowCxV3ToolCallResult | undefined;
+  event?: GoogleCloudDialogflowCxV3EventInput | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ConversationTurnUserInput {
-  injectedParameters?: DocumentMap;
-  enableSentimentAnalysis?: boolean;
-  isWebhookEnabled?: boolean;
-  input?: GoogleCloudDialogflowCxV3QueryInput;
+  injectedParameters?: DocumentMap | undefined;
+  enableSentimentAnalysis?: boolean | undefined;
+  isWebhookEnabled?: boolean | undefined;
+  input?: GoogleCloudDialogflowCxV3QueryInput | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ConversationTurn {
-  virtualAgentOutput?: GoogleCloudDialogflowCxV3ConversationTurnVirtualAgentOutput;
-  userInput?: GoogleCloudDialogflowCxV3ConversationTurnUserInput;
+  virtualAgentOutput?: GoogleCloudDialogflowCxV3ConversationTurnVirtualAgentOutput | undefined;
+  userInput?: GoogleCloudDialogflowCxV3ConversationTurnUserInput | undefined;
 }
 export type GoogleCloudDialogflowCxV3ConversationTurnList =
   Array<GoogleCloudDialogflowCxV3ConversationTurn>;
 export interface GoogleCloudDialogflowCxV3TestCaseResult {
-  environment?: string;
-  testTime?: string;
-  testResult?: GoogleCloudDialogflowCxV3TestCaseResultTestResultEnum | (string & {});
-  conversationTurns?: GoogleCloudDialogflowCxV3ConversationTurnList;
-  name?: string;
+  environment?: string | undefined;
+  testTime?: string | undefined;
+  testResult?: GoogleCloudDialogflowCxV3TestCaseResultTestResultEnum | (string & {}) | undefined;
+  conversationTurns?: GoogleCloudDialogflowCxV3ConversationTurnList | undefined;
+  name?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TestCase {
-  testConfig?: GoogleCloudDialogflowCxV3TestConfig;
-  notes?: string;
-  lastTestResult?: GoogleCloudDialogflowCxV3TestCaseResult;
-  tags?: StringList;
-  testCaseConversationTurns?: GoogleCloudDialogflowCxV3ConversationTurnList;
-  creationTime?: string;
-  displayName?: string;
-  name?: string;
+  testConfig?: GoogleCloudDialogflowCxV3TestConfig | undefined;
+  notes?: string | undefined;
+  lastTestResult?: GoogleCloudDialogflowCxV3TestCaseResult | undefined;
+  tags?: StringList | undefined;
+  testCaseConversationTurns?: GoogleCloudDialogflowCxV3ConversationTurnList | undefined;
+  creationTime?: string | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsTestCasesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TestCase;
+  body?: GoogleCloudDialogflowCxV3TestCase | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolServiceDirectoryConfig {
-  service?: string;
+  service?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfigRequestLocationEnum =
   | "REQUEST_LOCATION_UNSPECIFIED"
@@ -1208,29 +1253,31 @@ export type GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfigRequestLocati
 export interface GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfig {
   requestLocation?:
     | GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfigRequestLocationEnum
-    | (string & {});
-  secretVersionForApiKey?: string;
-  keyName?: string;
-  apiKey?: string;
+    | (string & {})
+    | undefined;
+  secretVersionForApiKey?: string | undefined;
+  keyName?: string | undefined;
+  apiKey?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolAuthenticationServiceAccountAuthConfig =
   GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig;
 export interface GoogleCloudDialogflowCxV3ToolAuthenticationBearerTokenConfig {
-  token?: string;
-  secretVersionForToken?: string;
+  token?: string | undefined;
+  secretVersionForToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolAuthenticationOAuthConfigOauthGrantTypeEnum =
   | "OAUTH_GRANT_TYPE_UNSPECIFIED"
   | "CLIENT_CREDENTIAL";
 export interface GoogleCloudDialogflowCxV3ToolAuthenticationOAuthConfig {
-  clientSecret?: string;
-  scopes?: StringList;
-  secretVersionForClientSecret?: string;
+  clientSecret?: string | undefined;
+  scopes?: StringList | undefined;
+  secretVersionForClientSecret?: string | undefined;
   oauthGrantType?:
     | GoogleCloudDialogflowCxV3ToolAuthenticationOAuthConfigOauthGrantTypeEnum
-    | (string & {});
-  tokenEndpoint?: string;
-  clientId?: string;
+    | (string & {})
+    | undefined;
+  tokenEndpoint?: string | undefined;
+  clientId?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfigServiceAgentAuthEnum =
   | "SERVICE_AGENT_AUTH_UNSPECIFIED"
@@ -1239,80 +1286,85 @@ export type GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfigSer
 export interface GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfig {
   serviceAgentAuth?:
     | GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfigServiceAgentAuthEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolAuthentication {
-  apiKeyConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfig;
-  serviceAccountAuthConfig?: GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig;
-  bearerTokenConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationBearerTokenConfig;
-  oauthConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationOAuthConfig;
-  serviceAgentAuthConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfig;
+  apiKeyConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationApiKeyConfig | undefined;
+  serviceAccountAuthConfig?:
+    | GoogleCloudDialogflowCxV3WebhookGenericWebServiceServiceAccountAuthConfig
+    | undefined;
+  bearerTokenConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationBearerTokenConfig | undefined;
+  oauthConfig?: GoogleCloudDialogflowCxV3ToolAuthenticationOAuthConfig | undefined;
+  serviceAgentAuthConfig?:
+    | GoogleCloudDialogflowCxV3ToolAuthenticationServiceAgentAuthConfig
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolTLSConfigCACert {
-  displayName?: string;
-  cert?: string;
+  displayName?: string | undefined;
+  cert?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolTLSConfigCACertList =
   Array<GoogleCloudDialogflowCxV3ToolTLSConfigCACert>;
 export interface GoogleCloudDialogflowCxV3ToolTLSConfig {
-  caCerts?: GoogleCloudDialogflowCxV3ToolTLSConfigCACertList;
+  caCerts?: GoogleCloudDialogflowCxV3ToolTLSConfigCACertList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolOpenApiTool {
-  textSchema?: string;
-  serviceDirectoryConfig?: GoogleCloudDialogflowCxV3ToolServiceDirectoryConfig;
-  authentication?: GoogleCloudDialogflowCxV3ToolAuthentication;
-  tlsConfig?: GoogleCloudDialogflowCxV3ToolTLSConfig;
+  textSchema?: string | undefined;
+  serviceDirectoryConfig?: GoogleCloudDialogflowCxV3ToolServiceDirectoryConfig | undefined;
+  authentication?: GoogleCloudDialogflowCxV3ToolAuthentication | undefined;
+  tlsConfig?: GoogleCloudDialogflowCxV3ToolTLSConfig | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolFunctionTool {
-  inputSchema?: DocumentMap;
-  outputSchema?: DocumentMap;
+  inputSchema?: DocumentMap | undefined;
+  outputSchema?: DocumentMap | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolDataStoreToolFallbackPrompt =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface GoogleCloudDialogflowCxV3ToolDataStoreTool {
-  fallbackPrompt?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
-  dataStoreConnections?: GoogleCloudDialogflowCxV3DataStoreConnectionList;
+  fallbackPrompt?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
+  dataStoreConnections?: GoogleCloudDialogflowCxV3DataStoreConnectionList | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolToolTypeEnum =
   | "TOOL_TYPE_UNSPECIFIED"
   | "CUSTOMIZED_TOOL"
   | "BUILTIN_TOOL";
 export interface GoogleCloudDialogflowCxV3Tool {
-  openApiSpec?: GoogleCloudDialogflowCxV3ToolOpenApiTool;
-  functionSpec?: GoogleCloudDialogflowCxV3ToolFunctionTool;
-  description?: string;
-  dataStoreSpec?: GoogleCloudDialogflowCxV3ToolDataStoreTool;
-  displayName?: string;
-  name?: string;
-  toolType?: GoogleCloudDialogflowCxV3ToolToolTypeEnum | (string & {});
+  openApiSpec?: GoogleCloudDialogflowCxV3ToolOpenApiTool | undefined;
+  functionSpec?: GoogleCloudDialogflowCxV3ToolFunctionTool | undefined;
+  description?: string | undefined;
+  dataStoreSpec?: GoogleCloudDialogflowCxV3ToolDataStoreTool | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  toolType?: GoogleCloudDialogflowCxV3ToolToolTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsAgentsToolsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Tool;
+  body?: GoogleCloudDialogflowCxV3Tool | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ToolVersion {
-  updateTime?: string;
-  displayName?: string;
-  createTime?: string;
-  tool?: GoogleCloudDialogflowCxV3Tool;
-  name?: string;
+  updateTime?: string | undefined;
+  displayName?: string | undefined;
+  createTime?: string | undefined;
+  tool?: GoogleCloudDialogflowCxV3Tool | undefined;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsAgentsToolsVersionsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ToolVersion;
+  body?: GoogleCloudDialogflowCxV3ToolVersion | undefined;
 }
 export interface CreateProjectsLocationsAgentsTransitionRouteGroupsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup;
+  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup | undefined;
 }
 export interface CreateProjectsLocationsAgentsWebhooksRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Webhook;
+  body?: GoogleCloudDialogflowCxV3Webhook | undefined;
 }
 export type GoogleCloudDialogflowCxV3SecuritySettingsPurgeDataTypesItemEnum =
   | "PURGE_DATA_TYPE_UNSPECIFIED"
@@ -1324,7 +1376,7 @@ export type GoogleCloudDialogflowCxV3SecuritySettingsRedactionScopeEnum =
   | "REDACTION_SCOPE_UNSPECIFIED"
   | "REDACT_DISK_STORAGE";
 export interface GoogleCloudDialogflowCxV3SecuritySettingsInsightsExportSettings {
-  enableInsightsExport?: boolean;
+  enableInsightsExport?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3SecuritySettingsRetentionStrategyEnum =
   | "RETENTION_STRATEGY_UNSPECIFIED"
@@ -1338,41 +1390,49 @@ export type GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettingsAudioFor
   | "MP3"
   | "OGG";
 export interface GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettings {
-  storeTtsAudio?: boolean;
-  enableAudioRedaction?: boolean;
-  gcsBucket?: string;
-  audioExportPattern?: string;
+  storeTtsAudio?: boolean | undefined;
+  enableAudioRedaction?: boolean | undefined;
+  gcsBucket?: string | undefined;
+  audioExportPattern?: string | undefined;
   audioFormat?:
     | GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettingsAudioFormatEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SecuritySettings {
-  purgeDataTypes?: GoogleCloudDialogflowCxV3SecuritySettingsPurgeDataTypesItemEnumList;
-  redactionScope?: GoogleCloudDialogflowCxV3SecuritySettingsRedactionScopeEnum | (string & {});
-  insightsExportSettings?: GoogleCloudDialogflowCxV3SecuritySettingsInsightsExportSettings;
-  inspectTemplate?: string;
-  displayName?: string;
-  name?: string;
+  purgeDataTypes?: GoogleCloudDialogflowCxV3SecuritySettingsPurgeDataTypesItemEnumList | undefined;
+  redactionScope?:
+    | GoogleCloudDialogflowCxV3SecuritySettingsRedactionScopeEnum
+    | (string & {})
+    | undefined;
+  insightsExportSettings?:
+    | GoogleCloudDialogflowCxV3SecuritySettingsInsightsExportSettings
+    | undefined;
+  inspectTemplate?: string | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
   retentionStrategy?:
     | GoogleCloudDialogflowCxV3SecuritySettingsRetentionStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   redactionStrategy?:
     | GoogleCloudDialogflowCxV3SecuritySettingsRedactionStrategyEnum
-    | (string & {});
-  retentionWindowDays?: number;
-  deidentifyTemplate?: string;
-  audioExportSettings?: GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettings;
+    | (string & {})
+    | undefined;
+  retentionWindowDays?: number | undefined;
+  deidentifyTemplate?: string | undefined;
+  audioExportSettings?: GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettings | undefined;
 }
 export interface CreateProjectsLocationsSecuritySettingsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SecuritySettings;
+  body?: GoogleCloudDialogflowCxV3SecuritySettings | undefined;
 }
 export interface DeleteProjectsLocationsAgentsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsAgentsEntityTypesRequest {
-  force?: boolean;
+  force?: boolean | undefined;
   name: string;
 }
 export interface DeleteProjectsLocationsAgentsEnvironmentsRequest {
@@ -1386,21 +1446,21 @@ export interface DeleteProjectsLocationsAgentsEnvironmentsSessionsEntityTypesReq
 }
 export interface DeleteProjectsLocationsAgentsFlowsRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAgentsFlowsPagesRequest {
-  force?: boolean;
+  force?: boolean | undefined;
   name: string;
 }
 export interface DeleteProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAgentsFlowsVersionsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsAgentsGeneratorsRequest {
-  force?: boolean;
+  force?: boolean | undefined;
   name: string;
 }
 export interface DeleteProjectsLocationsAgentsIntentsRequest {
@@ -1420,40 +1480,40 @@ export interface DeleteProjectsLocationsAgentsSessionsEntityTypesRequest {
 }
 export interface DeleteProjectsLocationsAgentsToolsRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAgentsToolsVersionsRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAgentsTransitionRouteGroupsRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAgentsWebhooksRequest {
-  force?: boolean;
+  force?: boolean | undefined;
   name: string;
 }
 export interface DeleteProjectsLocationsSecuritySettingsRequest {
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3DeployFlowRequest {
-  flowVersion?: string;
+  flowVersion?: string | undefined;
 }
 export interface DeployFlowProjectsLocationsAgentsEnvironmentsRequest {
   environment: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3DeployFlowRequest;
+  body?: GoogleCloudDialogflowCxV3DeployFlowRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3SessionEntityTypeList =
   Array<GoogleCloudDialogflowCxV3SessionEntityType>;
 export interface GoogleTypeLatLng {
-  latitude?: number;
-  longitude?: number;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
 }
 export interface GoogleCloudDialogflowCxV3FilterSpecs {
-  filter?: string;
-  dataStores?: StringList;
+  filter?: string | undefined;
+  dataStores?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3FilterSpecsList = Array<GoogleCloudDialogflowCxV3FilterSpecs>;
 export type GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
@@ -1461,8 +1521,8 @@ export type GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpec
   | "NUMERICAL"
   | "FRESHNESS";
 export interface GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecControlPoint {
-  attributeValue?: string;
-  boostAmount?: number;
+  attributeValue?: string | undefined;
+  boostAmount?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecControlPointList =
   Array<GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecControlPoint>;
@@ -1470,54 +1530,60 @@ export type GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpec
   | "INTERPOLATION_TYPE_UNSPECIFIED"
   | "LINEAR";
 export interface GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpec {
-  fieldName?: string;
+  fieldName?: string | undefined;
   attributeType?:
     | GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum
-    | (string & {});
-  controlPoints?: GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecControlPointList;
+    | (string & {})
+    | undefined;
+  controlPoints?:
+    | GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecControlPointList
+    | undefined;
   interpolationType?:
     | GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpec {
-  boostControlSpec?: GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpec;
-  boost?: number;
-  condition?: string;
+  boostControlSpec?:
+    | GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecBoostControlSpec
+    | undefined;
+  boost?: number | undefined;
+  condition?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecList =
   Array<GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpec>;
 export interface GoogleCloudDialogflowCxV3BoostSpec {
-  conditionBoostSpecs?: GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecList;
+  conditionBoostSpecs?: GoogleCloudDialogflowCxV3BoostSpecConditionBoostSpecList | undefined;
 }
 export type GoogleCloudDialogflowCxV3BoostSpecList = Array<GoogleCloudDialogflowCxV3BoostSpec>;
 export interface GoogleCloudDialogflowCxV3BoostSpecs {
-  spec?: GoogleCloudDialogflowCxV3BoostSpecList;
-  dataStores?: StringList;
+  spec?: GoogleCloudDialogflowCxV3BoostSpecList | undefined;
+  dataStores?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3BoostSpecsList = Array<GoogleCloudDialogflowCxV3BoostSpecs>;
 export interface GoogleCloudDialogflowCxV3SearchConfig {
-  filterSpecs?: GoogleCloudDialogflowCxV3FilterSpecsList;
-  boostSpecs?: GoogleCloudDialogflowCxV3BoostSpecsList;
+  filterSpecs?: GoogleCloudDialogflowCxV3FilterSpecsList | undefined;
+  boostSpecs?: GoogleCloudDialogflowCxV3BoostSpecsList | undefined;
 }
 export interface GoogleCloudDialogflowCxV3QueryParameters {
-  sessionEntityTypes?: GoogleCloudDialogflowCxV3SessionEntityTypeList;
-  geoLocation?: GoogleTypeLatLng;
-  searchConfig?: GoogleCloudDialogflowCxV3SearchConfig;
-  timeZone?: string;
-  populateDataStoreConnectionSignals?: boolean;
-  sessionTtl?: string;
-  endUserMetadata?: DocumentMap;
-  channel?: string;
-  webhookHeaders?: StringMap;
-  payload?: DocumentMap;
-  parameterScope?: string;
-  currentPage?: string;
-  currentPlaybook?: string;
-  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings;
-  analyzeQueryTextSentiment?: boolean;
-  disableWebhook?: boolean;
-  parameters?: DocumentMap;
-  flowVersions?: StringList;
+  sessionEntityTypes?: GoogleCloudDialogflowCxV3SessionEntityTypeList | undefined;
+  geoLocation?: GoogleTypeLatLng | undefined;
+  searchConfig?: GoogleCloudDialogflowCxV3SearchConfig | undefined;
+  timeZone?: string | undefined;
+  populateDataStoreConnectionSignals?: boolean | undefined;
+  sessionTtl?: string | undefined;
+  endUserMetadata?: DocumentMap | undefined;
+  channel?: string | undefined;
+  webhookHeaders?: StringMap | undefined;
+  payload?: DocumentMap | undefined;
+  parameterScope?: string | undefined;
+  currentPage?: string | undefined;
+  currentPlaybook?: string | undefined;
+  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings | undefined;
+  analyzeQueryTextSentiment?: boolean | undefined;
+  disableWebhook?: boolean | undefined;
+  parameters?: DocumentMap | undefined;
+  flowVersions?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3OutputAudioConfigAudioEncodingEnum =
   | "OUTPUT_AUDIO_ENCODING_UNSPECIFIED"
@@ -1528,9 +1594,12 @@ export type GoogleCloudDialogflowCxV3OutputAudioConfigAudioEncodingEnum =
   | "OUTPUT_AUDIO_ENCODING_MULAW"
   | "OUTPUT_AUDIO_ENCODING_ALAW";
 export interface GoogleCloudDialogflowCxV3OutputAudioConfig {
-  audioEncoding?: GoogleCloudDialogflowCxV3OutputAudioConfigAudioEncodingEnum | (string & {});
-  sampleRateHertz?: number;
-  synthesizeSpeechConfig?: GoogleCloudDialogflowCxV3SynthesizeSpeechConfig;
+  audioEncoding?:
+    | GoogleCloudDialogflowCxV3OutputAudioConfigAudioEncodingEnum
+    | (string & {})
+    | undefined;
+  sampleRateHertz?: number | undefined;
+  synthesizeSpeechConfig?: GoogleCloudDialogflowCxV3SynthesizeSpeechConfig | undefined;
 }
 export type GoogleCloudDialogflowCxV3DetectIntentRequestResponseViewEnum =
   | "DETECT_INTENT_RESPONSE_VIEW_UNSPECIFIED"
@@ -1538,26 +1607,29 @@ export type GoogleCloudDialogflowCxV3DetectIntentRequestResponseViewEnum =
   | "DETECT_INTENT_RESPONSE_VIEW_BASIC"
   | "DETECT_INTENT_RESPONSE_VIEW_DEFAULT";
 export interface GoogleCloudDialogflowCxV3DetectIntentRequest {
-  queryInput?: GoogleCloudDialogflowCxV3QueryInput;
-  queryParams?: GoogleCloudDialogflowCxV3QueryParameters;
-  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig;
-  responseView?: GoogleCloudDialogflowCxV3DetectIntentRequestResponseViewEnum | (string & {});
+  queryInput?: GoogleCloudDialogflowCxV3QueryInput | undefined;
+  queryParams?: GoogleCloudDialogflowCxV3QueryParameters | undefined;
+  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig | undefined;
+  responseView?:
+    | GoogleCloudDialogflowCxV3DetectIntentRequestResponseViewEnum
+    | (string & {})
+    | undefined;
 }
 export interface DetectIntentProjectsLocationsAgentsEnvironmentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3DetectIntentRequest;
+  body?: GoogleCloudDialogflowCxV3DetectIntentRequest | undefined;
 }
 export type GoogleRpcStatusList = Array<GoogleRpcStatus>;
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsRewriterModelCallSignals {
-  modelOutput?: string;
-  renderedPrompt?: string;
-  model?: string;
+  modelOutput?: string | undefined;
+  renderedPrompt?: string | undefined;
+  model?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerGenerationModelCallSignals {
-  renderedPrompt?: string;
-  model?: string;
-  modelOutput?: string;
+  renderedPrompt?: string | undefined;
+  model?: string | undefined;
+  modelOutput?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsDecisionEnum =
   | "GROUNDING_DECISION_UNSPECIFIED"
@@ -1571,14 +1643,16 @@ export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsS
   | "HIGH"
   | "VERY_HIGH";
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignals {
-  decision?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsDecisionEnum;
-  score?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsScoreEnum;
+  decision?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsDecisionEnum
+    | undefined;
+  score?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignalsScoreEnum | undefined;
 }
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippet {
-  metadata?: DocumentMap;
-  documentUri?: string;
-  text?: string;
-  documentTitle?: string;
+  metadata?: DocumentMap | undefined;
+  documentUri?: string | undefined;
+  text?: string | undefined;
+  documentTitle?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippetList =
   Array<GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippet>;
@@ -1592,33 +1666,43 @@ export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignalsBann
   | "BANNED_PHRASE_MATCH_QUERY"
   | "BANNED_PHRASE_MATCH_RESPONSE";
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignals {
-  decision?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignalsDecisionEnum;
-  bannedPhraseMatch?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignalsBannedPhraseMatchEnum;
-  matchedBannedPhrase?: string;
+  decision?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignalsDecisionEnum
+    | undefined;
+  bannedPhraseMatch?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignalsBannedPhraseMatchEnum
+    | undefined;
+  matchedBannedPhrase?: string | undefined;
 }
 export type IntegerList = Array<number>;
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerPart {
-  text?: string;
-  supportingIndices?: IntegerList;
+  text?: string | undefined;
+  supportingIndices?: IntegerList | undefined;
 }
 export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerPartList =
   Array<GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerPart>;
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignalsCitedSnippet {
-  searchSnippet?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippet;
-  snippetIndex?: number;
+  searchSnippet?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippet | undefined;
+  snippetIndex?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3DataStoreConnectionSignalsCitedSnippetList =
   Array<GoogleCloudDialogflowCxV3DataStoreConnectionSignalsCitedSnippet>;
 export interface GoogleCloudDialogflowCxV3DataStoreConnectionSignals {
-  rewriterModelCallSignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsRewriterModelCallSignals;
-  answerGenerationModelCallSignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerGenerationModelCallSignals;
-  groundingSignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignals;
-  searchSnippets?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippetList;
-  safetySignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignals;
-  rewrittenQuery?: string;
-  answerParts?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerPartList;
-  citedSnippets?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsCitedSnippetList;
-  answer?: string;
+  rewriterModelCallSignals?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsRewriterModelCallSignals
+    | undefined;
+  answerGenerationModelCallSignals?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerGenerationModelCallSignals
+    | undefined;
+  groundingSignals?:
+    | GoogleCloudDialogflowCxV3DataStoreConnectionSignalsGroundingSignals
+    | undefined;
+  searchSnippets?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSearchSnippetList | undefined;
+  safetySignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsSafetySignals | undefined;
+  rewrittenQuery?: string | undefined;
+  answerParts?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsAnswerPartList | undefined;
+  citedSnippets?: GoogleCloudDialogflowCxV3DataStoreConnectionSignalsCitedSnippetList | undefined;
+  answer?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3MatchMatchTypeEnum =
   | "MATCH_TYPE_UNSPECIFIED"
@@ -1631,16 +1715,16 @@ export type GoogleCloudDialogflowCxV3MatchMatchTypeEnum =
   | "KNOWLEDGE_CONNECTOR"
   | "PLAYBOOK";
 export interface GoogleCloudDialogflowCxV3Match {
-  matchType?: GoogleCloudDialogflowCxV3MatchMatchTypeEnum | (string & {});
-  resolvedInput?: string;
-  intent?: GoogleCloudDialogflowCxV3Intent;
-  event?: string;
-  parameters?: DocumentMap;
-  confidence?: number;
+  matchType?: GoogleCloudDialogflowCxV3MatchMatchTypeEnum | (string & {}) | undefined;
+  resolvedInput?: string | undefined;
+  intent?: GoogleCloudDialogflowCxV3Intent | undefined;
+  event?: string | undefined;
+  parameters?: DocumentMap | undefined;
+  confidence?: number | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SentimentAnalysisResult {
-  score?: number;
-  magnitude?: number;
+  score?: number | undefined;
+  magnitude?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3TraceBlockEndStateEnum =
   | "OUTPUT_STATE_UNSPECIFIED"
@@ -1651,108 +1735,114 @@ export type GoogleCloudDialogflowCxV3TraceBlockEndStateEnum =
   | "OUTPUT_STATE_PENDING";
 export type GoogleCloudDialogflowCxV3FlowTraceMetadata = GoogleCloudDialogflowCxV3FlowTransition;
 export interface GoogleCloudDialogflowCxV3PlaybookTraceMetadata {
-  displayName?: string;
-  playbook?: string;
+  displayName?: string | undefined;
+  playbook?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SpeechProcessingMetadata {
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3TraceBlock {
-  outputParameters?: DocumentMap;
-  endState?: GoogleCloudDialogflowCxV3TraceBlockEndStateEnum;
-  flowTraceMetadata?: GoogleCloudDialogflowCxV3FlowTransition;
-  completeTime?: string;
-  playbookTraceMetadata?: GoogleCloudDialogflowCxV3PlaybookTraceMetadata;
-  speechProcessingMetadata?: GoogleCloudDialogflowCxV3SpeechProcessingMetadata;
-  startTime?: string;
-  inputParameters?: DocumentMap;
-  actions?: GoogleCloudDialogflowCxV3ActionList;
+  outputParameters?: DocumentMap | undefined;
+  endState?: GoogleCloudDialogflowCxV3TraceBlockEndStateEnum | undefined;
+  flowTraceMetadata?: GoogleCloudDialogflowCxV3FlowTransition | undefined;
+  completeTime?: string | undefined;
+  playbookTraceMetadata?: GoogleCloudDialogflowCxV3PlaybookTraceMetadata | undefined;
+  speechProcessingMetadata?: GoogleCloudDialogflowCxV3SpeechProcessingMetadata | undefined;
+  startTime?: string | undefined;
+  inputParameters?: DocumentMap | undefined;
+  actions?: GoogleCloudDialogflowCxV3ActionList | undefined;
 }
 export type GoogleCloudDialogflowCxV3TraceBlockList = Array<GoogleCloudDialogflowCxV3TraceBlock>;
 export interface GoogleCloudDialogflowCxV3QueryResult {
-  intentDetectionConfidence?: number;
-  dtmf?: GoogleCloudDialogflowCxV3DtmfInput;
-  webhookStatuses?: GoogleRpcStatusList;
-  currentFlow?: GoogleCloudDialogflowCxV3Flow;
-  transcript?: string;
-  intent?: GoogleCloudDialogflowCxV3Intent;
-  parameters?: DocumentMap;
-  responseMessages?: GoogleCloudDialogflowCxV3ResponseMessageList;
-  dataStoreConnectionSignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignals;
-  diagnosticInfo?: DocumentMap;
-  currentPage?: GoogleCloudDialogflowCxV3Page;
-  match?: GoogleCloudDialogflowCxV3Match;
-  webhookPayloads?: DocumentMapList;
-  allowAnswerFeedback?: boolean;
-  triggerEvent?: string;
-  languageCode?: string;
-  text?: string;
-  sentimentAnalysisResult?: GoogleCloudDialogflowCxV3SentimentAnalysisResult;
-  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings;
-  triggerIntent?: string;
-  traceBlocks?: GoogleCloudDialogflowCxV3TraceBlockList;
+  intentDetectionConfidence?: number | undefined;
+  dtmf?: GoogleCloudDialogflowCxV3DtmfInput | undefined;
+  webhookStatuses?: GoogleRpcStatusList | undefined;
+  currentFlow?: GoogleCloudDialogflowCxV3Flow | undefined;
+  transcript?: string | undefined;
+  intent?: GoogleCloudDialogflowCxV3Intent | undefined;
+  parameters?: DocumentMap | undefined;
+  responseMessages?: GoogleCloudDialogflowCxV3ResponseMessageList | undefined;
+  dataStoreConnectionSignals?: GoogleCloudDialogflowCxV3DataStoreConnectionSignals | undefined;
+  diagnosticInfo?: DocumentMap | undefined;
+  currentPage?: GoogleCloudDialogflowCxV3Page | undefined;
+  match?: GoogleCloudDialogflowCxV3Match | undefined;
+  webhookPayloads?: DocumentMapList | undefined;
+  allowAnswerFeedback?: boolean | undefined;
+  triggerEvent?: string | undefined;
+  languageCode?: string | undefined;
+  text?: string | undefined;
+  sentimentAnalysisResult?: GoogleCloudDialogflowCxV3SentimentAnalysisResult | undefined;
+  advancedSettings?: GoogleCloudDialogflowCxV3AdvancedSettings | undefined;
+  triggerIntent?: string | undefined;
+  traceBlocks?: GoogleCloudDialogflowCxV3TraceBlockList | undefined;
 }
 export type GoogleCloudDialogflowCxV3DetectIntentResponseResponseTypeEnum =
   | "RESPONSE_TYPE_UNSPECIFIED"
   | "PARTIAL"
   | "FINAL";
 export interface GoogleCloudDialogflowCxV3DetectIntentResponse {
-  responseId?: string;
-  allowCancellation?: boolean;
-  queryResult?: GoogleCloudDialogflowCxV3QueryResult;
-  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig;
-  outputAudio?: string;
-  responseType?: GoogleCloudDialogflowCxV3DetectIntentResponseResponseTypeEnum;
+  responseId?: string | undefined;
+  allowCancellation?: boolean | undefined;
+  queryResult?: GoogleCloudDialogflowCxV3QueryResult | undefined;
+  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig | undefined;
+  outputAudio?: string | undefined;
+  responseType?: GoogleCloudDialogflowCxV3DetectIntentResponseResponseTypeEnum | undefined;
 }
 export interface DetectIntentProjectsLocationsAgentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3DetectIntentRequest;
+  body?: GoogleCloudDialogflowCxV3DetectIntentRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination {
-  trackingBranch?: string;
-  commitMessage?: string;
+  trackingBranch?: string | undefined;
+  commitMessage?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExportAgentRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
   | "BLOB"
   | "JSON_PACKAGE";
 export interface GoogleCloudDialogflowCxV3ExportAgentRequest {
-  includeBigqueryExportSettings?: boolean;
-  gitDestination?: GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination;
-  dataFormat?: GoogleCloudDialogflowCxV3ExportAgentRequestDataFormatEnum | (string & {});
-  agentUri?: string;
-  environment?: string;
+  includeBigqueryExportSettings?: boolean | undefined;
+  gitDestination?: GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination | undefined;
+  dataFormat?:
+    | GoogleCloudDialogflowCxV3ExportAgentRequestDataFormatEnum
+    | (string & {})
+    | undefined;
+  agentUri?: string | undefined;
+  environment?: string | undefined;
 }
 export interface ExportProjectsLocationsAgentsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportAgentRequest;
+  body?: GoogleCloudDialogflowCxV3ExportAgentRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExportEntityTypesRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
   | "BLOB"
   | "JSON_PACKAGE";
 export interface GoogleCloudDialogflowCxV3ExportEntityTypesRequest {
-  languageCode?: string;
-  dataFormat?: GoogleCloudDialogflowCxV3ExportEntityTypesRequestDataFormatEnum | (string & {});
-  entityTypes?: StringList;
-  entityTypesUri?: string;
-  entityTypesContentInline?: boolean;
+  languageCode?: string | undefined;
+  dataFormat?:
+    | GoogleCloudDialogflowCxV3ExportEntityTypesRequestDataFormatEnum
+    | (string & {})
+    | undefined;
+  entityTypes?: StringList | undefined;
+  entityTypesUri?: string | undefined;
+  entityTypesContentInline?: boolean | undefined;
 }
 export interface ExportProjectsLocationsAgentsEntityTypesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportEntityTypesRequest;
+  body?: GoogleCloudDialogflowCxV3ExportEntityTypesRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ExportFlowRequest {
-  includeReferencedFlows?: boolean;
-  flowUri?: string;
+  includeReferencedFlows?: boolean | undefined;
+  flowUri?: string | undefined;
 }
 export interface ExportProjectsLocationsAgentsFlowsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportFlowRequest;
+  body?: GoogleCloudDialogflowCxV3ExportFlowRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExportIntentsRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
@@ -1760,95 +1850,106 @@ export type GoogleCloudDialogflowCxV3ExportIntentsRequestDataFormatEnum =
   | "JSON"
   | "CSV";
 export interface GoogleCloudDialogflowCxV3ExportIntentsRequest {
-  dataFormat?: GoogleCloudDialogflowCxV3ExportIntentsRequestDataFormatEnum | (string & {});
-  intentsUri?: string;
-  intents?: StringList;
-  intentsContentInline?: boolean;
+  dataFormat?:
+    | GoogleCloudDialogflowCxV3ExportIntentsRequestDataFormatEnum
+    | (string & {})
+    | undefined;
+  intentsUri?: string | undefined;
+  intents?: StringList | undefined;
+  intentsContentInline?: boolean | undefined;
 }
 export interface ExportProjectsLocationsAgentsIntentsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportIntentsRequest;
+  body?: GoogleCloudDialogflowCxV3ExportIntentsRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExportPlaybookRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
   | "BLOB"
   | "JSON";
 export interface GoogleCloudDialogflowCxV3ExportPlaybookRequest {
-  playbookUri?: string;
-  dataFormat?: GoogleCloudDialogflowCxV3ExportPlaybookRequestDataFormatEnum | (string & {});
+  playbookUri?: string | undefined;
+  dataFormat?:
+    | GoogleCloudDialogflowCxV3ExportPlaybookRequestDataFormatEnum
+    | (string & {})
+    | undefined;
 }
 export interface ExportProjectsLocationsAgentsPlaybooksRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportPlaybookRequest;
+  body?: GoogleCloudDialogflowCxV3ExportPlaybookRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ExportTestCasesRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
   | "BLOB"
   | "JSON";
 export interface GoogleCloudDialogflowCxV3ExportTestCasesRequest {
-  filter?: string;
-  gcsUri?: string;
-  dataFormat?: GoogleCloudDialogflowCxV3ExportTestCasesRequestDataFormatEnum | (string & {});
+  filter?: string | undefined;
+  gcsUri?: string | undefined;
+  dataFormat?:
+    | GoogleCloudDialogflowCxV3ExportTestCasesRequestDataFormatEnum
+    | (string & {})
+    | undefined;
 }
 export interface ExportProjectsLocationsAgentsTestCasesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ExportTestCasesRequest;
+  body?: GoogleCloudDialogflowCxV3ExportTestCasesRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3MatchIntentRequest {
-  persistParameterChanges?: boolean;
-  queryParams?: GoogleCloudDialogflowCxV3QueryParameters;
-  queryInput?: GoogleCloudDialogflowCxV3QueryInput;
+  persistParameterChanges?: boolean | undefined;
+  queryParams?: GoogleCloudDialogflowCxV3QueryParameters | undefined;
+  queryInput?: GoogleCloudDialogflowCxV3QueryInput | undefined;
 }
 export interface GoogleCloudDialogflowCxV3FulfillIntentRequest {
-  matchIntentRequest?: GoogleCloudDialogflowCxV3MatchIntentRequest;
-  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig;
-  match?: GoogleCloudDialogflowCxV3Match;
+  matchIntentRequest?: GoogleCloudDialogflowCxV3MatchIntentRequest | undefined;
+  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig | undefined;
+  match?: GoogleCloudDialogflowCxV3Match | undefined;
 }
 export interface FulfillIntentProjectsLocationsAgentsEnvironmentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3FulfillIntentRequest;
+  body?: GoogleCloudDialogflowCxV3FulfillIntentRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3FulfillIntentResponse {
-  responseId?: string;
-  queryResult?: GoogleCloudDialogflowCxV3QueryResult;
-  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig;
-  outputAudio?: string;
+  responseId?: string | undefined;
+  queryResult?: GoogleCloudDialogflowCxV3QueryResult | undefined;
+  outputAudioConfig?: GoogleCloudDialogflowCxV3OutputAudioConfig | undefined;
+  outputAudio?: string | undefined;
 }
 export interface FulfillIntentProjectsLocationsAgentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3FulfillIntentRequest;
+  body?: GoogleCloudDialogflowCxV3FulfillIntentRequest | undefined;
 }
 export interface GetGenerativeSettingsProjectsLocationsAgentsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3GenerativeSettingsKnowledgeConnectorSettings {
-  agentIdentity?: string;
-  agent?: string;
-  businessDescription?: string;
-  disableDataStoreFallback?: boolean;
-  agentScope?: string;
-  business?: string;
+  agentIdentity?: string | undefined;
+  agent?: string | undefined;
+  businessDescription?: string | undefined;
+  disableDataStoreFallback?: boolean | undefined;
+  agentScope?: string | undefined;
+  business?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettingsPromptTemplate {
-  frozen?: boolean;
-  promptText?: string;
-  displayName?: string;
+  frozen?: boolean | undefined;
+  promptText?: string | undefined;
+  displayName?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettingsPromptTemplateList =
   Array<GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettingsPromptTemplate>;
 export interface GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettings {
-  selectedPrompt?: string;
-  promptTemplates?: GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettingsPromptTemplateList;
+  selectedPrompt?: string | undefined;
+  promptTemplates?:
+    | GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettingsPromptTemplateList
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SafetySettingsPhrase {
-  languageCode?: string;
-  text?: string;
+  languageCode?: string | undefined;
+  text?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3SafetySettingsPhraseList =
   Array<GoogleCloudDialogflowCxV3SafetySettingsPhrase>;
@@ -1867,49 +1968,58 @@ export type GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterFilt
 export interface GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilter {
   category?:
     | GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterCategoryEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   filterLevel?:
     | GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterFilterLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterList =
   Array<GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilter>;
 export interface GoogleCloudDialogflowCxV3SafetySettingsRaiSettings {
-  categoryFilters?: GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterList;
+  categoryFilters?:
+    | GoogleCloudDialogflowCxV3SafetySettingsRaiSettingsCategoryFilterList
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SafetySettingsPromptSecuritySettings {
-  enablePromptSecurity?: boolean;
+  enablePromptSecurity?: boolean | undefined;
 }
 export type GoogleCloudDialogflowCxV3SafetySettingsDefaultBannedPhraseMatchStrategyEnum =
   | "PHRASE_MATCH_STRATEGY_UNSPECIFIED"
   | "PARTIAL_MATCH"
   | "WORD_MATCH";
 export interface GoogleCloudDialogflowCxV3SafetySettings {
-  bannedPhrases?: GoogleCloudDialogflowCxV3SafetySettingsPhraseList;
-  raiSettings?: GoogleCloudDialogflowCxV3SafetySettingsRaiSettings;
-  promptSecuritySettings?: GoogleCloudDialogflowCxV3SafetySettingsPromptSecuritySettings;
+  bannedPhrases?: GoogleCloudDialogflowCxV3SafetySettingsPhraseList | undefined;
+  raiSettings?: GoogleCloudDialogflowCxV3SafetySettingsRaiSettings | undefined;
+  promptSecuritySettings?:
+    | GoogleCloudDialogflowCxV3SafetySettingsPromptSecuritySettings
+    | undefined;
   defaultBannedPhraseMatchStrategy?:
     | GoogleCloudDialogflowCxV3SafetySettingsDefaultBannedPhraseMatchStrategyEnum
-    | (string & {});
-  defaultRaiSettings?: GoogleCloudDialogflowCxV3SafetySettingsRaiSettings;
+    | (string & {})
+    | undefined;
+  defaultRaiSettings?: GoogleCloudDialogflowCxV3SafetySettingsRaiSettings | undefined;
 }
 export interface GoogleCloudDialogflowCxV3GenerativeSettings {
-  languageCode?: string;
-  knowledgeConnectorSettings?: GoogleCloudDialogflowCxV3GenerativeSettingsKnowledgeConnectorSettings;
-  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings;
-  name?: string;
-  fallbackSettings?: GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettings;
-  generativeSafetySettings?: GoogleCloudDialogflowCxV3SafetySettings;
+  languageCode?: string | undefined;
+  knowledgeConnectorSettings?:
+    | GoogleCloudDialogflowCxV3GenerativeSettingsKnowledgeConnectorSettings
+    | undefined;
+  llmModelSettings?: GoogleCloudDialogflowCxV3LlmModelSettings | undefined;
+  name?: string | undefined;
+  fallbackSettings?: GoogleCloudDialogflowCxV3GenerativeSettingsFallbackSettings | undefined;
+  generativeSafetySettings?: GoogleCloudDialogflowCxV3SafetySettings | undefined;
 }
 export interface GetProjectsLocationsRequest {
   name: string;
 }
 export interface GoogleCloudLocationLocation {
-  name?: string;
-  metadata?: DocumentMap;
-  locationId?: string;
-  labels?: StringMap;
-  displayName?: string;
+  name?: string | undefined;
+  metadata?: DocumentMap | undefined;
+  locationId?: string | undefined;
+  labels?: StringMap | undefined;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsRequest {
   name: string;
@@ -1918,18 +2028,18 @@ export interface GetProjectsLocationsAgentsChangelogsRequest {
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3Changelog {
-  name?: string;
-  displayName?: string;
-  resource?: string;
-  type?: string;
-  action?: string;
-  languageCode?: string;
-  userEmail?: string;
-  createTime?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  resource?: string | undefined;
+  type?: string | undefined;
+  action?: string | undefined;
+  languageCode?: string | undefined;
+  userEmail?: string | undefined;
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsEntityTypesRequest {
   name: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsEnvironmentsRequest {
   name: string;
@@ -1938,8 +2048,8 @@ export interface GetProjectsLocationsAgentsEnvironmentsDeploymentsRequest {
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3DeploymentResult {
-  experiment?: string;
-  deploymentTestResults?: StringList;
+  experiment?: string | undefined;
+  deploymentTestResults?: StringList | undefined;
 }
 export type GoogleCloudDialogflowCxV3DeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1947,12 +2057,12 @@ export type GoogleCloudDialogflowCxV3DeploymentStateEnum =
   | "SUCCEEDED"
   | "FAILED";
 export interface GoogleCloudDialogflowCxV3Deployment {
-  flowVersion?: string;
-  name?: string;
-  result?: GoogleCloudDialogflowCxV3DeploymentResult;
-  state?: GoogleCloudDialogflowCxV3DeploymentStateEnum;
-  endTime?: string;
-  startTime?: string;
+  flowVersion?: string | undefined;
+  name?: string | undefined;
+  result?: GoogleCloudDialogflowCxV3DeploymentResult | undefined;
+  state?: GoogleCloudDialogflowCxV3DeploymentStateEnum | undefined;
+  endTime?: string | undefined;
+  startTime?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsEnvironmentsExperimentsRequest {
   name: string;
@@ -1961,27 +2071,27 @@ export interface GetProjectsLocationsAgentsEnvironmentsSessionsEntityTypesReques
   name: string;
 }
 export interface GetProjectsLocationsAgentsFlowsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export interface GetProjectsLocationsAgentsFlowsPagesRequest {
   name: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export interface GetProjectsLocationsAgentsFlowsVersionsRequest {
   name: string;
 }
 export interface GetProjectsLocationsAgentsGeneratorsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export interface GetProjectsLocationsAgentsIntentsRequest {
   name: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface GetProjectsLocationsAgentsPlaybooksRequest {
   name: string;
@@ -2008,7 +2118,7 @@ export interface GetProjectsLocationsAgentsToolsVersionsRequest {
   name: string;
 }
 export interface GetProjectsLocationsAgentsTransitionRouteGroupsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export interface GetProjectsLocationsAgentsWebhooksRequest {
@@ -2024,7 +2134,7 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 export interface GetValidationResultProjectsLocationsAgentsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export type GoogleCloudDialogflowCxV3ValidationMessageResourceTypeEnum =
@@ -2044,8 +2154,8 @@ export type GoogleCloudDialogflowCxV3ValidationMessageResourceTypeEnum =
   | "TRANSITION_ROUTE_GROUP"
   | "AGENT_TRANSITION_ROUTE_GROUP";
 export interface GoogleCloudDialogflowCxV3ResourceName {
-  displayName?: string;
-  name?: string;
+  displayName?: string | undefined;
+  name?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ResourceNameList =
   Array<GoogleCloudDialogflowCxV3ResourceName>;
@@ -2055,27 +2165,27 @@ export type GoogleCloudDialogflowCxV3ValidationMessageSeverityEnum =
   | "WARNING"
   | "ERROR";
 export interface GoogleCloudDialogflowCxV3ValidationMessage {
-  resourceType?: GoogleCloudDialogflowCxV3ValidationMessageResourceTypeEnum;
-  resources?: StringList;
-  resourceNames?: GoogleCloudDialogflowCxV3ResourceNameList;
-  detail?: string;
-  severity?: GoogleCloudDialogflowCxV3ValidationMessageSeverityEnum;
+  resourceType?: GoogleCloudDialogflowCxV3ValidationMessageResourceTypeEnum | undefined;
+  resources?: StringList | undefined;
+  resourceNames?: GoogleCloudDialogflowCxV3ResourceNameList | undefined;
+  detail?: string | undefined;
+  severity?: GoogleCloudDialogflowCxV3ValidationMessageSeverityEnum | undefined;
 }
 export type GoogleCloudDialogflowCxV3ValidationMessageList =
   Array<GoogleCloudDialogflowCxV3ValidationMessage>;
 export interface GoogleCloudDialogflowCxV3FlowValidationResult {
-  updateTime?: string;
-  validationMessages?: GoogleCloudDialogflowCxV3ValidationMessageList;
-  name?: string;
+  updateTime?: string | undefined;
+  validationMessages?: GoogleCloudDialogflowCxV3ValidationMessageList | undefined;
+  name?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3FlowValidationResultList =
   Array<GoogleCloudDialogflowCxV3FlowValidationResult>;
 export interface GoogleCloudDialogflowCxV3AgentValidationResult {
-  name?: string;
-  flowValidationResults?: GoogleCloudDialogflowCxV3FlowValidationResultList;
+  name?: string | undefined;
+  flowValidationResults?: GoogleCloudDialogflowCxV3FlowValidationResultList | undefined;
 }
 export interface GetValidationResultProjectsLocationsAgentsFlowsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   name: string;
 }
 export type GoogleCloudDialogflowCxV3ImportEntityTypesRequestMergeOptionEnum =
@@ -2086,18 +2196,21 @@ export type GoogleCloudDialogflowCxV3ImportEntityTypesRequestMergeOptionEnum =
   | "REPORT_CONFLICT"
   | "KEEP";
 export interface GoogleCloudDialogflowCxV3InlineSource {
-  content?: string;
+  content?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ImportEntityTypesRequest {
-  mergeOption?: GoogleCloudDialogflowCxV3ImportEntityTypesRequestMergeOptionEnum | (string & {});
-  entityTypesUri?: string;
-  entityTypesContent?: GoogleCloudDialogflowCxV3InlineSource;
-  targetEntityType?: string;
+  mergeOption?:
+    | GoogleCloudDialogflowCxV3ImportEntityTypesRequestMergeOptionEnum
+    | (string & {})
+    | undefined;
+  entityTypesUri?: string | undefined;
+  entityTypesContent?: GoogleCloudDialogflowCxV3InlineSource | undefined;
+  targetEntityType?: string | undefined;
 }
 export interface ImportProjectsLocationsAgentsEntityTypesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ImportEntityTypesRequest;
+  body?: GoogleCloudDialogflowCxV3ImportEntityTypesRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ImportFlowRequestImportOptionEnum =
   | "IMPORT_OPTION_UNSPECIFIED"
@@ -2113,18 +2226,22 @@ export type GoogleCloudDialogflowCxV3FlowImportStrategyGlobalImportStrategyEnum 
 export interface GoogleCloudDialogflowCxV3FlowImportStrategy {
   globalImportStrategy?:
     | GoogleCloudDialogflowCxV3FlowImportStrategyGlobalImportStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ImportFlowRequest {
-  flowUri?: string;
-  importOption?: GoogleCloudDialogflowCxV3ImportFlowRequestImportOptionEnum | (string & {});
-  flowImportStrategy?: GoogleCloudDialogflowCxV3FlowImportStrategy;
-  flowContent?: string;
+  flowUri?: string | undefined;
+  importOption?:
+    | GoogleCloudDialogflowCxV3ImportFlowRequestImportOptionEnum
+    | (string & {})
+    | undefined;
+  flowImportStrategy?: GoogleCloudDialogflowCxV3FlowImportStrategy | undefined;
+  flowContent?: string | undefined;
 }
 export interface ImportProjectsLocationsAgentsFlowsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ImportFlowRequest;
+  body?: GoogleCloudDialogflowCxV3ImportFlowRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ImportIntentsRequestMergeOptionEnum =
   | "MERGE_OPTION_UNSPECIFIED"
@@ -2135,14 +2252,17 @@ export type GoogleCloudDialogflowCxV3ImportIntentsRequestMergeOptionEnum =
   | "REPORT_CONFLICT"
   | "KEEP";
 export interface GoogleCloudDialogflowCxV3ImportIntentsRequest {
-  intentsUri?: string;
-  mergeOption?: GoogleCloudDialogflowCxV3ImportIntentsRequestMergeOptionEnum | (string & {});
-  intentsContent?: GoogleCloudDialogflowCxV3InlineSource;
+  intentsUri?: string | undefined;
+  mergeOption?:
+    | GoogleCloudDialogflowCxV3ImportIntentsRequestMergeOptionEnum
+    | (string & {})
+    | undefined;
+  intentsContent?: GoogleCloudDialogflowCxV3InlineSource | undefined;
 }
 export interface ImportProjectsLocationsAgentsIntentsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ImportIntentsRequest;
+  body?: GoogleCloudDialogflowCxV3ImportIntentsRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3PlaybookImportStrategyToolImportStrategyEnum =
   | "IMPORT_STRATEGY_UNSPECIFIED"
@@ -2168,242 +2288,245 @@ export type GoogleCloudDialogflowCxV3PlaybookImportStrategyMainPlaybookImportStr
 export interface GoogleCloudDialogflowCxV3PlaybookImportStrategy {
   toolImportStrategy?:
     | GoogleCloudDialogflowCxV3PlaybookImportStrategyToolImportStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   nestedResourceImportStrategy?:
     | GoogleCloudDialogflowCxV3PlaybookImportStrategyNestedResourceImportStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   mainPlaybookImportStrategy?:
     | GoogleCloudDialogflowCxV3PlaybookImportStrategyMainPlaybookImportStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ImportPlaybookRequest {
-  playbookContent?: string;
-  importStrategy?: GoogleCloudDialogflowCxV3PlaybookImportStrategy;
-  playbookUri?: string;
+  playbookContent?: string | undefined;
+  importStrategy?: GoogleCloudDialogflowCxV3PlaybookImportStrategy | undefined;
+  playbookUri?: string | undefined;
 }
 export interface ImportProjectsLocationsAgentsPlaybooksRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ImportPlaybookRequest;
+  body?: GoogleCloudDialogflowCxV3ImportPlaybookRequest | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ImportTestCasesRequest {
-  content?: string;
-  gcsUri?: string;
+  content?: string | undefined;
+  gcsUri?: string | undefined;
 }
 export interface ImportProjectsLocationsAgentsTestCasesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ImportTestCasesRequest;
+  body?: GoogleCloudDialogflowCxV3ImportTestCasesRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  pageSize?: number;
-  filter?: string;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
   name: string;
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
 }
 export type GoogleCloudLocationLocationList = Array<GoogleCloudLocationLocation>;
 export interface GoogleCloudLocationListLocationsResponse {
-  nextPageToken?: string;
-  locations?: GoogleCloudLocationLocationList;
+  nextPageToken?: string | undefined;
+  locations?: GoogleCloudLocationLocationList | undefined;
 }
 export interface ListProjectsLocationsAgentsRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3AgentList = Array<GoogleCloudDialogflowCxV3Agent>;
 export interface GoogleCloudDialogflowCxV3ListAgentsResponse {
-  nextPageToken?: string;
-  agents?: GoogleCloudDialogflowCxV3AgentList;
+  nextPageToken?: string | undefined;
+  agents?: GoogleCloudDialogflowCxV3AgentList | undefined;
 }
 export interface ListProjectsLocationsAgentsChangelogsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ChangelogList = Array<GoogleCloudDialogflowCxV3Changelog>;
 export interface GoogleCloudDialogflowCxV3ListChangelogsResponse {
-  changelogs?: GoogleCloudDialogflowCxV3ChangelogList;
-  nextPageToken?: string;
+  changelogs?: GoogleCloudDialogflowCxV3ChangelogList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsEntityTypesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  languageCode?: string;
-  pageToken?: string;
+  languageCode?: string | undefined;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3EntityTypeList = Array<GoogleCloudDialogflowCxV3EntityType>;
 export interface GoogleCloudDialogflowCxV3ListEntityTypesResponse {
-  nextPageToken?: string;
-  entityTypes?: GoogleCloudDialogflowCxV3EntityTypeList;
+  nextPageToken?: string | undefined;
+  entityTypes?: GoogleCloudDialogflowCxV3EntityTypeList | undefined;
 }
 export interface ListProjectsLocationsAgentsEnvironmentsRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3EnvironmentList = Array<GoogleCloudDialogflowCxV3Environment>;
 export interface GoogleCloudDialogflowCxV3ListEnvironmentsResponse {
-  nextPageToken?: string;
-  environments?: GoogleCloudDialogflowCxV3EnvironmentList;
+  nextPageToken?: string | undefined;
+  environments?: GoogleCloudDialogflowCxV3EnvironmentList | undefined;
 }
 export interface ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3ContinuousTestResultResultEnum =
   | "AGGREGATED_TEST_RESULT_UNSPECIFIED"
   | "PASSED"
   | "FAILED";
 export interface GoogleCloudDialogflowCxV3ContinuousTestResult {
-  runTime?: string;
-  testCaseResults?: StringList;
-  name?: string;
-  result?: GoogleCloudDialogflowCxV3ContinuousTestResultResultEnum;
+  runTime?: string | undefined;
+  testCaseResults?: StringList | undefined;
+  name?: string | undefined;
+  result?: GoogleCloudDialogflowCxV3ContinuousTestResultResultEnum | undefined;
 }
 export type GoogleCloudDialogflowCxV3ContinuousTestResultList =
   Array<GoogleCloudDialogflowCxV3ContinuousTestResult>;
 export interface GoogleCloudDialogflowCxV3ListContinuousTestResultsResponse {
-  nextPageToken?: string;
-  continuousTestResults?: GoogleCloudDialogflowCxV3ContinuousTestResultList;
+  nextPageToken?: string | undefined;
+  continuousTestResults?: GoogleCloudDialogflowCxV3ContinuousTestResultList | undefined;
 }
 export interface ListProjectsLocationsAgentsEnvironmentsDeploymentsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3DeploymentList = Array<GoogleCloudDialogflowCxV3Deployment>;
 export interface GoogleCloudDialogflowCxV3ListDeploymentsResponse {
-  deployments?: GoogleCloudDialogflowCxV3DeploymentList;
-  nextPageToken?: string;
+  deployments?: GoogleCloudDialogflowCxV3DeploymentList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsEnvironmentsExperimentsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3ExperimentList = Array<GoogleCloudDialogflowCxV3Experiment>;
 export interface GoogleCloudDialogflowCxV3ListExperimentsResponse {
-  experiments?: GoogleCloudDialogflowCxV3ExperimentList;
-  nextPageToken?: string;
+  experiments?: GoogleCloudDialogflowCxV3ExperimentList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export interface GoogleCloudDialogflowCxV3ListSessionEntityTypesResponse {
-  nextPageToken?: string;
-  sessionEntityTypes?: GoogleCloudDialogflowCxV3SessionEntityTypeList;
+  nextPageToken?: string | undefined;
+  sessionEntityTypes?: GoogleCloudDialogflowCxV3SessionEntityTypeList | undefined;
 }
 export interface ListProjectsLocationsAgentsFlowsRequest {
   parent: string;
-  pageToken?: string;
-  languageCode?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  languageCode?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3FlowList = Array<GoogleCloudDialogflowCxV3Flow>;
 export interface GoogleCloudDialogflowCxV3ListFlowsResponse {
-  nextPageToken?: string;
-  flows?: GoogleCloudDialogflowCxV3FlowList;
+  nextPageToken?: string | undefined;
+  flows?: GoogleCloudDialogflowCxV3FlowList | undefined;
 }
 export interface ListProjectsLocationsAgentsFlowsPagesRequest {
-  pageToken?: string;
-  languageCode?: string;
+  pageToken?: string | undefined;
+  languageCode?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3PageList = Array<GoogleCloudDialogflowCxV3Page>;
 export interface GoogleCloudDialogflowCxV3ListPagesResponse {
-  nextPageToken?: string;
-  pages?: GoogleCloudDialogflowCxV3PageList;
+  nextPageToken?: string | undefined;
+  pages?: GoogleCloudDialogflowCxV3PageList | undefined;
 }
 export interface ListProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
-  languageCode?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  languageCode?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3TransitionRouteGroupList =
   Array<GoogleCloudDialogflowCxV3TransitionRouteGroup>;
 export interface GoogleCloudDialogflowCxV3ListTransitionRouteGroupsResponse {
-  transitionRouteGroups?: GoogleCloudDialogflowCxV3TransitionRouteGroupList;
-  nextPageToken?: string;
+  transitionRouteGroups?: GoogleCloudDialogflowCxV3TransitionRouteGroupList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsFlowsVersionsRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3VersionList = Array<GoogleCloudDialogflowCxV3Version>;
 export interface GoogleCloudDialogflowCxV3ListVersionsResponse {
-  versions?: GoogleCloudDialogflowCxV3VersionList;
-  nextPageToken?: string;
+  versions?: GoogleCloudDialogflowCxV3VersionList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsGeneratorsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   parent: string;
-  pageSize?: number;
-  languageCode?: string;
+  pageSize?: number | undefined;
+  languageCode?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3GeneratorList = Array<GoogleCloudDialogflowCxV3Generator>;
 export interface GoogleCloudDialogflowCxV3ListGeneratorsResponse {
-  generators?: GoogleCloudDialogflowCxV3GeneratorList;
-  nextPageToken?: string;
+  generators?: GoogleCloudDialogflowCxV3GeneratorList | undefined;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsAgentsIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_PARTIAL"
   | "INTENT_VIEW_FULL";
 export interface ListProjectsLocationsAgentsIntentsRequest {
-  intentView?: ListProjectsLocationsAgentsIntentsIntentViewEnum | (string & {});
-  pageToken?: string;
-  pageSize?: number;
-  languageCode?: string;
+  intentView?: ListProjectsLocationsAgentsIntentsIntentViewEnum | (string & {}) | undefined;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
+  languageCode?: string | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3IntentList = Array<GoogleCloudDialogflowCxV3Intent>;
 export interface GoogleCloudDialogflowCxV3ListIntentsResponse {
-  intents?: GoogleCloudDialogflowCxV3IntentList;
-  nextPageToken?: string;
+  intents?: GoogleCloudDialogflowCxV3IntentList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsPlaybooksRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3PlaybookList = Array<GoogleCloudDialogflowCxV3Playbook>;
 export interface GoogleCloudDialogflowCxV3ListPlaybooksResponse {
-  nextPageToken?: string;
-  playbooks?: GoogleCloudDialogflowCxV3PlaybookList;
+  nextPageToken?: string | undefined;
+  playbooks?: GoogleCloudDialogflowCxV3PlaybookList | undefined;
 }
 export interface ListProjectsLocationsAgentsPlaybooksExamplesRequest {
-  languageCode?: string;
-  pageSize?: number;
+  languageCode?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ListExamplesResponse {
-  examples?: GoogleCloudDialogflowCxV3ExampleList;
-  nextPageToken?: string;
+  examples?: GoogleCloudDialogflowCxV3ExampleList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsPlaybooksVersionsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3PlaybookVersionList =
   Array<GoogleCloudDialogflowCxV3PlaybookVersion>;
 export interface GoogleCloudDialogflowCxV3ListPlaybookVersionsResponse {
-  nextPageToken?: string;
-  playbookVersions?: GoogleCloudDialogflowCxV3PlaybookVersionList;
+  nextPageToken?: string | undefined;
+  playbookVersions?: GoogleCloudDialogflowCxV3PlaybookVersionList | undefined;
 }
 export interface ListProjectsLocationsAgentsSessionsEntityTypesRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type ListProjectsLocationsAgentsTestCasesViewEnum =
@@ -2411,378 +2534,381 @@ export type ListProjectsLocationsAgentsTestCasesViewEnum =
   | "BASIC"
   | "FULL";
 export interface ListProjectsLocationsAgentsTestCasesRequest {
-  view?: ListProjectsLocationsAgentsTestCasesViewEnum | (string & {});
-  pageSize?: number;
+  view?: ListProjectsLocationsAgentsTestCasesViewEnum | (string & {}) | undefined;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3TestCaseList = Array<GoogleCloudDialogflowCxV3TestCase>;
 export interface GoogleCloudDialogflowCxV3ListTestCasesResponse {
-  testCases?: GoogleCloudDialogflowCxV3TestCaseList;
-  nextPageToken?: string;
+  testCases?: GoogleCloudDialogflowCxV3TestCaseList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsTestCasesResultsRequest {
-  filter?: string;
-  pageToken?: string;
-  pageSize?: number;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3TestCaseResultList =
   Array<GoogleCloudDialogflowCxV3TestCaseResult>;
 export interface GoogleCloudDialogflowCxV3ListTestCaseResultsResponse {
-  nextPageToken?: string;
-  testCaseResults?: GoogleCloudDialogflowCxV3TestCaseResultList;
+  nextPageToken?: string | undefined;
+  testCaseResults?: GoogleCloudDialogflowCxV3TestCaseResultList | undefined;
 }
 export interface ListProjectsLocationsAgentsToolsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type GoogleCloudDialogflowCxV3ToolList = Array<GoogleCloudDialogflowCxV3Tool>;
 export interface GoogleCloudDialogflowCxV3ListToolsResponse {
-  tools?: GoogleCloudDialogflowCxV3ToolList;
-  nextPageToken?: string;
+  tools?: GoogleCloudDialogflowCxV3ToolList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsToolsVersionsRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3ToolVersionList = Array<GoogleCloudDialogflowCxV3ToolVersion>;
 export interface GoogleCloudDialogflowCxV3ListToolVersionsResponse {
-  toolVersions?: GoogleCloudDialogflowCxV3ToolVersionList;
-  nextPageToken?: string;
+  toolVersions?: GoogleCloudDialogflowCxV3ToolVersionList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsTransitionRouteGroupsRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsWebhooksRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ListWebhooksResponse {
-  nextPageToken?: string;
-  webhooks?: GoogleCloudDialogflowCxV3WebhookList;
+  nextPageToken?: string | undefined;
+  webhooks?: GoogleCloudDialogflowCxV3WebhookList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  filter?: string;
-  pageToken?: string;
-  pageSize?: number;
-  returnPartialSuccess?: boolean;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
+  returnPartialSuccess?: boolean | undefined;
   name: string;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 export interface GoogleLongrunningListOperationsResponse {
-  unreachable?: StringList;
-  nextPageToken?: string;
-  operations?: GoogleLongrunningOperationList;
+  unreachable?: StringList | undefined;
+  nextPageToken?: string | undefined;
+  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListProjectsLocationsSecuritySettingsRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDialogflowCxV3SecuritySettingsList =
   Array<GoogleCloudDialogflowCxV3SecuritySettings>;
 export interface GoogleCloudDialogflowCxV3ListSecuritySettingsResponse {
-  securitySettings?: GoogleCloudDialogflowCxV3SecuritySettingsList;
-  nextPageToken?: string;
+  securitySettings?: GoogleCloudDialogflowCxV3SecuritySettingsList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsOperationsRequest {
-  pageToken?: string;
-  filter?: string;
-  pageSize?: number;
-  returnPartialSuccess?: boolean;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  returnPartialSuccess?: boolean | undefined;
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3LoadVersionRequest {
-  allowOverrideAgentResources?: boolean;
+  allowOverrideAgentResources?: boolean | undefined;
 }
 export interface LoadProjectsLocationsAgentsFlowsVersionsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3LoadVersionRequest;
+  body?: GoogleCloudDialogflowCxV3LoadVersionRequest | undefined;
 }
 export interface LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   name: string;
 }
 export interface GoogleCloudDialogflowCxV3LookupEnvironmentHistoryResponse {
-  nextPageToken?: string;
-  environments?: GoogleCloudDialogflowCxV3EnvironmentList;
+  nextPageToken?: string | undefined;
+  environments?: GoogleCloudDialogflowCxV3EnvironmentList | undefined;
 }
 export interface MatchIntentProjectsLocationsAgentsEnvironmentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3MatchIntentRequest;
+  body?: GoogleCloudDialogflowCxV3MatchIntentRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3MatchList = Array<GoogleCloudDialogflowCxV3Match>;
 export interface GoogleCloudDialogflowCxV3MatchIntentResponse {
-  currentPage?: GoogleCloudDialogflowCxV3Page;
-  matches?: GoogleCloudDialogflowCxV3MatchList;
-  text?: string;
-  triggerIntent?: string;
-  transcript?: string;
-  triggerEvent?: string;
+  currentPage?: GoogleCloudDialogflowCxV3Page | undefined;
+  matches?: GoogleCloudDialogflowCxV3MatchList | undefined;
+  text?: string | undefined;
+  triggerIntent?: string | undefined;
+  transcript?: string | undefined;
+  triggerEvent?: string | undefined;
 }
 export interface MatchIntentProjectsLocationsAgentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3MatchIntentRequest;
+  body?: GoogleCloudDialogflowCxV3MatchIntentRequest | undefined;
 }
 export interface PatchProjectsLocationsAgentsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Agent;
+  body?: GoogleCloudDialogflowCxV3Agent | undefined;
 }
 export interface PatchProjectsLocationsAgentsEntityTypesRequest {
-  updateMask?: string;
-  languageCode?: string;
+  updateMask?: string | undefined;
+  languageCode?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3EntityType;
+  body?: GoogleCloudDialogflowCxV3EntityType | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Environment;
+  body?: GoogleCloudDialogflowCxV3Environment | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsExperimentsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Experiment;
+  body?: GoogleCloudDialogflowCxV3Experiment | undefined;
 }
 export interface PatchProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SessionEntityType;
+  body?: GoogleCloudDialogflowCxV3SessionEntityType | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsRequest {
-  updateMask?: string;
-  languageCode?: string;
+  updateMask?: string | undefined;
+  languageCode?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Flow;
+  body?: GoogleCloudDialogflowCxV3Flow | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsPagesRequest {
-  languageCode?: string;
-  updateMask?: string;
+  languageCode?: string | undefined;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Page;
+  body?: GoogleCloudDialogflowCxV3Page | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup;
+  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup | undefined;
 }
 export interface PatchProjectsLocationsAgentsFlowsVersionsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Version;
+  body?: GoogleCloudDialogflowCxV3Version | undefined;
 }
 export interface PatchProjectsLocationsAgentsGeneratorsRequest {
-  updateMask?: string;
-  languageCode?: string;
+  updateMask?: string | undefined;
+  languageCode?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Generator;
+  body?: GoogleCloudDialogflowCxV3Generator | undefined;
 }
 export interface PatchProjectsLocationsAgentsIntentsRequest {
-  languageCode?: string;
-  updateMask?: string;
+  languageCode?: string | undefined;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Intent;
+  body?: GoogleCloudDialogflowCxV3Intent | undefined;
 }
 export interface PatchProjectsLocationsAgentsPlaybooksRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Playbook;
+  body?: GoogleCloudDialogflowCxV3Playbook | undefined;
 }
 export interface PatchProjectsLocationsAgentsPlaybooksExamplesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Example;
+  body?: GoogleCloudDialogflowCxV3Example | undefined;
 }
 export interface PatchProjectsLocationsAgentsSessionsEntityTypesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SessionEntityType;
+  body?: GoogleCloudDialogflowCxV3SessionEntityType | undefined;
 }
 export interface PatchProjectsLocationsAgentsTestCasesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TestCase;
+  body?: GoogleCloudDialogflowCxV3TestCase | undefined;
 }
 export interface PatchProjectsLocationsAgentsToolsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Tool;
+  body?: GoogleCloudDialogflowCxV3Tool | undefined;
 }
 export interface PatchProjectsLocationsAgentsTransitionRouteGroupsRequest {
   name: string;
-  languageCode?: string;
-  updateMask?: string;
+  languageCode?: string | undefined;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup;
+  body?: GoogleCloudDialogflowCxV3TransitionRouteGroup | undefined;
 }
 export interface PatchProjectsLocationsAgentsWebhooksRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3Webhook;
+  body?: GoogleCloudDialogflowCxV3Webhook | undefined;
 }
 export interface PatchProjectsLocationsSecuritySettingsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SecuritySettings;
+  body?: GoogleCloudDialogflowCxV3SecuritySettings | undefined;
 }
 export interface GoogleCloudDialogflowCxV3RestoreAgentRequestGitSource {
-  trackingBranch?: string;
+  trackingBranch?: string | undefined;
 }
 export type GoogleCloudDialogflowCxV3RestoreAgentRequestRestoreOptionEnum =
   | "RESTORE_OPTION_UNSPECIFIED"
   | "KEEP"
   | "FALLBACK";
 export interface GoogleCloudDialogflowCxV3RestoreAgentRequest {
-  gitSource?: GoogleCloudDialogflowCxV3RestoreAgentRequestGitSource;
-  agentContent?: string;
-  restoreOption?: GoogleCloudDialogflowCxV3RestoreAgentRequestRestoreOptionEnum | (string & {});
-  agentUri?: string;
+  gitSource?: GoogleCloudDialogflowCxV3RestoreAgentRequestGitSource | undefined;
+  agentContent?: string | undefined;
+  restoreOption?:
+    | GoogleCloudDialogflowCxV3RestoreAgentRequestRestoreOptionEnum
+    | (string & {})
+    | undefined;
+  agentUri?: string | undefined;
 }
 export interface RestoreProjectsLocationsAgentsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3RestoreAgentRequest;
+  body?: GoogleCloudDialogflowCxV3RestoreAgentRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3RestorePlaybookVersionRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface RestoreProjectsLocationsAgentsPlaybooksVersionsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export interface GoogleCloudDialogflowCxV3RestorePlaybookVersionResponse {
-  playbook?: GoogleCloudDialogflowCxV3Playbook;
+  playbook?: GoogleCloudDialogflowCxV3Playbook | undefined;
 }
 export type GoogleCloudDialogflowCxV3RestoreToolVersionRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface RestoreProjectsLocationsAgentsToolsVersionsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export interface GoogleCloudDialogflowCxV3RestoreToolVersionResponse {
-  tool?: GoogleCloudDialogflowCxV3Tool;
+  tool?: GoogleCloudDialogflowCxV3Tool | undefined;
 }
 export type GoogleCloudDialogflowCxV3RunContinuousTestRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface RunContinuousTestProjectsLocationsAgentsEnvironmentsRequest {
   environment: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export interface GoogleCloudDialogflowCxV3RunTestCaseRequest {
-  environment?: string;
+  environment?: string | undefined;
 }
 export interface RunProjectsLocationsAgentsTestCasesRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3RunTestCaseRequest;
+  body?: GoogleCloudDialogflowCxV3RunTestCaseRequest | undefined;
 }
 export interface ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3DetectIntentRequest;
+  body?: GoogleCloudDialogflowCxV3DetectIntentRequest | undefined;
 }
 export interface ServerStreamingDetectIntentProjectsLocationsAgentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3DetectIntentRequest;
+  body?: GoogleCloudDialogflowCxV3DetectIntentRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3StartExperimentRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface StartProjectsLocationsAgentsEnvironmentsExperimentsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export type GoogleCloudDialogflowCxV3StopExperimentRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface StopProjectsLocationsAgentsEnvironmentsExperimentsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export type GoogleCloudDialogflowCxV3AnswerFeedbackRatingEnum =
   | "RATING_UNSPECIFIED"
   | "THUMBS_UP"
   | "THUMBS_DOWN";
 export interface GoogleCloudDialogflowCxV3AnswerFeedbackRatingReason {
-  reasonLabels?: StringList;
-  feedback?: string;
+  reasonLabels?: StringList | undefined;
+  feedback?: string | undefined;
 }
 export interface GoogleCloudDialogflowCxV3AnswerFeedback {
-  rating?: GoogleCloudDialogflowCxV3AnswerFeedbackRatingEnum | (string & {});
-  customRating?: string;
-  ratingReason?: GoogleCloudDialogflowCxV3AnswerFeedbackRatingReason;
+  rating?: GoogleCloudDialogflowCxV3AnswerFeedbackRatingEnum | (string & {}) | undefined;
+  customRating?: string | undefined;
+  ratingReason?: GoogleCloudDialogflowCxV3AnswerFeedbackRatingReason | undefined;
 }
 export interface GoogleCloudDialogflowCxV3SubmitAnswerFeedbackRequest {
-  answerFeedback?: GoogleCloudDialogflowCxV3AnswerFeedback;
-  responseId?: string;
-  updateMask?: string;
+  answerFeedback?: GoogleCloudDialogflowCxV3AnswerFeedback | undefined;
+  responseId?: string | undefined;
+  updateMask?: string | undefined;
 }
 export interface SubmitAnswerFeedbackProjectsLocationsAgentsSessionsRequest {
   session: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3SubmitAnswerFeedbackRequest;
+  body?: GoogleCloudDialogflowCxV3SubmitAnswerFeedbackRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3TrainFlowRequest =
   GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
 export interface TrainProjectsLocationsAgentsFlowsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard;
+  body?: GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard | undefined;
 }
 export interface UpdateGenerativeSettingsProjectsLocationsAgentsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3GenerativeSettings;
+  body?: GoogleCloudDialogflowCxV3GenerativeSettings | undefined;
 }
 export interface GoogleCloudDialogflowCxV3ValidateAgentRequest {
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface ValidateProjectsLocationsAgentsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ValidateAgentRequest;
+  body?: GoogleCloudDialogflowCxV3ValidateAgentRequest | undefined;
 }
 export type GoogleCloudDialogflowCxV3ValidateFlowRequest =
   GoogleCloudDialogflowCxV3ValidateAgentRequest;
 export interface ValidateProjectsLocationsAgentsFlowsRequest {
   name: string;
   /** Request body */
-  body?: GoogleCloudDialogflowCxV3ValidateAgentRequest;
+  body?: GoogleCloudDialogflowCxV3ValidateAgentRequest | undefined;
 }
 export type BatchDeleteProjectsLocationsAgentsTestCasesError =
   | NotFound

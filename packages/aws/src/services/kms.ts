@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -582,7 +583,7 @@ export interface CancelKeyDeletionRequest {
   KeyId: string;
 }
 export interface CancelKeyDeletionResponse {
-  KeyId?: string;
+  KeyId?: string | undefined;
 }
 export type CustomKeyStoreIdType = string;
 export interface ConnectCustomKeyStoreRequest {
@@ -613,19 +614,19 @@ export interface XksProxyAuthenticationCredentialType {
 export type XksProxyConnectivityType = "PUBLIC_ENDPOINT" | "VPC_ENDPOINT_SERVICE" | (string & {});
 export interface CreateCustomKeyStoreRequest {
   CustomKeyStoreName: string;
-  CloudHsmClusterId?: string;
-  TrustAnchorCertificate?: string;
-  KeyStorePassword?: string | redacted.Redacted<string>;
-  CustomKeyStoreType?: CustomKeyStoreType;
-  XksProxyUriEndpoint?: string;
-  XksProxyUriPath?: string;
-  XksProxyVpcEndpointServiceName?: string;
-  XksProxyVpcEndpointServiceOwner?: string;
-  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: XksProxyConnectivityType;
+  CloudHsmClusterId?: string | undefined;
+  TrustAnchorCertificate?: string | undefined;
+  KeyStorePassword?: string | redacted.Redacted<string> | undefined;
+  CustomKeyStoreType?: CustomKeyStoreType | undefined;
+  XksProxyUriEndpoint?: string | undefined;
+  XksProxyUriPath?: string | undefined;
+  XksProxyVpcEndpointServiceName?: string | undefined;
+  XksProxyVpcEndpointServiceOwner?: string | undefined;
+  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType | undefined;
+  XksProxyConnectivity?: XksProxyConnectivityType | undefined;
 }
 export interface CreateCustomKeyStoreResponse {
-  CustomKeyStoreId?: string;
+  CustomKeyStoreId?: string | undefined;
 }
 export type PrincipalIdType = string;
 export type GrantOperation =
@@ -653,9 +654,9 @@ export type EncryptionContextValue = string;
 export type EncryptionContextType = { [key: string]: string | undefined };
 export type GrantConstraintSourceArnType = string;
 export interface GrantConstraints {
-  EncryptionContextSubset?: { [key: string]: string | undefined };
-  EncryptionContextEquals?: { [key: string]: string | undefined };
-  SourceArn?: string;
+  EncryptionContextSubset?: { [key: string]: string | undefined } | undefined;
+  EncryptionContextEquals?: { [key: string]: string | undefined } | undefined;
+  SourceArn?: string | undefined;
 }
 export type GrantTokenType = string;
 export type GrantTokenList = string[];
@@ -664,20 +665,20 @@ export type NullableBooleanType = boolean;
 export type ServicePrincipalType = string;
 export interface CreateGrantRequest {
   KeyId: string;
-  GranteePrincipal?: string;
-  RetiringPrincipal?: string;
+  GranteePrincipal?: string | undefined;
+  RetiringPrincipal?: string | undefined;
   Operations: GrantOperation[];
-  Constraints?: GrantConstraints;
-  GrantTokens?: string[];
-  Name?: string;
-  DryRun?: boolean;
-  GranteeServicePrincipal?: string;
-  RetiringServicePrincipal?: string;
+  Constraints?: GrantConstraints | undefined;
+  GrantTokens?: string[] | undefined;
+  Name?: string | undefined;
+  DryRun?: boolean | undefined;
+  GranteeServicePrincipal?: string | undefined;
+  RetiringServicePrincipal?: string | undefined;
 }
 export type GrantIdType = string;
 export interface CreateGrantResponse {
-  GrantToken?: string;
-  GrantId?: string;
+  GrantToken?: string | undefined;
+  GrantId?: string | undefined;
 }
 export type PolicyType = string;
 export type DescriptionType = string;
@@ -736,17 +737,17 @@ export interface Tag {
 export type TagList = Tag[];
 export type XksKeyIdType = string;
 export interface CreateKeyRequest {
-  Policy?: string;
-  Description?: string;
-  KeyUsage?: KeyUsageType;
-  CustomerMasterKeySpec?: CustomerMasterKeySpec;
-  KeySpec?: KeySpec;
-  Origin?: OriginType;
-  CustomKeyStoreId?: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
-  Tags?: Tag[];
-  MultiRegion?: boolean;
-  XksKeyId?: string;
+  Policy?: string | undefined;
+  Description?: string | undefined;
+  KeyUsage?: KeyUsageType | undefined;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec | undefined;
+  KeySpec?: KeySpec | undefined;
+  Origin?: OriginType | undefined;
+  CustomKeyStoreId?: string | undefined;
+  BypassPolicyLockoutSafetyCheck?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  MultiRegion?: boolean | undefined;
+  XksKeyId?: string | undefined;
 }
 export type AWSAccountIdType = string;
 export type ArnType = string;
@@ -793,14 +794,14 @@ export type KeyAgreementAlgorithmSpecList = KeyAgreementAlgorithmSpec[];
 export type MultiRegionKeyType = "PRIMARY" | "REPLICA" | (string & {});
 export type RegionType = string;
 export interface MultiRegionKey {
-  Arn?: string;
-  Region?: string;
+  Arn?: string | undefined;
+  Region?: string | undefined;
 }
 export type MultiRegionKeyList = MultiRegionKey[];
 export interface MultiRegionConfiguration {
-  MultiRegionKeyType?: MultiRegionKeyType;
-  PrimaryKey?: MultiRegionKey;
-  ReplicaKeys?: MultiRegionKey[];
+  MultiRegionKeyType?: MultiRegionKeyType | undefined;
+  PrimaryKey?: MultiRegionKey | undefined;
+  ReplicaKeys?: MultiRegionKey[] | undefined;
 }
 export type PendingWindowInDaysType = number;
 export type MacAlgorithmSpec =
@@ -811,66 +812,66 @@ export type MacAlgorithmSpec =
   | (string & {});
 export type MacAlgorithmSpecList = MacAlgorithmSpec[];
 export interface XksKeyConfigurationType {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type BackingKeyIdType = string;
 export interface KeyMetadata {
-  AWSAccountId?: string;
+  AWSAccountId?: string | undefined;
   KeyId: string;
-  Arn?: string;
-  CreationDate?: Date;
-  Enabled?: boolean;
-  Description?: string;
-  KeyUsage?: KeyUsageType;
-  KeyState?: KeyState;
-  DeletionDate?: Date;
-  ValidTo?: Date;
-  Origin?: OriginType;
-  CustomKeyStoreId?: string;
-  CloudHsmClusterId?: string;
-  ExpirationModel?: ExpirationModelType;
-  KeyManager?: KeyManagerType;
-  CustomerMasterKeySpec?: CustomerMasterKeySpec;
-  KeySpec?: KeySpec;
-  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
-  SigningAlgorithms?: SigningAlgorithmSpec[];
-  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
-  MultiRegion?: boolean;
-  MultiRegionConfiguration?: MultiRegionConfiguration;
-  PendingDeletionWindowInDays?: number;
-  MacAlgorithms?: MacAlgorithmSpec[];
-  XksKeyConfiguration?: XksKeyConfigurationType;
-  CurrentKeyMaterialId?: string;
+  Arn?: string | undefined;
+  CreationDate?: Date | undefined;
+  Enabled?: boolean | undefined;
+  Description?: string | undefined;
+  KeyUsage?: KeyUsageType | undefined;
+  KeyState?: KeyState | undefined;
+  DeletionDate?: Date | undefined;
+  ValidTo?: Date | undefined;
+  Origin?: OriginType | undefined;
+  CustomKeyStoreId?: string | undefined;
+  CloudHsmClusterId?: string | undefined;
+  ExpirationModel?: ExpirationModelType | undefined;
+  KeyManager?: KeyManagerType | undefined;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec | undefined;
+  KeySpec?: KeySpec | undefined;
+  EncryptionAlgorithms?: EncryptionAlgorithmSpec[] | undefined;
+  SigningAlgorithms?: SigningAlgorithmSpec[] | undefined;
+  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[] | undefined;
+  MultiRegion?: boolean | undefined;
+  MultiRegionConfiguration?: MultiRegionConfiguration | undefined;
+  PendingDeletionWindowInDays?: number | undefined;
+  MacAlgorithms?: MacAlgorithmSpec[] | undefined;
+  XksKeyConfiguration?: XksKeyConfigurationType | undefined;
+  CurrentKeyMaterialId?: string | undefined;
 }
 export interface CreateKeyResponse {
-  KeyMetadata?: KeyMetadata;
+  KeyMetadata?: KeyMetadata | undefined;
 }
 export type CiphertextType = Uint8Array;
 export type KeyEncryptionMechanism = "RSAES_OAEP_SHA_256" | (string & {});
 export type AttestationDocumentType = Uint8Array;
 export interface RecipientInfo {
-  KeyEncryptionAlgorithm?: KeyEncryptionMechanism;
-  AttestationDocument?: Uint8Array;
+  KeyEncryptionAlgorithm?: KeyEncryptionMechanism | undefined;
+  AttestationDocument?: Uint8Array | undefined;
 }
 export type DryRunModifierType = "IGNORE_CIPHERTEXT" | (string & {});
 export type DryRunModifierList = DryRunModifierType[];
 export interface DecryptRequest {
-  CiphertextBlob?: Uint8Array;
-  EncryptionContext?: { [key: string]: string | undefined };
-  GrantTokens?: string[];
-  KeyId?: string;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
-  DryRunModifiers?: DryRunModifierType[];
+  CiphertextBlob?: Uint8Array | undefined;
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
+  GrantTokens?: string[] | undefined;
+  KeyId?: string | undefined;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  Recipient?: RecipientInfo | undefined;
+  DryRun?: boolean | undefined;
+  DryRunModifiers?: DryRunModifierType[] | undefined;
 }
 export type PlaintextType = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface DecryptResponse {
-  KeyId?: string;
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
+  KeyId?: string | undefined;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  CiphertextForRecipient?: Uint8Array | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface DeleteAliasRequest {
   AliasName: string;
@@ -882,36 +883,36 @@ export interface DeleteCustomKeyStoreRequest {
 export interface DeleteCustomKeyStoreResponse {}
 export interface DeleteImportedKeyMaterialRequest {
   KeyId: string;
-  KeyMaterialId?: string;
+  KeyMaterialId?: string | undefined;
 }
 export type BackingKeyIdResponseType = string;
 export interface DeleteImportedKeyMaterialResponse {
-  KeyId?: string;
-  KeyMaterialId?: string;
+  KeyId?: string | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export type PublicKeyType = Uint8Array;
 export interface DeriveSharedSecretRequest {
   KeyId: string;
   KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec;
   PublicKey: Uint8Array;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-  Recipient?: RecipientInfo;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
+  Recipient?: RecipientInfo | undefined;
 }
 export interface DeriveSharedSecretResponse {
-  KeyId?: string;
-  SharedSecret?: Uint8Array | redacted.Redacted<Uint8Array>;
-  CiphertextForRecipient?: Uint8Array;
-  KeyAgreementAlgorithm?: KeyAgreementAlgorithmSpec;
-  KeyOrigin?: OriginType;
+  KeyId?: string | undefined;
+  SharedSecret?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  CiphertextForRecipient?: Uint8Array | undefined;
+  KeyAgreementAlgorithm?: KeyAgreementAlgorithmSpec | undefined;
+  KeyOrigin?: OriginType | undefined;
 }
 export type LimitType = number;
 export type MarkerType = string;
 export interface DescribeCustomKeyStoresRequest {
-  CustomKeyStoreId?: string;
-  CustomKeyStoreName?: string;
-  Limit?: number;
-  Marker?: string;
+  CustomKeyStoreId?: string | undefined;
+  CustomKeyStoreName?: string | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ConnectionStateType =
   | "CONNECTED"
@@ -941,36 +942,36 @@ export type ConnectionErrorCodeType =
   | "XKS_PROXY_INVALID_TLS_CONFIGURATION"
   | (string & {});
 export interface XksProxyConfigurationType {
-  Connectivity?: XksProxyConnectivityType;
-  AccessKeyId?: string | redacted.Redacted<string>;
-  UriEndpoint?: string;
-  UriPath?: string;
-  VpcEndpointServiceName?: string;
-  VpcEndpointServiceOwner?: string;
+  Connectivity?: XksProxyConnectivityType | undefined;
+  AccessKeyId?: string | redacted.Redacted<string> | undefined;
+  UriEndpoint?: string | undefined;
+  UriPath?: string | undefined;
+  VpcEndpointServiceName?: string | undefined;
+  VpcEndpointServiceOwner?: string | undefined;
 }
 export interface CustomKeyStoresListEntry {
-  CustomKeyStoreId?: string;
-  CustomKeyStoreName?: string;
-  CloudHsmClusterId?: string;
-  TrustAnchorCertificate?: string;
-  ConnectionState?: ConnectionStateType;
-  ConnectionErrorCode?: ConnectionErrorCodeType;
-  CreationDate?: Date;
-  CustomKeyStoreType?: CustomKeyStoreType;
-  XksProxyConfiguration?: XksProxyConfigurationType;
+  CustomKeyStoreId?: string | undefined;
+  CustomKeyStoreName?: string | undefined;
+  CloudHsmClusterId?: string | undefined;
+  TrustAnchorCertificate?: string | undefined;
+  ConnectionState?: ConnectionStateType | undefined;
+  ConnectionErrorCode?: ConnectionErrorCodeType | undefined;
+  CreationDate?: Date | undefined;
+  CustomKeyStoreType?: CustomKeyStoreType | undefined;
+  XksProxyConfiguration?: XksProxyConfigurationType | undefined;
 }
 export type CustomKeyStoresList = CustomKeyStoresListEntry[];
 export interface DescribeCustomKeyStoresResponse {
-  CustomKeyStores?: CustomKeyStoresListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  CustomKeyStores?: CustomKeyStoresListEntry[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface DescribeKeyRequest {
   KeyId: string;
-  GrantTokens?: string[];
+  GrantTokens?: string[] | undefined;
 }
 export interface DescribeKeyResponse {
-  KeyMetadata?: KeyMetadata;
+  KeyMetadata?: KeyMetadata | undefined;
 }
 export interface DisableKeyRequest {
   KeyId: string;
@@ -991,39 +992,39 @@ export interface EnableKeyResponse {}
 export type RotationPeriodInDaysType = number;
 export interface EnableKeyRotationRequest {
   KeyId: string;
-  RotationPeriodInDays?: number;
+  RotationPeriodInDays?: number | undefined;
 }
 export interface EnableKeyRotationResponse {}
 export interface EncryptRequest {
   KeyId: string;
   Plaintext: Uint8Array | redacted.Redacted<Uint8Array>;
-  EncryptionContext?: { [key: string]: string | undefined };
-  GrantTokens?: string[];
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DryRun?: boolean;
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
+  GrantTokens?: string[] | undefined;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface EncryptResponse {
-  CiphertextBlob?: Uint8Array;
-  KeyId?: string;
-  EncryptionAlgorithm?: EncryptionAlgorithmSpec;
+  CiphertextBlob?: Uint8Array | undefined;
+  KeyId?: string | undefined;
+  EncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
 }
 export type NumberOfBytesType = number;
 export type DataKeySpec = "AES_256" | "AES_128" | (string & {});
 export interface GenerateDataKeyRequest {
   KeyId: string;
-  EncryptionContext?: { [key: string]: string | undefined };
-  NumberOfBytes?: number;
-  KeySpec?: DataKeySpec;
-  GrantTokens?: string[];
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
+  NumberOfBytes?: number | undefined;
+  KeySpec?: DataKeySpec | undefined;
+  GrantTokens?: string[] | undefined;
+  Recipient?: RecipientInfo | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GenerateDataKeyResponse {
-  CiphertextBlob?: Uint8Array;
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  KeyId?: string;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
+  CiphertextBlob?: Uint8Array | undefined;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  KeyId?: string | undefined;
+  CiphertextForRecipient?: Uint8Array | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export type DataKeyPairSpec =
   | "RSA_2048"
@@ -1037,69 +1038,69 @@ export type DataKeyPairSpec =
   | "ECC_NIST_EDWARDS25519"
   | (string & {});
 export interface GenerateDataKeyPairRequest {
-  EncryptionContext?: { [key: string]: string | undefined };
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
   KeyId: string;
   KeyPairSpec: DataKeyPairSpec;
-  GrantTokens?: string[];
-  Recipient?: RecipientInfo;
-  DryRun?: boolean;
+  GrantTokens?: string[] | undefined;
+  Recipient?: RecipientInfo | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GenerateDataKeyPairResponse {
-  PrivateKeyCiphertextBlob?: Uint8Array;
-  PrivateKeyPlaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  PublicKey?: Uint8Array;
-  KeyId?: string;
-  KeyPairSpec?: DataKeyPairSpec;
-  CiphertextForRecipient?: Uint8Array;
-  KeyMaterialId?: string;
+  PrivateKeyCiphertextBlob?: Uint8Array | undefined;
+  PrivateKeyPlaintext?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  PublicKey?: Uint8Array | undefined;
+  KeyId?: string | undefined;
+  KeyPairSpec?: DataKeyPairSpec | undefined;
+  CiphertextForRecipient?: Uint8Array | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface GenerateDataKeyPairWithoutPlaintextRequest {
-  EncryptionContext?: { [key: string]: string | undefined };
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
   KeyId: string;
   KeyPairSpec: DataKeyPairSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GenerateDataKeyPairWithoutPlaintextResponse {
-  PrivateKeyCiphertextBlob?: Uint8Array;
-  PublicKey?: Uint8Array;
-  KeyId?: string;
-  KeyPairSpec?: DataKeyPairSpec;
-  KeyMaterialId?: string;
+  PrivateKeyCiphertextBlob?: Uint8Array | undefined;
+  PublicKey?: Uint8Array | undefined;
+  KeyId?: string | undefined;
+  KeyPairSpec?: DataKeyPairSpec | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface GenerateDataKeyWithoutPlaintextRequest {
   KeyId: string;
-  EncryptionContext?: { [key: string]: string | undefined };
-  KeySpec?: DataKeySpec;
-  NumberOfBytes?: number;
-  GrantTokens?: string[];
-  DryRun?: boolean;
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
+  KeySpec?: DataKeySpec | undefined;
+  NumberOfBytes?: number | undefined;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GenerateDataKeyWithoutPlaintextResponse {
-  CiphertextBlob?: Uint8Array;
-  KeyId?: string;
-  KeyMaterialId?: string;
+  CiphertextBlob?: Uint8Array | undefined;
+  KeyId?: string | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface GenerateMacRequest {
   Message: Uint8Array | redacted.Redacted<Uint8Array>;
   KeyId: string;
   MacAlgorithm: MacAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface GenerateMacResponse {
-  Mac?: Uint8Array;
-  MacAlgorithm?: MacAlgorithmSpec;
-  KeyId?: string;
+  Mac?: Uint8Array | undefined;
+  MacAlgorithm?: MacAlgorithmSpec | undefined;
+  KeyId?: string | undefined;
 }
 export interface GenerateRandomRequest {
-  NumberOfBytes?: number;
-  CustomKeyStoreId?: string;
-  Recipient?: RecipientInfo;
+  NumberOfBytes?: number | undefined;
+  CustomKeyStoreId?: string | undefined;
+  Recipient?: RecipientInfo | undefined;
 }
 export interface GenerateRandomResponse {
-  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
-  CiphertextForRecipient?: Uint8Array;
+  Plaintext?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  CiphertextForRecipient?: Uint8Array | undefined;
 }
 export interface GetKeyLastUsageRequest {
   KeyId: string;
@@ -1121,35 +1122,35 @@ export type KeyLastUsageTrackingOperation =
 export type CloudTrailEventIdType = string;
 export type KmsRequestIdType = string;
 export interface KeyLastUsageData {
-  Operation?: KeyLastUsageTrackingOperation;
-  Timestamp?: Date;
-  CloudTrailEventId?: string;
-  KmsRequestId?: string;
+  Operation?: KeyLastUsageTrackingOperation | undefined;
+  Timestamp?: Date | undefined;
+  CloudTrailEventId?: string | undefined;
+  KmsRequestId?: string | undefined;
 }
 export interface GetKeyLastUsageResponse {
-  KeyId?: string;
-  KeyLastUsage?: KeyLastUsageData;
-  TrackingStartDate?: Date;
-  KeyCreationDate?: Date;
+  KeyId?: string | undefined;
+  KeyLastUsage?: KeyLastUsageData | undefined;
+  TrackingStartDate?: Date | undefined;
+  KeyCreationDate?: Date | undefined;
 }
 export type PolicyNameType = string;
 export interface GetKeyPolicyRequest {
   KeyId: string;
-  PolicyName?: string;
+  PolicyName?: string | undefined;
 }
 export interface GetKeyPolicyResponse {
-  Policy?: string;
-  PolicyName?: string;
+  Policy?: string | undefined;
+  PolicyName?: string | undefined;
 }
 export interface GetKeyRotationStatusRequest {
   KeyId: string;
 }
 export interface GetKeyRotationStatusResponse {
-  KeyRotationEnabled?: boolean;
-  KeyId?: string;
-  RotationPeriodInDays?: number;
-  NextRotationDate?: Date;
-  OnDemandRotationStartDate?: Date;
+  KeyRotationEnabled?: boolean | undefined;
+  KeyId?: string | undefined;
+  RotationPeriodInDays?: number | undefined;
+  NextRotationDate?: Date | undefined;
+  OnDemandRotationStartDate?: Date | undefined;
 }
 export type AlgorithmSpec =
   | "RSAES_PKCS1_V1_5"
@@ -1166,24 +1167,24 @@ export interface GetParametersForImportRequest {
   WrappingKeySpec: WrappingKeySpec;
 }
 export interface GetParametersForImportResponse {
-  KeyId?: string;
-  ImportToken?: Uint8Array;
-  PublicKey?: Uint8Array | redacted.Redacted<Uint8Array>;
-  ParametersValidTo?: Date;
+  KeyId?: string | undefined;
+  ImportToken?: Uint8Array | undefined;
+  PublicKey?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  ParametersValidTo?: Date | undefined;
 }
 export interface GetPublicKeyRequest {
   KeyId: string;
-  GrantTokens?: string[];
+  GrantTokens?: string[] | undefined;
 }
 export interface GetPublicKeyResponse {
-  KeyId?: string;
-  PublicKey?: Uint8Array;
-  CustomerMasterKeySpec?: CustomerMasterKeySpec;
-  KeySpec?: KeySpec;
-  KeyUsage?: KeyUsageType;
-  EncryptionAlgorithms?: EncryptionAlgorithmSpec[];
-  SigningAlgorithms?: SigningAlgorithmSpec[];
-  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[];
+  KeyId?: string | undefined;
+  PublicKey?: Uint8Array | undefined;
+  CustomerMasterKeySpec?: CustomerMasterKeySpec | undefined;
+  KeySpec?: KeySpec | undefined;
+  KeyUsage?: KeyUsageType | undefined;
+  EncryptionAlgorithms?: EncryptionAlgorithmSpec[] | undefined;
+  SigningAlgorithms?: SigningAlgorithmSpec[] | undefined;
+  KeyAgreementAlgorithms?: KeyAgreementAlgorithmSpec[] | undefined;
 }
 export type ImportType = "NEW_KEY_MATERIAL" | "EXISTING_KEY_MATERIAL" | (string & {});
 export type KeyMaterialDescriptionType = string;
@@ -1191,78 +1192,78 @@ export interface ImportKeyMaterialRequest {
   KeyId: string;
   ImportToken: Uint8Array;
   EncryptedKeyMaterial: Uint8Array;
-  ValidTo?: Date;
-  ExpirationModel?: ExpirationModelType;
-  ImportType?: ImportType;
-  KeyMaterialDescription?: string;
-  KeyMaterialId?: string;
+  ValidTo?: Date | undefined;
+  ExpirationModel?: ExpirationModelType | undefined;
+  ImportType?: ImportType | undefined;
+  KeyMaterialDescription?: string | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface ImportKeyMaterialResponse {
-  KeyId?: string;
-  KeyMaterialId?: string;
+  KeyId?: string | undefined;
+  KeyMaterialId?: string | undefined;
 }
 export interface ListAliasesRequest {
-  KeyId?: string;
-  Limit?: number;
-  Marker?: string;
+  KeyId?: string | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface AliasListEntry {
-  AliasName?: string;
-  AliasArn?: string;
-  TargetKeyId?: string;
-  CreationDate?: Date;
-  LastUpdatedDate?: Date;
+  AliasName?: string | undefined;
+  AliasArn?: string | undefined;
+  TargetKeyId?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastUpdatedDate?: Date | undefined;
 }
 export type AliasList = AliasListEntry[];
 export interface ListAliasesResponse {
-  Aliases?: AliasListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  Aliases?: AliasListEntry[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ListGrantsRequest {
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
   KeyId: string;
-  GrantId?: string;
-  GranteePrincipal?: string;
-  GranteeServicePrincipal?: string;
+  GrantId?: string | undefined;
+  GranteePrincipal?: string | undefined;
+  GranteeServicePrincipal?: string | undefined;
 }
 export interface GrantListEntry {
-  KeyId?: string;
-  GrantId?: string;
-  Name?: string;
-  CreationDate?: Date;
-  GranteePrincipal?: string;
-  RetiringPrincipal?: string;
-  IssuingAccount?: string;
-  Operations?: GrantOperation[];
-  Constraints?: GrantConstraints;
-  GranteeServicePrincipal?: string;
-  RetiringServicePrincipal?: string;
+  KeyId?: string | undefined;
+  GrantId?: string | undefined;
+  Name?: string | undefined;
+  CreationDate?: Date | undefined;
+  GranteePrincipal?: string | undefined;
+  RetiringPrincipal?: string | undefined;
+  IssuingAccount?: string | undefined;
+  Operations?: GrantOperation[] | undefined;
+  Constraints?: GrantConstraints | undefined;
+  GranteeServicePrincipal?: string | undefined;
+  RetiringServicePrincipal?: string | undefined;
 }
 export type GrantList = GrantListEntry[];
 export interface ListGrantsResponse {
-  Grants?: GrantListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  Grants?: GrantListEntry[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ListKeyPoliciesRequest {
   KeyId: string;
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type PolicyNameList = string[];
 export interface ListKeyPoliciesResponse {
-  PolicyNames?: string[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  PolicyNames?: string[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export type IncludeKeyMaterial = "ALL_KEY_MATERIAL" | "ROTATIONS_ONLY" | (string & {});
 export interface ListKeyRotationsRequest {
   KeyId: string;
-  IncludeKeyMaterial?: IncludeKeyMaterial;
-  Limit?: number;
-  Marker?: string;
+  IncludeKeyMaterial?: IncludeKeyMaterial | undefined;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ImportState = "IMPORTED" | "PENDING_IMPORT" | (string & {});
 export type KeyMaterialState =
@@ -1273,135 +1274,135 @@ export type KeyMaterialState =
   | (string & {});
 export type RotationType = "AUTOMATIC" | "ON_DEMAND" | (string & {});
 export interface RotationsListEntry {
-  KeyId?: string;
-  KeyMaterialId?: string;
-  KeyMaterialDescription?: string;
-  ImportState?: ImportState;
-  KeyMaterialState?: KeyMaterialState;
-  ExpirationModel?: ExpirationModelType;
-  ValidTo?: Date;
-  RotationDate?: Date;
-  RotationType?: RotationType;
+  KeyId?: string | undefined;
+  KeyMaterialId?: string | undefined;
+  KeyMaterialDescription?: string | undefined;
+  ImportState?: ImportState | undefined;
+  KeyMaterialState?: KeyMaterialState | undefined;
+  ExpirationModel?: ExpirationModelType | undefined;
+  ValidTo?: Date | undefined;
+  RotationDate?: Date | undefined;
+  RotationType?: RotationType | undefined;
 }
 export type RotationsList = RotationsListEntry[];
 export interface ListKeyRotationsResponse {
-  Rotations?: RotationsListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  Rotations?: RotationsListEntry[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ListKeysRequest {
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface KeyListEntry {
-  KeyId?: string;
-  KeyArn?: string;
+  KeyId?: string | undefined;
+  KeyArn?: string | undefined;
 }
 export type KeyList = KeyListEntry[];
 export interface ListKeysResponse {
-  Keys?: KeyListEntry[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  Keys?: KeyListEntry[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ListResourceTagsRequest {
   KeyId: string;
-  Limit?: number;
-  Marker?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ListResourceTagsResponse {
-  Tags?: Tag[];
-  NextMarker?: string;
-  Truncated?: boolean;
+  Tags?: Tag[] | undefined;
+  NextMarker?: string | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ListRetirableGrantsRequest {
-  Limit?: number;
-  Marker?: string;
-  RetiringPrincipal?: string;
-  RetiringServicePrincipal?: string;
+  Limit?: number | undefined;
+  Marker?: string | undefined;
+  RetiringPrincipal?: string | undefined;
+  RetiringServicePrincipal?: string | undefined;
 }
 export interface PutKeyPolicyRequest {
   KeyId: string;
-  PolicyName?: string;
+  PolicyName?: string | undefined;
   Policy: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
+  BypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export interface PutKeyPolicyResponse {}
 export interface ReEncryptRequest {
-  CiphertextBlob?: Uint8Array;
-  SourceEncryptionContext?: { [key: string]: string | undefined };
-  SourceKeyId?: string;
+  CiphertextBlob?: Uint8Array | undefined;
+  SourceEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  SourceKeyId?: string | undefined;
   DestinationKeyId: string;
-  DestinationEncryptionContext?: { [key: string]: string | undefined };
-  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
-  DryRunModifiers?: DryRunModifierType[];
+  DestinationEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
+  DryRunModifiers?: DryRunModifierType[] | undefined;
 }
 export interface ReEncryptResponse {
-  CiphertextBlob?: Uint8Array;
-  SourceKeyId?: string;
-  KeyId?: string;
-  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
-  SourceKeyMaterialId?: string;
-  DestinationKeyMaterialId?: string;
+  CiphertextBlob?: Uint8Array | undefined;
+  SourceKeyId?: string | undefined;
+  KeyId?: string | undefined;
+  SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec | undefined;
+  SourceKeyMaterialId?: string | undefined;
+  DestinationKeyMaterialId?: string | undefined;
 }
 export interface ReplicateKeyRequest {
   KeyId: string;
   ReplicaRegion: string;
-  Policy?: string;
-  BypassPolicyLockoutSafetyCheck?: boolean;
-  Description?: string;
-  Tags?: Tag[];
+  Policy?: string | undefined;
+  BypassPolicyLockoutSafetyCheck?: boolean | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ReplicateKeyResponse {
-  ReplicaKeyMetadata?: KeyMetadata;
-  ReplicaPolicy?: string;
-  ReplicaTags?: Tag[];
+  ReplicaKeyMetadata?: KeyMetadata | undefined;
+  ReplicaPolicy?: string | undefined;
+  ReplicaTags?: Tag[] | undefined;
 }
 export interface RetireGrantRequest {
-  GrantToken?: string;
-  KeyId?: string;
-  GrantId?: string;
-  DryRun?: boolean;
+  GrantToken?: string | undefined;
+  KeyId?: string | undefined;
+  GrantId?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface RetireGrantResponse {}
 export interface RevokeGrantRequest {
   KeyId: string;
   GrantId: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface RevokeGrantResponse {}
 export interface RotateKeyOnDemandRequest {
   KeyId: string;
 }
 export interface RotateKeyOnDemandResponse {
-  KeyId?: string;
+  KeyId?: string | undefined;
 }
 export interface ScheduleKeyDeletionRequest {
   KeyId: string;
-  PendingWindowInDays?: number;
+  PendingWindowInDays?: number | undefined;
 }
 export interface ScheduleKeyDeletionResponse {
-  KeyId?: string;
-  DeletionDate?: Date;
-  KeyState?: KeyState;
-  PendingWindowInDays?: number;
+  KeyId?: string | undefined;
+  DeletionDate?: Date | undefined;
+  KeyState?: KeyState | undefined;
+  PendingWindowInDays?: number | undefined;
 }
 export type MessageType = "RAW" | "DIGEST" | "EXTERNAL_MU" | (string & {});
 export interface SignRequest {
   KeyId: string;
   Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  MessageType?: MessageType;
-  GrantTokens?: string[];
+  MessageType?: MessageType | undefined;
+  GrantTokens?: string[] | undefined;
   SigningAlgorithm: SigningAlgorithmSpec;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface SignResponse {
-  KeyId?: string;
-  Signature?: Uint8Array;
-  SigningAlgorithm?: SigningAlgorithmSpec;
+  KeyId?: string | undefined;
+  Signature?: Uint8Array | undefined;
+  SigningAlgorithm?: SigningAlgorithmSpec | undefined;
 }
 export interface TagResourceRequest {
   KeyId: string;
@@ -1421,15 +1422,15 @@ export interface UpdateAliasRequest {
 export interface UpdateAliasResponse {}
 export interface UpdateCustomKeyStoreRequest {
   CustomKeyStoreId: string;
-  NewCustomKeyStoreName?: string;
-  KeyStorePassword?: string | redacted.Redacted<string>;
-  CloudHsmClusterId?: string;
-  XksProxyUriEndpoint?: string;
-  XksProxyUriPath?: string;
-  XksProxyVpcEndpointServiceName?: string;
-  XksProxyVpcEndpointServiceOwner?: string;
-  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType;
-  XksProxyConnectivity?: XksProxyConnectivityType;
+  NewCustomKeyStoreName?: string | undefined;
+  KeyStorePassword?: string | redacted.Redacted<string> | undefined;
+  CloudHsmClusterId?: string | undefined;
+  XksProxyUriEndpoint?: string | undefined;
+  XksProxyUriPath?: string | undefined;
+  XksProxyVpcEndpointServiceName?: string | undefined;
+  XksProxyVpcEndpointServiceOwner?: string | undefined;
+  XksProxyAuthenticationCredential?: XksProxyAuthenticationCredentialType | undefined;
+  XksProxyConnectivity?: XksProxyConnectivityType | undefined;
 }
 export interface UpdateCustomKeyStoreResponse {}
 export interface UpdateKeyDescriptionRequest {
@@ -1445,29 +1446,29 @@ export interface UpdatePrimaryRegionResponse {}
 export interface VerifyRequest {
   KeyId: string;
   Message: Uint8Array | redacted.Redacted<Uint8Array>;
-  MessageType?: MessageType;
+  MessageType?: MessageType | undefined;
   Signature: Uint8Array;
   SigningAlgorithm: SigningAlgorithmSpec;
-  GrantTokens?: string[];
-  DryRun?: boolean;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface VerifyResponse {
-  KeyId?: string;
-  SignatureValid?: boolean;
-  SigningAlgorithm?: SigningAlgorithmSpec;
+  KeyId?: string | undefined;
+  SignatureValid?: boolean | undefined;
+  SigningAlgorithm?: SigningAlgorithmSpec | undefined;
 }
 export interface VerifyMacRequest {
   Message: Uint8Array | redacted.Redacted<Uint8Array>;
   KeyId: string;
   MacAlgorithm: MacAlgorithmSpec;
   Mac: Uint8Array;
-  GrantTokens?: string[];
-  DryRun?: boolean;
+  GrantTokens?: string[] | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface VerifyMacResponse {
-  KeyId?: string;
-  MacValid?: boolean;
-  MacAlgorithm?: MacAlgorithmSpec;
+  KeyId?: string | undefined;
+  MacValid?: boolean | undefined;
+  MacAlgorithm?: MacAlgorithmSpec | undefined;
 }
 export type ErrorMessageType = string;
 export type CancelKeyDeletionError =
@@ -1497,7 +1498,7 @@ export type CancelKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const cancelKeyDeletion: API.OperationMethod<
-  CancelKeyDeletionRequest,
+  CancelKeyDeletionRequest & RegionInput,
   CancelKeyDeletionResponse,
   CancelKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1611,7 @@ export type ConnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const connectCustomKeyStore: API.OperationMethod<
-  ConnectCustomKeyStoreRequest,
+  ConnectCustomKeyStoreRequest & RegionInput,
   ConnectCustomKeyStoreResponse,
   ConnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1688,7 +1689,7 @@ export type CreateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResponse,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1806,7 +1807,7 @@ export type CreateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const createCustomKeyStore: API.OperationMethod<
-  CreateCustomKeyStoreRequest,
+  CreateCustomKeyStoreRequest & RegionInput,
   CreateCustomKeyStoreResponse,
   CreateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type CreateGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const createGrant: API.OperationMethod<
-  CreateGrantRequest,
+  CreateGrantRequest & RegionInput,
   CreateGrantResponse,
   CreateGrantError,
   Credentials | HttpClient.HttpClient
@@ -2117,7 +2118,7 @@ export type CreateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2235,7 @@ export type DecryptError =
  * For more information, see KMS eventual consistency.
  */
 export const decrypt: API.OperationMethod<
-  DecryptRequest,
+  DecryptRequest & RegionInput,
   DecryptResponse,
   DecryptError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2305,7 @@ export type DeleteAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasRequest,
+  DeleteAliasRequest & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -2382,7 +2383,7 @@ export type DeleteCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteCustomKeyStore: API.OperationMethod<
-  DeleteCustomKeyStoreRequest,
+  DeleteCustomKeyStoreRequest & RegionInput,
   DeleteCustomKeyStoreResponse,
   DeleteCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2448,7 +2449,7 @@ export type DeleteImportedKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const deleteImportedKeyMaterial: API.OperationMethod<
-  DeleteImportedKeyMaterialRequest,
+  DeleteImportedKeyMaterialRequest & RegionInput,
   DeleteImportedKeyMaterialResponse,
   DeleteImportedKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -2558,7 +2559,7 @@ export type DeriveSharedSecretError =
  * For more information, see KMS eventual consistency.
  */
 export const deriveSharedSecret: API.OperationMethod<
-  DeriveSharedSecretRequest,
+  DeriveSharedSecretRequest & RegionInput,
   DeriveSharedSecretResponse,
   DeriveSharedSecretError,
   Credentials | HttpClient.HttpClient
@@ -2640,7 +2641,7 @@ export type DescribeCustomKeyStoresError =
  * For more information, see KMS eventual consistency.
  */
 export const describeCustomKeyStores: API.PaginatedOperationMethod<
-  DescribeCustomKeyStoresRequest,
+  DescribeCustomKeyStoresRequest & RegionInput,
   DescribeCustomKeyStoresResponse,
   DescribeCustomKeyStoresError,
   Credentials | HttpClient.HttpClient,
@@ -2728,7 +2729,7 @@ export type DescribeKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2775,7 +2776,7 @@ export type DisableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKey: API.OperationMethod<
-  DisableKeyRequest,
+  DisableKeyRequest & RegionInput,
   DisableKeyResponse,
   DisableKeyError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2842,7 @@ export type DisableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const disableKeyRotation: API.OperationMethod<
-  DisableKeyRotationRequest,
+  DisableKeyRotationRequest & RegionInput,
   DisableKeyRotationResponse,
   DisableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -2912,7 +2913,7 @@ export type DisconnectCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const disconnectCustomKeyStore: API.OperationMethod<
-  DisconnectCustomKeyStoreRequest,
+  DisconnectCustomKeyStoreRequest & RegionInput,
   DisconnectCustomKeyStoreResponse,
   DisconnectCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -2956,7 +2957,7 @@ export type EnableKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKey: API.OperationMethod<
-  EnableKeyRequest,
+  EnableKeyRequest & RegionInput,
   EnableKeyResponse,
   EnableKeyError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3044,7 @@ export type EnableKeyRotationError =
  * For more information, see KMS eventual consistency.
  */
 export const enableKeyRotation: API.OperationMethod<
-  EnableKeyRotationRequest,
+  EnableKeyRotationRequest & RegionInput,
   EnableKeyRotationResponse,
   EnableKeyRotationError,
   Credentials | HttpClient.HttpClient
@@ -3149,7 +3150,7 @@ export type EncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const encrypt: API.OperationMethod<
-  EncryptRequest,
+  EncryptRequest & RegionInput,
   EncryptResponse,
   EncryptError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3276,7 @@ export type GenerateDataKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKey: API.OperationMethod<
-  GenerateDataKeyRequest,
+  GenerateDataKeyRequest & RegionInput,
   GenerateDataKeyResponse,
   GenerateDataKeyError,
   Credentials | HttpClient.HttpClient
@@ -3388,7 +3389,7 @@ export type GenerateDataKeyPairError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPair: API.OperationMethod<
-  GenerateDataKeyPairRequest,
+  GenerateDataKeyPairRequest & RegionInput,
   GenerateDataKeyPairResponse,
   GenerateDataKeyPairError,
   Credentials | HttpClient.HttpClient
@@ -3483,7 +3484,7 @@ export type GenerateDataKeyPairWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyPairWithoutPlaintextRequest,
+  GenerateDataKeyPairWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyPairWithoutPlaintextResponse,
   GenerateDataKeyPairWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3590,7 +3591,7 @@ export type GenerateDataKeyWithoutPlaintextError =
  * For more information, see KMS eventual consistency.
  */
 export const generateDataKeyWithoutPlaintext: API.OperationMethod<
-  GenerateDataKeyWithoutPlaintextRequest,
+  GenerateDataKeyWithoutPlaintextRequest & RegionInput,
   GenerateDataKeyWithoutPlaintextResponse,
   GenerateDataKeyWithoutPlaintextError,
   Credentials | HttpClient.HttpClient
@@ -3660,7 +3661,7 @@ export type GenerateMacError =
  * For more information, see KMS eventual consistency.
  */
 export const generateMac: API.OperationMethod<
-  GenerateMacRequest,
+  GenerateMacRequest & RegionInput,
   GenerateMacResponse,
   GenerateMacError,
   Credentials | HttpClient.HttpClient
@@ -3720,7 +3721,7 @@ export type GenerateRandomError =
  * For more information, see KMS eventual consistency.
  */
 export const generateRandom: API.OperationMethod<
-  GenerateRandomRequest,
+  GenerateRandomRequest & RegionInput,
   GenerateRandomResponse,
   GenerateRandomError,
   Credentials | HttpClient.HttpClient
@@ -3803,7 +3804,7 @@ export type GetKeyLastUsageError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyLastUsage: API.OperationMethod<
-  GetKeyLastUsageRequest,
+  GetKeyLastUsageRequest & RegionInput,
   GetKeyLastUsageResponse,
   GetKeyLastUsageError,
   Credentials | HttpClient.HttpClient
@@ -3843,7 +3844,7 @@ export type GetKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyPolicy: API.OperationMethod<
-  GetKeyPolicyRequest,
+  GetKeyPolicyRequest & RegionInput,
   GetKeyPolicyResponse,
   GetKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3928,7 +3929,7 @@ export type GetKeyRotationStatusError =
  * For more information, see KMS eventual consistency.
  */
 export const getKeyRotationStatus: API.OperationMethod<
-  GetKeyRotationStatusRequest,
+  GetKeyRotationStatusRequest & RegionInput,
   GetKeyRotationStatusResponse,
   GetKeyRotationStatusError,
   Credentials | HttpClient.HttpClient
@@ -4026,7 +4027,7 @@ export type GetParametersForImportError =
  * For more information, see KMS eventual consistency.
  */
 export const getParametersForImport: API.OperationMethod<
-  GetParametersForImportRequest,
+  GetParametersForImportRequest & RegionInput,
   GetParametersForImportResponse,
   GetParametersForImportError,
   Credentials | HttpClient.HttpClient
@@ -4111,7 +4112,7 @@ export type GetPublicKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const getPublicKey: API.OperationMethod<
-  GetPublicKeyRequest,
+  GetPublicKeyRequest & RegionInput,
   GetPublicKeyResponse,
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type ImportKeyMaterialError =
  * For more information, see KMS eventual consistency.
  */
 export const importKeyMaterial: API.OperationMethod<
-  ImportKeyMaterialRequest,
+  ImportKeyMaterialRequest & RegionInput,
   ImportKeyMaterialResponse,
   ImportKeyMaterialError,
   Credentials | HttpClient.HttpClient
@@ -4337,7 +4338,7 @@ export type ListAliasesError =
  * For more information, see KMS eventual consistency.
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesRequest,
+  ListAliasesRequest & RegionInput,
   ListAliasesResponse,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -4414,7 +4415,7 @@ export type ListGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listGrants: API.PaginatedOperationMethod<
-  ListGrantsRequest,
+  ListGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4470,7 +4471,7 @@ export type ListKeyPoliciesError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyPolicies: API.PaginatedOperationMethod<
-  ListKeyPoliciesRequest,
+  ListKeyPoliciesRequest & RegionInput,
   ListKeyPoliciesResponse,
   ListKeyPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4539,7 +4540,7 @@ export type ListKeyRotationsError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeyRotations: API.PaginatedOperationMethod<
-  ListKeyRotationsRequest,
+  ListKeyRotationsRequest & RegionInput,
   ListKeyRotationsResponse,
   ListKeyRotationsError,
   Credentials | HttpClient.HttpClient,
@@ -4594,7 +4595,7 @@ export type ListKeysError =
  * For more information, see KMS eventual consistency.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -4648,7 +4649,7 @@ export type ListResourceTagsError =
  * For more information, see KMS eventual consistency.
  */
 export const listResourceTags: API.PaginatedOperationMethod<
-  ListResourceTagsRequest,
+  ListResourceTagsRequest & RegionInput,
   ListResourceTagsResponse,
   ListResourceTagsError,
   Credentials | HttpClient.HttpClient,
@@ -4725,7 +4726,7 @@ export type ListRetirableGrantsError =
  * For more information, see KMS eventual consistency.
  */
 export const listRetirableGrants: API.PaginatedOperationMethod<
-  ListRetirableGrantsRequest,
+  ListRetirableGrantsRequest & RegionInput,
   ListGrantsResponse,
   ListRetirableGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -4783,7 +4784,7 @@ export type PutKeyPolicyError =
  * For more information, see KMS eventual consistency.
  */
 export const putKeyPolicy: API.OperationMethod<
-  PutKeyPolicyRequest,
+  PutKeyPolicyRequest & RegionInput,
   PutKeyPolicyResponse,
   PutKeyPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4903,7 +4904,7 @@ export type ReEncryptError =
  * For more information, see KMS eventual consistency.
  */
 export const reEncrypt: API.OperationMethod<
-  ReEncryptRequest,
+  ReEncryptRequest & RegionInput,
   ReEncryptResponse,
   ReEncryptError,
   Credentials | HttpClient.HttpClient
@@ -5016,7 +5017,7 @@ export type ReplicateKeyError =
  * For more information, see KMS eventual consistency.
  */
 export const replicateKey: API.OperationMethod<
-  ReplicateKeyRequest,
+  ReplicateKeyRequest & RegionInput,
   ReplicateKeyResponse,
   ReplicateKeyError,
   Credentials | HttpClient.HttpClient
@@ -5090,7 +5091,7 @@ export type RetireGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const retireGrant: API.OperationMethod<
-  RetireGrantRequest,
+  RetireGrantRequest & RegionInput,
   RetireGrantResponse,
   RetireGrantError,
   Credentials | HttpClient.HttpClient
@@ -5160,7 +5161,7 @@ export type RevokeGrantError =
  * For more information, see KMS eventual consistency.
  */
 export const revokeGrant: API.OperationMethod<
-  RevokeGrantRequest,
+  RevokeGrantRequest & RegionInput,
   RevokeGrantResponse,
   RevokeGrantError,
   Credentials | HttpClient.HttpClient
@@ -5252,7 +5253,7 @@ export type RotateKeyOnDemandError =
  * For more information, see KMS eventual consistency.
  */
 export const rotateKeyOnDemand: API.OperationMethod<
-  RotateKeyOnDemandRequest,
+  RotateKeyOnDemandRequest & RegionInput,
   RotateKeyOnDemandResponse,
   RotateKeyOnDemandError,
   Credentials | HttpClient.HttpClient
@@ -5341,7 +5342,7 @@ export type ScheduleKeyDeletionError =
  * For more information, see KMS eventual consistency.
  */
 export const scheduleKeyDeletion: API.OperationMethod<
-  ScheduleKeyDeletionRequest,
+  ScheduleKeyDeletionRequest & RegionInput,
   ScheduleKeyDeletionResponse,
   ScheduleKeyDeletionError,
   Credentials | HttpClient.HttpClient
@@ -5427,7 +5428,7 @@ export type SignError =
  * For more information, see KMS eventual consistency.
  */
 export const sign: API.OperationMethod<
-  SignRequest,
+  SignRequest & RegionInput,
   SignResponse,
   SignError,
   Credentials | HttpClient.HttpClient
@@ -5501,7 +5502,7 @@ export type TagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5565,7 +5566,7 @@ export type UntagResourceError =
  * For more information, see KMS eventual consistency.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5645,7 +5646,7 @@ export type UpdateAliasError =
  * For more information, see KMS eventual consistency.
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasRequest,
+  UpdateAliasRequest & RegionInput,
   UpdateAliasResponse,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -5773,7 +5774,7 @@ export type UpdateCustomKeyStoreError =
  * For more information, see KMS eventual consistency.
  */
 export const updateCustomKeyStore: API.OperationMethod<
-  UpdateCustomKeyStoreRequest,
+  UpdateCustomKeyStoreRequest & RegionInput,
   UpdateCustomKeyStoreResponse,
   UpdateCustomKeyStoreError,
   Credentials | HttpClient.HttpClient
@@ -5833,7 +5834,7 @@ export type UpdateKeyDescriptionError =
  * For more information, see KMS eventual consistency.
  */
 export const updateKeyDescription: API.OperationMethod<
-  UpdateKeyDescriptionRequest,
+  UpdateKeyDescriptionRequest & RegionInput,
   UpdateKeyDescriptionResponse,
   UpdateKeyDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -5926,7 +5927,7 @@ export type UpdatePrimaryRegionError =
  * For more information, see KMS eventual consistency.
  */
 export const updatePrimaryRegion: API.OperationMethod<
-  UpdatePrimaryRegionRequest,
+  UpdatePrimaryRegionRequest & RegionInput,
   UpdatePrimaryRegionResponse,
   UpdatePrimaryRegionError,
   Credentials | HttpClient.HttpClient
@@ -6005,7 +6006,7 @@ export type VerifyError =
  * For more information, see KMS eventual consistency.
  */
 export const verify: API.OperationMethod<
-  VerifyRequest,
+  VerifyRequest & RegionInput,
   VerifyResponse,
   VerifyError,
   Credentials | HttpClient.HttpClient
@@ -6071,7 +6072,7 @@ export type VerifyMacError =
  * For more information, see KMS eventual consistency.
  */
 export const verifyMac: API.OperationMethod<
-  VerifyMacRequest,
+  VerifyMacRequest & RegionInput,
   VerifyMacResponse,
   VerifyMacError,
   Credentials | HttpClient.HttpClient

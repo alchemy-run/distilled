@@ -1,3 +1,4 @@
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 // `#crc32`, `#md5`, `#utf8`: Node builds and browser builds differ (package.json `imports`).
@@ -16,11 +17,21 @@ export interface ChecksumConstructor {
   new (secret?: SourceData): Checksum;
 }
 
-export const stringHasher = (checksumAlgorithmFn: ChecksumConstructor, body: any) =>
-  Effect.promise(async () => {
-    const hash = new checksumAlgorithmFn();
-    hash.update(toUint8Array(body || ""));
-    return hash.digest();
+export const stringHasher = (
+  checksumAlgorithmFn: ChecksumConstructor,
+  body: any,
+): Effect.Effect<Uint8Array, InvalidInput> =>
+  Effect.tryPromise({
+    try: async () => {
+      const hash = new checksumAlgorithmFn();
+      hash.update(toUint8Array(body || ""));
+      return hash.digest();
+    },
+    catch: (cause) =>
+      new InvalidInput({
+        member: "body",
+        message: `the request body could not be checksummed: ${cause instanceof Error ? cause.message : String(cause)}`,
+      }),
   });
 
 // Minimum chunk size for S3 aws-chunked encoding (8KB, except for the last chunk)
@@ -39,7 +50,7 @@ const MIN_CHUNK_SIZE = 8 * 1024;
 export const applyHttpChecksum = (
   schema: S.Top,
   request: ProtocolRequest,
-): Effect.Effect<ProtocolRequest> =>
+): Effect.Effect<ProtocolRequest, InvalidInput> =>
   Effect.gen(function* () {
     const checksumTrait = getAwsProtocolsHttpChecksum(schema.ast);
 

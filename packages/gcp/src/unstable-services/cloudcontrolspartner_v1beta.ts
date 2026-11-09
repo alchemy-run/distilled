@@ -96,40 +96,40 @@ export type CustomerOnboardingStepCompletionStateEnum =
 /** Container for customer onboarding information */
 export interface CustomerOnboardingStep {
   /** The onboarding step */
-  step?: CustomerOnboardingStepStepEnum | (string & {});
+  step?: CustomerOnboardingStepStepEnum | (string & {}) | undefined;
   /** Output only. Current state of the step */
-  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {});
+  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {}) | undefined;
   /** The completion time of the onboarding step */
-  completionTime?: string;
+  completionTime?: string | undefined;
   /** The starting time of the onboarding step */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type CustomerOnboardingStepList = Array<CustomerOnboardingStep>;
 /** Container for customer onboarding steps */
 export interface CustomerOnboardingState {
   /** List of customer onboarding steps */
-  onboardingSteps?: CustomerOnboardingStepList;
+  onboardingSteps?: CustomerOnboardingStepList | undefined;
 }
 /** Contains metadata around a Cloud Controls Partner Customer */
 export interface Customer {
   /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
-  organizationDomain?: string;
+  organizationDomain?: string | undefined;
   /** Required. Display name for the customer */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Indicates whether a customer is fully onboarded */
-  isOnboarded?: boolean;
+  isOnboarded?: boolean | undefined;
   /** Output only. Container for customer onboarding steps */
-  customerOnboardingState?: CustomerOnboardingState;
+  customerOnboardingState?: CustomerOnboardingState | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrganizationsLocationsCustomersRequest {
   /** Required. The customer id to use for the customer, which will become the final component of the customer's resource name. The specified value must be a valid Google cloud organization id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: Customer;
+  body?: Customer | undefined;
 }
 export interface DeleteOrganizationsLocationsCustomersRequest {
   /** Required. name of the resource to be deleted format: name=organizations/*\/locations/*\/customers/* */
@@ -144,9 +144,9 @@ export interface GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsReques
 /** Information around the error that occurred if the connection state is anything other than available or unspecified */
 export interface ConnectionError {
   /** The error domain for the error */
-  errorDomain?: string;
+  errorDomain?: string | undefined;
   /** The error message for the error */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type EkmConnectionConnectionStateEnum =
   | "CONNECTION_STATE_UNSPECIFIED"
@@ -157,19 +157,19 @@ export type EkmConnectionConnectionStateEnum =
 /** Details about the EKM connection */
 export interface EkmConnection {
   /** The connection error that occurred if any */
-  connectionError?: ConnectionError;
+  connectionError?: ConnectionError | undefined;
   /** Resource name of the EKM connection in the format: projects/{project}/locations/{location}/ekmConnections/{ekm_connection} */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** Output only. The connection state */
-  connectionState?: EkmConnectionConnectionStateEnum;
+  connectionState?: EkmConnectionConnectionStateEnum | undefined;
 }
 export type EkmConnectionList = Array<EkmConnection>;
 /** The EKM connections associated with a workload */
 export interface EkmConnections {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
-  name?: string;
+  name?: string | undefined;
   /** The EKM connections associated with the workload */
-  ekmConnections?: EkmConnectionList;
+  ekmConnections?: EkmConnectionList | undefined;
 }
 export interface GetOrganizationsLocationsCustomersRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
@@ -192,19 +192,19 @@ export type WorkloadOnboardingStepCompletionStateEnum =
 /** Container for workload onboarding information. */
 export interface WorkloadOnboardingStep {
   /** The onboarding step. */
-  step?: WorkloadOnboardingStepStepEnum;
+  step?: WorkloadOnboardingStepStepEnum | undefined;
   /** The starting time of the onboarding step. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The completion state of the onboarding step. */
-  completionState?: WorkloadOnboardingStepCompletionStateEnum;
+  completionState?: WorkloadOnboardingStepCompletionStateEnum | undefined;
   /** The completion time of the onboarding step. */
-  completionTime?: string;
+  completionTime?: string | undefined;
 }
 export type WorkloadOnboardingStepList = Array<WorkloadOnboardingStep>;
 /** Container for workload onboarding steps. */
 export interface WorkloadOnboardingState {
   /** List of workload onboarding steps. */
-  onboardingSteps?: WorkloadOnboardingStepList;
+  onboardingSteps?: WorkloadOnboardingStepList | undefined;
 }
 export type WorkloadPartnerEnum =
   | "PARTNER_UNSPECIFIED"
@@ -218,23 +218,23 @@ export type WorkloadPartnerEnum =
 /** Contains metadata around the [Workload resource](https://cloud.google.com/assured-workloads/docs/reference/rest/Shared.Types/Workload) in the Assured Workloads API. */
 export interface Workload {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether a workload is fully onboarded. */
-  isOnboarded?: boolean;
+  isOnboarded?: boolean | undefined;
   /** The project id of the key management project for the workload */
-  keyManagementProjectId?: string;
+  keyManagementProjectId?: string | undefined;
   /** The Google Cloud location of the workload */
-  location?: string;
+  location?: string | undefined;
   /** Output only. The name of container folder of the assured workload */
-  folder?: string;
+  folder?: string | undefined;
   /** Output only. Folder id this workload is associated with */
-  folderId?: string;
+  folderId?: string | undefined;
   /** Container for workload onboarding steps. */
-  workloadOnboardingState?: WorkloadOnboardingState;
+  workloadOnboardingState?: WorkloadOnboardingState | undefined;
   /** Output only. Time the resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Partner associated with this workload. */
-  partner?: WorkloadPartnerEnum;
+  partner?: WorkloadPartnerEnum | undefined;
 }
 export interface GetOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
@@ -244,27 +244,27 @@ export type StringList = Array<string>;
 /** Remediation instructions to resolve violation via cloud console */
 export interface Console {
   /** Steps to resolve violation via cloud console */
-  steps?: StringList;
+  steps?: StringList | undefined;
   /** Additional urls for more information about steps */
-  additionalLinks?: StringList;
+  additionalLinks?: StringList | undefined;
   /** Link to console page where violations can be resolved */
-  consoleUris?: StringList;
+  consoleUris?: StringList | undefined;
 }
 /** Remediation instructions to resolve violation via gcloud cli */
 export interface Gcloud {
   /** Steps to resolve violation via gcloud cli */
-  steps?: StringList;
+  steps?: StringList | undefined;
   /** Additional urls for more information about steps */
-  additionalLinks?: StringList;
+  additionalLinks?: StringList | undefined;
   /** Gcloud command to resolve violation */
-  gcloudCommands?: StringList;
+  gcloudCommands?: StringList | undefined;
 }
 /** Instructions to remediate violation */
 export interface Instructions {
   /** Remediation instructions to resolve violation via cloud console */
-  consoleInstructions?: Console;
+  consoleInstructions?: Console | undefined;
   /** Remediation instructions to resolve violation via gcloud cli */
-  gcloudInstructions?: Gcloud;
+  gcloudInstructions?: Gcloud | undefined;
 }
 export type RemediationRemediationTypeEnum =
   | "REMEDIATION_TYPE_UNSPECIFIED"
@@ -276,35 +276,35 @@ export type RemediationRemediationTypeEnum =
 /** Represents remediation guidance to resolve compliance violation for AssuredWorkload */
 export interface Remediation {
   /** Required. Remediation instructions to resolve violations */
-  instructions?: Instructions;
+  instructions?: Instructions | undefined;
   /** Output only. Remediation type based on the type of org policy values violated */
-  remediationType?: RemediationRemediationTypeEnum;
+  remediationType?: RemediationRemediationTypeEnum | undefined;
   /** Values that can resolve the violation For example: for list org policy violations, this will either be the list of allowed or denied values */
-  compliantValues?: StringList;
+  compliantValues?: StringList | undefined;
 }
 export type ViolationStateEnum = "STATE_UNSPECIFIED" | "RESOLVED" | "UNRESOLVED" | "EXCEPTION";
 /** Details of resource Violation */
 export interface Violation {
   /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
-  category?: string;
+  category?: string | undefined;
   /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Compliance violation remediation */
-  remediation?: Remediation;
+  remediation?: Remediation | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The last time when the Violation record was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Time of the event which triggered the Violation. */
-  beginTime?: string;
+  beginTime?: string | undefined;
   /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: `projects/{project_number}/policies/{constraint_name}` `folders/{folder_id}/policies/{constraint_name}` `organizations/{organization_id}/policies/{constraint_name}` */
-  nonCompliantOrgPolicy?: string;
+  nonCompliantOrgPolicy?: string | undefined;
   /** Output only. State of the violation */
-  state?: ViolationStateEnum;
+  state?: ViolationStateEnum | undefined;
   /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
-  resolveTime?: string;
+  resolveTime?: string | undefined;
   /** The folder_id of the violation */
-  folderId?: string;
+  folderId?: string | undefined;
 }
 export interface GetPartnerOrganizationsLocationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/partner` */
@@ -319,35 +319,35 @@ export type EkmMetadataEkmSolutionEnum =
 /** Holds information needed by Mudbray to use partner EKMs for workloads. */
 export interface EkmMetadata {
   /** The Cloud EKM partner. */
-  ekmSolution?: EkmMetadataEkmSolutionEnum;
+  ekmSolution?: EkmMetadataEkmSolutionEnum | undefined;
   /** Endpoint for sending requests to the EKM for key provisioning during Assured Workload creation. */
-  ekmEndpointUri?: string;
+  ekmEndpointUri?: string | undefined;
 }
 export type EkmMetadataList = Array<EkmMetadata>;
 /** Represents the SKU a partner owns inside Google Cloud to sell to customers. */
 export interface Sku {
   /** Display name of the product identified by the SKU. A partner may want to show partner branded names for their offerings such as local sovereign cloud solutions. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
-  id?: string;
+  id?: string | undefined;
 }
 export type SkuList = Array<Sku>;
 /** Message describing Partner resource */
 export interface Partner {
   /** Google Cloud project ID in the partner's Google Cloud organization for receiving enhanced Logs for Partners. */
-  partnerProjectId?: string;
+  partnerProjectId?: string | undefined;
   /** Output only. Time the resource was created */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The last time the resource was updated */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** List of Google Cloud supported EKM partners supported by the partner */
-  ekmSolutions?: EkmMetadataList;
+  ekmSolutions?: EkmMetadataList | undefined;
   /** Identifier. The resource name of the partner. Format: `organizations/{organization}/locations/{location}/partner` Example: "organizations/123456/locations/us-central1/partner" */
-  name?: string;
+  name?: string | undefined;
   /** List of SKUs the partner is offering */
-  skus?: SkuList;
+  skus?: SkuList | undefined;
   /** List of Google Cloud regions that the partner sells services to customers. Valid Google Cloud regions found here: https://cloud.google.com/compute/docs/regions-zones */
-  operatedCloudRegions?: StringList;
+  operatedCloudRegions?: StringList | undefined;
 }
 export interface GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest {
   /** Required. Name of the resource to get in the format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
@@ -365,65 +365,65 @@ export type PartnerPermissionsPartnerPermissionsItemEnumList =
 /** The permissions granted to the partner for a workload */
 export interface PartnerPermissions {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
-  name?: string;
+  name?: string | undefined;
   /** The partner permissions granted for the workload */
-  partnerPermissions?: PartnerPermissionsPartnerPermissionsItemEnumList;
+  partnerPermissions?: PartnerPermissionsPartnerPermissionsItemEnumList | undefined;
 }
 export interface ListOrganizationsLocationsCustomersRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of Customers to return. The service may return fewer than this value. If unspecified, at most 500 Customers will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListCustomers` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CustomerList = Array<Customer>;
 /** Response message for list customer Customers requests */
 export interface ListCustomersResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of customers */
-  customers?: CustomerList;
+  customers?: CustomerList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsRequest {
   /** The maximum number of workloads to return. The service may return fewer than this value. If unspecified, at most 500 workloads will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListWorkloads` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type WorkloadList = Array<Workload>;
 /** Response message for list customer workloads requests. */
 export interface ListWorkloadsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of customer workloads */
-  workloads?: WorkloadList;
+  workloads?: WorkloadList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest {
   /** Optional. The maximum number of access requests to return. The service may return fewer than this value. If unspecified, at most 500 access requests will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AccessReasonTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -436,64 +436,64 @@ export type AccessReasonTypeEnum =
 /** Reason for the access. */
 export interface AccessReason {
   /** Type of access justification. */
-  type?: AccessReasonTypeEnum;
+  type?: AccessReasonTypeEnum | undefined;
   /** More detail about certain reason types. See comments for each type above. */
-  detail?: string;
+  detail?: string | undefined;
 }
 /** Details about the Access request. */
 export interface AccessApprovalRequest {
   /** The requested expiration for the approval. If the request is approved, access will be granted from the time of approval until the expiration time. */
-  requestedExpirationTime?: string;
+  requestedExpirationTime?: string | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}` */
-  name?: string;
+  name?: string | undefined;
   /** The time at which approval was requested. */
-  requestTime?: string;
+  requestTime?: string | undefined;
   /** The justification for which approval is being requested. */
-  requestedReason?: AccessReason;
+  requestedReason?: AccessReason | undefined;
 }
 export type AccessApprovalRequestList = Array<AccessApprovalRequest>;
 /** Response message for list access requests. */
 export interface ListAccessApprovalRequestsResponse {
   /** List of access approval requests */
-  accessApprovalRequests?: AccessApprovalRequestList;
+  accessApprovalRequests?: AccessApprovalRequestList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   /** Optional. The maximum number of customers row to return. The service may return fewer than this value. If unspecified, at most 10 customers will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "interval.startTime"?: string;
+  "interval.startTime"?: string | undefined;
   /** Optional. A page token, received from a previous `ListViolations` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "interval.endTime"?: string;
+  "interval.endTime"?: string | undefined;
   /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ViolationList = Array<Violation>;
 /** Response message for list customer violation requests */
 export interface ListViolationsResponse {
   /** List of violation */
-  violations?: ViolationList;
+  violations?: ViolationList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Workloads that could not be reached due to permission errors or any other error. Ref: https://google.aip.dev/217 */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface PatchOrganizationsLocationsCustomersRequest {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name: string;
   /** Optional. The list of fields to update */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Customer;
+  body?: Customer | undefined;
 }
 export type CreateOrganizationsLocationsCustomersError =
   | NotFound

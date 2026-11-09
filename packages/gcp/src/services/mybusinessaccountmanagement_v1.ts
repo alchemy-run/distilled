@@ -89,7 +89,7 @@ export interface AcceptAccountsInvitationsRequest {
   /** Required. The name of the invitation that is being accepted. `accounts/{account_id}/invitations/{invitation_id}` */
   name: string;
   /** Request body */
-  body?: AcceptInvitationRequest;
+  body?: AcceptInvitationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -103,36 +103,36 @@ export type StringList = Array<string>;
 /** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
 export interface PostalAddress {
   /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string;
+  administrativeArea?: string | undefined;
   /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string;
+  locality?: string | undefined;
   /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList;
+  addressLines?: StringList | undefined;
   /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList;
+  recipients?: StringList | undefined;
   /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string;
+  sortingCode?: string | undefined;
   /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. The name of the organization at the address. */
-  organization?: string;
+  organization?: string | undefined;
   /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string;
+  sublocality?: string | undefined;
   /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number;
+  revision?: number | undefined;
   /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 /** Additional information stored for an organization. */
 export interface OrganizationInfo {
   /** Output only. The postal address for the account. */
-  address?: PostalAddress;
+  address?: PostalAddress | undefined;
   /** Output only. The contact number for the organization. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Output only. The registered domain for the account. */
-  registeredDomain?: string;
+  registeredDomain?: string | undefined;
 }
 export type AccountVettedStateEnum =
   | "VETTED_STATE_UNSPECIFIED"
@@ -157,29 +157,29 @@ export type AccountVerificationStateEnum =
 /** An account is a container for your location. If you are the only user who manages locations for your business, you can use your personal Google Account. To share management of locations with multiple users, [create a business account] (https://support.google.com/business/answer/6085339?ref_topic=6085325). */
 export interface Account {
   /** Required. Contains the type of account. Accounts of type PERSONAL and ORGANIZATION cannot be created using this API. */
-  type?: AccountTypeEnum | (string & {});
+  type?: AccountTypeEnum | (string & {}) | undefined;
   /** Output only. Additional info for an organization. This is populated only for an organization account. */
-  organizationInfo?: OrganizationInfo;
+  organizationInfo?: OrganizationInfo | undefined;
   /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
-  vettedState?: AccountVettedStateEnum | (string & {});
+  vettedState?: AccountVettedStateEnum | (string & {}) | undefined;
   /** Output only. Specifies the permission level the user has for this account. */
-  permissionLevel?: AccountPermissionLevelEnum | (string & {});
+  permissionLevel?: AccountPermissionLevelEnum | (string & {}) | undefined;
   /** Required. Input only. The resource name of the account which will be the primary owner of the account being created. It should be of the form `accounts/{account_id}`. */
-  primaryOwner?: string;
+  primaryOwner?: string | undefined;
   /** Output only. Specifies the AccountRole of this account. */
-  role?: AccountRoleEnum | (string & {});
+  role?: AccountRoleEnum | (string & {}) | undefined;
   /** Output only. If verified, future locations that are created are automatically connected to Google Maps, and have Google+ pages created, without requiring moderation. */
-  verificationState?: AccountVerificationStateEnum | (string & {});
+  verificationState?: AccountVerificationStateEnum | (string & {}) | undefined;
   /** Output only. Account reference number if provisioned. */
-  accountNumber?: string;
+  accountNumber?: string | undefined;
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The name of the account. For an account of type `PERSONAL`, this is the first and last name of the user account. */
-  accountName?: string;
+  accountName?: string | undefined;
 }
 export interface CreateAccountsRequest {
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 export type AdminRoleEnum =
   | "ADMIN_ROLE_UNSPECIFIED"
@@ -190,27 +190,27 @@ export type AdminRoleEnum =
 /** An administrator of an Account or a location. */
 export interface Admin {
   /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string;
+  account?: string | undefined;
   /** Required. Specifies the role that this admin uses with the specified Account or Location. */
-  role?: AdminRoleEnum | (string & {});
+  role?: AdminRoleEnum | (string & {}) | undefined;
   /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
-  admin?: string;
+  admin?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean;
+  pendingInvitation?: boolean | undefined;
 }
 export interface CreateAccountsAdminsRequest {
   /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
   parent: string;
   /** Request body */
-  body?: Admin;
+  body?: Admin | undefined;
 }
 export interface CreateLocationsAdminsRequest {
   /** Required. The resource name of the location this admin is created for. `locations/{location_id}/admins`. */
   parent: string;
   /** Request body */
-  body?: Admin;
+  body?: Admin | undefined;
 }
 /** Request message for AccessControl.DeclineInvitation. */
 export type DeclineInvitationRequest = AcceptInvitationRequest;
@@ -218,7 +218,7 @@ export interface DeclineAccountsInvitationsRequest {
   /** Required. The name of the account invitation that is being declined. `accounts/{account_id}/invitations/{invitation_id}` */
   name: string;
   /** Request body */
-  body?: AcceptInvitationRequest;
+  body?: AcceptInvitationRequest | undefined;
 }
 export interface DeleteAccountsAdminsRequest {
   /** Required. The resource name of the admin to remove from the account. `accounts/{account_id}/admins/{admin_id}`. */
@@ -234,21 +234,21 @@ export interface GetAccountsRequest {
 }
 export interface ListAccountsRequest {
   /** Optional. The resource name of the account for which the list of directly accessible accounts is to be retrieved. This only makes sense for Organizations and User Groups. If empty, will return `ListAccounts` for the authenticated user. `accounts/{account_id}`. */
-  parentAccount?: string;
+  parentAccount?: string | undefined;
   /** Optional. A filter constraining the accounts to return. The response includes only entries that match the filter. If `filter` is empty, then no constraints are applied and all accounts (paginated) are retrieved for the requested account. For example, a request with the filter `type=USER_GROUP` will only return user groups. The `type` field is the only supported filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. How many accounts to fetch per page. The default and maximum is 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If specified, the next page of accounts is retrieved. The `pageToken` is returned when a call to `accounts.list` returns more results than can fit into the requested page size. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response message for Accounts.ListAccounts. */
 export interface ListAccountsResponse {
   /** A collection of accounts to which the user has access. The personal account of the user doing the query will always be the first item of the result, unless it is filtered out. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
   /** If the number of accounts exceeds the requested page size, this field is populated with a token to fetch the next page of accounts on a subsequent call to `accounts.list`. If there are no more accounts, this field is not present in the response. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAdminsRequest {
   /** Required. The name of the account from which to retrieve a list of admins. `accounts/{account_id}/admins`. */
@@ -258,13 +258,13 @@ export type AdminList = Array<Admin>;
 /** Response message for AccessControl.ListAccountAdmins. */
 export interface ListAccountAdminsResponse {
   /** A collection of Admin instances. */
-  accountAdmins?: AdminList;
+  accountAdmins?: AdminList | undefined;
 }
 export interface ListAccountsInvitationsRequest {
   /** Required. The name of the account from which the list of invitations is being retrieved. `accounts/{account_id}/invitations` */
   parent: string;
   /** Optional. Filtering the response is supported via the Invitation.target_type field. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type InvitationRoleEnum =
   | "ADMIN_ROLE_UNSPECIFIED"
@@ -279,30 +279,30 @@ export type InvitationTargetTypeEnum =
 /** Represents a target location for a pending invitation. */
 export interface TargetLocation {
   /** Output only. The Place ID of the location to which the user is invited. Not always populated. */
-  placeId?: string;
+  placeId?: string | undefined;
   /** The address of the location to which the user is invited. Not always populated. */
-  address?: string;
+  address?: string | undefined;
   /** The name of the location to which the user is invited. */
-  locationName?: string;
+  locationName?: string | undefined;
 }
 /** Represents a pending invitation. */
 export interface Invitation {
   /** Output only. The invited role on the account. */
-  role?: InvitationRoleEnum;
+  role?: InvitationRoleEnum | undefined;
   /** Output only. Specifies which target types should appear in the response. */
-  targetType?: InvitationTargetTypeEnum;
+  targetType?: InvitationTargetTypeEnum | undefined;
   /** The target location this invitation is for. */
-  targetLocation?: TargetLocation;
+  targetLocation?: TargetLocation | undefined;
   /** The sparsely populated account this invitation is for. */
-  targetAccount?: Account;
+  targetAccount?: Account | undefined;
   /** Required. The resource name for the invitation. `accounts/{account_id}/invitations/{invitation_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type InvitationList = Array<Invitation>;
 /** Response message for AccessControl.ListInvitations. */
 export interface ListInvitationsResponse {
   /** A collection of invitations that are pending for the account. The number of invitations listed here cannot exceed 1000. */
-  invitations?: InvitationList;
+  invitations?: InvitationList | undefined;
 }
 export interface ListLocationsAdminsRequest {
   /** Required. The name of the location to list admins of. `locations/{location_id}/admins`. */
@@ -311,44 +311,44 @@ export interface ListLocationsAdminsRequest {
 /** Response message for AccessControl.ListLocationAdmins. */
 export interface ListLocationAdminsResponse {
   /** A collection of Admins. */
-  admins?: AdminList;
+  admins?: AdminList | undefined;
 }
 export interface PatchAccountsRequest {
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name: string;
   /** Optional. If true, the request is validated without actually updating the account. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 export interface PatchAccountsAdminsRequest {
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
   /** Required. The specific fields that should be updated. The only editable field is role. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Admin;
+  body?: Admin | undefined;
 }
 export interface PatchLocationsAdminsRequest {
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
   /** Required. The specific fields that should be updated. The only editable field is role. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Admin;
+  body?: Admin | undefined;
 }
 /** Request message for AccessControl.TransferLocation. */
 export interface TransferLocationRequest {
   /** Required. Name of the account resource to transfer the location to (for example, "accounts/{account}"). */
-  destinationAccount?: string;
+  destinationAccount?: string | undefined;
 }
 export interface TransferLocationsRequest {
   /** Required. The name of the location to transfer. `locations/{location_id}`. */
   name: string;
   /** Request body */
-  body?: TransferLocationRequest;
+  body?: TransferLocationRequest | undefined;
 }
 export type AcceptAccountsInvitationsError =
   | NotFound

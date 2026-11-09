@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -107,81 +107,81 @@ export type StringMap = { [key: string]: string | undefined };
 /** ActiveDirectory is the public representation of the active directory config. */
 export interface ActiveDirectory {
   /** Required. NetBIOSPrefix is used as a prefix for SMB server name. */
-  netBiosPrefix?: string;
+  netBiosPrefix?: string | undefined;
   /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
-  kdcHostname?: string;
+  kdcHostname?: string | undefined;
   /** Output only. The state of the AD. */
-  state?: ActiveDirectoryStateEnum | (string & {});
+  state?: ActiveDirectoryStateEnum | (string & {}) | undefined;
   /** KDC server IP address for the active directory machine. */
-  kdcIp?: string;
+  kdcIp?: string | undefined;
   /** If enabled, will allow access to local users and LDAP users. If access is needed for only LDAP users, it has to be disabled. */
-  nfsUsersWithLdap?: boolean;
+  nfsUsersWithLdap?: boolean | undefined;
   /** If enabled, traffic between the SMB server to Domain Controller (DC) will be encrypted. */
-  encryptDcConnections?: boolean;
+  encryptDcConnections?: boolean | undefined;
   /** If enabled, AES encryption will be enabled for SMB communication. */
-  aesEncryption?: boolean;
+  aesEncryption?: boolean | undefined;
   /** Required. Name of the Active Directory domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Optional. Users to be added to the Built-in Backup Operator active directory group. */
-  backupOperators?: StringList;
+  backupOperators?: StringList | undefined;
   /** Output only. The state details of the Active Directory. */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** The Organizational Unit (OU) within the Windows Active Directory the user belongs to. */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
   /** Identifier. The resource name of the active directory. Format: `projects/{project_number}/locations/{location_id}/activeDirectories/{active_directory_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The Active Directory site the service will limit Domain Controller discovery too. */
-  site?: string;
+  site?: string | undefined;
   /** Optional. Domain users to be given the SeSecurityPrivilege. */
-  securityOperators?: StringList;
+  securityOperators?: StringList | undefined;
   /** Labels for the active directory. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Users to be added to the Built-in Admininstrators group. */
-  administrators?: StringList;
+  administrators?: StringList | undefined;
   /** Output only. Create time of the active directory. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Comma separated list of DNS server IP addresses for the Active Directory domain. */
-  dns?: string;
+  dns?: string | undefined;
   /** Required. Password of the Active Directory domain administrator. */
-  password?: string;
+  password?: string | undefined;
   /** Specifies whether or not the LDAP traffic needs to be signed. */
-  ldapSigning?: boolean;
+  ldapSigning?: boolean | undefined;
   /** Description of the active directory. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Username of the Active Directory domain administrator. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CreateProjectsLocationsActiveDirectoriesRequest {
   /** Required. Value for parent. */
   parent: string;
   /** Required. ID of the active directory to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter , the last a letter or a number, and a 63 character maximum. */
-  activeDirectoryId?: string;
+  activeDirectoryId?: string | undefined;
   /** Request body */
-  body?: ActiveDirectory;
+  body?: ActiveDirectory | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type BackupPolicyStateEnum =
   | "STATE_UNSPECIFIED"
@@ -193,33 +193,33 @@ export type BackupPolicyStateEnum =
 /** Backup Policy. */
 export interface BackupPolicy {
   /** Output only. The backup policy state. */
-  state?: BackupPolicyStateEnum | (string & {});
+  state?: BackupPolicyStateEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when the backup policy was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Number of monthly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
-  monthlyBackupLimit?: number;
+  monthlyBackupLimit?: number | undefined;
   /** Number of daily backups to keep. Note that the minimum daily backup limit is 2. */
-  dailyBackupLimit?: number;
+  dailyBackupLimit?: number | undefined;
   /** Number of weekly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
-  weeklyBackupLimit?: number;
+  weeklyBackupLimit?: number | undefined;
   /** If enabled, make backups automatically according to the schedules. This will be applied to all volumes that have this policy attached and enforced on volume level. If not specified, default is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Output only. The total number of volumes assigned by this backup policy. */
-  assignedVolumeCount?: number;
+  assignedVolumeCount?: number | undefined;
   /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Description of the backup policy. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsBackupPoliciesRequest {
   /** Required. The ID to use for the backup policy. The ID must be unique within the specified location. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  backupPolicyId?: string;
+  backupPolicyId?: string | undefined;
   /** Required. The location to create the backup policies of, in the format `projects/{project_id}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: BackupPolicy;
+  body?: BackupPolicy | undefined;
 }
 export type BackupVaultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -237,15 +237,15 @@ export type BackupVaultEncryptionStateEnum =
 /** Retention policy for backups in the backup vault */
 export interface BackupRetentionPolicy {
   /** Optional. Indicates if the monthly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  monthlyBackupImmutable?: boolean;
+  monthlyBackupImmutable?: boolean | undefined;
   /** Required. Minimum retention duration in days for backups in the backup vault. */
-  backupMinimumEnforcedRetentionDays?: number;
+  backupMinimumEnforcedRetentionDays?: number | undefined;
   /** Optional. Indicates if the weekly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  weeklyBackupImmutable?: boolean;
+  weeklyBackupImmutable?: boolean | undefined;
   /** Optional. Indicates if the daily backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  dailyBackupImmutable?: boolean;
+  dailyBackupImmutable?: boolean | undefined;
   /** Optional. Indicates if the manual backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  manualBackupImmutable?: boolean;
+  manualBackupImmutable?: boolean | undefined;
 }
 export type BackupVaultBackupVaultTypeEnum =
   | "BACKUP_VAULT_TYPE_UNSPECIFIED"
@@ -254,50 +254,50 @@ export type BackupVaultBackupVaultTypeEnum =
 /** A NetApp BackupVault. */
 export interface BackupVault {
   /** Identifier. The resource name of the backup vault. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The backup vault state. */
-  state?: BackupVaultStateEnum | (string & {});
+  state?: BackupVaultStateEnum | (string & {}) | undefined;
   /** Output only. The crypto key version used to encrypt the backup vault. Format: `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}` */
-  backupsCryptoKeyVersion?: string;
+  backupsCryptoKeyVersion?: string | undefined;
   /** Output only. Field indicating encryption state of CMEK backups. */
-  encryptionState?: BackupVaultEncryptionStateEnum | (string & {});
+  encryptionState?: BackupVaultEncryptionStateEnum | (string & {}) | undefined;
   /** Optional. Backup retention policy defining the retention of backups. */
-  backupRetentionPolicy?: BackupRetentionPolicy;
+  backupRetentionPolicy?: BackupRetentionPolicy | undefined;
   /** Output only. Name of the Backup vault created in source region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
-  sourceBackupVault?: string;
+  sourceBackupVault?: string | undefined;
   /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Type of backup vault to be created. Default is IN_REGION. */
-  backupVaultType?: BackupVaultBackupVaultTypeEnum | (string & {});
+  backupVaultType?: BackupVaultBackupVaultTypeEnum | (string & {}) | undefined;
   /** Output only. Create time of the backup vault. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Specifies the Key Management System (KMS) configuration to be used for backup encryption. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
-  kmsConfig?: string;
+  kmsConfig?: string | undefined;
   /** Output only. Name of the Backup vault created in backup region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
-  destinationBackupVault?: string;
+  destinationBackupVault?: string | undefined;
   /** Optional. Region where the backups are stored. Format: `projects/{project_id}/locations/{location}` */
-  backupRegion?: string;
+  backupRegion?: string | undefined;
   /** Description of the backup vault. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Region in which the backup vault is created. Format: `projects/{project_id}/locations/{location}` */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
 }
 export interface CreateProjectsLocationsBackupVaultsRequest {
   /** Required. The location to create the backup vaults, in the format `projects/{project_id}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the backupVault. The ID must be unique within the specified location. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  backupVaultId?: string;
+  backupVaultId?: string | undefined;
   /** Request body */
-  body?: BackupVault;
+  body?: BackupVault | undefined;
 }
 /** Represents ONTAP source details. */
 export interface OntapSource {
   /** Required. The UUID of the ONTAP source volume. */
-  volumeUuid?: string;
+  volumeUuid?: string | undefined;
   /** Optional. The UUID of the ONTAP source snapshot. */
-  snapshotUuid?: string;
+  snapshotUuid?: string | undefined;
   /** Required. Name of the storage pool. This must be specified for creating backups for ONTAP mode volumes. Format: `projects/{projects_id}/locations/{location}/storagePools/{storage_pool_id}` */
-  storagePool?: string;
+  storagePool?: string | undefined;
 }
 export type BackupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -311,45 +311,45 @@ export type BackupBackupTypeEnum = "TYPE_UNSPECIFIED" | "MANUAL" | "SCHEDULED";
 /** A NetApp Backup. */
 export interface Backup {
   /** Output only. Region of the volume from which the backup was created. Format: `projects/{project_id}/locations/{location}` */
-  volumeRegion?: string;
+  volumeRegion?: string | undefined;
   /** The resource name of the volume that this backup belongs to. You must provide either `source_volume` or `ontap_source`. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
-  sourceVolume?: string;
+  sourceVolume?: string | undefined;
   /** If specified, backup will be created from the given snapshot. If not specified, there will be a new snapshot taken to initiate the backup creation. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}` */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Output only. Size of the file system when the backup was created. When creating a new volume from the backup, the volume capacity will have to be at least as big. */
-  volumeUsageBytes?: string;
+  volumeUsageBytes?: string | undefined;
   /** Output only. Reserved for future use */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Optional. Represents source details for ONTAP backups. Either source_volume or ontap_source should be provided. */
-  ontapSource?: OntapSource;
+  ontapSource?: OntapSource | undefined;
   /** Output only. Region in which backup is stored. Format: `projects/{project_id}/locations/{location}` */
-  backupRegion?: string;
+  backupRegion?: string | undefined;
   /** Output only. The time when the backup was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The backup state. */
-  state?: BackupStateEnum | (string & {});
+  state?: BackupStateEnum | (string & {}) | undefined;
   /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The time until which the backup is not deletable. */
-  enforcedRetentionEndTime?: string;
+  enforcedRetentionEndTime?: string | undefined;
   /** A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Reserved for future use */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. Total size of all backups in a chain in bytes = baseline backup size + sum(incremental backup size) */
-  chainStorageBytes?: string;
+  chainStorageBytes?: string | undefined;
   /** Output only. Type of backup, manually created or created by a backup policy. */
-  backupType?: BackupBackupTypeEnum | (string & {});
+  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsBackupVaultsBackupsRequest {
   /** Required. The NetApp backupVault to create the backups of, in the format `projects/*\/locations/*\/backupVaults/{backup_vault_id}` */
   parent: string;
   /** Required. The ID to use for the backup. The ID must be unique within the specified backupVault. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 export type HostGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -363,29 +363,29 @@ export type HostGroupOsTypeEnum = "OS_TYPE_UNSPECIFIED" | "LINUX" | "WINDOWS" | 
 /** Host group is a collection of hosts that can be used for accessing a Block Volume. */
 export interface HostGroup {
   /** Output only. Create time of the host group. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Description of the host group. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. State of the host group. */
-  state?: HostGroupStateEnum | (string & {});
+  state?: HostGroupStateEnum | (string & {}) | undefined;
   /** Required. The list of hosts associated with the host group. */
-  hosts?: StringList;
+  hosts?: StringList | undefined;
   /** Optional. Labels of the host group. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. Type of the host group. */
-  type?: HostGroupTypeEnum | (string & {});
+  type?: HostGroupTypeEnum | (string & {}) | undefined;
   /** Required. The OS type of the host group. It indicates the type of operating system used by all of the hosts in the HostGroup. All hosts in a HostGroup must be of the same OS type. This can be set only when creating a HostGroup. */
-  osType?: HostGroupOsTypeEnum | (string & {});
+  osType?: HostGroupOsTypeEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsHostGroupsRequest {
   /** Required. ID of the host group to create. Must be unique within the parent resource. Must contain only letters, numbers, and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
-  hostGroupId?: string;
+  hostGroupId?: string | undefined;
   /** Required. Parent value for CreateHostGroupRequest */
   parent: string;
   /** Request body */
-  body?: HostGroup;
+  body?: HostGroup | undefined;
 }
 export type KmsConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -403,31 +403,31 @@ export type KmsConfigStateEnum =
 /** KmsConfig is the customer-managed encryption key(CMEK) configuration. */
 export interface KmsConfig {
   /** Output only. Create time of the KmsConfig. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Customer-managed crypto key resource full name. Format: `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}` */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Description of the KmsConfig. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The Service account which will have access to the customer provided encryption key. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. Instructions to provide the access to the customer provided encryption key. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** Output only. State details of the KmsConfig. */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Identifier. Name of the `KmsConfig`. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
-  name?: string;
+  name?: string | undefined;
   /** Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. State of the KmsConfig. */
-  state?: KmsConfigStateEnum | (string & {});
+  state?: KmsConfigStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsKmsConfigsRequest {
   /** Required. Value for parent. */
   parent: string;
   /** Required. Id of the requesting KmsConfig. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  kmsConfigId?: string;
+  kmsConfigId?: string | undefined;
   /** Request body */
-  body?: KmsConfig;
+  body?: KmsConfig | undefined;
 }
 export type StoragePoolQosTypeEnum = "QOS_TYPE_UNSPECIFIED" | "AUTO" | "MANUAL";
 export type StoragePoolScaleTypeEnum =
@@ -458,81 +458,81 @@ export type StoragePoolModeEnum = "MODE_UNSPECIFIED" | "DEFAULT" | "ONTAP";
 /** StoragePool is a container for volumes with a service level and capacity. Volumes can be created in a pool of sufficient available capacity. StoragePool capacity is what you are billed for. */
 export interface StoragePool {
   /** Optional. Description of the storage pool */
-  description?: string;
+  description?: string | undefined;
   /** Required. Capacity in GIB of the pool */
-  capacityGib?: string;
+  capacityGib?: string | undefined;
   /** Optional. True if the storage pool supports Auto Tiering enabled volumes. Default is false. Auto-tiering can be enabled after storage pool creation but it can't be disabled once enabled. */
-  allowAutoTiering?: boolean;
+  allowAutoTiering?: boolean | undefined;
   /** Identifier. Name of the storage pool */
-  name?: string;
+  name?: string | undefined;
   /** Required. VPC Network name. Format: projects/{project}/global/networks/{network} */
-  network?: string;
+  network?: string | undefined;
   /** Optional. QoS (Quality of Service) Type of the storage pool */
-  qosType?: StoragePoolQosTypeEnum | (string & {});
+  qosType?: StoragePoolQosTypeEnum | (string & {}) | undefined;
   /** Optional. Specifies the replica zone for regional storagePool. */
-  replicaZone?: string;
+  replicaZone?: string | undefined;
   /** Output only. Total hot tier data rounded down to the nearest GiB used by the storage pool. */
-  hotTierSizeUsedGib?: string;
+  hotTierSizeUsedGib?: string | undefined;
   /** Optional. The scale type of the storage pool. Defaults to `SCALE_TYPE_DEFAULT` if not specified. */
-  scaleType?: StoragePoolScaleTypeEnum | (string & {});
+  scaleType?: StoragePoolScaleTypeEnum | (string & {}) | undefined;
   /** Output only. Volume count of the storage pool */
-  volumeCount?: number;
+  volumeCount?: number | undefined;
   /** Optional. Flag indicating if the pool is NFS LDAP enabled or not. */
-  ldapEnabled?: boolean;
+  ldapEnabled?: boolean | undefined;
   /** Optional. True if using Independent Scaling of capacity and performance (Hyperdisk) By default set to false */
-  customPerformanceEnabled?: boolean;
+  customPerformanceEnabled?: boolean | undefined;
   /** Output only. Available throughput of the storage pool (in MiB/s). */
-  availableThroughputMibps?: number;
+  availableThroughputMibps?: number | undefined;
   /** Optional. Specifies the KMS config to be used for volume encryption. */
-  kmsConfig?: string;
+  kmsConfig?: string | undefined;
   /** Output only. Allocated size of all volumes in GIB in the storage pool */
-  volumeCapacityGib?: string;
+  volumeCapacityGib?: string | undefined;
   /** Output only. Specifies the current pool encryption key source. */
-  encryptionType?: StoragePoolEncryptionTypeEnum | (string & {});
+  encryptionType?: StoragePoolEncryptionTypeEnum | (string & {}) | undefined;
   /** Required. Service level of the storage pool */
-  serviceLevel?: StoragePoolServiceLevelEnum | (string & {});
+  serviceLevel?: StoragePoolServiceLevelEnum | (string & {}) | undefined;
   /** Optional. Specifies the Active Directory to be used for creating a SMB volume. */
-  activeDirectory?: string;
+  activeDirectory?: string | undefined;
   /** Optional. Specifies the active zone for regional storagePool. */
-  zone?: string;
+  zone?: string | undefined;
   /** Optional. This field is not implemented. The values provided in this field are ignored. */
-  psaRange?: string;
+  psaRange?: string | undefined;
   /** Output only. State details of the storage pool */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Deprecated. Used to allow SO pool to access AD or DNS server from other regions. */
-  globalAccessAllowed?: boolean;
+  globalAccessAllowed?: boolean | undefined;
   /** Output only. State of the storage pool */
-  state?: StoragePoolStateEnum | (string & {});
+  state?: StoragePoolStateEnum | (string & {}) | undefined;
   /** Optional. Type of the storage pool. This field is used to control whether the pool supports `FILE` based volumes only or `UNIFIED` (both `FILE` and `BLOCK`) volumes. If not specified during creation, it defaults to `FILE`. */
-  type?: StoragePoolTypeEnum | (string & {});
+  type?: StoragePoolTypeEnum | (string & {}) | undefined;
   /** Optional. Custom Performance Total Throughput of the pool (in MiBps) */
-  totalThroughputMibps?: string;
+  totalThroughputMibps?: string | undefined;
   /** Output only. Total cold tier data rounded down to the nearest GiB used by the storage pool. */
-  coldTierSizeUsedGib?: string;
+  coldTierSizeUsedGib?: string | undefined;
   /** Output only. Reserved for future use */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Optional. Custom Performance Total IOPS of the pool if not provided, it will be calculated based on the total_throughput_mibps */
-  totalIops?: string;
+  totalIops?: string | undefined;
   /** Output only. Reserved for future use */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. Total hot tier capacity for the Storage Pool. It is applicable only to Flex service level. It should be less than the minimum storage pool size and cannot be more than the current storage pool size. It cannot be decreased once set. */
-  hotTierSizeGib?: string;
+  hotTierSizeGib?: string | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Mode of the storage pool. This field is used to control whether the user can perform ONTAP operations on the storage pool using the GCNV ONTAP Mode APIs. If not specified during creation, it defaults to `DEFAULT`. */
-  mode?: StoragePoolModeEnum | (string & {});
+  mode?: StoragePoolModeEnum | (string & {}) | undefined;
   /** Optional. Flag indicating that the hot-tier threshold will be auto-increased by 10% of the hot-tier when it hits 100%. Default is true. The increment will kick in only if the new size after increment is still less than or equal to storage pool size. */
-  enableHotTierAutoResize?: boolean;
+  enableHotTierAutoResize?: boolean | undefined;
   /** Output only. Create time of the storage pool */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsStoragePoolsRequest {
   /** Required. Value for parent. */
   parent: string;
   /** Required. Id of the requesting storage pool. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  storagePoolId?: string;
+  storagePoolId?: string | undefined;
   /** Request body */
-  body?: StoragePool;
+  body?: StoragePool | undefined;
 }
 export type VolumeProtocolsItemEnum =
   | "PROTOCOLS_UNSPECIFIED"
@@ -556,27 +556,33 @@ export type HybridReplicationParametersReplicationScheduleEnum =
 /** The Hybrid Replication parameters for the volume. */
 export interface HybridReplicationParameters {
   /** Optional. Description of the replication. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Name of source cluster location associated with the Hybrid replication. This is a free-form field for the display purpose only. */
-  clusterLocation?: string;
+  clusterLocation?: string | undefined;
   /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
+  peerClusterName?: string | undefined;
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
+  peerVolumeName?: string | undefined;
   /** Optional. Type of the hybrid replication. */
-  hybridReplicationType?: HybridReplicationParametersHybridReplicationTypeEnum | (string & {});
+  hybridReplicationType?:
+    | HybridReplicationParametersHybridReplicationTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Replication Schedule for the replication created. */
-  replicationSchedule?: HybridReplicationParametersReplicationScheduleEnum | (string & {});
+  replicationSchedule?:
+    | HybridReplicationParametersReplicationScheduleEnum
+    | (string & {})
+    | undefined;
   /** Required. Desired name for the replication of this volume. */
-  replication?: string;
+  replication?: string | undefined;
   /** Required. List of node ip addresses to be peered with. */
-  peerIpAddresses?: StringList;
+  peerIpAddresses?: StringList | undefined;
   /** Optional. Labels to be added to the replication as the key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
+  peerSvmName?: string | undefined;
   /** Optional. Constituent volume count for large volume. */
-  largeVolumeConstituentCount?: number;
+  largeVolumeConstituentCount?: number | undefined;
 }
 export type VolumeSecurityStyleEnum = "SECURITY_STYLE_UNSPECIFIED" | "NTFS" | "UNIX";
 export type VolumeRestrictedActionsItemEnum = "RESTRICTED_ACTION_UNSPECIFIED" | "DELETE";
@@ -586,7 +592,7 @@ export type VolumeRestrictedActionsItemEnumList = Array<
 /** Configuration for a Large Capacity Volume. A Large Capacity Volume supports sizes ranging from 4.8 TiB to 20 PiB; it is composed of multiple internal constituents, and must be created in a large capacity pool. */
 export interface LargeCapacityConfig {
   /** Optional. The number of internal constituents (e.g., FlexVols) for this large volume. The minimum number of constituents is 2. */
-  constituentCount?: number;
+  constituentCount?: number | undefined;
 }
 export type VolumeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -630,37 +636,37 @@ export type SimpleExportPolicyRuleSquashModeEnum =
 /** An export policy rule describing various export options. */
 export interface SimpleExportPolicyRule {
   /** Comma separated list of allowed clients IP addresses */
-  allowedClients?: string;
+  allowedClients?: string | undefined;
   /** NFS V3 protocol. */
-  nfsv3?: boolean;
+  nfsv3?: boolean | undefined;
   /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'privacy' kerberos security mode. The 'kerberos5pReadOnly' value be ignored if this is enabled. */
-  kerberos5pReadWrite?: boolean;
+  kerberos5pReadWrite?: boolean | undefined;
   /** Optional. An integer representing the anonymous user ID. Range is 0 to `4294967295`. Required when `squash_mode` is `ROOT_SQUASH` or `ALL_SQUASH`. */
-  anonUid?: string;
+  anonUid?: string | undefined;
   /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'authentication' kerberos security mode. The 'kerberos5ReadOnly' value be ignored if this is enabled. */
-  kerberos5ReadWrite?: boolean;
+  kerberos5ReadWrite?: boolean | undefined;
   /** NFS V4 protocol. */
-  nfsv4?: boolean;
+  nfsv4?: boolean | undefined;
   /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'authentication' kerberos security mode. */
-  kerberos5ReadOnly?: boolean;
+  kerberos5ReadOnly?: boolean | undefined;
   /** Access type (ReadWrite, ReadOnly, None) */
-  accessType?: SimpleExportPolicyRuleAccessTypeEnum | (string & {});
+  accessType?: SimpleExportPolicyRuleAccessTypeEnum | (string & {}) | undefined;
   /** Whether Unix root access will be granted. */
-  hasRootAccess?: string;
+  hasRootAccess?: string | undefined;
   /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'privacy' kerberos security mode. */
-  kerberos5pReadOnly?: boolean;
+  kerberos5pReadOnly?: boolean | undefined;
   /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. The 'kerberos5iReadOnly' value be ignored if this is enabled. */
-  kerberos5iReadWrite?: boolean;
+  kerberos5iReadWrite?: boolean | undefined;
   /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. */
-  kerberos5iReadOnly?: boolean;
+  kerberos5iReadOnly?: boolean | undefined;
   /** Optional. Defines how user identity squashing is applied for this export rule. This field is the preferred way to configure squashing behavior and takes precedence over `has_root_access` if both are provided. */
-  squashMode?: SimpleExportPolicyRuleSquashModeEnum | (string & {});
+  squashMode?: SimpleExportPolicyRuleSquashModeEnum | (string & {}) | undefined;
 }
 export type SimpleExportPolicyRuleList = Array<SimpleExportPolicyRule>;
 /** Defines the export policy for the volume. */
 export interface ExportPolicy {
   /** Required. List of export policy rules */
-  rules?: SimpleExportPolicyRuleList;
+  rules?: SimpleExportPolicyRuleList | undefined;
 }
 export type VolumeEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
@@ -670,77 +676,77 @@ export type BlockDeviceOsTypeEnum = "OS_TYPE_UNSPECIFIED" | "LINUX" | "WINDOWS" 
 /** Block device represents the device(s) which are stored in the block volume. */
 export interface BlockDevice {
   /** Optional. The size of the block device in GiB. Any value provided for the `size_gib` field during volume creation is ignored. The block device's size is system-managed and will be set to match the parent Volume's `capacity_gib`. */
-  sizeGib?: string;
+  sizeGib?: string | undefined;
   /** Output only. Device identifier of the block volume. This represents `lun_serial_number` for iSCSI volumes. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Optional. A list of host groups that identify hosts that can mount the block volume. Format: `projects/{project_id}/locations/{location}/hostGroups/{host_group_id}` This field can be updated after the block device is created. */
-  hostGroups?: StringList;
+  hostGroups?: StringList | undefined;
   /** Optional. User-defined name for the block device, unique within the volume. In case no user input is provided, name will be auto-generated in the backend. The name must meet the following requirements: * Be between 1 and 255 characters long. * Contain only uppercase or lowercase letters (A-Z, a-z), numbers (0-9), and the following special characters: "-", "_", "}", "{", ".". * Spaces are not allowed. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Immutable. The OS type of the volume. This field can't be changed after the block device is created. */
-  osType?: BlockDeviceOsTypeEnum | (string & {});
+  osType?: BlockDeviceOsTypeEnum | (string & {}) | undefined;
 }
 export type BlockDeviceList = Array<BlockDevice>;
 /** Make a snapshot every day e.g. at 04:00, 05:20, 23:50 */
 export interface DailySchedule {
   /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
+  minute?: number | undefined;
   /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
+  hour?: number | undefined;
 }
 /** Make a snapshot every week e.g. at Monday 04:00, Wednesday 05:20, Sunday 23:50 */
 export interface WeeklySchedule {
   /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
+  minute?: number | undefined;
   /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
+  hour?: number | undefined;
   /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Set the day or days of the week to make a snapshot. Accepts a comma separated days of the week. Defaults to 'Sunday'. */
-  day?: string;
+  day?: string | undefined;
 }
 /** Make a snapshot every hour e.g. at 04:00, 05:00, 06:00. */
 export interface HourlySchedule {
   /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
+  minute?: number | undefined;
 }
 /** Make a snapshot once a month e.g. at 2nd 04:00, 7th 05:20, 24th 23:50 */
 export interface MonthlySchedule {
   /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
+  hour?: number | undefined;
   /** Set the day or days of the month to make a snapshot (1-31). Accepts a comma separated number of days. Defaults to '1'. */
-  daysOfMonth?: string;
+  daysOfMonth?: string | undefined;
   /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
+  minute?: number | undefined;
 }
 /** Snapshot Policy for a volume. */
 export interface SnapshotPolicy {
   /** Daily schedule policy. */
-  dailySchedule?: DailySchedule;
+  dailySchedule?: DailySchedule | undefined;
   /** Weekly schedule policy. */
-  weeklySchedule?: WeeklySchedule;
+  weeklySchedule?: WeeklySchedule | undefined;
   /** If enabled, make snapshots automatically according to the schedules. Default is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Hourly schedule policy. */
-  hourlySchedule?: HourlySchedule;
+  hourlySchedule?: HourlySchedule | undefined;
   /** Monthly schedule policy. */
-  monthlySchedule?: MonthlySchedule;
+  monthlySchedule?: MonthlySchedule | undefined;
 }
 export type TieringPolicyTierActionEnum = "TIER_ACTION_UNSPECIFIED" | "ENABLED" | "PAUSED";
 /** Defines tiering policy for the volume. */
 export interface TieringPolicy {
   /** Optional. Flag indicating if the volume has tiering policy enable/pause. Default is PAUSED. */
-  tierAction?: TieringPolicyTierActionEnum | (string & {});
+  tierAction?: TieringPolicyTierActionEnum | (string & {}) | undefined;
   /** Optional. Flag indicating that the hot tier bypass mode is enabled. Default is false. This is only applicable to Flex service level. */
-  hotTierBypassModeEnabled?: boolean;
+  hotTierBypassModeEnabled?: boolean | undefined;
   /** Optional. Time in days to mark the volume's data block as cold and make it eligible for tiering, can be range from 2-183. Default is 31. */
-  coolingThresholdDays?: number;
+  coolingThresholdDays?: number | undefined;
 }
 export type MountOptionProtocolEnum =
   | "PROTOCOLS_UNSPECIFIED"
@@ -752,34 +758,34 @@ export type MountOptionProtocolEnum =
 /** View only mount options for a volume. */
 export interface MountOption {
   /** Output only. IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Instructions for mounting */
-  instructions?: string;
+  instructions?: string | undefined;
   /** Export string */
-  export?: string;
+  export?: string | undefined;
   /** Full export string */
-  exportFull?: string;
+  exportFull?: string | undefined;
   /** Protocol to mount with. */
-  protocol?: MountOptionProtocolEnum | (string & {});
+  protocol?: MountOptionProtocolEnum | (string & {}) | undefined;
 }
 export type MountOptionList = Array<MountOption>;
 /** The RestoreParameters if volume is created from a snapshot or backup. */
 export interface RestoreParameters {
   /** Full name of the snapshot resource. Format: projects/{project}/locations/{location}/volumes/{volume}/snapshots/{snapshot} */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Full name of the backup resource. Format for standard backup: projects/{project}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}. Format for BackupDR backup: projects/{project}/locations/{location}/backupVaults/{backup_vault}/dataSources/{data_source}/backups/{backup} */
-  sourceBackup?: string;
+  sourceBackup?: string | undefined;
 }
 /** BackupConfig contains backup related config on a volume. */
 export interface BackupConfig {
   /** Output only. Total size of all backups in a chain in bytes = baseline backup size + sum(incremental backup size). */
-  backupChainBytes?: string;
+  backupChainBytes?: string | undefined;
   /** Optional. When set to true, scheduled backup is enabled on the volume. This field should be nil when there's no backup policy attached. */
-  scheduledBackupEnabled?: boolean;
+  scheduledBackupEnabled?: boolean | undefined;
   /** Optional. When specified, schedule backups will be created based on the policy configuration. */
-  backupPolicies?: StringList;
+  backupPolicies?: StringList | undefined;
   /** Optional. Name of backup vault. Format: projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id} */
-  backupVault?: string;
+  backupVault?: string | undefined;
 }
 export type CacheConfigCachePrePopulateStateEnum =
   | "CACHE_PRE_POPULATE_STATE_UNSPECIFIED"
@@ -790,22 +796,22 @@ export type CacheConfigCachePrePopulateStateEnum =
 /** Pre-populate cache volume with data from the origin volume. */
 export interface CachePrePopulate {
   /** Optional. List of directory-paths to be pre-populated for the FlexCache volume. */
-  pathList?: StringList;
+  pathList?: StringList | undefined;
   /** Optional. Flag indicating whether the directories listed with the `path_list` need to be recursively pre-populated. */
-  recursion?: boolean;
+  recursion?: boolean | undefined;
   /** Optional. List of directory-paths to be excluded for pre-population for the FlexCache volume. */
-  excludePathList?: StringList;
+  excludePathList?: StringList | undefined;
 }
 /** Configuration of the cache volume. */
 export interface CacheConfig {
   /** Output only. State of the prepopulation job indicating how the prepopulation is progressing. */
-  cachePrePopulateState?: CacheConfigCachePrePopulateStateEnum | (string & {});
+  cachePrePopulateState?: CacheConfigCachePrePopulateStateEnum | (string & {}) | undefined;
   /** Optional. Flag indicating whether a CIFS change notification is enabled for the FlexCache volume. */
-  cifsChangeNotifyEnabled?: boolean;
+  cifsChangeNotifyEnabled?: boolean | undefined;
   /** Optional. Pre-populate cache volume with data from the origin volume. */
-  cachePrePopulate?: CachePrePopulate;
+  cachePrePopulate?: CachePrePopulate | undefined;
   /** Optional. Flag indicating whether writeback is enabled for the FlexCache volume. */
-  writebackEnabled?: boolean;
+  writebackEnabled?: boolean | undefined;
 }
 export type CacheParametersCacheStateEnum =
   | "CACHE_STATE_UNSPECIFIED"
@@ -816,27 +822,27 @@ export type CacheParametersCacheStateEnum =
 /** Cache Parameters for the volume. */
 export interface CacheParameters {
   /** Output only. Detailed description of the current cache state. */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Optional. Indicates whether the cache volume has global file lock enabled. */
-  enableGlobalFileLock?: boolean;
+  enableGlobalFileLock?: boolean | undefined;
   /** Required. Name of the origin volume's ONTAP cluster. */
-  peerClusterName?: string;
+  peerClusterName?: string | undefined;
   /** Required. Name of the origin volume's SVM. */
-  peerSvmName?: string;
+  peerSvmName?: string | undefined;
   /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
-  command?: string;
+  command?: string | undefined;
   /** Required. Name of the origin volume for the cache volume. */
-  peerVolumeName?: string;
+  peerVolumeName?: string | undefined;
   /** Optional. Configuration of the cache volume. */
-  cacheConfig?: CacheConfig;
+  cacheConfig?: CacheConfig | undefined;
   /** Output only. State of the cache volume indicating the peering status. */
-  cacheState?: CacheParametersCacheStateEnum | (string & {});
+  cacheState?: CacheParametersCacheStateEnum | (string & {}) | undefined;
   /** Output only. Temporary passphrase generated to accept cluster peering command. */
-  passphrase?: string;
+  passphrase?: string | undefined;
   /** Required. List of IC LIF addresses of the origin volume's ONTAP cluster. */
-  peerIpAddresses?: StringList;
+  peerIpAddresses?: StringList | undefined;
   /** Optional. Expiration time for the peering command to be executed on user's ONTAP. */
-  peeringCommandExpiryTime?: string;
+  peeringCommandExpiryTime?: string | undefined;
 }
 export type CloneDetailsSplitStateEnum =
   | "SPLIT_STATE_UNSPECIFIED"
@@ -846,112 +852,112 @@ export type CloneDetailsSplitStateEnum =
 /** Details about a clone volume. */
 export interface CloneDetails {
   /** Output only. Specifies the full resource name of the source snapshot from which this volume was cloned. Format: projects/{project}/locations/{location}/volumes/{volume}/snapshots/{snapshot} */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Output only. Full name of the source volume resource. Format: projects/{project}/locations/{location}/volumes/{volume} */
-  sourceVolume?: string;
+  sourceVolume?: string | undefined;
   /** Output only. The current state of the clone split operation. */
-  splitState?: CloneDetailsSplitStateEnum | (string & {});
+  splitState?: CloneDetailsSplitStateEnum | (string & {}) | undefined;
   /** Output only. Shared space in GiB. Determined at volume creation time based on size of source snapshot. */
-  sharedSpaceGib?: string;
+  sharedSpaceGib?: string | undefined;
 }
 /** Volume provides a filesystem that you can mount. */
 export interface Volume {
   /** Required. Protocols required for the volume */
-  protocols?: VolumeProtocolsItemEnumList;
+  protocols?: VolumeProtocolsItemEnumList | undefined;
   /** Output only. Flag indicating if the volume is NFS LDAP enabled or not. */
-  ldapEnabled?: boolean;
+  ldapEnabled?: boolean | undefined;
   /** Optional. The Hybrid Replication parameters for the volume. */
-  hybridReplicationParameters?: HybridReplicationParameters;
+  hybridReplicationParameters?: HybridReplicationParameters | undefined;
   /** Optional. Security Style of the Volume */
-  securityStyle?: VolumeSecurityStyleEnum | (string & {});
+  securityStyle?: VolumeSecurityStyleEnum | (string & {}) | undefined;
   /** Optional. List of actions that are restricted on this volume. */
-  restrictedActions?: VolumeRestrictedActionsItemEnumList;
+  restrictedActions?: VolumeRestrictedActionsItemEnumList | undefined;
   /** Output only. VPC Network name. Format: projects/{project}/global/networks/{network} */
-  network?: string;
+  network?: string | undefined;
   /** Required. StoragePool name of the volume */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** Optional. Flag indicating if the volume will have an IP address per node for volumes supporting multiple IP endpoints. Only the volume with large_capacity will be allowed to have multiple endpoints. */
-  multipleEndpoints?: boolean;
+  multipleEndpoints?: boolean | undefined;
   /** Output only. Total hot tier data rounded down to the nearest GiB used by the Volume. This field is only used for flex Service Level */
-  hotTierSizeUsedGib?: string;
+  hotTierSizeUsedGib?: string | undefined;
   /** Optional. Large capacity config for the volume. Enables and configures large capacity for volumes in Unified pools with File protocols. Not applicable for Block protocols in Unified pools. This field and the legacy `large_capacity` boolean field are mutually exclusive. */
-  largeCapacityConfig?: LargeCapacityConfig;
+  largeCapacityConfig?: LargeCapacityConfig | undefined;
   /** Required. Capacity in GIB of the volume */
-  capacityGib?: string;
+  capacityGib?: string | undefined;
   /** Output only. Specifies the active zone for regional volume. */
-  zone?: string;
+  zone?: string | undefined;
   /** Output only. State of the volume */
-  state?: VolumeStateEnum | (string & {});
+  state?: VolumeStateEnum | (string & {}) | undefined;
   /** Optional. SMB share settings for the volume. */
-  smbSettings?: VolumeSmbSettingsItemEnumList;
+  smbSettings?: VolumeSmbSettingsItemEnumList | undefined;
   /** Optional. Description of the volume */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Service level of the volume */
-  serviceLevel?: VolumeServiceLevelEnum | (string & {});
+  serviceLevel?: VolumeServiceLevelEnum | (string & {}) | undefined;
   /** Optional. Export policy of the volume */
-  exportPolicy?: ExportPolicy;
+  exportPolicy?: ExportPolicy | undefined;
   /** Output only. Specified the current volume encryption key source. */
-  encryptionType?: VolumeEncryptionTypeEnum | (string & {});
+  encryptionType?: VolumeEncryptionTypeEnum | (string & {}) | undefined;
   /** Optional. Block devices for the volume. Currently, only one block device is permitted per Volume. */
-  blockDevices?: BlockDeviceList;
+  blockDevices?: BlockDeviceList | undefined;
   /** Optional. Snapshot_directory if enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots. */
-  snapshotDirectory?: boolean;
+  snapshotDirectory?: boolean | undefined;
   /** Output only. Specifies the KMS config to be used for volume encryption. */
-  kmsConfig?: string;
+  kmsConfig?: string | undefined;
   /** Output only. Specifies the replica zone for regional volume. */
-  replicaZone?: string;
+  replicaZone?: string | undefined;
   /** Optional. Snap_reserve specifies percentage of volume storage reserved for snapshot storage. Default is 0 percent. */
-  snapReserve?: number;
+  snapReserve?: number | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. SnapshotPolicy for a volume. */
-  snapshotPolicy?: SnapshotPolicy;
+  snapshotPolicy?: SnapshotPolicy | undefined;
   /** Output only. Size of the volume cold tier data rounded down to the nearest GiB. */
-  coldTierSizeGib?: string;
+  coldTierSizeGib?: string | undefined;
   /** Output only. This field is not implemented. The values provided in this field are ignored. */
-  psaRange?: string;
+  psaRange?: string | undefined;
   /** Output only. Indicates whether the volume is part of a replication relationship. */
-  hasReplication?: boolean;
+  hasReplication?: boolean | undefined;
   /** Tiering policy for the volume. */
-  tieringPolicy?: TieringPolicy;
+  tieringPolicy?: TieringPolicy | undefined;
   /** Output only. Create time of the volume */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Throughput of the volume (in MiB/s) */
-  throughputMibps?: number;
+  throughputMibps?: number | undefined;
   /** Output only. State details of the volume */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Optional. Flag indicating if the volume is a kerberos volume or not, export policy rules control kerberos security modes (krb5, krb5i, krb5p). */
-  kerberosEnabled?: boolean;
+  kerberosEnabled?: boolean | undefined;
   /** Output only. Mount options of this volume */
-  mountOptions?: MountOptionList;
+  mountOptions?: MountOptionList | undefined;
   /** Output only. Specifies the ActiveDirectory name of a SMB volume. */
-  activeDirectory?: string;
+  activeDirectory?: string | undefined;
   /** Optional. Specifies the source of the volume to be created from. */
-  restoreParameters?: RestoreParameters;
+  restoreParameters?: RestoreParameters | undefined;
   /** Identifier. Name of the volume */
-  name?: string;
+  name?: string | undefined;
   /** BackupConfig of the volume. */
-  backupConfig?: BackupConfig;
+  backupConfig?: BackupConfig | undefined;
   /** Optional. Cache parameters for the volume. */
-  cacheParameters?: CacheParameters;
+  cacheParameters?: CacheParameters | undefined;
   /** Required. Share name of the volume */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Output only. If this volume is a clone, this field contains details about the clone. */
-  cloneDetails?: CloneDetails;
+  cloneDetails?: CloneDetails | undefined;
   /** Optional. Default unix style permission (e.g. 777) the mount point will be created with. Applicable for NFS protocol types only. */
-  unixPermissions?: string;
+  unixPermissions?: string | undefined;
   /** Output only. Used capacity in GIB of the volume. This is computed periodically and it does not represent the realtime usage. */
-  usedGib?: string;
+  usedGib?: string | undefined;
   /** Optional. Flag indicating if the volume will be a large capacity volume or a regular volume. This field is used for legacy FILE pools. For Unified pools, use the `large_capacity_config` field instead. This field and `large_capacity_config` are mutually exclusive. */
-  largeCapacity?: boolean;
+  largeCapacity?: boolean | undefined;
 }
 export interface CreateProjectsLocationsVolumesRequest {
   /** Required. Id of the requesting volume. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: Volume;
+  body?: Volume | undefined;
 }
 export type QuotaRuleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -969,31 +975,31 @@ export type QuotaRuleTypeEnum =
 /** QuotaRule specifies the maximum disk space a user or group can use within a volume. They can be used for creating default and individual quota rules. */
 export interface QuotaRule {
   /** Optional. The quota rule applies to the specified user or group, identified by a Unix UID/GID, Windows SID, or null for default. */
-  target?: string;
+  target?: string | undefined;
   /** Required. The maximum allowed disk space in MiB. */
-  diskLimitMib?: number;
+  diskLimitMib?: number | undefined;
   /** Output only. State details of the quota rule */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Optional. Labels of the quota rule */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Description of the quota rule */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Create time of the quota rule */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. State of the quota rule */
-  state?: QuotaRuleStateEnum | (string & {});
+  state?: QuotaRuleStateEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the quota rule. Format: `projects/{project_number}/locations/{location_id}/volumes/volumes/{volume_id}/quotaRules/{quota_rule_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The type of quota rule. */
-  type?: QuotaRuleTypeEnum | (string & {});
+  type?: QuotaRuleTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsVolumesQuotaRulesRequest {
   /** Required. ID of the quota rule to create. Must be unique within the parent resource. Must contain only letters, numbers, underscore and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
-  quotaRuleId?: string;
+  quotaRuleId?: string | undefined;
   /** Required. Parent value for CreateQuotaRuleRequest */
   parent: string;
   /** Request body */
-  body?: QuotaRule;
+  body?: QuotaRule | undefined;
 }
 export type ReplicationRoleEnum = "REPLICATION_ROLE_UNSPECIFIED" | "SOURCE" | "DESTINATION";
 export type ReplicationMirrorStateEnum =
@@ -1009,56 +1015,56 @@ export type ReplicationMirrorStateEnum =
 /** UserCommands contains the commands to be executed by the customer. */
 export interface UserCommands {
   /** Output only. List of commands to be executed by the customer. */
-  commands?: StringList;
+  commands?: StringList | undefined;
 }
 /** HybridPeeringDetails contains details about the hybrid peering. */
 export interface HybridPeeringDetails {
   /** Output only. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
+  peerVolumeName?: string | undefined;
   /** Output only. IP address of the subnet. */
-  subnetIp?: string;
+  subnetIp?: string | undefined;
   /** Output only. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
+  peerClusterName?: string | undefined;
   /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
-  command?: string;
+  command?: string | undefined;
   /** Output only. Temporary passphrase generated to accept cluster peering command. */
-  passphrase?: string;
+  passphrase?: string | undefined;
   /** Output only. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
+  peerSvmName?: string | undefined;
   /** Output only. Expiration time for the peering command to be executed on user's ONTAP. */
-  commandExpiryTime?: string;
+  commandExpiryTime?: string | undefined;
 }
 /** DestinationVolumeParameters specify input parameters used for creating destination volume. */
 export interface DestinationVolumeParameters {
   /** Destination volume's share name. If not specified, source volume's share name will be used. */
-  shareName?: string;
+  shareName?: string | undefined;
   /** Description for the destination volume. */
-  description?: string;
+  description?: string | undefined;
   /** Desired destination volume resource id. If not specified, source volume's resource id will be used. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Optional. Tiering policy for the volume. */
-  tieringPolicy?: TieringPolicy;
+  tieringPolicy?: TieringPolicy | undefined;
   /** Required. Existing destination StoragePool name. */
-  storagePool?: string;
+  storagePool?: string | undefined;
 }
 /** TransferStats reports all statistics related to replication transfer. */
 export interface TransferStats {
   /** Time when progress was updated last. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Time when last transfer completed. */
-  lastTransferEndTime?: string;
+  lastTransferEndTime?: string | undefined;
   /** Cumulative bytes transferred so far for the replication relationship. */
-  transferBytes?: string;
+  transferBytes?: string | undefined;
   /** A message describing the cause of the last transfer failure. */
-  lastTransferError?: string;
+  lastTransferError?: string | undefined;
   /** Time taken during last transfer. */
-  lastTransferDuration?: string;
+  lastTransferDuration?: string | undefined;
   /** Lag duration indicates the duration by which Destination region volume content lags behind the primary region volume content. */
-  lagDuration?: string;
+  lagDuration?: string | undefined;
   /** Cumulative time taken across all transfers for the replication relationship. */
-  totalTransferDuration?: string;
+  totalTransferDuration?: string | undefined;
   /** Last transfer size in bytes. */
-  lastTransferBytes?: string;
+  lastTransferBytes?: string | undefined;
 }
 export type ReplicationReplicationScheduleEnum =
   | "REPLICATION_SCHEDULE_UNSPECIFIED"
@@ -1085,49 +1091,49 @@ export type ReplicationStateEnum =
 /** Replication is a nested resource under Volume, that describes a cross-region replication relationship between 2 volumes in different regions. */
 export interface Replication {
   /** Output only. Indicates whether this points to source or destination. */
-  role?: ReplicationRoleEnum | (string & {});
+  role?: ReplicationRoleEnum | (string & {}) | undefined;
   /** A description about this replication relationship. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Indicates the state of mirroring. */
-  mirrorState?: ReplicationMirrorStateEnum | (string & {});
+  mirrorState?: ReplicationMirrorStateEnum | (string & {}) | undefined;
   /** Output only. Copy pastable snapmirror commands to be executed on onprem cluster by the customer. */
-  hybridReplicationUserCommands?: UserCommands;
+  hybridReplicationUserCommands?: UserCommands | undefined;
   /** Optional. Location of the user cluster. */
-  clusterLocation?: string;
+  clusterLocation?: string | undefined;
   /** Output only. Hybrid peering details. */
-  hybridPeeringDetails?: HybridPeeringDetails;
+  hybridPeeringDetails?: HybridPeeringDetails | undefined;
   /** Output only. State details of the replication. */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Output only. Full name of source volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
-  sourceVolume?: string;
+  sourceVolume?: string | undefined;
   /** Output only. Condition of the relationship. Can be one of the following: - true: The replication relationship is healthy. It has not missed the most recent scheduled transfer. - false: The replication relationship is not healthy. It has missed the most recent scheduled transfer. */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Required. Input only. Destination volume parameters */
-  destinationVolumeParameters?: DestinationVolumeParameters;
+  destinationVolumeParameters?: DestinationVolumeParameters | undefined;
   /** Output only. Replication transfer statistics. */
-  transferStats?: TransferStats;
+  transferStats?: TransferStats | undefined;
   /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Identifier. The resource name of the Replication. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Indicates the schedule for replication. */
-  replicationSchedule?: ReplicationReplicationScheduleEnum | (string & {});
+  replicationSchedule?: ReplicationReplicationScheduleEnum | (string & {}) | undefined;
   /** Output only. Full name of destination volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
-  destinationVolume?: string;
+  destinationVolume?: string | undefined;
   /** Output only. Type of the hybrid replication. */
-  hybridReplicationType?: ReplicationHybridReplicationTypeEnum | (string & {});
+  hybridReplicationType?: ReplicationHybridReplicationTypeEnum | (string & {}) | undefined;
   /** Output only. State of the replication. */
-  state?: ReplicationStateEnum | (string & {});
+  state?: ReplicationStateEnum | (string & {}) | undefined;
   /** Output only. Replication create time. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsVolumesReplicationsRequest {
   /** Required. The NetApp volume to create the replications of, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   parent: string;
   /** Required. ID of the replication to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  replicationId?: string;
+  replicationId?: string | undefined;
   /** Request body */
-  body?: Replication;
+  body?: Replication | undefined;
 }
 export type SnapshotStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1140,27 +1146,27 @@ export type SnapshotStateEnum =
 /** Snapshot is a point-in-time version of a Volume's content. */
 export interface Snapshot {
   /** Output only. The time when the snapshot was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The snapshot state. */
-  state?: SnapshotStateEnum | (string & {});
+  state?: SnapshotStateEnum | (string & {}) | undefined;
   /** A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. State details of the storage pool */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Current storage usage for the snapshot in bytes. */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 export interface CreateProjectsLocationsVolumesSnapshotsRequest {
   /** Required. ID of the snapshot to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Required. The NetApp volume to create the snapshots of, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   parent: string;
   /** Request body */
-  body?: Snapshot;
+  body?: Snapshot | undefined;
 }
 export interface DeleteProjectsLocationsActiveDirectoriesRequest {
   /** Required. Name of the active directory. */
@@ -1196,7 +1202,7 @@ export interface DeleteProjectsLocationsStoragePoolsRequest {
 }
 export interface DeleteProjectsLocationsVolumesRequest {
   /** If this field is set as true, CCFE will not block the volume resource deletion even if it has any snapshots resource. (Otherwise, the request will only work if the volume has no snapshots.) */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Name of the volume */
   name: string;
 }
@@ -1218,41 +1224,41 @@ export interface EncryptProjectsLocationsKmsConfigsRequest {
   /** Required. Name of the KmsConfig. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** EstablishVolumePeeringRequest establishes cluster and svm peerings between the source and destination clusters. */
 export interface EstablishVolumePeeringRequest {
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
+  peerVolumeName?: string | undefined;
   /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
+  peerClusterName?: string | undefined;
   /** Optional. List of IPv4 IP addresses to be used for peering. */
-  peerIpAddresses?: StringList;
+  peerIpAddresses?: StringList | undefined;
   /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
+  peerSvmName?: string | undefined;
 }
 export interface EstablishPeeringProjectsLocationsVolumesRequest {
   /** Required. The volume resource name, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   name: string;
   /** Request body */
-  body?: EstablishVolumePeeringRequest;
+  body?: EstablishVolumePeeringRequest | undefined;
 }
 /** EstablishPeeringRequest establishes cluster and svm peerings between the source and the destination replications. */
 export interface EstablishPeeringRequest {
   /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
+  peerClusterName?: string | undefined;
   /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
+  peerSvmName?: string | undefined;
   /** Optional. List of IPv4 ip addresses to be used for peering. */
-  peerIpAddresses?: StringList;
+  peerIpAddresses?: StringList | undefined;
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
+  peerVolumeName?: string | undefined;
 }
 export interface EstablishPeeringProjectsLocationsVolumesReplicationsRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
   /** Request body */
-  body?: EstablishPeeringRequest;
+  body?: EstablishPeeringRequest | undefined;
 }
 export interface ExecuteOntapDeleteProjectsLocationsStoragePoolsOntapRequest {
   /** Required. The resource path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
@@ -1261,7 +1267,7 @@ export interface ExecuteOntapDeleteProjectsLocationsStoragePoolsOntapRequest {
 /** Response message for `ExecuteOntapDelete` API. */
 export interface ExecuteOntapDeleteResponse {
   /** The raw `JSON` body of the response. */
-  body?: DocumentMap;
+  body?: DocumentMap | undefined;
 }
 export interface ExecuteOntapGetProjectsLocationsStoragePoolsOntapRequest {
   /** Required. The resource path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
@@ -1270,23 +1276,23 @@ export interface ExecuteOntapGetProjectsLocationsStoragePoolsOntapRequest {
 /** Response message for `ExecuteOntapGet` API. */
 export interface ExecuteOntapGetResponse {
   /** The raw `JSON` body of the response. */
-  body?: DocumentMap;
+  body?: DocumentMap | undefined;
 }
 /** Request message for `ExecuteOntapPatch` API. */
 export interface ExecuteOntapPatchRequest {
   /** Required. The raw `JSON` body of the request. The body should be in the format of the ONTAP resource. For example: ``` { "body": { "field1": "value1", "field2": "value2", } } ``` */
-  body?: DocumentMap;
+  body?: DocumentMap | undefined;
 }
 export interface ExecuteOntapPatchProjectsLocationsStoragePoolsOntapRequest {
   /** Required. The resource path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
   ontapPath: string;
   /** Request body */
-  body?: ExecuteOntapPatchRequest;
+  body?: ExecuteOntapPatchRequest | undefined;
 }
 /** Response message for `ExecuteOntapPatch` API. */
 export interface ExecuteOntapPatchResponse {
   /** The raw `JSON` body of the response. */
-  body?: DocumentMap;
+  body?: DocumentMap | undefined;
 }
 /** Request message for `ExecuteOntapPost` API. */
 export type ExecuteOntapPostRequest = ExecuteOntapPatchRequest;
@@ -1294,12 +1300,12 @@ export interface ExecuteOntapPostProjectsLocationsStoragePoolsOntapRequest {
   /** Required. The path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
   ontapPath: string;
   /** Request body */
-  body?: ExecuteOntapPatchRequest;
+  body?: ExecuteOntapPatchRequest | undefined;
 }
 /** Response message for `ExecuteOntapPost` API. */
 export interface ExecuteOntapPostResponse {
   /** The raw `JSON` body of the response. */
-  body?: DocumentMap;
+  body?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1308,15 +1314,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsActiveDirectoriesRequest {
   /** Required. Name of the active directory. */
@@ -1378,85 +1384,85 @@ export type SplitStatusSplitStateEnum =
 /** Message for SplitStatus. */
 export interface SplitStatus {
   /** Output only. The current state of the clone split operation. */
-  splitState?: SplitStatusSplitStateEnum;
+  splitState?: SplitStatusSplitStateEnum | undefined;
   /** Output only. Human-readable details about the current state. Mostly used for displaying error messages during split failure Examples: "Split in progress", "Error: insufficient capacity". */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Output only. The estimated progress percentage of the split operation (0-100). This is meaningful primarily when split_state is IN_PROGRESS. */
-  progressPercent?: number;
+  progressPercent?: number | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsActiveDirectoriesRequest {
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent value for ListActiveDirectoriesRequest */
   parent: string;
   /** Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ActiveDirectoryList = Array<ActiveDirectory>;
 /** ListActiveDirectoriesResponse contains all the active directories requested. */
 export interface ListActiveDirectoriesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of active directories. */
-  activeDirectories?: ActiveDirectoryList;
+  activeDirectories?: ActiveDirectoryList | undefined;
 }
 export interface ListProjectsLocationsBackupPoliciesRequest {
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListBackupPoliciesRequest */
   parent: string;
   /** Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type BackupPolicyList = Array<BackupPolicy>;
 /** ListBackupPoliciesResponse contains all the backup policies requested. */
 export interface ListBackupPoliciesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of backup policies. */
-  backupPolicies?: BackupPolicyList;
+  backupPolicies?: BackupPolicyList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBackupVaultsRequest {
   /** List filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The location for which to retrieve backupVault information, in the format `projects/{project_id}/locations/{location}`. */
   parent: string;
 }
@@ -1464,87 +1470,87 @@ export type BackupVaultList = Array<BackupVault>;
 /** ListBackupVaultsResponse is the result of ListBackupVaultsRequest. */
 export interface ListBackupVaultsResponse {
   /** A list of backupVaults in the project for the specified location. */
-  backupVaults?: BackupVaultList;
+  backupVaults?: BackupVaultList | undefined;
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsBackupVaultsBackupsRequest {
   /** The maximum number of items to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The backupVault for which to retrieve backup information, in the format `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. To retrieve backup information for all locations, use "-" for the `{location}` value. To retrieve backup information for all backupVaults, use "-" for the `{backup_vault_id}` value. To retrieve backup information for a volume, use "-" for the `{backup_vault_id}` value and specify volume full name with the filter. */
   parent: string;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. If specified, backups will be returned based on the attribute name that matches the filter expression. If empty, then no backups are filtered out. See https://google.aip.dev/160 */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type BackupList = Array<Backup>;
 /** ListBackupsResponse is the result of ListBackupsRequest. */
 export interface ListBackupsResponse {
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of backups in the project. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsHostGroupsRequest {
   /** Required. Parent value for ListHostGroupsRequest */
   parent: string;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter to apply to the request. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type HostGroupList = Array<HostGroup>;
 /** ListHostGroupsResponse is the response to a ListHostGroupsRequest. */
 export interface ListHostGroupsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of host groups. */
-  hostGroups?: HostGroupList;
+  hostGroups?: HostGroupList | undefined;
 }
 export interface ListProjectsLocationsKmsConfigsRequest {
   /** List filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value */
   parent: string;
   /** The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type KmsConfigList = Array<KmsConfig>;
 /** ListKmsConfigsResponse is the response to a ListKmsConfigsRequest. */
 export interface ListKmsConfigsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of KmsConfigs */
-  kmsConfigs?: KmsConfigList;
+  kmsConfigs?: KmsConfigList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -1552,116 +1558,116 @@ export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsStoragePoolsRequest {
   /** Optional. The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value */
   parent: string;
   /** Optional. The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. List filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type StoragePoolList = Array<StoragePool>;
 /** ListStoragePoolsResponse is the response to a ListStoragePoolsRequest. */
 export interface ListStoragePoolsResponse {
   /** The list of StoragePools */
-  storagePools?: StoragePoolList;
+  storagePools?: StoragePoolList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsStoragePoolsBackupConfigsRequest {
   /** Required. The ONTAP StoragePool for which to retrieve backup configuration information, in the format `projects/{project}/locations/{location}/storagePools/{storage_pool}`. */
   parent: string;
   /** Optional. The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Sort results. Supported values are "volume_id" or "" */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of items to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified or set to 0, a default of 50 will be used. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Backup configuration for a volume in a pool. */
 export interface VolumeBackupConfig {
   /** Backup configuration for the volume. */
-  backupConfig?: BackupConfig;
+  backupConfig?: BackupConfig | undefined;
   /** Provides the Ontap UUID of the volume within the pool. */
-  volumeUuid?: string;
+  volumeUuid?: string | undefined;
 }
 export type VolumeBackupConfigList = Array<VolumeBackupConfig>;
 /** Message for response to listing BackupConfigs in an ONTAP StoragePool. */
 export interface ListBackupConfigsResponse {
   /** A list of backup configurations for volumes in the pool. */
-  volumeBackupConfigs?: VolumeBackupConfigList;
+  volumeBackupConfigs?: VolumeBackupConfigList | undefined;
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsVolumesRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListVolumesRequest */
   parent: string;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Filtering results */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type VolumeList = Array<Volume>;
 /** Message for response to listing Volumes */
 export interface ListVolumesResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Volume */
-  volumes?: VolumeList;
+  volumes?: VolumeList | undefined;
 }
 export interface ListProjectsLocationsVolumesQuotaRulesRequest {
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListQuotaRulesRequest */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type QuotaRuleList = Array<QuotaRule>;
 /** ListQuotaRulesResponse is the response to a ListQuotaRulesRequest. */
 export interface ListQuotaRulesResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of quota rules */
-  quotaRules?: QuotaRuleList;
+  quotaRules?: QuotaRuleList | undefined;
 }
 export interface ListProjectsLocationsVolumesReplicationsRequest {
   /** The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** List filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The volume for which to retrieve replication information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
   parent: string;
 }
@@ -1669,21 +1675,21 @@ export type ReplicationList = Array<Replication>;
 /** ListReplicationsResponse is the result of ListReplicationsRequest. */
 export interface ListReplicationsResponse {
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of replications in the project for the specified volume. */
-  replications?: ReplicationList;
+  replications?: ReplicationList | undefined;
 }
 export interface ListProjectsLocationsVolumesSnapshotsRequest {
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** List filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The volume for which to retrieve snapshot information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
   parent: string;
 }
@@ -1691,141 +1697,141 @@ export type SnapshotList = Array<Snapshot>;
 /** ListSnapshotsResponse is the result of ListSnapshotsRequest. */
 export interface ListSnapshotsResponse {
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of snapshots in the project for the specified volume. */
-  snapshots?: SnapshotList;
+  snapshots?: SnapshotList | undefined;
 }
 export interface PatchProjectsLocationsActiveDirectoriesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Active Directory resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the active directory. Format: `projects/{project_number}/locations/{location_id}/activeDirectories/{active_directory_id}`. */
   name: string;
   /** Request body */
-  body?: ActiveDirectory;
+  body?: ActiveDirectory | undefined;
 }
 export interface PatchProjectsLocationsBackupPoliciesRequest {
   /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup Policy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: BackupPolicy;
+  body?: BackupPolicy | undefined;
 }
 export interface PatchProjectsLocationsBackupVaultsRequest {
   /** Identifier. The resource name of the backup vault. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: BackupVault;
+  body?: BackupVault | undefined;
 }
 export interface PatchProjectsLocationsBackupVaultsBackupsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
   name: string;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 export interface PatchProjectsLocationsHostGroupsRequest {
   /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: HostGroup;
+  body?: HostGroup | undefined;
 }
 export interface PatchProjectsLocationsKmsConfigsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the KmsConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Name of the `KmsConfig`. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
   name: string;
   /** Request body */
-  body?: KmsConfig;
+  body?: KmsConfig | undefined;
 }
 export interface PatchProjectsLocationsStoragePoolsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the StoragePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Name of the storage pool */
   name: string;
   /** Request body */
-  body?: StoragePool;
+  body?: StoragePool | undefined;
 }
 export interface PatchProjectsLocationsVolumesRequest {
   /** Identifier. Name of the volume */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Volume resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Volume;
+  body?: Volume | undefined;
 }
 export interface PatchProjectsLocationsVolumesQuotaRulesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Quota Rule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the quota rule. Format: `projects/{project_number}/locations/{location_id}/volumes/volumes/{volume_id}/quotaRules/{quota_rule_id}`. */
   name: string;
   /** Request body */
-  body?: QuotaRule;
+  body?: QuotaRule | undefined;
 }
 export interface PatchProjectsLocationsVolumesReplicationsRequest {
   /** Identifier. The resource name of the Replication. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Replication;
+  body?: Replication | undefined;
 }
 export interface PatchProjectsLocationsVolumesSnapshotsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
   name: string;
   /** Request body */
-  body?: Snapshot;
+  body?: Snapshot | undefined;
 }
 /** RestoreBackupFilesRequest restores files from a backup to a volume. */
 export interface RestoreBackupFilesRequest {
   /** Required. List of files to be restored, specified by their absolute path in the source volume. */
-  fileList?: StringList;
+  fileList?: StringList | undefined;
   /** Optional. Absolute directory path in the destination volume. This is required if the `file_list` is provided. */
-  restoreDestinationPath?: string;
+  restoreDestinationPath?: string | undefined;
   /** Required. The backup resource name, in the format `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}` */
-  backup?: string;
+  backup?: string | undefined;
 }
 export interface RestoreProjectsLocationsVolumesRequest {
   /** Required. The volume resource name, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   name: string;
   /** Request body */
-  body?: RestoreBackupFilesRequest;
+  body?: RestoreBackupFilesRequest | undefined;
 }
 /** Represents the ONTAP volume target of the restore operation. */
 export interface OntapVolumeTarget {
   /** Optional. Absolute directory path in the destination volume. */
-  restoreDestinationPath?: string;
+  restoreDestinationPath?: string | undefined;
   /** Required. The UUID of the ONTAP volume to restore to. */
-  volumeUuid?: string;
+  volumeUuid?: string | undefined;
 }
 /** Represents the backup source of the restore operation. */
 export interface BackupSource {
   /** Optional. List of files to be restored in the form of their absolute path as in source volume. If provided, only these files will be restored. If not provided, the entire backup will be restored (Full Backup Restore) */
-  fileList?: StringList;
+  fileList?: StringList | undefined;
   /** Required. The backup resource name. */
-  backup?: string;
+  backup?: string | undefined;
 }
 /** Request message for `RestoreVolume` API. */
 export interface RestoreVolumeRequest {
   /** The ONTAP volume target of the restore operation. */
-  ontapVolumeTarget?: OntapVolumeTarget;
+  ontapVolumeTarget?: OntapVolumeTarget | undefined;
   /** The backup source of the restore operation. */
-  backupSource?: BackupSource;
+  backupSource?: BackupSource | undefined;
 }
 export interface RestoreVolumeProjectsLocationsStoragePoolsRequest {
   /** Required. The resource name of the ONTAP mode storage pool, in the format of `projects/{project}/locations/{location}/storagePools/{storage_pool}` */
   name: string;
   /** Request body */
-  body?: RestoreVolumeRequest;
+  body?: RestoreVolumeRequest | undefined;
 }
 /** ResumeReplicationRequest resumes a stopped replication. */
 export type ResumeReplicationRequest = CancelOperationRequest;
@@ -1833,7 +1839,7 @@ export interface ResumeProjectsLocationsVolumesReplicationsRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** ReverseReplicationDirectionRequest reverses direction of replication. Source becomes destination and destination becomes source. */
 export type ReverseReplicationDirectionRequest = CancelOperationRequest;
@@ -1841,18 +1847,18 @@ export interface ReverseDirectionProjectsLocationsVolumesReplicationsRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** RevertVolumeRequest reverts the given volume to the specified snapshot. */
 export interface RevertVolumeRequest {
   /** Required. The snapshot resource ID, in the format 'my-snapshot', where the specified ID is the {snapshot_id} of the fully qualified name like projects/{project_id}/locations/{location_id}/volumes/{volume_id}/snapshots/{snapshot_id} */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
 }
 export interface RevertProjectsLocationsVolumesRequest {
   /** Required. The resource name of the volume, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}. */
   name: string;
   /** Request body */
-  body?: RevertVolumeRequest;
+  body?: RevertVolumeRequest | undefined;
 }
 /** Request message for splitting a volume. */
 export type StartSplitRequest = CancelOperationRequest;
@@ -1860,18 +1866,18 @@ export interface StartSplitProjectsLocationsVolumesRequest {
   /** Required. The full name of the clone volume to be split from its source. Format: projects/{project_number}/locations/{location}/volumes/{volume_id} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** StopReplicationRequest stops a replication until resumed. */
 export interface StopReplicationRequest {
   /** Indicates whether to stop replication forcefully while data transfer is in progress. Warning! if force is true, this will abort any current transfers and can lead to data loss due to partial transfer. If force is false, stop replication will fail while data transfer is in progress and you will need to retry later. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopProjectsLocationsVolumesReplicationsRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
   /** Request body */
-  body?: StopReplicationRequest;
+  body?: StopReplicationRequest | undefined;
 }
 /** SwitchActiveReplicaZoneRequest switch the active/replica zone for a regional storagePool. */
 export type SwitchActiveReplicaZoneRequest = CancelOperationRequest;
@@ -1879,7 +1885,7 @@ export interface SwitchProjectsLocationsStoragePoolsRequest {
   /** Required. Name of the storage pool */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** SyncReplicationRequest syncs the replication from source to destination. */
 export type SyncReplicationRequest = CancelOperationRequest;
@@ -1887,22 +1893,22 @@ export interface SyncProjectsLocationsVolumesReplicationsRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for UpdateBackupConfig */
 export interface UpdateBackupConfigRequest {
   /** Required. The UUID of the ONTAP-mode volume. */
-  volumeUuid?: string;
+  volumeUuid?: string | undefined;
   /** Required. Backup configuration to apply. */
-  backupConfig?: BackupConfig;
+  backupConfig?: BackupConfig | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BackupConfig for the Volume. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateBackupConfigProjectsLocationsStoragePoolsRequest {
   /** Required. The resource name of the StoragePool, in the format: projects/{projectNumber}/locations/{locationId}/storagePools/{poolId} */
   name: string;
   /** Request body */
-  body?: UpdateBackupConfigRequest;
+  body?: UpdateBackupConfigRequest | undefined;
 }
 export type ValidateDirectoryServiceRequestDirectoryServiceTypeEnum =
   | "DIRECTORY_SERVICE_TYPE_UNSPECIFIED"
@@ -1910,13 +1916,16 @@ export type ValidateDirectoryServiceRequestDirectoryServiceTypeEnum =
 /** ValidateDirectoryServiceRequest validates the directory service policy attached to the storage pool. */
 export interface ValidateDirectoryServiceRequest {
   /** Type of directory service policy attached to the storage pool. */
-  directoryServiceType?: ValidateDirectoryServiceRequestDirectoryServiceTypeEnum | (string & {});
+  directoryServiceType?:
+    | ValidateDirectoryServiceRequestDirectoryServiceTypeEnum
+    | (string & {})
+    | undefined;
 }
 export interface ValidateDirectoryServiceProjectsLocationsStoragePoolsRequest {
   /** Required. Name of the storage pool */
   name: string;
   /** Request body */
-  body?: ValidateDirectoryServiceRequest;
+  body?: ValidateDirectoryServiceRequest | undefined;
 }
 /** VerifyKmsConfigRequest specifies the KMS config to be validated. */
 export type VerifyKmsConfigRequest = CancelOperationRequest;
@@ -1924,16 +1933,16 @@ export interface VerifyProjectsLocationsKmsConfigsRequest {
   /** Required. Name of the KMS Config to be verified. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** VerifyKmsConfigResponse contains the information if the config is correctly and error message. */
 export interface VerifyKmsConfigResponse {
   /** Output only. Instructions for the customers to provide the access to the encryption key. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** Output only. If the customer key configured correctly to the encrypt volume. */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Output only. Error message if config is not healthy. */
-  healthError?: string;
+  healthError?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

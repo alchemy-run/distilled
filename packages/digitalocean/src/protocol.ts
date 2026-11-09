@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DigitalOceanProtocol -- hand-written.
  *
@@ -39,7 +40,8 @@ export type DigitalOceanOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | DigitalOceanParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated DigitalOcean operation. */
 export type DigitalOceanOpContext = Credentials | HttpClient.HttpClient;

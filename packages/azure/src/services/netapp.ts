@@ -36,9 +36,9 @@ const TELEMETRY = {
 /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
 export interface KeyVaultPrivateEndpoint {
   /** Identifier for the virtual network id */
-  virtualNetworkId?: string;
+  virtualNetworkId?: string | undefined;
   /** Identifier of the private endpoint to reach the Azure Key Vault */
-  privateEndpointId?: string;
+  privateEndpointId?: string | undefined;
 }
 /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
 export type AccountsChangeKeyVaultRequestKeyVaultPrivateEndpointsList =
@@ -55,15 +55,15 @@ export interface AccountsChangeKeyVaultRequest {
   /** The name of the key that should be used for encryption. */
   keyName: string;
   /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
   /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
   keyVaultPrivateEndpoints: AccountsChangeKeyVaultRequestKeyVaultPrivateEndpointsList;
 }
 export interface AccountsChangeKeyVaultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -76,56 +76,56 @@ export type ActiveDirectoryInputSecurityOperatorsList = Array<string>;
 /** LDAP search scope */
 export interface LdapSearchScopeOpt {
   /** This specifies the user DN, which overrides the base DN for user lookups. */
-  userDN?: string;
+  userDN?: string | undefined;
   /** This specifies the group DN, which overrides the base DN for group lookups. */
-  groupDN?: string;
+  groupDN?: string | undefined;
   /** This specifies the custom LDAP search filter to be used when looking up group membership from LDAP server. */
-  groupMembershipFilter?: string;
+  groupMembershipFilter?: string | undefined;
 }
 /** Active Directory */
 export interface ActiveDirectoryInput {
   /** Id of the Active Directory */
-  activeDirectoryId?: string | null;
+  activeDirectoryId?: string | null | undefined;
   /** A domain user account with permission to create machine accounts */
-  username?: string;
+  username?: string | undefined;
   /** Plain text password of Active Directory domain administrator, value is masked in the response */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the Active Directory domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain */
-  dns?: string;
+  dns?: string | undefined;
   /** NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes */
-  smbServerName?: string;
+  smbServerName?: string | undefined;
   /** The Organizational Unit (OU) within the Windows Active Directory */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
   /** The Active Directory site the service will limit Domain Controller discovery to */
-  site?: string;
+  site?: string | undefined;
   /** Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier */
-  backupOperators?: ActiveDirectoryInputBackupOperatorsList;
+  backupOperators?: ActiveDirectoryInputBackupOperatorsList | undefined;
   /** Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier */
-  administrators?: ActiveDirectoryInputAdministratorsList;
+  administrators?: ActiveDirectoryInputAdministratorsList | undefined;
   /** kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume. */
-  kdcIP?: string;
+  kdcIP?: string | undefined;
   /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
-  adName?: string;
+  adName?: string | undefined;
   /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes. */
-  serverRootCACertificate?: string;
+  serverRootCACertificate?: string | undefined;
   /** If enabled, AES encryption will be enabled for SMB communication. */
-  aesEncryption?: boolean;
+  aesEncryption?: boolean | undefined;
   /** Specifies whether or not the LDAP traffic needs to be signed. */
-  ldapSigning?: boolean;
+  ldapSigning?: boolean | undefined;
   /** Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier */
-  securityOperators?: ActiveDirectoryInputSecurityOperatorsList;
+  securityOperators?: ActiveDirectoryInputSecurityOperatorsList | undefined;
   /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
+  ldapOverTLS?: boolean | undefined;
   /** If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. */
-  allowLocalNfsUsersWithLdap?: boolean;
+  allowLocalNfsUsersWithLdap?: boolean | undefined;
   /** If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted. */
-  encryptDCConnections?: boolean;
+  encryptDCConnections?: boolean | undefined;
   /** LDAP Search scope options */
-  ldapSearchScope?: LdapSearchScopeOpt;
+  ldapSearchScope?: LdapSearchScopeOpt | undefined;
   /** Comma separated list of IPv4 addresses of preferred servers for LDAP client. At most two comma separated IPv4 addresses can be passed. */
-  preferredServersForLdapClient?: string;
+  preferredServersForLdapClient?: string | undefined;
 }
 /** Active Directories */
 export type AccountPropertiesInputActiveDirectoriesList = Array<ActiveDirectoryInput>;
@@ -138,32 +138,32 @@ export interface KeyVaultPropertiesInput {
   /** The name of KeyVault key. */
   keyName: string;
   /** The resource ID of KeyVault. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
 }
 /** Identity used to authenticate with key vault. */
 export interface EncryptionIdentityInput {
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
   /** ClientId of the multi-tenant Entra ID Application. Used to access cross-tenant keyvaults. */
-  federatedClientId?: string;
+  federatedClientId?: string | undefined;
 }
 /** Encryption settings */
 export interface AccountEncryptionInput {
   /** The encryption keySource (provider). Possible values (case-insensitive): Microsoft.NetApp, Microsoft.KeyVault */
-  keySource?: AccountEncryptionInputKeySource | (string & {});
+  keySource?: AccountEncryptionInputKeySource | (string & {}) | undefined;
   /** Properties provided by KeVault. Applicable if keySource is 'Microsoft.KeyVault'. */
-  keyVaultProperties?: KeyVaultPropertiesInput;
+  keyVaultProperties?: KeyVaultPropertiesInput | undefined;
   /** Identity used to authenticate to KeyVault. Applicable if keySource is 'Microsoft.KeyVault'. */
-  identity?: EncryptionIdentityInput;
+  identity?: EncryptionIdentityInput | undefined;
 }
 /** NetApp account properties */
 export interface AccountPropertiesInput {
   /** Active Directories */
-  activeDirectories?: AccountPropertiesInputActiveDirectoriesList;
+  activeDirectories?: AccountPropertiesInputActiveDirectoriesList | undefined;
   /** Encryption settings */
-  encryption?: AccountEncryptionInput;
+  encryption?: AccountEncryptionInput | undefined;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string | null;
+  nfsV4IDDomain?: string | null | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -181,7 +181,9 @@ export type AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface AccountsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -191,13 +193,13 @@ export interface AccountsCreateOrUpdateRequest {
   /** The name of the NetApp account */
   accountName: string;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** NetApp Account properties */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateRequestIdentity;
+  identity?: AccountsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -206,17 +208,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -231,51 +233,51 @@ export type ActiveDirectorySecurityOperatorsList = Array<string>;
 /** Active Directory */
 export interface ActiveDirectory {
   /** Id of the Active Directory */
-  activeDirectoryId?: string | null;
+  activeDirectoryId?: string | null | undefined;
   /** A domain user account with permission to create machine accounts */
-  username?: string;
+  username?: string | undefined;
   /** Plain text password of Active Directory domain administrator, value is masked in the response */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the Active Directory domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain */
-  dns?: string;
+  dns?: string | undefined;
   /** Status of the Active Directory */
-  status?: ActiveDirectoryStatus;
+  status?: ActiveDirectoryStatus | undefined;
   /** Any details in regards to the Status of the Active Directory */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes */
-  smbServerName?: string;
+  smbServerName?: string | undefined;
   /** The Organizational Unit (OU) within the Windows Active Directory */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
   /** The Active Directory site the service will limit Domain Controller discovery to */
-  site?: string;
+  site?: string | undefined;
   /** Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier */
-  backupOperators?: ActiveDirectoryBackupOperatorsList;
+  backupOperators?: ActiveDirectoryBackupOperatorsList | undefined;
   /** Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier */
-  administrators?: ActiveDirectoryAdministratorsList;
+  administrators?: ActiveDirectoryAdministratorsList | undefined;
   /** kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume. */
-  kdcIP?: string;
+  kdcIP?: string | undefined;
   /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
-  adName?: string;
+  adName?: string | undefined;
   /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes. */
-  serverRootCACertificate?: string;
+  serverRootCACertificate?: string | undefined;
   /** If enabled, AES encryption will be enabled for SMB communication. */
-  aesEncryption?: boolean;
+  aesEncryption?: boolean | undefined;
   /** Specifies whether or not the LDAP traffic needs to be signed. */
-  ldapSigning?: boolean;
+  ldapSigning?: boolean | undefined;
   /** Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier */
-  securityOperators?: ActiveDirectorySecurityOperatorsList;
+  securityOperators?: ActiveDirectorySecurityOperatorsList | undefined;
   /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
+  ldapOverTLS?: boolean | undefined;
   /** If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. */
-  allowLocalNfsUsersWithLdap?: boolean;
+  allowLocalNfsUsersWithLdap?: boolean | undefined;
   /** If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted. */
-  encryptDCConnections?: boolean;
+  encryptDCConnections?: boolean | undefined;
   /** LDAP Search scope options */
-  ldapSearchScope?: LdapSearchScopeOpt;
+  ldapSearchScope?: LdapSearchScopeOpt | undefined;
   /** Comma separated list of IPv4 addresses of preferred servers for LDAP client. At most two comma separated IPv4 addresses can be passed. */
-  preferredServersForLdapClient?: string;
+  preferredServersForLdapClient?: string | undefined;
 }
 /** Active Directories */
 export type AccountPropertiesActiveDirectoriesList = Array<ActiveDirectory>;
@@ -286,57 +288,57 @@ export type KeyVaultStatus = "Created" | "InUse" | "Deleted" | "Error" | "Updati
 /** Properties of key vault. */
 export interface KeyVaultProperties {
   /** UUID v4 used to identify the Azure Key Vault configuration */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** The Uri of KeyVault. */
   keyVaultUri: string;
   /** The name of KeyVault key. */
   keyName: string;
   /** The resource ID of KeyVault. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
   /** Status of the KeyVault connection. */
-  status?: KeyVaultStatus;
+  status?: KeyVaultStatus | undefined;
 }
 /** Identity used to authenticate with key vault. */
 export interface EncryptionIdentity {
   /** The principal ID (object ID) of the identity used to authenticate with key vault. Read-only. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
   /** ClientId of the multi-tenant Entra ID Application. Used to access cross-tenant keyvaults. */
-  federatedClientId?: string;
+  federatedClientId?: string | undefined;
 }
 /** Encryption settings */
 export interface AccountEncryption {
   /** The encryption keySource (provider). Possible values (case-insensitive): Microsoft.NetApp, Microsoft.KeyVault */
-  keySource?: AccountEncryptionKeySource;
+  keySource?: AccountEncryptionKeySource | undefined;
   /** Properties provided by KeVault. Applicable if keySource is 'Microsoft.KeyVault'. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** Identity used to authenticate to KeyVault. Applicable if keySource is 'Microsoft.KeyVault'. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
 }
 /** MultiAD Status for the account */
 export type MultiAdStatus = "Disabled" | "Enabled";
 /** NetApp account properties */
 export interface AccountProperties {
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Active Directories */
-  activeDirectories?: AccountPropertiesActiveDirectoriesList;
+  activeDirectories?: AccountPropertiesActiveDirectoriesList | undefined;
   /** Encryption settings */
-  encryption?: AccountEncryption;
+  encryption?: AccountEncryption | undefined;
   /** Shows the status of disableShowmount for all volumes under the subscription, null equals false */
-  disableShowmount?: boolean | null;
+  disableShowmount?: boolean | null | undefined;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string | null;
+  nfsV4IDDomain?: string | null | undefined;
   /** MultiAD Status for the account */
-  multiAdStatus?: MultiAdStatus;
+  multiAdStatus?: MultiAdStatus | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -345,36 +347,38 @@ export type AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccountsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** NetApp Account properties */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AccountsTransitionToCmkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -390,9 +394,9 @@ export interface AccountsTransitionToCmkRequest {
 }
 export interface AccountsTransitionToCmkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AuthorizeVolumeExternalReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -409,18 +413,18 @@ export interface AuthorizeVolumeExternalReplicationRequest {
 /** Properties of the SVM peer command response. */
 export interface SvmPeerCommandResponseProperties {
   /** A command that needs to be run on the external ONTAP to accept svm peering. Will only be present if <code>svmPeeringStatus</code> is <code>pending</code> */
-  svmPeeringCommand?: string;
+  svmPeeringCommand?: string | undefined;
 }
 /** Information about svm peering process */
 export interface SvmPeerCommandResponse {
   /** Represents the properties of the SVM peer command response. */
-  properties?: SvmPeerCommandResponseProperties;
+  properties?: SvmPeerCommandResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AuthorizeVolumeReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -434,13 +438,13 @@ export interface AuthorizeVolumeReplicationRequest {
   /** The name of the volume */
   volumeName: string;
   /** Resource id of the remote volume */
-  remoteVolumeResourceId?: string;
+  remoteVolumeResourceId?: string | undefined;
 }
 export interface AuthorizeVolumeReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface BackupsGetVolumeLatestRestoreStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -461,17 +465,17 @@ export type MirrorState = "Uninitialized" | "Mirrored" | "Broken";
 /** Restore status */
 export interface RestoreStatus {
   /** Restore health status */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Status of the restore SnapMirror relationship */
-  relationshipStatus?: VolumeRestoreRelationshipStatus;
+  relationshipStatus?: VolumeRestoreRelationshipStatus | undefined;
   /** The status of the restore */
-  mirrorState?: MirrorState;
+  mirrorState?: MirrorState | undefined;
   /** Reason for the unhealthy restore relationship */
-  unhealthyReason?: string;
+  unhealthyReason?: string | undefined;
   /** Displays error message if the restore is in an error state */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Displays the total bytes transferred */
-  totalTransferBytes?: number;
+  totalTransferBytes?: number | undefined;
 }
 /** Resource tags. */
 export type BackupVaultsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -487,104 +491,104 @@ export interface BackupVaultsCreateOrUpdateRequest {
   /** The name of the Backup Vault */
   backupVaultName: string;
   /** Resource tags. */
-  tags?: BackupVaultsCreateOrUpdateRequestTagsMap;
+  tags?: BackupVaultsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup Vault Properties */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type BackupVaultsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Backup Vault properties */
 export interface BackupVaultProperties {
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface BackupVaultsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BackupVaultsCreateOrUpdateResponseTagsMap;
+  tags?: BackupVaultsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup Vault Properties */
-  properties?: BackupVaultProperties;
+  properties?: BackupVaultProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The effective NFS User ID and Group ID when accessing the volume data. */
 export interface NfsUser {
   /** The NFS user's UID */
-  userId?: number;
+  userId?: number | undefined;
   /** The NFS user's GID */
-  groupId?: number;
+  groupId?: number | undefined;
 }
 /** The effective CIFS username when accessing the volume data. */
 export interface CifsUser {
   /** The CIFS user's username */
-  username?: string;
+  username?: string | undefined;
 }
 /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
 export interface FileSystemUser {
   /** The effective NFS User ID and Group ID when accessing the volume data. */
-  nfsUser?: NfsUser;
+  nfsUser?: NfsUser | undefined;
   /** The effective CIFS username when accessing the volume data. */
-  cifsUser?: CifsUser;
+  cifsUser?: CifsUser | undefined;
 }
 /** This action is triggered when a certificate conflict occurs. A conflict arises if you try to create a new bucket while one or more already exist on the server, or if you update a bucket when multiple buckets are present. This happens because a single certificate is shared among all buckets on the same server. Note: This applies both to certificates provided directly via the certificateObject property and to those retrieved from Azure Key Vault. Details for the latter case are specified in the akvDetails.certificateAkvDetails section. */
 export type OnCertificateConflictAction = "Update" | "Fail";
 /** Properties of the server managing the lifecycle of volume buckets */
 export interface BucketServerPropertiesInput {
   /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner. Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties. */
-  certificateObject?: string;
+  certificateObject?: string | undefined;
   /** Action to take when there is a certificate conflict. Possible values include: 'Update', 'Fail' */
-  onCertificateConflictAction?: OnCertificateConflictAction | (string & {});
+  onCertificateConflictAction?: OnCertificateConflictAction | (string & {}) | undefined;
 }
 /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
 export type BucketPropertiesInputPermissions = "ReadOnly" | "ReadWrite";
 /** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
 export interface CertificateAkvDetails {
   /** The base URI of the Azure Key Vault that is used when retrieving the bucket certificate. */
-  certificateKeyVaultUri?: string;
+  certificateKeyVaultUri?: string | undefined;
   /** The name of the bucket server certificate stored in the Azure Key Vault. */
-  certificateName?: string;
+  certificateName?: string | undefined;
 }
 /** Specifies the Azure Key Vault settings for storing the bucket credentials. */
 export interface CredentialsAkvDetails {
   /** The base URI of the Azure Key Vault that is used when storing the bucket credentials. */
-  credentialsKeyVaultUri?: string;
+  credentialsKeyVaultUri?: string | undefined;
   /** The name of the secret stored in Azure Key Vault. The associated key pair has the following structure: { "access_key_id": "<REDACTED>", "secret_access_key": "<REDACTED>" } */
-  secretName?: string;
+  secretName?: string | undefined;
 }
 /** Specifies the Azure Key Vault settings. These are used when a) retrieving the bucket server certificate, and b) storing the bucket credentials Notes: 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property. 2. These properties are mutually exclusive with the server.certificateObject property. */
 export interface AzureKeyVaultDetails {
   /** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
-  certificateAkvDetails?: CertificateAkvDetails;
+  certificateAkvDetails?: CertificateAkvDetails | undefined;
   /** Specifies the Azure Key Vault settings for storing the bucket credentials. */
-  credentialsAkvDetails?: CredentialsAkvDetails;
+  credentialsAkvDetails?: CredentialsAkvDetails | undefined;
 }
 /** Bucket resource properties */
 export interface BucketPropertiesInput {
   /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
-  path?: string;
+  path?: string | undefined;
   /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
+  fileSystemUser?: FileSystemUser | undefined;
   /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerPropertiesInput;
+  server?: BucketServerPropertiesInput | undefined;
   /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-  permissions?: BucketPropertiesInputPermissions | (string & {});
+  permissions?: BucketPropertiesInputPermissions | (string & {}) | undefined;
   /** Specifies the Azure Key Vault settings. These are used when a) retrieving the bucket server certificate, and b) storing the bucket credentials Notes: 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property. 2. These properties are mutually exclusive with the server.certificateObject property. */
-  akvDetails?: AzureKeyVaultDetails;
+  akvDetails?: AzureKeyVaultDetails | undefined;
 }
 export interface BucketsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -600,7 +604,7 @@ export interface BucketsCreateOrUpdateRequest {
   /** The name of the bucket */
   bucketName: string;
   /** Bucket properties */
-  properties?: BucketPropertiesInput;
+  properties?: BucketPropertiesInput | undefined;
 }
 /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
 export type NetAppProvisioningState =
@@ -617,52 +621,52 @@ export type CredentialsStatus = "NoCredentialsSet" | "CredentialsExpired" | "Act
 /** Properties of the server managing the lifecycle of volume buckets */
 export interface BucketServerProperties {
   /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Certificate Common Name taken from the certificate installed on the bucket server */
-  certificateCommonName?: string;
+  certificateCommonName?: string | undefined;
   /** The bucket server's certificate expiry date. */
-  certificateExpiryDate?: string;
+  certificateExpiryDate?: string | undefined;
   /** The bucket server's IPv4 address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner. Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties. */
-  certificateObject?: string;
+  certificateObject?: string | undefined;
   /** Action to take when there is a certificate conflict. Possible values include: 'Update', 'Fail' */
-  onCertificateConflictAction?: OnCertificateConflictAction;
+  onCertificateConflictAction?: OnCertificateConflictAction | undefined;
 }
 /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
 export type BucketPropertiesPermissions = "ReadOnly" | "ReadWrite";
 /** Bucket resource properties */
 export interface BucketProperties {
   /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
-  path?: string;
+  path?: string | undefined;
   /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
+  fileSystemUser?: FileSystemUser | undefined;
   /** Provisioning state of the resource */
-  provisioningState?: NetAppProvisioningState;
+  provisioningState?: NetAppProvisioningState | undefined;
   /** The bucket credentials status. There states: "NoCredentialsSet": Access and Secret key pair have not been generated. "CredentialsExpired": Access and Secret key pair have expired. "Active": The certificate has been installed and credentials are unexpired. */
-  status?: CredentialsStatus;
+  status?: CredentialsStatus | undefined;
   /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerProperties;
+  server?: BucketServerProperties | undefined;
   /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
-  permissions?: BucketPropertiesPermissions;
+  permissions?: BucketPropertiesPermissions | undefined;
   /** Specifies the Azure Key Vault settings. These are used when a) retrieving the bucket server certificate, and b) storing the bucket credentials Notes: 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property. 2. These properties are mutually exclusive with the server.certificateObject property. */
-  akvDetails?: AzureKeyVaultDetails;
+  akvDetails?: AzureKeyVaultDetails | undefined;
 }
 export interface BucketsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bucket properties */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CachesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -671,42 +675,42 @@ export type ExportPolicyRuleChownMode = "Restricted" | "Unrestricted";
 /** Volume Export Policy Rule */
 export interface ExportPolicyRule {
   /** Order index */
-  ruleIndex?: number;
+  ruleIndex?: number | undefined;
   /** Read only access */
-  unixReadOnly?: boolean;
+  unixReadOnly?: boolean | undefined;
   /** Read and write access */
-  unixReadWrite?: boolean;
+  unixReadWrite?: boolean | undefined;
   /** Kerberos5 Read only access. To be use with swagger version 2020-05-01 or later */
-  kerberos5ReadOnly?: boolean;
+  kerberos5ReadOnly?: boolean | undefined;
   /** Kerberos5 Read and write access. To be use with swagger version 2020-05-01 or later */
-  kerberos5ReadWrite?: boolean;
+  kerberos5ReadWrite?: boolean | undefined;
   /** Kerberos5i Read only access. To be use with swagger version 2020-05-01 or later */
-  kerberos5iReadOnly?: boolean;
+  kerberos5iReadOnly?: boolean | undefined;
   /** Kerberos5i Read and write access. To be use with swagger version 2020-05-01 or later */
-  kerberos5iReadWrite?: boolean;
+  kerberos5iReadWrite?: boolean | undefined;
   /** Kerberos5p Read only access. To be use with swagger version 2020-05-01 or later */
-  kerberos5pReadOnly?: boolean;
+  kerberos5pReadOnly?: boolean | undefined;
   /** Kerberos5p Read and write access. To be use with swagger version 2020-05-01 or later */
-  kerberos5pReadWrite?: boolean;
+  kerberos5pReadWrite?: boolean | undefined;
   /** Allows CIFS protocol */
-  cifs?: boolean;
+  cifs?: boolean | undefined;
   /** Allows NFSv3 protocol. Enable only for NFSv3 type volumes */
-  nfsv3?: boolean;
+  nfsv3?: boolean | undefined;
   /** Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes */
-  nfsv41?: boolean;
+  nfsv41?: boolean | undefined;
   /** Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names */
-  allowedClients?: string;
+  allowedClients?: string | undefined;
   /** Has root access to volume */
-  hasRootAccess?: boolean;
+  hasRootAccess?: boolean | undefined;
   /** This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own. */
-  chownMode?: ExportPolicyRuleChownMode | (string & {});
+  chownMode?: ExportPolicyRuleChownMode | (string & {}) | undefined;
 }
 /** Export policy rule */
 export type CachePropertiesExportPolicyRulesList = Array<ExportPolicyRule>;
 /** Set of export policy rules */
 export interface CachePropertiesExportPolicy {
   /** Export policy rule */
-  rules?: CachePropertiesExportPolicyRulesList;
+  rules?: CachePropertiesExportPolicyRulesList | undefined;
 }
 /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
 export type ProtocolTypes = "NFSv3" | "NFSv4" | "SMB";
@@ -723,11 +727,11 @@ export type SmbNonBrowsable = "Disabled" | "Enabled";
 /** SMB settings for the cache */
 export interface SmbSettings {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. */
-  smbEncryption?: SmbEncryptionState | (string & {});
+  smbEncryption?: SmbEncryptionState | (string & {}) | undefined;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {});
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbNonBrowsable?: SmbNonBrowsable | (string & {});
+  smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
 }
 /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
 export type EncryptionKeySource = "Microsoft.NetApp" | "Microsoft.KeyVault";
@@ -761,35 +765,35 @@ export interface CachePropertiesInput {
   /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
   size: number;
   /** Set of export policy rules */
-  exportPolicy?: CachePropertiesExportPolicy;
+  exportPolicy?: CachePropertiesExportPolicy | undefined;
   /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
-  protocolTypes?: CachePropertiesInputProtocolTypesList;
+  protocolTypes?: CachePropertiesInputProtocolTypesList | undefined;
   /** The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs. */
   cacheSubnetResourceId: string;
   /** The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses. */
   peeringSubnetResourceId: string;
   /** Describe if a cache is Kerberos enabled. */
-  kerberos?: KerberosState | (string & {});
+  kerberos?: KerberosState | (string & {}) | undefined;
   /** SMB information for the cache */
-  smbSettings?: SmbSettings;
+  smbSettings?: SmbSettings | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache */
-  throughputMibps?: number;
+  throughputMibps?: number | undefined;
   /** Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource: EncryptionKeySource | (string & {});
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
-  keyVaultPrivateEndpointResourceId?: string;
+  keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Specifies whether LDAP is enabled or not for flexcache volume. */
-  ldap?: LdapState | (string & {});
+  ldap?: LdapState | (string & {}) | undefined;
   /** Specifies the type of LDAP server for flexcache volume. */
-  ldapServerType?: LdapServerType | (string & {});
+  ldapServerType?: LdapServerType | (string & {}) | undefined;
   /** Origin cluster information */
   originClusterInformation: OriginClusterInformation;
   /** Flag indicating whether a CIFS change notification is enabled for the cache. */
-  cifsChangeNotifications?: CifsChangeNotifyState | (string & {});
+  cifsChangeNotifications?: CifsChangeNotifyState | (string & {}) | undefined;
   /** Flag indicating whether the global file lock is enabled for the cache. */
-  globalFileLocking?: GlobalFileLockingState | (string & {});
+  globalFileLocking?: GlobalFileLockingState | (string & {}) | undefined;
   /** Flag indicating whether writeback is enabled for the cache. */
-  writeBack?: EnableWriteBackState | (string & {});
+  writeBack?: EnableWriteBackState | (string & {}) | undefined;
 }
 /** The availability zones. */
 export type CachesCreateOrUpdateRequestZonesList = Array<string>;
@@ -805,13 +809,13 @@ export interface CachesCreateOrUpdateRequest {
   /** The name of the cache resource. */
   cacheName: string;
   /** Resource tags. */
-  tags?: CachesCreateOrUpdateRequestTagsMap;
+  tags?: CachesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CachePropertiesInput;
   /** The availability zones. */
-  zones?: CachesCreateOrUpdateRequestZonesList;
+  zones?: CachesCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type CachesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -835,11 +839,11 @@ export type CacheLifeCycleState =
 /** Contains all the information needed to mount a cache */
 export interface CacheMountTargetProperties {
   /** UUID v4 used to identify the MountTarget */
-  mountTargetId?: string;
+  mountTargetId?: string | undefined;
   /** The mount target's IPv4 address, used to mount the cache. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The SMB server's Fully Qualified Domain Name, FQDN */
-  smbServerFqdn?: string;
+  smbServerFqdn?: string | undefined;
 }
 /** List of mount targets that can be used to mount this cache */
 export type CachePropertiesMountTargetsList = Array<CacheMountTargetProperties>;
@@ -925,77 +929,77 @@ export interface CacheProperties {
   /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
   size: number;
   /** Set of export policy rules */
-  exportPolicy?: CachePropertiesExportPolicy;
+  exportPolicy?: CachePropertiesExportPolicy | undefined;
   /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
-  protocolTypes?: CachePropertiesProtocolTypesList;
+  protocolTypes?: CachePropertiesProtocolTypesList | undefined;
   /** Azure lifecycle management */
-  provisioningState?: CacheProvisioningState;
+  provisioningState?: CacheProvisioningState | undefined;
   /** Azure NetApp Files Cache lifecycle management */
-  cacheState?: CacheLifeCycleState;
+  cacheState?: CacheLifeCycleState | undefined;
   /** The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs. */
   cacheSubnetResourceId: string;
   /** The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses. */
   peeringSubnetResourceId: string;
   /** List of mount targets that can be used to mount this cache */
-  mountTargets?: CachePropertiesMountTargetsList;
+  mountTargets?: CachePropertiesMountTargetsList | undefined;
   /** Describe if a cache is Kerberos enabled. */
-  kerberos?: KerberosState;
+  kerberos?: KerberosState | undefined;
   /** SMB information for the cache */
-  smbSettings?: SmbSettings;
+  smbSettings?: SmbSettings | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache */
-  throughputMibps?: number;
+  throughputMibps?: number | undefined;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
-  actualThroughputMibps?: number;
+  actualThroughputMibps?: number | undefined;
   /** Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource: EncryptionKeySource;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
-  keyVaultPrivateEndpointResourceId?: string;
+  keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Maximum number of files allowed. */
-  maximumNumberOfFiles?: number;
+  maximumNumberOfFiles?: number | undefined;
   /** Specifies if the cache is encryption or not. */
-  encryption?: EncryptionState;
+  encryption?: EncryptionState | undefined;
   /** Language supported for volume. */
-  language?: VolumeLanguage;
+  language?: VolumeLanguage | undefined;
   /** Specifies whether LDAP is enabled or not for flexcache volume. */
-  ldap?: LdapState;
+  ldap?: LdapState | undefined;
   /** Specifies the type of LDAP server for flexcache volume. */
-  ldapServerType?: LdapServerType;
+  ldapServerType?: LdapServerType | undefined;
   /** Origin cluster information */
   originClusterInformation: OriginClusterInformation;
   /** Flag indicating whether a CIFS change notification is enabled for the cache. */
-  cifsChangeNotifications?: CifsChangeNotifyState;
+  cifsChangeNotifications?: CifsChangeNotifyState | undefined;
   /** Flag indicating whether the global file lock is enabled for the cache. */
-  globalFileLocking?: GlobalFileLockingState;
+  globalFileLocking?: GlobalFileLockingState | undefined;
   /** Flag indicating whether writeback is enabled for the cache. */
-  writeBack?: EnableWriteBackState;
+  writeBack?: EnableWriteBackState | undefined;
   /** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
-  fileAccessLogs?: CacheFileAccessLogs;
+  fileAccessLogs?: CacheFileAccessLogs | undefined;
 }
 /** The availability zones. */
 export type CachesCreateOrUpdateResponseZonesList = Array<string>;
 export interface CachesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CachesCreateOrUpdateResponseTagsMap;
+  tags?: CachesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: CachesCreateOrUpdateResponseZonesList;
+  zones?: CachesCreateOrUpdateResponseZonesList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CachesPoolChangeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1017,27 +1021,27 @@ export type CachesPoolChangeResponseTagsMap = { [key: string]: string | undefine
 export type CachesPoolChangeResponseZonesList = Array<string>;
 export interface CachesPoolChangeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CachesPoolChangeResponseTagsMap;
+  tags?: CachesPoolChangeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: CachesPoolChangeResponseZonesList;
+  zones?: CachesPoolChangeResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckNetAppResourceFilePathAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1049,18 +1053,18 @@ export interface CheckNetAppResourceFilePathAvailabilityRequest {
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
   /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
-  availabilityZone?: string | null;
+  availabilityZone?: string | null | undefined;
 }
 /** <code>Invalid</code> indicates the name provided does not match Azure App Service naming requirements. <code>AlreadyExists</code> indicates that the name is already in use and is therefore unavailable. */
 export type InAvailabilityReasonType = "Invalid" | "AlreadyExists";
 /** Information regarding availability of a resource. */
 export interface CheckAvailabilityResponse {
   /** <code>true</code> indicates name is valid and available. <code>false</code> indicates the name is invalid, unavailable, or both. */
-  isAvailable?: boolean;
+  isAvailable?: boolean | undefined;
   /** <code>Invalid</code> indicates the name provided does not match Azure App Service naming requirements. <code>AlreadyExists</code> indicates that the name is already in use and is therefore unavailable. */
-  reason?: InAvailabilityReasonType;
+  reason?: InAvailabilityReasonType | undefined;
   /** If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that resource name is already in use, and direct them to select a different name. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource type used for verification. */
 export type CheckNameResourceTypes =
@@ -1126,20 +1130,20 @@ export interface ClearRansomwareReportSuspectsRequest {
 }
 export interface ClearRansomwareReportSuspectsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Backup properties */
 export interface BackupPropertiesInput {
   /** Label for backup */
-  label?: string;
+  label?: string | undefined;
   /** ResourceId used to identify the Volume */
   volumeResourceId: string;
   /** Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups */
-  useExistingSnapshot?: boolean;
+  useExistingSnapshot?: boolean | undefined;
   /** The name of the snapshot */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
 }
 export interface CreateBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1160,62 +1164,62 @@ export type BackupType = "Manual" | "Scheduled";
 /** Backup properties */
 export interface BackupProperties {
   /** UUID v4 used to identify the Backup */
-  backupId?: string;
+  backupId?: string | undefined;
   /** The creation date of the backup */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The snapshot creation date of the backup */
-  snapshotCreationDate?: string | null;
+  snapshotCreationDate?: string | null | undefined;
   /** The completion date of the backup */
-  completionDate?: string | null;
+  completionDate?: string | null | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Size of backup in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Label for backup */
-  label?: string;
+  label?: string | undefined;
   /** Type of backup Manual or Scheduled */
-  backupType?: BackupType;
+  backupType?: BackupType | undefined;
   /** Failure reason */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** ResourceId used to identify the Volume */
   volumeResourceId: string;
   /** Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups */
-  useExistingSnapshot?: boolean;
+  useExistingSnapshot?: boolean | undefined;
   /** The name of the snapshot */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
   /** ResourceId used to identify the backup policy */
-  backupPolicyResourceId?: string;
+  backupPolicyResourceId?: string | undefined;
   /** Specifies if the backup is for a large volume. */
-  isLargeVolume?: boolean;
+  isLargeVolume?: boolean | undefined;
 }
 export interface CreateBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Backup Properties */
   properties: BackupProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateBackupPolicyRequestTagsMap = { [key: string]: string | undefined };
 /** Backup policy properties */
 export interface BackupPolicyPropertiesInput {
   /** Daily backups count to keep */
-  dailyBackupsToKeep?: number;
+  dailyBackupsToKeep?: number | undefined;
   /** Weekly backups count to keep */
-  weeklyBackupsToKeep?: number;
+  weeklyBackupsToKeep?: number | undefined;
   /** Monthly backups count to keep */
-  monthlyBackupsToKeep?: number;
+  monthlyBackupsToKeep?: number | undefined;
   /** The property to decide policy is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateBackupPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1227,7 +1231,7 @@ export interface CreateBackupPolicyRequest {
   /** Backup policy Name which uniquely identify backup policy. */
   backupPolicyName: string;
   /** Resource tags. */
-  tags?: CreateBackupPolicyRequestTagsMap;
+  tags?: CreateBackupPolicyRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup policy Properties */
@@ -1238,58 +1242,58 @@ export type CreateBackupPolicyResponseTagsMap = { [key: string]: string | undefi
 /** Volume details using the backup policy */
 export interface VolumeBackups {
   /** Volume name */
-  volumeName?: string;
+  volumeName?: string | undefined;
   /** ResourceId used to identify the Volume */
-  volumeResourceId?: string;
+  volumeResourceId?: string | undefined;
   /** Total count of backups for volume */
-  backupsCount?: number;
+  backupsCount?: number | undefined;
   /** Policy enabled */
-  policyEnabled?: boolean;
+  policyEnabled?: boolean | undefined;
 }
 /** A list of volumes assigned to this policy */
 export type BackupPolicyPropertiesVolumeBackupsList = Array<VolumeBackups>;
 /** Backup policy properties */
 export interface BackupPolicyProperties {
   /** Backup Policy GUID ID */
-  backupPolicyId?: string;
+  backupPolicyId?: string | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Daily backups count to keep */
-  dailyBackupsToKeep?: number;
+  dailyBackupsToKeep?: number | undefined;
   /** Weekly backups count to keep */
-  weeklyBackupsToKeep?: number;
+  weeklyBackupsToKeep?: number | undefined;
   /** Monthly backups count to keep */
-  monthlyBackupsToKeep?: number;
+  monthlyBackupsToKeep?: number | undefined;
   /** Volumes using current backup policy */
-  volumesAssigned?: number;
+  volumesAssigned?: number | undefined;
   /** The property to decide policy is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A list of volumes assigned to this policy */
-  volumeBackups?: BackupPolicyPropertiesVolumeBackupsList;
+  volumeBackups?: BackupPolicyPropertiesVolumeBackupsList | undefined;
 }
 export interface CreateBackupPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateBackupPolicyResponseTagsMap;
+  tags?: CreateBackupPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup policy Properties */
   properties: BackupPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Snapshot properties */
 export type SnapshotPropertiesInput = UserAssignedIdentityInput;
@@ -1307,97 +1311,97 @@ export interface CreateSnapshotRequest {
   /** The name of the snapshot */
   snapshotName: string;
   /** Snapshot Properties */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
   /** Resource location */
   location: string;
 }
 /** Snapshot properties */
 export interface SnapshotProperties {
   /** UUID v4 used to identify the Snapshot */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** The creation date of the snapshot */
-  created?: string;
+  created?: string | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot Properties */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
   /** Resource location */
   location: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateSnapshotPolicyRequestTagsMap = { [key: string]: string | undefined };
 /** Hourly Schedule properties */
 export interface HourlySchedule {
   /** Hourly snapshot count to keep */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Indicates which minute snapshot should be taken */
-  minute?: number;
+  minute?: number | undefined;
   /** Resource size in bytes, current storage usage for the volume in bytes */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 /** Daily Schedule properties */
 export interface DailySchedule {
   /** Daily snapshot count to keep */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Indicates which hour in UTC timezone a snapshot should be taken */
-  hour?: number;
+  hour?: number | undefined;
   /** Indicates which minute snapshot should be taken */
-  minute?: number;
+  minute?: number | undefined;
   /** Resource size in bytes, current storage usage for the volume in bytes */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 /** Weekly Schedule properties, make a snapshot every week at a specific day or days */
 export interface WeeklySchedule {
   /** Weekly snapshot count to keep */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Indicates which weekdays snapshot should be taken, accepts a comma separated list of week day names in english */
-  day?: string;
+  day?: string | undefined;
   /** Indicates which hour in UTC timezone a snapshot should be taken */
-  hour?: number;
+  hour?: number | undefined;
   /** Indicates which minute snapshot should be taken */
-  minute?: number;
+  minute?: number | undefined;
   /** Resource size in bytes, current storage usage for the volume in bytes */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 /** Monthly Schedule properties */
 export interface MonthlySchedule {
   /** Monthly snapshot count to keep */
-  snapshotsToKeep?: number;
+  snapshotsToKeep?: number | undefined;
   /** Indicates which days of the month snapshot should be taken. A comma delimited string. */
-  daysOfMonth?: string;
+  daysOfMonth?: string | undefined;
   /** Indicates which hour in UTC timezone a snapshot should be taken */
-  hour?: number;
+  hour?: number | undefined;
   /** Indicates which minute snapshot should be taken */
-  minute?: number;
+  minute?: number | undefined;
   /** Resource size in bytes, current storage usage for the volume in bytes */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 /** Snapshot policy properties */
 export interface SnapshotPolicyPropertiesInput {
   /** Schedule for hourly snapshots */
-  hourlySchedule?: HourlySchedule;
+  hourlySchedule?: HourlySchedule | undefined;
   /** Schedule for daily snapshots */
-  dailySchedule?: DailySchedule;
+  dailySchedule?: DailySchedule | undefined;
   /** Schedule for weekly snapshots */
-  weeklySchedule?: WeeklySchedule;
+  weeklySchedule?: WeeklySchedule | undefined;
   /** Schedule for monthly snapshots */
-  monthlySchedule?: MonthlySchedule;
+  monthlySchedule?: MonthlySchedule | undefined;
   /** The property to decide policy is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateSnapshotPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1409,7 +1413,7 @@ export interface CreateSnapshotPolicyRequest {
   /** The name of the snapshot policy */
   snapshotPolicyName: string;
   /** Resource tags. */
-  tags?: CreateSnapshotPolicyRequestTagsMap;
+  tags?: CreateSnapshotPolicyRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Snapshot policy Properties */
@@ -1420,35 +1424,35 @@ export type CreateSnapshotPolicyResponseTagsMap = { [key: string]: string | unde
 /** Snapshot policy properties */
 export interface SnapshotPolicyProperties {
   /** Schedule for hourly snapshots */
-  hourlySchedule?: HourlySchedule;
+  hourlySchedule?: HourlySchedule | undefined;
   /** Schedule for daily snapshots */
-  dailySchedule?: DailySchedule;
+  dailySchedule?: DailySchedule | undefined;
   /** Schedule for weekly snapshots */
-  weeklySchedule?: WeeklySchedule;
+  weeklySchedule?: WeeklySchedule | undefined;
   /** Schedule for monthly snapshots */
-  monthlySchedule?: MonthlySchedule;
+  monthlySchedule?: MonthlySchedule | undefined;
   /** The property to decide policy is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateSnapshotPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateSnapshotPolicyResponseTagsMap;
+  tags?: CreateSnapshotPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Snapshot policy Properties */
   properties: SnapshotPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Application Type */
 export type ApplicationType = "SAP-HANA" | "ORACLE";
@@ -1464,13 +1468,13 @@ export type VolumeGroupMetaDataInputGlobalPlacementRulesList = Array<PlacementKe
 /** Volume group properties */
 export interface VolumeGroupMetaDataInput {
   /** Group Description */
-  groupDescription?: string;
+  groupDescription?: string | undefined;
   /** Application Type */
-  applicationType?: ApplicationType | (string & {});
+  applicationType?: ApplicationType | (string & {}) | undefined;
   /** Application specific identifier */
-  applicationIdentifier?: string;
+  applicationIdentifier?: string | undefined;
   /** Application specific placement rules for the volume group */
-  globalPlacementRules?: VolumeGroupMetaDataInputGlobalPlacementRulesList;
+  globalPlacementRules?: VolumeGroupMetaDataInputGlobalPlacementRulesList | undefined;
 }
 /** Resource tags */
 export type VolumeGroupVolumePropertiesInputTagsMap = { [key: string]: string | undefined };
@@ -1488,7 +1492,7 @@ export type VolumePropertiesExportPolicyRulesList = Array<ExportPolicyRule>;
 /** Set of export policy rules */
 export interface VolumePropertiesExportPolicy {
   /** Export policy rule */
-  rules?: VolumePropertiesExportPolicyRulesList;
+  rules?: VolumePropertiesExportPolicyRulesList | undefined;
 }
 /** Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS. The value SMB isn't supported in the protocolTypes property. Default: NFSv3 */
 export type VolumePropertiesInputProtocolTypesList = Array<string>;
@@ -1501,11 +1505,11 @@ export type VolumePropertiesInputNetworkFeatures =
 /** Volume Backup Properties */
 export interface VolumeBackupProperties {
   /** Backup Policy Resource ID */
-  backupPolicyId?: string;
+  backupPolicyId?: string | undefined;
   /** Policy Enforced */
-  policyEnforced?: boolean;
+  policyEnforced?: boolean | undefined;
   /** Backup Vault Resource ID */
-  backupVaultId?: string;
+  backupVaultId?: string | undefined;
 }
 /** Schedule */
 export type ReplicationSchedule = "_10minutely" | "hourly" | "daily";
@@ -1521,23 +1525,23 @@ export interface RemotePath {
 /** Replication properties */
 export interface ReplicationObjectInput {
   /** Schedule */
-  replicationSchedule?: ReplicationSchedule | (string & {});
+  replicationSchedule?: ReplicationSchedule | (string & {}) | undefined;
   /** The resource ID of the remote volume. Required for cross region and cross zone replication */
-  remoteVolumeResourceId?: string;
+  remoteVolumeResourceId?: string | undefined;
   /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
-  remotePath?: RemotePath;
+  remotePath?: RemotePath | undefined;
   /** The remote region for the other end of the Volume Replication. */
-  remoteVolumeRegion?: string;
+  remoteVolumeRegion?: string | undefined;
 }
 /** Volume Snapshot Properties */
 export interface VolumeSnapshotProperties {
   /** Snapshot Policy ResourceId */
-  snapshotPolicyId?: string;
+  snapshotPolicyId?: string | undefined;
 }
 /** Volume relocation properties */
 export interface VolumeRelocationPropertiesInput {
   /** Has relocation been requested for this volume */
-  relocationRequested?: boolean;
+  relocationRequested?: boolean | undefined;
 }
 /** The desired state of the Advanced Ransomware Protection feature */
 export type DesiredRansomwareProtectionState = "Disabled" | "Enabled";
@@ -1546,22 +1550,22 @@ export type ActualRansomwareProtectionState = "Disabled" | "Enabled" | "Learning
 /** Advanced Ransomware Protection reports (ARP) settings */
 export interface RansomwareProtectionSettings {
   /** The desired value of the Advanced Ransomware Protection feature state available to the volume */
-  desiredRansomwareProtectionState?: DesiredRansomwareProtectionState | (string & {});
+  desiredRansomwareProtectionState?: DesiredRansomwareProtectionState | (string & {}) | undefined;
   /** The actual state of the Advanced Ransomware Protection feature currently active on the volume */
-  actualRansomwareProtectionState?: ActualRansomwareProtectionState | (string & {});
+  actualRansomwareProtectionState?: ActualRansomwareProtectionState | (string & {}) | undefined;
 }
 /** DataProtection type volumes include an object containing details of the replication */
 export interface VolumePropertiesDataProtectionInput {
   /** Backup Properties */
-  backup?: VolumeBackupProperties;
+  backup?: VolumeBackupProperties | undefined;
   /** Replication properties */
-  replication?: ReplicationObjectInput;
+  replication?: ReplicationObjectInput | undefined;
   /** Snapshot properties. */
-  snapshot?: VolumeSnapshotProperties;
+  snapshot?: VolumeSnapshotProperties | undefined;
   /** VolumeRelocation properties */
-  volumeRelocation?: VolumeRelocationPropertiesInput;
+  volumeRelocation?: VolumeRelocationPropertiesInput | undefined;
   /** Advanced Ransomware Protection settings */
-  ransomwareProtection?: RansomwareProtectionSettings;
+  ransomwareProtection?: RansomwareProtectionSettings | undefined;
 }
 /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
 export type AcceptGrowCapacityPoolForShortTermCloneSplit = "Accepted" | "Declined";
@@ -1586,94 +1590,95 @@ export interface VolumePropertiesInput {
   /** A unique file path for the volume. Used when creating mount targets */
   creationToken: string;
   /** The service level of the file system */
-  serviceLevel?: VolumePropertiesInputServiceLevel | (string & {});
+  serviceLevel?: VolumePropertiesInputServiceLevel | (string & {}) | undefined;
   /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
-  exportPolicy?: VolumePropertiesExportPolicy;
+  exportPolicy?: VolumePropertiesExportPolicy | undefined;
   /** Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS. The value SMB isn't supported in the protocolTypes property. Default: NFSv3 */
-  protocolTypes?: VolumePropertiesInputProtocolTypesList;
+  protocolTypes?: VolumePropertiesInputProtocolTypesList | undefined;
   /** Resource identifier used to identify the Snapshot. */
-  snapshotId?: string | null;
+  snapshotId?: string | null | undefined;
   /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished. Defaults to false */
-  deleteBaseSnapshot?: boolean;
+  deleteBaseSnapshot?: boolean | undefined;
   /** Resource identifier used to identify the Backup. */
-  backupId?: string | null;
+  backupId?: string | null | undefined;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
   /** The original value of the network features type available to the volume at the time it was created. */
-  networkFeatures?: VolumePropertiesInputNetworkFeatures | (string & {});
+  networkFeatures?: VolumePropertiesInputNetworkFeatures | (string & {}) | undefined;
   /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
-  volumeType?: string;
+  volumeType?: string | undefined;
   /** DataProtection type volumes include an object containing details of the replication */
-  dataProtection?: VolumePropertiesDataProtectionInput;
+  dataProtection?: VolumePropertiesDataProtectionInput | undefined;
   /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
   acceptGrowCapacityPoolForShortTermCloneSplit?:
     | AcceptGrowCapacityPoolForShortTermCloneSplit
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
-  snapshotDirectoryVisible?: boolean;
+  snapshotDirectoryVisible?: boolean | undefined;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
-  kerberosEnabled?: boolean;
+  kerberosEnabled?: boolean | undefined;
   /** The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol */
-  securityStyle?: VolumePropertiesInputSecurityStyle | (string & {});
+  securityStyle?: VolumePropertiesInputSecurityStyle | (string & {}) | undefined;
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
-  smbEncryption?: boolean;
+  smbEncryption?: boolean | undefined;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | null | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbNonBrowsable?: SmbNonBrowsable | (string & {});
+  smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
-  smbContinuouslyAvailable?: boolean;
+  smbContinuouslyAvailable?: boolean | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
-  throughputMibps?: number | null;
+  throughputMibps?: number | null | undefined;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
-  encryptionKeySource?: VolumePropertiesInputEncryptionKeySource | (string & {});
+  encryptionKeySource?: VolumePropertiesInputEncryptionKeySource | (string & {}) | undefined;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
-  keyVaultPrivateEndpointResourceId?: string;
+  keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
-  ldapEnabled?: boolean;
+  ldapEnabled?: boolean | undefined;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
-  coolnessPeriod?: number;
+  coolnessPeriod?: number | undefined;
   /** coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are: Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default. OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage. */
-  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy | (string & {});
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy | (string & {}) | undefined;
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
-  coolAccessTieringPolicy?: CoolAccessTieringPolicy | (string & {});
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy | (string & {}) | undefined;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string | null | undefined;
   /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
-  avsDataStore?: VolumePropertiesInputAvsDataStore | (string & {});
+  avsDataStore?: VolumePropertiesInputAvsDataStore | (string & {}) | undefined;
   /** Specifies if default quota is enabled for the volume. */
-  isDefaultQuotaEnabled?: boolean;
+  isDefaultQuotaEnabled?: boolean | undefined;
   /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
-  defaultUserQuotaInKiBs?: number;
+  defaultUserQuotaInKiBs?: number | undefined;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
-  defaultGroupQuotaInKiBs?: number;
+  defaultGroupQuotaInKiBs?: number | undefined;
   /** Pool Resource Id used in case of creating a volume through volume group */
-  capacityPoolResourceId?: string;
+  capacityPoolResourceId?: string | undefined;
   /** Proximity placement group associated with the volume */
-  proximityPlacementGroup?: string;
+  proximityPlacementGroup?: string | undefined;
   /** Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log */
-  volumeSpecName?: string;
+  volumeSpecName?: string | undefined;
   /** Application specific placement rules for the particular volume */
-  placementRules?: VolumePropertiesInputPlacementRulesList;
+  placementRules?: VolumePropertiesInputPlacementRulesList | undefined;
   /** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-  enableSubvolumes?: VolumePropertiesInputEnableSubvolumes | (string & {});
+  enableSubvolumes?: VolumePropertiesInputEnableSubvolumes | (string & {}) | undefined;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
-  isLargeVolume?: boolean;
+  isLargeVolume?: boolean | undefined;
   /** Specifies whether the volume operates in Breakthrough Mode. */
-  breakthroughMode?: BreakthroughMode | (string & {});
+  breakthroughMode?: BreakthroughMode | (string & {}) | undefined;
 }
 /** Volume resource */
 export interface VolumeGroupVolumePropertiesInput {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource tags */
-  tags?: VolumeGroupVolumePropertiesInputTagsMap;
+  tags?: VolumeGroupVolumePropertiesInputTagsMap | undefined;
   /** Availability Zone */
-  zones?: VolumeGroupVolumePropertiesInputZonesList;
+  zones?: VolumeGroupVolumePropertiesInputZonesList | undefined;
   /** Volume properties */
   properties: VolumePropertiesInput;
 }
@@ -1682,9 +1687,9 @@ export type VolumeGroupPropertiesInputVolumesList = Array<VolumeGroupVolumePrope
 /** Volume group properties */
 export interface VolumeGroupPropertiesInput {
   /** Volume group details */
-  groupMetaData?: VolumeGroupMetaDataInput;
+  groupMetaData?: VolumeGroupMetaDataInput | undefined;
   /** List of volumes from group */
-  volumes?: VolumeGroupPropertiesInputVolumesList;
+  volumes?: VolumeGroupPropertiesInputVolumesList | undefined;
 }
 export interface CreateVolumeGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1696,24 +1701,24 @@ export interface CreateVolumeGroupRequest {
   /** The name of the volumeGroup */
   volumeGroupName: string;
   /** Volume group properties */
-  properties?: VolumeGroupPropertiesInput;
+  properties?: VolumeGroupPropertiesInput | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
 }
 /** Application specific placement rules for the volume group */
 export type VolumeGroupMetaDataGlobalPlacementRulesList = Array<PlacementKeyValuePairs>;
 /** Volume group properties */
 export interface VolumeGroupMetaData {
   /** Group Description */
-  groupDescription?: string;
+  groupDescription?: string | undefined;
   /** Application Type */
-  applicationType?: ApplicationType;
+  applicationType?: ApplicationType | undefined;
   /** Application specific identifier */
-  applicationIdentifier?: string;
+  applicationIdentifier?: string | undefined;
   /** Application specific placement rules for the volume group */
-  globalPlacementRules?: VolumeGroupMetaDataGlobalPlacementRulesList;
+  globalPlacementRules?: VolumeGroupMetaDataGlobalPlacementRulesList | undefined;
   /** Number of volumes in volume group */
-  volumesCount?: number;
+  volumesCount?: number | undefined;
 }
 /** Resource tags */
 export type VolumeGroupVolumePropertiesTagsMap = { [key: string]: string | undefined };
@@ -1745,13 +1750,13 @@ export type VolumeStorageToNetworkProximity = "Default" | "T1" | "T2" | "AcrossT
 /** Mount target properties */
 export interface MountTargetProperties {
   /** UUID v4 used to identify the MountTarget */
-  mountTargetId?: string;
+  mountTargetId?: string | undefined;
   /** UUID v4 used to identify the MountTarget */
   fileSystemId: string;
   /** The mount target's IPv4 address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The SMB server's Fully Qualified Domain Name, FQDN */
-  smbServerFqdn?: string;
+  smbServerFqdn?: string | undefined;
 }
 /** List of mount targets */
 export type VolumePropertiesMountTargetsList = Array<MountTargetProperties>;
@@ -1762,13 +1767,13 @@ export type ReplicationType = "CrossRegionReplication" | "CrossZoneReplication";
 /** Destination replication properties */
 export interface DestinationReplication {
   /** The resource ID of the remote volume */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Indicates whether the replication is cross zone or cross region. */
-  replicationType?: ReplicationType;
+  replicationType?: ReplicationType | undefined;
   /** The remote region for the destination volume. */
-  region?: string;
+  region?: string | undefined;
   /** The remote zone for the destination volume. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** A list of destination replications */
 export type ReplicationObjectDestinationReplicationsList = Array<DestinationReplication>;
@@ -1784,47 +1789,47 @@ export type VolumeReplicationRelationshipStatus = "Idle" | "Transferring";
 /** Replication properties */
 export interface ReplicationObject {
   /** Id */
-  replicationId?: string;
+  replicationId?: string | undefined;
   /** Indicates whether the local volume is the source or destination for the Volume Replication */
-  endpointType?: EndpointType;
+  endpointType?: EndpointType | undefined;
   /** Schedule */
-  replicationSchedule?: ReplicationSchedule;
+  replicationSchedule?: ReplicationSchedule | undefined;
   /** The resource ID of the remote volume. Required for cross region and cross zone replication */
-  remoteVolumeResourceId?: string;
+  remoteVolumeResourceId?: string | undefined;
   /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
-  remotePath?: RemotePath;
+  remotePath?: RemotePath | undefined;
   /** The remote region for the other end of the Volume Replication. */
-  remoteVolumeRegion?: string;
+  remoteVolumeRegion?: string | undefined;
   /** A list of destination replications */
-  destinationReplications?: ReplicationObjectDestinationReplicationsList;
+  destinationReplications?: ReplicationObjectDestinationReplicationsList | undefined;
   /** Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. */
-  externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
+  externalReplicationSetupStatus?: ExternalReplicationSetupStatus | undefined;
   /** Contains human-readable instructions on what the next step is to finish the external replication setup. */
-  externalReplicationSetupInfo?: string;
+  externalReplicationSetupInfo?: string | undefined;
   /** The mirror state property describes the current status of data replication for a replication. It provides insight into whether the data is actively being mirrored, if the replication process has been paused, or if it has yet to be initialized. */
-  mirrorState?: MirrorState;
+  mirrorState?: MirrorState | undefined;
   /** The status of the Volume Replication */
-  relationshipStatus?: VolumeReplicationRelationshipStatus;
+  relationshipStatus?: VolumeReplicationRelationshipStatus | undefined;
 }
 /** Volume relocation properties */
 export interface VolumeRelocationProperties {
   /** Has relocation been requested for this volume */
-  relocationRequested?: boolean;
+  relocationRequested?: boolean | undefined;
   /** Has relocation finished and is ready to be cleaned up */
-  readyToBeFinalized?: boolean;
+  readyToBeFinalized?: boolean | undefined;
 }
 /** DataProtection type volumes include an object containing details of the replication */
 export interface VolumePropertiesDataProtection {
   /** Backup Properties */
-  backup?: VolumeBackupProperties;
+  backup?: VolumeBackupProperties | undefined;
   /** Replication properties */
-  replication?: ReplicationObject;
+  replication?: ReplicationObject | undefined;
   /** Snapshot properties. */
-  snapshot?: VolumeSnapshotProperties;
+  snapshot?: VolumeSnapshotProperties | undefined;
   /** VolumeRelocation properties */
-  volumeRelocation?: VolumeRelocationProperties;
+  volumeRelocation?: VolumeRelocationProperties | undefined;
   /** Advanced Ransomware Protection settings */
-  ransomwareProtection?: RansomwareProtectionSettings;
+  ransomwareProtection?: RansomwareProtectionSettings | undefined;
 }
 /** The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol */
 export type VolumePropertiesSecurityStyle = "ntfs" | "unix";
@@ -1843,136 +1848,138 @@ export type VolumePropertiesEnableSubvolumes = "Enabled" | "Disabled";
 /** Volume properties */
 export interface VolumeProperties {
   /** Unique FileSystem Identifier. */
-  fileSystemId?: string;
+  fileSystemId?: string | undefined;
   /** A unique file path for the volume. Used when creating mount targets */
   creationToken: string;
   /** The service level of the file system */
-  serviceLevel?: VolumePropertiesServiceLevel;
+  serviceLevel?: VolumePropertiesServiceLevel | undefined;
   /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
-  exportPolicy?: VolumePropertiesExportPolicy;
+  exportPolicy?: VolumePropertiesExportPolicy | undefined;
   /** Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS. The value SMB isn't supported in the protocolTypes property. Default: NFSv3 */
-  protocolTypes?: VolumePropertiesProtocolTypesList;
+  protocolTypes?: VolumePropertiesProtocolTypesList | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Resource identifier used to identify the Snapshot. */
-  snapshotId?: string | null;
+  snapshotId?: string | null | undefined;
   /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished. Defaults to false */
-  deleteBaseSnapshot?: boolean;
+  deleteBaseSnapshot?: boolean | undefined;
   /** Resource identifier used to identify the Backup. */
-  backupId?: string | null;
+  backupId?: string | null | undefined;
   /** Unique Baremetal Tenant Identifier. */
-  baremetalTenantId?: string;
+  baremetalTenantId?: string | undefined;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
   /** The original value of the network features type available to the volume at the time it was created. */
-  networkFeatures?: VolumePropertiesNetworkFeatures;
+  networkFeatures?: VolumePropertiesNetworkFeatures | undefined;
   /** The effective value of the network features type available to the volume, or current effective state of update. */
-  effectiveNetworkFeatures?: VolumePropertiesEffectiveNetworkFeatures;
+  effectiveNetworkFeatures?: VolumePropertiesEffectiveNetworkFeatures | undefined;
   /** Network Sibling Set ID for the the group of volumes sharing networking resources. */
-  networkSiblingSetId?: string;
+  networkSiblingSetId?: string | undefined;
   /** Provides storage to network proximity information for the volume. */
-  storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+  storageToNetworkProximity?: VolumeStorageToNetworkProximity | undefined;
   /** List of mount targets */
-  mountTargets?: VolumePropertiesMountTargetsList;
+  mountTargets?: VolumePropertiesMountTargetsList | undefined;
   /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
-  volumeType?: string;
+  volumeType?: string | undefined;
   /** DataProtection type volumes include an object containing details of the replication */
-  dataProtection?: VolumePropertiesDataProtection;
+  dataProtection?: VolumePropertiesDataProtection | undefined;
   /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
-  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
+  acceptGrowCapacityPoolForShortTermCloneSplit?:
+    | AcceptGrowCapacityPoolForShortTermCloneSplit
+    | undefined;
   /** Restoring */
-  isRestoring?: boolean;
+  isRestoring?: boolean | undefined;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
-  snapshotDirectoryVisible?: boolean;
+  snapshotDirectoryVisible?: boolean | undefined;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
-  kerberosEnabled?: boolean;
+  kerberosEnabled?: boolean | undefined;
   /** The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol */
-  securityStyle?: VolumePropertiesSecurityStyle;
+  securityStyle?: VolumePropertiesSecurityStyle | undefined;
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
-  smbEncryption?: boolean;
+  smbEncryption?: boolean | undefined;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbNonBrowsable?: SmbNonBrowsable;
+  smbNonBrowsable?: SmbNonBrowsable | undefined;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
-  smbContinuouslyAvailable?: boolean;
+  smbContinuouslyAvailable?: boolean | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
-  throughputMibps?: number | null;
+  throughputMibps?: number | null | undefined;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
-  actualThroughputMibps?: number;
+  actualThroughputMibps?: number | undefined;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
-  encryptionKeySource?: VolumePropertiesEncryptionKeySource;
+  encryptionKeySource?: VolumePropertiesEncryptionKeySource | undefined;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
-  keyVaultPrivateEndpointResourceId?: string;
+  keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
-  ldapEnabled?: boolean;
+  ldapEnabled?: boolean | undefined;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
-  coolnessPeriod?: number;
+  coolnessPeriod?: number | undefined;
   /** coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are: Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default. OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage. */
-  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy | undefined;
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
-  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy | undefined;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string | null | undefined;
   /** When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning. */
-  cloneProgress?: number | null;
+  cloneProgress?: number | null | undefined;
   /** Flag indicating whether file access logs are enabled for the volume, based on active diagnostic settings present on the volume. */
-  fileAccessLogs?: VolumePropertiesFileAccessLogs;
+  fileAccessLogs?: VolumePropertiesFileAccessLogs | undefined;
   /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
-  avsDataStore?: VolumePropertiesAvsDataStore;
+  avsDataStore?: VolumePropertiesAvsDataStore | undefined;
   /** Data store resource unique identifier */
-  dataStoreResourceId?: VolumePropertiesDataStoreResourceIdList;
+  dataStoreResourceId?: VolumePropertiesDataStoreResourceIdList | undefined;
   /** Specifies if default quota is enabled for the volume. */
-  isDefaultQuotaEnabled?: boolean;
+  isDefaultQuotaEnabled?: boolean | undefined;
   /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
-  defaultUserQuotaInKiBs?: number;
+  defaultUserQuotaInKiBs?: number | undefined;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
-  defaultGroupQuotaInKiBs?: number;
+  defaultGroupQuotaInKiBs?: number | undefined;
   /** Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB. */
-  maximumNumberOfFiles?: number;
+  maximumNumberOfFiles?: number | undefined;
   /** Volume Group Name */
-  volumeGroupName?: string;
+  volumeGroupName?: string | undefined;
   /** Pool Resource Id used in case of creating a volume through volume group */
-  capacityPoolResourceId?: string;
+  capacityPoolResourceId?: string | undefined;
   /** Proximity placement group associated with the volume */
-  proximityPlacementGroup?: string;
+  proximityPlacementGroup?: string | undefined;
   /** T2 network information */
-  t2Network?: string;
+  t2Network?: string | undefined;
   /** Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log */
-  volumeSpecName?: string;
+  volumeSpecName?: string | undefined;
   /** Specifies if the volume is encrypted or not. Only available on volumes created or updated after 2022-01-01. */
-  encrypted?: boolean;
+  encrypted?: boolean | undefined;
   /** Application specific placement rules for the particular volume */
-  placementRules?: VolumePropertiesPlacementRulesList;
+  placementRules?: VolumePropertiesPlacementRulesList | undefined;
   /** Flag indicating whether subvolume operations are enabled on the volume Deprecated. Subvolume operations and this flag will be removed in a future API version. */
-  enableSubvolumes?: VolumePropertiesEnableSubvolumes;
+  enableSubvolumes?: VolumePropertiesEnableSubvolumes | undefined;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
-  provisionedAvailabilityZone?: string | null;
+  provisionedAvailabilityZone?: string | null | undefined;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
-  isLargeVolume?: boolean;
+  isLargeVolume?: boolean | undefined;
   /** Id of the snapshot or backup that the volume is restored from. */
-  originatingResourceId?: string | null;
+  originatingResourceId?: string | null | undefined;
   /** Space shared by short term clone volume with parent volume in bytes. */
-  inheritedSizeInBytes?: number | null;
+  inheritedSizeInBytes?: number | null | undefined;
   /** Specifies whether the volume operates in Breakthrough Mode. */
-  breakthroughMode?: BreakthroughMode;
+  breakthroughMode?: BreakthroughMode | undefined;
 }
 /** Volume resource */
 export interface VolumeGroupVolumeProperties {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags */
-  tags?: VolumeGroupVolumePropertiesTagsMap;
+  tags?: VolumeGroupVolumePropertiesTagsMap | undefined;
   /** Availability Zone */
-  zones?: VolumeGroupVolumePropertiesZonesList;
+  zones?: VolumeGroupVolumePropertiesZonesList | undefined;
   /** Volume properties */
   properties: VolumeProperties;
 }
@@ -1981,29 +1988,29 @@ export type VolumeGroupPropertiesVolumesList = Array<VolumeGroupVolumeProperties
 /** Volume group properties */
 export interface VolumeGroupProperties {
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Volume group details */
-  groupMetaData?: VolumeGroupMetaData;
+  groupMetaData?: VolumeGroupMetaData | undefined;
   /** List of volumes from group */
-  volumes?: VolumeGroupPropertiesVolumesList;
+  volumes?: VolumeGroupPropertiesVolumesList | undefined;
 }
 export interface CreateVolumeGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Volume group properties */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateVolumeQuotaRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -2016,11 +2023,11 @@ export type QuotaType =
 /** Volume Quota Rule properties */
 export interface VolumeQuotaRulesPropertiesInput {
   /** Size of quota */
-  quotaSizeInKiBs?: number;
+  quotaSizeInKiBs?: number | undefined;
   /** Type of quota */
-  quotaType?: QuotaType | (string & {});
+  quotaType?: QuotaType | (string & {}) | undefined;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
+  quotaTarget?: string | undefined;
 }
 export interface CreateVolumeQuotaRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2036,44 +2043,44 @@ export interface CreateVolumeQuotaRuleRequest {
   /** The name of volume quota rule */
   volumeQuotaRuleName: string;
   /** Resource tags. */
-  tags?: CreateVolumeQuotaRuleRequestTagsMap;
+  tags?: CreateVolumeQuotaRuleRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesPropertiesInput;
+  properties?: VolumeQuotaRulesPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateVolumeQuotaRuleResponseTagsMap = { [key: string]: string | undefined };
 /** Volume Quota Rule properties */
 export interface VolumeQuotaRulesProperties {
   /** Gets the status of the VolumeQuotaRule at the time the operation was called. */
-  provisioningState?: NetAppProvisioningState;
+  provisioningState?: NetAppProvisioningState | undefined;
   /** Size of quota */
-  quotaSizeInKiBs?: number;
+  quotaSizeInKiBs?: number | undefined;
   /** Type of quota */
-  quotaType?: QuotaType;
+  quotaType?: QuotaType | undefined;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
+  quotaTarget?: string | undefined;
 }
 export interface CreateVolumeQuotaRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateVolumeQuotaRuleResponseTagsMap;
+  tags?: CreateVolumeQuotaRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  properties?: VolumeQuotaRulesProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2085,9 +2092,9 @@ export interface DeleteAccountRequest {
 }
 export interface DeleteAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2103,9 +2110,9 @@ export interface DeleteBackupRequest {
 }
 export interface DeleteBackupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBackupPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2119,9 +2126,9 @@ export interface DeleteBackupPolicyRequest {
 }
 export interface DeleteBackupPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBackupVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2135,9 +2142,9 @@ export interface DeleteBackupVaultRequest {
 }
 export interface DeleteBackupVaultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBucketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2155,11 +2162,11 @@ export interface DeleteBucketRequest {
 }
 export interface DeleteBucketResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCachRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2175,9 +2182,9 @@ export interface DeleteCachRequest {
 }
 export interface DeleteCachResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2191,9 +2198,9 @@ export interface DeletePoolRequest {
 }
 export interface DeletePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2211,9 +2218,9 @@ export interface DeleteSnapshotRequest {
 }
 export interface DeleteSnapshotResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSnapshotPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2227,9 +2234,9 @@ export interface DeleteSnapshotPolicyRequest {
 }
 export interface DeleteSnapshotPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2243,13 +2250,13 @@ export interface DeleteVolumeRequest {
   /** The name of the volume */
   volumeName: string;
   /** An option to force delete the volume. Will cleanup resources connected to the particular volume */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteVolumeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2263,9 +2270,9 @@ export interface DeleteVolumeGroupRequest {
 }
 export interface DeleteVolumeGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeQuotaRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2283,9 +2290,9 @@ export interface DeleteVolumeQuotaRuleRequest {
 }
 export interface DeleteVolumeQuotaRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2301,9 +2308,9 @@ export interface DeleteVolumeReplicationRequest {
 }
 export interface DeleteVolumeReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FinalizeVolumeExternalReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2319,9 +2326,9 @@ export interface FinalizeVolumeExternalReplicationRequest {
 }
 export interface FinalizeVolumeExternalReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FinalizeVolumeRelocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2337,9 +2344,9 @@ export interface FinalizeVolumeRelocationRequest {
 }
 export interface FinalizeVolumeRelocationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateBucketAkvCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2355,15 +2362,15 @@ export interface GenerateBucketAkvCredentialsRequest {
   /** The name of the bucket */
   bucketName: string;
   /** The number of days from now until the newly generated Access and Secret key pair will expire. */
-  keyPairExpiryDays?: number;
+  keyPairExpiryDays?: number | undefined;
 }
 export interface GenerateBucketAkvCredentialsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateBucketCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2379,16 +2386,16 @@ export interface GenerateBucketCredentialsRequest {
   /** The name of the bucket */
   bucketName: string;
   /** The number of days from now until the newly generated Access and Secret key pair will expire. */
-  keyPairExpiryDays?: number;
+  keyPairExpiryDays?: number | undefined;
 }
 /** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
 export interface BucketGenerateCredentials {
   /** The Access Key that is required along with the Secret Key to access the bucket. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** The Secret Key that is required along with the Access Key to access the bucket. */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** The bucket's Access and Secret key pair expiry date and time (in UTC). */
-  keyPairExpiry?: string;
+  keyPairExpiry?: string | undefined;
 }
 export interface GetAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2407,32 +2414,32 @@ export type GetAccountResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetAccountResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetAccountResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetAccountResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** NetApp Account properties */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetAccountResponseIdentity;
+  identity?: GetAccountResponseIdentity | undefined;
 }
 export interface GetAccountChangeKeyVaultInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2448,24 +2455,26 @@ export type GetKeyVaultStatusResponsePropertiesKeyVaultPrivateEndpointsList =
 /** Properties which represents Change key vault status. */
 export interface GetKeyVaultStatusResponseProperties {
   /** The URI of the key vault/managed HSM that should be used for encryption. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The name of the key that should be used for encryption. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
   /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
-  keyVaultPrivateEndpoints?: GetKeyVaultStatusResponsePropertiesKeyVaultPrivateEndpointsList;
+  keyVaultPrivateEndpoints?:
+    | GetKeyVaultStatusResponsePropertiesKeyVaultPrivateEndpointsList
+    | undefined;
 }
 /** Result of getKeyVaultStatus with information about how volumes under NetApp account are encrypted. */
 export interface GetKeyVaultStatusResponse {
   /** Represents the properties of the getKeyVaultStatus. */
-  properties?: GetKeyVaultStatusResponseProperties;
+  properties?: GetKeyVaultStatusResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2481,13 +2490,13 @@ export interface GetBackupRequest {
 }
 export interface GetBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Backup Properties */
   properties: BackupProperties;
 }
@@ -2508,23 +2517,23 @@ export type VolumeBackupRelationshipStatus = "Idle" | "Transferring" | "Failed" 
 /** Backup status */
 export interface BackupStatus {
   /** Backup health status */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Status of the backup mirror relationship */
-  relationshipStatus?: VolumeBackupRelationshipStatus;
+  relationshipStatus?: VolumeBackupRelationshipStatus | undefined;
   /** The status of the backup */
-  mirrorState?: MirrorState;
+  mirrorState?: MirrorState | undefined;
   /** Reason for the unhealthy backup relationship */
-  unhealthyReason?: string;
+  unhealthyReason?: string | undefined;
   /** Displays error message if the backup is in an error state */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Displays the last transfer size */
-  lastTransferSize?: number;
+  lastTransferSize?: number | undefined;
   /** Displays the last transfer type */
-  lastTransferType?: string;
+  lastTransferType?: string | undefined;
   /** Displays the total bytes transferred */
-  totalTransferBytes?: number;
+  totalTransferBytes?: number | undefined;
   /** Displays the total number of bytes transferred for the ongoing operation */
-  transferProgressBytes?: number;
+  transferProgressBytes?: number | undefined;
 }
 export interface GetBackupPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2540,21 +2549,21 @@ export interface GetBackupPolicyRequest {
 export type GetBackupPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBackupPolicyResponseTagsMap;
+  tags?: GetBackupPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup policy Properties */
   properties: BackupPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetBackupVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2570,19 +2579,19 @@ export interface GetBackupVaultRequest {
 export type GetBackupVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBackupVaultResponseTagsMap;
+  tags?: GetBackupVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup Vault Properties */
-  properties?: BackupVaultProperties;
+  properties?: BackupVaultProperties | undefined;
 }
 export interface GetBucketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2600,15 +2609,15 @@ export interface GetBucketRequest {
 }
 export interface GetBucketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bucket properties */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
 }
 export interface GetCachRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2628,23 +2637,23 @@ export type GetCachResponseTagsMap = { [key: string]: string | undefined };
 export type GetCachResponseZonesList = Array<string>;
 export interface GetCachResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCachResponseTagsMap;
+  tags?: GetCachResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: GetCachResponseZonesList;
+  zones?: GetCachResponseZonesList | undefined;
 }
 export interface GetNetAppResourceQuotaLimitRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2657,23 +2666,23 @@ export interface GetNetAppResourceQuotaLimitRequest {
 /** QuotaItem Properties */
 export interface QuotaItemProperties {
   /** The current quota value. */
-  current?: number;
+  current?: number | undefined;
   /** The default quota value. */
-  default?: number;
+  default?: number | undefined;
   /** The usage quota value. */
-  usage?: number | null;
+  usage?: number | null | undefined;
 }
 export interface GetNetAppResourceQuotaLimitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** QuotaItem properties */
-  properties?: QuotaItemProperties;
+  properties?: QuotaItemProperties | undefined;
 }
 export interface GetNetAppResourceQuotaLimitsAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2687,15 +2696,15 @@ export interface GetNetAppResourceQuotaLimitsAccountRequest {
 }
 export interface GetNetAppResourceQuotaLimitsAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** QuotaItem properties */
-  properties?: QuotaItemProperties;
+  properties?: QuotaItemProperties | undefined;
 }
 export interface GetNetAppResourceRegionInfosRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2715,30 +2724,30 @@ export type RegionStorageToNetworkProximity =
   | "T1AndT2AndAcrossT2";
 export interface RegionInfoAvailabilityZoneMappingsItem {
   /** Logical availability zone. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Available availability zone */
-  isAvailable?: boolean;
+  isAvailable?: boolean | undefined;
 }
 /** Provides logical availability zone mappings for the subscription for a region. */
 export type RegionInfoAvailabilityZoneMappingsList = Array<RegionInfoAvailabilityZoneMappingsItem>;
 /** Provides region specific information. */
 export interface RegionInfo {
   /** Provides storage to network proximity information in the region. */
-  storageToNetworkProximity?: RegionStorageToNetworkProximity;
+  storageToNetworkProximity?: RegionStorageToNetworkProximity | undefined;
   /** Provides logical availability zone mappings for the subscription for a region. */
-  availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsList;
+  availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsList | undefined;
 }
 export interface GetNetAppResourceRegionInfosResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** regionInfo properties */
-  properties?: RegionInfo;
+  properties?: RegionInfo | undefined;
 }
 export interface GetNetAppResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2751,27 +2760,27 @@ export interface GetNetAppResourceUsageRequest {
 /** The name of the usage. */
 export interface UsageName {
   /** The name of the usage. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the usage. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Usage properties */
 export interface UsageProperties {
   /** The current usage value for the subscription. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The limit of the usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** The unit of the usage. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Usages entity model */
 export interface UsageResult {
   /** The id of the usage. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the usage. */
-  name?: UsageName;
+  name?: UsageName | undefined;
   /** Usage properties */
-  properties?: UsageProperties;
+  properties?: UsageProperties | undefined;
 }
 export interface GetPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2799,43 +2808,43 @@ export type PoolPropertiesEncryptionType = "Single" | "Double";
 /** Pool properties */
 export interface PoolProperties {
   /** UUID v4 used to identify the Pool */
-  poolId?: string;
+  poolId?: string | undefined;
   /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
   size: number;
   /** The service level of the file system */
   serviceLevel: PoolPropertiesServiceLevel;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Total throughput of pool in MiB/s */
-  totalThroughputMibps?: number;
+  totalThroughputMibps?: number | undefined;
   /** Utilized throughput of pool in MiB/s */
-  utilizedThroughputMibps?: number;
+  utilizedThroughputMibps?: number | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number | null | undefined;
   /** The qos type of the pool */
-  qosType?: PoolPropertiesQosType;
+  qosType?: PoolPropertiesQosType | undefined;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
-  encryptionType?: PoolPropertiesEncryptionType | null;
+  encryptionType?: PoolPropertiesEncryptionType | null | undefined;
 }
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPoolResponseTagsMap;
+  tags?: GetPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Capacity pool properties */
   properties: PoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetRansomwareReportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2858,53 +2867,53 @@ export type RansomwareReportSeverity = "None" | "Low" | "Moderate" | "High";
 /** Suspect file information */
 export interface SuspectFile {
   /** Suspect filename */
-  suspectFileName?: string;
+  suspectFileName?: string | undefined;
   /** The creation date and time of the file */
-  fileTimestamp?: string;
+  fileTimestamp?: string | undefined;
 }
 /** Suspect files */
 export type RansomwareSuspectsSuspectFilesList = Array<SuspectFile>;
 /** List of suspects identified in an Advanced Ransomware Protection (ARP) report */
 export interface RansomwareSuspects {
   /** Suspect File extension */
-  extension?: string;
+  extension?: string | undefined;
   /** ARP report suspect resolution */
-  resolution?: RansomwareSuspectResolution;
+  resolution?: RansomwareSuspectResolution | undefined;
   /** The number of suspect files at the time of ARP report, this number can change as files get created and report status progresses */
-  fileCount?: number;
+  fileCount?: number | undefined;
   /** Suspect files */
-  suspectFiles?: RansomwareSuspectsSuspectFilesList;
+  suspectFiles?: RansomwareSuspectsSuspectFilesList | undefined;
 }
 /** Suspects identified in an ARP report */
 export type RansomwareReportPropertiesSuspectsList = Array<RansomwareSuspects>;
 /** Advanced Ransomware Protection (ARP) report properties. Evaluate the report to determine whether the activity is acceptable (false positive) or whether an attack seems malicious using the ClearSuspects operation. Advanced Ransomware Protection (ARP) creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of the ARP snapshots or another snapshot of your volume to restore data. */
 export interface RansomwareReportProperties {
   /** The creation date and time of the report */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** State of the Advanced Ransomware Protection (ARP) report */
-  state?: RansomwareReportState;
+  state?: RansomwareReportState | undefined;
   /** Severity of the Advanced Ransomware Protection (ARP) report */
-  severity?: RansomwareReportSeverity;
+  severity?: RansomwareReportSeverity | undefined;
   /** The number of cleared suspects identified by the ARP report */
-  clearedCount?: number;
+  clearedCount?: number | undefined;
   /** The number of suspects identified by the ARP report */
-  reportedCount?: number;
+  reportedCount?: number | undefined;
   /** Suspects identified in an ARP report */
-  suspects?: RansomwareReportPropertiesSuspectsList;
+  suspects?: RansomwareReportPropertiesSuspectsList | undefined;
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetRansomwareReportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Advanced Ransomware Protection reports Properties */
-  properties?: RansomwareReportProperties;
+  properties?: RansomwareReportProperties | undefined;
 }
 export interface GetSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2922,15 +2931,15 @@ export interface GetSnapshotRequest {
 }
 export interface GetSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot Properties */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
   /** Resource location */
   location: string;
 }
@@ -2948,21 +2957,21 @@ export interface GetSnapshotPolicyRequest {
 export type GetSnapshotPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSnapshotPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSnapshotPolicyResponseTagsMap;
+  tags?: GetSnapshotPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Snapshot policy Properties */
   properties: SnapshotPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2982,23 +2991,23 @@ export type GetVolumeResponseTagsMap = { [key: string]: string | undefined };
 export type GetVolumeResponseZonesList = Array<string>;
 export interface GetVolumeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVolumeResponseTagsMap;
+  tags?: GetVolumeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: GetVolumeResponseZonesList;
+  zones?: GetVolumeResponseZonesList | undefined;
 }
 export interface GetVolumeGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3012,17 +3021,17 @@ export interface GetVolumeGroupRequest {
 }
 export interface GetVolumeGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Volume group properties */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetVolumeQuotaRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3042,19 +3051,19 @@ export interface GetVolumeQuotaRuleRequest {
 export type GetVolumeQuotaRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVolumeQuotaRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVolumeQuotaRuleResponseTagsMap;
+  tags?: GetVolumeQuotaRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  properties?: VolumeQuotaRulesProperties | undefined;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3069,33 +3078,33 @@ export type NetAppAccountIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface NetAppAccountIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: NetAppAccountIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: NetAppAccountIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** NetApp account resource */
 export interface NetAppAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetAppAccountTagsMap;
+  tags?: NetAppAccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** NetApp Account properties */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NetAppAccountIdentity;
+  identity?: NetAppAccountIdentity | undefined;
 }
 /** The NetAppAccount items on this page */
 export type NetAppAccountListValueList = Array<NetAppAccount>;
@@ -3104,7 +3113,7 @@ export interface NetAppAccountList {
   /** The NetAppAccount items on this page */
   value: NetAppAccountListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3122,18 +3131,18 @@ export interface ListBackupByVaultRequest {
   /** The name of the Backup Vault */
   backupVaultName: string;
   /** An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Backup under a Backup Vault */
 export interface Backup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Backup Properties */
   properties: BackupProperties;
 }
@@ -3144,7 +3153,7 @@ export interface BackupsList {
   /** The Backup items on this page */
   value: BackupsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3159,21 +3168,21 @@ export type BackupPolicyTagsMap = { [key: string]: string | undefined };
 /** Backup policy information */
 export interface BackupPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BackupPolicyTagsMap;
+  tags?: BackupPolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup policy Properties */
   properties: BackupPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The BackupPolicy items on this page */
 export type BackupPoliciesListValueList = Array<BackupPolicy>;
@@ -3182,7 +3191,7 @@ export interface BackupPoliciesList {
   /** The BackupPolicy items on this page */
   value: BackupPoliciesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBackupVaultByNetAppAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3197,19 +3206,19 @@ export type BackupVaultTagsMap = { [key: string]: string | undefined };
 /** Backup Vault information */
 export interface BackupVault {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BackupVaultTagsMap;
+  tags?: BackupVaultTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup Vault Properties */
-  properties?: BackupVaultProperties;
+  properties?: BackupVaultProperties | undefined;
 }
 /** The BackupVault items on this page */
 export type BackupVaultsListValueList = Array<BackupVault>;
@@ -3218,7 +3227,7 @@ export interface BackupVaultsList {
   /** The BackupVault items on this page */
   value: BackupVaultsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBucketsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3235,15 +3244,15 @@ export interface ListBucketsRequest {
 /** Bucket resource */
 export interface Bucket {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bucket properties */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
 }
 /** The Bucket items on this page */
 export type BucketListValueList = Array<Bucket>;
@@ -3252,7 +3261,7 @@ export interface BucketList {
   /** The Bucket items on this page */
   value: BucketListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCachesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3271,23 +3280,23 @@ export type CacheZonesList = Array<string>;
 /** Cache resource */
 export interface Cache {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CacheTagsMap;
+  tags?: CacheTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: CacheZonesList;
+  zones?: CacheZonesList | undefined;
 }
 /** The Cache items on this page */
 export type CacheListValueList = Array<Cache>;
@@ -3296,7 +3305,7 @@ export interface CacheList {
   /** The Cache items on this page */
   value: CacheListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCachPeeringPassphrasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3319,7 +3328,7 @@ export interface PeeringPassphrases {
   /** The vserver peering command. */
   vserverPeeringCommand: string;
   /** Warnings that are critical for the cluster peering and vserver peering processes. */
-  criticalWarning?: string;
+  criticalWarning?: string | undefined;
 }
 export interface ListNetAppResourceQuotaLimitsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3330,15 +3339,15 @@ export interface ListNetAppResourceQuotaLimitsRequest {
 /** Information regarding Quota Item. */
 export interface QuotaItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** QuotaItem properties */
-  properties?: QuotaItemProperties;
+  properties?: QuotaItemProperties | undefined;
 }
 /** The QuotaItem items on this page */
 export type QuotaItemListValueList = Array<QuotaItem>;
@@ -3347,7 +3356,7 @@ export interface QuotaItemList {
   /** The QuotaItem items on this page */
   value: QuotaItemListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetAppResourceQuotaLimitsAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3366,15 +3375,15 @@ export interface ListNetAppResourceRegionInfosRequest {
 /** Information regarding regionInfo Item. */
 export interface RegionInfoResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** regionInfo properties */
-  properties?: RegionInfo;
+  properties?: RegionInfo | undefined;
 }
 /** The RegionInfoResource items on this page */
 export type RegionInfosListValueList = Array<RegionInfoResource>;
@@ -3383,7 +3392,7 @@ export interface RegionInfosList {
   /** The RegionInfoResource items on this page */
   value: RegionInfosListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetAppResourceUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3398,19 +3407,19 @@ export interface UsagesListResult {
   /** The UsageResult items on this page */
   value: UsagesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft NetApp. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 export type MetricAggregationType = "Average";
 /** Support metric aggregation type. */
@@ -3420,80 +3429,80 @@ export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Dimension of blobs, possibly be blob type or access tier. */
 export interface Dimension {
   /** Display name of dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Dimensions of blobs, including blob type and access tier. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Metric specification of operation. */
 export interface MetricSpecification {
   /** Name of metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit could be Bytes or Count. */
-  unit?: string;
+  unit?: string | undefined;
   /** Support metric aggregation type. */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** The supported time grain types for the metrics. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** The internal metric name. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** Whether or not the service is using regional MDM accounts. */
-  enableRegionalMdmAccount?: boolean;
+  enableRegionalMdmAccount?: boolean | undefined;
   /** The source MDM account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** The source MDM namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Dimensions of blobs, including blob type and access tier. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Aggregation type could be Average. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The property to decide fill gap with zero or not. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** The category this metric specification belong to, could be Capacity. */
-  category?: string;
+  category?: string | undefined;
   /** Account Resource Id. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** Whether the metric is internal. */
-  isInternal?: boolean;
+  isInternal?: boolean | undefined;
 }
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Log Definition of a single resource metric. */
 export interface LogSpecification {
   /** Name of log specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of log specification. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Log specification of operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** One property of operation, include metric specifications. */
 export interface ServiceSpecification {
   /** Metric specifications of operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Log specification of operation. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
   /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Microsoft.NetApp REST API operation definition. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The origin of operations. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of operation, include metric specifications. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -3502,7 +3511,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3517,21 +3526,21 @@ export type CapacityPoolTagsMap = { [key: string]: string | undefined };
 /** Capacity pool resource */
 export interface CapacityPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CapacityPoolTagsMap;
+  tags?: CapacityPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Capacity pool properties */
   properties: PoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The CapacityPool items on this page */
 export type CapacityPoolListValueList = Array<CapacityPool>;
@@ -3540,7 +3549,7 @@ export interface CapacityPoolList {
   /** The CapacityPool items on this page */
   value: CapacityPoolListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRansomwareReportsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3557,15 +3566,15 @@ export interface ListRansomwareReportsRequest {
 /** Advanced Ransomware Protection (ARP) report Get details of the specified Advanced Ransomware Protection report (ARP). ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions. ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data. */
 export interface RansomwareReport {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Advanced Ransomware Protection reports Properties */
-  properties?: RansomwareReportProperties;
+  properties?: RansomwareReportProperties | undefined;
 }
 /** The RansomwareReport items on this page */
 export type RansomwareReportsListValueList = Array<RansomwareReport>;
@@ -3574,7 +3583,7 @@ export interface RansomwareReportsList {
   /** The RansomwareReport items on this page */
   value: RansomwareReportsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSnapshotPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3589,21 +3598,21 @@ export type SnapshotPolicyTagsMap = { [key: string]: string | undefined };
 /** Snapshot policy information */
 export interface SnapshotPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SnapshotPolicyTagsMap;
+  tags?: SnapshotPolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Snapshot policy Properties */
   properties: SnapshotPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The SnapshotPolicy items on this page */
 export type SnapshotPoliciesListValueList = Array<SnapshotPolicy>;
@@ -3612,7 +3621,7 @@ export interface SnapshotPoliciesList {
   /** The SnapshotPolicy items on this page */
   value: SnapshotPoliciesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSnapshotPolicyVolumesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3631,23 +3640,23 @@ export type VolumeZonesList = Array<string>;
 /** Volume resource */
 export interface Volume {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumeTagsMap;
+  tags?: VolumeTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: VolumeZonesList;
+  zones?: VolumeZonesList | undefined;
 }
 /** The Volume items on this page */
 export type SnapshotPolicyVolumeListValueList = Array<Volume>;
@@ -3656,7 +3665,7 @@ export interface SnapshotPolicyVolumeList {
   /** The Volume items on this page */
   value: SnapshotPolicyVolumeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSnapshotsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3673,15 +3682,15 @@ export interface ListSnapshotsRequest {
 /** Snapshot of a Volume */
 export interface Snapshot {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot Properties */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
   /** Resource location */
   location: string;
 }
@@ -3692,7 +3701,7 @@ export interface SnapshotsList {
   /** The Snapshot items on this page */
   value: SnapshotsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeGroupByNetAppAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3705,22 +3714,22 @@ export interface ListVolumeGroupByNetAppAccountRequest {
 /** Volume group properties */
 export interface VolumeGroupListProperties {
   /** Azure lifecycle management */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Volume group details */
-  groupMetaData?: VolumeGroupMetaData;
+  groupMetaData?: VolumeGroupMetaData | undefined;
 }
 /** Volume group resource */
 export interface VolumeGroup {
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Volume group properties */
-  properties?: VolumeGroupListProperties;
+  properties?: VolumeGroupListProperties | undefined;
 }
 /** The VolumeGroup items on this page */
 export type VolumeGroupListValueList = Array<VolumeGroup>;
@@ -3729,7 +3738,7 @@ export interface VolumeGroupList {
   /** The VolumeGroup items on this page */
   value: VolumeGroupListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeQuotaReportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3743,44 +3752,44 @@ export interface ListVolumeQuotaReportRequest {
   /** The name of the volume */
   volumeName: string;
   /** Type of quota. If provided, quotaTarget must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota type, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided. */
-  quotaType?: QuotaType | (string & {});
+  quotaType?: QuotaType | (string & {}) | undefined;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid>. If provided, quotaType must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota target, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided. */
-  quotaTarget?: string;
+  quotaTarget?: string | undefined;
   /** The usageThresholdPercentage filter takes the usage threshold percentage and returns records where the usage is greater than or equal to the input value. This is an optional property. */
-  usageThresholdPercentage?: number;
+  usageThresholdPercentage?: number | undefined;
 }
 /** Quota report record properties */
 export interface QuotaReport {
   /** Type of quota */
-  quotaType?: QuotaType;
+  quotaType?: QuotaType | undefined;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
+  quotaTarget?: string | undefined;
   /** Specifies the current usage in kibibytes for the user/group quota. */
-  quotaLimitUsedInKiBs?: number;
+  quotaLimitUsedInKiBs?: number | undefined;
   /** Specifies the total size limit in kibibytes for the user/group quota. */
-  quotaLimitTotalInKiBs?: number;
+  quotaLimitTotalInKiBs?: number | undefined;
   /** Percentage of used size compared to total size. */
-  percentageUsed?: number;
+  percentageUsed?: number | undefined;
   /** Flag to indicate whether the quota is derived from default quota. */
-  isDerivedQuota?: boolean;
+  isDerivedQuota?: boolean | undefined;
 }
 /** List of quota reports */
 export type ListQuotaReportResponseQuotaReportRecordsList = Array<QuotaReport>;
 /** Quota Report for volume */
 export interface ListQuotaReportResponse {
   /** List of quota reports */
-  quotaReportRecords?: ListQuotaReportResponseQuotaReportRecordsList;
+  quotaReportRecords?: ListQuotaReportResponseQuotaReportRecordsList | undefined;
 }
 /** * Result of ListQuotaReportResponse */
 export interface ListQuotaReportResult {
   /** Represents the properties of the ListQuotaReport. */
-  properties?: ListQuotaReportResponse;
+  properties?: ListQuotaReportResponse | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListVolumeQuotaRuleByVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3799,19 +3808,19 @@ export type VolumeQuotaRuleTagsMap = { [key: string]: string | undefined };
 /** Quota Rule of a Volume */
 export interface VolumeQuotaRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumeQuotaRuleTagsMap;
+  tags?: VolumeQuotaRuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  properties?: VolumeQuotaRulesProperties | undefined;
 }
 /** The VolumeQuotaRule items on this page */
 export type VolumeQuotaRulesListValueList = Array<VolumeQuotaRule>;
@@ -3820,7 +3829,7 @@ export interface VolumeQuotaRulesList {
   /** The VolumeQuotaRule items on this page */
   value: VolumeQuotaRulesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
 export type ListVolumeReplicationsRequestExclude = "None" | "Deleted";
@@ -3836,28 +3845,28 @@ export interface ListVolumeReplicationsRequest {
   /** The name of the volume */
   volumeName: string;
   /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
-  exclude?: ListVolumeReplicationsRequestExclude | (string & {});
+  exclude?: ListVolumeReplicationsRequestExclude | (string & {}) | undefined;
 }
 /** The status of the replication */
 export type ReplicationMirrorState = "Uninitialized" | "Mirrored" | "Broken";
 /** Replication properties */
 export interface Replication {
   /** UUID v4 used to identify the replication. */
-  replicationId?: string;
+  replicationId?: string | undefined;
   /** Indicates whether the local volume is the source or destination for the Volume Replication */
-  endpointType?: EndpointType;
+  endpointType?: EndpointType | undefined;
   /** Schedule */
-  replicationSchedule?: ReplicationSchedule;
+  replicationSchedule?: ReplicationSchedule | undefined;
   /** The resource ID of the remote volume. */
-  remoteVolumeResourceId?: string;
+  remoteVolumeResourceId?: string | undefined;
   /** The remote region for the other end of the Volume Replication. */
-  remoteVolumeRegion?: string;
+  remoteVolumeRegion?: string | undefined;
   /** The status of the replication */
-  mirrorState?: ReplicationMirrorState;
+  mirrorState?: ReplicationMirrorState | undefined;
   /** Replication creation time */
-  replicationCreationTime?: string;
+  replicationCreationTime?: string | undefined;
   /** Replication deletion time */
-  replicationDeletionTime?: string;
+  replicationDeletionTime?: string | undefined;
 }
 /** The Replication items on this page */
 export type ListReplicationsValueList = Array<Replication>;
@@ -3866,7 +3875,7 @@ export interface ListReplications {
   /** The Replication items on this page */
   value: ListReplicationsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3885,7 +3894,7 @@ export interface VolumeList {
   /** The Volume items on this page */
   value: VolumeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MigrateBackupsUnderAccountBackupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3899,9 +3908,9 @@ export interface MigrateBackupsUnderAccountBackupsRequest {
 }
 export interface MigrateBackupsUnderAccountBackupsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MigrateBackupsUnderVolumeBackupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3919,9 +3928,9 @@ export interface MigrateBackupsUnderVolumeBackupsRequest {
 }
 export interface MigrateBackupsUnderVolumeBackupsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetAppResourceQueryRegionInfoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3949,13 +3958,13 @@ export interface PoolPropertiesInput {
   /** The service level of the file system */
   serviceLevel: PoolPropertiesInputServiceLevel | (string & {});
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number | null | undefined;
   /** The qos type of the pool */
-  qosType?: PoolPropertiesInputQosType | (string & {});
+  qosType?: PoolPropertiesInputQosType | (string & {}) | undefined;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
-  encryptionType?: PoolPropertiesInputEncryptionType | (string & {}) | null;
+  encryptionType?: PoolPropertiesInputEncryptionType | (string & {}) | null | undefined;
 }
 export interface PoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3967,7 +3976,7 @@ export interface PoolsCreateOrUpdateRequest {
   /** The name of the capacity pool */
   poolName: string;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateRequestTagsMap;
+  tags?: PoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Capacity pool properties */
@@ -3977,25 +3986,25 @@ export interface PoolsCreateOrUpdateRequest {
 export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateResponseTagsMap;
+  tags?: PoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Capacity pool properties */
   properties: PoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshBucketCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4013,11 +4022,11 @@ export interface RefreshBucketCertificateRequest {
 }
 export interface RefreshBucketCertificateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RenewAccountCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4029,9 +4038,9 @@ export interface RenewAccountCredentialsRequest {
 }
 export interface RenewAccountCredentialsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResetCachSmbPasswordRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4051,27 +4060,27 @@ export type ResetCachSmbPasswordResponseTagsMap = { [key: string]: string | unde
 export type ResetCachSmbPasswordResponseZonesList = Array<string>;
 export interface ResetCachSmbPasswordResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResetCachSmbPasswordResponseTagsMap;
+  tags?: ResetCachSmbPasswordResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: ResetCachSmbPasswordResponseZonesList;
+  zones?: ResetCachSmbPasswordResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResetVolumeCifsPasswordRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4087,9 +4096,9 @@ export interface ResetVolumeCifsPasswordRequest {
 }
 export interface ResetVolumeCifsPasswordResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of files to be restored */
 export type RestoreBackupsUnderBackupVaultFilesRequestFileListList = Array<string>;
@@ -4107,15 +4116,15 @@ export interface RestoreBackupsUnderBackupVaultFilesRequest {
   /** List of files to be restored */
   fileList: RestoreBackupsUnderBackupVaultFilesRequestFileListList;
   /** Destination folder where the files will be restored. The path name should start with a forward slash. If it is omitted from request then restore is done at the root folder of the destination volume by default */
-  restoreFilePath?: string;
+  restoreFilePath?: string | undefined;
   /** Resource Id of the destination volume on which the files need to be restored */
   destinationVolumeId: string;
 }
 export interface RestoreBackupsUnderBackupVaultFilesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of files to be restored */
 export type RestoreSnapshotFilesRequestFilePathsList = Array<string>;
@@ -4135,13 +4144,13 @@ export interface RestoreSnapshotFilesRequest {
   /** List of files to be restored */
   filePaths: RestoreSnapshotFilesRequestFilePathsList;
   /** Destination folder where the files will be restored */
-  destinationPath?: string;
+  destinationPath?: string | undefined;
 }
 export interface RestoreSnapshotFilesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SetNetAppResourceQueryNetworkSiblingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4166,26 +4175,26 @@ export type NicInfoVolumeResourceIdsList = Array<string>;
 /** NIC information and list of volumes for which the NIC has the primary mount IP Address. */
 export interface NicInfo {
   /** IP Address */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Volume resource Ids */
-  volumeResourceIds?: NicInfoVolumeResourceIdsList;
+  volumeResourceIds?: NicInfoVolumeResourceIdsList | undefined;
 }
 /** List of NIC information */
 export type NetworkSiblingSetNicInfoListList = Array<NicInfo>;
 /** Describes the contents of a network sibling set. */
 export interface NetworkSiblingSet {
   /** Network Sibling Set ID for a group of volumes sharing networking resources in a subnet. */
-  networkSiblingSetId?: string;
+  networkSiblingSetId?: string | undefined;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet} */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Network sibling set state Id identifying the current state of the sibling set. */
-  networkSiblingSetStateId?: string;
+  networkSiblingSetStateId?: string | undefined;
   /** Network features available to the volume, or current state of update. */
-  networkFeatures?: NetworkSiblingSetNetworkFeatures;
+  networkFeatures?: NetworkSiblingSetNetworkFeatures | undefined;
   /** Gets the status of the NetworkSiblingSet at the time the operation was called. */
-  provisioningState?: NetworkSiblingSetProvisioningState;
+  provisioningState?: NetworkSiblingSetProvisioningState | undefined;
   /** List of NIC information */
-  nicInfoList?: NetworkSiblingSetNicInfoListList;
+  nicInfoList?: NetworkSiblingSetNicInfoListList | undefined;
 }
 export interface TransferVolumesPerformReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4201,9 +4210,9 @@ export interface TransferVolumesPerformReplicationRequest {
 }
 export interface TransferVolumesPerformReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -4215,7 +4224,7 @@ export type UpdateAccountRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateAccountRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAccountRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateAccountRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4225,13 +4234,13 @@ export interface UpdateAccountRequest {
   /** The name of the NetApp account */
   accountName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** NetApp Account properties */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAccountRequestIdentity;
+  identity?: UpdateAccountRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -4242,41 +4251,41 @@ export type UpdateAccountResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateAccountResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAccountResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateAccountResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** NetApp Account properties */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAccountResponseIdentity;
+  identity?: UpdateAccountResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Backup patch properties */
 export interface BackupPatchProperties {
   /** Label for backup */
-  label?: string;
+  label?: string | undefined;
 }
 export interface UpdateBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4290,23 +4299,23 @@ export interface UpdateBackupRequest {
   /** The name of the backup */
   backupName: string;
   /** Backup Patch Properties */
-  properties?: BackupPatchProperties;
+  properties?: BackupPatchProperties | undefined;
 }
 export interface UpdateBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Backup Properties */
   properties: BackupProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateBackupPolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -4320,35 +4329,35 @@ export interface UpdateBackupPolicyRequest {
   /** Backup policy Name which uniquely identify backup policy. */
   backupPolicyName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateBackupPolicyRequestTagsMap;
+  tags?: UpdateBackupPolicyRequestTagsMap | undefined;
   /** Backup policy Properties */
-  properties?: BackupPolicyPropertiesInput;
+  properties?: BackupPolicyPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBackupPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupPolicyResponseTagsMap;
+  tags?: UpdateBackupPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup policy Properties */
   properties: BackupPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateBackupVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -4362,29 +4371,29 @@ export interface UpdateBackupVaultRequest {
   /** The name of the Backup Vault */
   backupVaultName: string;
   /** Resource tags */
-  tags?: UpdateBackupVaultRequestTagsMap;
+  tags?: UpdateBackupVaultRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBackupVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupVaultResponseTagsMap;
+  tags?: UpdateBackupVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Backup Vault Properties */
-  properties?: BackupVaultProperties;
+  properties?: BackupVaultProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of the server managing the lifecycle of volume buckets */
 export type BucketServerPatchProperties = BucketServerPropertiesInput;
@@ -4393,13 +4402,13 @@ export type BucketPatchPermissions = "ReadOnly" | "ReadWrite";
 /** Bucket resource properties for a Patch operation */
 export interface BucketPatchPropertiesInput {
   /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
+  fileSystemUser?: FileSystemUser | undefined;
   /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerPropertiesInput;
+  server?: BucketServerPropertiesInput | undefined;
   /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
-  permissions?: BucketPatchPermissions | (string & {});
+  permissions?: BucketPatchPermissions | (string & {}) | undefined;
   /** Specifies the Azure Key Vault settings. These are used when a) retrieving the bucket server certificate, and b) storing the bucket credentials Notes: 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property. 2. These properties are mutually exclusive with the server.certificateObject property. */
-  akvDetails?: AzureKeyVaultDetails;
+  akvDetails?: AzureKeyVaultDetails | undefined;
 }
 export interface UpdateBucketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4415,25 +4424,25 @@ export interface UpdateBucketRequest {
   /** The name of the bucket */
   bucketName: string;
   /** Bucket properties */
-  properties?: BucketPatchPropertiesInput;
+  properties?: BucketPatchPropertiesInput | undefined;
 }
 export interface UpdateBucketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bucket properties */
-  properties?: BucketProperties;
+  properties?: BucketProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateCachRequestTagsMap = { [key: string]: string | undefined };
@@ -4442,21 +4451,21 @@ export type CacheUpdatePropertiesProtocolTypesList = Array<ProtocolTypes | (stri
 /** The updatable properties of the Cache. */
 export interface CacheUpdateProperties {
   /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
-  size?: number;
+  size?: number | undefined;
   /** Set of export policy rules */
-  exportPolicy?: CachePropertiesExportPolicy;
+  exportPolicy?: CachePropertiesExportPolicy | undefined;
   /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
-  protocolTypes?: CacheUpdatePropertiesProtocolTypesList;
+  protocolTypes?: CacheUpdatePropertiesProtocolTypesList | undefined;
   /** SMB information for the cache */
-  smbSettings?: SmbSettings;
+  smbSettings?: SmbSettings | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache */
-  throughputMibps?: number;
+  throughputMibps?: number | undefined;
   /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
-  keyVaultPrivateEndpointResourceId?: string;
+  keyVaultPrivateEndpointResourceId?: string | undefined;
   /** Flag indicating whether a CIFS change notification is enabled for the cache. */
-  cifsChangeNotifications?: CifsChangeNotifyState | (string & {});
+  cifsChangeNotifications?: CifsChangeNotifyState | (string & {}) | undefined;
   /** Flag indicating whether writeback is enabled for the cache. */
-  writeBack?: EnableWriteBackState | (string & {});
+  writeBack?: EnableWriteBackState | (string & {}) | undefined;
 }
 export interface UpdateCachRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4470,9 +4479,9 @@ export interface UpdateCachRequest {
   /** The name of the cache resource. */
   cacheName: string;
   /** Resource tags. */
-  tags?: UpdateCachRequestTagsMap;
+  tags?: UpdateCachRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CacheUpdateProperties;
+  properties?: CacheUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateCachResponseTagsMap = { [key: string]: string | undefined };
@@ -4480,29 +4489,29 @@ export type UpdateCachResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateCachResponseZonesList = Array<string>;
 export interface UpdateCachResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCachResponseTagsMap;
+  tags?: UpdateCachResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Cache properties */
   properties: CacheProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: UpdateCachResponseZonesList;
+  zones?: UpdateCachResponseZonesList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network features available to the volume. */
 export type UpdateNetAppResourceNetworkSiblingSetRequestNetworkFeatures =
@@ -4527,21 +4536,21 @@ export interface UpdateNetAppResourceNetworkSiblingSetRequest {
 /** Describes the contents of a network sibling set. */
 export interface UpdateNetAppResourceNetworkSiblingSetResponse {
   /** Network Sibling Set ID for a group of volumes sharing networking resources in a subnet. */
-  networkSiblingSetId?: string;
+  networkSiblingSetId?: string | undefined;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet} */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Network sibling set state Id identifying the current state of the sibling set. */
-  networkSiblingSetStateId?: string;
+  networkSiblingSetStateId?: string | undefined;
   /** Network features available to the volume, or current state of update. */
-  networkFeatures?: NetworkSiblingSetNetworkFeatures;
+  networkFeatures?: NetworkSiblingSetNetworkFeatures | undefined;
   /** Gets the status of the NetworkSiblingSet at the time the operation was called. */
-  provisioningState?: NetworkSiblingSetProvisioningState;
+  provisioningState?: NetworkSiblingSetProvisioningState | undefined;
   /** List of NIC information */
-  nicInfoList?: NetworkSiblingSetNicInfoListList;
+  nicInfoList?: NetworkSiblingSetNicInfoListList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdatePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -4550,13 +4559,13 @@ export type QosType = "Auto" | "Manual";
 /** Patchable pool properties */
 export interface PoolPatchProperties {
   /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
-  size?: number;
+  size?: number | undefined;
   /** The qos type of the pool */
-  qosType?: QosType | (string & {});
+  qosType?: QosType | (string & {}) | undefined;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number | null | undefined;
 }
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4568,35 +4577,35 @@ export interface UpdatePoolRequest {
   /** The name of the capacity pool */
   poolName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdatePoolRequestTagsMap;
+  tags?: UpdatePoolRequestTagsMap | undefined;
   /** Capacity pool properties */
-  properties?: PoolPatchProperties;
+  properties?: PoolPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolResponseTagsMap;
+  tags?: UpdatePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Capacity pool properties */
   properties: PoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4614,21 +4623,21 @@ export interface UpdateSnapshotRequest {
 }
 export interface UpdateSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Snapshot Properties */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
   /** Resource location */
   location: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateSnapshotPolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -4642,35 +4651,35 @@ export interface UpdateSnapshotPolicyRequest {
   /** The name of the snapshot policy */
   snapshotPolicyName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateSnapshotPolicyRequestTagsMap;
+  tags?: UpdateSnapshotPolicyRequestTagsMap | undefined;
   /** Snapshot Policy properties */
-  properties?: SnapshotPolicyPropertiesInput;
+  properties?: SnapshotPolicyPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSnapshotPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSnapshotPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSnapshotPolicyResponseTagsMap;
+  tags?: UpdateSnapshotPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Snapshot policy Properties */
   properties: SnapshotPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVolumeRequestTagsMap = { [key: string]: string | undefined };
@@ -4681,60 +4690,60 @@ export type VolumePatchPropertiesExportPolicyRulesList = Array<ExportPolicyRule>
 /** Set of export policy rules */
 export interface VolumePatchPropertiesExportPolicy {
   /** Export policy rule */
-  rules?: VolumePatchPropertiesExportPolicyRulesList;
+  rules?: VolumePatchPropertiesExportPolicyRulesList | undefined;
 }
 /** Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS. The value SMB isn't supported in the protocolTypes property. Default: NFSv3 */
 export type VolumePatchPropertiesProtocolTypesList = Array<string>;
 /** Advanced Ransomware Protection reports (ARP) updatable settings */
 export interface RansomwareProtectionPatchSettings {
   /** The desired value of the ARP feature state available to the volume */
-  desiredRansomwareProtectionState?: DesiredRansomwareProtectionState | (string & {});
+  desiredRansomwareProtectionState?: DesiredRansomwareProtectionState | (string & {}) | undefined;
 }
 /** DataProtection type volumes include an object containing details of the replication */
 export interface VolumePatchPropertiesDataProtection {
   /** Backup Properties */
-  backup?: VolumeBackupProperties;
+  backup?: VolumeBackupProperties | undefined;
   /** Snapshot properties. */
-  snapshot?: VolumeSnapshotProperties;
+  snapshot?: VolumeSnapshotProperties | undefined;
   /** Advanced Ransomware Protection updatable settings */
-  ransomwareProtection?: RansomwareProtectionPatchSettings;
+  ransomwareProtection?: RansomwareProtectionPatchSettings | undefined;
 }
 /** Patchable volume properties */
 export interface VolumePatchProperties {
   /** The service level of the file system */
-  serviceLevel?: ServiceLevel | (string & {});
+  serviceLevel?: ServiceLevel | (string & {}) | undefined;
   /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
-  usageThreshold?: number;
+  usageThreshold?: number | undefined;
   /** Set of export policy rules */
-  exportPolicy?: VolumePatchPropertiesExportPolicy;
+  exportPolicy?: VolumePatchPropertiesExportPolicy | undefined;
   /** Specify the protocol types for the volume. Supported values are NFSv3, NFSv4.1, and CIFS. For SMB volumes, specify CIFS. The value SMB isn't supported in the protocolTypes property. Default: NFSv3 */
-  protocolTypes?: VolumePatchPropertiesProtocolTypesList;
+  protocolTypes?: VolumePatchPropertiesProtocolTypesList | undefined;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
-  throughputMibps?: number;
+  throughputMibps?: number | undefined;
   /** DataProtection type volumes include an object containing details of the replication */
-  dataProtection?: VolumePatchPropertiesDataProtection;
+  dataProtection?: VolumePatchPropertiesDataProtection | undefined;
   /** Specifies if default quota is enabled for the volume. */
-  isDefaultQuotaEnabled?: boolean;
+  isDefaultQuotaEnabled?: boolean | undefined;
   /** Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies . */
-  defaultUserQuotaInKiBs?: number;
+  defaultUserQuotaInKiBs?: number | undefined;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
-  defaultGroupQuotaInKiBs?: number;
+  defaultGroupQuotaInKiBs?: number | undefined;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string | null | undefined;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
-  coolAccess?: boolean;
+  coolAccess?: boolean | undefined;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
-  coolnessPeriod?: number;
+  coolnessPeriod?: number | undefined;
   /** coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are: Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default. OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage. */
-  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy | (string & {});
+  coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy | (string & {}) | undefined;
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
-  coolAccessTieringPolicy?: CoolAccessTieringPolicy | (string & {});
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy | (string & {}) | undefined;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
-  snapshotDirectoryVisible?: boolean;
+  snapshotDirectoryVisible?: boolean | undefined;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | (string & {}) | null | undefined;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbNonBrowsable?: SmbNonBrowsable | (string & {});
+  smbNonBrowsable?: SmbNonBrowsable | (string & {}) | undefined;
 }
 export interface UpdateVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4748,11 +4757,11 @@ export interface UpdateVolumeRequest {
   /** The name of the volume */
   volumeName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateVolumeRequestTagsMap;
+  tags?: UpdateVolumeRequestTagsMap | undefined;
   /** Patchable volume properties */
-  properties?: VolumePatchProperties;
+  properties?: VolumePatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateVolumeResponseTagsMap = { [key: string]: string | undefined };
@@ -4760,27 +4769,27 @@ export type UpdateVolumeResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateVolumeResponseZonesList = Array<string>;
 export interface UpdateVolumeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVolumeResponseTagsMap;
+  tags?: UpdateVolumeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: UpdateVolumeResponseZonesList;
+  zones?: UpdateVolumeResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateVolumeQuotaRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -4798,31 +4807,31 @@ export interface UpdateVolumeQuotaRuleRequest {
   /** The name of volume quota rule */
   volumeQuotaRuleName: string;
   /** Resource tags */
-  tags?: UpdateVolumeQuotaRuleRequestTagsMap;
+  tags?: UpdateVolumeQuotaRuleRequestTagsMap | undefined;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesPropertiesInput;
+  properties?: VolumeQuotaRulesPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVolumeQuotaRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVolumeQuotaRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVolumeQuotaRuleResponseTagsMap;
+  tags?: UpdateVolumeQuotaRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume Quota Rule Properties */
-  properties?: VolumeQuotaRulesProperties;
+  properties?: VolumeQuotaRulesProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesBreakFileLocksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4836,15 +4845,15 @@ export interface VolumesBreakFileLocksRequest {
   /** The name of the volume */
   volumeName: string;
   /** To clear file locks on a volume for a particular client */
-  clientIp?: string;
+  clientIp?: string | undefined;
   /** Break File locks could be a disruptive operation for application as locks on the volume will be broken, if want to process, set to true. */
-  confirmRunningDisruptiveOperation?: boolean;
+  confirmRunningDisruptiveOperation?: boolean | undefined;
 }
 export interface VolumesBreakFileLocksResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesBreakReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4858,13 +4867,13 @@ export interface VolumesBreakReplicationRequest {
   /** The name of the volume */
   volumeName: string;
   /** If replication is in status transferring and you want to force break the replication, set to true */
-  forceBreakReplication?: boolean;
+  forceBreakReplication?: boolean | undefined;
 }
 export interface VolumesBreakReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VolumesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4882,13 +4891,13 @@ export interface VolumesCreateOrUpdateRequest {
   /** The name of the volume */
   volumeName: string;
   /** Resource tags. */
-  tags?: VolumesCreateOrUpdateRequestTagsMap;
+  tags?: VolumesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumePropertiesInput;
   /** The availability zones. */
-  zones?: VolumesCreateOrUpdateRequestZonesList;
+  zones?: VolumesCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type VolumesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -4896,29 +4905,29 @@ export type VolumesCreateOrUpdateResponseTagsMap = { [key: string]: string | und
 export type VolumesCreateOrUpdateResponseZonesList = Array<string>;
 export interface VolumesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumesCreateOrUpdateResponseTagsMap;
+  tags?: VolumesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: VolumesCreateOrUpdateResponseZonesList;
+  zones?: VolumesCreateOrUpdateResponseZonesList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface VolumesListGetGroupIdListForLdapUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4939,13 +4948,13 @@ export type GetGroupIdListForLdapUserResponseGroupIdsForLdapUserList = Array<str
 /** Group Id list for Ldap user */
 export interface GetGroupIdListForLdapUserResponse {
   /** Group Id list */
-  groupIdsForLdapUser?: GetGroupIdListForLdapUserResponseGroupIdsForLdapUserList;
+  groupIdsForLdapUser?: GetGroupIdListForLdapUserResponseGroupIdsForLdapUserList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A list of IC-LIF IPs that can be used to connect to the On-prem cluster */
 export type VolumesPeerExternalClusterRequestPeerIpAddressesList = Array<string>;
@@ -4966,20 +4975,20 @@ export interface VolumesPeerExternalClusterRequest {
 /** Properties of the cluster peer command response. */
 export interface ClusterPeerCommandResponseProperties {
   /** ClusterPeeringCommand to run to accept cluster peer. Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code>. */
-  clusterPeeringCommand?: string;
+  clusterPeeringCommand?: string | undefined;
   /** Passphrase for use with cluster peer command */
-  passphrase?: string;
+  passphrase?: string | undefined;
 }
 /** Information about cluster peering process */
 export interface ClusterPeerCommandResponse {
   /** Represents the properties of the cluster peer command response. */
-  properties?: ClusterPeerCommandResponseProperties;
+  properties?: ClusterPeerCommandResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesPoolChangeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4997,9 +5006,9 @@ export interface VolumesPoolChangeRequest {
 }
 export interface VolumesPoolChangeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesPopulateAvailabilityZoneRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5019,27 +5028,27 @@ export type VolumesPopulateAvailabilityZoneResponseTagsMap = { [key: string]: st
 export type VolumesPopulateAvailabilityZoneResponseZonesList = Array<string>;
 export interface VolumesPopulateAvailabilityZoneResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumesPopulateAvailabilityZoneResponseTagsMap;
+  tags?: VolumesPopulateAvailabilityZoneResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: VolumesPopulateAvailabilityZoneResponseZonesList;
+  zones?: VolumesPopulateAvailabilityZoneResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesReestablishReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5053,13 +5062,13 @@ export interface VolumesReestablishReplicationRequest {
   /** The name of the volume */
   volumeName: string;
   /** Resource id of the source volume for the replication */
-  sourceVolumeId?: string;
+  sourceVolumeId?: string | undefined;
 }
 export interface VolumesReestablishReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesReInitializeReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5075,9 +5084,9 @@ export interface VolumesReInitializeReplicationRequest {
 }
 export interface VolumesReInitializeReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesRelocateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5091,13 +5100,13 @@ export interface VolumesRelocateRequest {
   /** The name of the volume */
   volumeName: string;
   /** New creation token for the volume that controls the mount point name */
-  creationToken?: string;
+  creationToken?: string | undefined;
 }
 export interface VolumesRelocateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesReplicationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5114,15 +5123,15 @@ export interface VolumesReplicationStatusRequest {
 /** Replication status */
 export interface ReplicationStatus {
   /** Replication health check */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** Status of the mirror relationship */
-  relationshipStatus?: VolumeReplicationRelationshipStatus;
+  relationshipStatus?: VolumeReplicationRelationshipStatus | undefined;
   /** The status of the replication */
-  mirrorState?: MirrorState;
+  mirrorState?: MirrorState | undefined;
   /** The progress of the replication */
-  totalProgress?: string;
+  totalProgress?: string | undefined;
   /** Displays error message if the replication is in an error state */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface VolumesResyncReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5138,9 +5147,9 @@ export interface VolumesResyncReplicationRequest {
 }
 export interface VolumesResyncReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesRevertRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5154,13 +5163,13 @@ export interface VolumesRevertRequest {
   /** The name of the volume */
   volumeName: string;
   /** Resource id of the snapshot */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
 }
 export interface VolumesRevertResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesRevertRelocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5176,9 +5185,9 @@ export interface VolumesRevertRelocationRequest {
 }
 export interface VolumesRevertRelocationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VolumesSplitCloneFromParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5198,27 +5207,27 @@ export type VolumesSplitCloneFromParentResponseTagsMap = { [key: string]: string
 export type VolumesSplitCloneFromParentResponseZonesList = Array<string>;
 export interface VolumesSplitCloneFromParentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumesSplitCloneFromParentResponseTagsMap;
+  tags?: VolumesSplitCloneFromParentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Volume properties */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The availability zones. */
-  zones?: VolumesSplitCloneFromParentResponseZonesList;
+  zones?: VolumesSplitCloneFromParentResponseZonesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AccountsChangeKeyVaultError = AzureOpError;
 /** Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault. */

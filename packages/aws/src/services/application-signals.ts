@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -141,15 +142,15 @@ export interface BatchDeleteByResourceArns {
   InstrumentationType: InstrumentationType;
 }
 export type BatchDeleteDeletionTarget =
-  | { Scope: BatchDeleteScope; ResourceArns?: never }
-  | { Scope?: never; ResourceArns: BatchDeleteByResourceArns };
+  | { Scope: BatchDeleteScope; ResourceArns?: undefined }
+  | { Scope?: undefined; ResourceArns: BatchDeleteByResourceArns };
 export interface BatchDeleteInstrumentationConfigurationsRequest {
   DeletionTarget: BatchDeleteDeletionTarget;
 }
 export interface BatchDeleteSuccessfulDeletion {
-  ResourceArn?: string;
-  SignalType?: string;
-  LocationHash?: string;
+  ResourceArn?: string | undefined;
+  SignalType?: string | undefined;
+  LocationHash?: string | undefined;
 }
 export type BatchDeleteSuccessfulDeletionList = BatchDeleteSuccessfulDeletion[];
 export type BatchDeleteErrorCode =
@@ -203,9 +204,9 @@ export interface Dimension {
 }
 export type Dimensions = Dimension[];
 export interface Metric {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
 }
 export type Period = number;
 export type Stat = string;
@@ -242,7 +243,7 @@ export interface MetricStat {
   Metric: Metric;
   Period: number;
   Stat: string;
-  Unit?: StandardUnit;
+  Unit?: StandardUnit | undefined;
 }
 export type MetricExpression = string;
 export type MetricLabel = string;
@@ -250,12 +251,12 @@ export type ReturnData = boolean;
 export type AccountId = string;
 export interface MetricDataQuery {
   Id: string;
-  MetricStat?: MetricStat;
-  Expression?: string;
-  Label?: string;
-  ReturnData?: boolean;
-  Period?: number;
-  AccountId?: string;
+  MetricStat?: MetricStat | undefined;
+  Expression?: string | undefined;
+  Label?: string | undefined;
+  ReturnData?: boolean | undefined;
+  Period?: number | undefined;
+  AccountId?: string | undefined;
 }
 export type MetricDataQueries = MetricDataQuery[];
 export interface DependencyConfig {
@@ -264,28 +265,28 @@ export interface DependencyConfig {
 }
 export interface MetricSource {
   MetricSourceKeyAttributes: { [key: string]: string | undefined };
-  MetricSourceAttributes?: { [key: string]: string | undefined };
+  MetricSourceAttributes?: { [key: string]: string | undefined } | undefined;
 }
 export type SelectionType = "EXPLICIT" | "PREFIX" | "REGEX" | (string & {});
 export type SelectionPattern = string;
 export interface SelectionConfig {
   Type: SelectionType;
-  Pattern?: string;
+  Pattern?: string | undefined;
 }
 export type CompositeSliComponent = { OperationName: string };
 export type CompositeSliComponents = CompositeSliComponent[];
 export interface CompositeSliConfig {
   SelectionConfig: SelectionConfig;
-  Components?: CompositeSliComponent[];
+  Components?: CompositeSliComponent[] | undefined;
 }
 export interface ServiceLevelIndicatorMetric {
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  MetricType?: ServiceLevelIndicatorMetricType;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  MetricType?: ServiceLevelIndicatorMetricType | undefined;
   MetricDataQueries: MetricDataQuery[];
-  DependencyConfig?: DependencyConfig;
-  MetricSource?: MetricSource;
-  CompositeSliConfig?: CompositeSliConfig;
+  DependencyConfig?: DependencyConfig | undefined;
+  MetricSource?: MetricSource | undefined;
+  CompositeSliConfig?: CompositeSliConfig | undefined;
 }
 export type ServiceLevelIndicatorMetricThreshold = number;
 export type ServiceLevelIndicatorComparisonOperator =
@@ -300,22 +301,22 @@ export interface ServiceLevelIndicator {
   ComparisonOperator: ServiceLevelIndicatorComparisonOperator;
 }
 export type MonitoredRequestCountMetricDataQueries =
-  | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: never }
-  | { GoodCountMetric?: never; BadCountMetric: MetricDataQuery[] };
+  | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: undefined }
+  | { GoodCountMetric?: undefined; BadCountMetric: MetricDataQuery[] };
 export interface RequestBasedServiceLevelIndicatorMetric {
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  MetricType?: ServiceLevelIndicatorMetricType;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  MetricType?: ServiceLevelIndicatorMetricType | undefined;
   TotalRequestCountMetric: MetricDataQuery[];
   MonitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries;
-  DependencyConfig?: DependencyConfig;
-  MetricSource?: MetricSource;
-  CompositeSliConfig?: CompositeSliConfig;
+  DependencyConfig?: DependencyConfig | undefined;
+  MetricSource?: MetricSource | undefined;
+  CompositeSliConfig?: CompositeSliConfig | undefined;
 }
 export interface RequestBasedServiceLevelIndicator {
   RequestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric;
-  MetricThreshold?: number;
-  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
+  MetricThreshold?: number | undefined;
+  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator | undefined;
 }
 export type DurationUnit = "MINUTE" | "HOUR" | "DAY" | "MONTH" | (string & {});
 export type RollingIntervalDuration = number;
@@ -330,34 +331,34 @@ export interface CalendarInterval {
   Duration: number;
 }
 export type Interval =
-  | { RollingInterval: RollingInterval; CalendarInterval?: never }
-  | { RollingInterval?: never; CalendarInterval: CalendarInterval };
+  | { RollingInterval: RollingInterval; CalendarInterval?: undefined }
+  | { RollingInterval?: undefined; CalendarInterval: CalendarInterval };
 export type AttainmentGoal = number;
 export type WarningThreshold = number;
 export interface Goal {
-  Interval?: Interval;
-  AttainmentGoal?: number;
-  WarningThreshold?: number;
+  Interval?: Interval | undefined;
+  AttainmentGoal?: number | undefined;
+  WarningThreshold?: number | undefined;
 }
 export interface ServiceLevelObjectiveBudgetReport {
   Arn: string;
   Name: string;
-  EvaluationType?: EvaluationType;
+  EvaluationType?: EvaluationType | undefined;
   BudgetStatus: ServiceLevelObjectiveBudgetStatus;
-  Attainment?: number;
-  TotalBudgetSeconds?: number;
-  BudgetSecondsRemaining?: number;
-  TotalBudgetRequests?: number;
-  BudgetRequestsRemaining?: number;
-  Sli?: ServiceLevelIndicator;
-  RequestBasedSli?: RequestBasedServiceLevelIndicator;
-  Goal?: Goal;
+  Attainment?: number | undefined;
+  TotalBudgetSeconds?: number | undefined;
+  BudgetSecondsRemaining?: number | undefined;
+  TotalBudgetRequests?: number | undefined;
+  BudgetRequestsRemaining?: number | undefined;
+  Sli?: ServiceLevelIndicator | undefined;
+  RequestBasedSli?: RequestBasedServiceLevelIndicator | undefined;
+  Goal?: Goal | undefined;
 }
 export type ServiceLevelObjectiveBudgetReports = ServiceLevelObjectiveBudgetReport[];
 export type ServiceLevelObjectiveBudgetReportErrorCode = string;
 export type ServiceLevelObjectiveBudgetReportErrorMessage = string;
 export interface ServiceLevelObjectiveBudgetReportError {
-  Name?: string;
+  Name?: string | undefined;
   Arn: string;
   ErrorCode: string;
   ErrorMessage: string;
@@ -375,20 +376,20 @@ export interface Window {
 }
 export type Expression = string;
 export interface RecurrenceRule {
-  Expression?: string;
+  Expression?: string | undefined;
 }
 export type ExclusionReason = string;
 export interface ExclusionWindow {
   Window: Window;
-  StartTime?: Date;
-  RecurrenceRule?: RecurrenceRule;
-  Reason?: string;
+  StartTime?: Date | undefined;
+  RecurrenceRule?: RecurrenceRule | undefined;
+  Reason?: string | undefined;
 }
 export type ExclusionWindows = ExclusionWindow[];
 export interface BatchUpdateExclusionWindowsInput {
   SloIds: string[];
-  AddExclusionWindows?: ExclusionWindow[];
-  RemoveExclusionWindows?: ExclusionWindow[];
+  AddExclusionWindows?: ExclusionWindow[] | undefined;
+  RemoveExclusionWindows?: ExclusionWindow[] | undefined;
 }
 export type ServiceLevelObjectiveId = string;
 export type ExclusionWindowErrorCode = string;
@@ -407,31 +408,31 @@ export type DynamicInstrumentationSignalType = "SNAPSHOT" | (string & {});
 export type ProgrammingLanguage = "Java" | "Python" | "Javascript" | (string & {});
 export interface CodeLocation {
   Language: ProgrammingLanguage;
-  CodeUnit?: string;
-  ClassName?: string;
-  MethodName?: string;
+  CodeUnit?: string | undefined;
+  ClassName?: string | undefined;
+  MethodName?: string | undefined;
   FilePath: string;
-  LineNumber?: number;
+  LineNumber?: number | undefined;
 }
 export type Location = { CodeLocation: CodeLocation };
 export type DynamicInstrumentationAttributeFilterGroup = { [key: string]: string | undefined };
 export type DynamicInstrumentationAttributeFilters = { [key: string]: string | undefined }[];
 export type StringList = string[];
 export interface CaptureLimitsConfig {
-  MaxHits?: number;
-  MaxStringLength?: number;
-  MaxCollectionWidth?: number;
-  MaxCollectionDepth?: number;
-  MaxStackFrames?: number;
-  MaxStackTraceSize?: number;
-  MaxObjectDepth?: number;
-  MaxFieldsPerObject?: number;
+  MaxHits?: number | undefined;
+  MaxStringLength?: number | undefined;
+  MaxCollectionWidth?: number | undefined;
+  MaxCollectionDepth?: number | undefined;
+  MaxStackFrames?: number | undefined;
+  MaxStackTraceSize?: number | undefined;
+  MaxObjectDepth?: number | undefined;
+  MaxFieldsPerObject?: number | undefined;
 }
 export interface CodeCaptureConfiguration {
-  CaptureArguments?: string[];
-  CaptureReturn?: boolean;
-  CaptureStackTrace?: boolean;
-  CaptureLocals?: string[];
+  CaptureArguments?: string[] | undefined;
+  CaptureReturn?: boolean | undefined;
+  CaptureStackTrace?: boolean | undefined;
+  CaptureLocals?: string[] | undefined;
   CaptureLimits: CaptureLimitsConfig;
 }
 export type CaptureConfiguration = { CodeCapture: CodeCaptureConfiguration };
@@ -448,11 +449,11 @@ export interface CreateInstrumentationConfigurationRequest {
   Environment: string;
   SignalType: DynamicInstrumentationSignalType;
   Location: Location;
-  Description?: string;
-  ExpiresAt?: Date;
-  AttributeFilters?: { [key: string]: string | undefined }[];
+  Description?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  AttributeFilters?: { [key: string]: string | undefined }[] | undefined;
   CaptureConfiguration: CaptureConfiguration;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type InstrumentationConfigurationArn = string;
 export interface CreateInstrumentationConfigurationResponse {
@@ -462,9 +463,9 @@ export interface CreateInstrumentationConfigurationResponse {
   SignalType: DynamicInstrumentationSignalType;
   Location: Location;
   LocationHash: string;
-  Description?: string;
-  ExpiresAt?: Date;
-  AttributeFilters?: { [key: string]: string | undefined }[];
+  Description?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  AttributeFilters?: { [key: string]: string | undefined }[] | undefined;
   CaptureConfiguration: CaptureConfiguration;
   CreatedAt: Date;
   ARN: string;
@@ -473,37 +474,37 @@ export type ServiceLevelObjectiveDescription = string;
 export type ServiceLevelIndicatorStatistic = string;
 export type SLIPeriodSeconds = number;
 export interface ServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  MetricType?: ServiceLevelIndicatorMetricType;
-  MetricName?: string;
-  Statistic?: string;
-  PeriodSeconds?: number;
-  MetricSource?: MetricSource;
-  MetricDataQueries?: MetricDataQuery[];
-  DependencyConfig?: DependencyConfig;
-  CompositeSliConfig?: CompositeSliConfig;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  MetricType?: ServiceLevelIndicatorMetricType | undefined;
+  MetricName?: string | undefined;
+  Statistic?: string | undefined;
+  PeriodSeconds?: number | undefined;
+  MetricSource?: MetricSource | undefined;
+  MetricDataQueries?: MetricDataQuery[] | undefined;
+  DependencyConfig?: DependencyConfig | undefined;
+  CompositeSliConfig?: CompositeSliConfig | undefined;
 }
 export interface ServiceLevelIndicatorConfig {
   SliMetricConfig: ServiceLevelIndicatorMetricConfig;
-  MetricThreshold?: number;
-  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
+  MetricThreshold?: number | undefined;
+  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator | undefined;
 }
 export interface RequestBasedServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  MetricType?: ServiceLevelIndicatorMetricType;
-  TotalRequestCountMetric?: MetricDataQuery[];
-  MonitoredRequestCountMetric?: MonitoredRequestCountMetricDataQueries;
-  DependencyConfig?: DependencyConfig;
-  MetricSource?: MetricSource;
-  MetricName?: string;
-  CompositeSliConfig?: CompositeSliConfig;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  MetricType?: ServiceLevelIndicatorMetricType | undefined;
+  TotalRequestCountMetric?: MetricDataQuery[] | undefined;
+  MonitoredRequestCountMetric?: MonitoredRequestCountMetricDataQueries | undefined;
+  DependencyConfig?: DependencyConfig | undefined;
+  MetricSource?: MetricSource | undefined;
+  MetricName?: string | undefined;
+  CompositeSliConfig?: CompositeSliConfig | undefined;
 }
 export interface RequestBasedServiceLevelIndicatorConfig {
   RequestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig;
-  MetricThreshold?: number;
-  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
+  MetricThreshold?: number | undefined;
+  ComparisonOperator?: ServiceLevelIndicatorComparisonOperator | undefined;
 }
 export type BurnRateLookBackWindowMinutes = number;
 export interface BurnRateConfiguration {
@@ -512,14 +513,14 @@ export interface BurnRateConfiguration {
 export type BurnRateConfigurations = BurnRateConfiguration[];
 export interface CreateServiceLevelObjectiveInput {
   Name: string;
-  Description?: string;
-  SliConfig?: ServiceLevelIndicatorConfig;
-  RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig;
-  Goal?: Goal;
-  Tags?: Tag[];
-  BurnRateConfigurations?: BurnRateConfiguration[];
-  CreateRecommendedSlo?: boolean;
-  AutoInvestigationEnabled?: boolean;
+  Description?: string | undefined;
+  SliConfig?: ServiceLevelIndicatorConfig | undefined;
+  RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig | undefined;
+  Goal?: Goal | undefined;
+  Tags?: Tag[] | undefined;
+  BurnRateConfigurations?: BurnRateConfiguration[] | undefined;
+  CreateRecommendedSlo?: boolean | undefined;
+  AutoInvestigationEnabled?: boolean | undefined;
 }
 export type MetricSourceType =
   | "ServiceOperation"
@@ -532,16 +533,16 @@ export type MetricSourceType =
 export interface ServiceLevelObjective {
   Arn: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   CreatedTime: Date;
   LastUpdatedTime: Date;
-  Sli?: ServiceLevelIndicator;
-  RequestBasedSli?: RequestBasedServiceLevelIndicator;
-  EvaluationType?: EvaluationType;
+  Sli?: ServiceLevelIndicator | undefined;
+  RequestBasedSli?: RequestBasedServiceLevelIndicator | undefined;
+  EvaluationType?: EvaluationType | undefined;
   Goal: Goal;
-  BurnRateConfigurations?: BurnRateConfiguration[];
-  MetricSourceType?: MetricSourceType;
-  AutoInvestigationEnabled?: boolean;
+  BurnRateConfigurations?: BurnRateConfiguration[] | undefined;
+  MetricSourceType?: MetricSourceType | undefined;
+  AutoInvestigationEnabled?: boolean | undefined;
 }
 export interface CreateServiceLevelObjectiveOutput {
   Slo: ServiceLevelObjective;
@@ -549,8 +550,8 @@ export interface CreateServiceLevelObjectiveOutput {
 export interface DeleteGroupingConfigurationRequest {}
 export interface DeleteGroupingConfigurationOutput {}
 export type LocationIdentifier =
-  | { CodeLocation: CodeLocation; LocationHash?: never }
-  | { CodeLocation?: never; LocationHash: string };
+  | { CodeLocation: CodeLocation; LocationHash?: undefined }
+  | { CodeLocation?: undefined; LocationHash: string };
 export interface DeleteInstrumentationConfigurationRequest {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -580,9 +581,9 @@ export interface InstrumentationConfiguration {
   SignalType: DynamicInstrumentationSignalType;
   Location: Location;
   LocationHash: string;
-  Description?: string;
-  ExpiresAt?: Date;
-  AttributeFilters?: { [key: string]: string | undefined }[];
+  Description?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  AttributeFilters?: { [key: string]: string | undefined }[] | undefined;
   CaptureConfiguration: CaptureConfiguration;
   CreatedAt: Date;
   ARN: string;
@@ -603,11 +604,11 @@ export interface GetInstrumentationConfigurationStatusRequest {
   Environment: string;
   SignalType: DynamicInstrumentationSignalType;
   LocationIdentifier: LocationIdentifier;
-  Status?: InstrumentationConfigurationStatus;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  Status?: InstrumentationConfigurationStatus | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InstrumentationErrorCause =
   | "FILE_NOT_FOUND"
@@ -619,7 +620,7 @@ export type InstrumentationErrorCause =
   | (string & {});
 export interface InstrumentationStatusEvent {
   Time: Date;
-  ErrorCause?: InstrumentationErrorCause;
+  ErrorCause?: InstrumentationErrorCause | undefined;
 }
 export type InstrumentationStatusEventList = InstrumentationStatusEvent[];
 export interface GetInstrumentationConfigurationStatusResponse {
@@ -629,7 +630,7 @@ export interface GetInstrumentationConfigurationStatusResponse {
   Location: Location;
   Status: InstrumentationConfigurationStatus;
   Events: InstrumentationStatusEvent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetServiceInput {
   StartTime: Date;
@@ -654,24 +655,24 @@ export type AwsAccountId = string;
 export interface MetricReference {
   Namespace: string;
   MetricType: string;
-  Dimensions?: Dimension[];
+  Dimensions?: Dimension[] | undefined;
   MetricName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type MetricReferences = MetricReference[];
 export type LogGroupReferences = { [key: string]: string | undefined }[];
 export interface Service {
-  KeyAttributes?: { [key: string]: string | undefined };
-  AttributeMaps?: { [key: string]: string | undefined }[];
-  ServiceGroups?: ServiceGroup[];
-  MetricReferences?: MetricReference[];
-  LogGroupReferences?: { [key: string]: string | undefined }[];
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  AttributeMaps?: { [key: string]: string | undefined }[] | undefined;
+  ServiceGroups?: ServiceGroup[] | undefined;
+  MetricReferences?: MetricReference[] | undefined;
+  LogGroupReferences?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface GetServiceOutput {
   Service: Service;
   StartTime: Date;
   EndTime: Date;
-  LogGroupReferences?: { [key: string]: string | undefined }[];
+  LogGroupReferences?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface GetServiceLevelObjectiveInput {
   Id: string;
@@ -681,28 +682,38 @@ export interface GetServiceLevelObjectiveOutput {
 }
 export type Auditors = string[];
 export interface ServiceEntity {
-  Type?: string;
-  Name?: string;
-  Environment?: string;
-  AwsAccountId?: string;
+  Type?: string | undefined;
+  Name?: string | undefined;
+  Environment?: string | undefined;
+  AwsAccountId?: string | undefined;
 }
 export interface ServiceLevelObjectiveEntity {
-  SloName?: string;
-  SloArn?: string;
+  SloName?: string | undefined;
+  SloArn?: string | undefined;
 }
 export interface ServiceOperationEntity {
-  Service?: ServiceEntity;
-  Operation?: string;
-  MetricType?: string;
+  Service?: ServiceEntity | undefined;
+  Operation?: string | undefined;
+  MetricType?: string | undefined;
 }
 export interface CanaryEntity {
   CanaryName: string;
 }
 export type AuditTargetEntity =
-  | { Service: ServiceEntity; Slo?: never; ServiceOperation?: never; Canary?: never }
-  | { Service?: never; Slo: ServiceLevelObjectiveEntity; ServiceOperation?: never; Canary?: never }
-  | { Service?: never; Slo?: never; ServiceOperation: ServiceOperationEntity; Canary?: never }
-  | { Service?: never; Slo?: never; ServiceOperation?: never; Canary: CanaryEntity };
+  | { Service: ServiceEntity; Slo?: undefined; ServiceOperation?: undefined; Canary?: undefined }
+  | {
+      Service?: undefined;
+      Slo: ServiceLevelObjectiveEntity;
+      ServiceOperation?: undefined;
+      Canary?: undefined;
+    }
+  | {
+      Service?: undefined;
+      Slo?: undefined;
+      ServiceOperation: ServiceOperationEntity;
+      Canary?: undefined;
+    }
+  | { Service?: undefined; Slo?: undefined; ServiceOperation?: undefined; Canary: CanaryEntity };
 export interface AuditTarget {
   Type: string;
   Data: AuditTargetEntity;
@@ -713,70 +724,70 @@ export type ListAuditFindingMaxResults = number;
 export interface ListAuditFindingsInput {
   StartTime: Date;
   EndTime: Date;
-  Auditors?: string[];
+  Auditors?: string[] | undefined;
   AuditTargets: AuditTarget[];
-  DetailLevel?: DetailLevel;
-  NextToken?: string;
-  MaxResults?: number;
+  DetailLevel?: DetailLevel | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DataMap = { [key: string]: string | undefined };
 export type Severity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
 export interface AuditorResult {
-  Auditor?: string;
-  Description?: string;
-  Data?: { [key: string]: string | undefined };
-  Severity?: Severity;
+  Auditor?: string | undefined;
+  Description?: string | undefined;
+  Data?: { [key: string]: string | undefined } | undefined;
+  Severity?: Severity | undefined;
 }
 export type AuditorResults = AuditorResult[];
 export interface MetricGraph {
-  MetricDataQueries?: MetricDataQuery[];
-  StartTime?: Date;
-  EndTime?: Date;
+  MetricDataQueries?: MetricDataQuery[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface Node {
   KeyAttributes: { [key: string]: string | undefined };
   Name: string;
   NodeId: string;
-  Operation?: string;
-  Type?: string;
-  Duration?: number;
-  Status?: string;
+  Operation?: string | undefined;
+  Type?: string | undefined;
+  Duration?: number | undefined;
+  Status?: string | undefined;
 }
 export type Nodes = Node[];
 export type ConnectionType = "INDIRECT" | "DIRECT" | (string & {});
 export interface Edge {
-  SourceNodeId?: string;
-  DestinationNodeId?: string;
-  Duration?: number;
-  ConnectionType?: ConnectionType;
+  SourceNodeId?: string | undefined;
+  DestinationNodeId?: string | undefined;
+  Duration?: number | undefined;
+  ConnectionType?: ConnectionType | undefined;
 }
 export type Edges = Edge[];
 export interface DependencyGraph {
-  Nodes?: Node[];
-  Edges?: Edge[];
+  Nodes?: Node[] | undefined;
+  Edges?: Edge[] | undefined;
 }
 export interface AuditFinding {
   KeyAttributes: { [key: string]: string | undefined };
-  AuditorResults?: AuditorResult[];
-  Operation?: string;
-  MetricGraph?: MetricGraph;
-  DependencyGraph?: DependencyGraph;
-  Type?: string;
+  AuditorResults?: AuditorResult[] | undefined;
+  Operation?: string | undefined;
+  MetricGraph?: MetricGraph | undefined;
+  DependencyGraph?: DependencyGraph | undefined;
+  Type?: string | undefined;
 }
 export type AuditFindings = AuditFinding[];
 export interface ListAuditFindingsOutput {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
   AuditFindings: AuditFinding[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListEntityEventsMaxResults = number;
 export interface ListEntityEventsInput {
   Entity: { [key: string]: string | undefined };
   StartTime: Date;
   EndTime: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ChangeEventType = "DEPLOYMENT" | "CONFIGURATION" | (string & {});
 export interface ChangeEvent {
@@ -786,50 +797,50 @@ export interface ChangeEvent {
   Entity: { [key: string]: string | undefined };
   ChangeEventType: ChangeEventType;
   EventId: string;
-  UserName?: string;
-  EventName?: string;
+  UserName?: string | undefined;
+  EventName?: string | undefined;
 }
 export type ChangeEvents = ChangeEvent[];
 export interface ListEntityEventsOutput {
   StartTime: Date;
   EndTime: Date;
   ChangeEvents: ChangeEvent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGroupingAttributeDefinitionsInput {
-  NextToken?: string;
-  AwsAccountId?: string;
-  IncludeLinkedAccounts?: boolean;
+  NextToken?: string | undefined;
+  AwsAccountId?: string | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
 }
 export type GroupingString = string;
 export type GroupingSourceKeyStringList = string[];
 export interface GroupingAttributeDefinition {
   GroupingName: string;
-  GroupingSourceKeys?: string[];
-  DefaultGroupingValue?: string;
+  GroupingSourceKeys?: string[] | undefined;
+  DefaultGroupingValue?: string | undefined;
 }
 export type GroupingAttributeDefinitions = GroupingAttributeDefinition[];
 export interface ListGroupingAttributeDefinitionsOutput {
   GroupingAttributeDefinitions: GroupingAttributeDefinition[];
-  UpdatedAt?: Date;
-  NextToken?: string;
+  UpdatedAt?: Date | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListInstrumentationConfigurationsRequest {
   Service: string;
   Environment: string;
   InstrumentationType: InstrumentationType;
-  SyncedAt?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  SyncedAt?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface InstrumentationConfigurationWithoutServiceEnv {
   InstrumentationType: InstrumentationType;
   SignalType: DynamicInstrumentationSignalType;
   Location: Location;
   LocationHash: string;
-  Description?: string;
-  ExpiresAt?: Date;
-  AttributeFilters?: { [key: string]: string | undefined }[];
+  Description?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  AttributeFilters?: { [key: string]: string | undefined }[] | undefined;
   CaptureConfiguration: CaptureConfiguration;
   CreatedAt: Date;
   ARN: string;
@@ -840,18 +851,18 @@ export interface InstrumentationConfigurationsPage {
   Service: string;
   Environment: string;
   Changed: boolean;
-  LatestConfigurations?: InstrumentationConfigurationWithoutServiceEnv[];
+  LatestConfigurations?: InstrumentationConfigurationWithoutServiceEnv[] | undefined;
   SyncedAt: Date;
   SyncInterval: number;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServiceDependenciesMaxResults = number;
 export interface ListServiceDependenciesInput {
   StartTime: Date;
   EndTime: Date;
   KeyAttributes: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ServiceDependency {
   OperationName: string;
@@ -864,20 +875,20 @@ export interface ListServiceDependenciesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceDependencies: ServiceDependency[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServiceDependentsMaxResults = number;
 export interface ListServiceDependentsInput {
   StartTime: Date;
   EndTime: Date;
   KeyAttributes: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ServiceDependent {
-  OperationName?: string;
+  OperationName?: string | undefined;
   DependentKeyAttributes: { [key: string]: string | undefined };
-  DependentOperationName?: string;
+  DependentOperationName?: string | undefined;
   MetricReferences: MetricReference[];
 }
 export type ServiceDependents = ServiceDependent[];
@@ -885,55 +896,55 @@ export interface ListServiceDependentsOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceDependents: ServiceDependent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServiceLevelObjectiveExclusionWindowsMaxResults = number;
 export interface ListServiceLevelObjectiveExclusionWindowsInput {
   Id: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceLevelObjectiveExclusionWindowsOutput {
   ExclusionWindows: ExclusionWindow[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServiceLevelObjectivesMaxResults = number;
 export type MetricSourceTypes = MetricSourceType[];
 export interface ListServiceLevelObjectivesInput {
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  DependencyConfig?: DependencyConfig;
-  MaxResults?: number;
-  NextToken?: string;
-  MetricSourceTypes?: MetricSourceType[];
-  IncludeLinkedAccounts?: boolean;
-  SloOwnerAwsAccountId?: string;
-  MetricSource?: MetricSource;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  DependencyConfig?: DependencyConfig | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  MetricSourceTypes?: MetricSourceType[] | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
+  SloOwnerAwsAccountId?: string | undefined;
+  MetricSource?: MetricSource | undefined;
 }
 export interface ServiceLevelObjectiveSummary {
   Arn: string;
   Name: string;
-  KeyAttributes?: { [key: string]: string | undefined };
-  OperationName?: string;
-  DependencyConfig?: DependencyConfig;
-  CreatedTime?: Date;
-  EvaluationType?: EvaluationType;
-  MetricSourceType?: MetricSourceType;
-  MetricSource?: MetricSource;
-  CompositeSliConfig?: CompositeSliConfig;
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  OperationName?: string | undefined;
+  DependencyConfig?: DependencyConfig | undefined;
+  CreatedTime?: Date | undefined;
+  EvaluationType?: EvaluationType | undefined;
+  MetricSourceType?: MetricSourceType | undefined;
+  MetricSource?: MetricSource | undefined;
+  CompositeSliConfig?: CompositeSliConfig | undefined;
 }
 export type ServiceLevelObjectiveSummaries = ServiceLevelObjectiveSummary[];
 export interface ListServiceLevelObjectivesOutput {
-  SloSummaries?: ServiceLevelObjectiveSummary[];
-  NextToken?: string;
+  SloSummaries?: ServiceLevelObjectiveSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListServiceOperationMaxResults = number;
 export interface ListServiceOperationsInput {
   StartTime: Date;
   EndTime: Date;
   KeyAttributes: { [key: string]: string | undefined };
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ServiceOperation {
   Name: string;
@@ -944,29 +955,29 @@ export interface ListServiceOperationsOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceOperations: ServiceOperation[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServicesMaxResults = number;
 export interface ListServicesInput {
   StartTime: Date;
   EndTime: Date;
-  MaxResults?: number;
-  NextToken?: string;
-  IncludeLinkedAccounts?: boolean;
-  AwsAccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
+  AwsAccountId?: string | undefined;
 }
 export interface ServiceSummary {
   KeyAttributes: { [key: string]: string | undefined };
-  AttributeMaps?: { [key: string]: string | undefined }[];
+  AttributeMaps?: { [key: string]: string | undefined }[] | undefined;
   MetricReferences: MetricReference[];
-  ServiceGroups?: ServiceGroup[];
+  ServiceGroups?: ServiceGroup[] | undefined;
 }
 export type ServiceSummaries = ServiceSummary[];
 export interface ListServicesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceSummaries: ServiceSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListServiceStatesMaxResults = number;
 export type AttributeFilterName = string;
@@ -980,15 +991,15 @@ export type AttributeFilters = AttributeFilter[];
 export interface ListServiceStatesInput {
   StartTime: Date;
   EndTime: Date;
-  MaxResults?: number;
-  NextToken?: string;
-  IncludeLinkedAccounts?: boolean;
-  AwsAccountId?: string;
-  AttributeFilters?: AttributeFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
+  AwsAccountId?: string | undefined;
+  AttributeFilters?: AttributeFilter[] | undefined;
 }
 export type LatestChangeEvents = ChangeEvent[];
 export interface ServiceState {
-  AttributeFilters?: AttributeFilter[];
+  AttributeFilters?: AttributeFilter[] | undefined;
   Service: { [key: string]: string | undefined };
   LatestChangeEvents: ChangeEvent[];
 }
@@ -997,14 +1008,14 @@ export interface ListServiceStatesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceStates: ServiceState[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutGroupingConfigurationInput {
   GroupingAttributeDefinitions: GroupingAttributeDefinition[];
@@ -1022,7 +1033,7 @@ export interface InstrumentationConfigurationStatusReport {
   LocationHash: string;
   Status: InstrumentationConfigurationStatus;
   Time: Date;
-  ErrorCause?: InstrumentationErrorCause;
+  ErrorCause?: InstrumentationErrorCause | undefined;
 }
 export type InstrumentationConfigurationStatusList = InstrumentationConfigurationStatusReport[];
 export interface ReportInstrumentationConfigurationStatusRequest {
@@ -1064,12 +1075,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateServiceLevelObjectiveInput {
   Id: string;
-  Description?: string;
-  SliConfig?: ServiceLevelIndicatorConfig;
-  RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig;
-  Goal?: Goal;
-  BurnRateConfigurations?: BurnRateConfiguration[];
-  AutoInvestigationEnabled?: boolean;
+  Description?: string | undefined;
+  SliConfig?: ServiceLevelIndicatorConfig | undefined;
+  RequestBasedSliConfig?: RequestBasedServiceLevelIndicatorConfig | undefined;
+  Goal?: Goal | undefined;
+  BurnRateConfigurations?: BurnRateConfiguration[] | undefined;
+  AutoInvestigationEnabled?: boolean | undefined;
 }
 export interface UpdateServiceLevelObjectiveOutput {
   Slo: ServiceLevelObjective;
@@ -1090,7 +1101,7 @@ export type BatchDeleteInstrumentationConfigurationsError =
  * - By ARN list: Delete specific configurations by providing a list of resource ARNs
  */
 export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
-  BatchDeleteInstrumentationConfigurationsRequest,
+  BatchDeleteInstrumentationConfigurationsRequest & RegionInput,
   BatchDeleteInstrumentationConfigurationsResponse,
   BatchDeleteInstrumentationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1119,7 +1130,7 @@ export type BatchGetServiceLevelObjectiveBudgetReportError =
  * For more information about SLO error budgets, see SLO concepts.
  */
 export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
-  BatchGetServiceLevelObjectiveBudgetReportInput,
+  BatchGetServiceLevelObjectiveBudgetReportInput & RegionInput,
   BatchGetServiceLevelObjectiveBudgetReportOutput,
   BatchGetServiceLevelObjectiveBudgetReportError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1154,7 @@ export type BatchUpdateExclusionWindowsError =
  * Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
  */
 export const batchUpdateExclusionWindows: API.OperationMethod<
-  BatchUpdateExclusionWindowsInput,
+  BatchUpdateExclusionWindowsInput & RegionInput,
   BatchUpdateExclusionWindowsOutput,
   BatchUpdateExclusionWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1172,7 +1183,7 @@ export type CreateInstrumentationConfigurationError =
  * If a configuration already exists for the same service, environment, signal type, and location, this operation returns a conflict instead of overwriting it. Use attribute filters and capture settings to control where the instrumentation runs and which data is collected.
  */
 export const createInstrumentationConfiguration: API.OperationMethod<
-  CreateInstrumentationConfigurationRequest,
+  CreateInstrumentationConfigurationRequest & RegionInput,
   CreateInstrumentationConfigurationResponse,
   CreateInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1256,7 @@ export type CreateServiceLevelObjectiveError =
  * - `autoscaling:DescribeAutoScalingGroups`
  */
 export const createServiceLevelObjective: API.OperationMethod<
-  CreateServiceLevelObjectiveInput,
+  CreateServiceLevelObjectiveInput & RegionInput,
   CreateServiceLevelObjectiveOutput,
   CreateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1286,7 @@ export type DeleteGroupingConfigurationError =
  * Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
  */
 export const deleteGroupingConfiguration: API.OperationMethod<
-  DeleteGroupingConfigurationRequest,
+  DeleteGroupingConfigurationRequest & RegionInput,
   DeleteGroupingConfigurationOutput,
   DeleteGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1299,7 +1310,7 @@ export type DeleteInstrumentationConfigurationError =
  * Deletes the specified instrumentation configuration. SDKs remove the instrumentation during their next sync after the configuration is deleted or expires.
  */
 export const deleteInstrumentationConfiguration: API.OperationMethod<
-  DeleteInstrumentationConfigurationRequest,
+  DeleteInstrumentationConfigurationRequest & RegionInput,
   DeleteInstrumentationConfigurationResponse,
   DeleteInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1323,7 +1334,7 @@ export type DeleteServiceLevelObjectiveError =
  * Deletes the specified service level objective.
  */
 export const deleteServiceLevelObjective: API.OperationMethod<
-  DeleteServiceLevelObjectiveInput,
+  DeleteServiceLevelObjectiveInput & RegionInput,
   DeleteServiceLevelObjectiveOutput,
   DeleteServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1347,7 +1358,7 @@ export type GetInstrumentationConfigurationError =
  * Returns the details of a single instrumentation configuration identified by service, environment, signal type, and location. Use this to audit or display configuration details.
  */
 export const getInstrumentationConfiguration: API.OperationMethod<
-  GetInstrumentationConfigurationRequest,
+  GetInstrumentationConfigurationRequest & RegionInput,
   GetInstrumentationConfigurationResponse,
   GetInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1384,7 @@ export type GetInstrumentationConfigurationStatusError =
  * If no status or time window is provided, the operation defaults to ACTIVE events from the last hour.
  */
 export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod<
-  GetInstrumentationConfigurationStatusRequest,
+  GetInstrumentationConfigurationStatusRequest & RegionInput,
   GetInstrumentationConfigurationStatusResponse,
   GetInstrumentationConfigurationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -1400,7 +1411,7 @@ export type GetServiceError = ThrottlingException | ValidationException | Common
  * Returns information about a service discovered by Application Signals.
  */
 export const getService: API.OperationMethod<
-  GetServiceInput,
+  GetServiceInput & RegionInput,
   GetServiceOutput,
   GetServiceError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1435,7 @@ export type GetServiceLevelObjectiveError =
  * Returns information about one SLO created in the account.
  */
 export const getServiceLevelObjective: API.OperationMethod<
-  GetServiceLevelObjectiveInput,
+  GetServiceLevelObjectiveInput & RegionInput,
   GetServiceLevelObjectiveOutput,
   GetServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
@@ -1444,7 +1455,7 @@ export type ListAuditFindingsError = ThrottlingException | ValidationException |
  * Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
  */
 export const listAuditFindings: API.OperationMethod<
-  ListAuditFindingsInput,
+  ListAuditFindingsInput & RegionInput,
   ListAuditFindingsOutput,
   ListAuditFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1475,7 @@ export type ListEntityEventsError = ThrottlingException | ValidationException | 
  * Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
  */
 export const listEntityEvents: API.PaginatedOperationMethod<
-  ListEntityEventsInput,
+  ListEntityEventsInput & RegionInput,
   ListEntityEventsOutput,
   ListEntityEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1495,7 +1506,7 @@ export type ListGroupingAttributeDefinitionsError =
  * Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
  */
 export const listGroupingAttributeDefinitions: API.OperationMethod<
-  ListGroupingAttributeDefinitionsInput,
+  ListGroupingAttributeDefinitionsInput & RegionInput,
   ListGroupingAttributeDefinitionsOutput,
   ListGroupingAttributeDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1532,7 @@ export type ListInstrumentationConfigurationsError =
  * Include the previous `SyncedAt` value to perform incremental syncs. When no changes are detected, the response sets `Changed` to `false` and omits configuration details.
  */
 export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
-  ListInstrumentationConfigurationsRequest,
+  ListInstrumentationConfigurationsRequest & RegionInput,
   InstrumentationConfigurationsPage,
   ListInstrumentationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1548,7 +1559,7 @@ export type ListServiceDependenciesError = ThrottlingException | ValidationExcep
  * Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
  */
 export const listServiceDependencies: API.PaginatedOperationMethod<
-  ListServiceDependenciesInput,
+  ListServiceDependenciesInput & RegionInput,
   ListServiceDependenciesOutput,
   ListServiceDependenciesError,
   Credentials | HttpClient.HttpClient,
@@ -1575,7 +1586,7 @@ export type ListServiceDependentsError = ThrottlingException | ValidationExcepti
  * Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
  */
 export const listServiceDependents: API.PaginatedOperationMethod<
-  ListServiceDependentsInput,
+  ListServiceDependentsInput & RegionInput,
   ListServiceDependentsOutput,
   ListServiceDependentsError,
   Credentials | HttpClient.HttpClient,
@@ -1606,7 +1617,7 @@ export type ListServiceLevelObjectiveExclusionWindowsError =
  * Retrieves all exclusion windows configured for a specific SLO.
  */
 export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMethod<
-  ListServiceLevelObjectiveExclusionWindowsInput,
+  ListServiceLevelObjectiveExclusionWindowsInput & RegionInput,
   ListServiceLevelObjectiveExclusionWindowsOutput,
   ListServiceLevelObjectiveExclusionWindowsError,
   Credentials | HttpClient.HttpClient,
@@ -1636,7 +1647,7 @@ export type ListServiceLevelObjectivesError =
  * Returns a list of SLOs created in this account.
  */
 export const listServiceLevelObjectives: API.PaginatedOperationMethod<
-  ListServiceLevelObjectivesInput,
+  ListServiceLevelObjectivesInput & RegionInput,
   ListServiceLevelObjectivesOutput,
   ListServiceLevelObjectivesError,
   Credentials | HttpClient.HttpClient,
@@ -1663,7 +1674,7 @@ export type ListServiceOperationsError = ThrottlingException | ValidationExcepti
  * Returns a list of the *operations* of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
  */
 export const listServiceOperations: API.PaginatedOperationMethod<
-  ListServiceOperationsInput,
+  ListServiceOperationsInput & RegionInput,
   ListServiceOperationsOutput,
   ListServiceOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1690,7 +1701,7 @@ export type ListServicesError = ThrottlingException | ValidationException | Comm
  * Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesInput,
+  ListServicesInput & RegionInput,
   ListServicesOutput,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1717,7 +1728,7 @@ export type ListServiceStatesError = ThrottlingException | ValidationException |
  * Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
  */
 export const listServiceStates: API.PaginatedOperationMethod<
-  ListServiceStatesInput,
+  ListServiceStatesInput & RegionInput,
   ListServiceStatesOutput,
   ListServiceStatesError,
   Credentials | HttpClient.HttpClient,
@@ -1747,7 +1758,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1771,7 +1782,7 @@ export type PutGroupingConfigurationError =
  * Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
  */
 export const putGroupingConfiguration: API.OperationMethod<
-  PutGroupingConfigurationInput,
+  PutGroupingConfigurationInput & RegionInput,
   PutGroupingConfigurationOutput,
   PutGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1807,7 @@ export type ReportInstrumentationConfigurationStatusError =
  * Report `READY`, `ERROR`, and `DISABLED` when the status changes. Report `ACTIVE` periodically (for example, every minute) while instrumentation is running.
  */
 export const reportInstrumentationConfigurationStatus: API.OperationMethod<
-  ReportInstrumentationConfigurationStatusRequest,
+  ReportInstrumentationConfigurationStatusRequest & RegionInput,
   ReportInstrumentationConfigurationStatusResponse,
   ReportInstrumentationConfigurationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1838,7 +1849,7 @@ export type StartDiscoveryError =
  * After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see Enabling Application Signals.
  */
 export const startDiscovery: API.OperationMethod<
-  StartDiscoveryInput,
+  StartDiscoveryInput & RegionInput,
   StartDiscoveryOutput,
   StartDiscoveryError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1881,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1890,7 +1901,7 @@ export type UntagResourceError = ResourceNotFoundException | ThrottlingException
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1916,7 +1927,7 @@ export type UpdateServiceLevelObjectiveError =
  * You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
  */
 export const updateServiceLevelObjective: API.OperationMethod<
-  UpdateServiceLevelObjectiveInput,
+  UpdateServiceLevelObjectiveInput & RegionInput,
   UpdateServiceLevelObjectiveOutput,
   UpdateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient

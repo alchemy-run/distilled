@@ -86,37 +86,37 @@ export class NotFound
 /** request message for AbandonBackup. */
 export interface AbandonBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
   /** Request body */
-  body?: AbandonBackupRequest;
+  body?: AbandonBackupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -124,45 +124,45 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** PolicyEvaluationSummary contains the summary of the last run of job that applies policy to matching resources. */
 export interface PolicyEvaluationSummary {
   /** Output only. The number of matching resources whose protection failed during job run. */
-  failedResourceCount?: string;
+  failedResourceCount?: string | undefined;
   /** Output only. The number of matching resources that are successfully protected. */
-  protectedResourceCount?: string;
+  protectedResourceCount?: string | undefined;
   /** Output only. The number of resources that currently match the policy's criteria. */
-  matchingResourceCount?: string;
+  matchingResourceCount?: string | undefined;
 }
 /** BackupPlanDetail defines configuration of protection. */
 export interface BackupPlanDetail {
   /** Required. The type of resource that this policy will automatically protect. For MVP, `compute.googleapis.com/Instance` and `compute.googleapis.com/Disk` are supported. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Required. The resource name of the BackupPlan to apply to resources that match the policy's criteria. This backup plan must be in the same location as AutoProtectionPolicy. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
+  backupPlan?: string | undefined;
 }
 export type BackupPlanDetailList = Array<BackupPlanDetail>;
 export type StringList = Array<string>;
 /** KeyValuePair defines a key-value pair for matching resource labels. */
 export interface KeyValuePair {
   /** Required. The key of the label to match. This must be in the format `{label_key}`. The key must match the regex Format:`\p{Ll}\p{Lo}{0,62}`. */
-  key?: string;
+  key?: string | undefined;
   /** Required. The values of the label to match. There will be explicit "OR" between values of array. Each value must be in the format `{label_value}`. The value must match the regex Format: `[\\p{Ll}\\p{Lo}\\p{N}_-]{1,63}`. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** MatchingCondition specifies a set of conditions for matching resources. */
 export interface MatchingCondition {
   /** Optional. A condition that matches resources based on their labels. For MVP, this is limited to a single label match. */
-  labelCondition?: KeyValuePair;
+  labelCondition?: KeyValuePair | undefined;
 }
 export type MatchingConditionList = Array<MatchingCondition>;
 /** Criteria specifies a set of criteria for matching resources. */
 export interface Criteria {
   /** Required. A list of matching conditions that a resource must meet to be protected by the policy. */
-  matchingConditions?: MatchingConditionList;
+  matchingConditions?: MatchingConditionList | undefined;
 }
 export type AutoProtectionPolicyStateEnum =
   | "STATE_UNSPECIFIED"
@@ -173,38 +173,38 @@ export type AutoProtectionPolicyStateEnum =
 /** BindingSummary contains count of different containers covered through this policy. */
 export interface BindingSummary {
   /** Output only. Total count of Projects protected with this policy. */
-  projectCount?: string;
+  projectCount?: string | undefined;
 }
 /** An AutoprotectionPolicy is a policy resource designed to automate backup management, moving from manual per-resource protection to a bulk approach. The policy dynamically discovers and applies a specified backup plan to all eligible resources that match its defined scope and criteria. */
 export interface AutoProtectionPolicy {
   /** Optional. A description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Summary of last policy application when job was run per workload type. */
-  policyEvaluationSummary?: PolicyEvaluationSummary;
+  policyEvaluationSummary?: PolicyEvaluationSummary | undefined;
   /** Output only. The timestamp when the policy was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The timestamp when the policy was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The etag for the policy. If this is provided on update, it must match the server's etag, otherwise the request will be rejected with an ABORTED error. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The backup plan details for matching resources. */
-  backupPlanDetails?: BackupPlanDetailList;
+  backupPlanDetails?: BackupPlanDetailList | undefined;
   /** Required. The criteria for matching resources. */
-  criteria?: Criteria;
+  criteria?: Criteria | undefined;
   /** Output only. The current state of the AutoprotectionPolicy. */
-  state?: AutoProtectionPolicyStateEnum | (string & {});
+  state?: AutoProtectionPolicyStateEnum | (string & {}) | undefined;
   /** Output only. Summary of total count of different containers covered through this policy. */
-  bindingSummary?: BindingSummary;
+  bindingSummary?: BindingSummary | undefined;
 }
 export interface CreateProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The parent resource where this policy will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the policy. This will become the final component of the policy's resource name. */
-  autoProtectionPolicyId?: string;
+  autoProtectionPolicyId?: string | undefined;
   /** Request body */
-  body?: AutoProtectionPolicy;
+  body?: AutoProtectionPolicy | undefined;
 }
 export type AutoProtectionPolicyBindingStateEnum =
   | "STATE_UNSPECIFIED"
@@ -214,48 +214,48 @@ export type AutoProtectionPolicyBindingStateEnum =
 /** BindingEvaluationSummary contains the summary of the last run of job that applies policy to matching resources for a given binding. */
 export interface BindingEvaluationSummary {
   /** Output only. The number of matching resources that are successfully protected. */
-  protectedResourceCount?: string;
+  protectedResourceCount?: string | undefined;
   /** Output only. The number of matching resources whose protection failed during job run. */
-  failedResourceCount?: string;
+  failedResourceCount?: string | undefined;
   /** Output only. The number of resources that currently match the policy's criteria. */
-  matchingResourceCount?: string;
+  matchingResourceCount?: string | undefined;
 }
 /** An AutoprotectionPolicyBinding (APPA) acts as the bridge between an AutoprotectionPolicy and the scope (Project, Folder, or Organization) where the policy should be applied. */
 export interface AutoProtectionPolicyBinding {
   /** Output only. The timestamp when the binding was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. A description of the binding. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Output only. The etag for the binding. If this is provided on update, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identifier. The resource name of the AutoProtectionPolicyBinding. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The current state of the AutoProtectionPolicyBinding. */
-  state?: AutoProtectionPolicyBindingStateEnum | (string & {});
+  state?: AutoProtectionPolicyBindingStateEnum | (string & {}) | undefined;
   /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
-  scope?: string;
+  scope?: string | undefined;
   /** Output only. Summaries of the last policy application when the job has run, with one entry per resource type specified in the AutoProtectionPolicy. */
-  bindingEvaluationSummary?: BindingEvaluationSummary;
+  bindingEvaluationSummary?: BindingEvaluationSummary | undefined;
   /** Output only. The timestamp when the binding was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest {
   /** Required. The parent resource where this binding will be created. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
   parent: string;
   /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. */
-  autoProtectionPolicyBindingId?: string;
+  autoProtectionPolicyBindingId?: string | undefined;
   /** Request body */
-  body?: AutoProtectionPolicyBinding;
+  body?: AutoProtectionPolicyBinding | undefined;
 }
 /** Properties for an AlloyDB cluster backup plan association. */
 export interface AlloyDBClusterBackupPlanAssociationProperties {
   /** Output only. The cluster UID of the AlloyDB cluster. */
-  clusterUid?: string;
+  clusterUid?: string | undefined;
 }
 /** Cloud SQL instance's BPA properties. */
 export interface CloudSqlInstanceBackupPlanAssociationProperties {
   /** Output only. The time when the instance was created. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
 }
 /** Filestore instance's BPA properties. */
 export type FilestoreInstanceBackupPlanAssociationProperties =
@@ -277,57 +277,63 @@ export type RuleConfigInfoLastBackupStateEnum =
 /** Message for rules config info. */
 export interface RuleConfigInfo {
   /** Output only. The last backup state for rule. */
-  lastBackupState?: RuleConfigInfoLastBackupStateEnum | (string & {});
+  lastBackupState?: RuleConfigInfoLastBackupStateEnum | (string & {}) | undefined;
   /** Output only. google.rpc.Status object to store the last backup error. */
-  lastBackupError?: Status;
+  lastBackupError?: Status | undefined;
   /** Output only. The point in time when the last successful backup was captured from the source. */
-  lastSuccessfulBackupConsistencyTime?: string;
+  lastSuccessfulBackupConsistencyTime?: string | undefined;
   /** Output only. Backup Rule id fetched from backup plan. */
-  ruleId?: string;
+  ruleId?: string | undefined;
 }
 export type RuleConfigInfoList = Array<RuleConfigInfo>;
 /** A BackupPlanAssociation represents a single BackupPlanAssociation which contains details like workload, backup plan etc */
 export interface BackupPlanAssociation {
   /** Required. Resource name of backup plan which needs to be applied on workload. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
+  backupPlan?: string | undefined;
   /** Output only. AlloyDB cluster's backup plan association properties. */
-  alloydbClusterBackupPlanAssociationProperties?: AlloyDBClusterBackupPlanAssociationProperties;
+  alloydbClusterBackupPlanAssociationProperties?:
+    | AlloyDBClusterBackupPlanAssociationProperties
+    | undefined;
   /** Output only. Cloud SQL instance's backup plan association properties. */
-  cloudSqlInstanceBackupPlanAssociationProperties?: CloudSqlInstanceBackupPlanAssociationProperties;
+  cloudSqlInstanceBackupPlanAssociationProperties?:
+    | CloudSqlInstanceBackupPlanAssociationProperties
+    | undefined;
   /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  backupPlanRevisionName?: string;
+  backupPlanRevisionName?: string | undefined;
   /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this association, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string;
+  autoProtectionPolicyBinding?: string | undefined;
   /** Required. Immutable. Resource type of workload on which backupplan is applied */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Output only. Resource name of data source which will be used as storage location for backups taken. Format : projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource} */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Output only. The time when the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Filestore instance's backup plan association properties. */
-  filestoreInstanceBackupPlanAssociationProperties?: CloudSqlInstanceBackupPlanAssociationProperties;
+  filestoreInstanceBackupPlanAssociationProperties?:
+    | CloudSqlInstanceBackupPlanAssociationProperties
+    | undefined;
   /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  backupPlanRevisionId?: string;
+  backupPlanRevisionId?: string | undefined;
   /** Output only. The BackupPlanAssociation resource state. */
-  state?: BackupPlanAssociationStateEnum | (string & {});
+  state?: BackupPlanAssociationStateEnum | (string & {}) | undefined;
   /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The config info related to backup rules. */
-  rulesConfigInfo?: RuleConfigInfoList;
+  rulesConfigInfo?: RuleConfigInfoList | undefined;
   /** Required. Immutable. Resource name of workload on which the backup plan is applied. The format can either be the resource name (e.g., "projects/my-project/zones/us-central1-a/instances/my-instance") or the full resource URI (e.g., "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a/instances/my-instance"). */
-  resource?: string;
+  resource?: string | undefined;
 }
 export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
-  backupPlanAssociationId?: string;
+  backupPlanAssociationId?: string | undefined;
   /** Request body */
-  body?: BackupPlanAssociation;
+  body?: BackupPlanAssociation | undefined;
 }
 export type StandardScheduleDaysOfWeekItemEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -344,9 +350,9 @@ export type StandardScheduleDaysOfWeekItemEnumList = Array<
 /** `BackupWindow` defines a window of the day during which backup jobs will run. */
 export interface BackupWindow {
   /** Required. The hour of day (0-23) when the window starts for e.g. if value of start hour of day is 6 that mean backup window start at 6:00. */
-  startHourOfDay?: number;
+  startHourOfDay?: number | undefined;
   /** Required. The hour of day (1-24) when the window end for e.g. if value of end hour of day is 10 that mean backup window end time is 10:00. End hour of day should be greater than start hour of day. 0 <= start_hour_of_day < end_hour_of_day <= 24 End hour of day is not include in backup window that mean if end_hour_of_day= 10 jobs should start before 10:00. */
-  endHourOfDay?: number;
+  endHourOfDay?: number | undefined;
 }
 export type StandardScheduleRecurrenceTypeEnum =
   | "RECURRENCE_TYPE_UNSPECIFIED"
@@ -375,9 +381,9 @@ export type WeekDayOfMonthDayOfWeekEnum =
 /** `WeekDayOfMonth` defines the week day of the month on which the backups will run. The message combines a `WeekOfMonth` and `DayOfWeek` to produce values like `FIRST`/`MONDAY` or `LAST`/`FRIDAY`. */
 export interface WeekDayOfMonth {
   /** Required. Specifies the week of the month. */
-  weekOfMonth?: WeekDayOfMonthWeekOfMonthEnum | (string & {});
+  weekOfMonth?: WeekDayOfMonthWeekOfMonthEnum | (string & {}) | undefined;
   /** Required. Specifies the day of the week. */
-  dayOfWeek?: WeekDayOfMonthDayOfWeekEnum | (string & {});
+  dayOfWeek?: WeekDayOfMonthDayOfWeekEnum | (string & {}) | undefined;
 }
 export type StandardScheduleMonthsItemEnum =
   | "MONTH_UNSPECIFIED"
@@ -399,41 +405,41 @@ export type StandardScheduleMonthsItemEnumList = Array<
 /** `StandardSchedule` defines a schedule that run within the confines of a defined window of days. We can define recurrence type for schedule as HOURLY, DAILY, WEEKLY, MONTHLY or YEARLY. */
 export interface StandardSchedule {
   /** Optional. Specifies frequency for hourly backups. A hourly frequency of 2 means jobs will run every 2 hours from start time till end time defined. This is required for `recurrence_type`, `HOURLY` and is not applicable otherwise. A validation error will occur if a value is supplied and `recurrence_type` is not `HOURLY`. The supported values for each resource type are as follows: * `compute.googleapis.com/Instance`: 1-23 * `compute.googleapis.com/Disk`: 1-23 * `sqladmin.googleapis.com/Instance`: 6-23 * `alloydb.googleapis.com/Cluster`: 1-23 * `file.googleapis.com/Instance`: 1-23 Refer to link https://cloud.google.com/backup-disaster-recovery/docs/concepts/cloud_best_practices for more details. */
-  hourlyFrequency?: number;
+  hourlyFrequency?: number | undefined;
   /** Optional. Specifies days of week like, MONDAY or TUESDAY, on which jobs will run. This is required for `recurrence_type`, `WEEKLY` and is not applicable otherwise. A validation error will occur if a value is supplied and `recurrence_type` is not `WEEKLY`. */
-  daysOfWeek?: StandardScheduleDaysOfWeekItemEnumList;
+  daysOfWeek?: StandardScheduleDaysOfWeekItemEnumList | undefined;
   /** Required. The time zone to be used when interpreting the schedule. The value of this field must be a time zone name from the IANA tz database. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the list of valid timezone names. For e.g., Europe/Paris. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Required. A BackupWindow defines the window of day during which backup jobs will run. Jobs are queued at the beginning of the window and will be marked as `NOT_RUN` if they do not start by the end of the window. Note: running jobs will not be cancelled at the end of the window. */
-  backupWindow?: BackupWindow;
+  backupWindow?: BackupWindow | undefined;
   /** Required. Specifies the `RecurrenceType` for the schedule. */
-  recurrenceType?: StandardScheduleRecurrenceTypeEnum | (string & {});
+  recurrenceType?: StandardScheduleRecurrenceTypeEnum | (string & {}) | undefined;
   /** Optional. Specifies days of months like 1, 5, or 14 on which jobs will run. Values for `days_of_month` are only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
-  daysOfMonth?: IntegerList;
+  daysOfMonth?: IntegerList | undefined;
   /** Optional. Specifies a week day of the month like, FIRST SUNDAY or LAST MONDAY, on which jobs will run. This will be specified by two fields in `WeekDayOfMonth`, one for the day, e.g. `MONDAY`, and one for the week, e.g. `LAST`. This field is only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
-  weekDayOfMonth?: WeekDayOfMonth;
+  weekDayOfMonth?: WeekDayOfMonth | undefined;
   /** Optional. Specifies the months of year, like `FEBRUARY` and/or `MAY`, on which jobs will run. This field is only applicable when `recurrence_type` is `YEARLY`. A validation error will occur if other values are supplied. */
-  months?: StandardScheduleMonthsItemEnumList;
+  months?: StandardScheduleMonthsItemEnumList | undefined;
 }
 /** `BackupRule` binds the backup schedule to a retention policy. */
 export interface BackupRule {
   /** Optional. Defines a schedule that runs within the confines of a defined window of time. */
-  standardSchedule?: StandardSchedule;
+  standardSchedule?: StandardSchedule | undefined;
   /** Required. Configures the duration for which backup data will be kept. It is defined in "days". The value should be greater than or equal to minimum enforced retention of the backup vault. Minimum value is 1 and maximum value is 36159 for custom retention on-demand backup. Minimum and maximum values are workload specific for all other rules. Note: Longer retention can lead to higher storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Required. Immutable. The unique id of this `BackupRule`. The `rule_id` is unique per `BackupPlan`.The `rule_id` must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
-  ruleId?: string;
+  ruleId?: string | undefined;
 }
 export type BackupRuleList = Array<BackupRule>;
 /** Properties for a disk backup plan. */
 export interface DiskBackupPlanProperties {
   /** Optional. Indicates whether to perform a guest flush operation before taking a disk backup. When set to false, the system will create crash-consistent backups. Default value is false. */
-  guestFlush?: boolean;
+  guestFlush?: boolean | undefined;
 }
 /** Properties for a compute instance backup plan. */
 export interface ComputeInstanceBackupPlanProperties {
   /** Optional. Indicates whether to perform a guest flush operation before taking a compute backup. When set to false, the system will create crash-consistent backups. Default value is false. */
-  guestFlush?: boolean;
+  guestFlush?: boolean | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type BackupPlanStateEnum =
@@ -446,51 +452,51 @@ export type BackupPlanStateEnum =
 /** A `BackupPlan` specifies some common fields, such as `description` as well as one or more `BackupRule` messages. Each `BackupRule` has a retention policy and defines a schedule by which the system is to perform backup workloads. */
 export interface BackupPlan {
   /** Output only. All resource types to which backupPlan can be applied. */
-  supportedResourceTypes?: StringList;
+  supportedResourceTypes?: StringList | undefined;
   /** Optional. The backup rules for this `BackupPlan`. */
-  backupRules?: BackupRuleList;
+  backupRules?: BackupRuleList | undefined;
   /** Optional. `etag` is returned from the service in the response. As a user of the service, you may provide an etag value in this field to prevent stale resources. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. When the `BackupPlan` was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
-  diskBackupPlanProperties?: DiskBackupPlanProperties;
+  diskBackupPlanProperties?: DiskBackupPlanProperties | undefined;
   /** Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in "days". This value should be greater than or equal to minimum enforced log retention duration of the backup vault. */
-  logRetentionDays?: string;
+  logRetentionDays?: string | undefined;
   /** Optional. Optional field to configure the maximum number of days for which a backup can be retained. This field is only applicable for on-demand backups taken with custom retention value. */
-  maxCustomOnDemandRetentionDays?: number;
+  maxCustomOnDemandRetentionDays?: number | undefined;
   /** Output only. The Google Cloud service account to be used by the BackupVault for taking backups. Specify the email address of the Backup Vault Service Account. */
-  backupVaultServiceAccount?: string;
+  backupVaultServiceAccount?: string | undefined;
   /** Optional. The description of the `BackupPlan` resource. The description allows for additional details about `BackupPlan` and its use cases to be provided. An example description is the following: "This is a backup plan that performs a daily backup at 6pm and retains data for 3 months". The description must be at most 2048 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Defines optional properties specific to backups of compute instance based resources, such as Compute Engine Instances. This includes settings like whether to perform a guest flush. */
-  computeInstanceBackupPlanProperties?: ComputeInstanceBackupPlanProperties;
+  computeInstanceBackupPlanProperties?: ComputeInstanceBackupPlanProperties | undefined;
   /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  revisionName?: string;
+  revisionName?: string | undefined;
   /** Required. Resource name of backup vault which will be used as storage location for backups. Format: projects/{project}/locations/{location}/backupVaults/{backupvault} */
-  backupVault?: string;
+  backupVault?: string | undefined;
   /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. This collection of key/value pairs allows for custom labels to be supplied by the user. Example, {"tag": "Weekly"}. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The resource type to which the `BackupPlan` will be applied. Examples include, "compute.googleapis.com/Instance", "sqladmin.googleapis.com/Instance", "alloydb.googleapis.com/Cluster", "compute.googleapis.com/Disk". */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Output only. The `State` for the `BackupPlan`. */
-  state?: BackupPlanStateEnum | (string & {});
+  state?: BackupPlanStateEnum | (string & {}) | undefined;
   /** Output only. When the `BackupPlan` was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsBackupPlansRequest {
   /** Required. The `BackupPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the `BackupPlan` to create. The name must be unique for the specified project and location.The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
-  backupPlanId?: string;
+  backupPlanId?: string | undefined;
   /** Request body */
-  body?: BackupPlan;
+  body?: BackupPlan | undefined;
 }
 export type BackupVaultBackupRetentionInheritanceEnum =
   | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
@@ -499,7 +505,7 @@ export type BackupVaultBackupRetentionInheritanceEnum =
 /** Message describing the EncryptionConfig of backup vault. This determines how data within the vault is encrypted at rest. */
 export interface EncryptionConfig {
   /** Optional. The Cloud KMS key name to encrypt backups in this backup vault. Must be in the same region as the vault. Some workload backups like compute disk backups may use their inherited source key instead. Format: projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key} */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 export type BackupVaultAccessRestrictionEnum =
   | "ACCESS_RESTRICTION_UNSPECIFIED"
@@ -517,53 +523,56 @@ export type BackupVaultStateEnum =
 /** Message describing a BackupVault object. */
 export interface BackupVault {
   /** Optional. Setting for how a backup's enforced retention end time is inherited. */
-  backupRetentionInheritance?: BackupVaultBackupRetentionInheritanceEnum | (string & {});
+  backupRetentionInheritance?:
+    | BackupVaultBackupRetentionInheritanceEnum
+    | (string & {})
+    | undefined;
   /** Optional. The description of the BackupVault instance (2048 characters or less). */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Set to true when there are no backups nested under this resource. */
-  deletable?: boolean;
+  deletable?: boolean | undefined;
   /** Optional. User annotations. See https://google.aip.dev/128#annotations Stores small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Immutable after resource creation until resource deletion. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The encryption config of the backup vault. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Required. The default and minimum enforced retention for each backup within the backup vault. The enforced retention for each backup can be extended. Note: Longer minimum enforced retention period impacts potential storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupMinimumEnforcedRetentionDuration?: string;
+  backupMinimumEnforcedRetentionDuration?: string | undefined;
   /** Output only. The number of backups in this backup vault. */
-  backupCount?: string;
+  backupCount?: string | undefined;
   /** Optional. Time after which the BackupVault resource is locked. */
-  effectiveTime?: string;
+  effectiveTime?: string | undefined;
   /** Output only. Total size of the storage used by all backup resources. */
-  totalStoredBytes?: string;
+  totalStoredBytes?: string | undefined;
   /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
-  accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {});
+  accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {}) | undefined;
   /** Optional. Server specified ETag for the backup vault resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The BackupVault resource instance state. */
-  state?: BackupVaultStateEnum | (string & {});
+  state?: BackupVaultStateEnum | (string & {}) | undefined;
   /** Output only. The time when the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsBackupVaultsRequest {
   /** Required. ID of the requesting object If auto-generating ID server-side, remove this field and backup_vault_id from the method_signature of Create RPC */
-  backupVaultId?: string;
+  backupVaultId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: BackupVault;
+  body?: BackupVault | undefined;
 }
 export type ManagementServerStateEnum =
   | "INSTANCE_STATE_UNSPECIFIED"
@@ -578,123 +587,123 @@ export type NetworkConfigPeeringModeEnum = "PEERING_MODE_UNSPECIFIED" | "PRIVATE
 /** Network configuration for ManagementServer instance. */
 export interface NetworkConfig {
   /** Optional. The resource name of the Google Compute Engine VPC network to which the ManagementServer instance is connected. */
-  network?: string;
+  network?: string | undefined;
   /** Optional. The network connect mode of the ManagementServer instance. For this version, only PRIVATE_SERVICE_ACCESS is supported. */
-  peeringMode?: NetworkConfigPeeringModeEnum | (string & {});
+  peeringMode?: NetworkConfigPeeringModeEnum | (string & {}) | undefined;
 }
 export type NetworkConfigList = Array<NetworkConfig>;
 /** ManagementURI depending on the Workforce Identity i.e. either 1p or 3p. */
 export interface WorkforceIdentityBasedManagementURI {
   /** Output only. First party Management URI for Google Identities. */
-  firstPartyManagementUri?: string;
+  firstPartyManagementUri?: string | undefined;
   /** Output only. Third party Management URI for External Identity Providers. */
-  thirdPartyManagementUri?: string;
+  thirdPartyManagementUri?: string | undefined;
 }
 /** OAuth Client ID depending on the Workforce Identity i.e. either 1p or 3p, */
 export interface WorkforceIdentityBasedOAuth2ClientID {
   /** Output only. First party OAuth Client ID for Google Identities. */
-  firstPartyOauth2ClientId?: string;
+  firstPartyOauth2ClientId?: string | undefined;
   /** Output only. Third party OAuth Client ID for External Identity Providers. */
-  thirdPartyOauth2ClientId?: string;
+  thirdPartyOauth2ClientId?: string | undefined;
 }
 export type ManagementServerTypeEnum = "INSTANCE_TYPE_UNSPECIFIED" | "BACKUP_RESTORE";
 /** ManagementURI for the Management Server resource. */
 export interface ManagementURI {
   /** Output only. The ManagementServer AGM/RD WebUI URL. */
-  webUi?: string;
+  webUi?: string | undefined;
   /** Output only. The ManagementServer AGM/RD API URL. */
-  api?: string;
+  api?: string | undefined;
 }
 /** ManagementServer describes a single BackupDR ManagementServer instance. */
 export interface ManagementServer {
   /** Output only. The OAuth 2.0 client id is required to make API calls to the Backup and DR instance API of this ManagementServer. This is the value that should be provided in the 'aud' field of the OIDC ID Token (see openid specification https://openid.net/specs/openid-connect-core-1_0.html#IDToken). */
-  oauth2ClientId?: string;
+  oauth2ClientId?: string | undefined;
   /** Output only. The ManagementServer state. */
-  state?: ManagementServerStateEnum | (string & {});
+  state?: ManagementServerStateEnum | (string & {}) | undefined;
   /** Output only. The hostname or ip address of the exposed AGM endpoints, used by BAs to connect to BA proxy. */
-  baProxyUri?: StringList;
+  baProxyUri?: StringList | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. VPC networks to which the ManagementServer instance is connected. For this version, only a single network is supported. This field is optional if MS is created without PSA */
-  networks?: NetworkConfigList;
+  networks?: NetworkConfigList | undefined;
   /** Output only. Identifier. The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The hostnames of the exposed AGM endpoints for both types of user i.e. 1p and 3p, used to connect AGM/RM UI. */
-  workforceIdentityBasedManagementUri?: WorkforceIdentityBasedManagementURI;
+  workforceIdentityBasedManagementUri?: WorkforceIdentityBasedManagementURI | undefined;
   /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The time when the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The OAuth client IDs for both types of user i.e. 1p and 3p. */
-  workforceIdentityBasedOauth2ClientId?: WorkforceIdentityBasedOAuth2ClientID;
+  workforceIdentityBasedOauth2ClientId?: WorkforceIdentityBasedOAuth2ClientID | undefined;
   /** Optional. The description of the ManagementServer instance (2048 characters or less). */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The type of the ManagementServer resource. */
-  type?: ManagementServerTypeEnum | (string & {});
+  type?: ManagementServerTypeEnum | (string & {}) | undefined;
   /** Output only. The hostname or ip address of the exposed AGM endpoints, used by clients to connect to AGM/RD graphical user interface and APIs. */
-  managementUri?: ManagementURI;
+  managementUri?: ManagementURI | undefined;
   /** Optional. Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Optional. Resource labels to represent user provided metadata. Labels currently defined: 1. migrate_from_go= If set to true, the MS is created in migration ready mode. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsManagementServersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
-  managementServerId?: string;
+  managementServerId?: string | undefined;
   /** Request body */
-  body?: ManagementServer;
+  body?: ManagementServer | undefined;
 }
 export interface DeleteProjectsLocationsAutoProtectionPoliciesRequest {
   /** The current etag of the AutoProtectionPolicy. If an etag is provided and does not match the current etag of the connection, the request will be rejected with an ABORTED error. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The name of the policy to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
   name: string;
 }
 export interface DeleteProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
   /** Optional. This field is exclusively used by Backup and DR's auto-protection feature. The resource name of the `AutoProtectionPolicyBinding` that triggered the deletion of this association. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string;
+  autoProtectionPolicyBinding?: string | undefined;
 }
 export interface DeleteProjectsLocationsBackupPlansRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the `BackupPlan` to delete. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
 }
 export interface DeleteProjectsLocationsBackupVaultsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource. */
   name: string;
   /** Optional. If true and the BackupVault is not found, the request will succeed but no action will be taken. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** The current etag of the backup vault. If an etag is provided and does not match the current etag of the connection, deletion will be blocked. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set to true, backupvault deletion will proceed even if there are backup plans referencing the backupvault. The default is 'false'. */
-  ignoreBackupPlanReferences?: boolean;
+  ignoreBackupPlanReferences?: boolean | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to true, any data source from this backup vault will also be deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsManagementServersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource */
   name: string;
 }
@@ -709,13 +718,13 @@ export type EndTrialRequestEndReasonEnum =
 /** Request message for ending a trial. */
 export interface EndTrialRequest {
   /** Required. The reason for ending the trial. */
-  endReason?: EndTrialRequestEndReasonEnum | (string & {});
+  endReason?: EndTrialRequestEndReasonEnum | (string & {}) | undefined;
 }
 export interface EndProjectsLocationsTrialRequest {
   /** Required. The parent resource where the trial has been created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: EndTrialRequest;
+  body?: EndTrialRequest | undefined;
 }
 export type TrialStateEnum =
   | "STATE_UNSPECIFIED"
@@ -728,47 +737,47 @@ export type TrialEndReasonEnum = "END_REASON_UNSPECIFIED" | "MOVE_TO_PAID" | "DI
 /** Represents a Trial for a project. */
 export interface Trial {
   /** Output only. The state of the trial. */
-  state?: TrialStateEnum;
+  state?: TrialStateEnum | undefined;
   /** Identifier. The resource name of the trial. Format: projects/{project}/locations/{location}/trial */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when the trial was subscribed. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The reason for ending the trial. */
-  endReason?: TrialEndReasonEnum;
+  endReason?: TrialEndReasonEnum | undefined;
   /** Output only. The time when the trial will expire. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Request message for FetchAccessToken. */
 export interface FetchAccessTokenRequest {
   /** Required. The generation of the backup to update. */
-  generationId?: number;
+  generationId?: number | undefined;
 }
 export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources'. */
   name: string;
   /** Request body */
-  body?: FetchAccessTokenRequest;
+  body?: FetchAccessTokenRequest | undefined;
 }
 /** Response message for FetchAccessToken. */
 export interface FetchAccessTokenResponse {
   /** The location in bucket that can be used for reading. */
-  readLocation?: string;
+  readLocation?: string | undefined;
   /** The token is valid until this time. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Input only. The downscoped token that was created. */
-  token?: string;
+  token?: string | undefined;
   /** The location in bucket that can be used for writing. */
-  writeLocation?: string;
+  writeLocation?: string | undefined;
 }
 export interface FetchFoldersLocationsResourceBackupConfigsRequest {
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
   parent: string;
 }
@@ -783,9 +792,9 @@ export type BackupLocationTypeEnum = "TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL" |
 /** BackupLocation represents a cloud location where a backup can be stored. */
 export interface BackupLocation {
   /** Output only. The id of the cloud location. Example: "us-central1" */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Output only. The type of the location. */
-  type?: BackupLocationTypeEnum;
+  type?: BackupLocationTypeEnum | undefined;
 }
 export type BackupLocationList = Array<BackupLocation>;
 export type BackupConfigDetailsTypeEnum =
@@ -797,105 +806,105 @@ export type BackupConfigDetailsTypeEnum =
 /** BackupDrPlanRule has rule specific information of the backup plan resource. */
 export interface BackupDrPlanRule {
   /** Output only. Unique Id of the backup rule. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Output only. Timestamp of the latest successful backup created via this backup rule. */
-  lastSuccessfulBackupTime?: string;
+  lastSuccessfulBackupTime?: string | undefined;
 }
 export type BackupDrPlanRuleList = Array<BackupDrPlanRule>;
 /** BackupDrPlanConfig has additional information about Google Cloud Backup and DR's Plan backup configuration. */
 export interface BackupDrPlanConfig {
   /** Backup rules of the backup plan resource. */
-  backupDrPlanRules?: BackupDrPlanRuleList;
+  backupDrPlanRules?: BackupDrPlanRuleList | undefined;
 }
 /** Provides additional information about Google Cloud Backup and DR's Template backup configuration. */
 export interface BackupDrTemplateConfig {
   /** Output only. The URI of the BackupDr template resource for the first party identity users. */
-  firstPartyManagementUri?: string;
+  firstPartyManagementUri?: string | undefined;
   /** Output only. The URI of the BackupDr template resource for the third party identity users. */
-  thirdPartyManagementUri?: string;
+  thirdPartyManagementUri?: string | undefined;
 }
 export type BackupConfigDetailsStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "ERROR";
 /** Point in time recovery settings of the backup configuration resource. */
 export interface PitrSettings {
   /** Output only. Number of days to retain the backup. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 /** BackupConfigDetails has information about how the resource is configured for backups and about the most recent backup taken for this configuration. */
 export interface BackupConfigDetails {
   /** The locations where the backups are to be stored. */
-  backupLocations?: BackupLocationList;
+  backupLocations?: BackupLocationList | undefined;
   /** Output only. The type of the backup config resource. */
-  type?: BackupConfigDetailsTypeEnum;
+  type?: BackupConfigDetailsTypeEnum | undefined;
   /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the backup vault that will store the backups generated through this backup configuration. Example: "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupVaults/{backupvaultId}" */
-  backupVault?: string;
+  backupVault?: string | undefined;
   /** Google Cloud Backup and DR's Backup Plan specific data. */
-  backupDrPlanConfig?: BackupDrPlanConfig;
+  backupDrPlanConfig?: BackupDrPlanConfig | undefined;
   /** Output only. The display name of the backup config source resource. */
-  backupConfigSourceDisplayName?: string;
+  backupConfigSourceDisplayName?: string | undefined;
   /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the resource that is applicable for the backup configuration. Example: "//compute.googleapis.com/projects/{project}/zones/{zone}/instances/{instance}" */
-  applicableResource?: string;
+  applicableResource?: string | undefined;
   /** Output only. The full resource name of the backup config source resource. For example, "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupPlans/{backupplanId}" or "//compute.googleapis.com/projects/{project}/locations/{region}/resourcePolicies/{resourcePolicyId}". */
-  backupConfigSource?: string;
+  backupConfigSource?: string | undefined;
   /** Output only. Timestamp of the latest successful backup created via this backup configuration. */
-  latestSuccessfulBackupTime?: string;
+  latestSuccessfulBackupTime?: string | undefined;
   /** Google Cloud Backup and DR's Template specific data. */
-  backupDrTemplateConfig?: BackupDrTemplateConfig;
+  backupDrTemplateConfig?: BackupDrTemplateConfig | undefined;
   /** Output only. The state of the backup config resource. */
-  state?: BackupConfigDetailsStateEnum;
+  state?: BackupConfigDetailsStateEnum | undefined;
   /** Output only. Point in time recovery settings of the backup configuration resource. */
-  pitrSettings?: PitrSettings;
+  pitrSettings?: PitrSettings | undefined;
 }
 export type BackupConfigDetailsList = Array<BackupConfigDetails>;
 /** ResourceBackupConfig represents a resource along with its backup configurations. */
 export interface ResourceBackupConfig {
   /** Identifier. The resource name of the ResourceBackupConfig. Format: projects/{project}/locations/{location}/resourceBackupConfigs/{uid} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The type of the target resource. */
-  targetResourceType?: ResourceBackupConfigTargetResourceTypeEnum;
+  targetResourceType?: ResourceBackupConfigTargetResourceTypeEnum | undefined;
   /** Backup configurations applying to the target resource, including those targeting its related/child resources. For example, backup configuration applicable to Compute Engine disks will be populated in this field for a Compute Engine VM which has the disk associated. */
-  backupConfigsDetails?: BackupConfigDetailsList;
+  backupConfigsDetails?: BackupConfigDetailsList | undefined;
   /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the cloud resource that this configuration applies to. Supported resource types are ResourceBackupConfig.ResourceType. */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Labels associated with the target resource. */
-  targetResourceLabels?: StringMap;
+  targetResourceLabels?: StringMap | undefined;
   /** Output only. The human friendly name of the target resource. */
-  targetResourceDisplayName?: string;
+  targetResourceDisplayName?: string | undefined;
   /** Output only. Whether the target resource is configured for backup. This is true if the backup_configs_details is not empty. */
-  backupConfigured?: boolean;
+  backupConfigured?: boolean | undefined;
   /** Output only. The unique identifier of the resource backup config. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Whether the target resource is protected by a backup vault. This is true if the backup_configs_details is not empty and any of the ResourceBackupConfig.backup_configs_details has a backup configuration with BackupConfigDetails.backup_vault set. */
-  vaulted?: boolean;
+  vaulted?: boolean | undefined;
 }
 export type ResourceBackupConfigList = Array<ResourceBackupConfig>;
 /** Response for FetchResourceBackupConfigs. */
 export interface FetchResourceBackupConfigsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of ResourceBackupConfigs for the specified scope. */
-  resourceBackupConfigs?: ResourceBackupConfigList;
+  resourceBackupConfigs?: ResourceBackupConfigList | undefined;
 }
 export interface FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. The maximum number of BackupPlanAssociations to return. The service may return fewer than this value. If unspecified, at most 50 BackupPlanAssociations will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * resource * backup_plan * state * data_source * cloud_sql_instance_backup_plan_association_properties.instance_create_time */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous call of `FetchBackupPlanAssociationsForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchBackupPlanAssociationsForResourceType` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type BackupPlanAssociationList = Array<BackupPlanAssociation>;
 /** Response for the FetchBackupPlanAssociationsForResourceType method. */
 export interface FetchBackupPlanAssociationsForResourceTypeResponse {
   /** Output only. The BackupPlanAssociations from the specified parent. */
-  backupPlanAssociations?: BackupPlanAssociationList;
+  backupPlanAssociations?: BackupPlanAssociationList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum =
   | "BACKUP_VIEW_UNSPECIFIED"
@@ -903,28 +912,29 @@ export type FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsV
   | "BACKUP_VIEW_FULL";
 export interface FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. The type of the GCP resource. Ex: sqladmin.googleapis.com/Instance */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * name * state * backup_type * create_time * expire_time * enforced_retention_end_time * gcp_backup_plan_info.backup_plan * cloud_sql_instance_backup_properties.instance_tier * cloud_sql_instance_backup_properties.database_installed_version */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of Backups to return. The service may return fewer than this value. If unspecified, at most 50 Backups will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. This parameter is used to specify the view of the backup. If not specified, the default view is BASIC. */
   view?:
     | FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Datasources are the parent resource for the backups. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{datasourceId} */
   parent: string;
   /** Optional. A page token, received from a previous call of `FetchBackupsForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchBackupsForResourceType` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A specification of the type and number of accelerator cards attached to the instance. */
 export interface AcceleratorConfig {
   /** Optional. The number of the guest accelerator cards exposed to this instance. */
-  acceleratorCount?: number;
+  acceleratorCount?: number | undefined;
   /** Optional. Full or partial URL of the accelerator type resource to attach to this instance. */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
 }
 export type AcceleratorConfigList = Array<AcceleratorConfig>;
 export type AttachedDiskSavedStateEnum = "DISK_SAVED_STATE_UNSPECIFIED" | "PRESERVED";
@@ -947,27 +957,27 @@ export type GuestOsFeatureTypeEnum =
 /** Feature type of the Guest OS. */
 export interface GuestOsFeature {
   /** The ID of a supported feature. */
-  type?: GuestOsFeatureTypeEnum | (string & {});
+  type?: GuestOsFeatureTypeEnum | (string & {}) | undefined;
 }
 export type GuestOsFeatureList = Array<GuestOsFeature>;
 /** A customer-supplied encryption key. */
 export interface CustomerEncryptionKey {
   /** Optional. RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource. */
-  rsaEncryptedKey?: string;
+  rsaEncryptedKey?: string | undefined;
   /** Optional. The name of the encryption key that is stored in Google Cloud KMS. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Optional. Specifies a 256-bit customer-supplied encryption key. */
-  rawKey?: string;
+  rawKey?: string | undefined;
   /** Optional. The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used. */
-  kmsKeyServiceAccount?: string;
+  kmsKeyServiceAccount?: string | undefined;
 }
 export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | "LOCKED";
 /** Specifies the parameters to initialize this disk. */
 export interface InitializeParams {
   /** Optional. URL of the zone where the disk should be created. Required for each regional disk associated with the instance. */
-  replicaZones?: StringList;
+  replicaZones?: StringList | undefined;
   /** Optional. Specifies the disk name. If not specified, the default is to use the name of the instance. */
-  diskName?: string;
+  diskName?: string | undefined;
 }
 export type AttachedDiskDiskInterfaceEnum =
   | "DISK_INTERFACE_UNSPECIFIED"
@@ -980,61 +990,61 @@ export type AttachedDiskTypeEnum = "DISK_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSIS
 /** An instance-attached disk resource. */
 export interface AttachedDisk {
   /** Optional. Output only. The state of the disk. */
-  savedState?: AttachedDiskSavedStateEnum | (string & {});
+  savedState?: AttachedDiskSavedStateEnum | (string & {}) | undefined;
   /** Optional. Type of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. A list of features to enable on the guest operating system. Applicable only for bootable images. */
-  guestOsFeature?: GuestOsFeatureList;
+  guestOsFeature?: GuestOsFeatureList | undefined;
   /** Optional. The size of the disk in GB. */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
   /** Optional. Output only. The URI of the disk type resource. For example: projects/project/zones/zone/diskTypes/pd-standard or pd-ssd */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Optional. This is used as an identifier for the disks. This is the unique name has to provided to modify disk parameters like disk_name and replica_zones (in case of RePDs) */
-  deviceName?: string;
+  deviceName?: string | undefined;
   /** Optional. Specifies a valid partial or full URL to an existing Persistent Disk resource. */
-  source?: string;
+  source?: string | undefined;
   /** Optional. Encrypts or decrypts a disk using a customer-supplied encryption key. */
-  diskEncryptionKey?: CustomerEncryptionKey;
+  diskEncryptionKey?: CustomerEncryptionKey | undefined;
   /** Optional. The mode in which to attach this disk. */
-  mode?: AttachedDiskModeEnum | (string & {});
+  mode?: AttachedDiskModeEnum | (string & {}) | undefined;
   /** Optional. Any valid publicly visible licenses. */
-  license?: StringList;
+  license?: StringList | undefined;
   /** Optional. Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance). */
-  autoDelete?: boolean;
+  autoDelete?: boolean | undefined;
   /** Optional. A zero-based index to this disk, where 0 is reserved for the boot disk. */
-  index?: string;
+  index?: string | undefined;
   /** Optional. Specifies the parameters to initialize this disk. */
-  initializeParams?: InitializeParams;
+  initializeParams?: InitializeParams | undefined;
   /** Optional. Specifies the disk interface to use for attaching this disk. */
-  diskInterface?: AttachedDiskDiskInterfaceEnum | (string & {});
+  diskInterface?: AttachedDiskDiskInterfaceEnum | (string & {}) | undefined;
   /** Specifies the type of the disk. */
-  diskTypeDeprecated?: AttachedDiskDiskTypeDeprecatedEnum | (string & {});
+  diskTypeDeprecated?: AttachedDiskDiskTypeDeprecatedEnum | (string & {}) | undefined;
   /** Optional. Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem. */
-  boot?: boolean;
+  boot?: boolean | undefined;
   /** Optional. Specifies the type of the disk. */
-  type?: AttachedDiskTypeEnum | (string & {});
+  type?: AttachedDiskTypeEnum | (string & {}) | undefined;
 }
 export type AttachedDiskList = Array<AttachedDisk>;
 /** A service account. */
 export interface ServiceAccount {
   /** Optional. Email address of the service account. */
-  email?: string;
+  email?: string | undefined;
   /** Optional. The list of scopes to be made available for this service account. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 export type ServiceAccountList = Array<ServiceAccount>;
 /** A key/value pair to be used for storing metadata. */
 export interface Entry {
   /** Optional. Value for the metadata entry. These are free-form strings, and only have meaning as interpreted by the image running in the instance. The only restriction placed on values is that their size must be less than or equal to 262144 bytes (256 KiB). */
-  value?: string;
+  value?: string | undefined;
   /** Optional. Key for the metadata entry. */
-  key?: string;
+  key?: string | undefined;
 }
 export type EntryList = Array<Entry>;
 /** A metadata key/value entry. */
 export interface Metadata {
   /** Optional. Array of key/value pairs. The total size of all keys and values must be less than 512 KB. */
-  items?: EntryList;
+  items?: EntryList | undefined;
 }
 export type ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum =
   | "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED"
@@ -1044,11 +1054,11 @@ export type NodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
 /** Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. */
 export interface NodeAffinity {
   /** Optional. Defines the operation of node selection. */
-  operator?: NodeAffinityOperatorEnum | (string & {});
+  operator?: NodeAffinityOperatorEnum | (string & {}) | undefined;
   /** Optional. Corresponds to the label key of Node resource. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Corresponds to the label values of Node resource. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 export type NodeAffinityList = Array<NodeAffinity>;
 export type SchedulingOnHostMaintenanceEnum =
@@ -1066,54 +1076,54 @@ export type SchedulingInstanceTerminationActionEnum =
 /** A SchedulingDuration represents a fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". Range is approximately 10,000 years. */
 export interface SchedulingDuration {
   /** Optional. Span of time that's a fraction of a second at nanosecond resolution. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Optional. Span of time at a resolution of a second. */
-  seconds?: string;
+  seconds?: string | undefined;
 }
 /** Sets the scheduling options for an Instance. */
 export interface Scheduling {
   /** Optional. A set of node affinity and anti-affinity configurations. Overrides reservationAffinity. */
-  nodeAffinities?: NodeAffinityList;
+  nodeAffinities?: NodeAffinityList | undefined;
   /** Optional. Defines the maintenance behavior for this instance. */
-  onHostMaintenance?: SchedulingOnHostMaintenanceEnum | (string & {});
+  onHostMaintenance?: SchedulingOnHostMaintenanceEnum | (string & {}) | undefined;
   /** Optional. Specifies the provisioning model of the instance. */
-  provisioningModel?: SchedulingProvisioningModelEnum | (string & {});
+  provisioningModel?: SchedulingProvisioningModelEnum | (string & {}) | undefined;
   /** Optional. Specifies the termination action for the instance. */
-  instanceTerminationAction?: SchedulingInstanceTerminationActionEnum | (string & {});
+  instanceTerminationAction?: SchedulingInstanceTerminationActionEnum | (string & {}) | undefined;
   /** Optional. Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). */
-  automaticRestart?: boolean;
+  automaticRestart?: boolean | undefined;
   /** Optional. The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. */
-  minNodeCpus?: number;
+  minNodeCpus?: number | undefined;
   /** Optional. Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. */
-  localSsdRecoveryTimeout?: SchedulingDuration;
+  localSsdRecoveryTimeout?: SchedulingDuration | undefined;
   /** Optional. Defines whether the instance is preemptible. */
-  preemptible?: boolean;
+  preemptible?: boolean | undefined;
 }
 /** A set of instance tags. */
 export interface Tags {
   /** Optional. An array of tags. Each tag must be 1-63 characters long, and comply with RFC1035. */
-  items?: StringList;
+  items?: StringList | undefined;
 }
 export type AccessConfigNetworkTierEnum = "NETWORK_TIER_UNSPECIFIED" | "PREMIUM" | "STANDARD";
 export type AccessConfigTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "ONE_TO_ONE_NAT" | "DIRECT_IPV6";
 /** An access configuration attached to an instance's network interface. Only one access config per instance is supported. */
 export interface AccessConfig {
   /** Optional. The name of this access configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The prefix length of the external IPv6 range. */
-  externalIpv6PrefixLength?: number;
+  externalIpv6PrefixLength?: number | undefined;
   /** Optional. Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name. */
-  setPublicPtr?: boolean;
+  setPublicPtr?: boolean | undefined;
   /** Optional. The external IP address of this access configuration. */
-  natIP?: string;
+  natIP?: string | undefined;
   /** Optional. The DNS domain name for the public PTR record. */
-  publicPtrDomainName?: string;
+  publicPtrDomainName?: string | undefined;
   /** Optional. This signifies the networking tier used for configuring this access */
-  networkTier?: AccessConfigNetworkTierEnum | (string & {});
+  networkTier?: AccessConfigNetworkTierEnum | (string & {}) | undefined;
   /** Optional. The external IPv6 address of this access configuration. */
-  externalIpv6?: string;
+  externalIpv6?: string | undefined;
   /** Optional. In accessConfigs (IPv4), the default and only option is ONE_TO_ONE_NAT. In ipv6AccessConfigs, the default and only option is DIRECT_IPV6. */
-  type?: AccessConfigTypeEnum | (string & {});
+  type?: AccessConfigTypeEnum | (string & {}) | undefined;
 }
 export type AccessConfigList = Array<AccessConfig>;
 export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "VIRTIO_NET" | "GVNIC";
@@ -1121,9 +1131,9 @@ export type NetworkInterfaceStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4_ONL
 /** An alias IP range attached to an instance's network interface. */
 export interface AliasIpRange {
   /** Optional. The IP alias ranges to allocate for this interface. */
-  ipCidrRange?: string;
+  ipCidrRange?: string | undefined;
   /** Optional. The name of a subnetwork secondary IP range from which to allocate an IP alias range. If not specified, the primary range of the subnetwork is used. */
-  subnetworkRangeName?: string;
+  subnetworkRangeName?: string | undefined;
 }
 export type AliasIpRangeList = Array<AliasIpRange>;
 export type NetworkInterfaceIpv6AccessTypeEnum =
@@ -1133,95 +1143,96 @@ export type NetworkInterfaceIpv6AccessTypeEnum =
 /** A network interface resource attached to an instance. s */
 export interface NetworkInterface {
   /** Optional. An array of IPv6 access configurations for this interface. Currently, only one IPv6 access config, DIRECT_IPV6, is supported. If there is no ipv6AccessConfig specified, then this instance will have no external IPv6 Internet access. */
-  ipv6AccessConfigs?: AccessConfigList;
+  ipv6AccessConfigs?: AccessConfigList | undefined;
   /** Optional. An IPv6 internal network address for this network interface. To use a static internal IP address, it must be unused and in the same region as the instance's zone. If not specified, Google Cloud will automatically assign an internal IPv6 address from the instance's subnetwork. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** Optional. An array of configurations for this interface. Currently, only one access config,ONE_TO_ONE_NAT is supported. If there are no accessConfigs specified, then this instance will have no external internet access. */
-  accessConfigs?: AccessConfigList;
+  accessConfigs?: AccessConfigList | undefined;
   /** Optional. The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
-  nicType?: NetworkInterfaceNicTypeEnum | (string & {});
+  nicType?: NetworkInterfaceNicTypeEnum | (string & {}) | undefined;
   /** The stack type for this network interface. */
-  stackType?: NetworkInterfaceStackTypeEnum | (string & {});
+  stackType?: NetworkInterfaceStackTypeEnum | (string & {}) | undefined;
   /** Output only. [Output Only] The name of the network interface, which is generated by the server. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The URL of the Subnetwork resource for this instance. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Optional. The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It'll be empty if not specified by the users. */
-  queueCount?: number;
+  queueCount?: number | undefined;
   /** Optional. The URL of the network attachment that this interface should connect to in the following format: projects/{project_number}/regions/{region_name}/networkAttachments/{network_attachment_name}. */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
   /** Optional. An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
-  aliasIpRanges?: AliasIpRangeList;
+  aliasIpRanges?: AliasIpRangeList | undefined;
   /** Optional. URL of the VPC network resource for this instance. */
-  network?: string;
+  network?: string | undefined;
   /** Optional. The prefix length of the primary internal IPv6 range. */
-  internalIpv6PrefixLength?: number;
+  internalIpv6PrefixLength?: number | undefined;
   /** Optional. [Output Only] One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet. This field is always inherited from its subnetwork. */
-  ipv6AccessType?: NetworkInterfaceIpv6AccessTypeEnum | (string & {});
+  ipv6AccessType?: NetworkInterfaceIpv6AccessTypeEnum | (string & {}) | undefined;
   /** Optional. An IPv4 internal IP address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system. */
-  networkIP?: string;
+  networkIP?: string | undefined;
 }
 export type NetworkInterfaceList = Array<NetworkInterface>;
 /** ComputeInstanceBackupProperties represents Compute Engine instance backup properties. */
 export interface ComputeInstanceBackupProperties {
   /** A list of guest accelerator cards' type and count to use for instances created from these properties. */
-  guestAccelerator?: AcceleratorConfigList;
+  guestAccelerator?: AcceleratorConfigList | undefined;
   /** An array of disks that are associated with the instances that are created from these properties. */
-  disk?: AttachedDiskList;
+  disk?: AttachedDiskList | undefined;
   /** Optional. Indicates whether to perform a guest flush operation before taking a compute backup. When set to false, the system will create crash-consistent backups. Default value is false. */
-  guestFlush?: boolean;
+  guestFlush?: boolean | undefined;
   /** The source instance used to create this backup. This can be a partial or full URL to the resource. For example, the following are valid values: -https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance -projects/project/zones/zone/instances/instance */
-  sourceInstance?: string;
+  sourceInstance?: string | undefined;
   /** Labels to apply to instances that are created from these properties. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** An optional text description for the instances that are created from these properties. */
-  description?: string;
+  description?: string | undefined;
   /** The machine type to use for instances that are created from these properties. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from these properties. Use metadata queries to obtain the access tokens for these instances. */
-  serviceAccount?: ServiceAccountList;
+  serviceAccount?: ServiceAccountList | undefined;
   /** The metadata key/value pairs to assign to instances that are created from these properties. These pairs can consist of custom metadata or predefined keys. See https://cloud.google.com/compute/docs/metadata/overview for more information. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** KeyRevocationActionType of the instance. Supported options are "STOP" and "NONE". The default value is "NONE" if it is not specified. */
   keyRevocationActionType?:
     | ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Specifies the scheduling options for the instances that are created from these properties. */
-  scheduling?: Scheduling;
+  scheduling?: Scheduling | undefined;
   /** A list of tags to apply to the instances that are created from these properties. The tags identify valid sources or targets for network firewalls. The setTags method can modify this list of tags. Each tag within the list must comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** An array of network access configurations for this interface. */
-  networkInterface?: NetworkInterfaceList;
+  networkInterface?: NetworkInterfaceList | undefined;
   /** Enables instances created based on these properties to send packets with source IP addresses other than their own and receive packets with destination IP addresses other than their own. If these instances will be used as an IP gateway or it will be set as the next-hop in a Route resource, specify `true`. If unsure, leave this set to `false`. See the https://cloud.google.com/vpc/docs/using-routes#canipforward documentation for more information. */
-  canIpForward?: boolean;
+  canIpForward?: boolean | undefined;
   /** Minimum cpu/platform to be used by instances. The instance may be scheduled on the specified or newer cpu/platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: Intel Haswell` or `minCpuPlatform: Intel Sandy Bridge`. For more information, read https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform. */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
 }
 /** CloudSqlInstanceBackupProperties represents Cloud SQL Instance Backup properties. */
 export interface CloudSqlInstanceBackupProperties {
   /** Output only. Whether the backup is a final backup. */
-  finalBackup?: boolean;
+  finalBackup?: boolean | undefined;
   /** Output only. The source instance of the backup. Format: projects/{project}/instances/{instance} */
-  sourceInstance?: string;
+  sourceInstance?: string | undefined;
   /** Output only. The installed database version of the Cloud SQL instance when the backup was taken. */
-  databaseInstalledVersion?: string;
+  databaseInstalledVersion?: string | undefined;
   /** Output only. The instance delete timestamp. */
-  instanceDeleteTime?: string;
+  instanceDeleteTime?: string | undefined;
   /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
   /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
+  instanceTier?: string | undefined;
 }
 /** AlloyDbClusterBackupProperties represents AlloyDB cluster backup properties. . */
 export interface AlloyDbClusterBackupProperties {
   /** Output only. Storage usage of this particular backup */
-  storedBytes?: string;
+  storedBytes?: string | undefined;
   /** Output only. The chain id of this backup. Backups belonging to the same chain are sharing the same chain id. This property is calculated and maintained by BackupDR. */
-  chainId?: string;
+  chainId?: string | undefined;
   /** An optional text description for the backup. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The PostgreSQL major version of the AlloyDB cluster when the backup was taken. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
 }
 export type BackupBackupRetentionInheritanceEnum =
   | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
@@ -1230,68 +1241,68 @@ export type BackupBackupRetentionInheritanceEnum =
 /** FilestoreInstanceBackupProperties represents the properties of a Filestore instance that are backed up by the datasource. . */
 export interface FilestoreInstanceBackupProperties {
   /** Output only. The source instance of the backup. */
-  sourceInstance?: string;
+  sourceInstance?: string | undefined;
 }
 /** Minimum details to identify a Google Cloud resource for a backup. */
 export interface BackupGcpResource {
   /** Name of the Google Cloud resource. */
-  gcpResourcename?: string;
+  gcpResourcename?: string | undefined;
   /** Location of the resource: //"global"/"unspecified". */
-  location?: string;
+  location?: string | undefined;
   /** Type of the resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
-  type?: string;
+  type?: string | undefined;
 }
 /** BackupApplianceLockInfo contains metadata about the backupappliance that created the lock. */
 export interface BackupApplianceLockInfo {
   /** The image name that depends on this Backup. */
-  backupImage?: string;
+  backupImage?: string | undefined;
   /** The SLA on the backup/recovery appliance that owns the lock. */
-  slaId?: string;
+  slaId?: string | undefined;
   /** Required. The reason for the lock: e.g. MOUNT/RESTORE/BACKUP/etc. The value of this string is only meaningful to the client and it is not interpreted by the BackupVault service. */
-  lockReason?: string;
+  lockReason?: string | undefined;
   /** Required. The ID of the backup/recovery appliance that created this lock. */
-  backupApplianceId?: string;
+  backupApplianceId?: string | undefined;
   /** Required. The name of the backup/recovery appliance that created this lock. */
-  backupApplianceName?: string;
+  backupApplianceName?: string | undefined;
   /** The job name on the backup/recovery appliance that created this lock. */
-  jobName?: string;
+  jobName?: string | undefined;
 }
 /** ServiceLockInfo represents the details of a lock taken by the service on a Backup resource. */
 export interface ServiceLockInfo {
   /** Output only. The name of the operation that created this lock. The lock will automatically be released when the operation completes. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** BackupLock represents a single lock on a Backup resource. An unexpired lock on a Backup prevents the Backup from being deleted. */
 export interface BackupLock {
   /** If the client is a backup and recovery appliance, this contains metadata about why the lock exists. */
-  backupApplianceLockInfo?: BackupApplianceLockInfo;
+  backupApplianceLockInfo?: BackupApplianceLockInfo | undefined;
   /** Output only. Contains metadata about the lock exist for Google Cloud native backups. */
-  serviceLockInfo?: ServiceLockInfo;
+  serviceLockInfo?: ServiceLockInfo | undefined;
   /** Required. The time after which this lock is not considered valid and will no longer protect the Backup from deletion. */
-  lockUntilTime?: string;
+  lockUntilTime?: string | undefined;
 }
 export type BackupLockList = Array<BackupLock>;
 /** GCPBackupPlanInfo captures the plan configuration details of Google Cloud resources at the time of backup. */
 export interface GCPBackupPlanInfo {
   /** The user friendly id of the backup plan revision which triggered this backup in case of scheduled backup or used for on demand backup. */
-  backupPlanRevisionId?: string;
+  backupPlanRevisionId?: string | undefined;
   /** The rule id of the backup plan which triggered this backup in case of scheduled backup or used for */
-  backupPlanRuleId?: string;
+  backupPlanRuleId?: string | undefined;
   /** Resource name of backup plan by which workload is protected at the time of the backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
+  backupPlan?: string | undefined;
   /** Resource name of the backup plan revision which triggered this backup in case of scheduled backup or used for on demand backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId}/revisions/{revisionId} */
-  backupPlanRevisionName?: string;
+  backupPlanRevisionName?: string | undefined;
 }
 /** BackupApplianceBackupProperties represents BackupDR backup appliance's properties. */
 export interface BackupApplianceBackupProperties {
   /** Optional. The earliest timestamp of data available in this Backup. */
-  recoveryRangeStartTime?: string;
+  recoveryRangeStartTime?: string | undefined;
   /** Output only. The time when this backup object was finalized (if none, backup is not finalized). */
-  finalizeTime?: string;
+  finalizeTime?: string | undefined;
   /** Output only. The numeric generation ID of the backup (monotonically increasing). */
-  generationId?: number;
+  generationId?: number | undefined;
   /** Optional. The latest timestamp of data available in this Backup. */
-  recoveryRangeEndTime?: string;
+  recoveryRangeEndTime?: string | undefined;
 }
 export type BackupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1309,156 +1320,156 @@ export type DiskBackupPropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | 
 /** DiskBackupProperties represents the properties of a Disk backup. */
 export interface DiskBackupProperties {
   /** The URL of the Zone where the source disk. */
-  zone?: string;
+  zone?: string | undefined;
   /** A list of guest OS features that are applicable to this backup. */
-  guestOsFeature?: GuestOsFeatureList;
+  guestOsFeature?: GuestOsFeatureList | undefined;
   /** The labels of the source disk. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The URL of the type of the disk. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Defines if the guest flush is enabled for the source disk. Default value is false. */
-  guestFlush?: boolean;
+  guestFlush?: boolean | undefined;
   /** The number of throughput provisioned for the source disk. */
-  provisionedThroughput?: string;
+  provisionedThroughput?: string | undefined;
   /** Region and zone are mutually exclusive fields. The URL of the region of the source disk. */
-  region?: string;
+  region?: string | undefined;
   /** A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image. */
-  licenses?: StringList;
+  licenses?: StringList | undefined;
   /** The URL of the Zones where the source disk should be replicated. */
-  replicaZones?: StringList;
+  replicaZones?: StringList | undefined;
   /** Size(in GB) of the source disk. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
   /** Indicates whether the source disk is using confidential compute mode. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
   /** The physical block size of the source disk. */
-  physicalBlockSizeBytes?: string;
+  physicalBlockSizeBytes?: string | undefined;
   /** The architecture of the source disk. Valid values are ARM64 or X86_64. */
-  architecture?: DiskBackupPropertiesArchitectureEnum | (string & {});
+  architecture?: DiskBackupPropertiesArchitectureEnum | (string & {}) | undefined;
   /** The storage pool of the source disk. */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** A description of the source disk. */
-  description?: string;
+  description?: string | undefined;
   /** The access mode of the source disk. */
-  accessMode?: string;
+  accessMode?: string | undefined;
   /** The number of IOPS provisioned for the source disk. */
-  provisionedIops?: string;
+  provisionedIops?: string | undefined;
   /** The source disk used to create this backup. */
-  sourceDisk?: string;
+  sourceDisk?: string | undefined;
 }
 /** Message describing a Backup object. */
 export interface Backup {
   /** Output only. Compute Engine specific backup properties. */
-  computeInstanceBackupProperties?: ComputeInstanceBackupProperties;
+  computeInstanceBackupProperties?: ComputeInstanceBackupProperties | undefined;
   /** Output only. source resource size in bytes at the time of the backup. */
-  resourceSizeBytes?: string;
+  resourceSizeBytes?: string | undefined;
   /** Output only. Cloud SQL specific backup properties. */
-  cloudSqlInstanceBackupProperties?: CloudSqlInstanceBackupProperties;
+  cloudSqlInstanceBackupProperties?: CloudSqlInstanceBackupProperties | undefined;
   /** Output only. AlloyDB specific backup properties. */
-  alloyDbBackupProperties?: AlloyDbClusterBackupProperties;
+  alloyDbBackupProperties?: AlloyDbClusterBackupProperties | undefined;
   /** Optional. Resource labels to represent user provided metadata. No labels currently defined. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Setting for how the enforced retention end time is inherited. This value is copied from this backup's BackupVault. */
-  backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | (string & {});
+  backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | (string & {}) | undefined;
   /** Output only. Filestore specific backup properties. */
-  filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties;
+  filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties | undefined;
   /** Output only. Unique identifier of the GCP resource that is being backed up. */
-  gcpResource?: BackupGcpResource;
+  gcpResource?: BackupGcpResource | undefined;
   /** Output only. The list of BackupLocks taken by the service to prevent the deletion of the backup. */
-  serviceLocks?: BackupLockList;
+  serviceLocks?: BackupLockList | undefined;
   /** Optional. Server specified ETag to prevent updates from overwriting each other. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. The list of BackupLocks taken by the accessor Backup Appliance. */
-  backupApplianceLocks?: BackupLockList;
+  backupApplianceLocks?: BackupLockList | undefined;
   /** Output only. Configuration for a Google Cloud resource. */
-  gcpBackupPlanInfo?: GCPBackupPlanInfo;
+  gcpBackupPlanInfo?: GCPBackupPlanInfo | undefined;
   /** Optional. When this backup is automatically expired. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. Backup Appliance specific backup properties. */
-  backupApplianceBackupProperties?: BackupApplianceBackupProperties;
+  backupApplianceBackupProperties?: BackupApplianceBackupProperties | undefined;
   /** Output only. The Backup resource instance state. */
-  state?: BackupStateEnum | (string & {});
+  state?: BackupStateEnum | (string & {}) | undefined;
   /** Output only. The time when the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Type of the backup, unspecified, scheduled or ondemand. */
-  backupType?: BackupBackupTypeEnum | (string & {});
+  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The description of the Backup instance (2048 characters or less). */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Disk specific backup properties. */
-  diskBackupProperties?: DiskBackupProperties;
+  diskBackupProperties?: DiskBackupProperties | undefined;
   /** Optional. Output only. The list of KMS key versions used to encrypt the backup. */
-  kmsKeyVersions?: StringList;
+  kmsKeyVersions?: StringList | undefined;
   /** Optional. The backup can not be deleted before this time. */
-  enforcedRetentionEndTime?: string;
+  enforcedRetentionEndTime?: string | undefined;
   /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The point in time when this backup was captured from the source. */
-  consistencyTime?: string;
+  consistencyTime?: string | undefined;
   /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
 }
 export type BackupList = Array<Backup>;
 /** Response for the FetchBackupsForResourceType method. */
 export interface FetchBackupsForResourceTypeResponse {
   /** The Backups from the specified parent. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest {
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Optional. The maximum number of DataSourceReferences to return. The service may return fewer than this value. If unspecified, at most 50 DataSourceReferences will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous call of `FetchDataSourceReferencesForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchDataSourceReferencesForResourceType` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * data_source * data_source_gcp_resource_info.gcp_resourcename * data_source_backup_config_state * data_source_backup_count * data_source_backup_config_info.last_backup_state * data_source_gcp_resource_info.gcp_resourcename * data_source_gcp_resource_info.type * data_source_gcp_resource_info.location * data_source_gcp_resource_info.cloud_sql_instance_properties.instance_create_time */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** CloudSqlInstanceDataSourceReferenceProperties represents the properties of a Cloud SQL resource that are stored in the DataSourceReference. */
 export interface CloudSqlInstanceDataSourceReferenceProperties {
   /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The installed database version of the Cloud SQL instance. */
-  databaseInstalledVersion?: string;
+  databaseInstalledVersion?: string | undefined;
   /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
   /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
+  instanceTier?: string | undefined;
 }
 /** FilestoreInstanceDataSourceReferenceProperties represents the properties of a Filestore resource that are stored in the DataSourceReference. . */
 export interface FilestoreInstanceDataSourceReferenceProperties {
   /** Output only. Name of the Filestore instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
 }
 /** AlloyDBClusterDataSourceReferenceProperties represents the properties of an AlloyDB cluster that are stored in the DataSourceReference. */
 export interface AlloyDBClusterDataSourceReferenceProperties {
   /** Output only. Name of the AlloyDB cluster backed up by the datasource. Format: projects/{project}/locations/{location}/clusters/{cluster} */
-  name?: string;
+  name?: string | undefined;
 }
 /** The Google Cloud resource that the DataSource is associated with. */
 export interface DataSourceGcpResourceInfo {
   /** Output only. The location of the Google Cloud resource. Ex: //"global"/"unspecified" */
-  location?: string;
+  location?: string | undefined;
   /** Output only. The properties of the Cloud SQL instance. */
-  cloudSqlInstanceProperties?: CloudSqlInstanceDataSourceReferenceProperties;
+  cloudSqlInstanceProperties?: CloudSqlInstanceDataSourceReferenceProperties | undefined;
   /** Output only. The type of the Google Cloud resource. Ex: compute.googleapis.com/Instance */
-  type?: string;
+  type?: string | undefined;
   /** Output only. The properties of the Filestore instance. */
-  filestoreInstanceProperties?: FilestoreInstanceDataSourceReferenceProperties;
+  filestoreInstanceProperties?: FilestoreInstanceDataSourceReferenceProperties | undefined;
   /** Output only. The resource name of the Google Cloud resource. Ex: projects/{project}/zones/{zone}/instances/{instance} */
-  gcpResourcename?: string;
+  gcpResourcename?: string | undefined;
   /** Output only. The properties of the AlloyDB cluster. */
-  alloyDbClusterProperties?: AlloyDBClusterDataSourceReferenceProperties;
+  alloyDbClusterProperties?: AlloyDBClusterDataSourceReferenceProperties | undefined;
 }
 export type DataSourceReferenceDataSourceBackupConfigStateEnum =
   | "BACKUP_CONFIG_STATE_UNSPECIFIED"
@@ -1473,131 +1484,131 @@ export type DataSourceBackupConfigInfoLastBackupStateEnum =
 /** Information of backup configuration on the DataSource. */
 export interface DataSourceBackupConfigInfo {
   /** Output only. The status of the last backup in this DataSource */
-  lastBackupState?: DataSourceBackupConfigInfoLastBackupStateEnum;
+  lastBackupState?: DataSourceBackupConfigInfoLastBackupStateEnum | undefined;
   /** Output only. Timestamp of the last successful backup to this DataSource. */
-  lastSuccessfulBackupConsistencyTime?: string;
+  lastSuccessfulBackupConsistencyTime?: string | undefined;
 }
 /** DataSourceReference is a reference to a DataSource resource. */
 export interface DataSourceReference {
   /** Output only. The Google Cloud resource that the DataSource is associated with. */
-  dataSourceGcpResourceInfo?: DataSourceGcpResourceInfo;
+  dataSourceGcpResourceInfo?: DataSourceGcpResourceInfo | undefined;
   /** Output only. Total size of the storage used by all backup resources for the referenced datasource. */
-  totalStoredBytes?: string;
+  totalStoredBytes?: string | undefined;
   /** Output only. The backup configuration state of the DataSource. */
-  dataSourceBackupConfigState?: DataSourceReferenceDataSourceBackupConfigStateEnum;
+  dataSourceBackupConfigState?: DataSourceReferenceDataSourceBackupConfigStateEnum | undefined;
   /** Output only. Number of backups in the DataSource. */
-  dataSourceBackupCount?: string;
+  dataSourceBackupCount?: string | undefined;
   /** Output only. The time when the DataSourceReference was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the DataSourceReference. Format: projects/{project}/locations/{location}/dataSourceReferences/{data_source_reference} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The resource name of the DataSource. Format: projects/{project}/locations/{location}/backupVaults/{backupVault}/dataSources/{dataSource} */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Output only. Information of backup configuration on the DataSource. */
-  dataSourceBackupConfigInfo?: DataSourceBackupConfigInfo;
+  dataSourceBackupConfigInfo?: DataSourceBackupConfigInfo | undefined;
 }
 export type DataSourceReferenceList = Array<DataSourceReference>;
 /** Response for the FetchDataSourceReferencesForResourceType method. */
 export interface FetchDataSourceReferencesForResourceTypeResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The DataSourceReferences from the specified parent. */
-  dataSourceReferences?: DataSourceReferenceList;
+  dataSourceReferences?: DataSourceReferenceList | undefined;
 }
 export interface FetchOrganizationsLocationsResourceBackupConfigsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface FetchProjectsLocationsResourceBackupConfigsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export interface FetchUsableProjectsLocationsBackupVaultsRequest {
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type BackupVaultList = Array<BackupVault>;
 /** Response message for fetching usable BackupVaults. */
 export interface FetchUsableBackupVaultsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backupVaults?: BackupVaultList;
+  backupVaults?: BackupVaultList | undefined;
 }
 /** Message for finalizing a Backup. */
 export interface FinalizeBackupRequest {
   /** Required. Resource ID of the Backup resource to be finalized. This must be the same backup_id that was used in the InitiateBackupRequest. */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** This will be assigned to the description field of the newly created Backup. */
-  description?: string;
+  description?: string | undefined;
   /** The earliest timestamp of data available in this Backup. This will set on the newly created Backup. */
-  recoveryRangeStartTime?: string;
+  recoveryRangeStartTime?: string | undefined;
   /** The point in time when this backup was captured from the source. This will be assigned to the consistency_time field of the newly created Backup. */
-  consistencyTime?: string;
+  consistencyTime?: string | undefined;
   /** The latest timestamp of data available in this Backup. This will be set on the newly created Backup. */
-  recoveryRangeEndTime?: string;
+  recoveryRangeEndTime?: string | undefined;
   /** The ExpireTime on the backup will be set to FinalizeTime plus this duration. If the resulting ExpireTime is less than EnforcedRetentionEndTime, then ExpireTime is set to EnforcedRetentionEndTime. */
-  retentionDuration?: string;
+  retentionDuration?: string | undefined;
 }
 export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
   /** Request body */
-  body?: FinalizeBackupRequest;
+  body?: FinalizeBackupRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsManagementServersRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -1608,29 +1619,29 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1639,15 +1650,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The name of the policy to retrieve. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
@@ -1670,24 +1681,24 @@ export type AutoProtectionDetailsStateEnum =
 /** AutoProtectionDetails contains the protection details of a resource from the current binding's perspective. */
 export interface AutoProtectionDetails {
   /** Output only. Resource name of the datasource linked to the resource, if any. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{dataSourceId} */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Output only. Resource name of backup plan association linked to the resource, if any. Format: projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
-  backupPlanAssociation?: string;
+  backupPlanAssociation?: string | undefined;
   /** Output only. Protection state of the resource from the current binding's perspective. Output only. */
-  state?: AutoProtectionDetailsStateEnum;
+  state?: AutoProtectionDetailsStateEnum | undefined;
   /** Output only. Error during last sync for protection/unprotection, if any. */
-  error?: Status;
+  error?: Status | undefined;
 }
 /** BindingMatchingResource contains the details of a resource that matches the criteria of a binding. */
 export interface BindingMatchingResource {
   /** Output only. The auto protection details of the resource from the current binding's perspective. */
-  autoProtectionDetails?: AutoProtectionDetails;
+  autoProtectionDetails?: AutoProtectionDetails | undefined;
   /** Required. Immutable. Resource name of the workload that matches the criteria of the binding. The format can be either a relative resource name (e.g., `projects/my-project/zones/us-central1-a/instances/my-instance`) or a schemeless full resource name (e.g., `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`). */
-  resource?: string;
+  resource?: string | undefined;
   /** Identifier. The resource name of the `BindingMatchingResource`. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}/matchingResources/{matching_resource}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The timestamp when the resource was last evaluated for protection. */
-  lastEvaluationTime?: string;
+  lastEvaluationTime?: string | undefined;
 }
 export interface GetProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
@@ -1710,15 +1721,15 @@ export type BackupPlanRevisionStateEnum =
 /** `BackupPlanRevision` represents a snapshot of a `BackupPlan` at a point in time. */
 export interface BackupPlanRevision {
   /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. The timestamp that the revision was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The Backup Plan being encompassed by this revision. */
-  backupPlanSnapshot?: BackupPlan;
+  backupPlanSnapshot?: BackupPlan | undefined;
   /** Output only. Resource State */
-  state?: BackupPlanRevisionStateEnum;
+  state?: BackupPlanRevisionStateEnum | undefined;
   /** Output only. Identifier. The resource name of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision}` */
-  name?: string;
+  name?: string | undefined;
 }
 export type GetProjectsLocationsBackupVaultsViewEnum =
   | "BACKUP_VAULT_VIEW_UNSPECIFIED"
@@ -1728,7 +1739,7 @@ export interface GetProjectsLocationsBackupVaultsRequest {
   /** Required. Name of the backupvault store resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{resource_name}' */
   name: string;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup Vault */
-  view?: GetProjectsLocationsBackupVaultsViewEnum | (string & {});
+  view?: GetProjectsLocationsBackupVaultsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. Name of the data source resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{resource_name}/dataSource/{resource_name}' */
@@ -1738,82 +1749,82 @@ export type DataSourceConfigStateEnum = "BACKUP_CONFIG_STATE_UNSPECIFIED" | "ACT
 /** FilestoreInstanceDataSourceProperties represents the properties of a Filestore resource that are stored in the DataSource. . */
 export interface FilestoreInstanceDataSourceProperties {
   /** Output only. Name of the Filestore instance backed up by the datasource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
 }
 /** ComputeInstanceDataSourceProperties represents the properties of a ComputeEngine resource that are stored in the DataSource. */
 export interface ComputeInstanceDataSourceProperties {
   /** The total number of disks attached to the Instance. */
-  totalDiskCount?: string;
+  totalDiskCount?: string | undefined;
   /** The description of the Compute Engine instance. */
-  description?: string;
+  description?: string | undefined;
   /** The machine type of the instance. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** The sum of all the disk sizes. */
-  totalDiskSizeGb?: string;
+  totalDiskSizeGb?: string | undefined;
   /** Name of the compute instance backed up by the datasource. */
-  name?: string;
+  name?: string | undefined;
 }
 /** DiskDataSourceProperties represents the properties of a Disk resource that are stored in the DataSource. . */
 export interface DiskDataSourceProperties {
   /** The size of the disk in GB. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
   /** Name of the disk backed up by the datasource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the disk. */
-  type?: string;
+  type?: string | undefined;
   /** The description of the disk. */
-  description?: string;
+  description?: string | undefined;
 }
 /** CloudSqlInstanceDataSourceProperties represents the properties of a Cloud SQL resource that are stored in the DataSource. */
 export interface CloudSqlInstanceDataSourceProperties {
   /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
+  instanceCreateTime?: string | undefined;
   /** Output only. The installed database version of the Cloud SQL instance. */
-  databaseInstalledVersion?: string;
+  databaseInstalledVersion?: string | undefined;
   /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
+  instanceTier?: string | undefined;
 }
 /** Point in time recovery window for an AlloyDB cluster. */
 export interface AlloyDbPitrWindow {
   /** Output only. The start time of the PITR window. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Log retention days for the PITR window. */
-  logRetentionDays?: string;
+  logRetentionDays?: string | undefined;
   /** Output only. The end time of the PITR window. It is not set if the corresponding Backup Plan Association is active. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type AlloyDbPitrWindowList = Array<AlloyDbPitrWindow>;
 /** AlloyDBClusterDataSourceProperties represents the properties of a AlloyDB cluster resource that are stored in the DataSource. . */
 export interface AlloyDBClusterDataSourceProperties {
   /** Output only. The cluster UID of the AlloyDB cluster backed up by the datasource. */
-  clusterUid?: string;
+  clusterUid?: string | undefined;
   /** Output only. Name of the AlloyDB cluster backed up by the datasource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Point in time recovery windows. The order is guaranteed to be ascending by start time. */
-  pitrWindows?: AlloyDbPitrWindowList;
+  pitrWindows?: AlloyDbPitrWindowList | undefined;
 }
 /** DataSourceGcpResource is used for protected resources that are Google Cloud Resources. This name is easeier to understand than GcpResourceDataSource or GcpDataSourceResource */
 export interface DataSourceGcpResource {
   /** Output only. FilestoreInstanceDataSourceProperties has a subset of FileStore instance properties that are useful at the Datasource level. */
-  filestoreInstanceDatasourceProperties?: FilestoreInstanceDataSourceProperties;
+  filestoreInstanceDatasourceProperties?: FilestoreInstanceDataSourceProperties | undefined;
   /** Location of the resource: //"global"/"unspecified". */
-  location?: string;
+  location?: string | undefined;
   /** ComputeInstanceDataSourceProperties has a subset of Compute Instance properties that are useful at the Datasource level. */
-  computeInstanceDatasourceProperties?: ComputeInstanceDataSourceProperties;
+  computeInstanceDatasourceProperties?: ComputeInstanceDataSourceProperties | undefined;
   /** The type of the Google Cloud resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
-  type?: string;
+  type?: string | undefined;
   /** DiskDataSourceProperties has a subset of Disk properties that are useful at the Datasource level. */
-  diskDatasourceProperties?: DiskDataSourceProperties;
+  diskDatasourceProperties?: DiskDataSourceProperties | undefined;
   /** Output only. CloudSqlInstanceDataSourceProperties has a subset of Cloud SQL Instance properties that are useful at the Datasource level. */
-  cloudSqlInstanceDatasourceProperties?: CloudSqlInstanceDataSourceProperties;
+  cloudSqlInstanceDatasourceProperties?: CloudSqlInstanceDataSourceProperties | undefined;
   /** Output only. AlloyDBClusterDataSourceProperties has a subset of AlloyDB cluster properties that are useful at the Datasource level. Currently none of its child properties are auditable. If new auditable properties are added, the AUDIT annotation should be added. */
-  alloyDbClusterDatasourceProperties?: AlloyDBClusterDataSourceProperties;
+  alloyDbClusterDatasourceProperties?: AlloyDBClusterDataSourceProperties | undefined;
   /** Output only. Full resource pathname URL of the source Google Cloud resource. */
-  gcpResourcename?: string;
+  gcpResourcename?: string | undefined;
 }
 export type DataSourceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1830,95 +1841,95 @@ export type BackupConfigInfoLastBackupStateEnum =
 /** BackupApplianceBackupConfig captures the backup configuration for applications that are protected by Backup Appliances. */
 export interface BackupApplianceBackupConfig {
   /** The ID of the SLA of this application. */
-  slaId?: string;
+  slaId?: string | undefined;
   /** The name of the host where the application is running. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The name of the SLT associated with the application. */
-  sltName?: string;
+  sltName?: string | undefined;
   /** The ID of the backup appliance. */
-  backupApplianceId?: string;
+  backupApplianceId?: string | undefined;
   /** The name of the backup appliance. */
-  backupApplianceName?: string;
+  backupApplianceName?: string | undefined;
   /** The name of the SLP associated with the application. */
-  slpName?: string;
+  slpName?: string | undefined;
   /** The name of the application. */
-  applicationName?: string;
+  applicationName?: string | undefined;
 }
 /** GcpBackupConfig captures the Backup configuration details for Google Cloud resources. All Google Cloud resources regardless of type are protected with backup plan associations. */
 export interface GcpBackupConfig {
   /** The user friendly id of the backup plan revision. E.g. v0, v1 etc. */
-  backupPlanRevisionId?: string;
+  backupPlanRevisionId?: string | undefined;
   /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this datasource, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string;
+  autoProtectionPolicyBinding?: string | undefined;
   /** The description of the backup plan. */
-  backupPlanDescription?: string;
+  backupPlanDescription?: string | undefined;
   /** The name of the backup plan. */
-  backupPlan?: string;
+  backupPlan?: string | undefined;
   /** The name of the backup plan revision. */
-  backupPlanRevisionName?: string;
+  backupPlanRevisionName?: string | undefined;
   /** The names of the backup plan rules which point to this backupvault */
-  backupPlanRules?: StringList;
+  backupPlanRules?: StringList | undefined;
   /** The name of the backup plan association. */
-  backupPlanAssociation?: string;
+  backupPlanAssociation?: string | undefined;
 }
 /** BackupConfigInfo has information about how the resource is configured for Backup and about the most recent backup to this vault. */
 export interface BackupConfigInfo {
   /** Output only. The status of the last backup to this BackupVault */
-  lastBackupState?: BackupConfigInfoLastBackupStateEnum | (string & {});
+  lastBackupState?: BackupConfigInfoLastBackupStateEnum | (string & {}) | undefined;
   /** Output only. If the last backup failed, this field has the error message. */
-  lastBackupError?: Status;
+  lastBackupError?: Status | undefined;
   /** Configuration for an application backed up by a Backup Appliance. */
-  backupApplianceBackupConfig?: BackupApplianceBackupConfig;
+  backupApplianceBackupConfig?: BackupApplianceBackupConfig | undefined;
   /** Configuration for a Google Cloud resource. */
-  gcpBackupConfig?: GcpBackupConfig;
+  gcpBackupConfig?: GcpBackupConfig | undefined;
   /** Output only. If the last backup were successful, this field has the consistency date. */
-  lastSuccessfulBackupConsistencyTime?: string;
+  lastSuccessfulBackupConsistencyTime?: string | undefined;
 }
 /** BackupApplianceApplication describes a Source Resource when it is an application backed up by a BackupAppliance. */
 export interface DataSourceBackupApplianceApplication {
   /** The name of the Application as known to the Backup Appliance. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** Appliance Id of the Backup Appliance. */
-  applianceId?: string;
+  applianceId?: string | undefined;
   /** Hostid of the application host. */
-  hostId?: string;
+  hostId?: string | undefined;
   /** Appliance name. */
-  backupAppliance?: string;
+  backupAppliance?: string | undefined;
   /** The appid field of the application within the Backup Appliance. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Hostname of the host where the application is running. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The type of the application. e.g. VMBackup */
-  type?: string;
+  type?: string | undefined;
 }
 /** Message describing a DataSource object. Datasource object used to represent Datasource details for both admin and basic view. */
 export interface DataSource {
   /** Output only. The backup configuration state. */
-  configState?: DataSourceConfigStateEnum | (string & {});
+  configState?: DataSourceConfigStateEnum | (string & {}) | undefined;
   /** Output only. This field is set to true if the backup is blocked by vault access restriction. */
-  backupBlockedByVaultAccessRestriction?: boolean;
+  backupBlockedByVaultAccessRestriction?: boolean | undefined;
   /** Output only. The time when the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Number of backups in the data source. */
-  backupCount?: string;
+  backupCount?: string | undefined;
   /** The number of bytes (metadata and data) stored in this datasource. */
-  totalStoredBytes?: string;
+  totalStoredBytes?: string | undefined;
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The backed up resource is a Google Cloud resource. The word 'DataSource' was included in the names to indicate that this is the representation of the Google Cloud resource used within the DataSource object. */
-  dataSourceGcpResource?: DataSourceGcpResource;
+  dataSourceGcpResource?: DataSourceGcpResource | undefined;
   /** Output only. The DataSource resource instance state. */
-  state?: DataSourceStateEnum | (string & {});
+  state?: DataSourceStateEnum | (string & {}) | undefined;
   /** Output only. Details of how the resource is configured for backup. */
-  backupConfigInfo?: BackupConfigInfo;
+  backupConfigInfo?: BackupConfigInfo | undefined;
   /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The backed up resource is a backup appliance application. */
-  dataSourceBackupApplianceApplication?: DataSourceBackupApplianceApplication;
+  dataSourceBackupApplianceApplication?: DataSourceBackupApplianceApplication | undefined;
   /** Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type GetProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum =
   | "BACKUP_VIEW_UNSPECIFIED"
@@ -1928,7 +1939,7 @@ export interface GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. Name of the data source resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{backupVault}/dataSources/{datasource}/backups/{backup}' */
   name: string;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup resource. */
-  view?: GetProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum | (string & {});
+  view?: GetProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsDataSourceReferencesRequest {
   /** Required. The name of the DataSourceReference to retrieve. Format: projects/{project}/locations/{location}/dataSourceReferences/{data_source_reference} */
@@ -1953,48 +1964,48 @@ export type CloudSqlInstanceInitializationConfigEditionEnum =
 /** CloudSqlInstanceInitializationConfig contains the configuration for initializing a Cloud SQL instance. */
 export interface CloudSqlInstanceInitializationConfig {
   /** Required. The edition of the Cloud SQL instance. */
-  edition?: CloudSqlInstanceInitializationConfigEditionEnum | (string & {});
+  edition?: CloudSqlInstanceInitializationConfigEditionEnum | (string & {}) | undefined;
 }
 /** Request message for initializing the service. */
 export interface InitializeServiceRequest {
   /** Optional. The configuration for initializing a Cloud SQL instance. */
-  cloudSqlInstanceInitializationConfig?: CloudSqlInstanceInitializationConfig;
+  cloudSqlInstanceInitializationConfig?: CloudSqlInstanceInitializationConfig | undefined;
   /** Optional. The location where the BackupPlan will be created. This field is required for multi-region BackupVaults and is optional for regional BackupVaults. It is useful when creating a Backup Vault in a multi-region, allowing the BackupPlan to reside in a specific region within that multi-region. If this field is not provided, the BackupPlan will be created in the same location as specified in the `name` field. */
-  backupPlanLocation?: string;
+  backupPlanLocation?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource type to which the default service config will be applied. Examples include, "compute.googleapis.com/Instance" and "storage.googleapis.com/Bucket". */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Optional. If set, validates the request and returns the result, but does not actually run it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface InitializeProjectsLocationsServiceConfigRequest {
   /** Required. The resource name of the serviceConfig used to initialize the service. The location must be the location of the BackupVault. Format: `projects/{project_id}/locations/{location}/serviceConfig`. */
   name: string;
   /** Request body */
-  body?: InitializeServiceRequest;
+  body?: InitializeServiceRequest | undefined;
 }
 /** request message for InitiateBackup. */
 export interface InitiateBackupRequest {
   /** Required. Resource ID of the Backup resource. */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
   /** Request body */
-  body?: InitiateBackupRequest;
+  body?: InitiateBackupRequest | undefined;
 }
 /** Response message for InitiateBackup. */
 export interface InitiateBackupResponse {
   /** The generation id of the base backup. It is needed for the incremental backups. */
-  baseBackupGenerationId?: number;
+  baseBackupGenerationId?: number | undefined;
   /** The generation id of the new backup. */
-  newBackupGenerationId?: number;
+  newBackupGenerationId?: number | undefined;
   /** The name of the backup that was created. */
-  backup?: string;
+  backup?: string | undefined;
 }
 /** Request message for initiating delete of an AutoProtectionPolicyBinding. */
 export type InitiateDeleteAutoProtectionPolicyBindingRequest = CancelOperationRequest;
@@ -2002,37 +2013,37 @@ export interface InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRe
   /** Required. The name of the binding to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAppliedAutoProtectionPoliciesRequest {
   /** Optional. The maximum number of applied policies to return in a single page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter expression that filters resources listed in the response. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. An expression that sorts the results in the response. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListAppliedAutoProtectionPolicies` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project and location for which to retrieve the list of applied policies. Format: projects/{project}/locations/{location} */
   parent: string;
 }
@@ -2044,154 +2055,154 @@ export type AppliedAutoProtectionPolicyStatusEnum =
 /** AppliedAutoProtectionPolicy is a read-only view of AutoProtectionPolicy and AutoProtectionPolicyBinding resources that apply to a given workload project. */
 export interface AppliedAutoProtectionPolicy {
   /** Output only. The status of the applied auto protection policy. */
-  status?: AppliedAutoProtectionPolicyStatusEnum;
+  status?: AppliedAutoProtectionPolicyStatusEnum | undefined;
   /** Output only. The criteria resources must meet for this rule to apply. From AutoProtectionPolicy.criteria. */
-  criteria?: Criteria;
+  criteria?: Criteria | undefined;
   /** Output only. Timestamp indicating when the binding was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. Canonical resource name. Format: projects/{workload-project-number}/locations/{location}/appliedAutoProtectionPolicies/{id}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The full resource name of the AutoProtectionPolicyBinding that applies the source policy to a scope including this workload project. e.g., projects/{admin-project}/locations/{location}/autoProtectionPolicies/{policy_id}/autoProtectionPolicyBindings/{binding_id}. */
-  sourceBinding?: string;
+  sourceBinding?: string | undefined;
   /** Output only. The set of backup plan configurations, mirroring the backup_plan_details from the source AutoProtectionPolicy. Each element specifies a backup plan for a given resource type. */
-  backupPlanDetails?: BackupPlanDetailList;
+  backupPlanDetails?: BackupPlanDetailList | undefined;
   /** Output only. Timestamp indicating when the binding was last created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The summary of the last policy application when the job has run. */
-  bindingEvaluationSummary?: BindingEvaluationSummary;
+  bindingEvaluationSummary?: BindingEvaluationSummary | undefined;
 }
 export type AppliedAutoProtectionPolicyList = Array<AppliedAutoProtectionPolicy>;
 /** Response message for ListAppliedAutoProtectionPolicies. */
 export interface ListAppliedAutoProtectionPoliciesResponse {
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of the AppliedAutoProtectionPolicy resources found. */
-  appliedAutoProtectionPolicies?: AppliedAutoProtectionPolicyList;
+  appliedAutoProtectionPolicies?: AppliedAutoProtectionPolicyList | undefined;
 }
 export interface ListProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The project and location for which to retrieve the list of policies. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A page token, received from a previous `ListAutoProtectionPolicies` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A filter expression that filters resources listed in the response. The following fields are filterable: */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of policies to return in a single page. If unspecified, a server-default value will be used. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AutoProtectionPolicyList = Array<AutoProtectionPolicy>;
 /** Response message for ListAutoProtectionPolicies. */
 export interface ListAutoProtectionPoliciesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of the AutoProtectionPolicy resources found. */
-  autoProtectionPolicies?: AutoProtectionPolicyList;
+  autoProtectionPolicies?: AutoProtectionPolicyList | undefined;
 }
 export interface ListProjectsLocationsAutoProtectionPoliciesBindingsRequest {
   /** Required. The project and location for which to retrieve the list of policies. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A page token, received from a previous `ListAutoProtectionPolicies` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of policies to return in a single page. If unspecified, a server-default value will be used. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter expression that filters resources listed in the response. The following fields are filterable: */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type AutoProtectionPolicyBindingList = Array<AutoProtectionPolicyBinding>;
 /** Response message for ListAutoProtectionPolicyBindings. */
 export interface ListAutoProtectionPolicyBindingsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of the AutoProtectionPolicyBindings resources found. */
-  autoProtectionPolicyBindings?: AutoProtectionPolicyBindingList;
+  autoProtectionPolicyBindings?: AutoProtectionPolicyBindingList | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest {
   /** Optional. Field match expression used to filter the results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The project, location, auto protection policy and binding for which to retrieve `BindingMatchingResources` information. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Optional. The value of next_page_token received from a previous `ListBindingMatchingResources` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBindingMatchingResources` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of `BindingMatchingResources` to return in a single response. The default page size is 100 and maximum page size is 200. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field by which to sort the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type BindingMatchingResourceList = Array<BindingMatchingResource>;
 /** The response message for getting a list of `BindingMatchingResources`. */
 export interface ListBindingMatchingResourcesResponse {
   /** The list of `BindingMatchingResources` in the project,location for the specified binding. */
-  matchingResources?: BindingMatchingResourceList;
+  matchingResources?: BindingMatchingResourceList | undefined;
   /** A token which may be sent as page_token in a subsequent `ListBindingMatchingResources` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The project and location for which to retrieve backup Plan Associations information, in the format `projects/{project_id}/locations/{location}`. In Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backup plan associations for all locations, use "-" for the `{location}` value. */
   parent: string;
 }
 /** Response message for List BackupPlanAssociation */
 export interface ListBackupPlanAssociationsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Backup Plan Associations in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup plan associations in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backupPlanAssociations?: BackupPlanAssociationList;
+  backupPlanAssociations?: BackupPlanAssociationList | undefined;
 }
 export interface ListProjectsLocationsBackupPlansRequest {
   /** Required. The project and location for which to retrieve `BackupPlans` information. Format: `projects/{project}/locations/{location}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for e.g. **us-central1**. To retrieve backup plans for all locations, use "-" for the `{location}` value. */
   parent: string;
   /** Optional. The value of next_page_token received from a previous `ListBackupPlans` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBackupPlans` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field match expression used to filter the results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Field by which to sort the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type BackupPlanList = Array<BackupPlan>;
 /** The response message for getting a list of `BackupPlan`. */
 export interface ListBackupPlansResponse {
   /** The list of `BackupPlans` in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of resources from all locations. In case any location is unreachable, the response will only return backup plans in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. BackupPlan */
-  backupPlans?: BackupPlanList;
+  backupPlans?: BackupPlanList | undefined;
   /** A token which may be sent as page_token in a subsequent `ListBackupPlans` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsBackupPlansRevisionsRequest {
   /** Required. The project and location for which to retrieve `BackupPlanRevisions` information. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for e.g. **us-central1**. */
   parent: string;
   /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The value of next_page_token received from a previous `ListBackupPlans` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBackupPlans` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BackupPlanRevisionList = Array<BackupPlanRevision>;
 /** The response message for getting a list of `BackupPlanRevision`. */
 export interface ListBackupPlanRevisionsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token which may be sent as page_token in a subsequent `ListBackupPlanRevisions` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of `BackupPlanRevisions` in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of resources from all locations. In case any location is unreachable, the response will only return backup plans in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backupPlanRevisions?: BackupPlanRevisionList;
+  backupPlanRevisions?: BackupPlanRevisionList | undefined;
 }
 export type ListProjectsLocationsBackupVaultsViewEnum =
   | "BACKUP_VAULT_VIEW_UNSPECIFIED"
@@ -2201,46 +2212,46 @@ export interface ListProjectsLocationsBackupVaultsRequest {
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup Vault. */
-  view?: ListProjectsLocationsBackupVaultsViewEnum | (string & {});
+  view?: ListProjectsLocationsBackupVaultsViewEnum | (string & {}) | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for listing BackupVaults. */
 export interface ListBackupVaultsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backupVaults?: BackupVaultList;
+  backupVaults?: BackupVaultList | undefined;
 }
 export interface ListProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project and location for which to retrieve data sources information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
   parent: string;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type DataSourceList = Array<DataSource>;
 /** Response message for listing DataSources. */
 export interface ListDataSourcesResponse {
   /** The list of DataSource instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return data sources in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  dataSources?: DataSourceList;
+  dataSources?: DataSourceList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum =
   | "BACKUP_VIEW_UNSPECIFIED"
@@ -2248,203 +2259,203 @@ export type ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum =
   | "BACKUP_VIEW_FULL";
 export interface ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup resource. */
-  view?: ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum | (string & {});
+  view?: ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum | (string & {}) | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The project and location for which to retrieve backup information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for listing Backups. */
 export interface ListBackupsResponse {
   /** The list of Backup instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return data sources in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsDataSourceReferencesRequest {
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * data_source * data_source_gcp_resource_info.gcp_resourcename */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of DataSourceReferences to return. The service may return fewer than this value. If unspecified, at most 50 DataSourceReferences will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter expression that filters the results listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The following field and operator combinations are supported: * data_source_gcp_resource_info.gcp_resourcename with `=`, `!=` * data_source_gcp_resource_info.type with `=`, `!=` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListDataSourceReferences` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSourceReferences` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response for the ListDataSourceReferences method. */
 export interface ListDataSourceReferencesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The DataSourceReferences from the specified parent. */
-  dataSourceReferences?: DataSourceReferenceList;
+  dataSourceReferences?: DataSourceReferenceList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsManagementServersRequest {
   /** Required. The project and location for which to retrieve management servers information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve management servers for all locations, use "-" for the '{location}' value. */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ManagementServerList = Array<ManagementServer>;
 /** Response message for listing management servers. */
 export interface ListManagementServersResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of ManagementServer instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return management servers in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  managementServers?: ManagementServerList;
+  managementServers?: ManagementServerList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsResourceBackupConfigsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Response for ListResourceBackupConfigs. */
 export interface ListResourceBackupConfigsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of ResourceBackupConfigs for the specified scope. */
-  resourceBackupConfigs?: ResourceBackupConfigList;
+  resourceBackupConfigs?: ResourceBackupConfigList | undefined;
 }
 /** Request message for GetMsComplianceMetadata */
 export interface FetchMsComplianceMetadataRequest {
   /** Required. The project id of the target project */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export interface MsComplianceMetadataProjectsLocationsManagementServersRequest {
   /** Required. The project and location to be used to check CSS metadata for target project information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Request body */
-  body?: FetchMsComplianceMetadataRequest;
+  body?: FetchMsComplianceMetadataRequest | undefined;
 }
 /** Response message for GetMsComplianceMetadata */
 export interface FetchMsComplianceMetadataResponse {
   /** The ms compliance metadata of the target project, if the project is an Assured Workloads project, values will be true, otherwise false. */
-  isAssuredWorkload?: boolean;
+  isAssuredWorkload?: boolean | undefined;
 }
 export interface PatchProjectsLocationsAutoProtectionPoliciesRequest {
   /** Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the AutoProtectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AutoProtectionPolicy;
+  body?: AutoProtectionPolicy | undefined;
 }
 export interface PatchProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
   name: string;
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlanAssociation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently backup_plan_association.backup_plan is the only supported field. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: BackupPlanAssociation;
+  body?: BackupPlanAssociation | undefined;
 }
 export interface PatchProjectsLocationsBackupPlansRequest {
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlan resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently, these fields are supported in update: description, schedules, retention period, adding and removing Backup Rules. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
   /** Request body */
-  body?: BackupPlan;
+  body?: BackupPlan | undefined;
 }
 export interface PatchProjectsLocationsBackupVaultsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to true, we will force update access restriction even if some non compliant data sources are present. The default is 'false'. */
-  forceUpdateAccessRestriction?: boolean;
+  forceUpdateAccessRestriction?: boolean | undefined;
   /** Optional. If set to true, will not check plan duration against backup vault enforcement duration. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BackupVault resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: BackupVault;
+  body?: BackupVault | undefined;
 }
 export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the DataSource resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
   name: string;
   /** Optional. Enable upsert. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Request body */
-  body?: DataSource;
+  body?: DataSource | undefined;
 }
 export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 /** Message for deleting a DataSource. */
 export interface RemoveDataSourceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Request body */
-  body?: RemoveDataSourceRequest;
+  body?: RemoveDataSourceRequest | undefined;
 }
 export type DiskRestorePropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86_64" | "ARM64";
 export type DiskRestorePropertiesAccessModeEnum =
@@ -2454,59 +2465,59 @@ export type DiskRestorePropertiesAccessModeEnum =
 /** Options for creating a disk from a source Compute Instance backup. */
 export interface RestoreDiskFromInstanceOptions {
   /** The device name of the disk to restore from the VM backup. */
-  sourceDeviceName?: string;
+  sourceDeviceName?: string | undefined;
   /** Set to true to restore the boot disk from the instance backup. This field should only be set to true if selected. */
-  bootDisk?: boolean;
+  bootDisk?: boolean | undefined;
 }
 /** DiskRestoreProperties represents the properties of a Disk restore. */
 export interface DiskRestoreProperties {
   /** Required. The size of the disk in GB. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
   /** Optional. The architecture of the source disk. Valid values are ARM64 or X86_64. */
-  architecture?: DiskRestorePropertiesArchitectureEnum | (string & {});
+  architecture?: DiskRestorePropertiesArchitectureEnum | (string & {}) | undefined;
   /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. */
-  provisionedIops?: string;
+  provisionedIops?: string | undefined;
   /** Optional. Indicates whether this disk is using confidential compute mode. Encryption with a Cloud KMS key is required to enable this option. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
   /** Required. Name of the disk. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. */
-  provisionedThroughput?: string;
+  provisionedThroughput?: string | undefined;
   /** Optional. The access mode of the disk. */
-  accessMode?: DiskRestorePropertiesAccessModeEnum | (string & {});
+  accessMode?: DiskRestorePropertiesAccessModeEnum | (string & {}) | undefined;
   /** Optional. A list of features to enable in the guest operating system. This is applicable only for bootable images. */
-  guestOsFeature?: GuestOsFeatureList;
+  guestOsFeature?: GuestOsFeatureList | undefined;
   /** Required. URL of the disk type resource describing which disk type to use to create the disk. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Resource policies applied to this disk. */
-  resourcePolicy?: StringList;
+  resourcePolicy?: StringList | undefined;
   /** Optional. Labels to apply to this disk. These can be modified later using setLabels method. Label values can be empty. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. An optional description of this resource. Provide this property when you create the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The storage pool in which the new disk is created. You can provide this as a partial or full URL to the resource. */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** Optional. A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image */
-  licenses?: StringList;
+  licenses?: StringList | undefined;
   /** Options for creating a disk from a source Compute Instance backup. */
-  instanceBackupSource?: RestoreDiskFromInstanceOptions;
+  instanceBackupSource?: RestoreDiskFromInstanceOptions | undefined;
   /** Optional. Resource manager tags to be bound to the disk. */
-  resourceManagerTags?: StringMap;
+  resourceManagerTags?: StringMap | undefined;
   /** Optional. Encrypts the disk using a customer-supplied encryption key or a customer-managed encryption key. */
-  diskEncryptionKey?: CustomerEncryptionKey;
+  diskEncryptionKey?: CustomerEncryptionKey | undefined;
   /** Optional. Physical block size of the persistent disk, in bytes. If not present in a request, a default value is used. Currently, the supported size is 4096. */
-  physicalBlockSizeBytes?: string;
+  physicalBlockSizeBytes?: string | undefined;
 }
 /** RegionDiskTargetEnvironment represents the target environment for the disk. */
 export interface RegionDiskTargetEnvironment {
   /** Optional. Whether to use the project service account for the disk restore. */
-  useProjectServiceAccount?: boolean;
+  useProjectServiceAccount?: boolean | undefined;
   /** Required. Target project for the disk. */
-  project?: string;
+  project?: string | undefined;
   /** Required. Target URLs of the replica zones for the disk. */
-  replicaZones?: StringList;
+  replicaZones?: StringList | undefined;
   /** Required. Target region for the disk. */
-  region?: string;
+  region?: string | undefined;
 }
 export type ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum =
   | "INSTANCE_PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
@@ -2525,32 +2536,32 @@ export type AllocationAffinityConsumeReservationTypeEnum =
 /** Specifies the reservations that this instance can consume from. */
 export interface AllocationAffinity {
   /** Optional. Specifies the type of reservation from which this instance can consume */
-  consumeReservationType?: AllocationAffinityConsumeReservationTypeEnum | (string & {});
+  consumeReservationType?: AllocationAffinityConsumeReservationTypeEnum | (string & {}) | undefined;
   /** Optional. Corresponds to the label values of a reservation resource. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** Optional. Corresponds to the label key of a reservation resource. */
-  key?: string;
+  key?: string | undefined;
 }
 /** A set of Confidential Instance options. */
 export interface ConfidentialInstanceConfig {
   /** Optional. Defines whether the instance should have confidential compute enabled. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
 }
 /** Specifies options for controlling advanced machine features. */
 export interface AdvancedMachineFeatures {
   /** Optional. Whether to enable nested virtualization or not (default is false). */
-  enableNestedVirtualization?: boolean;
+  enableNestedVirtualization?: boolean | undefined;
   /** Optional. The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
-  threadsPerCore?: number;
+  threadsPerCore?: number | undefined;
   /** Optional. The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance's nominal CPU count and the underlying platform's SMT width. */
-  visibleCoreCount?: number;
+  visibleCoreCount?: number | undefined;
   /** Optional. Whether to enable UEFI networking for instance creation. */
-  enableUefiNetworking?: boolean;
+  enableUefiNetworking?: boolean | undefined;
 }
 /** A set of Display Device options */
 export interface DisplayDevice {
   /** Optional. Enables display for the Compute Engine VM */
-  enableDisplay?: boolean;
+  enableDisplay?: boolean | undefined;
 }
 export type NetworkPerformanceConfigTotalEgressBandwidthTierEnum =
   | "TIER_UNSPECIFIED"
@@ -2559,123 +2570,128 @@ export type NetworkPerformanceConfigTotalEgressBandwidthTierEnum =
 /** Network performance configuration. */
 export interface NetworkPerformanceConfig {
   /** Optional. The tier of the total egress bandwidth. */
-  totalEgressBandwidthTier?: NetworkPerformanceConfigTotalEgressBandwidthTierEnum | (string & {});
+  totalEgressBandwidthTier?:
+    | NetworkPerformanceConfigTotalEgressBandwidthTierEnum
+    | (string & {})
+    | undefined;
 }
 /** Additional instance params. */
 export interface InstanceParams {
   /** Optional. Resource manager tags to be bound to the instance. */
-  resourceManagerTags?: StringMap;
+  resourceManagerTags?: StringMap | undefined;
 }
 /** ComputeInstanceRestoreProperties represents Compute Engine instance properties to be overridden during restore. */
 export interface ComputeInstanceRestoreProperties {
   /** Optional. Labels to apply to this instance. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Array of disks associated with this instance. Persistent disks must be created before you can assign them. Source regional persistent disks will be restored with default replica zones if not specified. */
-  disks?: AttachedDiskList;
+  disks?: AttachedDiskList | undefined;
   /** Optional. The private IPv6 google access type for the VM. If not specified, use INHERIT_FROM_SUBNETWORK as default. */
   privateIpv6GoogleAccess?:
     | ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. A list of the type and count of accelerator cards attached to the instance. */
-  guestAccelerators?: AcceleratorConfigList;
+  guestAccelerators?: AcceleratorConfigList | undefined;
   /** Optional. Allows this instance to send and receive packets with non-matching destination or source IPs. */
-  canIpForward?: boolean;
+  canIpForward?: boolean | undefined;
   /** Optional. KeyRevocationActionType of the instance. */
   keyRevocationActionType?:
     | ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance. Required to restore in different project or region. */
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterfaceList | undefined;
   /** Optional. Full or partial URL of the machine type resource to use for this instance. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. Sets the scheduling options for this instance. */
-  scheduling?: Scheduling;
+  scheduling?: Scheduling | undefined;
   /** Optional. Tags to apply to this instance. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during instance creation. */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** Optional. Specifies the reservations that this instance can consume from. */
-  reservationAffinity?: AllocationAffinity;
+  reservationAffinity?: AllocationAffinity | undefined;
   /** Optional. Encrypts suspended data for an instance with a customer-managed encryption key. */
-  instanceEncryptionKey?: CustomerEncryptionKey;
+  instanceEncryptionKey?: CustomerEncryptionKey | undefined;
   /** Optional. Controls Confidential compute options on the instance */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig;
+  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
   /** Optional. Specifies the hostname of the instance. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[PROJECT_ID].internal when using zonal DNS. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Optional. Resource policies applied to this instance. By default, no resource policies will be applied. */
-  resourcePolicies?: StringList;
+  resourcePolicies?: StringList | undefined;
   /** Optional. Controls for advanced machine-related behavior features. */
-  advancedMachineFeatures?: AdvancedMachineFeatures;
+  advancedMachineFeatures?: AdvancedMachineFeatures | undefined;
   /** Optional. Enables display device for the instance. */
-  displayDevice?: DisplayDevice;
+  displayDevice?: DisplayDevice | undefined;
   /** Optional. Whether the resource should be protected against deletion. */
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   /** Optional. Minimum CPU platform to use for this instance. */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** Optional. Configure network performance such as egress bandwidth tier. */
-  networkPerformanceConfig?: NetworkPerformanceConfig;
+  networkPerformanceConfig?: NetworkPerformanceConfig | undefined;
   /** Optional. This includes custom metadata and predefined keys. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** Optional. An optional description of this resource. Provide this property when you create the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Input only. Additional params passed with the request, but not persisted as part of resource payload. */
-  params?: InstanceParams;
+  params?: InstanceParams | undefined;
   /** Optional. A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported. */
-  serviceAccounts?: ServiceAccountList;
+  serviceAccounts?: ServiceAccountList | undefined;
   /** Required. Name of the compute instance. */
-  name?: string;
+  name?: string | undefined;
 }
 /** ComputeInstanceTargetEnvironment represents Compute Engine target environment to be used during restore. */
 export interface ComputeInstanceTargetEnvironment {
   /** Optional. Whether to use the project service account for the Compute Engine instance restore. */
-  useProjectServiceAccount?: boolean;
+  useProjectServiceAccount?: boolean | undefined;
   /** Required. The zone of the Compute Engine instance. */
-  zone?: string;
+  zone?: string | undefined;
   /** Required. Target project for the Compute Engine instance. */
-  project?: string;
+  project?: string | undefined;
 }
 /** DiskTargetEnvironment represents the target environment for the disk. */
 export interface DiskTargetEnvironment {
   /** Required. Target project for the disk. */
-  project?: string;
+  project?: string | undefined;
   /** Optional. Whether to use the project service account for the disk restore. */
-  useProjectServiceAccount?: boolean;
+  useProjectServiceAccount?: boolean | undefined;
   /** Required. Target zone for the disk. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Request message for restoring from a Backup. */
 export interface RestoreBackupRequest {
   /** Disk properties to be overridden during restore. */
-  diskRestoreProperties?: DiskRestoreProperties;
+  diskRestoreProperties?: DiskRestoreProperties | undefined;
   /** Region disk target environment to be used during restore. */
-  regionDiskTargetEnvironment?: RegionDiskTargetEnvironment;
+  regionDiskTargetEnvironment?: RegionDiskTargetEnvironment | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Compute Engine instance properties to be overridden during restore. */
-  computeInstanceRestoreProperties?: ComputeInstanceRestoreProperties;
+  computeInstanceRestoreProperties?: ComputeInstanceRestoreProperties | undefined;
   /** Compute Engine target environment to be used during restore. */
-  computeInstanceTargetEnvironment?: ComputeInstanceTargetEnvironment;
+  computeInstanceTargetEnvironment?: ComputeInstanceTargetEnvironment | undefined;
   /** Optional. A field mask used to clear server-side default values for fields within the `instance_properties` oneof. When a field in this mask is cleared, the server will not apply its default logic (like inheriting a value from the source) for that field. The most common current use case is clearing default encryption keys. Examples of field mask paths: - Compute Instance Disks: `compute_instance_restore_properties.disks.*.disk_encryption_key` - Single Disk: `disk_restore_properties.disk_encryption_key` */
-  clearOverridesFieldMask?: string;
+  clearOverridesFieldMask?: string | undefined;
   /** Disk target environment to be used during restore. */
-  diskTargetEnvironment?: DiskTargetEnvironment;
+  diskTargetEnvironment?: DiskTargetEnvironment | undefined;
 }
 export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. The resource name of the Backup instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/*\/backups/'. */
   name: string;
   /** Request body */
-  body?: RestoreBackupRequest;
+  body?: RestoreBackupRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export type SetInternalStatusRequestBackupConfigStateEnum =
   | "BACKUP_CONFIG_STATE_UNSPECIFIED"
@@ -2684,17 +2700,17 @@ export type SetInternalStatusRequestBackupConfigStateEnum =
 /** Request message for SetStatusInternal method. */
 export interface SetInternalStatusRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Output only. The new BackupConfigState to set for the DataSource. */
-  backupConfigState?: SetInternalStatusRequestBackupConfigStateEnum | (string & {});
+  backupConfigState?: SetInternalStatusRequestBackupConfigStateEnum | (string & {}) | undefined;
   /** Required. The value required for this method to work. This field must be the 32-byte SHA256 hash of the DataSourceID. The DataSourceID used here is only the final piece of the fully qualified resource path for this DataSource (i.e. the part after '.../dataSources/'). This field exists to make this method difficult to call since it is intended for use only by Backup Appliances. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
   /** Request body */
-  body?: SetInternalStatusRequest;
+  body?: SetInternalStatusRequest | undefined;
 }
 /** Request message for subscribing to a trial. */
 export type SubscribeTrialRequest = CancelOperationRequest;
@@ -2702,46 +2718,46 @@ export interface SubscribeProjectsLocationsTrialRequest {
   /** Required. The project where this trial will be created. Format: projects/{project}/locations/{location} Supported Locations are - us, eu and asia. */
   parent: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for triggering a backup. */
 export interface TriggerBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. backup rule_id for which a backup needs to be triggered. If not specified, on-demand backup with custom retention will be triggered. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Optional. Labels to be applied on the backup. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The duration for which backup data will be kept, while taking an on-demand backup with custom retention. It is defined in "days". It is mutually exclusive with rule_id. This field is required if rule_id is not provided. */
-  customRetentionDays?: number;
+  customRetentionDays?: number | undefined;
 }
 export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
   /** Request body */
-  body?: TriggerBackupRequest;
+  body?: TriggerBackupRequest | undefined;
 }
 export type AbandonBackupProjectsLocationsBackupVaultsDataSourcesError =
   | NotFound

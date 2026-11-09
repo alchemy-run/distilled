@@ -51,7 +51,7 @@ export type CustomPropertyOptionColorEnum =
 /** An allowed value of a select custom property. */
 export interface CustomPropertyOption {
   /** Server-assigned stable id of the option. Omit for new options; send it back unchanged when editing so renames and removals can be told apart. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Display label of the option. Stored as the account's value when picked. */
   label: string;
   /** Preset color token used to render the option ('preset-1' through 'preset-10'). * `preset-1` - preset-1 * `preset-2` - preset-2 * `preset-3` - preset-3 * `preset-4` - preset-4 * `preset-5` - preset-5 * `preset-6` - preset-6 * `preset-7` - preset-7 * `preset-8` - preset-8 * `preset-9` - preset-9 * `preset-10` - preset-10 */
@@ -65,17 +65,17 @@ export interface CreateCustomPropertyDefinitionRequest {
   /** Human-readable name of the custom property. Unique within the team. */
   name: string;
   /** Optional description of what the property represents. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum | (string & {});
   /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
-  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {}) | undefined;
   /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Abbreviate large numbers (e.g. 10,000 -> 10K). Only applies to numeric properties. */
-  is_big_number?: boolean;
+  is_big_number?: boolean | undefined;
   /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
-  options?: CreateCustomPropertyDefinitionRequestOptionsList | null;
+  options?: CreateCustomPropertyDefinitionRequestOptionsList | null | undefined;
 }
 /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
 export type CustomPropertyDefinitionOptionsList = Array<CustomPropertyOption>;
@@ -129,19 +129,19 @@ export interface CustomPropertySource {
   /** UUID of the custom property definition this source feeds. One source per definition. */
   definition: string;
   /** UUID of the data-warehouse saved query to read from. Required for an account source. For a person or group source it must be a materialized view, and is one of the two binding options. Mutually exclusive with external_data_schema. */
-  saved_query?: string | null;
+  saved_query?: string | null | undefined;
   /** Person and group sources only: UUID of the warehouse schema (an imported table) to read from. Mutually exclusive with saved_query; a person or group source sets exactly one. */
-  external_data_schema?: string | null;
+  external_data_schema?: string | null | undefined;
   /** Account sources only: column in the view whose value is written to the property. */
-  source_column?: string | null;
+  source_column?: string | null | undefined;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
-  column_property_map?: unknown;
+  column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
-  column_descriptions?: unknown;
+  column_descriptions?: unknown | undefined;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
   /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Consecutive failed sync runs; the source auto-disables at the cap. */
   consecutive_failures: number;
   /** When the most recent sync run finished. */
@@ -183,19 +183,19 @@ export interface CustomPropertyDefinition {
   /** Human-readable name of the custom property. Unique within the team. */
   name: string;
   /** Optional description of what the property represents. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum;
   /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
-  target_type?: CustomPropertyDefinitionTargetTypeEnum;
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | undefined;
   /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Abbreviate large numbers (e.g. 10,000 -> 10K). Only applies to numeric properties. */
-  is_big_number?: boolean;
+  is_big_number?: boolean | undefined;
   /** True when PostHog writes this property itself. Its name and display type are fixed -- an update changing either is rejected. */
   is_canonical: boolean;
   /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
-  options?: CustomPropertyDefinitionOptionsList | null;
+  options?: CustomPropertyDefinitionOptionsList | null | undefined;
   /** The data-warehouse view-sync binding feeding this property, or null when values are set manually. */
   source: CustomPropertySource | null;
   created_at: string;
@@ -223,7 +223,7 @@ export interface GetCustomPropertyDefinitionsValueRequest {
   /** Id of the custom property definition to suggest values for. */
   key: string;
   /** Case-insensitive substring to narrow the suggestions. */
-  value?: string;
+  value?: string | undefined;
 }
 /** One suggested filter value for a custom property. */
 export interface CustomPropertyValueSuggestion {
@@ -244,15 +244,15 @@ export interface ListCustomPropertyDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCustomPropertyDefinitionListResultsList = Array<CustomPropertyDefinition>;
 export interface PaginatedCustomPropertyDefinitionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCustomPropertyDefinitionListResultsList;
 }
 /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
@@ -264,17 +264,17 @@ export interface UpdateCustomPropertyDefinitionRequest {
   /** Human-readable name of the custom property. Unique within the team. */
   name: string;
   /** Optional description of what the property represents. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum | (string & {});
   /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
-  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {}) | undefined;
   /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Abbreviate large numbers (e.g. 10,000 -> 10K). Only applies to numeric properties. */
-  is_big_number?: boolean;
+  is_big_number?: boolean | undefined;
   /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
-  options?: UpdateCustomPropertyDefinitionRequestOptionsList | null;
+  options?: UpdateCustomPropertyDefinitionRequestOptionsList | null | undefined;
 }
 /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
 export type UpdateCustomPropertyDefinitionsPartialRequestOptionsList = Array<CustomPropertyOption>;
@@ -283,19 +283,19 @@ export interface UpdateCustomPropertyDefinitionsPartialRequest {
   project_id: string;
   id: string;
   /** Human-readable name of the custom property. Unique within the team. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what the property represents. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
-  display_type?: CustomPropertyDisplayTypeEnum | (string & {});
+  display_type?: CustomPropertyDisplayTypeEnum | (string & {}) | undefined;
   /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
-  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {}) | undefined;
   /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Abbreviate large numbers (e.g. 10,000 -> 10K). Only applies to numeric properties. */
-  is_big_number?: boolean;
+  is_big_number?: boolean | undefined;
   /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
-  options?: UpdateCustomPropertyDefinitionsPartialRequestOptionsList | null;
+  options?: UpdateCustomPropertyDefinitionsPartialRequestOptionsList | null | undefined;
 }
 export type CreateCustomPropertyDefinitionError = PosthogOpError;
 export const createCustomPropertyDefinition: API.OperationMethod<

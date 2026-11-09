@@ -1,4 +1,7 @@
+import type { SigningError } from "@distilled.cloud/aws4signer";
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import { loadModule, SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   all,
   annotationMetaSymbol,
@@ -23,6 +26,15 @@ import { ErrorMessage, errorMessageSymbol } from "./error-message.ts";
 import { blob, timestamp } from "./lite.ts";
 
 /**
+ * One of this package's modules, loaded on first use. A failed load is an
+ * {@link SdkError}; the protocol, middleware and codec effects that load
+ * modules are typed `never`, and SdkError is in every operation's declared
+ * error channel (`CommonErrors`).
+ */
+const loadOwnModule = <A>(load: () => PromiseLike<A>): Effect.Effect<A> =>
+  loadModule(load) as Effect.Effect<A, never>;
+
+/**
  * A protocol whose implementation module loads on the first request.
  *
  * Every generated service module names its wire protocol through these
@@ -34,7 +46,7 @@ import { blob, timestamp } from "./lite.ts";
 export const lazyProtocol = (load: () => Promise<ProtocolImpl>): Protocol => {
   let loaded: Promise<ProtocolImpl> | undefined;
   let ready: ProtocolImpl | undefined;
-  const protocol = Effect.promise(() => (loaded ??= load()).then((p) => (ready = p)));
+  const protocol = loadOwnModule(() => (loaded ??= load()).then((p) => (ready = p)));
   return (operation: Operation): LazyHandler => {
     let handler: ProtocolHandler | undefined;
     // After the first request the handler is returned directly: no promise per call.
@@ -58,7 +70,7 @@ const restXmlProtocol = /*@__PURE__*/ lazyProtocol(() =>
 let checksumModule: Promise<typeof import("./middleware/checksum.ts")> | undefined;
 const applyHttpChecksum: MiddlewareFn = (schema, request) =>
   Effect.flatMap(
-    Effect.promise(() => (checksumModule ??= import("./middleware/checksum.ts"))),
+    loadOwnModule(() => (checksumModule ??= import("./middleware/checksum.ts"))),
     (m) => m.applyHttpChecksum(schema, request),
   );
 import type { RuleSetObject } from "./rules-engine/expression.ts";
@@ -267,7 +279,7 @@ export interface AwsAuthSigv2Trait {
     endpoint: string,
     fullPath: string,
     credentials: ResolvedCredentials,
-  ) => Effect.Effect<HttpClientRequest.HttpClientRequest>;
+  ) => Effect.Effect<HttpClientRequest.HttpClientRequest, SigningError>;
 }
 
 // =============================================================================
@@ -324,7 +336,7 @@ export const AwsProtocolsRestXml = (trait?: AwsProtocolsRestXmlTrait) =>
 export type MiddlewareFn = (
   schema: S.Top,
   request: ProtocolRequest,
-) => Effect.Effect<ProtocolRequest>;
+) => Effect.Effect<ProtocolRequest, InvalidInput>;
 
 /** Middleware annotation value - includes trait data and implementation */
 export interface MiddlewareAnnotationValue {
@@ -708,8 +720,12 @@ const codecFor = (eventSchema: unknown): Effect.Effect<EventStreamCodec> => {
       ? eventStreamCodecs.get(eventSchema)
       : undefined;
   return load
-    ? Effect.promise(load)
-    : Effect.die(new Error("event stream member without an EventStream / InputEventStream schema"));
+    ? loadOwnModule(load)
+    : (Effect.fail(
+        new SdkError({
+          message: "event stream member without an EventStream / InputEventStream schema",
+        }),
+      ) as Effect.Effect<never>);
 };
 
 /** A stream built by the event stream codec registered for `eventSchema`. */

@@ -75,18 +75,18 @@ export interface ListDataModelingJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  saved_query_id?: string;
+  offset?: number | undefined;
+  saved_query_id?: string | undefined;
   /** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running * `Skipped` - Skipped */
-  status?: ListDataModelingJobsRequestStatus | (string & {});
+  status?: ListDataModelingJobsRequestStatus | (string & {}) | undefined;
 }
 export type PaginatedDataModelingJobListResultsList = Array<DataModelingJob>;
 export interface PaginatedDataModelingJobList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataModelingJobListResultsList;
 }
 export type GetDataModelingJobError = PosthogOpError;

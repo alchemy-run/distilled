@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -217,15 +218,15 @@ export interface UriPath {}
 export interface QueryString {}
 export type OversizeHandling = "CONTINUE" | "MATCH" | "NO_MATCH" | (string & {});
 export interface Body {
-  OversizeHandling?: OversizeHandling;
+  OversizeHandling?: OversizeHandling | undefined;
 }
 export interface Method {}
 export interface All {}
 export type JsonPointerPath = string;
 export type JsonPointerPaths = string[];
 export interface JsonMatchPattern {
-  All?: All;
-  IncludedPaths?: string[];
+  All?: All | undefined;
+  IncludedPaths?: string[] | undefined;
 }
 export type JsonMatchScope = "ALL" | "KEY" | "VALUE" | (string & {});
 export type BodyParsingFallbackBehavior =
@@ -236,14 +237,14 @@ export type BodyParsingFallbackBehavior =
 export interface JsonBody {
   MatchPattern: JsonMatchPattern;
   MatchScope: JsonMatchScope;
-  InvalidFallbackBehavior?: BodyParsingFallbackBehavior;
-  OversizeHandling?: OversizeHandling;
+  InvalidFallbackBehavior?: BodyParsingFallbackBehavior | undefined;
+  OversizeHandling?: OversizeHandling | undefined;
 }
 export type HeaderNames = string[];
 export interface HeaderMatchPattern {
-  All?: All;
-  IncludedHeaders?: string[];
-  ExcludedHeaders?: string[];
+  All?: All | undefined;
+  IncludedHeaders?: string[] | undefined;
+  ExcludedHeaders?: string[] | undefined;
 }
 export type MapMatchScope = "ALL" | "KEY" | "VALUE" | (string & {});
 export interface Headers {
@@ -254,9 +255,9 @@ export interface Headers {
 export type SingleCookieName = string;
 export type CookieNames = string[];
 export interface CookieMatchPattern {
-  All?: All;
-  IncludedCookies?: string[];
-  ExcludedCookies?: string[];
+  All?: All | undefined;
+  IncludedCookies?: string[] | undefined;
+  ExcludedCookies?: string[] | undefined;
 }
 export interface Cookies {
   MatchPattern: CookieMatchPattern;
@@ -274,23 +275,23 @@ export interface JA4Fingerprint {
   FallbackBehavior: FallbackBehavior;
 }
 export interface UriFragment {
-  FallbackBehavior?: FallbackBehavior;
+  FallbackBehavior?: FallbackBehavior | undefined;
 }
 export interface FieldToMatch {
-  SingleHeader?: SingleHeader;
-  SingleQueryArgument?: SingleQueryArgument;
-  AllQueryArguments?: AllQueryArguments;
-  UriPath?: UriPath;
-  QueryString?: QueryString;
-  Body?: Body;
-  Method?: Method;
-  JsonBody?: JsonBody;
-  Headers?: Headers;
-  Cookies?: Cookies;
-  HeaderOrder?: HeaderOrder;
-  JA3Fingerprint?: JA3Fingerprint;
-  JA4Fingerprint?: JA4Fingerprint;
-  UriFragment?: UriFragment;
+  SingleHeader?: SingleHeader | undefined;
+  SingleQueryArgument?: SingleQueryArgument | undefined;
+  AllQueryArguments?: AllQueryArguments | undefined;
+  UriPath?: UriPath | undefined;
+  QueryString?: QueryString | undefined;
+  Body?: Body | undefined;
+  Method?: Method | undefined;
+  JsonBody?: JsonBody | undefined;
+  Headers?: Headers | undefined;
+  Cookies?: Cookies | undefined;
+  HeaderOrder?: HeaderOrder | undefined;
+  JA3Fingerprint?: JA3Fingerprint | undefined;
+  JA4Fingerprint?: JA4Fingerprint | undefined;
+  UriFragment?: UriFragment | undefined;
 }
 export type TextTransformationPriority = number;
 export type TextTransformationType =
@@ -355,20 +356,20 @@ export interface ByteMatchStatement {
   SearchString: Uint8Array;
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
   PositionalConstraint: PositionalConstraint;
 }
 export type SensitivityLevel = "LOW" | "HIGH" | (string & {});
 export interface SqliMatchStatement {
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
-  SensitivityLevel?: SensitivityLevel;
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
+  SensitivityLevel?: SensitivityLevel | undefined;
 }
 export interface XssMatchStatement {
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
 }
 export type ComparisonOperator = "EQ" | "NE" | "LE" | "LT" | "GE" | "GT" | (string & {});
 export type Size = number;
@@ -377,7 +378,7 @@ export interface SizeConstraintStatement {
   ComparisonOperator: ComparisonOperator;
   Size: number;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
 }
 export type CountryCode =
   | "AF"
@@ -638,8 +639,8 @@ export interface ForwardedIPConfig {
   FallbackBehavior: FallbackBehavior;
 }
 export interface GeoMatchStatement {
-  CountryCodes?: CountryCode[];
-  ForwardedIPConfig?: ForwardedIPConfig;
+  CountryCodes?: CountryCode[] | undefined;
+  ForwardedIPConfig?: ForwardedIPConfig | undefined;
 }
 export interface ExcludedRule {
   Name: string;
@@ -655,38 +656,38 @@ export interface CustomHTTPHeader {
 export type CustomHTTPHeaders = CustomHTTPHeader[];
 export interface CustomResponse {
   ResponseCode: number;
-  CustomResponseBodyKey?: string;
-  ResponseHeaders?: CustomHTTPHeader[];
+  CustomResponseBodyKey?: string | undefined;
+  ResponseHeaders?: CustomHTTPHeader[] | undefined;
 }
 export interface BlockAction {
-  CustomResponse?: CustomResponse;
+  CustomResponse?: CustomResponse | undefined;
 }
 export interface CustomRequestHandling {
   InsertHeaders: CustomHTTPHeader[];
 }
 export interface AllowAction {
-  CustomRequestHandling?: CustomRequestHandling;
+  CustomRequestHandling?: CustomRequestHandling | undefined;
 }
 export interface CountAction {
-  CustomRequestHandling?: CustomRequestHandling;
+  CustomRequestHandling?: CustomRequestHandling | undefined;
 }
 export interface CaptchaAction {
-  CustomRequestHandling?: CustomRequestHandling;
+  CustomRequestHandling?: CustomRequestHandling | undefined;
 }
 export interface ChallengeAction {
-  CustomRequestHandling?: CustomRequestHandling;
+  CustomRequestHandling?: CustomRequestHandling | undefined;
 }
 export type PriceMultiplier = string;
 export interface MonetizeAction {
-  PriceMultiplier?: string;
+  PriceMultiplier?: string | undefined;
 }
 export interface RuleAction {
-  Block?: BlockAction;
-  Allow?: AllowAction;
-  Count?: CountAction;
-  Captcha?: CaptchaAction;
-  Challenge?: ChallengeAction;
-  Monetize?: MonetizeAction;
+  Block?: BlockAction | undefined;
+  Allow?: AllowAction | undefined;
+  Count?: CountAction | undefined;
+  Captcha?: CaptchaAction | undefined;
+  Challenge?: ChallengeAction | undefined;
+  Monetize?: MonetizeAction | undefined;
 }
 export interface RuleActionOverride {
   Name: string;
@@ -695,8 +696,8 @@ export interface RuleActionOverride {
 export type RuleActionOverrides = RuleActionOverride[];
 export interface RuleGroupReferenceStatement {
   ARN: string;
-  ExcludedRules?: ExcludedRule[];
-  RuleActionOverrides?: RuleActionOverride[];
+  ExcludedRules?: ExcludedRule[] | undefined;
+  RuleActionOverrides?: RuleActionOverride[] | undefined;
 }
 export type ForwardedIPPosition = "FIRST" | "LAST" | "ANY" | (string & {});
 export interface IPSetForwardedIPConfig {
@@ -706,13 +707,13 @@ export interface IPSetForwardedIPConfig {
 }
 export interface IPSetReferenceStatement {
   ARN: string;
-  IPSetForwardedIPConfig?: IPSetForwardedIPConfig;
+  IPSetForwardedIPConfig?: IPSetForwardedIPConfig | undefined;
 }
 export interface RegexPatternSetReferenceStatement {
   ARN: string;
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
 }
 export type RateLimit = number;
 export type EvaluationWindowSec = number;
@@ -755,27 +756,27 @@ export interface RateLimitJA4Fingerprint {
 }
 export interface RateLimitAsn {}
 export interface RateBasedStatementCustomKey {
-  Header?: RateLimitHeader;
-  Cookie?: RateLimitCookie;
-  QueryArgument?: RateLimitQueryArgument;
-  QueryString?: RateLimitQueryString;
-  HTTPMethod?: RateLimitHTTPMethod;
-  ForwardedIP?: RateLimitForwardedIP;
-  IP?: RateLimitIP;
-  LabelNamespace?: RateLimitLabelNamespace;
-  UriPath?: RateLimitUriPath;
-  JA3Fingerprint?: RateLimitJA3Fingerprint;
-  JA4Fingerprint?: RateLimitJA4Fingerprint;
-  ASN?: RateLimitAsn;
+  Header?: RateLimitHeader | undefined;
+  Cookie?: RateLimitCookie | undefined;
+  QueryArgument?: RateLimitQueryArgument | undefined;
+  QueryString?: RateLimitQueryString | undefined;
+  HTTPMethod?: RateLimitHTTPMethod | undefined;
+  ForwardedIP?: RateLimitForwardedIP | undefined;
+  IP?: RateLimitIP | undefined;
+  LabelNamespace?: RateLimitLabelNamespace | undefined;
+  UriPath?: RateLimitUriPath | undefined;
+  JA3Fingerprint?: RateLimitJA3Fingerprint | undefined;
+  JA4Fingerprint?: RateLimitJA4Fingerprint | undefined;
+  ASN?: RateLimitAsn | undefined;
 }
 export type RateBasedStatementCustomKeys = RateBasedStatementCustomKey[];
 export interface RateBasedStatement {
   Limit: number;
-  EvaluationWindowSec?: number;
+  EvaluationWindowSec?: number | undefined;
   AggregateKeyType: RateBasedStatementAggregateKeyType;
-  ScopeDownStatement?: Statement;
-  ForwardedIPConfig?: ForwardedIPConfig;
-  CustomKeys?: RateBasedStatementCustomKey[];
+  ScopeDownStatement?: Statement | undefined;
+  ForwardedIPConfig?: ForwardedIPConfig | undefined;
+  CustomKeys?: RateBasedStatementCustomKey[] | undefined;
 }
 export type Statements = Statement[];
 export interface AndStatement {
@@ -802,7 +803,7 @@ export type InspectionLevel = "COMMON" | "TARGETED" | (string & {});
 export type EnableMachineLearning = boolean;
 export interface AWSManagedRulesBotControlRuleSet {
   InspectionLevel: InspectionLevel;
-  EnableMachineLearning?: boolean;
+  EnableMachineLearning?: boolean | undefined;
 }
 export interface RequestInspection {
   PayloadType: PayloadType;
@@ -841,16 +842,16 @@ export interface ResponseInspectionJson {
   FailureValues: string[];
 }
 export interface ResponseInspection {
-  StatusCode?: ResponseInspectionStatusCode;
-  Header?: ResponseInspectionHeader;
-  BodyContains?: ResponseInspectionBodyContains;
-  Json?: ResponseInspectionJson;
+  StatusCode?: ResponseInspectionStatusCode | undefined;
+  Header?: ResponseInspectionHeader | undefined;
+  BodyContains?: ResponseInspectionBodyContains | undefined;
+  Json?: ResponseInspectionJson | undefined;
 }
 export interface AWSManagedRulesATPRuleSet {
   LoginPath: string;
-  RequestInspection?: RequestInspection;
-  ResponseInspection?: ResponseInspection;
-  EnableRegexInPath?: boolean;
+  RequestInspection?: RequestInspection | undefined;
+  ResponseInspection?: ResponseInspection | undefined;
+  EnableRegexInPath?: boolean | undefined;
 }
 export type CreationPathString = string;
 export type RegistrationPagePathString = string;
@@ -867,57 +868,57 @@ export interface AddressField {
 export type AddressFields = AddressField[];
 export interface RequestInspectionACFP {
   PayloadType: PayloadType;
-  UsernameField?: UsernameField;
-  PasswordField?: PasswordField;
-  EmailField?: EmailField;
-  PhoneNumberFields?: PhoneNumberField[];
-  AddressFields?: AddressField[];
+  UsernameField?: UsernameField | undefined;
+  PasswordField?: PasswordField | undefined;
+  EmailField?: EmailField | undefined;
+  PhoneNumberFields?: PhoneNumberField[] | undefined;
+  AddressFields?: AddressField[] | undefined;
 }
 export interface AWSManagedRulesACFPRuleSet {
   CreationPath: string;
   RegistrationPagePath: string;
   RequestInspection: RequestInspectionACFP;
-  ResponseInspection?: ResponseInspection;
-  EnableRegexInPath?: boolean;
+  ResponseInspection?: ResponseInspection | undefined;
+  EnableRegexInPath?: boolean | undefined;
 }
 export type UsageOfAction = "ENABLED" | "DISABLED" | (string & {});
 export type SensitivityToAct = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type RegexPatternString = string;
 export interface Regex {
-  RegexString?: string;
+  RegexString?: string | undefined;
 }
 export type RegularExpressionList = Regex[];
 export interface ClientSideAction {
   UsageOfAction: UsageOfAction;
-  Sensitivity?: SensitivityToAct;
-  ExemptUriRegularExpressions?: Regex[];
+  Sensitivity?: SensitivityToAct | undefined;
+  ExemptUriRegularExpressions?: Regex[] | undefined;
 }
 export interface ClientSideActionConfig {
   Challenge: ClientSideAction;
 }
 export interface AWSManagedRulesAntiDDoSRuleSet {
   ClientSideActionConfig: ClientSideActionConfig;
-  SensitivityToBlock?: SensitivityToAct;
+  SensitivityToBlock?: SensitivityToAct | undefined;
 }
 export interface ManagedRuleGroupConfig {
-  LoginPath?: string;
-  PayloadType?: PayloadType;
-  UsernameField?: UsernameField;
-  PasswordField?: PasswordField;
-  AWSManagedRulesBotControlRuleSet?: AWSManagedRulesBotControlRuleSet;
-  AWSManagedRulesATPRuleSet?: AWSManagedRulesATPRuleSet;
-  AWSManagedRulesACFPRuleSet?: AWSManagedRulesACFPRuleSet;
-  AWSManagedRulesAntiDDoSRuleSet?: AWSManagedRulesAntiDDoSRuleSet;
+  LoginPath?: string | undefined;
+  PayloadType?: PayloadType | undefined;
+  UsernameField?: UsernameField | undefined;
+  PasswordField?: PasswordField | undefined;
+  AWSManagedRulesBotControlRuleSet?: AWSManagedRulesBotControlRuleSet | undefined;
+  AWSManagedRulesATPRuleSet?: AWSManagedRulesATPRuleSet | undefined;
+  AWSManagedRulesACFPRuleSet?: AWSManagedRulesACFPRuleSet | undefined;
+  AWSManagedRulesAntiDDoSRuleSet?: AWSManagedRulesAntiDDoSRuleSet | undefined;
 }
 export type ManagedRuleGroupConfigs = ManagedRuleGroupConfig[];
 export interface ManagedRuleGroupStatement {
   VendorName: string;
   Name: string;
-  Version?: string;
-  ExcludedRules?: ExcludedRule[];
-  ScopeDownStatement?: Statement;
-  ManagedRuleGroupConfigs?: ManagedRuleGroupConfig[];
-  RuleActionOverrides?: RuleActionOverride[];
+  Version?: string | undefined;
+  ExcludedRules?: ExcludedRule[] | undefined;
+  ScopeDownStatement?: Statement | undefined;
+  ManagedRuleGroupConfigs?: ManagedRuleGroupConfig[] | undefined;
+  RuleActionOverrides?: RuleActionOverride[] | undefined;
 }
 export type LabelMatchScope = "LABEL" | "NAMESPACE" | (string & {});
 export type LabelMatchKey = string;
@@ -929,36 +930,36 @@ export interface RegexMatchStatement {
   RegexString: string;
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
-  PreParseTextTransformations?: PreParseTextTransformation[];
+  PreParseTextTransformations?: PreParseTextTransformation[] | undefined;
 }
 export type ASN = number;
 export type AsnList = number[];
 export interface AsnMatchStatement {
   AsnList: number[];
-  ForwardedIPConfig?: ForwardedIPConfig;
+  ForwardedIPConfig?: ForwardedIPConfig | undefined;
 }
 export interface Statement {
-  ByteMatchStatement?: ByteMatchStatement;
-  SqliMatchStatement?: SqliMatchStatement;
-  XssMatchStatement?: XssMatchStatement;
-  SizeConstraintStatement?: SizeConstraintStatement;
-  GeoMatchStatement?: GeoMatchStatement;
-  RuleGroupReferenceStatement?: RuleGroupReferenceStatement;
-  IPSetReferenceStatement?: IPSetReferenceStatement;
-  RegexPatternSetReferenceStatement?: RegexPatternSetReferenceStatement;
-  RateBasedStatement?: RateBasedStatement;
-  AndStatement?: AndStatement;
-  OrStatement?: OrStatement;
-  NotStatement?: NotStatement;
-  ManagedRuleGroupStatement?: ManagedRuleGroupStatement;
-  LabelMatchStatement?: LabelMatchStatement;
-  RegexMatchStatement?: RegexMatchStatement;
-  AsnMatchStatement?: AsnMatchStatement;
+  ByteMatchStatement?: ByteMatchStatement | undefined;
+  SqliMatchStatement?: SqliMatchStatement | undefined;
+  XssMatchStatement?: XssMatchStatement | undefined;
+  SizeConstraintStatement?: SizeConstraintStatement | undefined;
+  GeoMatchStatement?: GeoMatchStatement | undefined;
+  RuleGroupReferenceStatement?: RuleGroupReferenceStatement | undefined;
+  IPSetReferenceStatement?: IPSetReferenceStatement | undefined;
+  RegexPatternSetReferenceStatement?: RegexPatternSetReferenceStatement | undefined;
+  RateBasedStatement?: RateBasedStatement | undefined;
+  AndStatement?: AndStatement | undefined;
+  OrStatement?: OrStatement | undefined;
+  NotStatement?: NotStatement | undefined;
+  ManagedRuleGroupStatement?: ManagedRuleGroupStatement | undefined;
+  LabelMatchStatement?: LabelMatchStatement | undefined;
+  RegexMatchStatement?: RegexMatchStatement | undefined;
+  AsnMatchStatement?: AsnMatchStatement | undefined;
 }
 export interface NoneAction {}
 export interface OverrideAction {
-  Count?: CountAction;
-  None?: NoneAction;
+  Count?: CountAction | undefined;
+  None?: NoneAction | undefined;
 }
 export type LabelName = string;
 export interface Label {
@@ -976,21 +977,21 @@ export interface ImmunityTimeProperty {
   ImmunityTime: number;
 }
 export interface CaptchaConfig {
-  ImmunityTimeProperty?: ImmunityTimeProperty;
+  ImmunityTimeProperty?: ImmunityTimeProperty | undefined;
 }
 export interface ChallengeConfig {
-  ImmunityTimeProperty?: ImmunityTimeProperty;
+  ImmunityTimeProperty?: ImmunityTimeProperty | undefined;
 }
 export interface Rule {
   Name: string;
   Priority: number;
   Statement: Statement;
-  Action?: RuleAction;
-  OverrideAction?: OverrideAction;
-  RuleLabels?: Label[];
+  Action?: RuleAction | undefined;
+  OverrideAction?: OverrideAction | undefined;
+  RuleLabels?: Label[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  CaptchaConfig?: CaptchaConfig;
-  ChallengeConfig?: ChallengeConfig;
+  CaptchaConfig?: CaptchaConfig | undefined;
+  ChallengeConfig?: ChallengeConfig | undefined;
 }
 export type Rules = Rule[];
 export interface CheckCapacityRequest {
@@ -999,7 +1000,7 @@ export interface CheckCapacityRequest {
 }
 export type ConsumedCapacity = number;
 export interface CheckCapacityResponse {
-  Capacity?: number;
+  Capacity?: number | undefined;
 }
 export type TokenDomain = string;
 export type APIKeyTokenDomains = string[];
@@ -1009,7 +1010,7 @@ export interface CreateAPIKeyRequest {
 }
 export type APIKey = string;
 export interface CreateAPIKeyResponse {
-  APIKey?: string;
+  APIKey?: string | undefined;
 }
 export type EntityDescription = string;
 export type IPAddressVersion = "IPV4" | "IPV6" | (string & {});
@@ -1025,39 +1026,39 @@ export type TagList = Tag[];
 export interface CreateIPSetRequest {
   Name: string;
   Scope: Scope;
-  Description?: string;
+  Description?: string | undefined;
   IPAddressVersion: IPAddressVersion;
   Addresses: string[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type EntityId = string;
 export type LockToken = string;
 export interface IPSetSummary {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LockToken?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LockToken?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateIPSetResponse {
-  Summary?: IPSetSummary;
+  Summary?: IPSetSummary | undefined;
 }
 export interface CreateRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
-  Description?: string;
+  Description?: string | undefined;
   RegularExpressionList: Regex[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface RegexPatternSetSummary {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LockToken?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LockToken?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateRegexPatternSetResponse {
-  Summary?: RegexPatternSetSummary;
+  Summary?: RegexPatternSetSummary | undefined;
 }
 export type CapacityUnit = number;
 export type ResponseContentType = "TEXT_PLAIN" | "TEXT_HTML" | "APPLICATION_JSON" | (string & {});
@@ -1087,33 +1088,33 @@ export interface CryptoConfig {
 }
 export type CurrencyMode = "REAL" | "TEST" | (string & {});
 export interface MonetizationConfig {
-  CryptoConfig?: CryptoConfig;
-  CurrencyMode?: CurrencyMode;
+  CryptoConfig?: CryptoConfig | undefined;
+  CurrencyMode?: CurrencyMode | undefined;
 }
 export interface CreateRuleGroupRequest {
   Name: string;
   Scope: Scope;
   Capacity: number;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  Tags?: Tag[];
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  MonetizationConfig?: MonetizationConfig;
+  Tags?: Tag[] | undefined;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export interface RuleGroupSummary {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LockToken?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LockToken?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateRuleGroupResponse {
-  Summary?: RuleGroupSummary;
+  Summary?: RuleGroupSummary | undefined;
 }
 export interface DefaultAction {
-  Block?: BlockAction;
-  Allow?: AllowAction;
+  Block?: BlockAction | undefined;
+  Allow?: AllowAction | undefined;
 }
 export type FieldToProtectType =
   | "SINGLE_HEADER"
@@ -1126,14 +1127,14 @@ export type FieldToProtectKeyName = string;
 export type FieldToProtectKeys = string[];
 export interface FieldToProtect {
   FieldType: FieldToProtectType;
-  FieldKeys?: string[];
+  FieldKeys?: string[] | undefined;
 }
 export type DataProtectionAction = "SUBSTITUTION" | "HASH" | (string & {});
 export interface DataProtection {
   Field: FieldToProtect;
   Action: DataProtectionAction;
-  ExcludeRuleMatchDetails?: boolean;
-  ExcludeRateBasedDetails?: boolean;
+  ExcludeRuleMatchDetails?: boolean | undefined;
+  ExcludeRateBasedDetails?: boolean | undefined;
 }
 export type DataProtections = DataProtection[];
 export interface DataProtectionConfig {
@@ -1153,10 +1154,10 @@ export interface RequestBodyAssociatedResourceTypeConfig {
   DefaultSizeInspectionLimit: SizeInspectionLimit;
 }
 export type RequestBody = {
-  [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
+  [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig | undefined;
 };
 export interface AssociationConfig {
-  RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined };
+  RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined } | undefined;
 }
 export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON" | (string & {});
 export interface OnSourceDDoSProtectionConfig {
@@ -1166,40 +1167,40 @@ export type AttributeName = string;
 export type AttributeValue = string;
 export type AttributeValues = string[];
 export interface ApplicationAttribute {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type ApplicationAttributes = ApplicationAttribute[];
 export interface ApplicationConfig {
-  Attributes?: ApplicationAttribute[];
+  Attributes?: ApplicationAttribute[] | undefined;
 }
 export interface CreateWebACLRequest {
   Name: string;
   Scope: Scope;
   DefaultAction: DefaultAction;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  DataProtectionConfig?: DataProtectionConfig;
-  Tags?: Tag[];
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  CaptchaConfig?: CaptchaConfig;
-  ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: string[];
-  AssociationConfig?: AssociationConfig;
-  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
-  ApplicationConfig?: ApplicationConfig;
-  MonetizationConfig?: MonetizationConfig;
+  DataProtectionConfig?: DataProtectionConfig | undefined;
+  Tags?: Tag[] | undefined;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  CaptchaConfig?: CaptchaConfig | undefined;
+  ChallengeConfig?: ChallengeConfig | undefined;
+  TokenDomains?: string[] | undefined;
+  AssociationConfig?: AssociationConfig | undefined;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export interface WebACLSummary {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LockToken?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LockToken?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateWebACLResponse {
-  Summary?: WebACLSummary;
+  Summary?: WebACLSummary | undefined;
 }
 export interface DeleteAPIKeyRequest {
   Scope: Scope;
@@ -1211,7 +1212,7 @@ export interface DeleteFirewallManagerRuleGroupsRequest {
   WebACLLockToken: string;
 }
 export interface DeleteFirewallManagerRuleGroupsResponse {
-  NextWebACLLockToken?: string;
+  NextWebACLLockToken?: string | undefined;
 }
 export interface DeleteIPSetRequest {
   Name: string;
@@ -1228,8 +1229,8 @@ export type LogScope =
   | (string & {});
 export interface DeleteLoggingConfigurationRequest {
   ResourceArn: string;
-  LogType?: LogType;
-  LogScope?: LogScope;
+  LogType?: LogType | undefined;
+  LogScope?: LogScope | undefined;
 }
 export interface DeleteLoggingConfigurationResponse {}
 export interface DeletePermissionPolicyRequest {
@@ -1265,50 +1266,50 @@ export type ProductLink = string;
 export type ProductTitle = string;
 export type ProductDescription = string;
 export interface ManagedProductDescriptor {
-  VendorName?: string;
-  ManagedRuleSetName?: string;
-  ProductId?: string;
-  ProductLink?: string;
-  ProductTitle?: string;
-  ProductDescription?: string;
-  SnsTopicArn?: string;
-  IsVersioningSupported?: boolean;
-  IsAdvancedManagedRuleSet?: boolean;
+  VendorName?: string | undefined;
+  ManagedRuleSetName?: string | undefined;
+  ProductId?: string | undefined;
+  ProductLink?: string | undefined;
+  ProductTitle?: string | undefined;
+  ProductDescription?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  IsVersioningSupported?: boolean | undefined;
+  IsAdvancedManagedRuleSet?: boolean | undefined;
 }
 export type ManagedProductDescriptors = ManagedProductDescriptor[];
 export interface DescribeAllManagedProductsResponse {
-  ManagedProducts?: ManagedProductDescriptor[];
+  ManagedProducts?: ManagedProductDescriptor[] | undefined;
 }
 export interface DescribeManagedProductsByVendorRequest {
   VendorName: string;
   Scope: Scope;
 }
 export interface DescribeManagedProductsByVendorResponse {
-  ManagedProducts?: ManagedProductDescriptor[];
+  ManagedProducts?: ManagedProductDescriptor[] | undefined;
 }
 export interface DescribeManagedRuleGroupRequest {
   VendorName: string;
   Name: string;
   Scope: Scope;
-  VersionName?: string;
+  VersionName?: string | undefined;
 }
 export interface RuleSummary {
-  Name?: string;
-  Action?: RuleAction;
+  Name?: string | undefined;
+  Action?: RuleAction | undefined;
 }
 export type RuleSummaries = RuleSummary[];
 export interface LabelSummary {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type LabelSummaries = LabelSummary[];
 export interface DescribeManagedRuleGroupResponse {
-  VersionName?: string;
-  SnsTopicArn?: string;
-  Capacity?: number;
-  Rules?: RuleSummary[];
-  LabelNamespace?: string;
-  AvailableLabels?: LabelSummary[];
-  ConsumedLabels?: LabelSummary[];
+  VersionName?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  Capacity?: number | undefined;
+  Rules?: RuleSummary[] | undefined;
+  LabelNamespace?: string | undefined;
+  AvailableLabels?: LabelSummary[] | undefined;
+  ConsumedLabels?: LabelSummary[] | undefined;
 }
 export interface DisassociateWebACLRequest {
   ResourceArn: string;
@@ -1321,15 +1322,15 @@ export interface GenerateMobileSdkReleaseUrlRequest {
 }
 export type DownloadUrl = string;
 export interface GenerateMobileSdkReleaseUrlResponse {
-  Url?: string;
+  Url?: string | undefined;
 }
 export interface GetDecryptedAPIKeyRequest {
   Scope: Scope;
   APIKey: string;
 }
 export interface GetDecryptedAPIKeyResponse {
-  TokenDomains?: string[];
-  CreationTimestamp?: Date;
+  TokenDomains?: string[] | undefined;
+  CreationTimestamp?: Date | undefined;
 }
 export interface GetIPSetRequest {
   Name: string;
@@ -1340,18 +1341,18 @@ export interface IPSet {
   Name: string;
   Id: string;
   ARN: string;
-  Description?: string;
+  Description?: string | undefined;
   IPAddressVersion: IPAddressVersion;
   Addresses: string[];
 }
 export interface GetIPSetResponse {
-  IPSet?: IPSet;
-  LockToken?: string;
+  IPSet?: IPSet | undefined;
+  LockToken?: string | undefined;
 }
 export interface GetLoggingConfigurationRequest {
   ResourceArn: string;
-  LogType?: LogType;
-  LogScope?: LogScope;
+  LogType?: LogType | undefined;
+  LogScope?: LogScope | undefined;
 }
 export type LogDestinationConfigs = string[];
 export type RedactedFields = FieldToMatch[];
@@ -1373,8 +1374,8 @@ export interface LabelNameCondition {
   LabelName: string;
 }
 export interface Condition {
-  ActionCondition?: ActionCondition;
-  LabelNameCondition?: LabelNameCondition;
+  ActionCondition?: ActionCondition | undefined;
+  LabelNameCondition?: LabelNameCondition | undefined;
 }
 export type Conditions = Condition[];
 export interface Filter {
@@ -1390,14 +1391,14 @@ export interface LoggingFilter {
 export interface LoggingConfiguration {
   ResourceArn: string;
   LogDestinationConfigs: string[];
-  RedactedFields?: FieldToMatch[];
-  ManagedByFirewallManager?: boolean;
-  LoggingFilter?: LoggingFilter;
-  LogType?: LogType;
-  LogScope?: LogScope;
+  RedactedFields?: FieldToMatch[] | undefined;
+  ManagedByFirewallManager?: boolean | undefined;
+  LoggingFilter?: LoggingFilter | undefined;
+  LogType?: LogType | undefined;
+  LogScope?: LogScope | undefined;
 }
 export interface GetLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface GetManagedRuleSetRequest {
   Name: string;
@@ -1406,26 +1407,26 @@ export interface GetManagedRuleSetRequest {
 }
 export type TimeWindowDay = number;
 export interface ManagedRuleSetVersion {
-  AssociatedRuleGroupArn?: string;
-  Capacity?: number;
-  ForecastedLifetime?: number;
-  PublishTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  ExpiryTimestamp?: Date;
+  AssociatedRuleGroupArn?: string | undefined;
+  Capacity?: number | undefined;
+  ForecastedLifetime?: number | undefined;
+  PublishTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  ExpiryTimestamp?: Date | undefined;
 }
 export type PublishedVersions = { [key: string]: ManagedRuleSetVersion | undefined };
 export interface ManagedRuleSet {
   Name: string;
   Id: string;
   ARN: string;
-  Description?: string;
-  PublishedVersions?: { [key: string]: ManagedRuleSetVersion | undefined };
-  RecommendedVersion?: string;
-  LabelNamespace?: string;
+  Description?: string | undefined;
+  PublishedVersions?: { [key: string]: ManagedRuleSetVersion | undefined } | undefined;
+  RecommendedVersion?: string | undefined;
+  LabelNamespace?: string | undefined;
 }
 export interface GetManagedRuleSetResponse {
-  ManagedRuleSet?: ManagedRuleSet;
-  LockToken?: string;
+  ManagedRuleSet?: ManagedRuleSet | undefined;
+  LockToken?: string | undefined;
 }
 export interface GetMobileSdkReleaseRequest {
   Platform: Platform;
@@ -1433,35 +1434,35 @@ export interface GetMobileSdkReleaseRequest {
 }
 export type ReleaseNotes = string;
 export interface MobileSdkRelease {
-  ReleaseVersion?: string;
-  Timestamp?: Date;
-  ReleaseNotes?: string;
-  Tags?: Tag[];
+  ReleaseVersion?: string | undefined;
+  Timestamp?: Date | undefined;
+  ReleaseNotes?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetMobileSdkReleaseResponse {
-  MobileSdkRelease?: MobileSdkRelease;
+  MobileSdkRelease?: MobileSdkRelease | undefined;
 }
 export interface GetPermissionPolicyRequest {
   ResourceArn: string;
 }
 export type PolicyString = string;
 export interface GetPermissionPolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetRateBasedStatementManagedKeysRequest {
   Scope: Scope;
   WebACLName: string;
   WebACLId: string;
-  RuleGroupRuleName?: string;
+  RuleGroupRuleName?: string | undefined;
   RuleName: string;
 }
 export interface RateBasedStatementManagedKeysIPSet {
-  IPAddressVersion?: IPAddressVersion;
-  Addresses?: string[];
+  IPAddressVersion?: IPAddressVersion | undefined;
+  Addresses?: string[] | undefined;
 }
 export interface GetRateBasedStatementManagedKeysResponse {
-  ManagedKeysIPV4?: RateBasedStatementManagedKeysIPSet;
-  ManagedKeysIPV6?: RateBasedStatementManagedKeysIPSet;
+  ManagedKeysIPV4?: RateBasedStatementManagedKeysIPSet | undefined;
+  ManagedKeysIPV6?: RateBasedStatementManagedKeysIPSet | undefined;
 }
 export interface GetRegexPatternSetRequest {
   Name: string;
@@ -1469,15 +1470,15 @@ export interface GetRegexPatternSetRequest {
   Id: string;
 }
 export interface RegexPatternSet {
-  Name?: string;
-  Id?: string;
-  ARN?: string;
-  Description?: string;
-  RegularExpressionList?: Regex[];
+  Name?: string | undefined;
+  Id?: string | undefined;
+  ARN?: string | undefined;
+  Description?: string | undefined;
+  RegularExpressionList?: Regex[] | undefined;
 }
 export interface GetRegexPatternSetResponse {
-  RegexPatternSet?: RegexPatternSet;
-  LockToken?: string;
+  RegexPatternSet?: RegexPatternSet | undefined;
+  LockToken?: string | undefined;
 }
 export type RankingStatisticType =
   | "TOP_SOURCES_BY_REVENUE"
@@ -1512,12 +1513,12 @@ export interface GetRevenueStatisticsRequest {
   TimeWindow: TimeWindow;
   Scope: Scope;
   Currency: Currency;
-  GroupBy?: GroupByType;
-  Filters?: MonetizationFilter[];
-  NextMarker?: string;
-  Limit?: number;
-  SortBy?: RankingSortBy;
-  SortOrder?: SortOrder;
+  GroupBy?: GroupByType | undefined;
+  Filters?: MonetizationFilter[] | undefined;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
+  SortBy?: RankingSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type FilterString = string;
 export type PercentageValue = number;
@@ -1529,11 +1530,11 @@ export interface SourceStatistics {
   Percentage: number;
   Amount: string;
   RequestCount: number;
-  SourceCategory?: string;
-  Intent?: string;
-  Organization?: string;
-  Verified?: boolean;
-  GroupByValue?: string;
+  SourceCategory?: string | undefined;
+  Intent?: string | undefined;
+  Organization?: string | undefined;
+  Verified?: boolean | undefined;
+  GroupByValue?: string | undefined;
 }
 export type SourceStatisticsList = SourceStatistics[];
 export type PathString = string;
@@ -1545,26 +1546,26 @@ export interface RevenuePathStatistics {
 }
 export type RevenuePathStatisticsList = RevenuePathStatistics[];
 export interface GetRevenueStatisticsResponse {
-  SourceStatistics?: SourceStatistics[];
-  RevenuePathStatistics?: RevenuePathStatistics[];
-  NextMarker?: string;
+  SourceStatistics?: SourceStatistics[] | undefined;
+  RevenuePathStatistics?: RevenuePathStatistics[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface GetRevenueStatisticsSummaryRequest {
   TimeWindow: TimeWindow;
   Scope: Scope;
   Currency: Currency;
-  Filters?: MonetizationFilter[];
+  Filters?: MonetizationFilter[] | undefined;
 }
 export interface RevenueBreakdown {
-  TotalAmount?: string;
-  VerifiedAmount?: string;
-  UnverifiedAmount?: string;
-  Currency?: Currency;
-  TotalSettled?: number;
-  TotalMonetizeServed?: number;
+  TotalAmount?: string | undefined;
+  VerifiedAmount?: string | undefined;
+  UnverifiedAmount?: string | undefined;
+  Currency?: Currency | undefined;
+  TotalSettled?: number | undefined;
+  TotalMonetizeServed?: number | undefined;
 }
 export interface GetRevenueStatisticsSummaryResponse {
-  RevenueBreakdown?: RevenueBreakdown;
+  RevenueBreakdown?: RevenueBreakdown | undefined;
 }
 export type TimeSeriesStatisticType = "DATE_HISTOGRAM" | "PAYMENT_TRAFFIC" | (string & {});
 export type IntervalType = "MINUTELY" | "FIVE_MINUTELY" | "HOURLY" | "DAILY" | (string & {});
@@ -1575,48 +1576,48 @@ export interface GetRevenueStatisticsTimeSeriesRequest {
   Scope: Scope;
   Interval: IntervalType;
   Currency: Currency;
-  GroupBy?: GroupByType;
-  Filters?: MonetizationFilter[];
-  Limit?: number;
-  NextMarker?: string;
+  GroupBy?: GroupByType | undefined;
+  Filters?: MonetizationFilter[] | undefined;
+  Limit?: number | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DataPointEntry {
-  Date?: Date;
-  MonetizeServedCount?: number;
-  SettledCount?: number;
-  TotalAmount?: string;
-  Category?: string;
-  Intent?: string;
-  GroupByValue?: string;
+  Date?: Date | undefined;
+  MonetizeServedCount?: number | undefined;
+  SettledCount?: number | undefined;
+  TotalAmount?: string | undefined;
+  Category?: string | undefined;
+  Intent?: string | undefined;
+  GroupByValue?: string | undefined;
 }
 export type DataPointsList = DataPointEntry[];
 export interface GetRevenueStatisticsTimeSeriesResponse {
-  DataPoints?: DataPointEntry[];
-  NextMarker?: string;
+  DataPoints?: DataPointEntry[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface GetRuleGroupRequest {
-  Name?: string;
-  Scope?: Scope;
-  Id?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Scope?: Scope | undefined;
+  Id?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface RuleGroup {
   Name: string;
   Id: string;
   Capacity: number;
   ARN: string;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  LabelNamespace?: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  AvailableLabels?: LabelSummary[];
-  ConsumedLabels?: LabelSummary[];
-  MonetizationConfig?: MonetizationConfig;
+  LabelNamespace?: string | undefined;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  AvailableLabels?: LabelSummary[] | undefined;
+  ConsumedLabels?: LabelSummary[] | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export interface GetRuleGroupResponse {
-  RuleGroup?: RuleGroup;
-  LockToken?: string;
+  RuleGroup?: RuleGroup | undefined;
+  LockToken?: string | undefined;
 }
 export type ListMaxItems = number;
 export interface GetSampledRequestsRequest {
@@ -1634,17 +1635,17 @@ export type HTTPVersion = string;
 export type HeaderName = string;
 export type HeaderValue = string;
 export interface HTTPHeader {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type HTTPHeaders = HTTPHeader[];
 export interface HTTPRequest {
-  ClientIP?: string;
-  Country?: string;
-  URI?: string;
-  Method?: string;
-  HTTPVersion?: string;
-  Headers?: HTTPHeader[];
+  ClientIP?: string | undefined;
+  Country?: string | undefined;
+  URI?: string | undefined;
+  Method?: string | undefined;
+  HTTPVersion?: string | undefined;
+  Headers?: HTTPHeader[] | undefined;
 }
 export type SampleWeight = number;
 export type Action = string;
@@ -1657,53 +1658,53 @@ export type FailureReason =
   | "TOKEN_DOMAIN_MISMATCH"
   | (string & {});
 export interface CaptchaResponse {
-  ResponseCode?: number;
-  SolveTimestamp?: number;
-  FailureReason?: FailureReason;
+  ResponseCode?: number | undefined;
+  SolveTimestamp?: number | undefined;
+  FailureReason?: FailureReason | undefined;
 }
 export interface ChallengeResponse {
-  ResponseCode?: number;
-  SolveTimestamp?: number;
-  FailureReason?: FailureReason;
+  ResponseCode?: number | undefined;
+  SolveTimestamp?: number | undefined;
+  FailureReason?: FailureReason | undefined;
 }
 export interface SampledHTTPRequest {
   Request: HTTPRequest;
   Weight: number;
-  Timestamp?: Date;
-  Action?: string;
-  RuleNameWithinRuleGroup?: string;
-  RequestHeadersInserted?: HTTPHeader[];
-  ResponseCodeSent?: number;
-  Labels?: Label[];
-  CaptchaResponse?: CaptchaResponse;
-  ChallengeResponse?: ChallengeResponse;
-  OverriddenAction?: string;
+  Timestamp?: Date | undefined;
+  Action?: string | undefined;
+  RuleNameWithinRuleGroup?: string | undefined;
+  RequestHeadersInserted?: HTTPHeader[] | undefined;
+  ResponseCodeSent?: number | undefined;
+  Labels?: Label[] | undefined;
+  CaptchaResponse?: CaptchaResponse | undefined;
+  ChallengeResponse?: ChallengeResponse | undefined;
+  OverriddenAction?: string | undefined;
 }
 export type SampledHTTPRequests = SampledHTTPRequest[];
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
-  SampledRequests?: SampledHTTPRequest[];
-  PopulationSize?: number;
-  TimeWindow?: TimeWindow;
+  SampledRequests?: SampledHTTPRequest[] | undefined;
+  PopulationSize?: number | undefined;
+  TimeWindow?: TimeWindow | undefined;
 }
 export type UriPathPrefixString = string;
 export type NumberOfTopTrafficBotsPerPath = number;
 export interface GetTopPathStatisticsByTrafficRequest {
   WebAclArn: string;
   Scope: Scope;
-  UriPathPrefix?: string;
+  UriPathPrefix?: string | undefined;
   TimeWindow: TimeWindow;
-  BotCategory?: string;
-  BotOrganization?: string;
-  BotName?: string;
+  BotCategory?: string | undefined;
+  BotOrganization?: string | undefined;
+  BotName?: string | undefined;
   Limit: number;
   NumberOfTopTrafficBotsPerPath: number;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface FilterSource {
-  BotCategory?: string;
-  BotOrganization?: string;
-  BotName?: string;
+  BotCategory?: string | undefined;
+  BotOrganization?: string | undefined;
+  BotName?: string | undefined;
 }
 export interface BotStatistics {
   BotName: string;
@@ -1712,28 +1713,28 @@ export interface BotStatistics {
 }
 export type BotStatisticsList = BotStatistics[];
 export interface PathStatistics {
-  Source?: FilterSource;
+  Source?: FilterSource | undefined;
   Path: string;
   RequestCount: number;
   Percentage: number;
-  TopBots?: BotStatistics[];
+  TopBots?: BotStatistics[] | undefined;
 }
 export type PathStatisticsList = PathStatistics[];
 export interface GetTopPathStatisticsByTrafficResponse {
   PathStatistics: PathStatistics[];
   TotalRequestCount: number;
-  NextMarker?: string;
-  TopCategories?: PathStatistics[];
+  NextMarker?: string | undefined;
+  TopCategories?: PathStatistics[] | undefined;
 }
 export interface GetWebACLRequest {
-  Name?: string;
-  Scope?: Scope;
-  Id?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Scope?: Scope | undefined;
+  Id?: string | undefined;
+  ARN?: string | undefined;
 }
 export interface FirewallManagerStatement {
-  ManagedRuleGroupStatement?: ManagedRuleGroupStatement;
-  RuleGroupReferenceStatement?: RuleGroupReferenceStatement;
+  ManagedRuleGroupStatement?: ManagedRuleGroupStatement | undefined;
+  RuleGroupReferenceStatement?: RuleGroupReferenceStatement | undefined;
 }
 export interface FirewallManagerRuleGroup {
   Name: string;
@@ -1748,151 +1749,151 @@ export interface WebACL {
   Id: string;
   ARN: string;
   DefaultAction: DefaultAction;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  DataProtectionConfig?: DataProtectionConfig;
-  Capacity?: number;
-  PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[];
-  PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[];
-  ManagedByFirewallManager?: boolean;
-  LabelNamespace?: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  CaptchaConfig?: CaptchaConfig;
-  ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: string[];
-  AssociationConfig?: AssociationConfig;
-  RetrofittedByFirewallManager?: boolean;
-  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
-  ApplicationConfig?: ApplicationConfig;
-  MonetizationConfig?: MonetizationConfig;
+  DataProtectionConfig?: DataProtectionConfig | undefined;
+  Capacity?: number | undefined;
+  PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[] | undefined;
+  PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[] | undefined;
+  ManagedByFirewallManager?: boolean | undefined;
+  LabelNamespace?: string | undefined;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  CaptchaConfig?: CaptchaConfig | undefined;
+  ChallengeConfig?: ChallengeConfig | undefined;
+  TokenDomains?: string[] | undefined;
+  AssociationConfig?: AssociationConfig | undefined;
+  RetrofittedByFirewallManager?: boolean | undefined;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export type OutputUrl = string;
 export interface GetWebACLResponse {
-  WebACL?: WebACL;
-  LockToken?: string;
-  ApplicationIntegrationURL?: string;
+  WebACL?: WebACL | undefined;
+  LockToken?: string | undefined;
+  ApplicationIntegrationURL?: string | undefined;
 }
 export interface GetWebACLForResourceRequest {
   ResourceArn: string;
 }
 export interface GetWebACLForResourceResponse {
-  WebACL?: WebACL;
+  WebACL?: WebACL | undefined;
 }
 export type PaginationLimit = number;
 export interface ListAPIKeysRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type APIKeyVersion = number;
 export interface APIKeySummary {
-  TokenDomains?: string[];
-  APIKey?: string;
-  CreationTimestamp?: Date;
-  Version?: number;
+  TokenDomains?: string[] | undefined;
+  APIKey?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  Version?: number | undefined;
 }
 export type APIKeySummaries = APIKeySummary[];
 export interface ListAPIKeysResponse {
-  NextMarker?: string;
-  APIKeySummaries?: APIKeySummary[];
-  ApplicationIntegrationURL?: string;
+  NextMarker?: string | undefined;
+  APIKeySummaries?: APIKeySummary[] | undefined;
+  ApplicationIntegrationURL?: string | undefined;
 }
 export interface ListAvailableManagedRuleGroupsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ManagedRuleGroupSummary {
-  VendorName?: string;
-  Name?: string;
-  VersioningSupported?: boolean;
-  Description?: string;
+  VendorName?: string | undefined;
+  Name?: string | undefined;
+  VersioningSupported?: boolean | undefined;
+  Description?: string | undefined;
 }
 export type ManagedRuleGroupSummaries = ManagedRuleGroupSummary[];
 export interface ListAvailableManagedRuleGroupsResponse {
-  NextMarker?: string;
-  ManagedRuleGroups?: ManagedRuleGroupSummary[];
+  NextMarker?: string | undefined;
+  ManagedRuleGroups?: ManagedRuleGroupSummary[] | undefined;
 }
 export interface ListAvailableManagedRuleGroupVersionsRequest {
   VendorName: string;
   Name: string;
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ManagedRuleGroupVersion {
-  Name?: string;
-  LastUpdateTimestamp?: Date;
+  Name?: string | undefined;
+  LastUpdateTimestamp?: Date | undefined;
 }
 export type ManagedRuleGroupVersions = ManagedRuleGroupVersion[];
 export interface ListAvailableManagedRuleGroupVersionsResponse {
-  NextMarker?: string;
-  Versions?: ManagedRuleGroupVersion[];
-  CurrentDefaultVersion?: string;
+  NextMarker?: string | undefined;
+  Versions?: ManagedRuleGroupVersion[] | undefined;
+  CurrentDefaultVersion?: string | undefined;
 }
 export interface ListIPSetsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type IPSetSummaries = IPSetSummary[];
 export interface ListIPSetsResponse {
-  NextMarker?: string;
-  IPSets?: IPSetSummary[];
+  NextMarker?: string | undefined;
+  IPSets?: IPSetSummary[] | undefined;
 }
 export interface ListLoggingConfigurationsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
-  LogScope?: LogScope;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
+  LogScope?: LogScope | undefined;
 }
 export type LoggingConfigurations = LoggingConfiguration[];
 export interface ListLoggingConfigurationsResponse {
-  LoggingConfigurations?: LoggingConfiguration[];
-  NextMarker?: string;
+  LoggingConfigurations?: LoggingConfiguration[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListManagedRuleSetsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ManagedRuleSetSummary {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LockToken?: string;
-  ARN?: string;
-  LabelNamespace?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LockToken?: string | undefined;
+  ARN?: string | undefined;
+  LabelNamespace?: string | undefined;
 }
 export type ManagedRuleSetSummaries = ManagedRuleSetSummary[];
 export interface ListManagedRuleSetsResponse {
-  NextMarker?: string;
-  ManagedRuleSets?: ManagedRuleSetSummary[];
+  NextMarker?: string | undefined;
+  ManagedRuleSets?: ManagedRuleSetSummary[] | undefined;
 }
 export interface ListMobileSdkReleasesRequest {
   Platform: Platform;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export interface ReleaseSummary {
-  ReleaseVersion?: string;
-  Timestamp?: Date;
+  ReleaseVersion?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type ReleaseSummaries = ReleaseSummary[];
 export interface ListMobileSdkReleasesResponse {
-  ReleaseSummaries?: ReleaseSummary[];
-  NextMarker?: string;
+  ReleaseSummaries?: ReleaseSummary[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListRegexPatternSetsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type RegexPatternSetSummaries = RegexPatternSetSummary[];
 export interface ListRegexPatternSetsResponse {
-  NextMarker?: string;
-  RegexPatternSets?: RegexPatternSetSummary[];
+  NextMarker?: string | undefined;
+  RegexPatternSets?: RegexPatternSetSummary[] | undefined;
 }
 export type ResourceType =
   | "APPLICATION_LOAD_BALANCER"
@@ -1906,21 +1907,21 @@ export type ResourceType =
   | (string & {});
 export interface ListResourcesForWebACLRequest {
   WebACLArn: string;
-  ResourceType?: ResourceType;
+  ResourceType?: ResourceType | undefined;
 }
 export type ResourceArns = string[];
 export interface ListResourcesForWebACLResponse {
-  ResourceArns?: string[];
+  ResourceArns?: string[] | undefined;
 }
 export interface ListRuleGroupsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type RuleGroupSummaries = RuleGroupSummary[];
 export interface ListRuleGroupsResponse {
-  NextMarker?: string;
-  RuleGroups?: RuleGroupSummary[];
+  NextMarker?: string | undefined;
+  RuleGroups?: RuleGroupSummary[] | undefined;
 }
 export type SettlementSortBy = "TIMESTAMP" | "AMOUNT" | "NAME" | "STATUS" | (string & {});
 export type SettlementRecordLimit = number;
@@ -1928,11 +1929,11 @@ export interface ListSettlementRecordsRequest {
   TimeWindow: TimeWindow;
   Scope: Scope;
   Currency: Currency;
-  Filters?: MonetizationFilter[];
-  SortBy?: SettlementSortBy;
-  SortOrder?: SortOrder;
-  Limit?: number;
-  NextMarker?: string;
+  Filters?: MonetizationFilter[] | undefined;
+  SortBy?: SettlementSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+  Limit?: number | undefined;
+  NextMarker?: string | undefined;
 }
 export type SettlementFilterString = string;
 export type SettlementStatus =
@@ -1946,60 +1947,60 @@ export type SettlementStatus =
 export type SettlementIdString = string;
 export interface SettlementRecord {
   Timestamp: Date;
-  PayerAddress?: string;
-  WalletAddress?: string;
+  PayerAddress?: string | undefined;
+  WalletAddress?: string | undefined;
   Status: SettlementStatus;
   Amount: string;
-  Currency?: Currency;
-  Network?: string;
-  TransactionId?: string;
-  RequestId?: string;
-  SourceName?: string;
-  Organization?: string;
-  SourceCategory?: string;
-  Intent?: string;
-  Verified?: boolean;
-  ContentPath?: string;
-  WebAclArn?: string;
-  RequestTimestamp?: Date;
+  Currency?: Currency | undefined;
+  Network?: string | undefined;
+  TransactionId?: string | undefined;
+  RequestId?: string | undefined;
+  SourceName?: string | undefined;
+  Organization?: string | undefined;
+  SourceCategory?: string | undefined;
+  Intent?: string | undefined;
+  Verified?: boolean | undefined;
+  ContentPath?: string | undefined;
+  WebAclArn?: string | undefined;
+  RequestTimestamp?: Date | undefined;
 }
 export type SettlementRecordList = SettlementRecord[];
 export interface ListSettlementRecordsResponse {
-  Settlements?: SettlementRecord[];
-  NextMarker?: string;
+  Settlements?: SettlementRecord[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
   ResourceARN: string;
 }
 export interface TagInfoForResource {
-  ResourceARN?: string;
-  TagList?: Tag[];
+  ResourceARN?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
 export interface ListTagsForResourceResponse {
-  NextMarker?: string;
-  TagInfoForResource?: TagInfoForResource;
+  NextMarker?: string | undefined;
+  TagInfoForResource?: TagInfoForResource | undefined;
 }
 export interface ListWebACLsRequest {
   Scope: Scope;
-  NextMarker?: string;
-  Limit?: number;
+  NextMarker?: string | undefined;
+  Limit?: number | undefined;
 }
 export type WebACLSummaries = WebACLSummary[];
 export interface ListWebACLsResponse {
-  NextMarker?: string;
-  WebACLs?: WebACLSummary[];
+  NextMarker?: string | undefined;
+  WebACLs?: WebACLSummary[] | undefined;
 }
 export interface PutLoggingConfigurationRequest {
   LoggingConfiguration: LoggingConfiguration;
 }
 export interface PutLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface VersionToPublish {
-  AssociatedRuleGroupArn?: string;
-  ForecastedLifetime?: number;
+  AssociatedRuleGroupArn?: string | undefined;
+  ForecastedLifetime?: number | undefined;
 }
 export type VersionsToPublish = { [key: string]: VersionToPublish | undefined };
 export interface PutManagedRuleSetVersionsRequest {
@@ -2007,11 +2008,11 @@ export interface PutManagedRuleSetVersionsRequest {
   Scope: Scope;
   Id: string;
   LockToken: string;
-  RecommendedVersion?: string;
-  VersionsToPublish?: { [key: string]: VersionToPublish | undefined };
+  RecommendedVersion?: string | undefined;
+  VersionsToPublish?: { [key: string]: VersionToPublish | undefined } | undefined;
 }
 export interface PutManagedRuleSetVersionsResponse {
-  NextLockToken?: string;
+  NextLockToken?: string | undefined;
 }
 export interface PutPermissionPolicyRequest {
   ResourceArn: string;
@@ -2033,12 +2034,12 @@ export interface UpdateIPSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
-  Description?: string;
+  Description?: string | undefined;
   Addresses: string[];
   LockToken: string;
 }
 export interface UpdateIPSetResponse {
-  NextLockToken?: string;
+  NextLockToken?: string | undefined;
 }
 export interface UpdateManagedRuleSetVersionExpiryDateRequest {
   Name: string;
@@ -2049,63 +2050,63 @@ export interface UpdateManagedRuleSetVersionExpiryDateRequest {
   ExpiryTimestamp: Date;
 }
 export interface UpdateManagedRuleSetVersionExpiryDateResponse {
-  ExpiringVersion?: string;
-  ExpiryTimestamp?: Date;
-  NextLockToken?: string;
+  ExpiringVersion?: string | undefined;
+  ExpiryTimestamp?: Date | undefined;
+  NextLockToken?: string | undefined;
 }
 export interface UpdateRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
-  Description?: string;
+  Description?: string | undefined;
   RegularExpressionList: Regex[];
   LockToken: string;
 }
 export interface UpdateRegexPatternSetResponse {
-  NextLockToken?: string;
+  NextLockToken?: string | undefined;
 }
 export interface UpdateRuleGroupRequest {
   Name: string;
   Scope: Scope;
   Id: string;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
   LockToken: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  MonetizationConfig?: MonetizationConfig;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export interface UpdateRuleGroupResponse {
-  NextLockToken?: string;
+  NextLockToken?: string | undefined;
 }
 export interface UpdateWebACLRequest {
   Name: string;
   Scope: Scope;
   Id: string;
   DefaultAction: DefaultAction;
-  Description?: string;
-  Rules?: Rule[];
+  Description?: string | undefined;
+  Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
-  DataProtectionConfig?: DataProtectionConfig;
+  DataProtectionConfig?: DataProtectionConfig | undefined;
   LockToken: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
-  CaptchaConfig?: CaptchaConfig;
-  ChallengeConfig?: ChallengeConfig;
-  TokenDomains?: string[];
-  AssociationConfig?: AssociationConfig;
-  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig;
-  ApplicationConfig?: ApplicationConfig;
-  MonetizationConfig?: MonetizationConfig;
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
+  CaptchaConfig?: CaptchaConfig | undefined;
+  ChallengeConfig?: ChallengeConfig | undefined;
+  TokenDomains?: string[] | undefined;
+  AssociationConfig?: AssociationConfig | undefined;
+  OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
+  ApplicationConfig?: ApplicationConfig | undefined;
+  MonetizationConfig?: MonetizationConfig | undefined;
 }
 export interface UpdateWebACLResponse {
-  NextLockToken?: string;
+  NextLockToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type PricingPlanFeatureName = string;
 export type RequiredPricingPlanName = string;
 export interface DisallowedFeature {
-  Feature?: string;
-  RequiredPricingPlan?: string;
+  Feature?: string | undefined;
+  RequiredPricingPlan?: string | undefined;
 }
 export type DisallowedFeatures = DisallowedFeature[];
 export type ParameterExceptionField =
@@ -2224,7 +2225,7 @@ export type AssociateWebACLError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const associateWebACL: API.OperationMethod<
-  AssociateWebACLRequest,
+  AssociateWebACLRequest & RegionInput,
   AssociateWebACLResponse,
   AssociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2273,7 +2274,7 @@ export type CheckCapacityError =
  * in the *WAF Developer Guide*.
  */
 export const checkCapacity: API.OperationMethod<
-  CheckCapacityRequest,
+  CheckCapacityRequest & RegionInput,
   CheckCapacityResponse,
   CheckCapacityError,
   Credentials | HttpClient.HttpClient
@@ -2315,7 +2316,7 @@ export type CreateAPIKeyError =
  * integration.
  */
 export const createAPIKey: API.OperationMethod<
-  CreateAPIKeyRequest,
+  CreateAPIKeyRequest & RegionInput,
   CreateAPIKeyResponse,
   CreateAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -2352,7 +2353,7 @@ export type CreateIPSetError =
  * block them using an IPSet that lists those IP addresses.
  */
 export const createIPSet: API.OperationMethod<
-  CreateIPSetRequest,
+  CreateIPSetRequest & RegionInput,
   CreateIPSetResponse,
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2391,7 +2392,7 @@ export type CreateRegexPatternSetError =
  * component for the specified patterns.
  */
 export const createRegexPatternSet: API.OperationMethod<
-  CreateRegexPatternSetRequest,
+  CreateRegexPatternSetRequest & RegionInput,
   CreateRegexPatternSetResponse,
   CreateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type CreateRuleGroupError =
  * A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2483,7 +2484,7 @@ export type CreateWebACLError =
  * A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
  */
 export const createWebACL: API.OperationMethod<
-  CreateWebACLRequest,
+  CreateWebACLRequest & RegionInput,
   CreateWebACLResponse,
   CreateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2526,7 +2527,7 @@ export type DeleteAPIKeyError =
  * After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
  */
 export const deleteAPIKey: API.OperationMethod<
-  DeleteAPIKeyRequest,
+  DeleteAPIKeyRequest & RegionInput,
   DeleteAPIKeyResponse,
   DeleteAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -2560,7 +2561,7 @@ export type DeleteFirewallManagerRuleGroupsError =
  * You can only use this if `ManagedByFirewallManager` and `RetrofittedByFirewallManager` are both false in the web ACL.
  */
 export const deleteFirewallManagerRuleGroups: API.OperationMethod<
-  DeleteFirewallManagerRuleGroupsRequest,
+  DeleteFirewallManagerRuleGroupsRequest & RegionInput,
   DeleteFirewallManagerRuleGroupsResponse,
   DeleteFirewallManagerRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type DeleteIPSetError =
  * Deletes the specified IPSet.
  */
 export const deleteIPSet: API.OperationMethod<
-  DeleteIPSetRequest,
+  DeleteIPSetRequest & RegionInput,
   DeleteIPSetResponse,
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2630,7 +2631,7 @@ export type DeleteLoggingConfigurationError =
  * Deletes the LoggingConfiguration from the specified web ACL.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2662,7 +2663,7 @@ export type DeletePermissionPolicyError =
  * You must be the owner of the rule group to perform this operation.
  */
 export const deletePermissionPolicy: API.OperationMethod<
-  DeletePermissionPolicyRequest,
+  DeletePermissionPolicyRequest & RegionInput,
   DeletePermissionPolicyResponse,
   DeletePermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2691,7 +2692,7 @@ export type DeleteRegexPatternSetError =
  * Deletes the specified RegexPatternSet.
  */
 export const deleteRegexPatternSet: API.OperationMethod<
-  DeleteRegexPatternSetRequest,
+  DeleteRegexPatternSetRequest & RegionInput,
   DeleteRegexPatternSetResponse,
   DeleteRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2730,7 @@ export type DeleteRuleGroupError =
  * Deletes the specified RuleGroup.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2789,7 @@ export type DeleteWebACLError =
  * - For all other resources, call DisassociateWebACL.
  */
 export const deleteWebACL: API.OperationMethod<
-  DeleteWebACLRequest,
+  DeleteWebACLRequest & RegionInput,
   DeleteWebACLResponse,
   DeleteWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2821,7 +2822,7 @@ export type DescribeAllManagedProductsError =
  * Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
  */
 export const describeAllManagedProducts: API.OperationMethod<
-  DescribeAllManagedProductsRequest,
+  DescribeAllManagedProductsRequest & RegionInput,
   DescribeAllManagedProductsResponse,
   DescribeAllManagedProductsError,
   Credentials | HttpClient.HttpClient
@@ -2845,7 +2846,7 @@ export type DescribeManagedProductsByVendorError =
  * Provides high-level information for the managed rule groups owned by a specific vendor.
  */
 export const describeManagedProductsByVendor: API.OperationMethod<
-  DescribeManagedProductsByVendorRequest,
+  DescribeManagedProductsByVendorRequest & RegionInput,
   DescribeManagedProductsByVendorResponse,
   DescribeManagedProductsByVendorError,
   Credentials | HttpClient.HttpClient
@@ -2872,7 +2873,7 @@ export type DescribeManagedRuleGroupError =
  * Provides high-level information for a managed rule group, including descriptions of the rules.
  */
 export const describeManagedRuleGroup: API.OperationMethod<
-  DescribeManagedRuleGroupRequest,
+  DescribeManagedRuleGroupRequest & RegionInput,
   DescribeManagedRuleGroupResponse,
   DescribeManagedRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2913,7 +2914,7 @@ export type DisassociateWebACLError =
  * For details, see Permissions for DisassociateWebACL in the *WAF Developer Guide*.
  */
 export const disassociateWebACL: API.OperationMethod<
-  DisassociateWebACLRequest,
+  DisassociateWebACLRequest & RegionInput,
   DisassociateWebACLResponse,
   DisassociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2947,7 +2948,7 @@ export type GenerateMobileSdkReleaseUrlError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const generateMobileSdkReleaseUrl: API.OperationMethod<
-  GenerateMobileSdkReleaseUrlRequest,
+  GenerateMobileSdkReleaseUrlRequest & RegionInput,
   GenerateMobileSdkReleaseUrlResponse,
   GenerateMobileSdkReleaseUrlError,
   Credentials | HttpClient.HttpClient
@@ -2982,7 +2983,7 @@ export type GetDecryptedAPIKeyError =
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
 export const getDecryptedAPIKey: API.OperationMethod<
-  GetDecryptedAPIKeyRequest,
+  GetDecryptedAPIKeyRequest & RegionInput,
   GetDecryptedAPIKeyResponse,
   GetDecryptedAPIKeyError,
   Credentials | HttpClient.HttpClient
@@ -3013,7 +3014,7 @@ export type GetIPSetError =
  * Retrieves the specified IPSet.
  */
 export const getIPSet: API.OperationMethod<
-  GetIPSetRequest,
+  GetIPSetRequest & RegionInput,
   GetIPSetResponse,
   GetIPSetError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3044,7 @@ export type GetLoggingConfigurationError =
  * Returns the LoggingConfiguration for the specified web ACL.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3078,7 @@ export type GetManagedRuleSetError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const getManagedRuleSet: API.OperationMethod<
-  GetManagedRuleSetRequest,
+  GetManagedRuleSetRequest & RegionInput,
   GetManagedRuleSetResponse,
   GetManagedRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type GetMobileSdkReleaseError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const getMobileSdkRelease: API.OperationMethod<
-  GetMobileSdkReleaseRequest,
+  GetMobileSdkReleaseRequest & RegionInput,
   GetMobileSdkReleaseResponse,
   GetMobileSdkReleaseError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type GetPermissionPolicyError =
  * You must be the owner of the rule group to perform this operation.
  */
 export const getPermissionPolicy: API.OperationMethod<
-  GetPermissionPolicyRequest,
+  GetPermissionPolicyRequest & RegionInput,
   GetPermissionPolicyResponse,
   GetPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3187,7 +3188,7 @@ export type GetRateBasedStatementManagedKeysError =
  * first.
  */
 export const getRateBasedStatementManagedKeys: API.OperationMethod<
-  GetRateBasedStatementManagedKeysRequest,
+  GetRateBasedStatementManagedKeysRequest & RegionInput,
   GetRateBasedStatementManagedKeysResponse,
   GetRateBasedStatementManagedKeysError,
   Credentials | HttpClient.HttpClient
@@ -3218,7 +3219,7 @@ export type GetRegexPatternSetError =
  * Retrieves the specified RegexPatternSet.
  */
 export const getRegexPatternSet: API.OperationMethod<
-  GetRegexPatternSetRequest,
+  GetRegexPatternSetRequest & RegionInput,
   GetRegexPatternSetResponse,
   GetRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -3248,7 +3249,7 @@ export type GetRevenueStatisticsError =
  * Retrieves ranked monetization statistics. Use the `StatisticType` parameter to specify the ranking: `TOP_SOURCES_BY_REVENUE` for top sources by revenue, or `TOP_PATHS_BY_REVENUE` for top content paths by revenue. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatistics: API.OperationMethod<
-  GetRevenueStatisticsRequest,
+  GetRevenueStatisticsRequest & RegionInput,
   GetRevenueStatisticsResponse,
   GetRevenueStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3278,7 +3279,7 @@ export type GetRevenueStatisticsSummaryError =
  * Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatisticsSummary: API.OperationMethod<
-  GetRevenueStatisticsSummaryRequest,
+  GetRevenueStatisticsSummaryRequest & RegionInput,
   GetRevenueStatisticsSummaryResponse,
   GetRevenueStatisticsSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type GetRevenueStatisticsTimeSeriesError =
  * Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const getRevenueStatisticsTimeSeries: API.OperationMethod<
-  GetRevenueStatisticsTimeSeriesRequest,
+  GetRevenueStatisticsTimeSeriesRequest & RegionInput,
   GetRevenueStatisticsTimeSeriesResponse,
   GetRevenueStatisticsTimeSeriesError,
   Credentials | HttpClient.HttpClient
@@ -3338,7 +3339,7 @@ export type GetRuleGroupError =
  * Retrieves the specified RuleGroup.
  */
 export const getRuleGroup: API.OperationMethod<
-  GetRuleGroupRequest,
+  GetRuleGroupRequest & RegionInput,
   GetRuleGroupResponse,
   GetRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3376,7 +3377,7 @@ export type GetSampledRequestsError =
  * selected the requests in the sample.
  */
 export const getSampledRequests: API.OperationMethod<
-  GetSampledRequestsRequest,
+  GetSampledRequestsRequest & RegionInput,
   GetSampledRequestsResponse,
   GetSampledRequestsError,
   Credentials | HttpClient.HttpClient
@@ -3404,7 +3405,7 @@ export type GetTopPathStatisticsByTrafficError =
  * The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
  */
 export const getTopPathStatisticsByTraffic: API.OperationMethod<
-  GetTopPathStatisticsByTrafficRequest,
+  GetTopPathStatisticsByTrafficRequest & RegionInput,
   GetTopPathStatisticsByTrafficResponse,
   GetTopPathStatisticsByTrafficError,
   Credentials | HttpClient.HttpClient
@@ -3435,7 +3436,7 @@ export type GetWebACLError =
  * Retrieves the specified WebACL.
  */
 export const getWebACL: API.OperationMethod<
-  GetWebACLRequest,
+  GetWebACLRequest & RegionInput,
   GetWebACLResponse,
   GetWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3478,7 +3479,7 @@ export type GetWebACLForResourceError =
  * For details, see Permissions for GetWebACLForResource in the *WAF Developer Guide*.
  */
 export const getWebACLForResource: API.OperationMethod<
-  GetWebACLForResourceRequest,
+  GetWebACLForResourceRequest & RegionInput,
   GetWebACLForResourceResponse,
   GetWebACLForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3513,7 +3514,7 @@ export type ListAPIKeysError =
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
 export const listAPIKeys: API.OperationMethod<
-  ListAPIKeysRequest,
+  ListAPIKeysRequest & RegionInput,
   ListAPIKeysResponse,
   ListAPIKeysError,
   Credentials | HttpClient.HttpClient
@@ -3544,7 +3545,7 @@ export type ListAvailableManagedRuleGroupsError =
  * subscribed to.
  */
 export const listAvailableManagedRuleGroups: API.OperationMethod<
-  ListAvailableManagedRuleGroupsRequest,
+  ListAvailableManagedRuleGroupsRequest & RegionInput,
   ListAvailableManagedRuleGroupsResponse,
   ListAvailableManagedRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3569,7 +3570,7 @@ export type ListAvailableManagedRuleGroupVersionsError =
  * Returns a list of the available versions for the specified managed rule group.
  */
 export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
-  ListAvailableManagedRuleGroupVersionsRequest,
+  ListAvailableManagedRuleGroupVersionsRequest & RegionInput,
   ListAvailableManagedRuleGroupVersionsResponse,
   ListAvailableManagedRuleGroupVersionsError,
   Credentials | HttpClient.HttpClient
@@ -3599,7 +3600,7 @@ export type ListIPSetsError =
  * manage.
  */
 export const listIPSets: API.OperationMethod<
-  ListIPSetsRequest,
+  ListIPSetsRequest & RegionInput,
   ListIPSetsResponse,
   ListIPSetsError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type ListLoggingConfigurationsError =
  * Retrieves an array of your LoggingConfiguration objects.
  */
 export const listLoggingConfigurations: API.OperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3651,7 +3652,7 @@ export type ListManagedRuleSetsError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const listManagedRuleSets: API.OperationMethod<
-  ListManagedRuleSetsRequest,
+  ListManagedRuleSetsRequest & RegionInput,
   ListManagedRuleSetsResponse,
   ListManagedRuleSetsError,
   Credentials | HttpClient.HttpClient
@@ -3679,7 +3680,7 @@ export type ListMobileSdkReleasesError =
  * WAF client application integration in the *WAF Developer Guide*.
  */
 export const listMobileSdkReleases: API.OperationMethod<
-  ListMobileSdkReleasesRequest,
+  ListMobileSdkReleasesRequest & RegionInput,
   ListMobileSdkReleasesResponse,
   ListMobileSdkReleasesError,
   Credentials | HttpClient.HttpClient
@@ -3704,7 +3705,7 @@ export type ListRegexPatternSetsError =
  * pattern sets that you manage.
  */
 export const listRegexPatternSets: API.OperationMethod<
-  ListRegexPatternSetsRequest,
+  ListRegexPatternSetsRequest & RegionInput,
   ListRegexPatternSetsResponse,
   ListRegexPatternSetsError,
   Credentials | HttpClient.HttpClient
@@ -3739,7 +3740,7 @@ export type ListResourcesForWebACLError =
  * For details, see Permissions for ListResourcesForWebACL in the *WAF Developer Guide*.
  */
 export const listResourcesForWebACL: API.OperationMethod<
-  ListResourcesForWebACLRequest,
+  ListResourcesForWebACLRequest & RegionInput,
   ListResourcesForWebACLResponse,
   ListResourcesForWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3769,7 +3770,7 @@ export type ListRuleGroupsError =
  * that you manage.
  */
 export const listRuleGroups: API.OperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3794,7 +3795,7 @@ export type ListSettlementRecordsError =
  * Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for `CLOUDFRONT` scope. The maximum supported time window is 90 days. When no `CurrencyMode` filter is provided, results default to `REAL`. To retrieve test data, include a `CurrencyMode` filter with the value `TEST`.
  */
 export const listSettlementRecords: API.OperationMethod<
-  ListSettlementRecordsRequest,
+  ListSettlementRecordsRequest & RegionInput,
   ListSettlementRecordsResponse,
   ListSettlementRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3834,7 +3835,7 @@ export type ListTagsForResourceError =
  * console.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3866,7 +3867,7 @@ export type ListWebACLsError =
  * manage.
  */
 export const listWebACLs: API.OperationMethod<
-  ListWebACLsRequest,
+  ListWebACLsRequest & RegionInput,
   ListWebACLsResponse,
   ListWebACLsError,
   Credentials | HttpClient.HttpClient
@@ -3934,7 +3935,7 @@ export type PutLoggingConfigurationError =
  * in the *WAF Developer Guide*.
  */
 export const putLoggingConfiguration: API.OperationMethod<
-  PutLoggingConfigurationRequest,
+  PutLoggingConfigurationRequest & RegionInput,
   PutLoggingConfigurationResponse,
   PutLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3983,7 +3984,7 @@ export type PutManagedRuleSetVersionsError =
  * To initiate the expiration of a managed rule group version, use UpdateManagedRuleSetVersionExpiryDate.
  */
 export const putManagedRuleSetVersions: API.OperationMethod<
-  PutManagedRuleSetVersionsRequest,
+  PutManagedRuleSetVersionsRequest & RegionInput,
   PutManagedRuleSetVersionsResponse,
   PutManagedRuleSetVersionsError,
   Credentials | HttpClient.HttpClient
@@ -4030,7 +4031,7 @@ export type PutPermissionPolicyError =
  * Rule groups that are shared with you don't appear in your WAF console rule groups listing.
  */
 export const putPermissionPolicy: API.OperationMethod<
-  PutPermissionPolicyRequest,
+  PutPermissionPolicyRequest & RegionInput,
   PutPermissionPolicyResponse,
   PutPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4071,7 +4072,7 @@ export type TagResourceError =
  * console.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4109,7 +4110,7 @@ export type UntagResourceError =
  * can add up to 50 tags to each Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4168,7 +4169,7 @@ export type UpdateIPSetError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateIPSet: API.OperationMethod<
-  UpdateIPSetRequest,
+  UpdateIPSetRequest & RegionInput,
   UpdateIPSetResponse,
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -4208,7 +4209,7 @@ export type UpdateManagedRuleSetVersionExpiryDateError =
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
 export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
-  UpdateManagedRuleSetVersionExpiryDateRequest,
+  UpdateManagedRuleSetVersionExpiryDateRequest & RegionInput,
   UpdateManagedRuleSetVersionExpiryDateResponse,
   UpdateManagedRuleSetVersionExpiryDateError,
   Credentials | HttpClient.HttpClient
@@ -4266,7 +4267,7 @@ export type UpdateRegexPatternSetError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateRegexPatternSet: API.OperationMethod<
-  UpdateRegexPatternSetRequest,
+  UpdateRegexPatternSetRequest & RegionInput,
   UpdateRegexPatternSetResponse,
   UpdateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -4331,7 +4332,7 @@ export type UpdateRuleGroupError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4403,7 +4404,7 @@ export type UpdateWebACLError =
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
 export const updateWebACL: API.OperationMethod<
-  UpdateWebACLRequest,
+  UpdateWebACLRequest & RegionInput,
   UpdateWebACLResponse,
   UpdateWebACLError,
   Credentials | HttpClient.HttpClient

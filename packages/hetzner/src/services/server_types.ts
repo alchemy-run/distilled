@@ -111,11 +111,11 @@ export interface GetServerTypeResponseServerType {
   /** Type of cpu. */
   cpu_type: GetServerTypeResponseServerTypeCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: GetServerTypeResponseServerTypeArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: GetServerTypeResponseServerTypeDeprecation | null;
+  deprecation?: GetServerTypeResponseServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: GetServerTypeResponseServerTypeLocationsList;
 }
@@ -124,11 +124,11 @@ export interface GetServerTypeResponse {
 }
 export interface ListServerTypesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Hourly price in this [Location](#tag/locations). */
 export type ListServerTypesResponseServerTypesItemPricesItemPriceHourly =
@@ -184,11 +184,11 @@ export interface ListServerTypesResponseServerTypesItem {
   /** Type of cpu. */
   cpu_type: ListServerTypesResponseServerTypesItemCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: ListServerTypesResponseServerTypesItemArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: GetServerTypeResponseServerTypeDeprecation | null;
+  deprecation?: GetServerTypeResponseServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: ListServerTypesResponseServerTypesItemLocationsList;
 }

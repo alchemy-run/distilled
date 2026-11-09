@@ -77,17 +77,17 @@ export interface CreateAnnotationRequest {
   /** array<string> of dataset names for which the annotation appears on charts */
   datasets: CreateAnnotationRequestDatasetsList;
   /** Explanation of the event the annotation marks on the charts */
-  description?: string;
+  description?: string | undefined;
   /** End time of the annotation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Time the annotation marks on the charts. If you don't include this field, Axiom assigns the time of the API request to the annotation. */
-  time?: string;
+  time?: string | undefined;
   /** Summary of the annotation that appears on the charts */
-  title?: string;
+  title?: string | undefined;
   /** Type of the event marked by the annotation. Use only alphanumeric characters or hyphens. For example, "production-deployment". */
   type: string;
   /** URL relevant for the event marked by the annotation. For example, link to GitHub pull request. */
-  url?: string;
+  url?: string | undefined;
 }
 /** array<string> of dataset names for which the annotation appears on charts */
 export type AnnotationDatasetsList = Array<string>;
@@ -95,18 +95,18 @@ export interface Annotation {
   /** array<string> of dataset names for which the annotation appears on charts */
   datasets: AnnotationDatasetsList;
   /** Explanation of the event the annotation marks on the charts */
-  description?: string;
+  description?: string | undefined;
   /** End time of the annotation */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   id: string;
   /** Time the annotation marks on the charts. If you don't include this field, Axiom assigns the time of the API request to the annotation. */
   time: string;
   /** Summary of the annotation that appears on the charts */
-  title?: string;
+  title?: string | undefined;
   /** Type of the event marked by the annotation. Use only alphanumeric characters or hyphens. For example, "production-deployment". */
   type: string;
   /** URL relevant for the event marked by the annotation. For example, link to GitHub pull request. */
-  url?: string;
+  url?: string | undefined;
 }
 export type DatasetCapabilitiesValueDataItem = "delete";
 /** Data Management capability */
@@ -150,21 +150,21 @@ export type DatasetCapabilitiesValueVirtualFieldsList = Array<
 >;
 export interface DatasetCapabilitiesValue {
   /** Data Management capability */
-  data?: DatasetCapabilitiesValueDataList;
+  data?: DatasetCapabilitiesValueDataList | undefined;
   /** Ingest capability */
-  ingest?: DatasetCapabilitiesValueIngestList;
+  ingest?: DatasetCapabilitiesValueIngestList | undefined;
   /** Query capability */
-  query?: DatasetCapabilitiesValueQueryList;
+  query?: DatasetCapabilitiesValueQueryList | undefined;
   /** Sharing dataset capability */
-  share?: DatasetCapabilitiesValueShareList;
+  share?: DatasetCapabilitiesValueShareList | undefined;
   /** Starred queries capability */
-  starredQueries?: DatasetCapabilitiesValueStarredQueriesList;
+  starredQueries?: DatasetCapabilitiesValueStarredQueriesList | undefined;
   /** Data Trimming capability */
-  trim?: DatasetCapabilitiesValueTrimList;
+  trim?: DatasetCapabilitiesValueTrimList | undefined;
   /** Field Vacuuming capability */
-  vacuum?: DatasetCapabilitiesValueVacuumList;
+  vacuum?: DatasetCapabilitiesValueVacuumList | undefined;
   /** Virtual fields capability */
-  virtualFields?: DatasetCapabilitiesValueVirtualFieldsList;
+  virtualFields?: DatasetCapabilitiesValueVirtualFieldsList | undefined;
 }
 export type DatasetCapabilities = { [key: string]: DatasetCapabilitiesValue | undefined };
 export type OrgCapabilitiesAnnotationsItem = "create" | "read" | "update" | "delete";
@@ -218,35 +218,35 @@ export type OrgCapabilitiesViewsItem = "create" | "read" | "update" | "delete";
 export type OrgCapabilitiesViewsList = Array<OrgCapabilitiesViewsItem | (string & {})>;
 export interface OrgCapabilities {
   /** Annotations capability */
-  annotations?: OrgCapabilitiesAnnotationsList;
+  annotations?: OrgCapabilitiesAnnotationsList | undefined;
   /** API tokens capability */
-  apiTokens?: OrgCapabilitiesApiTokensList;
+  apiTokens?: OrgCapabilitiesApiTokensList | undefined;
   /** Audit Log capability */
-  auditLog?: OrgCapabilitiesAuditLogList;
+  auditLog?: OrgCapabilitiesAuditLogList | undefined;
   /** Billing capability */
-  billing?: OrgCapabilitiesBillingList;
+  billing?: OrgCapabilitiesBillingList | undefined;
   /** Dashboards capability */
-  dashboards?: OrgCapabilitiesDashboardsList;
+  dashboards?: OrgCapabilitiesDashboardsList | undefined;
   /** Datasets capability */
-  datasets?: OrgCapabilitiesDatasetsList;
+  datasets?: OrgCapabilitiesDatasetsList | undefined;
   /** Endpoints capability */
-  endpoints?: OrgCapabilitiesEndpointsList;
+  endpoints?: OrgCapabilitiesEndpointsList | undefined;
   /** Flows capability */
-  flows?: OrgCapabilitiesFlowsList;
+  flows?: OrgCapabilitiesFlowsList | undefined;
   /** Integrations capability */
-  integrations?: OrgCapabilitiesIntegrationsList;
+  integrations?: OrgCapabilitiesIntegrationsList | undefined;
   /** Monitors capability */
-  monitors?: OrgCapabilitiesMonitorsList;
+  monitors?: OrgCapabilitiesMonitorsList | undefined;
   /** Notifiers capability */
-  notifiers?: OrgCapabilitiesNotifiersList;
+  notifiers?: OrgCapabilitiesNotifiersList | undefined;
   /** Access control capability */
-  rbac?: OrgCapabilitiesRbacList;
+  rbac?: OrgCapabilitiesRbacList | undefined;
   /** Shared access keys capability */
-  sharedAccessKeys?: OrgCapabilitiesSharedAccessKeysList;
+  sharedAccessKeys?: OrgCapabilitiesSharedAccessKeysList | undefined;
   /** Users capability */
-  users?: OrgCapabilitiesUsersList;
+  users?: OrgCapabilitiesUsersList | undefined;
   /** Views capability */
-  views?: OrgCapabilitiesViewsList;
+  views?: OrgCapabilitiesViewsList | undefined;
 }
 export type ViewCapabilitiesValueQueryItem = "read";
 /** Query capability */
@@ -256,36 +256,36 @@ export type ViewCapabilitiesValueShareItem = "create" | "read" | "delete";
 export type ViewCapabilitiesValueShareList = Array<ViewCapabilitiesValueShareItem | (string & {})>;
 export interface ViewCapabilitiesValue {
   /** Query capability */
-  query?: ViewCapabilitiesValueQueryList;
+  query?: ViewCapabilitiesValueQueryList | undefined;
   /** Sharing view capability */
-  share?: ViewCapabilitiesValueShareList;
+  share?: ViewCapabilitiesValueShareList | undefined;
 }
 export type ViewCapabilities = { [key: string]: ViewCapabilitiesValue | undefined };
 export interface CreateAPITokenRequest {
-  datasetCapabilities?: DatasetCapabilities;
+  datasetCapabilities?: DatasetCapabilities | undefined;
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the token (ISO 8601 format) */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Name of the token */
   name: string;
-  orgCapabilities?: OrgCapabilities;
-  viewCapabilities?: ViewCapabilities;
+  orgCapabilities?: OrgCapabilities | undefined;
+  viewCapabilities?: ViewCapabilities | undefined;
 }
 export interface CreateAPITokenResponse {
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the token (ISO 8601 format) */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
-  samlAuthenticated?: boolean;
-  viewCapabilities?: ViewCapabilities;
-  token?: string | Redacted.Redacted<string>;
+  samlAuthenticated?: boolean | undefined;
+  viewCapabilities?: ViewCapabilities | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type TimeSeriesChartType = "TimeSeries";
 /** Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero. */
@@ -299,26 +299,26 @@ export type TimeSeriesQueryOptionsTimeSeriesView =
   | "";
 export interface TimeSeriesQueryOptions {
   /** Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero. */
-  displayNull?: TimeSeriesQueryOptionsDisplayNull | (string & {});
+  displayNull?: TimeSeriesQueryOptionsDisplayNull | (string & {}) | undefined;
   /** When enabled, charts are overlaid on a single chart instead of stacked separately. */
-  overlayCharts?: BooleanString | (string & {});
-  shownColumns?: string;
-  timeSeriesVariant?: TimeSeriesQueryOptionsTimeSeriesVariant | (string & {});
-  timeSeriesView?: TimeSeriesQueryOptionsTimeSeriesView | (string & {});
+  overlayCharts?: BooleanString | (string & {}) | undefined;
+  shownColumns?: string | undefined;
+  timeSeriesVariant?: TimeSeriesQueryOptionsTimeSeriesVariant | (string & {}) | undefined;
+  timeSeriesView?: TimeSeriesQueryOptionsTimeSeriesView | (string & {}) | undefined;
 }
 export interface TimeSeriesNonMetricsAplQuery {
   apl: string;
-  queryOptions?: TimeSeriesQueryOptions;
+  queryOptions?: TimeSeriesQueryOptions | undefined;
 }
 export interface TimeSeriesNativeMplQuery {
   mpl: string;
-  queryOptions?: TimeSeriesQueryOptions;
+  queryOptions?: TimeSeriesQueryOptions | undefined;
 }
 export type TimeSeriesChartQuery = TimeSeriesNonMetricsAplQuery | TimeSeriesNativeMplQuery;
 export interface TimeSeriesChart {
   id: string;
   type: TimeSeriesChartType;
-  name?: string;
+  name?: string | undefined;
   query: TimeSeriesChartQuery;
 }
 export type HeatmapChartType = "Heatmap";
@@ -328,21 +328,21 @@ export type HeatmapQueryOptionsTimeSeriesView =
   | "charts|resultsTable"
   | "";
 export interface HeatmapQueryOptions {
-  timeSeriesView?: HeatmapQueryOptionsTimeSeriesView | (string & {});
+  timeSeriesView?: HeatmapQueryOptionsTimeSeriesView | (string & {}) | undefined;
 }
 export interface HeatmapNonMetricsAplQuery {
   apl: string;
-  queryOptions?: HeatmapQueryOptions;
+  queryOptions?: HeatmapQueryOptions | undefined;
 }
 export interface HeatmapNativeMplQuery {
   mpl: string;
-  queryOptions?: HeatmapQueryOptions;
+  queryOptions?: HeatmapQueryOptions | undefined;
 }
 export type HeatmapChartQuery = HeatmapNonMetricsAplQuery | HeatmapNativeMplQuery;
 export interface HeatmapChart {
   id: string;
   type: HeatmapChartType;
-  name?: string;
+  name?: string | undefined;
   query: HeatmapChartQuery;
 }
 export type LogStreamChartType = "LogStream";
@@ -355,58 +355,58 @@ export interface SimpleNativeMplQuery {
 export type SimpleChartQuery = SimpleNonMetricsAplQuery | SimpleNativeMplQuery;
 export interface AdvancedColumnSetting {
   name: string;
-  width?: number;
+  width?: number | undefined;
 }
 export type ColumnSetting = string | AdvancedColumnSetting;
 export type TableSettingsColumnsList = Array<ColumnSetting>;
 export interface DatasetStreamSettings {
-  fontSize?: string;
-  highlightSeverity?: boolean;
-  showRaw?: boolean;
-  showEvent?: boolean;
-  showTimestamp?: boolean;
-  wrapLines?: boolean;
-  hideNulls?: boolean;
-  fitColumns?: boolean;
+  fontSize?: string | undefined;
+  highlightSeverity?: boolean | undefined;
+  showRaw?: boolean | undefined;
+  showEvent?: boolean | undefined;
+  showTimestamp?: boolean | undefined;
+  wrapLines?: boolean | undefined;
+  hideNulls?: boolean | undefined;
+  fitColumns?: boolean | undefined;
 }
 export interface TableSettings {
-  columns?: TableSettingsColumnsList;
-  settings?: DatasetStreamSettings;
+  columns?: TableSettingsColumnsList | undefined;
+  settings?: DatasetStreamSettings | undefined;
 }
 export interface LogStreamChart {
   id: string;
   type: LogStreamChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
-  tableSettings?: TableSettings;
+  tableSettings?: TableSettings | undefined;
 }
 export type PieChartType = "Pie";
 export interface PieChart {
   id: string;
   type: PieChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
 }
 export type ScatterChartType = "Scatter";
 export interface ScatterChart {
   id: string;
   type: ScatterChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
 }
 export type TableChartType = "Table";
 export interface TableChart {
   id: string;
   type: TableChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
-  tableSettings?: TableSettings;
+  tableSettings?: TableSettings | undefined;
 }
 export type TopKChartType = "TopK";
 export interface TopKChart {
   id: string;
   type: TopKChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
 }
 export type StatisticChartType = "Statistic";
@@ -436,33 +436,33 @@ export type StatisticChartWarningThreshold =
   | "BelowOrEqual"
   | "AboveOrBelow";
 export interface StatisticChartColorProps {
-  background?: string;
-  chartFillColor?: string;
-  labelColor?: string;
-  textColor?: string;
+  background?: string | undefined;
+  chartFillColor?: string | undefined;
+  labelColor?: string | undefined;
+  textColor?: string | undefined;
 }
 export interface StatisticChart {
   id: string;
   type: StatisticChartType;
-  name?: string;
+  name?: string | undefined;
   query: SimpleChartQuery;
-  colorScheme?: StatisticChartColorScheme | (string & {});
-  customUnits?: string;
-  showChart?: StatisticChartShowChart;
-  hideValue?: boolean;
-  chartHeight?: StatisticChartChartHeight;
-  errorThreshold?: StatisticChartErrorThreshold | (string & {});
-  errorThresholdValue?: string;
-  warningThreshold?: StatisticChartWarningThreshold | (string & {});
-  warningThresholdValue?: string;
-  invertTheme?: boolean;
-  background?: string;
-  textColor?: string;
-  labelColor?: string;
-  chartFillColor?: string;
-  okColorProps?: StatisticChartColorProps;
-  warningColorProps?: StatisticChartColorProps;
-  errorColorProps?: StatisticChartColorProps;
+  colorScheme?: StatisticChartColorScheme | (string & {}) | undefined;
+  customUnits?: string | undefined;
+  showChart?: StatisticChartShowChart | undefined;
+  hideValue?: boolean | undefined;
+  chartHeight?: StatisticChartChartHeight | undefined;
+  errorThreshold?: StatisticChartErrorThreshold | (string & {}) | undefined;
+  errorThresholdValue?: string | undefined;
+  warningThreshold?: StatisticChartWarningThreshold | (string & {}) | undefined;
+  warningThresholdValue?: string | undefined;
+  invertTheme?: boolean | undefined;
+  background?: string | undefined;
+  textColor?: string | undefined;
+  labelColor?: string | undefined;
+  chartFillColor?: string | undefined;
+  okColorProps?: StatisticChartColorProps | undefined;
+  warningColorProps?: StatisticChartColorProps | undefined;
+  errorColorProps?: StatisticChartColorProps | undefined;
 }
 export type NoteChartType = "Note";
 export type NoteChartVariant = "default";
@@ -470,7 +470,7 @@ export interface NoteChart {
   id: string;
   type: NoteChartType;
   text: string;
-  variant?: NoteChartVariant | (string & {});
+  variant?: NoteChartVariant | (string & {}) | undefined;
 }
 export type MonitorListChartType = "MonitorList";
 export type MonitorListChartSelectedMonitorsList = Array<string>;
@@ -484,7 +484,7 @@ export interface MonitorListColumns {
 export interface MonitorListChart {
   id: string;
   type: MonitorListChartType;
-  name?: string;
+  name?: string | undefined;
   selectedMonitors: MonitorListChartSelectedMonitorsList;
   columns: MonitorListColumns;
 }
@@ -493,14 +493,14 @@ export type SmartFilterSearchType = "search";
 export interface SmartFilterSearch {
   id: string;
   name: string;
-  active?: boolean;
+  active?: boolean | undefined;
   type: SmartFilterSearchType;
 }
 export interface SmartFilterOption {
   key: string;
   value: string;
-  default?: boolean;
-  unset?: boolean;
+  default?: boolean | undefined;
+  unset?: boolean | undefined;
 }
 export type SmartFilterOptionsCase0List = Array<SmartFilterOption>;
 export type SmartFilterOptionsCase1 = "";
@@ -510,8 +510,8 @@ export type SmartFilterSelectListSelectType = "list";
 export interface SmartFilterSelectList {
   id: string;
   name: string;
-  active?: boolean;
-  options?: SmartFilterOptions | null;
+  active?: boolean | undefined;
+  options?: SmartFilterOptions | null | undefined;
   type: SmartFilterSelectListType;
   selectType: SmartFilterSelectListSelectType;
 }
@@ -534,12 +534,12 @@ export type SmartFilterQuery = SmartFilterAplQuery | SmartFilterNativeMplQuery;
 export interface SmartFilterSelectQuery {
   id: string;
   name: string;
-  active?: boolean;
+  active?: boolean | undefined;
   /** Pre-defined options merged with the dynamic options returned by `query` at runtime. Typically used to seed a default option (for example an "All" entry with `unset: true`) so the filter has a sensible initial selection before -- or independent of -- query results. */
-  options?: SmartFilterSelectQueryOptions | null;
+  options?: SmartFilterSelectQueryOptions | null | undefined;
   type: SmartFilterSelectQueryType;
   selectType: SmartFilterSelectQuerySelectType;
-  query?: SmartFilterQuery;
+  query?: SmartFilterQuery | undefined;
 }
 export type SmartFilterSelect = SmartFilterSelectList | SmartFilterSelectQuery;
 export type SmartFilterConfig = SmartFilterSearch | SmartFilterSelect;
@@ -547,16 +547,16 @@ export type SmartFilterChartFiltersList = Array<SmartFilterConfig>;
 export interface SmartFilterChart {
   id: string;
   type: SmartFilterChartType;
-  name?: string;
+  name?: string | undefined;
   filters: SmartFilterChartFiltersList;
-  logo?: string;
-  logoDark?: string;
+  logo?: string | undefined;
+  logoDark?: string | undefined;
 }
 export type SpacerChartType = "Spacer";
 export interface SpacerChart {
   id: string;
   type: SpacerChartType;
-  name?: string;
+  name?: string | undefined;
 }
 export type Chart =
   | TimeSeriesChart
@@ -578,11 +578,11 @@ export interface LayoutItem {
   y: number | null;
   w: number;
   h: number;
-  minW?: number;
-  minH?: number;
-  maxW?: number;
-  maxH?: number;
-  static?: boolean;
+  minW?: number | undefined;
+  minH?: number | undefined;
+  maxW?: number | undefined;
+  maxH?: number | undefined;
+  static?: boolean | undefined;
 }
 export type DashboardLayoutList = Array<LayoutItem>;
 export type DashboardRefreshTime = 15 | 60 | 300;
@@ -605,29 +605,29 @@ export type DashboardAgainst =
 export interface Dashboard {
   name: string;
   owner: string;
-  description?: string;
+  description?: string | undefined;
   charts: DashboardChartsList;
   layout: DashboardLayoutList;
   refreshTime: DashboardRefreshTime | (number & {});
   schemaVersion: SchemaVersion | (number & {});
   /** Relative time comparison offset. Compares the current time window against a previous period offset by this duration. Mutually exclusive with `againstTimestamp` -- setting one clears the other. Use an empty string or omit to disable comparison. */
-  against?: DashboardAgainst | (string & {});
+  against?: DashboardAgainst | (string & {}) | undefined;
   /** Absolute or relative timestamp to compare against. Mutually exclusive with `against` -- setting one clears the other. Accepts ISO 8601, `now-{duration}` (e.g. `now-1h`), or epoch milliseconds as a string. */
-  againstTimestamp?: string;
+  againstTimestamp?: string | undefined;
   timeWindowStart: string;
   timeWindowEnd: string;
-  uid?: string;
+  uid?: string | undefined;
 }
 /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
 export type CreateDashboardRequestVersion = string | number;
 export interface CreateDashboardRequest {
   dashboard: Dashboard;
-  message?: string;
-  overwrite?: boolean;
+  message?: string | undefined;
+  overwrite?: boolean | undefined;
   /** Stable external dashboard identifier (org-scoped unique). */
-  uid?: string;
+  uid?: string | undefined;
   /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
-  version?: CreateDashboardRequestVersion;
+  version?: CreateDashboardRequestVersion | undefined;
 }
 /** 64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision. */
 export type DashboardResourceVersion = string | number;
@@ -645,7 +645,7 @@ export interface DashboardResource {
 export type DashboardWriteResponseStatus = "created" | "updated";
 export interface DashboardWriteResponse {
   dashboard: DashboardResource;
-  overwritten?: boolean;
+  overwritten?: boolean | undefined;
   status: DashboardWriteResponseStatus;
 }
 /** The kind of the dataset */
@@ -656,49 +656,49 @@ export type CreateDatasetRequestKind =
   | "axiom:events:v1";
 export interface CreateDatasetRequest {
   /** Referrer slug */
-  referrer?: string;
+  referrer?: string | undefined;
   /** Dataset description */
-  description?: string;
+  description?: string | undefined;
   /** Edge deployment of the dataset */
-  edgeDeployment?: string;
+  edgeDeployment?: string | undefined;
   /** The kind of the dataset */
-  kind?: CreateDatasetRequestKind | (string & {});
+  kind?: CreateDatasetRequestKind | (string & {}) | undefined;
   /** Dataset unique name */
   name: string;
   /** Number of days to retain data in the dataset */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Whether to use the retention period */
-  useRetentionPeriod?: boolean;
+  useRetentionPeriod?: boolean | undefined;
 }
 /** The kind of the dataset */
 export type DatasetKind = "otel:metrics:v1" | "otel:traces:v1" | "otel:logs:v1" | "axiom:events:v1";
 export type DatasetMapFieldsList = Array<string>;
 export interface Dataset {
   /** Whether this dataset has write access */
-  canWrite?: boolean;
+  canWrite?: boolean | undefined;
   /** The RFC3339-formatted time when the dataset was created. */
   created: string;
   /** Dataset description */
   description: string;
   /** Edge deployment of the dataset */
-  edgeDeployment?: string;
+  edgeDeployment?: string | undefined;
   /** URL of the edge deployment */
-  edgeDeploymentUrl?: string;
+  edgeDeploymentUrl?: string | undefined;
   /** Dataset ID */
   id: string;
   /** The kind of the dataset */
   kind: DatasetKind;
-  mapFields?: DatasetMapFieldsList;
+  mapFields?: DatasetMapFieldsList | undefined;
   /** Unique dataset name */
   name: string;
   /** Number of days to retain data in the dataset */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** ID of the org that shared this resource, if it's shared */
-  sharedByOrg?: string;
+  sharedByOrg?: string | undefined;
   /** The RFC3339-formatted time when the dataset was last updated. */
   updatedAt: string;
   /** Whether to use the retention period */
-  useRetentionPeriod?: boolean;
+  useRetentionPeriod?: boolean | undefined;
   /** Name of the dataset creator */
   who: string;
 }
@@ -708,13 +708,13 @@ export type CreateGroupRequestMembersList = Array<string>;
 export type CreateGroupRequestRolesList = Array<string>;
 export interface CreateGroupRequest {
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: CreateGroupRequestMembersList;
+  members?: CreateGroupRequestMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: CreateGroupRequestRolesList;
+  roles?: CreateGroupRequestRolesList | undefined;
 }
 /** List of user IDs that are assigned to this group */
 export type CreateGroupResponseMembersList = Array<string>;
@@ -722,15 +722,15 @@ export type CreateGroupResponseMembersList = Array<string>;
 export type CreateGroupResponseRolesList = Array<string>;
 export interface CreateGroupResponse {
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** Whether the group is managed by Axiom */
-  isManaged?: boolean;
+  isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: CreateGroupResponseMembersList;
+  members?: CreateGroupResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: CreateGroupResponseRolesList;
+  roles?: CreateGroupResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
 }
@@ -755,57 +755,57 @@ export type CreateMonitorRequestOperator =
 export type CreateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDetection";
 export interface CreateMonitorRequest {
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: CreateMonitorRequestNotifierIdsList;
+  notifierIds?: CreateMonitorRequestNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: CreateMonitorRequestOperator | (string & {});
+  operator?: CreateMonitorRequestOperator | (string & {}) | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: CreateMonitorRequestType | (string & {});
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type CreateMonitorResponseNotifierIdsList = Array<string>;
@@ -820,57 +820,57 @@ export type CreateMonitorResponseOperator =
 export type CreateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
 export interface CreateMonitorResponse {
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: CreateMonitorResponseNotifierIdsList;
+  notifierIds?: CreateMonitorResponseNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: CreateMonitorResponseOperator;
+  operator?: CreateMonitorResponseOperator | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: CreateMonitorResponseType;
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the monitor */
   id: string;
 }
@@ -885,97 +885,97 @@ export interface CustomNotifierConfig {
   /** Template for the webhook body, supports variable substitution */
   body: string;
   /** HTTP headers to include in the request */
-  headers?: CustomNotifierConfigHeadersMap;
+  headers?: CustomNotifierConfigHeadersMap | undefined;
   /** Sensitive HTTP headers (tokens, keys) that should be masked in logs */
-  secretHeaders?: CustomNotifierConfigSecretHeadersMap;
+  secretHeaders?: CustomNotifierConfigSecretHeadersMap | undefined;
   /** Custom webhook endpoint URL */
   url: string;
 }
 /** Configuration for Discord notifications using bot token */
 export interface DiscordConfig {
   /** Discord channel ID to send notifications */
-  discordChannel?: string;
+  discordChannel?: string | undefined;
   /** Discord bot token for authentication */
-  discordToken?: string | Redacted.Redacted<string>;
+  discordToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration for Discord notifications using webhooks */
 export interface DiscordWebhookConfig {
   /** Discord webhook URL */
-  discordWebhookUrl?: string | Redacted.Redacted<string>;
+  discordWebhookUrl?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of email addresses to receive notifications */
 export type EmailConfigEmailsList = Array<string>;
 /** Configuration for email notifications */
 export interface EmailConfig {
   /** List of email addresses to receive notifications */
-  emails?: EmailConfigEmailsList;
+  emails?: EmailConfigEmailsList | undefined;
 }
 /** Configuration for Microsoft Teams notifications */
 export interface MicrosoftTeamsConfig {
   /** Microsoft Teams webhook URL */
-  microsoftTeamsUrl?: string | Redacted.Redacted<string>;
+  microsoftTeamsUrl?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration for OpsGenie integration */
 export interface OpsGenieConfig {
   /** OpsGenie API key for authentication */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to use EU region endpoints */
-  isEU?: boolean;
+  isEU?: boolean | undefined;
 }
 /** Configuration for PagerDuty integration */
 export interface PagerDutyConfig {
   /** PagerDuty integration key for routing alerts */
-  routingKey?: string | Redacted.Redacted<string>;
+  routingKey?: string | Redacted.Redacted<string> | undefined;
   /** PagerDuty API token for additional functionality */
-  token?: string | Redacted.Redacted<string>;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration for Slack notifications using incoming webhooks */
 export interface SlackConfig {
   /** Slack incoming webhook URL */
-  slackUrl?: string | Redacted.Redacted<string>;
+  slackUrl?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration for simple webhook notifications */
 export interface WebhookConfig {
   /** Webhook endpoint URL */
-  url?: string;
+  url?: string | undefined;
 }
 /** Configuration options for different notification channels. Only one channel should be configured per notifier. */
 export interface NotifierProperties {
-  customWebhook?: CustomNotifierConfig;
-  discord?: DiscordConfig;
-  discordWebhook?: DiscordWebhookConfig;
-  email?: EmailConfig;
-  microsoftTeams?: MicrosoftTeamsConfig;
-  opsgenie?: OpsGenieConfig;
-  pagerduty?: PagerDutyConfig;
-  slack?: SlackConfig;
-  webhook?: WebhookConfig;
+  customWebhook?: CustomNotifierConfig | undefined;
+  discord?: DiscordConfig | undefined;
+  discordWebhook?: DiscordWebhookConfig | undefined;
+  email?: EmailConfig | undefined;
+  microsoftTeams?: MicrosoftTeamsConfig | undefined;
+  opsgenie?: OpsGenieConfig | undefined;
+  pagerduty?: PagerDutyConfig | undefined;
+  slack?: SlackConfig | undefined;
+  webhook?: WebhookConfig | undefined;
 }
 export interface CreateNotifierRequest {
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
 }
 export interface CreateNotifierResponse {
   /** Timestamp when the notifier was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
   /** Timestamp when the notifier was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateOrgRequest {
   /** The default edge deployment of the organization. */
-  edgeDeployment?: string;
+  edgeDeployment?: string | undefined;
   name: string;
 }
 export type LicenseEdgeDeploymentsList = Array<string>;
@@ -990,30 +990,30 @@ export type LicenseTier =
   | "accelerator";
 export type LicenseWithAuthsList = Array<string>;
 export interface License {
-  apiRateLimitPerSecond?: number;
-  billingPeriodEnd?: string;
-  billingPeriodStart?: string;
-  defaultEdgeDeployment?: string;
-  edgeDeployments?: LicenseEdgeDeploymentsList;
-  expiresAt?: string | null;
-  features?: LicenseFeaturesMap;
+  apiRateLimitPerSecond?: number | undefined;
+  billingPeriodEnd?: string | undefined;
+  billingPeriodStart?: string | undefined;
+  defaultEdgeDeployment?: string | undefined;
+  edgeDeployments?: LicenseEdgeDeploymentsList | undefined;
+  expiresAt?: string | null | undefined;
+  features?: LicenseFeaturesMap | undefined;
   id: string;
-  issuedAt?: string;
-  issuedTo?: string;
-  issuer?: string;
-  maxAuditWindowSeconds?: number;
-  maxDatasets?: number;
-  maxEndpoints?: number;
-  maxFields?: number;
-  maxMonitors?: number;
-  maxQueryWindowSeconds?: number;
-  maxUsers?: number;
-  monthlyIngestGb?: number;
-  monthlyQueryGbHours?: number;
-  storageAllowanceGB?: number;
+  issuedAt?: string | undefined;
+  issuedTo?: string | undefined;
+  issuer?: string | undefined;
+  maxAuditWindowSeconds?: number | undefined;
+  maxDatasets?: number | undefined;
+  maxEndpoints?: number | undefined;
+  maxFields?: number | undefined;
+  maxMonitors?: number | undefined;
+  maxQueryWindowSeconds?: number | undefined;
+  maxUsers?: number | undefined;
+  monthlyIngestGb?: number | undefined;
+  monthlyQueryGbHours?: number | undefined;
+  storageAllowanceGB?: number | undefined;
   tier: LicenseTier;
-  validFrom?: string;
-  withAuths?: LicenseWithAuthsList;
+  validFrom?: string | undefined;
+  withAuths?: LicenseWithAuthsList | undefined;
 }
 export type OrgPaymentStatus = "na" | "failed" | "success" | "blocked";
 export type OrgPlan =
@@ -1025,20 +1025,20 @@ export type OrgPlan =
   | "comped"
   | "accelerator";
 export interface Org {
-  defaultEdgeDeployment?: string;
-  firstFailedPayment?: string;
+  defaultEdgeDeployment?: string | undefined;
+  firstFailedPayment?: string | undefined;
   id: string;
   lastUsageSync: string;
   license: License;
-  metaCreated?: string;
-  metaModified?: string;
-  metaVersion?: string;
+  metaCreated?: string | undefined;
+  metaModified?: string | undefined;
+  metaVersion?: string | undefined;
   name: string;
   paymentStatus: OrgPaymentStatus;
   plan: OrgPlan;
   planCreated: string;
   primaryEmail: string;
-  role?: string;
+  role?: string | undefined;
 }
 export type RoleDatasetCapabilitiesValueDataItem = "delete";
 /** Controls data management operations like deletion */
@@ -1086,21 +1086,21 @@ export type RoleDatasetCapabilitiesValueVirtualFieldsList = Array<
 >;
 export interface RoleDatasetCapabilitiesValue {
   /** Controls data management operations like deletion */
-  data?: RoleDatasetCapabilitiesValueDataList;
+  data?: RoleDatasetCapabilitiesValueDataList | undefined;
   /** Controls the ability to ingest data into datasets */
-  ingest?: RoleDatasetCapabilitiesValueIngestList;
+  ingest?: RoleDatasetCapabilitiesValueIngestList | undefined;
   /** Controls the ability to query and read data from datasets */
-  query?: RoleDatasetCapabilitiesValueQueryList;
+  query?: RoleDatasetCapabilitiesValueQueryList | undefined;
   /** Controls the ability to share datasets with other users */
-  share?: RoleDatasetCapabilitiesValueShareList;
+  share?: RoleDatasetCapabilitiesValueShareList | undefined;
   /** Controls the management of starred/saved queries */
-  starredQueries?: RoleDatasetCapabilitiesValueStarredQueriesList;
+  starredQueries?: RoleDatasetCapabilitiesValueStarredQueriesList | undefined;
   /** Controls data trimming operations for storage optimization */
-  trim?: RoleDatasetCapabilitiesValueTrimList;
+  trim?: RoleDatasetCapabilitiesValueTrimList | undefined;
   /** Controls field vacuuming operations for storage optimization */
-  vacuum?: RoleDatasetCapabilitiesValueVacuumList;
+  vacuum?: RoleDatasetCapabilitiesValueVacuumList | undefined;
   /** Controls the management of virtual fields in datasets */
-  virtualFields?: RoleDatasetCapabilitiesValueVirtualFieldsList;
+  virtualFields?: RoleDatasetCapabilitiesValueVirtualFieldsList | undefined;
 }
 /** Defines the available permissions for dataset operations */
 export type RoleDatasetCapabilities = { [key: string]: RoleDatasetCapabilitiesValue | undefined };
@@ -1174,35 +1174,35 @@ export type RoleOrgCapabilitiesViewsList = Array<RoleOrgCapabilitiesViewsItem | 
 /** Defines organization-wide permissions and capabilities */
 export interface RoleOrgCapabilities {
   /** Controls the management of annotations across the organization */
-  annotations?: RoleOrgCapabilitiesAnnotationsList;
+  annotations?: RoleOrgCapabilitiesAnnotationsList | undefined;
   /** Controls the management of API tokens for authentication */
-  apiTokens?: RoleOrgCapabilitiesApiTokensList;
+  apiTokens?: RoleOrgCapabilitiesApiTokensList | undefined;
   /** Controls access to organization audit logs */
-  auditLog?: RoleOrgCapabilitiesAuditLogList;
+  auditLog?: RoleOrgCapabilitiesAuditLogList | undefined;
   /** Controls access to billing information and settings */
-  billing?: RoleOrgCapabilitiesBillingList;
+  billing?: RoleOrgCapabilitiesBillingList | undefined;
   /** Controls the management of organization dashboards */
-  dashboards?: RoleOrgCapabilitiesDashboardsList;
+  dashboards?: RoleOrgCapabilitiesDashboardsList | undefined;
   /** Controls the management of organization datasets */
-  datasets?: RoleOrgCapabilitiesDatasetsList;
+  datasets?: RoleOrgCapabilitiesDatasetsList | undefined;
   /** Controls the management of API endpoints */
-  endpoints?: RoleOrgCapabilitiesEndpointsList;
+  endpoints?: RoleOrgCapabilitiesEndpointsList | undefined;
   /** Controls the management of data flows and pipelines */
-  flows?: RoleOrgCapabilitiesFlowsList;
+  flows?: RoleOrgCapabilitiesFlowsList | undefined;
   /** Controls the management of third-party integrations */
-  integrations?: RoleOrgCapabilitiesIntegrationsList;
+  integrations?: RoleOrgCapabilitiesIntegrationsList | undefined;
   /** Controls the management of monitoring */
-  monitors?: RoleOrgCapabilitiesMonitorsList;
+  monitors?: RoleOrgCapabilitiesMonitorsList | undefined;
   /** Controls the management of notification settings */
-  notifiers?: RoleOrgCapabilitiesNotifiersList;
+  notifiers?: RoleOrgCapabilitiesNotifiersList | undefined;
   /** Controls access to role-based access control settings */
-  rbac?: RoleOrgCapabilitiesRbacList;
+  rbac?: RoleOrgCapabilitiesRbacList | undefined;
   /** Controls the management of shared access keys */
-  sharedAccessKeys?: RoleOrgCapabilitiesSharedAccessKeysList;
+  sharedAccessKeys?: RoleOrgCapabilitiesSharedAccessKeysList | undefined;
   /** Controls user management within the organization */
-  users?: RoleOrgCapabilitiesUsersList;
+  users?: RoleOrgCapabilitiesUsersList | undefined;
   /** Controls the management of data views */
-  views?: RoleOrgCapabilitiesViewsList;
+  views?: RoleOrgCapabilitiesViewsList | undefined;
 }
 export type RoleViewCapabilitiesValueQueryItem = "read";
 /** Controls the ability to query and read data from views */
@@ -1216,43 +1216,43 @@ export type RoleViewCapabilitiesValueShareList = Array<
 >;
 export interface RoleViewCapabilitiesValue {
   /** Controls the ability to query and read data from views */
-  query?: RoleViewCapabilitiesValueQueryList;
+  query?: RoleViewCapabilitiesValueQueryList | undefined;
   /** Controls the ability to share views with other users */
-  share?: RoleViewCapabilitiesValueShareList;
+  share?: RoleViewCapabilitiesValueShareList | undefined;
 }
 /** Defines the available permissions for view operations */
 export type RoleViewCapabilities = { [key: string]: RoleViewCapabilitiesValue | undefined };
 export interface CreateRoleRequest {
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: CreateRoleRequestMembersList;
+  members?: CreateRoleRequestMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
 }
 /** List of user IDs that are assigned to this role */
 export type CreateRoleResponseMembersList = Array<string>;
 export interface CreateRoleResponse {
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: CreateRoleResponseMembersList;
+  members?: CreateRoleResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
   /** Unique identifier for the role */
   id: string;
 }
 export type CreateStarredRequestKind = "apl";
 export type CreateStarredRequestMetadataMap = { [key: string]: string | undefined };
 export interface APLRequestWithOptionsDefaultOrder {
-  desc?: boolean;
-  field?: string;
+  desc?: boolean | undefined;
+  field?: string | undefined;
 }
 export type APLRequestWithOptionsDefaultOrderList = Array<APLRequestWithOptionsDefaultOrder>;
 export type APLRequestWithOptionsLibrariesList = Array<string>;
@@ -1262,39 +1262,39 @@ export type QueryOptionsDisplayNull = "auto" | "null" | "span" | "zero" | "";
 export type QueryOptionsTimeSeriesVariant = "area" | "bars" | "line" | "lines" | "";
 export type QueryOptionsTimeSeriesView = "charts" | "resultsTable" | "charts|resultsTable" | "";
 export interface QueryOptions {
-  disableCache?: boolean;
-  disableStats?: boolean;
-  disableTrace?: boolean;
-  maxDataPoints?: number;
-  maxSeries?: number;
-  noAggregation?: boolean;
-  noFill?: boolean;
-  noInterpolation?: boolean;
-  priority?: QueryOptionsPriority | (string & {});
-  resolution?: string;
+  disableCache?: boolean | undefined;
+  disableStats?: boolean | undefined;
+  disableTrace?: boolean | undefined;
+  maxDataPoints?: number | undefined;
+  maxSeries?: number | undefined;
+  noAggregation?: boolean | undefined;
+  noFill?: boolean | undefined;
+  noInterpolation?: boolean | undefined;
+  priority?: QueryOptionsPriority | (string & {}) | undefined;
+  resolution?: string | undefined;
   /** Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero. */
-  displayNull?: QueryOptionsDisplayNull | (string & {});
+  displayNull?: QueryOptionsDisplayNull | (string & {}) | undefined;
   /** When enabled, charts are overlaid on a single chart instead of stacked separately. */
-  overlayCharts?: BooleanString | (string & {});
-  shownColumns?: string;
-  timeSeriesVariant?: QueryOptionsTimeSeriesVariant | (string & {});
-  timeSeriesView?: QueryOptionsTimeSeriesView | (string & {});
+  overlayCharts?: BooleanString | (string & {}) | undefined;
+  shownColumns?: string | undefined;
+  timeSeriesVariant?: QueryOptionsTimeSeriesVariant | (string & {}) | undefined;
+  timeSeriesView?: QueryOptionsTimeSeriesView | (string & {}) | undefined;
 }
 export interface APLRequestWithOptions {
   apl: string;
-  cursor?: string;
-  defaultLimit?: number;
-  defaultOrder?: APLRequestWithOptionsDefaultOrderList;
-  endTime?: string;
-  includeCursor?: boolean;
-  includeCursorField?: boolean;
-  libraries?: APLRequestWithOptionsLibrariesList;
-  queryOptions?: QueryOptions;
-  startTime?: string;
-  variables?: unknown;
+  cursor?: string | undefined;
+  defaultLimit?: number | undefined;
+  defaultOrder?: APLRequestWithOptionsDefaultOrderList | undefined;
+  endTime?: string | undefined;
+  includeCursor?: boolean | undefined;
+  includeCursorField?: boolean | undefined;
+  libraries?: APLRequestWithOptionsLibrariesList | undefined;
+  queryOptions?: QueryOptions | undefined;
+  startTime?: string | undefined;
+  variables?: unknown | undefined;
 }
 export interface CreateStarredRequest {
-  dataset?: string;
+  dataset?: string | undefined;
   kind: CreateStarredRequestKind | (string & {});
   metadata: CreateStarredRequestMetadataMap;
   name: string;
@@ -1304,7 +1304,7 @@ export interface CreateStarredRequest {
 export type CreateStarredResponseKind = "apl";
 export type CreateStarredResponseMetadataMap = { [key: string]: string | undefined };
 export interface CreateStarredResponse {
-  dataset?: string;
+  dataset?: string | undefined;
   kind: CreateStarredResponseKind;
   metadata: CreateStarredResponseMetadataMap;
   name: string;
@@ -1335,45 +1335,45 @@ export interface User {
   id: string;
   /** User's full name */
   name: string;
-  role?: UserDetailsRole;
+  role?: UserDetailsRole | undefined;
 }
 export type CreateViewRequestDatasetsList = Array<string>;
 export interface CreateViewRequest {
   aplQuery: string;
-  datasets?: CreateViewRequestDatasetsList;
-  description?: string;
+  datasets?: CreateViewRequestDatasetsList | undefined;
+  description?: string | undefined;
   name: string;
   /** ID of the org that shared this resource, if it's shared */
-  sharedByOrg?: string;
+  sharedByOrg?: string | undefined;
   /** The name of the org that shared this resource, if it's shared */
-  sharedByOrgName?: string;
+  sharedByOrgName?: string | undefined;
 }
 export type ViewDatasetsList = Array<string>;
 export interface View {
   aplQuery: string;
-  datasets?: ViewDatasetsList;
-  description?: string;
+  datasets?: ViewDatasetsList | undefined;
+  description?: string | undefined;
   name: string;
   /** ID of the org that shared this resource, if it's shared */
-  sharedByOrg?: string;
+  sharedByOrg?: string | undefined;
   /** The name of the org that shared this resource, if it's shared */
-  sharedByOrgName?: string;
+  sharedByOrgName?: string | undefined;
 }
 export interface CreateVirtualFieldRequest {
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
 }
 export interface CreateVirtualFieldResponse {
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
   id: string;
 }
 export interface DeleteAnnotationRequest {
@@ -1400,7 +1400,7 @@ export interface DeleteDatasetFieldsRequest {
 }
 export type DeleteDatasetFieldsResultFieldsList = Array<string>;
 export interface DeleteDatasetFieldsResult {
-  fields?: DeleteDatasetFieldsResultFieldsList;
+  fields?: DeleteDatasetFieldsResultFieldsList | undefined;
 }
 export interface DeleteFieldForDatasetRequest {
   dataset_id: string;
@@ -1448,11 +1448,11 @@ export interface GetAnnotationRequest {
 export type GetAnnotationsRequestDatasetsList = Array<string>;
 export interface GetAnnotationsRequest {
   /** Optional: Filter for dataset names. */
-  datasets?: GetAnnotationsRequestDatasetsList;
+  datasets?: GetAnnotationsRequestDatasetsList | undefined;
   /** Optional: Filter for events after this date. Use RFC3339 time format. */
-  start?: string;
+  start?: string | undefined;
   /** Optional: Filter for events before this date. Use RFC3339 time format. */
-  end?: string;
+  end?: string | undefined;
 }
 export type GetAnnotationsResponseBodyList = Array<Annotation>;
 export type GetAnnotationsResponse = GetAnnotationsResponseBodyList;
@@ -1462,16 +1462,16 @@ export interface GetAPITokenRequest {
 export interface APIToken {
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the token (ISO 8601 format) */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
-  samlAuthenticated?: boolean;
-  viewCapabilities?: ViewCapabilities;
+  samlAuthenticated?: boolean | undefined;
+  viewCapabilities?: ViewCapabilities | undefined;
 }
 export interface GetAPITokensRequest {}
 export type GetAPITokensResponseBodyList = Array<APIToken>;
@@ -1492,15 +1492,15 @@ export interface GetFieldForDatasetRequest {
 }
 export interface DatasetField {
   /** Description of the field */
-  description?: string;
+  description?: string | undefined;
   /** Whether the field is hidden */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Name of the field */
   name: string;
   /** Type of the field */
   type: string;
   /** Unit of the field */
-  unit?: string;
+  unit?: string | undefined;
 }
 export interface GetFieldsForDatasetRequest {
   dataset_id: string;
@@ -1517,15 +1517,15 @@ export type GetGroupByIdResponseMembersList = Array<string>;
 export type GetGroupByIdResponseRolesList = Array<string>;
 export interface GetGroupByIdResponse {
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** Whether the group is managed by Axiom */
-  isManaged?: boolean;
+  isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: GetGroupByIdResponseMembersList;
+  members?: GetGroupByIdResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: GetGroupByIdResponseRolesList;
+  roles?: GetGroupByIdResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
 }
@@ -1552,57 +1552,57 @@ export type GetMonitorResponseOperator =
 export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
 export interface GetMonitorResponse {
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: GetMonitorResponseNotifierIdsList;
+  notifierIds?: GetMonitorResponseNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: GetMonitorResponseOperator;
+  operator?: GetMonitorResponseOperator | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: GetMonitorResponseType;
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the monitor */
   id: string;
 }
@@ -1643,57 +1643,57 @@ export type MonitorWithIdType = "Threshold" | "MatchEvent" | "AnomalyDetection";
 /** Monitor configuration with its unique identifier */
 export interface MonitorWithId {
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: MonitorWithIdNotifierIdsList;
+  notifierIds?: MonitorWithIdNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: MonitorWithIdOperator;
+  operator?: MonitorWithIdOperator | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: MonitorWithIdType;
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the monitor */
   id: string;
 }
@@ -1705,35 +1705,35 @@ export interface GetNotifierRequest {
 }
 export interface GetNotifierResponse {
   /** Timestamp when the notifier was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
   /** Timestamp when the notifier was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetNotifiersRequest {}
 /** Notifier configuration with its unique identifier */
 export interface NotifierWithId {
   /** Timestamp when the notifier was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
   /** Timestamp when the notifier was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
-  id?: string;
+  id?: string | undefined;
 }
 export type GetNotifiersResponseBodyList = Array<NotifierWithId>;
 export type GetNotifiersResponse = GetNotifiersResponseBodyList;
@@ -1750,15 +1750,15 @@ export interface GetRoleByIdRequest {
 /** List of user IDs that are assigned to this role */
 export type GetRoleByIdResponseMembersList = Array<string>;
 export interface GetRoleByIdResponse {
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: GetRoleByIdResponseMembersList;
+  members?: GetRoleByIdResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
   /** Unique identifier for the role */
   id: string;
 }
@@ -1768,7 +1768,7 @@ export interface GetStarredRequest {
 export type GetStarredResponseKind = "apl";
 export type GetStarredResponseMetadataMap = { [key: string]: string | undefined };
 export interface GetStarredResponse {
-  dataset?: string;
+  dataset?: string | undefined;
   kind: GetStarredResponseKind;
   metadata: GetStarredResponseMetadataMap;
   name: string;
@@ -1777,17 +1777,17 @@ export interface GetStarredResponse {
   id: string;
 }
 export interface GetStarredQueriesRequest {
-  limit?: number;
-  offset?: number;
-  dataset?: string;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  dataset?: string | undefined;
   /** - If the value of `who` is undefined, the request returns queries starred by the authenticated user. - If the value of `who` is a user ID, the request returns queries starred by the user with this ID (this request requires elevated privileges). For example, `&who='abc123'`. - If the value of `who` is `team`, the request returns queries starred by the team apart from the authenticated user.For example, `&who=team`. - If the value of `who` is `all`, the request returns queries starred by all users in the team, including the authenticated user. For example, `&who=all`. */
-  who?: string;
-  qs?: string;
+  who?: string | undefined;
+  qs?: string | undefined;
 }
 export type StarredQueryWithIdKind = "apl";
 export type StarredQueryWithIdMetadataMap = { [key: string]: string | undefined };
 export interface StarredQueryWithId {
-  dataset?: string;
+  dataset?: string | undefined;
   kind: StarredQueryWithIdKind;
   metadata: StarredQueryWithIdMetadataMap;
   name: string;
@@ -1814,11 +1814,11 @@ export interface GetVirtualFieldRequest {
 }
 export interface GetVirtualFieldResponse {
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
   id: string;
 }
 export interface GetVirtualFieldsRequest {
@@ -1826,18 +1826,18 @@ export interface GetVirtualFieldsRequest {
 }
 export interface VirtualFieldWithId {
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
   id: string;
 }
 export type GetVirtualFieldsResponseBodyList = Array<VirtualFieldWithId>;
 export type GetVirtualFieldsResponse = GetVirtualFieldsResponseBodyList;
 export interface ListDashboardsRequest {
-  limit?: number;
-  offset?: number;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type ListDashboardsResponseBodyList = Array<DashboardResource>;
 export type ListDashboardsResponse = ListDashboardsResponseBodyList;
@@ -1849,15 +1849,15 @@ export type GroupWithIDRolesList = Array<string>;
 /** Extends the base Group type to include a unique identifier */
 export interface GroupWithID {
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** Whether the group is managed by Axiom */
-  isManaged?: boolean;
+  isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: GroupWithIDMembersList;
+  members?: GroupWithIDMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: GroupWithIDRolesList;
+  roles?: GroupWithIDRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
 }
@@ -1868,15 +1868,15 @@ export interface ListRolesRequest {}
 export type RoleWithIDMembersList = Array<string>;
 /** Extends the base Role type to include a unique identifier */
 export interface RoleWithID {
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: RoleWithIDMembersList;
+  members?: RoleWithIDMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
   /** Unique identifier for the role */
   id: string;
 }
@@ -1888,16 +1888,16 @@ export interface PatchDashboardChartRequest {
   chartId: string;
   /** JSON merge patch applied to the existing chart. If id is present, it must match the chartId path parameter. */
   chart: DashboardChartPatchDocument;
-  message?: string;
-  overwrite?: boolean;
+  message?: string | undefined;
+  overwrite?: boolean | undefined;
   /** Required when overwrite is false. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface ProvisionOrgRequest {
   /** Optional display name for the organization. If omitted, a name is auto-generated and the owner can rename it later. */
-  name?: string;
+  name?: string | undefined;
   /** Optional edge deployment (region) the organization is created in. If omitted, the environment's default region is used. */
-  edgeDeployment?: string;
+  edgeDeployment?: string | undefined;
 }
 export interface ProvisionOrgResponse {
   id: string;
@@ -1910,38 +1910,38 @@ export interface ProvisionOrgResponse {
   token: string | Redacted.Redacted<string>;
 }
 export interface CreateAPIToken2 {
-  datasetCapabilities?: DatasetCapabilities;
+  datasetCapabilities?: DatasetCapabilities | undefined;
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the token (ISO 8601 format) */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Name of the token */
   name: string;
-  orgCapabilities?: OrgCapabilities;
-  viewCapabilities?: ViewCapabilities;
+  orgCapabilities?: OrgCapabilities | undefined;
+  viewCapabilities?: ViewCapabilities | undefined;
 }
 export interface RegenerateAPITokenRequest {
   id: string;
   /** Expiration date of the existing token (ISO 8601 format) */
   existingTokenExpiresAt: string;
-  newToken?: CreateAPIToken2;
+  newToken?: CreateAPIToken2 | undefined;
   /** Expiration date of the new token (ISO 8601 format) */
-  newTokenExpiresAt?: string | null;
+  newTokenExpiresAt?: string | null | undefined;
 }
 export interface RegenerateAPITokenResponse {
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the token (ISO 8601 format) */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
-  samlAuthenticated?: boolean;
-  viewCapabilities?: ViewCapabilities;
-  token?: string | Redacted.Redacted<string>;
+  samlAuthenticated?: boolean | undefined;
+  viewCapabilities?: ViewCapabilities | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RemoveUserFromOrgRequest {
   id: string;
@@ -1958,19 +1958,19 @@ export interface UpdateAnnotationRequest {
   /** Unique ID of the annotation */
   id: string;
   /** array<string> of dataset names for which the annotation appears on charts */
-  datasets?: UpdateAnnotationRequestDatasetsList;
+  datasets?: UpdateAnnotationRequestDatasetsList | undefined;
   /** Explanation of the event the annotation marks on the charts */
-  description?: string;
+  description?: string | undefined;
   /** End time of the annotation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Time the annotation marks on the charts. If you don't include this field, Axiom assigns the time of the API request to the annotation. */
-  time?: string;
+  time?: string | undefined;
   /** Summary of the annotation that appears on the charts */
-  title?: string;
+  title?: string | undefined;
   /** Type of the event marked by the annotation. Use only alphanumeric characters or hyphens. For example, "production-deployment". */
-  type?: string;
+  type?: string | undefined;
   /** URL relevant for the event marked by the annotation. For example, link to GitHub pull request. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface UpdateCurrentUserRequest {
   /** New name for the user */
@@ -1981,32 +1981,32 @@ export type UpdateDashboardRequestVersion = string | number;
 export interface UpdateDashboardRequest {
   uid: string;
   dashboard: Dashboard;
-  message?: string;
-  overwrite?: boolean;
+  message?: string | undefined;
+  overwrite?: boolean | undefined;
   /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
-  version?: UpdateDashboardRequestVersion;
+  version?: UpdateDashboardRequestVersion | undefined;
 }
 export interface UpdateDatasetRequest {
   dataset_id: string;
-  description?: string;
+  description?: string | undefined;
   /** Number of days to retain data in the dataset */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Whether to use the retention period */
-  useRetentionPeriod?: boolean;
+  useRetentionPeriod?: boolean | undefined;
 }
 export interface UpdateFieldForDatasetRequest {
   dataset_id: string;
   field_id: string;
   /** Description of the field */
-  description?: string;
+  description?: string | undefined;
   /** Whether the field is hidden */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Name of the field */
   name: string;
   /** Type of the field */
   type: string;
   /** Unit of the field */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** List of user IDs that are assigned to this group */
 export type UpdateGroupRequestMembersList = Array<string>;
@@ -2016,13 +2016,13 @@ export interface UpdateGroupRequest {
   /** Unique identifier of the group to update */
   id: string;
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: UpdateGroupRequestMembersList;
+  members?: UpdateGroupRequestMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: UpdateGroupRequestRolesList;
+  roles?: UpdateGroupRequestRolesList | undefined;
 }
 /** List of user IDs that are assigned to this group */
 export type UpdateGroupResponseMembersList = Array<string>;
@@ -2030,15 +2030,15 @@ export type UpdateGroupResponseMembersList = Array<string>;
 export type UpdateGroupResponseRolesList = Array<string>;
 export interface UpdateGroupResponse {
   /** Detailed description of the group's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** Whether the group is managed by Axiom */
-  isManaged?: boolean;
+  isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
-  members?: UpdateGroupResponseMembersList;
+  members?: UpdateGroupResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
   /** List of role IDs that are assigned to this group */
-  roles?: UpdateGroupResponseRolesList;
+  roles?: UpdateGroupResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
 }
@@ -2061,57 +2061,57 @@ export type UpdateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDete
 export interface UpdateMonitorRequest {
   id: string;
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: UpdateMonitorRequestNotifierIdsList;
+  notifierIds?: UpdateMonitorRequestNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: UpdateMonitorRequestOperator | (string & {});
+  operator?: UpdateMonitorRequestOperator | (string & {}) | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: UpdateMonitorRequestType | (string & {});
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type UpdateMonitorResponseNotifierIdsList = Array<string>;
@@ -2126,82 +2126,82 @@ export type UpdateMonitorResponseOperator =
 export type UpdateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
 export interface UpdateMonitorResponse {
   /** Whether to alert when no data is received */
-  alertOnNoData?: boolean;
+  alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string;
+  aplQuery?: string | undefined;
   /** Name of the column to monitor */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
-  compareDays?: number;
+  compareDays?: number | undefined;
   /** Timestamp when the monitor was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the user who created the monitor */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Whether the monitor is currently disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null;
+  disabledUntil?: string | null | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number;
+  intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string;
+  mplQuery?: string | undefined;
   /** Name of the monitor */
   name: string;
   /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: UpdateMonitorResponseNotifierIdsList;
+  notifierIds?: UpdateMonitorResponseNotifierIdsList | undefined;
   /** Whether to group notifications */
-  notifyByGroup?: boolean;
+  notifyByGroup?: boolean | undefined;
   /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean;
+  notifyEveryRun?: boolean | undefined;
   /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: UpdateMonitorResponseOperator;
+  operator?: UpdateMonitorResponseOperator | undefined;
   /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number;
+  rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
-  resolvable?: boolean;
+  resolvable?: boolean | undefined;
   /** Delay in seconds before triggering the alert */
-  secondDelay?: number;
+  secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
-  skipResolved?: boolean;
+  skipResolved?: boolean | undefined;
   /** Threshold value for triggering the alert */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
-  tolerance?: number;
+  tolerance?: number | undefined;
   /** Number of positive results needed before triggering */
-  triggerAfterNPositiveResults?: number;
+  triggerAfterNPositiveResults?: number | undefined;
   /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
-  triggerFromNRuns?: number;
+  triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: UpdateMonitorResponseType;
   /** Timestamp when the monitor was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the monitor */
   id: string;
 }
 export interface UpdateNotifierRequest {
   id: string;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
 }
 export interface UpdateNotifierResponse {
   /** Timestamp when the notifier was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string;
+  disabledUntil?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
   /** Timestamp when the notifier was last updated */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
-  id?: string;
+  id?: string | undefined;
 }
 export interface UpdateOrgRequest {
   id: string;
@@ -2212,28 +2212,28 @@ export type UpdateRoleRequestMembersList = Array<string>;
 export interface UpdateRoleRequest {
   /** Unique identifier of the role to update */
   id: string;
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: UpdateRoleRequestMembersList;
+  members?: UpdateRoleRequestMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
 }
 /** List of user IDs that are assigned to this role */
 export type UpdateRoleResponseMembersList = Array<string>;
 export interface UpdateRoleResponse {
-  datasetCapabilities?: RoleDatasetCapabilities;
+  datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
-  description?: string;
+  description?: string | undefined;
   /** List of user IDs that are assigned to this role */
-  members?: UpdateRoleResponseMembersList;
+  members?: UpdateRoleResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
-  orgCapabilities?: RoleOrgCapabilities;
-  viewCapabilities?: RoleViewCapabilities;
+  orgCapabilities?: RoleOrgCapabilities | undefined;
+  viewCapabilities?: RoleViewCapabilities | undefined;
   /** Unique identifier for the role */
   id: string;
 }
@@ -2241,7 +2241,7 @@ export type UpdateStarredRequestKind = "apl";
 export type UpdateStarredRequestMetadataMap = { [key: string]: string | undefined };
 export interface UpdateStarredRequest {
   id: string;
-  dataset?: string;
+  dataset?: string | undefined;
   kind: UpdateStarredRequestKind | (string & {});
   metadata: UpdateStarredRequestMetadataMap;
   name: string;
@@ -2251,7 +2251,7 @@ export interface UpdateStarredRequest {
 export type UpdateStarredResponseKind = "apl";
 export type UpdateStarredResponseMetadataMap = { [key: string]: string | undefined };
 export interface UpdateStarredResponse {
-  dataset?: string;
+  dataset?: string | undefined;
   kind: UpdateStarredResponseKind;
   metadata: UpdateStarredResponseMetadataMap;
   name: string;
@@ -2268,30 +2268,30 @@ export type UpdateViewRequestDatasetsList = Array<string>;
 export interface UpdateViewRequest {
   id: string;
   aplQuery: string;
-  datasets?: UpdateViewRequestDatasetsList;
-  description?: string;
+  datasets?: UpdateViewRequestDatasetsList | undefined;
+  description?: string | undefined;
   name: string;
   /** ID of the org that shared this resource, if it's shared */
-  sharedByOrg?: string;
+  sharedByOrg?: string | undefined;
   /** The name of the org that shared this resource, if it's shared */
-  sharedByOrgName?: string;
+  sharedByOrgName?: string | undefined;
 }
 export interface UpdateVirtualFieldRequest {
   id: string;
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
 }
 export interface UpdateVirtualFieldResponse {
   dataset: string;
-  description?: string;
+  description?: string | undefined;
   expression: string;
   name: string;
-  type?: string;
-  unit?: string;
+  type?: string | undefined;
+  unit?: string | undefined;
   id: string;
 }
 export interface VacuumDatasetRequest {

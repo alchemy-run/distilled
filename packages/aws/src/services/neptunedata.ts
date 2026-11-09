@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -469,133 +470,133 @@ export interface CancelGremlinQueryInput {
   queryId: string;
 }
 export interface CancelGremlinQueryOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelLoaderJobInput {
   loadId: string;
 }
 export interface CancelLoaderJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLDataProcessingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLDataProcessingJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLModelTrainingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLModelTrainingJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelMLModelTransformJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface CancelMLModelTransformJobOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CancelOpenCypherQueryInput {
   queryId: string;
-  silent?: boolean;
+  silent?: boolean | undefined;
 }
 export interface CancelOpenCypherQueryOutput {
-  status?: string;
-  payload?: boolean;
+  status?: string | undefined;
+  payload?: boolean | undefined;
 }
 export interface CreateMLEndpointInput {
-  id?: string;
-  mlModelTrainingJobId?: string;
-  mlModelTransformJobId?: string;
-  update?: boolean;
-  neptuneIamRoleArn?: string;
-  modelName?: string;
-  instanceType?: string;
-  instanceCount?: number;
-  volumeEncryptionKMSKey?: string;
+  id?: string | undefined;
+  mlModelTrainingJobId?: string | undefined;
+  mlModelTransformJobId?: string | undefined;
+  update?: boolean | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  modelName?: string | undefined;
+  instanceType?: string | undefined;
+  instanceCount?: number | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
 }
 export interface CreateMLEndpointOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface DeleteMLEndpointInput {
   id: string;
-  neptuneIamRoleArn?: string;
-  clean?: boolean;
+  neptuneIamRoleArn?: string | undefined;
+  clean?: boolean | undefined;
 }
 export interface DeleteMLEndpointOutput {
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeletePropertygraphStatisticsRequest {}
 export interface DeleteStatisticsValueMap {
-  active?: boolean;
-  statisticsId?: string;
+  active?: boolean | undefined;
+  statisticsId?: string | undefined;
 }
 export interface DeletePropertygraphStatisticsOutput {
-  statusCode?: number;
-  status?: string;
-  payload?: DeleteStatisticsValueMap;
+  statusCode?: number | undefined;
+  status?: string | undefined;
+  payload?: DeleteStatisticsValueMap | undefined;
 }
 export interface DeleteSparqlStatisticsRequest {}
 export interface DeleteSparqlStatisticsOutput {
-  statusCode?: number;
-  status?: string;
-  payload?: DeleteStatisticsValueMap;
+  statusCode?: number | undefined;
+  status?: string | undefined;
+  payload?: DeleteStatisticsValueMap | undefined;
 }
 export type Action = "initiateDatabaseReset" | "performDatabaseReset" | (string & {});
 export interface ExecuteFastResetInput {
   action: Action;
-  token?: string;
+  token?: string | undefined;
 }
 export interface FastResetToken {
-  token?: string;
+  token?: string | undefined;
 }
 export interface ExecuteFastResetOutput {
   status: string;
-  payload?: FastResetToken;
+  payload?: FastResetToken | undefined;
 }
 export interface ExecuteGremlinExplainQueryInput {
   gremlinQuery: string;
 }
 export interface ExecuteGremlinExplainQueryOutput {
-  output?: T.StreamingOutputBody;
+  output?: T.StreamingOutputBody | undefined;
 }
 export interface ExecuteGremlinProfileQueryInput {
   gremlinQuery: string;
-  results?: boolean;
-  chop?: number;
-  serializer?: string;
-  indexOps?: boolean;
+  results?: boolean | undefined;
+  chop?: number | undefined;
+  serializer?: string | undefined;
+  indexOps?: boolean | undefined;
 }
 export interface ExecuteGremlinProfileQueryOutput {
-  output?: T.StreamingOutputBody;
+  output?: T.StreamingOutputBody | undefined;
 }
 export interface ExecuteGremlinQueryInput {
   gremlinQuery: string;
-  serializer?: string;
+  serializer?: string | undefined;
 }
 export interface GremlinQueryStatusAttributes {
-  message?: string;
-  code?: number;
-  attributes?: any;
+  message?: string | undefined;
+  code?: number | undefined;
+  attributes?: any | undefined;
 }
 export interface ExecuteGremlinQueryOutput {
-  requestId?: string;
-  status?: GremlinQueryStatusAttributes;
-  result?: any;
-  meta?: any;
+  requestId?: string | undefined;
+  status?: GremlinQueryStatusAttributes | undefined;
+  result?: any | undefined;
+  meta?: any | undefined;
 }
 export type OpenCypherExplainMode = "static" | "dynamic" | "details" | (string & {});
 export interface ExecuteOpenCypherExplainQueryInput {
   openCypherQuery: string;
-  parameters?: string;
+  parameters?: string | undefined;
   explainMode: OpenCypherExplainMode;
 }
 export interface ExecuteOpenCypherExplainQueryOutput {
@@ -603,7 +604,7 @@ export interface ExecuteOpenCypherExplainQueryOutput {
 }
 export interface ExecuteOpenCypherQueryInput {
   openCypherQuery: string;
-  parameters?: string;
+  parameters?: string | undefined;
 }
 export interface ExecuteOpenCypherQueryOutput {
   results: any;
@@ -615,41 +616,41 @@ export interface QueryLanguageVersion {
 export type StringValuedMap = { [key: string]: string | undefined };
 export type DocumentValuedMap = { [key: string]: any | undefined };
 export interface GetEngineStatusOutput {
-  status?: string;
-  startTime?: string;
-  dbEngineVersion?: string;
-  role?: string;
-  dfeQueryEngine?: string;
-  gremlin?: QueryLanguageVersion;
-  sparql?: QueryLanguageVersion;
-  opencypher?: QueryLanguageVersion;
-  labMode?: { [key: string]: string | undefined };
-  rollingBackTrxCount?: number;
-  rollingBackTrxEarliestStartTime?: string;
-  features?: { [key: string]: any | undefined };
-  settings?: { [key: string]: string | undefined };
+  status?: string | undefined;
+  startTime?: string | undefined;
+  dbEngineVersion?: string | undefined;
+  role?: string | undefined;
+  dfeQueryEngine?: string | undefined;
+  gremlin?: QueryLanguageVersion | undefined;
+  sparql?: QueryLanguageVersion | undefined;
+  opencypher?: QueryLanguageVersion | undefined;
+  labMode?: { [key: string]: string | undefined } | undefined;
+  rollingBackTrxCount?: number | undefined;
+  rollingBackTrxEarliestStartTime?: string | undefined;
+  features?: { [key: string]: any | undefined } | undefined;
+  settings?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetGremlinQueryStatusInput {
   queryId: string;
 }
 export interface QueryEvalStats {
-  waited?: number;
-  elapsed?: number;
-  cancelled?: boolean;
-  subqueries?: any;
+  waited?: number | undefined;
+  elapsed?: number | undefined;
+  cancelled?: boolean | undefined;
+  subqueries?: any | undefined;
 }
 export interface GetGremlinQueryStatusOutput {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
 }
 export type PositiveInteger = number;
 export interface GetLoaderJobStatusInput {
   loadId: string;
-  details?: boolean;
-  errors?: boolean;
-  page?: number;
-  errorsPerPage?: number;
+  details?: boolean | undefined;
+  errors?: boolean | undefined;
+  page?: number | undefined;
+  errorsPerPage?: number | undefined;
 }
 export interface GetLoaderJobStatusOutput {
   status: string;
@@ -657,81 +658,81 @@ export interface GetLoaderJobStatusOutput {
 }
 export interface GetMLDataProcessingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface MlResourceDefinition {
-  name?: string;
-  arn?: string;
-  status?: string;
-  outputLocation?: string;
-  failureReason?: string;
-  cloudwatchLogUrl?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  outputLocation?: string | undefined;
+  failureReason?: string | undefined;
+  cloudwatchLogUrl?: string | undefined;
 }
 export interface GetMLDataProcessingJobOutput {
-  status?: string;
-  id?: string;
-  processingJob?: MlResourceDefinition;
+  status?: string | undefined;
+  id?: string | undefined;
+  processingJob?: MlResourceDefinition | undefined;
 }
 export interface GetMLEndpointInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface MlConfigDefinition {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export interface GetMLEndpointOutput {
-  status?: string;
-  id?: string;
-  endpoint?: MlResourceDefinition;
-  endpointConfig?: MlConfigDefinition;
+  status?: string | undefined;
+  id?: string | undefined;
+  endpoint?: MlResourceDefinition | undefined;
+  endpointConfig?: MlConfigDefinition | undefined;
 }
 export interface GetMLModelTrainingJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export type MlModels = MlConfigDefinition[];
 export interface GetMLModelTrainingJobOutput {
-  status?: string;
-  id?: string;
-  processingJob?: MlResourceDefinition;
-  hpoJob?: MlResourceDefinition;
-  modelTransformJob?: MlResourceDefinition;
-  mlModels?: MlConfigDefinition[];
+  status?: string | undefined;
+  id?: string | undefined;
+  processingJob?: MlResourceDefinition | undefined;
+  hpoJob?: MlResourceDefinition | undefined;
+  modelTransformJob?: MlResourceDefinition | undefined;
+  mlModels?: MlConfigDefinition[] | undefined;
 }
 export interface GetMLModelTransformJobInput {
   id: string;
-  neptuneIamRoleArn?: string;
+  neptuneIamRoleArn?: string | undefined;
 }
 export type Models = MlConfigDefinition[];
 export interface GetMLModelTransformJobOutput {
-  status?: string;
-  id?: string;
-  baseProcessingJob?: MlResourceDefinition;
-  remoteModelTransformJob?: MlResourceDefinition;
-  models?: MlConfigDefinition[];
+  status?: string | undefined;
+  id?: string | undefined;
+  baseProcessingJob?: MlResourceDefinition | undefined;
+  remoteModelTransformJob?: MlResourceDefinition | undefined;
+  models?: MlConfigDefinition[] | undefined;
 }
 export interface GetOpenCypherQueryStatusInput {
   queryId: string;
 }
 export interface GetOpenCypherQueryStatusOutput {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
 }
 export interface GetPropertygraphStatisticsRequest {}
 export interface StatisticsSummary {
-  signatureCount?: number;
-  instanceCount?: number;
-  predicateCount?: number;
+  signatureCount?: number | undefined;
+  instanceCount?: number | undefined;
+  predicateCount?: number | undefined;
 }
 export interface Statistics {
-  autoCompute?: boolean;
-  active?: boolean;
-  statisticsId?: string;
-  date?: Date;
-  note?: string;
-  signatureInfo?: StatisticsSummary;
+  autoCompute?: boolean | undefined;
+  active?: boolean | undefined;
+  statisticsId?: string | undefined;
+  date?: Date | undefined;
+  note?: string | undefined;
+  signatureInfo?: StatisticsSummary | undefined;
 }
 export interface GetPropertygraphStatisticsOutput {
   status: string;
@@ -745,26 +746,26 @@ export type IteratorType =
   | (string & {});
 export type Encoding = "gzip" | (string & {});
 export interface GetPropertygraphStreamInput {
-  limit?: number;
-  iteratorType?: IteratorType;
-  commitNum?: number;
-  opNum?: number;
-  encoding?: Encoding;
+  limit?: number | undefined;
+  iteratorType?: IteratorType | undefined;
+  commitNum?: number | undefined;
+  opNum?: number | undefined;
+  encoding?: Encoding | undefined;
 }
 export interface PropertygraphData {
   id: string;
   type: string;
   key: string;
   value: any;
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export interface PropertygraphRecord {
   commitTimestampInMillis: number;
   eventId: { [key: string]: string | undefined };
   data: PropertygraphData;
   op: string;
-  isLastOp?: boolean;
+  isLastOp?: boolean | undefined;
 }
 export type PropertygraphRecordsList = PropertygraphRecord[];
 export interface GetPropertygraphStreamOutput {
@@ -776,7 +777,7 @@ export interface GetPropertygraphStreamOutput {
 }
 export type GraphSummaryType = "basic" | "detailed" | (string & {});
 export interface GetPropertygraphSummaryInput {
-  mode?: GraphSummaryType;
+  mode?: GraphSummaryType | undefined;
 }
 export type NodeLabels = string[];
 export type EdgeLabels = string[];
@@ -785,69 +786,69 @@ export type LongValuedMapList = { [key: string]: number | undefined }[];
 export type NodeProperties = string[];
 export type OutgoingEdgeLabels = string[];
 export interface NodeStructure {
-  count?: number;
-  nodeProperties?: string[];
-  distinctOutgoingEdgeLabels?: string[];
+  count?: number | undefined;
+  nodeProperties?: string[] | undefined;
+  distinctOutgoingEdgeLabels?: string[] | undefined;
 }
 export type NodeStructures = NodeStructure[];
 export type EdgeProperties = string[];
 export interface EdgeStructure {
-  count?: number;
-  edgeProperties?: string[];
+  count?: number | undefined;
+  edgeProperties?: string[] | undefined;
 }
 export type EdgeStructures = EdgeStructure[];
 export interface PropertygraphSummary {
-  numNodes?: number;
-  numEdges?: number;
-  numNodeLabels?: number;
-  numEdgeLabels?: number;
-  nodeLabels?: string[];
-  edgeLabels?: string[];
-  numNodeProperties?: number;
-  numEdgeProperties?: number;
-  nodeProperties?: { [key: string]: number | undefined }[];
-  edgeProperties?: { [key: string]: number | undefined }[];
-  totalNodePropertyValues?: number;
-  totalEdgePropertyValues?: number;
-  nodeStructures?: NodeStructure[];
-  edgeStructures?: EdgeStructure[];
+  numNodes?: number | undefined;
+  numEdges?: number | undefined;
+  numNodeLabels?: number | undefined;
+  numEdgeLabels?: number | undefined;
+  nodeLabels?: string[] | undefined;
+  edgeLabels?: string[] | undefined;
+  numNodeProperties?: number | undefined;
+  numEdgeProperties?: number | undefined;
+  nodeProperties?: { [key: string]: number | undefined }[] | undefined;
+  edgeProperties?: { [key: string]: number | undefined }[] | undefined;
+  totalNodePropertyValues?: number | undefined;
+  totalEdgePropertyValues?: number | undefined;
+  nodeStructures?: NodeStructure[] | undefined;
+  edgeStructures?: EdgeStructure[] | undefined;
 }
 export interface PropertygraphSummaryValueMap {
-  version?: string;
-  lastStatisticsComputationTime?: Date;
-  graphSummary?: PropertygraphSummary;
+  version?: string | undefined;
+  lastStatisticsComputationTime?: Date | undefined;
+  graphSummary?: PropertygraphSummary | undefined;
 }
 export interface GetPropertygraphSummaryOutput {
-  statusCode?: number;
-  payload?: PropertygraphSummaryValueMap;
+  statusCode?: number | undefined;
+  payload?: PropertygraphSummaryValueMap | undefined;
 }
 export interface GetRDFGraphSummaryInput {
-  mode?: GraphSummaryType;
+  mode?: GraphSummaryType | undefined;
 }
 export type Classes = string[];
 export type Predicates = string[];
 export interface SubjectStructure {
-  count?: number;
-  predicates?: string[];
+  count?: number | undefined;
+  predicates?: string[] | undefined;
 }
 export type SubjectStructures = SubjectStructure[];
 export interface RDFGraphSummary {
-  numDistinctSubjects?: number;
-  numDistinctPredicates?: number;
-  numQuads?: number;
-  numClasses?: number;
-  classes?: string[];
-  predicates?: { [key: string]: number | undefined }[];
-  subjectStructures?: SubjectStructure[];
+  numDistinctSubjects?: number | undefined;
+  numDistinctPredicates?: number | undefined;
+  numQuads?: number | undefined;
+  numClasses?: number | undefined;
+  classes?: string[] | undefined;
+  predicates?: { [key: string]: number | undefined }[] | undefined;
+  subjectStructures?: SubjectStructure[] | undefined;
 }
 export interface RDFGraphSummaryValueMap {
-  version?: string;
-  lastStatisticsComputationTime?: Date;
-  graphSummary?: RDFGraphSummary;
+  version?: string | undefined;
+  lastStatisticsComputationTime?: Date | undefined;
+  graphSummary?: RDFGraphSummary | undefined;
 }
 export interface GetRDFGraphSummaryOutput {
-  statusCode?: number;
-  payload?: RDFGraphSummaryValueMap;
+  statusCode?: number | undefined;
+  payload?: RDFGraphSummaryValueMap | undefined;
 }
 export interface GetSparqlStatisticsRequest {}
 export interface GetSparqlStatisticsOutput {
@@ -855,11 +856,11 @@ export interface GetSparqlStatisticsOutput {
   payload: Statistics;
 }
 export interface GetSparqlStreamInput {
-  limit?: number;
-  iteratorType?: IteratorType;
-  commitNum?: number;
-  opNum?: number;
-  encoding?: Encoding;
+  limit?: number | undefined;
+  iteratorType?: IteratorType | undefined;
+  commitNum?: number | undefined;
+  opNum?: number | undefined;
+  encoding?: Encoding | undefined;
 }
 export interface SparqlData {
   stmt: string;
@@ -869,7 +870,7 @@ export interface SparqlRecord {
   eventId: { [key: string]: string | undefined };
   data: SparqlData;
   op: string;
-  isLastOp?: boolean;
+  isLastOp?: boolean | undefined;
 }
 export type SparqlRecordsList = SparqlRecord[];
 export interface GetSparqlStreamOutput {
@@ -880,67 +881,67 @@ export interface GetSparqlStreamOutput {
   totalRecords: number;
 }
 export interface ListGremlinQueriesInput {
-  includeWaiting?: boolean;
+  includeWaiting?: boolean | undefined;
 }
 export interface GremlinQueryStatus {
-  queryId?: string;
-  queryString?: string;
-  queryEvalStats?: QueryEvalStats;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  queryEvalStats?: QueryEvalStats | undefined;
 }
 export type GremlinQueries = GremlinQueryStatus[];
 export interface ListGremlinQueriesOutput {
-  acceptedQueryCount?: number;
-  runningQueryCount?: number;
-  queries?: GremlinQueryStatus[];
+  acceptedQueryCount?: number | undefined;
+  runningQueryCount?: number | undefined;
+  queries?: GremlinQueryStatus[] | undefined;
 }
 export interface ListLoaderJobsInput {
-  limit?: number;
-  includeQueuedLoads?: boolean;
+  limit?: number | undefined;
+  includeQueuedLoads?: boolean | undefined;
 }
 export type StringList = string[];
 export interface LoaderIdResult {
-  loadIds?: string[];
+  loadIds?: string[] | undefined;
 }
 export interface ListLoaderJobsOutput {
   status: string;
   payload: LoaderIdResult;
 }
 export interface ListMLDataProcessingJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLDataProcessingJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLEndpointsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLEndpointsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLModelTrainingJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLModelTrainingJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListMLModelTransformJobsInput {
-  maxItems?: number;
-  neptuneIamRoleArn?: string;
+  maxItems?: number | undefined;
+  neptuneIamRoleArn?: string | undefined;
 }
 export interface ListMLModelTransformJobsOutput {
-  ids?: string[];
+  ids?: string[] | undefined;
 }
 export interface ListOpenCypherQueriesInput {
-  includeWaiting?: boolean;
+  includeWaiting?: boolean | undefined;
 }
 export type OpenCypherQueries = GremlinQueryStatus[];
 export interface ListOpenCypherQueriesOutput {
-  acceptedQueryCount?: number;
-  runningQueryCount?: number;
-  queries?: GremlinQueryStatus[];
+  acceptedQueryCount?: number | undefined;
+  runningQueryCount?: number | undefined;
+  queries?: GremlinQueryStatus[] | undefined;
 }
 export type StatisticsAutoGenerationMode =
   | "disableAutoCompute"
@@ -948,21 +949,21 @@ export type StatisticsAutoGenerationMode =
   | "refresh"
   | (string & {});
 export interface ManagePropertygraphStatisticsInput {
-  mode?: StatisticsAutoGenerationMode;
+  mode?: StatisticsAutoGenerationMode | undefined;
 }
 export interface RefreshStatisticsIdMap {
-  statisticsId?: string;
+  statisticsId?: string | undefined;
 }
 export interface ManagePropertygraphStatisticsOutput {
   status: string;
-  payload?: RefreshStatisticsIdMap;
+  payload?: RefreshStatisticsIdMap | undefined;
 }
 export interface ManageSparqlStatisticsInput {
-  mode?: StatisticsAutoGenerationMode;
+  mode?: StatisticsAutoGenerationMode | undefined;
 }
 export interface ManageSparqlStatisticsOutput {
   status: string;
-  payload?: RefreshStatisticsIdMap;
+  payload?: RefreshStatisticsIdMap | undefined;
 }
 export type Format =
   | "csv"
@@ -1017,96 +1018,96 @@ export interface StartLoaderJobInput {
   format: Format;
   s3BucketRegion: S3BucketRegion;
   iamRoleArn: string;
-  mode?: Mode;
-  failOnError?: boolean;
-  parallelism?: Parallelism;
-  parserConfiguration?: { [key: string]: string | undefined };
-  updateSingleCardinalityProperties?: boolean;
-  queueRequest?: boolean;
-  dependencies?: string[];
-  userProvidedEdgeIds?: boolean;
-  edgeOnlyLoad?: boolean;
+  mode?: Mode | undefined;
+  failOnError?: boolean | undefined;
+  parallelism?: Parallelism | undefined;
+  parserConfiguration?: { [key: string]: string | undefined } | undefined;
+  updateSingleCardinalityProperties?: boolean | undefined;
+  queueRequest?: boolean | undefined;
+  dependencies?: string[] | undefined;
+  userProvidedEdgeIds?: boolean | undefined;
+  edgeOnlyLoad?: boolean | undefined;
 }
 export interface StartLoaderJobOutput {
   status: string;
   payload: { [key: string]: string | undefined };
 }
 export interface StartMLDataProcessingJobInput {
-  id?: string;
-  previousDataProcessingJobId?: string;
+  id?: string | undefined;
+  previousDataProcessingJobId?: string | undefined;
   inputDataS3Location: string;
   processedDataS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  processingInstanceType?: string;
-  processingInstanceVolumeSizeInGB?: number;
-  processingTimeOutInSeconds?: number;
-  modelType?: string;
-  configFileName?: string;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  processingInstanceType?: string | undefined;
+  processingInstanceVolumeSizeInGB?: number | undefined;
+  processingTimeOutInSeconds?: number | undefined;
+  modelType?: string | undefined;
+  configFileName?: string | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
 }
 export interface StartMLDataProcessingJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface CustomModelTrainingParameters {
   sourceS3DirectoryPath: string;
-  trainingEntryPointScript?: string;
-  transformEntryPointScript?: string;
+  trainingEntryPointScript?: string | undefined;
+  transformEntryPointScript?: string | undefined;
 }
 export interface StartMLModelTrainingJobInput {
-  id?: string;
-  previousModelTrainingJobId?: string;
+  id?: string | undefined;
+  previousModelTrainingJobId?: string | undefined;
   dataProcessingJobId: string;
   trainModelS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  baseProcessingInstanceType?: string;
-  trainingInstanceType?: string;
-  trainingInstanceVolumeSizeInGB?: number;
-  trainingTimeOutInSeconds?: number;
-  maxHPONumberOfTrainingJobs?: number;
-  maxHPOParallelTrainingJobs?: number;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
-  enableManagedSpotTraining?: boolean;
-  customModelTrainingParameters?: CustomModelTrainingParameters;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  baseProcessingInstanceType?: string | undefined;
+  trainingInstanceType?: string | undefined;
+  trainingInstanceVolumeSizeInGB?: number | undefined;
+  trainingTimeOutInSeconds?: number | undefined;
+  maxHPONumberOfTrainingJobs?: number | undefined;
+  maxHPOParallelTrainingJobs?: number | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
+  enableManagedSpotTraining?: boolean | undefined;
+  customModelTrainingParameters?: CustomModelTrainingParameters | undefined;
 }
 export interface StartMLModelTrainingJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export interface CustomModelTransformParameters {
   sourceS3DirectoryPath: string;
-  transformEntryPointScript?: string;
+  transformEntryPointScript?: string | undefined;
 }
 export interface StartMLModelTransformJobInput {
-  id?: string;
-  dataProcessingJobId?: string;
-  mlModelTrainingJobId?: string;
-  trainingJobName?: string;
+  id?: string | undefined;
+  dataProcessingJobId?: string | undefined;
+  mlModelTrainingJobId?: string | undefined;
+  trainingJobName?: string | undefined;
   modelTransformOutputS3Location: string;
-  sagemakerIamRoleArn?: string;
-  neptuneIamRoleArn?: string;
-  customModelTransformParameters?: CustomModelTransformParameters;
-  baseProcessingInstanceType?: string;
-  baseProcessingInstanceVolumeSizeInGB?: number;
-  subnets?: string[];
-  securityGroupIds?: string[];
-  volumeEncryptionKMSKey?: string;
-  s3OutputEncryptionKMSKey?: string;
+  sagemakerIamRoleArn?: string | undefined;
+  neptuneIamRoleArn?: string | undefined;
+  customModelTransformParameters?: CustomModelTransformParameters | undefined;
+  baseProcessingInstanceType?: string | undefined;
+  baseProcessingInstanceVolumeSizeInGB?: number | undefined;
+  subnets?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  volumeEncryptionKMSKey?: string | undefined;
+  s3OutputEncryptionKMSKey?: string | undefined;
 }
 export interface StartMLModelTransformJobOutput {
-  id?: string;
-  arn?: string;
-  creationTimeInMillis?: number;
+  id?: string | undefined;
+  arn?: string | undefined;
+  creationTimeInMillis?: number | undefined;
 }
 export type CancelGremlinQueryError =
   | BadRequestException
@@ -1130,7 +1131,7 @@ export type CancelGremlinQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelGremlinQuery: API.OperationMethod<
-  CancelGremlinQueryInput,
+  CancelGremlinQueryInput & RegionInput,
   CancelGremlinQueryOutput,
   CancelGremlinQueryError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1182,7 @@ export type CancelLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
  */
 export const cancelLoaderJob: API.OperationMethod<
-  CancelLoaderJobInput,
+  CancelLoaderJobInput & RegionInput,
   CancelLoaderJobOutput,
   CancelLoaderJobError,
   Credentials | HttpClient.HttpClient
@@ -1229,7 +1230,7 @@ export type CancelMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
  */
 export const cancelMLDataProcessingJob: API.OperationMethod<
-  CancelMLDataProcessingJobInput,
+  CancelMLDataProcessingJobInput & RegionInput,
   CancelMLDataProcessingJobOutput,
   CancelMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -1275,7 +1276,7 @@ export type CancelMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
  */
 export const cancelMLModelTrainingJob: API.OperationMethod<
-  CancelMLModelTrainingJobInput,
+  CancelMLModelTrainingJobInput & RegionInput,
   CancelMLModelTrainingJobOutput,
   CancelMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -1321,7 +1322,7 @@ export type CancelMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
  */
 export const cancelMLModelTransformJob: API.OperationMethod<
-  CancelMLModelTransformJobInput,
+  CancelMLModelTransformJobInput & RegionInput,
   CancelMLModelTransformJobOutput,
   CancelMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type CancelOpenCypherQueryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
 export const cancelOpenCypherQuery: API.OperationMethod<
-  CancelOpenCypherQueryInput,
+  CancelOpenCypherQueryInput & RegionInput,
   CancelOpenCypherQueryOutput,
   CancelOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1422,7 @@ export type CreateMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
  */
 export const createMLEndpoint: API.OperationMethod<
-  CreateMLEndpointInput,
+  CreateMLEndpointInput & RegionInput,
   CreateMLEndpointOutput,
   CreateMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type DeleteMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
  */
 export const deleteMLEndpoint: API.OperationMethod<
-  DeleteMLEndpointInput,
+  DeleteMLEndpointInput & RegionInput,
   DeleteMLEndpointOutput,
   DeleteMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type DeletePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deletePropertygraphStatistics: API.OperationMethod<
-  DeletePropertygraphStatisticsRequest,
+  DeletePropertygraphStatisticsRequest & RegionInput,
   DeletePropertygraphStatisticsOutput,
   DeletePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1566,7 @@ export type DeleteSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
 export const deleteSparqlStatistics: API.OperationMethod<
-  DeleteSparqlStatisticsRequest,
+  DeleteSparqlStatisticsRequest & RegionInput,
   DeleteSparqlStatisticsOutput,
   DeleteSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type ExecuteFastResetError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
  */
 export const executeFastReset: API.OperationMethod<
-  ExecuteFastResetInput,
+  ExecuteFastResetInput & RegionInput,
   ExecuteFastResetOutput,
   ExecuteFastResetError,
   Credentials | HttpClient.HttpClient
@@ -1686,7 +1687,7 @@ export type ExecuteGremlinExplainQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinExplainQuery: API.OperationMethod<
-  ExecuteGremlinExplainQueryInput,
+  ExecuteGremlinExplainQueryInput & RegionInput,
   ExecuteGremlinExplainQueryOutput,
   ExecuteGremlinExplainQueryError,
   Credentials | HttpClient.HttpClient
@@ -1752,7 +1753,7 @@ export type ExecuteGremlinProfileQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinProfileQuery: API.OperationMethod<
-  ExecuteGremlinProfileQueryInput,
+  ExecuteGremlinProfileQueryInput & RegionInput,
   ExecuteGremlinProfileQueryOutput,
   ExecuteGremlinProfileQueryError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1825,7 @@ export type ExecuteGremlinQueryError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeGremlinQuery: API.OperationMethod<
-  ExecuteGremlinQueryInput,
+  ExecuteGremlinQueryInput & RegionInput,
   ExecuteGremlinQueryOutput,
   ExecuteGremlinQueryError,
   Credentials | HttpClient.HttpClient
@@ -1891,7 +1892,7 @@ export type ExecuteOpenCypherExplainQueryError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherExplainQuery: API.OperationMethod<
-  ExecuteOpenCypherExplainQueryInput,
+  ExecuteOpenCypherExplainQueryInput & RegionInput,
   ExecuteOpenCypherExplainQueryOutput,
   ExecuteOpenCypherExplainQueryError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type ExecuteOpenCypherQueryError =
  * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const executeOpenCypherQuery: API.OperationMethod<
-  ExecuteOpenCypherQueryInput,
+  ExecuteOpenCypherQueryInput & RegionInput,
   ExecuteOpenCypherQueryOutput,
   ExecuteOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
@@ -2022,7 +2023,7 @@ export type GetEngineStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
  */
 export const getEngineStatus: API.OperationMethod<
-  GetEngineStatusRequest,
+  GetEngineStatusRequest & RegionInput,
   GetEngineStatusOutput,
   GetEngineStatusError,
   Credentials | HttpClient.HttpClient
@@ -2072,7 +2073,7 @@ export type GetGremlinQueryStatusError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getGremlinQueryStatus: API.OperationMethod<
-  GetGremlinQueryStatusInput,
+  GetGremlinQueryStatusInput & RegionInput,
   GetGremlinQueryStatusOutput,
   GetGremlinQueryStatusError,
   Credentials | HttpClient.HttpClient
@@ -2127,7 +2128,7 @@ export type GetLoaderJobStatusError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
  */
 export const getLoaderJobStatus: API.OperationMethod<
-  GetLoaderJobStatusInput,
+  GetLoaderJobStatusInput & RegionInput,
   GetLoaderJobStatusOutput,
   GetLoaderJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -2175,7 +2176,7 @@ export type GetMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
  */
 export const getMLDataProcessingJob: API.OperationMethod<
-  GetMLDataProcessingJobInput,
+  GetMLDataProcessingJobInput & RegionInput,
   GetMLDataProcessingJobOutput,
   GetMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -2221,7 +2222,7 @@ export type GetMLEndpointError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
  */
 export const getMLEndpoint: API.OperationMethod<
-  GetMLEndpointInput,
+  GetMLEndpointInput & RegionInput,
   GetMLEndpointOutput,
   GetMLEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2267,7 +2268,7 @@ export type GetMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
  */
 export const getMLModelTrainingJob: API.OperationMethod<
-  GetMLModelTrainingJobInput,
+  GetMLModelTrainingJobInput & RegionInput,
   GetMLModelTrainingJobOutput,
   GetMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -2313,7 +2314,7 @@ export type GetMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
  */
 export const getMLModelTransformJob: API.OperationMethod<
-  GetMLModelTransformJobInput,
+  GetMLModelTransformJobInput & RegionInput,
   GetMLModelTransformJobOutput,
   GetMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
@@ -2367,7 +2368,7 @@ export type GetOpenCypherQueryStatusError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getOpenCypherQueryStatus: API.OperationMethod<
-  GetOpenCypherQueryStatusInput,
+  GetOpenCypherQueryStatusInput & RegionInput,
   GetOpenCypherQueryStatusOutput,
   GetOpenCypherQueryStatusError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type GetPropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
  */
 export const getPropertygraphStatistics: API.OperationMethod<
-  GetPropertygraphStatisticsRequest,
+  GetPropertygraphStatisticsRequest & RegionInput,
   GetPropertygraphStatisticsOutput,
   GetPropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2486,7 +2487,7 @@ export type GetPropertygraphStreamError =
  * See Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getPropertygraphStream: API.OperationMethod<
-  GetPropertygraphStreamInput,
+  GetPropertygraphStreamInput & RegionInput,
   GetPropertygraphStreamOutput,
   GetPropertygraphStreamError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type GetPropertygraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getPropertygraphSummary: API.OperationMethod<
-  GetPropertygraphSummaryInput,
+  GetPropertygraphSummaryInput & RegionInput,
   GetPropertygraphSummaryOutput,
   GetPropertygraphSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2585,7 +2586,7 @@ export type GetRDFGraphSummaryError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
 export const getRDFGraphSummary: API.OperationMethod<
-  GetRDFGraphSummaryInput,
+  GetRDFGraphSummaryInput & RegionInput,
   GetRDFGraphSummaryOutput,
   GetRDFGraphSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2633,7 +2634,7 @@ export type GetSparqlStatisticsError =
  * Gets RDF statistics (SPARQL).
  */
 export const getSparqlStatistics: API.OperationMethod<
-  GetSparqlStatisticsRequest,
+  GetSparqlStatisticsRequest & RegionInput,
   GetSparqlStatisticsOutput,
   GetSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2690,7 +2691,7 @@ export type GetSparqlStreamError =
  * Note that the neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const getSparqlStream: API.OperationMethod<
-  GetSparqlStreamInput,
+  GetSparqlStreamInput & RegionInput,
   GetSparqlStreamOutput,
   GetSparqlStreamError,
   Credentials | HttpClient.HttpClient
@@ -2744,7 +2745,7 @@ export type ListGremlinQueriesError =
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listGremlinQueries: API.OperationMethod<
-  ListGremlinQueriesInput,
+  ListGremlinQueriesInput & RegionInput,
   ListGremlinQueriesOutput,
   ListGremlinQueriesError,
   Credentials | HttpClient.HttpClient
@@ -2796,7 +2797,7 @@ export type ListLoaderJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
  */
 export const listLoaderJobs: API.OperationMethod<
-  ListLoaderJobsInput,
+  ListLoaderJobsInput & RegionInput,
   ListLoaderJobsOutput,
   ListLoaderJobsError,
   Credentials | HttpClient.HttpClient
@@ -2843,7 +2844,7 @@ export type ListMLDataProcessingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
  */
 export const listMLDataProcessingJobs: API.OperationMethod<
-  ListMLDataProcessingJobsInput,
+  ListMLDataProcessingJobsInput & RegionInput,
   ListMLDataProcessingJobsOutput,
   ListMLDataProcessingJobsError,
   Credentials | HttpClient.HttpClient
@@ -2889,7 +2890,7 @@ export type ListMLEndpointsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
  */
 export const listMLEndpoints: API.OperationMethod<
-  ListMLEndpointsInput,
+  ListMLEndpointsInput & RegionInput,
   ListMLEndpointsOutput,
   ListMLEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2935,7 +2936,7 @@ export type ListMLModelTrainingJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
  */
 export const listMLModelTrainingJobs: API.OperationMethod<
-  ListMLModelTrainingJobsInput,
+  ListMLModelTrainingJobsInput & RegionInput,
   ListMLModelTrainingJobsOutput,
   ListMLModelTrainingJobsError,
   Credentials | HttpClient.HttpClient
@@ -2981,7 +2982,7 @@ export type ListMLModelTransformJobsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
  */
 export const listMLModelTransformJobs: API.OperationMethod<
-  ListMLModelTransformJobsInput,
+  ListMLModelTransformJobsInput & RegionInput,
   ListMLModelTransformJobsOutput,
   ListMLModelTransformJobsError,
   Credentials | HttpClient.HttpClient
@@ -3035,7 +3036,7 @@ export type ListOpenCypherQueriesError =
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
 export const listOpenCypherQueries: API.OperationMethod<
-  ListOpenCypherQueriesInput,
+  ListOpenCypherQueriesInput & RegionInput,
   ListOpenCypherQueriesOutput,
   ListOpenCypherQueriesError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3090,7 @@ export type ManagePropertygraphStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const managePropertygraphStatistics: API.OperationMethod<
-  ManagePropertygraphStatisticsInput,
+  ManagePropertygraphStatisticsInput & RegionInput,
   ManagePropertygraphStatisticsOutput,
   ManagePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3139,7 +3140,7 @@ export type ManageSparqlStatisticsError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
 export const manageSparqlStatistics: API.OperationMethod<
-  ManageSparqlStatisticsInput,
+  ManageSparqlStatisticsInput & RegionInput,
   ManageSparqlStatisticsOutput,
   ManageSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -3190,7 +3191,7 @@ export type StartLoaderJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
  */
 export const startLoaderJob: API.OperationMethod<
-  StartLoaderJobInput,
+  StartLoaderJobInput & RegionInput,
   StartLoaderJobOutput,
   StartLoaderJobError,
   Credentials | HttpClient.HttpClient
@@ -3239,7 +3240,7 @@ export type StartMLDataProcessingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
  */
 export const startMLDataProcessingJob: API.OperationMethod<
-  StartMLDataProcessingJobInput,
+  StartMLDataProcessingJobInput & RegionInput,
   StartMLDataProcessingJobOutput,
   StartMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
@@ -3285,7 +3286,7 @@ export type StartMLModelTrainingJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
  */
 export const startMLModelTrainingJob: API.OperationMethod<
-  StartMLModelTrainingJobInput,
+  StartMLModelTrainingJobInput & RegionInput,
   StartMLModelTrainingJobOutput,
   StartMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type StartMLModelTransformJobError =
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
  */
 export const startMLModelTransformJob: API.OperationMethod<
-  StartMLModelTransformJobInput,
+  StartMLModelTransformJobInput & RegionInput,
   StartMLModelTransformJobOutput,
   StartMLModelTransformJobError,
   Credentials | HttpClient.HttpClient

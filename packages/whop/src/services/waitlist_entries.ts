@@ -65,9 +65,9 @@ export interface ApproveAllWaitlistEntriesRequest {
   /** The seller account whose pending signups to approve, prefixed `biz_`. */
   account_id: string;
   /** Only approve signups for this plan, prefixed `plan_`. Omit to include every waitlist plan on the account. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ApproveAllWaitlistEntriesResponse {
   /** The seller account whose signups were queued, prefixed `biz_`. */
@@ -81,7 +81,7 @@ export interface ApproveWaitlistEntryRequest {
   /** Waitlist signup ID, prefixed `entry_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Why the last approval attempt failed, or `null` when none has. `plan_unavailable` -- the plan, product, or seller account was deleted. `already_member` -- the user already has a membership on a one-per-user product. `checkout_failed` -- checkout failed, usually a declined payment, and the signup was denied. `unknown` -- another failure; retry. Cleared when approval is requeued. */
 export type WaitlistEntryApprovalFailureReason =
@@ -131,7 +131,7 @@ export interface CancelWaitlistEntryRequest {
   /** Waitlist signup ID, prefixed `entry_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CreateWaitlistEntryRequestCustomFieldResponsesItem {
   /** The buyer's answer. */
@@ -144,19 +144,19 @@ export type CreateWaitlistEntryRequestCustomFieldResponsesList =
   Array<CreateWaitlistEntryRequestCustomFieldResponsesItem>;
 export interface CreateWaitlistEntryRequest {
   /** Answers to the plan's checkout questions. Every required question must be answered. */
-  custom_field_responses?: CreateWaitlistEntryRequestCustomFieldResponsesList;
+  custom_field_responses?: CreateWaitlistEntryRequestCustomFieldResponsesList | undefined;
   /** Custom key-value pairs to store on the signup. Max 50 keys, 100 chars per key, 500 chars per string value. Ignored when the request returns an existing signup. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The free waitlist plan to join, prefixed `plan_`. */
   plan_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DenyWaitlistEntryRequest {
   /** Waitlist signup ID, prefixed `entry_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetWaitlistEntryRequest {
   /** Waitlist signup ID, prefixed `entry_`. */
@@ -167,29 +167,29 @@ export type ListWaitlistEntriesRequestOrder = "created_at";
 export type ListWaitlistEntriesRequestDirection = "asc" | "desc";
 export interface ListWaitlistEntriesRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** Only return signups for this plan, prefixed `plan_`. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** Only return signups submitted to this seller account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return signups for plans on this product, prefixed `prod_`. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** Only return signups in this state. Canceled signups are returned only when `status` is `canceled`. */
-  status?: ListWaitlistEntriesRequestStatus | (string & {});
+  status?: ListWaitlistEntriesRequestStatus | (string & {}) | undefined;
   /** Only return signups submitted at or before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return signups submitted at or after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort results by. Defaults to `created_at`. */
-  order?: ListWaitlistEntriesRequestOrder | (string & {});
+  order?: ListWaitlistEntriesRequestOrder | (string & {}) | undefined;
   /** The sort direction for results. Defaults to descending. */
-  direction?: ListWaitlistEntriesRequestDirection | (string & {});
+  direction?: ListWaitlistEntriesRequestDirection | (string & {}) | undefined;
 }
 export type ListWaitlistEntriesResponseDataList = Array<WaitlistEntry>;
 export interface ListWaitlistEntriesResponsePageInfo {

@@ -53,43 +53,43 @@ export interface SearchContextRequest {
   /** User prompt or search query */
   query: string;
   /** Send `action_token` as received in a message event. */
-  action_token?: string;
+  action_token?: string | undefined;
   /** Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`. */
-  channel_types?: SearchContextRequestChannelTypesList;
+  channel_types?: SearchContextRequestChannelTypesList | undefined;
   /** Content types to include, a comma-separated list of any combination of `messages`, `files`, `channels`, `users`. */
-  content_types?: SearchContextRequestContentTypesList;
+  content_types?: SearchContextRequestContentTypesList | undefined;
   /** Whether the results should include bots. */
-  include_bots?: boolean;
+  include_bots?: boolean | undefined;
   /** Whether to include deleted users in the user search results. Defaults to false. */
-  include_deleted_users?: boolean;
+  include_deleted_users?: boolean | undefined;
   /** UNIX timestamp filter. If present, filters for results before this date. */
-  before?: number;
+  before?: number | undefined;
   /** UNIX timestamp filter. If present, filters for results after this date. */
-  after?: number;
+  after?: number | undefined;
   /** Whether to include context messages surrounding the main message result. Defaults to false if unspecified. */
-  include_context_messages?: boolean;
+  include_context_messages?: boolean | undefined;
   /** Context channel ID to support scoping the search when applicable. */
-  context_channel_id?: string;
+  context_channel_id?: string | undefined;
   /** The cursor returned by the API. Leave this blank for the first request and use this to get the next page of results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of results to return, up to a max of 20. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** The field to sort the results by. Defaults to score. Can be one of: score, timestamp. */
-  sort?: SearchContextRequestSort | (string & {});
+  sort?: SearchContextRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. Defaults to desc. */
-  sort_dir?: SearchContextRequestSortDir | (string & {});
+  sort_dir?: SearchContextRequestSortDir | (string & {}) | undefined;
   /** Whether to return the message blocks in the response. */
-  include_message_blocks?: boolean;
+  include_message_blocks?: boolean | undefined;
   /** Whether to highlight the search query in the results. Defaults to false if unspecified. */
-  highlight?: boolean;
+  highlight?: boolean | undefined;
   /** A list of term clauses. A term clause is a string with search terms. Search results returned will match every term clause specified (i.e., conjunctive normal form). */
-  term_clauses?: SearchContextRequestTermClausesList;
+  term_clauses?: SearchContextRequestTermClausesList | undefined;
   /** A string containing only modifiers in the format of `modifier:value`. Search results returned will match the modifier value. For now modifiers only affect term clauses. */
-  modifiers?: string;
+  modifiers?: string | undefined;
   /** Whether to include archived channels in the search results. */
-  include_archived_channels?: boolean;
+  include_archived_channels?: boolean | undefined;
   /** Whether to disable semantic search. When true, only keyword-based search is used. Defaults to false. */
-  disable_semantic_search?: boolean;
+  disable_semantic_search?: boolean | undefined;
 }
 /** Messages before the current message, if applicable. */
 export type SearchContextResponseResultsMessagesItemContextMessagesBeforeList = Array<unknown>;
@@ -97,9 +97,9 @@ export type SearchContextResponseResultsMessagesItemContextMessagesBeforeList = 
 export type SearchContextResponseResultsMessagesItemContextMessagesAfterList = Array<unknown>;
 export interface SearchContextResponseResultsMessagesItemContextMessages {
   /** Messages before the current message, if applicable. */
-  before?: SearchContextResponseResultsMessagesItemContextMessagesBeforeList;
+  before?: SearchContextResponseResultsMessagesItemContextMessagesBeforeList | undefined;
   /** Messages after the current message. */
-  after?: SearchContextResponseResultsMessagesItemContextMessagesAfterList;
+  after?: SearchContextResponseResultsMessagesItemContextMessagesAfterList | undefined;
 }
 /** Blocks from the retrieved message. */
 export type SearchContextResponseResultsMessagesItemBlocksList = Array<unknown>;
@@ -107,7 +107,7 @@ export interface SearchContextResponseResultsMessagesItem {
   /** Full name of the user who authored the message. */
   author_name: string;
   /** Email address of the user who authored the message, if visible to the searching user. */
-  author_email?: string;
+  author_email?: string | undefined;
   /** ID of the user who authored the message. */
   author_user_id: string;
   /** ID of the workspace in which the message was sent. */
@@ -123,10 +123,10 @@ export interface SearchContextResponseResultsMessagesItem {
   /** Whether the message was authored by a bot (app) or not. */
   is_author_bot: boolean;
   permalink: string;
-  context_messages?: SearchContextResponseResultsMessagesItemContextMessages;
+  context_messages?: SearchContextResponseResultsMessagesItemContextMessages | undefined;
   /** Blocks from the retrieved message. */
-  blocks?: SearchContextResponseResultsMessagesItemBlocksList;
-  reply_count?: number;
+  blocks?: SearchContextResponseResultsMessagesItemBlocksList | undefined;
+  reply_count?: number | undefined;
 }
 export type SearchContextResponseResultsMessagesList =
   Array<SearchContextResponseResultsMessagesItem>;
@@ -134,7 +134,7 @@ export interface SearchContextResponseResultsFilesItem {
   /** Full name of the user who uploaded or created the file. */
   author_name: string;
   /** Email address of the user who uploaded or created the file, if visible to the searching user */
-  author_email?: string;
+  author_email?: string | undefined;
   /** ID of the user who uploaded or created the file. */
   author_user_id: string;
   /** ID of the user who uploaded the file. */
@@ -156,7 +156,7 @@ export interface SearchContextResponseResultsFilesItem {
   /** Content from the retrieved file. */
   content: string;
   /** Size of the file in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 export type SearchContextResponseResultsFilesList = Array<SearchContextResponseResultsFilesItem>;
 export type SearchContextResponseResultsEnterpriseList = Array<unknown>;
@@ -166,7 +166,7 @@ export interface SearchContextResponseResultsChannelsItem {
   /** ID of the user who created the channel. */
   creator_user_id: string;
   /** Full name of the user who created the channel. */
-  creator_name?: string;
+  creator_name?: string | undefined;
   /** Epoch timestamp in microseconds at which the channel was created. */
   date_created: number;
   /** Epoch timestamp in microseconds at which the channel was updated. */
@@ -174,9 +174,9 @@ export interface SearchContextResponseResultsChannelsItem {
   /** Name of the channel. */
   name: string;
   /** Topic of the channel. */
-  topic?: string;
+  topic?: string | undefined;
   /** Purpose of the channel. */
-  purpose?: string;
+  purpose?: string | undefined;
   /** Permanent link to the channel in Slack. */
   permalink: string;
   /** Whether the channel is archived. */
@@ -190,7 +190,7 @@ export interface SearchContextResponseResultsUsersItem {
   /** The permalink to the user in Slack */
   permalink: string;
   /** The permalink to the user's profile photo. */
-  profile_pic_permalink?: string;
+  profile_pic_permalink?: string | undefined;
   /** The user's full name, which might be different from the display name. */
   full_name: string;
   /** The user's job title. */
@@ -202,23 +202,23 @@ export interface SearchContextResponseResultsUsersItem {
 }
 export type SearchContextResponseResultsUsersList = Array<SearchContextResponseResultsUsersItem>;
 export interface SearchContextResponseResults {
-  messages?: SearchContextResponseResultsMessagesList;
-  files?: SearchContextResponseResultsFilesList;
-  enterprise?: SearchContextResponseResultsEnterpriseList;
-  channels?: SearchContextResponseResultsChannelsList;
-  users?: SearchContextResponseResultsUsersList;
+  messages?: SearchContextResponseResultsMessagesList | undefined;
+  files?: SearchContextResponseResultsFilesList | undefined;
+  enterprise?: SearchContextResponseResultsEnterpriseList | undefined;
+  channels?: SearchContextResponseResultsChannelsList | undefined;
+  users?: SearchContextResponseResultsUsersList | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface SearchContextResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface SearchContextResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   results: SearchContextResponseResults;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: SearchContextResponseResponseMetadata;
+  response_metadata?: SearchContextResponseResponseMetadata | undefined;
 }
 export interface SearchInfoRequest {}
 export interface SearchInfoResponse {
@@ -237,13 +237,13 @@ export interface SetStatusRequest {
   /** Status of the specified bot user, e.g., 'is thinking...'. A two minute timeout applies, which will cause the status to be removed if no message has been sent. */
   status: string;
   /** The list of messages to rotate through as a loading indicator. Maximum of 10 messages. */
-  loading_messages?: SetStatusRequestLoadingMessagesList;
+  loading_messages?: SetStatusRequestLoadingMessagesList | undefined;
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string;
+  icon_emoji?: string | undefined;
   /** Image URL to use as the icon for this message. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The bot's username to display. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface SetStatusResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -253,11 +253,11 @@ export interface SetSuggestedPromptsRequest {
   /** Channel ID containing the assistant thread. */
   channel_id: string;
   /** Message timestamp of the thread to set suggested prompts for. If not provided, the prompts will be set for the latest message in the channel. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Each prompt should be supplied with its `title` and `message` attribute. */
   prompts: unknown;
   /** Title for the list of provided prompts. For example: Suggested Prompts, Related Questions. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface SetSuggestedPromptsResponse {
   /** Always `true` (a failed call raises a typed error instead). */

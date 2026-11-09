@@ -52,15 +52,15 @@ export interface BMSTriggerDataMoveRequest {
   /** Correlation Id */
   correlationId: string;
   /** Source Container ArmIds */
-  sourceContainerArmIds?: BMSTriggerDataMoveRequestSourceContainerArmIdsList;
+  sourceContainerArmIds?: BMSTriggerDataMoveRequestSourceContainerArmIdsList | undefined;
   /** Pause GC */
-  pauseGC?: boolean;
+  pauseGC?: boolean | undefined;
 }
 export interface BMSTriggerDataMoveResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -74,9 +74,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProtectedItemRequest {
   /** The ID of the target subscription. */
@@ -118,9 +118,9 @@ export interface DeleteProtectionPolicyRequest {
 }
 export interface DeleteProtectionPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceGuardProxyRequest {
   /** The ID of the target subscription. */
@@ -148,16 +148,16 @@ export interface ExecuteConfigureSourceScanRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** Source scan action to perform */
-  sourceScanAction?: SourceScanAction | (string & {});
+  sourceScanAction?: SourceScanAction | (string & {}) | undefined;
 }
 /** Operation status. */
 export type OperationStatusValues = "Invalid" | "InProgress" | "Succeeded" | "Failed" | "Canceled";
 /** Error information associated with operation status call. */
 export interface OperationStatusError {
   /** Error code of the operation failure. */
-  code?: string;
+  code?: string | undefined;
   /** Error message displayed if the operation failure. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Base class for additional information of operation status. */
 export interface OperationStatusExtendedInfo {
@@ -167,25 +167,25 @@ export interface OperationStatusExtendedInfo {
 /** Operation status. */
 export interface ExecuteConfigureSourceScanResponse {
   /** ID of the operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
-  status?: OperationStatusValues;
+  status?: OperationStatusValues | undefined;
   /** Operation start time. Format: ISO-8601. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation end time. Format: ISO-8601. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error information related to this operation. */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
   /** Additional information associated with this operation. */
-  properties?: OperationStatusExtendedInfo;
+  properties?: OperationStatusExtendedInfo | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportJobRequest {
   /** The ID of the target subscription. */
@@ -195,7 +195,7 @@ export interface ExportJobRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ExportJobResponse {}
 export interface GetBackupEngineRequest {
@@ -208,9 +208,9 @@ export interface GetBackupEngineRequest {
   /** Name of the backup management server. */
   backupEngineName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -219,17 +219,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Backup management type to execute the current job. */
 export type BackupManagementType =
@@ -247,70 +247,70 @@ export type BackupEngineType = "Invalid" | "DpmBackupEngine" | "AzureBackupServe
 /** Additional information on backup engine. */
 export interface BackupEngineExtendedInfo {
   /** Database name of backup engine. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Number of protected items in the backup engine. */
-  protectedItemsCount?: number;
+  protectedItemsCount?: number | undefined;
   /** Number of protected servers in the backup engine. */
-  protectedServersCount?: number;
+  protectedServersCount?: number | undefined;
   /** Number of disks in the backup engine. */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** Disk space used in the backup engine. */
-  usedDiskSpace?: number;
+  usedDiskSpace?: number | undefined;
   /** Disk space currently available in the backup engine. */
-  availableDiskSpace?: number;
+  availableDiskSpace?: number | undefined;
   /** Last refresh time in the backup engine. */
-  refreshedAt?: string;
+  refreshedAt?: string | undefined;
   /** Protected instances in the backup engine. */
-  azureProtectedInstances?: number;
+  azureProtectedInstances?: number | undefined;
 }
 /** The base backup engine class. All workload specific backup engines derive from this class. */
 export interface BackupEngineBase {
   /** Friendly name of the backup engine. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Type of backup management for the backup engine. */
-  backupManagementType?: BackupManagementType;
+  backupManagementType?: BackupManagementType | undefined;
   /** Registration status of the backup engine with the Recovery Services Vault. */
-  registrationStatus?: string;
+  registrationStatus?: string | undefined;
   /** Status of the backup engine with the Recovery Services Vault. = {Active/Deleting/DeleteFailed} */
-  backupEngineState?: string;
+  backupEngineState?: string | undefined;
   /** Backup status of the backup engine. */
-  healthStatus?: string;
+  healthStatus?: string | undefined;
   /** Type of the backup engine. */
   backupEngineType: BackupEngineType;
   /** Flag indicating if the backup engine be registered, once already registered. */
-  canReRegister?: boolean;
+  canReRegister?: boolean | undefined;
   /** ID of the backup engine. */
-  backupEngineId?: string;
+  backupEngineId?: string | undefined;
   /** Backup engine version */
-  dpmVersion?: string;
+  dpmVersion?: string | undefined;
   /** Backup agent version */
-  azureBackupAgentVersion?: string;
+  azureBackupAgentVersion?: string | undefined;
   /** To check if backup agent upgrade available */
-  isAzureBackupAgentUpgradeAvailable?: boolean;
+  isAzureBackupAgentUpgradeAvailable?: boolean | undefined;
   /** To check if backup engine upgrade available */
-  isDpmUpgradeAvailable?: boolean;
+  isDpmUpgradeAvailable?: boolean | undefined;
   /** Extended info of the backupengine */
-  extendedInfo?: BackupEngineExtendedInfo;
+  extendedInfo?: BackupEngineExtendedInfo | undefined;
 }
 /** Resource tags. */
 export type GetBackupEngineResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupEngineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupEngineBaseResource properties */
-  properties?: BackupEngineBase;
+  properties?: BackupEngineBase | undefined;
   /** Resource tags. */
-  tags?: GetBackupEngineResponseTagsMap;
+  tags?: GetBackupEngineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetBackupOperationResultRequest {
   /** The ID of the target subscription. */
@@ -336,19 +336,19 @@ export interface GetBackupOperationStatusRequest {
 /** Operation status. */
 export interface OperationStatus {
   /** ID of the operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
-  status?: OperationStatusValues;
+  status?: OperationStatusValues | undefined;
   /** Operation start time. Format: ISO-8601. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation end time. Format: ISO-8601. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error information related to this operation. */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
   /** Additional information associated with this operation. */
-  properties?: OperationStatusExtendedInfo;
+  properties?: OperationStatusExtendedInfo | undefined;
 }
 export interface GetBackupResourceEncryptionConfigRequest {
   /** The ID of the target subscription. */
@@ -372,17 +372,17 @@ export type LastUpdateStatus =
 export type InfrastructureEncryptionState = "Invalid" | "Disabled" | "Enabled";
 export interface BackupResourceEncryptionConfigExtended {
   /** Encryption At Rest Type */
-  encryptionAtRestType?: EncryptionAtRestType;
+  encryptionAtRestType?: EncryptionAtRestType | undefined;
   /** Key Vault Key URI */
-  keyUri?: string;
+  keyUri?: string | undefined;
   /** Key Vault Subscription Id */
-  subscriptionId?: string;
-  lastUpdateStatus?: LastUpdateStatus;
-  infrastructureEncryptionState?: InfrastructureEncryptionState;
+  subscriptionId?: string | undefined;
+  lastUpdateStatus?: LastUpdateStatus | undefined;
+  infrastructureEncryptionState?: InfrastructureEncryptionState | undefined;
   /** User Assigned Identity Id */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
   /** bool to indicate whether to use system Assigned Identity or not */
-  useSystemAssignedIdentity?: boolean;
+  useSystemAssignedIdentity?: boolean | undefined;
 }
 /** Resource tags. */
 export type GetBackupResourceEncryptionConfigResponseTagsMap = {
@@ -390,21 +390,21 @@ export type GetBackupResourceEncryptionConfigResponseTagsMap = {
 };
 export interface GetBackupResourceEncryptionConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the backup resource encryption config extended resource */
-  properties?: BackupResourceEncryptionConfigExtended;
+  properties?: BackupResourceEncryptionConfigExtended | undefined;
   /** Resource tags. */
-  tags?: GetBackupResourceEncryptionConfigResponseTagsMap;
+  tags?: GetBackupResourceEncryptionConfigResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetBackupResourceStorageConfigsNonCRRRequest {
   /** The ID of the target subscription. */
@@ -430,17 +430,17 @@ export type XcoolState = "Invalid" | "Enabled" | "Disabled";
 /** The resource storage details. */
 export interface BackupResourceConfig {
   /** Storage type */
-  storageModelType?: StorageType | (string & {});
+  storageModelType?: StorageType | (string & {}) | undefined;
   /** Storage type. */
-  storageType?: StorageType | (string & {});
+  storageType?: StorageType | (string & {}) | undefined;
   /** Locked or Unlocked. Once a machine is registered against a resource, the storageTypeState is always Locked. */
-  storageTypeState?: StorageTypeState | (string & {});
+  storageTypeState?: StorageTypeState | (string & {}) | undefined;
   /** Opt in details of Cross Region Restore feature. */
-  crossRegionRestoreFlag?: boolean;
+  crossRegionRestoreFlag?: boolean | undefined;
   /** Vault Dedup state */
-  dedupState?: DedupState | (string & {});
+  dedupState?: DedupState | (string & {}) | undefined;
   /** Vault x-cool state */
-  xcoolState?: XcoolState | (string & {});
+  xcoolState?: XcoolState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetBackupResourceStorageConfigsNonCRRResponseTagsMap = {
@@ -448,21 +448,21 @@ export type GetBackupResourceStorageConfigsNonCRRResponseTagsMap = {
 };
 export interface GetBackupResourceStorageConfigsNonCRRResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupResourceConfigResource properties */
-  properties?: BackupResourceConfig;
+  properties?: BackupResourceConfig | undefined;
   /** Resource tags. */
-  tags?: GetBackupResourceStorageConfigsNonCRRResponseTagsMap;
+  tags?: GetBackupResourceStorageConfigsNonCRRResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetBackupResourceVaultConfigRequest {
   /** The ID of the target subscription. */
@@ -481,41 +481,43 @@ export type BackupResourceVaultConfigResourceGuardOperationRequestsList = Array<
 /** Backup resource vault config details. */
 export interface BackupResourceVaultConfig {
   /** Storage type. */
-  storageModelType?: StorageType | (string & {});
+  storageModelType?: StorageType | (string & {}) | undefined;
   /** Storage type. */
-  storageType?: StorageType | (string & {});
+  storageType?: StorageType | (string & {}) | undefined;
   /** Locked or Unlocked. Once a machine is registered against a resource, the storageTypeState is always Locked. */
-  storageTypeState?: StorageTypeState | (string & {});
+  storageTypeState?: StorageTypeState | (string & {}) | undefined;
   /** Enabled or Disabled. */
-  enhancedSecurityState?: EnhancedSecurityState | (string & {});
+  enhancedSecurityState?: EnhancedSecurityState | (string & {}) | undefined;
   /** Soft Delete feature state */
-  softDeleteFeatureState?: SoftDeleteFeatureState | (string & {});
+  softDeleteFeatureState?: SoftDeleteFeatureState | (string & {}) | undefined;
   /** Soft delete retention period in days */
-  softDeleteRetentionPeriodInDays?: number;
+  softDeleteRetentionPeriodInDays?: number | undefined;
   /** ResourceGuard Operation Requests */
-  resourceGuardOperationRequests?: BackupResourceVaultConfigResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | BackupResourceVaultConfigResourceGuardOperationRequestsList
+    | undefined;
   /** This flag is no longer in use. Please use 'softDeleteFeatureState' to set the soft delete state for the vault */
-  isSoftDeleteFeatureStateEditable?: boolean;
+  isSoftDeleteFeatureStateEditable?: boolean | undefined;
 }
 /** Resource tags. */
 export type GetBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupResourceVaultConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupResourceVaultConfigResource properties */
-  properties?: BackupResourceVaultConfig;
+  properties?: BackupResourceVaultConfig | undefined;
   /** Resource tags. */
-  tags?: GetBackupResourceVaultConfigResponseTagsMap;
+  tags?: GetBackupResourceVaultConfigResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Type of workload this item represents. */
 export type DataSourceType =
@@ -541,11 +543,11 @@ export interface GetBackupStatusRequest {
   /** Azure region to hit Api */
   azureRegion: string;
   /** Container Type - VM, SQLPaaS, DPM, AzureFileShare... */
-  resourceType?: DataSourceType | (string & {});
+  resourceType?: DataSourceType | (string & {}) | undefined;
   /** Entire ARM resource id of the resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Protectable Item Logical Name */
-  poLogicalName?: string;
+  poLogicalName?: string | undefined;
 }
 /** Specifies whether the container is registered or not */
 export type ProtectionStatus =
@@ -561,27 +563,27 @@ export type AcquireStorageAccountLock = "Acquire" | "NotAcquire";
 /** BackupStatus response. */
 export interface BackupStatusResponse {
   /** Specifies whether the container is registered or not */
-  protectionStatus?: ProtectionStatus;
+  protectionStatus?: ProtectionStatus | undefined;
   /** Specifies the arm resource id of the vault */
-  vaultId?: string;
+  vaultId?: string | undefined;
   /** Specifies the fabric name - Azure or AD */
-  fabricName?: FabricName;
+  fabricName?: FabricName | undefined;
   /** Specifies the product specific container name. E.g. iaasvmcontainer;iaasvmcontainer;csname;vmname. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** Specifies the product specific ds name. E.g. vm;iaasvmcontainer;csname;vmname. */
-  protectedItemName?: string;
+  protectedItemName?: string | undefined;
   /** ErrorCode in case of intent failed */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** ErrorMessage in case of intent failed. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Specifies the policy name which is used for protection */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Container registration status */
-  registrationStatus?: string;
+  registrationStatus?: string | undefined;
   /** Number of protected items */
-  protectedItemsCount?: number;
+  protectedItemsCount?: number | undefined;
   /** Specifies whether the storage account lock has been acquired or not */
-  acquireStorageAccountLock?: AcquireStorageAccountLock;
+  acquireStorageAccountLock?: AcquireStorageAccountLock | undefined;
 }
 export interface GetBMSPrepareDataMoveOperationResultRequest {
   /** The ID of the target subscription. */
@@ -666,11 +668,11 @@ export type GetExportJobsOperationResultResponseHeadersMap = {
 export type OperationResultInfoBase = OperationStatusExtendedInfo;
 export interface GetExportJobsOperationResultResponse {
   /** HTTP Status Code of the operation. */
-  statusCode?: HttpStatusCode;
+  statusCode?: HttpStatusCode | undefined;
   /** HTTP headers associated with this operation. */
-  headers?: GetExportJobsOperationResultResponseHeadersMap;
+  headers?: GetExportJobsOperationResultResponseHeadersMap | undefined;
   /** OperationResultInfoBaseResource operation */
-  operation?: OperationStatusExtendedInfo;
+  operation?: OperationStatusExtendedInfo | undefined;
 }
 export interface GetGetTieringCostOperationResultRequest {
   /** The ID of the target subscription. */
@@ -699,19 +701,19 @@ export interface GetJobDetailRequest {
 /** Defines workload agnostic properties for a job. */
 export interface Job {
   /** Friendly name of the entity on which the current job is executing. */
-  entityFriendlyName?: string;
+  entityFriendlyName?: string | undefined;
   /** Backup management type to execute the current job. */
-  backupManagementType?: BackupManagementType;
+  backupManagementType?: BackupManagementType | undefined;
   /** The operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Job status. */
-  status?: string;
+  status?: string | undefined;
   /** The start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** ActivityId of job. */
-  activityId?: string;
+  activityId?: string | undefined;
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   jobType: string;
 }
@@ -719,21 +721,21 @@ export interface Job {
 export type GetJobDetailResponseTagsMap = { [key: string]: string | undefined };
 export interface GetJobDetailResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** JobResource properties */
-  properties?: Job;
+  properties?: Job | undefined;
   /** Resource tags. */
-  tags?: GetJobDetailResponseTagsMap;
+  tags?: GetJobDetailResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetJobOperationResultRequest {
   /** The ID of the target subscription. */
@@ -773,7 +775,7 @@ export type ProvisioningState = "Succeeded" | "Deleting" | "Failed" | "Pending";
 /** The Private Endpoint network resource that is linked to the Private Endpoint connection */
 export interface PrivateEndpoint {
   /** Gets or sets id */
-  id?: string;
+  id?: string | undefined;
 }
 /** GroupId for the PrivateEndpointConnection - AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
 export type VaultSubResourceType = "AzureBackup" | "AzureBackup_secondary" | "AzureSiteRecovery";
@@ -784,42 +786,42 @@ export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected
 /** Private Link Service Connection State */
 export interface PrivateLinkServiceConnectionState {
   /** Gets or sets the status */
-  status?: PrivateEndpointConnectionStatus | (string & {});
+  status?: PrivateEndpointConnectionStatus | (string & {}) | undefined;
   /** Gets or sets description */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets actions required */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Private Endpoint Connection Response Properties */
 export interface PrivateEndpointConnection {
   /** Gets or sets provisioning state of the private endpoint connection */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Gets or sets private endpoint associated with the private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Group Ids for the Private Endpoint */
-  groupIds?: PrivateEndpointConnectionGroupIdsList;
+  groupIds?: PrivateEndpointConnectionGroupIdsList | undefined;
   /** Gets or sets private link service connection state */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** Resource tags. */
 export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** PrivateEndpointConnectionResource properties */
-  properties?: PrivateEndpointConnection;
+  properties?: PrivateEndpointConnection | undefined;
   /** Resource tags. */
-  tags?: GetPrivateEndpointConnectionResponseTagsMap;
+  tags?: GetPrivateEndpointConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetPrivateEndpointOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -847,7 +849,7 @@ export interface GetProtectedItemRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Create mode to indicate recovery of existing soft deleted data source or creation of new data source. */
 export type CreateMode = "Invalid" | "Default" | "Recover";
@@ -869,90 +871,90 @@ export type SourceSideScanSummary =
 /** Source side threat information */
 export interface SourceSideScanInfo {
   /** Threat status of the container */
-  sourceSideScanStatus?: SourceSideScanStatus | (string & {});
+  sourceSideScanStatus?: SourceSideScanStatus | (string & {}) | undefined;
   /** Threat summary for the container */
-  sourceSideScanSummary?: SourceSideScanSummary | (string & {});
+  sourceSideScanSummary?: SourceSideScanSummary | (string & {}) | undefined;
 }
 /** Base class for backup items. */
 export interface ProtectedItem {
   /** backup item type. */
   protectedItemType: string;
   /** Type of backup management for the backed up item. */
-  backupManagementType?: BackupManagementType;
+  backupManagementType?: BackupManagementType | undefined;
   /** Type of workload this item represents. */
-  workloadType?: DataSourceType;
+  workloadType?: DataSourceType | undefined;
   /** Unique name of container */
-  containerName?: string;
+  containerName?: string | undefined;
   /** ARM ID of the resource to be backed up. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** ID of the backup policy with which this item is backed up. */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Timestamp when the last (latest) backup copy was created for this backup item. */
-  lastRecoveryPoint?: string;
+  lastRecoveryPoint?: string | undefined;
   /** Name of the backup set the backup item belongs to */
-  backupSetName?: string;
+  backupSetName?: string | undefined;
   /** Create mode to indicate recovery of existing soft deleted data source or creation of new data source. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** Time for deferred deletion in UTC */
-  deferredDeleteTimeInUTC?: string;
+  deferredDeleteTimeInUTC?: string | undefined;
   /** Flag to identify whether the DS is scheduled for deferred delete */
-  isScheduledForDeferredDelete?: boolean;
+  isScheduledForDeferredDelete?: boolean | undefined;
   /** Time remaining before the DS marked for deferred delete is permanently deleted */
-  deferredDeleteTimeRemaining?: string;
+  deferredDeleteTimeRemaining?: string | undefined;
   /** Flag to identify whether the deferred deleted DS is to be purged soon */
-  isDeferredDeleteScheduleUpcoming?: boolean;
+  isDeferredDeleteScheduleUpcoming?: boolean | undefined;
   /** Flag to identify that deferred deleted DS is to be moved into Pause state */
-  isRehydrate?: boolean;
+  isRehydrate?: boolean | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: ProtectedItemResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: ProtectedItemResourceGuardOperationRequestsList | undefined;
   /** Flag to identify whether datasource is protected in archive */
-  isArchiveEnabled?: boolean;
+  isArchiveEnabled?: boolean | undefined;
   /** Name of the policy used for protection */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Soft delete retention period in days */
-  softDeleteRetentionPeriodInDays?: number;
+  softDeleteRetentionPeriodInDays?: number | undefined;
   /** Source location of the protected item datasource. */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** ID of the vault which protects this item */
-  vaultId?: string;
+  vaultId?: string | undefined;
   /** Source side threat information */
-  sourceSideScanInfo?: SourceSideScanInfo;
+  sourceSideScanInfo?: SourceSideScanInfo | undefined;
   /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
-  protectionState?: string;
+  protectionState?: string | undefined;
   /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
-  extendedProperties?: unknown;
+  extendedProperties?: unknown | undefined;
   /** Backup status of the item (read-only). */
-  protectionStatus?: string;
+  protectionStatus?: string | undefined;
   /** Status of the last backup (read-only). */
-  lastBackupStatus?: string;
+  lastBackupStatus?: string | undefined;
   /** Timestamp of the last backup (read-only). */
-  lastBackupTime?: string;
+  lastBackupTime?: string | undefined;
   /** Health status of the item (read-only). */
-  healthStatus?: string;
+  healthStatus?: string | undefined;
   /** ARM ID of the protected VM (IaaS VM items, read-only). */
-  virtualMachineId?: string;
+  virtualMachineId?: string | undefined;
 }
 /** Resource tags. */
 export type GetProtectedItemResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProtectedItemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectedItemResource properties */
-  properties?: ProtectedItem;
+  properties?: ProtectedItem | undefined;
   /** Resource tags. */
-  tags?: GetProtectedItemResponseTagsMap;
+  tags?: GetProtectedItemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectedItemOperationResultRequest {
   /** The ID of the target subscription. */
@@ -974,21 +976,21 @@ export interface GetProtectedItemOperationResultRequest {
 export type GetProtectedItemOperationResultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProtectedItemOperationResultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectedItemResource properties */
-  properties?: ProtectedItem;
+  properties?: ProtectedItem | undefined;
   /** Resource tags. */
-  tags?: GetProtectedItemOperationResultResponseTagsMap;
+  tags?: GetProtectedItemOperationResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectedItemOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1041,57 +1043,57 @@ export type ProtectableContainerType =
 /** Base class for container with backup items. Containers with specific workloads are derived from this class. */
 export interface ProtectionContainer {
   /** Friendly name of the container. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Type of backup management for the container. */
-  backupManagementType?: BackupManagementType;
+  backupManagementType?: BackupManagementType | undefined;
   /** Status of registration of the container with the Recovery Services Vault. */
-  registrationStatus?: string;
+  registrationStatus?: string | undefined;
   /** Status of health of the container. */
-  healthStatus?: string;
+  healthStatus?: string | undefined;
   /** Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload Backup is VMAppContainer */
   containerType: ProtectableContainerType;
   /** Type of the protectable object associated with this container */
-  protectableObjectType?: string;
+  protectableObjectType?: string | undefined;
   /** Source location of the container */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
-  acquireStorageAccountLock?: string;
+  acquireStorageAccountLock?: string | undefined;
   /** Number of items backed up in this container (StorageContainer). */
-  protectedItemCount?: number;
+  protectedItemCount?: number | undefined;
   /** Storage account version (StorageContainer). */
-  storageAccountVersion?: string;
+  storageAccountVersion?: string | undefined;
   /** Resource group of the registered resource (StorageContainer). */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Workload type for the container (VMAppContainer). */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
-  operationType?: string;
+  operationType?: string | undefined;
   /** Additional container information (VMAppContainer). */
-  extendedInfo?: unknown;
+  extendedInfo?: unknown | undefined;
   /** Time the container was last refreshed (VMAppContainer). */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
 }
 /** Resource tags. */
 export type GetProtectionContainerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProtectionContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionContainerResource properties */
-  properties?: ProtectionContainer;
+  properties?: ProtectionContainer | undefined;
   /** Resource tags. */
-  tags?: GetProtectionContainerResponseTagsMap;
+  tags?: GetProtectionContainerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectionContainerOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1113,21 +1115,21 @@ export type GetProtectionContainerOperationResultResponseTagsMap = {
 };
 export interface GetProtectionContainerOperationResultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionContainerResource properties */
-  properties?: ProtectionContainer;
+  properties?: ProtectionContainer | undefined;
   /** Resource tags. */
-  tags?: GetProtectionContainerOperationResultResponseTagsMap;
+  tags?: GetProtectionContainerOperationResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectionContainerRefreshOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1167,37 +1169,37 @@ export interface ProtectionIntent {
   /** backup protectionIntent type. */
   protectionIntentItemType: ProtectionIntentItemType | (string & {});
   /** Type of backup management for the backed up item. */
-  backupManagementType?: BackupManagementType | (string & {});
+  backupManagementType?: BackupManagementType | (string & {}) | undefined;
   /** ARM ID of the resource to be backed up. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** ID of the item which is getting protected, In case of Azure Vm , it is ProtectedItemId */
-  itemId?: string;
+  itemId?: string | undefined;
   /** ID of the backup policy with which this item is backed up. */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Backup state of this backup item. */
-  protectionState?: ProtectionStatus | (string & {});
+  protectionState?: ProtectionStatus | (string & {}) | undefined;
   /** Workload item type to auto-protect, e.g. `SQLInstance` (AzureWorkloadSQLAutoProtectionIntent). */
-  workloadItemType?: string;
+  workloadItemType?: string | undefined;
 }
 /** Resource tags. */
 export type GetProtectionIntentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProtectionIntentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionIntentResource properties */
-  properties?: ProtectionIntent;
+  properties?: ProtectionIntent | undefined;
   /** Resource tags. */
-  tags?: GetProtectionIntentResponseTagsMap;
+  tags?: GetProtectionIntentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectionPolicyRequest {
   /** The ID of the target subscription. */
@@ -1214,57 +1216,57 @@ export type ProtectionPolicyResourceGuardOperationRequestsList = Array<string>;
 /** Base class for backup policy. Workload-specific backup policies are derived from this class. */
 export interface ProtectionPolicy {
   /** Number of items associated with this policy. */
-  protectedItemsCount?: number;
+  protectedItemsCount?: number | undefined;
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   backupManagementType: string;
   /** ResourceGuard Operation Requests */
-  resourceGuardOperationRequests?: ProtectionPolicyResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: ProtectionPolicyResourceGuardOperationRequestsList | undefined;
   /** Workload type (AzureFileShare / AzureStorage and AzureWorkload policies). */
-  workLoadType?: string;
+  workLoadType?: string | undefined;
   /** Backup schedule (polymorphic on `schedulePolicyType`: SimpleSchedulePolicy, SimpleSchedulePolicyV2, LongTermSchedulePolicy, LogSchedulePolicy). */
-  schedulePolicy?: unknown;
+  schedulePolicy?: unknown | undefined;
   /** Retention policy (polymorphic on `retentionPolicyType`: LongTermRetentionPolicy, SimpleRetentionPolicy). */
-  retentionPolicy?: unknown;
+  retentionPolicy?: unknown | undefined;
   /** Vaulted backup retention (AzureFileShare vault-tier policies). */
-  vaultRetentionPolicy?: unknown;
+  vaultRetentionPolicy?: unknown | undefined;
   /** Time zone of the schedule, e.g. `UTC`. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Instant recovery point retention in days (AzureIaasVM). */
-  instantRpRetentionRangeInDays?: number;
+  instantRpRetentionRangeInDays?: number | undefined;
   /** Instant recovery point resource group settings (AzureIaasVM). */
-  instantRPDetails?: unknown;
+  instantRPDetails?: unknown | undefined;
   /** IaaS VM policy type: `V1` (standard) or `V2` (enhanced). */
-  policyType?: string;
+  policyType?: string | undefined;
   /** Archive tiering policy keyed by tier (AzureIaasVM). */
-  tieringPolicy?: unknown;
+  tieringPolicy?: unknown | undefined;
   /** Snapshot consistency type (AzureIaasVM). */
-  snapshotConsistencyType?: string;
+  snapshotConsistencyType?: string | undefined;
   /** Workload settings such as time zone and compression (AzureWorkload). */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** Sub-policies per backup type (AzureWorkload). */
-  subProtectionPolicy?: unknown;
+  subProtectionPolicy?: unknown | undefined;
   /** Fix a policy that is inconsistent with its sub-policies (AzureWorkload). */
-  makePolicyConsistent?: boolean;
+  makePolicyConsistent?: boolean | undefined;
 }
 /** Resource tags. */
 export type GetProtectionPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProtectionPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionPolicyResource properties */
-  properties?: ProtectionPolicy;
+  properties?: ProtectionPolicy | undefined;
   /** Resource tags. */
-  tags?: GetProtectionPolicyResponseTagsMap;
+  tags?: GetProtectionPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectionPolicyOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1284,21 +1286,21 @@ export type GetProtectionPolicyOperationResultResponseTagsMap = {
 };
 export interface GetProtectionPolicyOperationResultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionPolicyResource properties */
-  properties?: ProtectionPolicy;
+  properties?: ProtectionPolicy | undefined;
   /** Resource tags. */
-  tags?: GetProtectionPolicyOperationResultResponseTagsMap;
+  tags?: GetProtectionPolicyOperationResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetProtectionPolicyOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1337,21 +1339,21 @@ export type ThreatSeverity = "Critical" | "High" | "Warning" | "Informational";
 /** Recovery Point Threat information */
 export interface ThreatInfo {
   /** Threat Subject */
-  threatTitle?: string;
+  threatTitle?: string | undefined;
   /** Threat Description */
-  threatDescription?: string;
+  threatDescription?: string | undefined;
   /** Timestamp when the last (latest)threat information was sent */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
   /** Threat Status Types */
-  threatState?: ThreatState;
+  threatState?: ThreatState | undefined;
   /** Start timestamp of the threat */
-  threatStartTime?: string;
+  threatStartTime?: string | undefined;
   /** End timestamp of the threat */
-  threatEndTime?: string;
+  threatEndTime?: string | undefined;
   /** threat details link */
-  threatURI?: string;
+  threatURI?: string | undefined;
   /** Threat Severity Types */
-  threatSeverity?: ThreatSeverity;
+  threatSeverity?: ThreatSeverity | undefined;
 }
 /** Recovery point threat information. */
 export type RecoveryPointThreatInfoList = Array<ThreatInfo>;
@@ -1360,29 +1362,29 @@ export interface RecoveryPoint {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Threat status of the recovery point */
-  threatStatus?: ThreatStatus;
+  threatStatus?: ThreatStatus | undefined;
   /** Recovery point threat information. */
-  threatInfo?: RecoveryPointThreatInfoList;
+  threatInfo?: RecoveryPointThreatInfoList | undefined;
 }
 /** Resource tags. */
 export type GetRecoveryPointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRecoveryPointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RecoveryPointResource properties */
-  properties?: RecoveryPoint;
+  properties?: RecoveryPoint | undefined;
   /** Resource tags. */
-  tags?: GetRecoveryPointResponseTagsMap;
+  tags?: GetRecoveryPointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetResourceGuardProxyRequest {
   /** The ID of the target subscription. */
@@ -1393,44 +1395,46 @@ export interface GetResourceGuardProxyRequest {
   vaultName: string;
 }
 export interface ResourceGuardOperationDetail {
-  vaultCriticalOperation?: string;
-  defaultResourceRequest?: string;
+  vaultCriticalOperation?: string | undefined;
+  defaultResourceRequest?: string | undefined;
 }
 export type ResourceGuardProxyBaseResourceGuardOperationDetailsList =
   Array<ResourceGuardOperationDetail>;
 export interface ResourceGuardProxyBase {
   resourceGuardResourceId: string;
-  resourceGuardOperationDetails?: ResourceGuardProxyBaseResourceGuardOperationDetailsList;
-  lastUpdatedTime?: string;
-  description?: string;
+  resourceGuardOperationDetails?:
+    | ResourceGuardProxyBaseResourceGuardOperationDetailsList
+    | undefined;
+  lastUpdatedTime?: string | undefined;
+  description?: string | undefined;
 }
 /** Resource tags. */
 export type ResourceGuardProxyBaseResourceTagsMap = { [key: string]: string | undefined };
 export interface ResourceGuardProxyBaseResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
   /** Resource tags. */
-  tags?: ResourceGuardProxyBaseResourceTagsMap;
+  tags?: ResourceGuardProxyBaseResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type GetResourceGuardProxyResponseValueList = Array<ResourceGuardProxyBaseResource>;
 export interface GetResourceGuardProxyResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardProxyResponseValueList;
+  value?: GetResourceGuardProxyResponseValueList | undefined;
 }
 export interface GetResourceGuardProxyRequest2 {
   /** The ID of the target subscription. */
@@ -1445,21 +1449,21 @@ export interface GetResourceGuardProxyRequest2 {
 export type GetResourceGuardProxyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetResourceGuardProxyResponse2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
   /** Resource tags. */
-  tags?: GetResourceGuardProxyResponseTagsMap;
+  tags?: GetResourceGuardProxyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** ResourceGuard Operation Requests */
 export type GetSecurityPINRequestResourceGuardOperationRequestsList = Array<string>;
@@ -1471,16 +1475,18 @@ export interface GetSecurityPINRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** ResourceGuard Operation Requests */
-  resourceGuardOperationRequests?: GetSecurityPINRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | GetSecurityPINRequestResourceGuardOperationRequestsList
+    | undefined;
 }
 /** The token information details. */
 export interface TokenInformation {
   /** Token value. */
-  token?: string;
+  token?: string | undefined;
   /** Expiry time of token. */
-  expiryTimeInUtcTicks?: number;
+  expiryTimeInUtcTicks?: number | undefined;
   /** Security PIN */
-  securityPIN?: string;
+  securityPIN?: string | undefined;
 }
 export interface GetTieringCostOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1506,22 +1512,22 @@ export type ErrorDetailRecommendationsList = Array<string>;
 /** Error Detail class which encapsulates Code, Message and Recommendations. */
 export interface ErrorDetail {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error Message related to the Code. */
-  message?: string;
+  message?: string | undefined;
   /** List of recommendation strings. */
-  recommendations?: ErrorDetailRecommendationsList;
+  recommendations?: ErrorDetailRecommendationsList | undefined;
 }
 /** Gets the validation result */
 export type ValidateOperationResponseValidationResultsList = Array<ErrorDetail>;
 /** Base class for validate operation response. */
 export interface ValidateOperationResponse {
   /** Gets the validation result */
-  validationResults?: ValidateOperationResponseValidationResultsList;
+  validationResults?: ValidateOperationResponseValidationResultsList | undefined;
 }
 export interface ValidateOperationsResponse {
   /** Base class for validate operation response. */
-  validateOperationResponse?: ValidateOperationResponse;
+  validateOperationResponse?: ValidateOperationResponse | undefined;
 }
 export interface GetValidateOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1541,38 +1547,38 @@ export interface ListBackupEnginesRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type BackupEngineBaseResourceTagsMap = { [key: string]: string | undefined };
 /** The base backup engine class. All workload specific backup engines derive from this class. */
 export interface BackupEngineBaseResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupEngineBaseResource properties */
-  properties?: BackupEngineBase;
+  properties?: BackupEngineBase | undefined;
   /** Resource tags. */
-  tags?: BackupEngineBaseResourceTagsMap;
+  tags?: BackupEngineBaseResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupEnginesResponseValueList = Array<BackupEngineBaseResource>;
 export interface ListBackupEnginesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupEnginesResponseValueList;
+  value?: ListBackupEnginesResponseValueList | undefined;
 }
 export interface ListBackupJobsRequest {
   /** The ID of the target subscription. */
@@ -1582,38 +1588,38 @@ export interface ListBackupJobsRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
 /** Defines workload agnostic properties for a job. */
 export interface JobResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** JobResource properties */
-  properties?: Job;
+  properties?: Job | undefined;
   /** Resource tags. */
-  tags?: JobResourceTagsMap;
+  tags?: JobResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupJobsResponseValueList = Array<JobResource>;
 export interface ListBackupJobsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupJobsResponseValueList;
+  value?: ListBackupJobsResponseValueList | undefined;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. */
@@ -1623,36 +1629,36 @@ export interface ListBackupPoliciesRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionPolicyResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup policy. Workload-specific backup policies are derived from this class. */
 export interface ProtectionPolicyResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionPolicyResource properties */
-  properties?: ProtectionPolicy;
+  properties?: ProtectionPolicy | undefined;
   /** Resource tags. */
-  tags?: ProtectionPolicyResourceTagsMap;
+  tags?: ProtectionPolicyResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupPoliciesResponseValueList = Array<ProtectionPolicyResource>;
 export interface ListBackupPoliciesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupPoliciesResponseValueList;
+  value?: ListBackupPoliciesResponseValueList | undefined;
 }
 export interface ListBackupProtectableItemsRequest {
   /** The ID of the target subscription. */
@@ -1662,51 +1668,51 @@ export interface ListBackupProtectableItemsRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadProtectableItemResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
 export interface WorkloadProtectableItem {
   /** Type of backup management to backup an item. */
-  backupManagementType?: string;
+  backupManagementType?: string | undefined;
   /** Type of workload for the backup management */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** Type of the backup item. */
   protectableItemType: string;
   /** Friendly name of the backup item. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** State of the back up item. */
-  protectionState?: ProtectionStatus;
+  protectionState?: ProtectionStatus | undefined;
 }
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
 export interface WorkloadProtectableItemResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: WorkloadProtectableItemResourceTagsMap;
+  tags?: WorkloadProtectableItemResourceTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** WorkloadProtectableItemResource properties */
-  properties?: WorkloadProtectableItem;
+  properties?: WorkloadProtectableItem | undefined;
 }
 /** List of resources. */
 export type ListBackupProtectableItemsResponseValueList = Array<WorkloadProtectableItemResource>;
 export interface ListBackupProtectableItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectableItemsResponseValueList;
+  value?: ListBackupProtectableItemsResponseValueList | undefined;
 }
 export interface ListBackupProtectedItemsRequest {
   /** The ID of the target subscription. */
@@ -1716,38 +1722,38 @@ export interface ListBackupProtectedItemsRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectedItemResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup items. */
 export interface ProtectedItemResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectedItemResource properties */
-  properties?: ProtectedItem;
+  properties?: ProtectedItem | undefined;
   /** Resource tags. */
-  tags?: ProtectedItemResourceTagsMap;
+  tags?: ProtectedItemResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupProtectedItemsResponseValueList = Array<ProtectedItemResource>;
 export interface ListBackupProtectedItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectedItemsResponseValueList;
+  value?: ListBackupProtectedItemsResponseValueList | undefined;
 }
 export interface ListBackupProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -1757,36 +1763,36 @@ export interface ListBackupProtectionContainersRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionContainerResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for container with backup items. Containers with specific workloads are derived from this class. */
 export interface ProtectionContainerResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionContainerResource properties */
-  properties?: ProtectionContainer;
+  properties?: ProtectionContainer | undefined;
   /** Resource tags. */
-  tags?: ProtectionContainerResourceTagsMap;
+  tags?: ProtectionContainerResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupProtectionContainersResponseValueList = Array<ProtectionContainerResource>;
 export interface ListBackupProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionContainersResponseValueList;
+  value?: ListBackupProtectionContainersResponseValueList | undefined;
 }
 export interface ListBackupProtectionIntentRequest {
   /** The ID of the target subscription. */
@@ -1796,38 +1802,38 @@ export interface ListBackupProtectionIntentRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionIntentResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup ProtectionIntent. */
 export interface ProtectionIntentResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionIntentResource properties */
-  properties?: ProtectionIntent;
+  properties?: ProtectionIntent | undefined;
   /** Resource tags. */
-  tags?: ProtectionIntentResourceTagsMap;
+  tags?: ProtectionIntentResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListBackupProtectionIntentResponseValueList = Array<ProtectionIntentResource>;
 export interface ListBackupProtectionIntentResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionIntentResponseValueList;
+  value?: ListBackupProtectionIntentResponseValueList | undefined;
 }
 export interface ListBackupUsageSummariesRequest {
   /** The ID of the target subscription. */
@@ -1837,9 +1843,9 @@ export interface ListBackupUsageSummariesRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Unit of the usage. */
 export type UsagesUnit =
@@ -1852,32 +1858,32 @@ export type UsagesUnit =
 /** The name of usage. */
 export interface NameInfo {
   /** Value of usage. */
-  value?: string;
+  value?: string | undefined;
   /** Localized value of usage. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Backup management usages of a vault. */
 export interface BackupManagementUsage {
   /** Unit of the usage. */
-  unit?: UsagesUnit;
+  unit?: UsagesUnit | undefined;
   /** Quota period of usage. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** Next reset time of usage. */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
   /** Current value of usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Limit of usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of usage. */
-  name?: NameInfo;
+  name?: NameInfo | undefined;
 }
 /** The list of backup management usages for the given vault. */
 export type ListBackupUsageSummariesResponseValueList = Array<BackupManagementUsage>;
 export interface ListBackupUsageSummariesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of backup management usages for the given vault. */
-  value?: ListBackupUsageSummariesResponseValueList;
+  value?: ListBackupUsageSummariesResponseValueList | undefined;
 }
 export interface ListBackupWorkloadItemsRequest {
   /** The ID of the target subscription. */
@@ -1891,51 +1897,51 @@ export interface ListBackupWorkloadItemsRequest {
   /** Name of the container whose details need to be fetched. */
   containerName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadItemResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
 export interface WorkloadItem {
   /** Type of backup management to backup an item. */
-  backupManagementType?: string;
+  backupManagementType?: string | undefined;
   /** Type of workload for the backup management */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** Type of the backup item. */
   workloadItemType: string;
   /** Friendly name of the backup item. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** State of the back up item. */
-  protectionState?: ProtectionStatus;
+  protectionState?: ProtectionStatus | undefined;
 }
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
 export interface WorkloadItemResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: WorkloadItemResourceTagsMap;
+  tags?: WorkloadItemResourceTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** WorkloadItemResource properties */
-  properties?: WorkloadItem;
+  properties?: WorkloadItem | undefined;
 }
 /** List of resources. */
 export type ListBackupWorkloadItemsResponseValueList = Array<WorkloadItemResource>;
 export interface ListBackupWorkloadItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupWorkloadItemsResponseValueList;
+  value?: ListBackupWorkloadItemsResponseValueList | undefined;
 }
 export interface ListDeletedProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -1945,15 +1951,15 @@ export interface ListDeletedProtectionContainersRequest {
   /** The name of the recovery services vault. */
   vaultName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** List of resources. */
 export type ListDeletedProtectionContainersResponseValueList = Array<ProtectionContainerResource>;
 export interface ListDeletedProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDeletedProtectionContainersResponseValueList;
+  value?: ListDeletedProtectionContainersResponseValueList | undefined;
 }
 export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1976,43 +1982,43 @@ export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResu
 /** Client script details for file / folder restore. */
 export interface ClientScriptForConnect {
   /** File content of the client script for file / folder restore. */
-  scriptContent?: string;
+  scriptContent?: string | undefined;
   /** File extension of the client script for file / folder restore - .ps1 , .sh , etc. */
-  scriptExtension?: string;
+  scriptExtension?: string | undefined;
   /** OS type - Windows, Linux etc. for which this file / folder restore client script works. */
-  osType?: string;
+  osType?: string | undefined;
   /** URL of Executable from where to source the content. If this is not null then ScriptContent should not be used */
-  url?: string;
+  url?: string | undefined;
   /** Mandatory suffix that should be added to the name of script that is given for download to user. If its null or empty then , ignore it. */
-  scriptNameSuffix?: string;
+  scriptNameSuffix?: string | undefined;
 }
 /** List of client scripts. */
 export type InstantItemRecoveryTargetClientScriptsList = Array<ClientScriptForConnect>;
 /** Target details for file / folder restore. */
 export interface InstantItemRecoveryTarget {
   /** List of client scripts. */
-  clientScripts?: InstantItemRecoveryTargetClientScriptsList;
+  clientScripts?: InstantItemRecoveryTargetClientScriptsList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** ResourceType for which this Operation can be performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operations Name itself. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation having details of what operation is about. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Class to represent shoebox log specification in json client discovery. */
 export interface ClientDiscoveryForLogSpecification {
   /** Name for shoebox log specification. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** blob duration of shoebox log specification */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** List of log specifications of this operation. */
 export type ClientDiscoveryForServiceSpecificationLogSpecificationsList =
@@ -2020,32 +2026,32 @@ export type ClientDiscoveryForServiceSpecificationLogSpecificationsList =
 /** Class to represent shoebox service specification in json client discovery. */
 export interface ClientDiscoveryForServiceSpecification {
   /** List of log specifications of this operation. */
-  logSpecifications?: ClientDiscoveryForServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ClientDiscoveryForServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Class to represent shoebox properties in json client discovery. */
 export interface ClientDiscoveryForProperties {
   /** Operation properties. */
-  serviceSpecification?: ClientDiscoveryForServiceSpecification;
+  serviceSpecification?: ClientDiscoveryForServiceSpecification | undefined;
 }
 /** Available operation details. */
 export interface ClientDiscoveryValueForSingleApi {
   /** Name of the Operation. */
-  name?: string;
+  name?: string | undefined;
   /** Contains the localized display information for this particular operation */
-  display?: ClientDiscoveryDisplay;
+  display?: ClientDiscoveryDisplay | undefined;
   /** The intended executor of the operation;governs the display of the operation in the RBAC UX and the audit logs UX */
-  origin?: string;
+  origin?: string | undefined;
   /** ShoeBox properties for the given operation. */
-  properties?: ClientDiscoveryForProperties;
+  properties?: ClientDiscoveryForProperties | undefined;
 }
 /** List of available operations. */
 export type ClientDiscoveryResponseValueList = Array<ClientDiscoveryValueForSingleApi>;
 /** Operations List response which contains list of available APIs. */
 export interface ClientDiscoveryResponse {
   /** List of available operations. */
-  value?: ClientDiscoveryResponseValueList;
+  value?: ClientDiscoveryResponseValueList | undefined;
   /** Link to the next chunk of Response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProtectableContainersRequest {
   /** The ID of the target subscription. */
@@ -2056,49 +2062,49 @@ export interface ListProtectableContainersRequest {
   vaultName: string;
   fabricName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectableContainerResourceTagsMap = { [key: string]: string | undefined };
 /** Protectable Container Class. */
 export interface ProtectableContainer {
   /** Friendly name of the container. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Type of backup management for the container. */
-  backupManagementType?: BackupManagementType;
+  backupManagementType?: BackupManagementType | undefined;
   /** Type of the container. The value of this property for 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines */
   protectableContainerType: ProtectableContainerType;
   /** Status of health of the container. */
-  healthStatus?: string;
+  healthStatus?: string | undefined;
   /** Fabric Id of the container such as ARM Id. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 /** Protectable Container Class. */
 export interface ProtectableContainerResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ProtectableContainerResourceTagsMap;
+  tags?: ProtectableContainerResourceTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** ProtectableContainerResource properties */
-  properties?: ProtectableContainer;
+  properties?: ProtectableContainer | undefined;
 }
 /** List of resources. */
 export type ListProtectableContainersResponseValueList = Array<ProtectableContainerResource>;
 export interface ListProtectableContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListProtectableContainersResponseValueList;
+  value?: ListProtectableContainersResponseValueList | undefined;
 }
 export interface ListRecoveryPointsRequest {
   /** The ID of the target subscription. */
@@ -2114,36 +2120,36 @@ export interface ListRecoveryPointsRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type RecoveryPointResourceTagsMap = { [key: string]: string | undefined };
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
 export interface RecoveryPointResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RecoveryPointResource properties */
-  properties?: RecoveryPoint;
+  properties?: RecoveryPoint | undefined;
   /** Resource tags. */
-  tags?: RecoveryPointResourceTagsMap;
+  tags?: RecoveryPointResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsResponseValueList = Array<RecoveryPointResource>;
 export interface ListRecoveryPointsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsResponseValueList;
+  value?: ListRecoveryPointsResponseValueList | undefined;
 }
 /** List of Recovery Points excluded from Move */
 export type ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList = Array<string>;
@@ -2161,17 +2167,17 @@ export interface ListRecoveryPointsRecommendedForMoveRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** Gets the class type. */
-  objectType?: string;
+  objectType?: string | undefined;
   /** List of Recovery Points excluded from Move */
-  excludedRPList?: ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList;
+  excludedRPList?: ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsRecommendedForMoveResponseValueList = Array<RecoveryPointResource>;
 export interface ListRecoveryPointsRecommendedForMoveResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsRecommendedForMoveResponseValueList;
+  value?: ListRecoveryPointsRecommendedForMoveResponseValueList | undefined;
 }
 /** Source Container ArmIds This needs to be populated only if DataMoveLevel is set to container */
 export type MoveBMSPrepareDataRequestSourceContainerArmIdsList = Array<string>;
@@ -2189,15 +2195,15 @@ export interface MoveBMSPrepareDataRequest {
   /** DataMove Level */
   dataMoveLevel: DataMoveLevel | (string & {});
   /** Source Container ArmIds This needs to be populated only if DataMoveLevel is set to container */
-  sourceContainerArmIds?: MoveBMSPrepareDataRequestSourceContainerArmIdsList;
+  sourceContainerArmIds?: MoveBMSPrepareDataRequestSourceContainerArmIdsList | undefined;
   /** Ignore the artifacts which are already moved. */
-  ignoreMoved?: boolean;
+  ignoreMoved?: boolean | undefined;
 }
 export interface MoveBMSPrepareDataResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Recovery point tier type. */
 export type RecoveryPointTierType = "Invalid" | "InstantRP" | "HardenedRP" | "ArchivedRP";
@@ -2217,17 +2223,17 @@ export interface MoveRecoveryPointRequest {
   /** RecoveryPointID represents the backed up data to be fetched. */
   recoveryPointId: string;
   /** Gets the class type. */
-  objectType?: string;
+  objectType?: string | undefined;
   /** Source tier from where RP needs to be moved */
-  sourceTierType?: RecoveryPointTierType | (string & {});
+  sourceTierType?: RecoveryPointTierType | (string & {}) | undefined;
   /** Target tier where RP needs to be moved */
-  targetTierType?: RecoveryPointTierType | (string & {});
+  targetTierType?: RecoveryPointTierType | (string & {}) | undefined;
 }
 export interface MoveRecoveryPointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type PatchBackupResourceStorageConfigsNonCRRRequestTagsMap = {
@@ -2241,13 +2247,13 @@ export interface PatchBackupResourceStorageConfigsNonCRRRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** BackupResourceConfigResource properties */
-  properties?: BackupResourceConfig;
+  properties?: BackupResourceConfig | undefined;
   /** Resource tags. */
-  tags?: PatchBackupResourceStorageConfigsNonCRRRequestTagsMap;
+  tags?: PatchBackupResourceStorageConfigsNonCRRRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface PatchBackupResourceStorageConfigsNonCRRResponse {}
 export interface PostFetchTieringCostRequest {
@@ -2269,9 +2275,9 @@ export interface PostFetchTieringCostResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type ProtectedItemInputResourceGuardOperationRequestsList = Array<string>;
@@ -2280,43 +2286,43 @@ export interface ProtectedItemInput {
   /** backup item type. */
   protectedItemType: string;
   /** Unique name of container */
-  containerName?: string;
+  containerName?: string | undefined;
   /** ARM ID of the resource to be backed up. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** ID of the backup policy with which this item is backed up. */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Timestamp when the last (latest) backup copy was created for this backup item. */
-  lastRecoveryPoint?: string;
+  lastRecoveryPoint?: string | undefined;
   /** Name of the backup set the backup item belongs to */
-  backupSetName?: string;
+  backupSetName?: string | undefined;
   /** Create mode to indicate recovery of existing soft deleted data source or creation of new data source. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** Time for deferred deletion in UTC */
-  deferredDeleteTimeInUTC?: string;
+  deferredDeleteTimeInUTC?: string | undefined;
   /** Flag to identify whether the DS is scheduled for deferred delete */
-  isScheduledForDeferredDelete?: boolean;
+  isScheduledForDeferredDelete?: boolean | undefined;
   /** Time remaining before the DS marked for deferred delete is permanently deleted */
-  deferredDeleteTimeRemaining?: string;
+  deferredDeleteTimeRemaining?: string | undefined;
   /** Flag to identify whether the deferred deleted DS is to be purged soon */
-  isDeferredDeleteScheduleUpcoming?: boolean;
+  isDeferredDeleteScheduleUpcoming?: boolean | undefined;
   /** Flag to identify that deferred deleted DS is to be moved into Pause state */
-  isRehydrate?: boolean;
+  isRehydrate?: boolean | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: ProtectedItemInputResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: ProtectedItemInputResourceGuardOperationRequestsList | undefined;
   /** Flag to identify whether datasource is protected in archive */
-  isArchiveEnabled?: boolean;
+  isArchiveEnabled?: boolean | undefined;
   /** Name of the policy used for protection */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Soft delete retention period in days */
-  softDeleteRetentionPeriodInDays?: number;
+  softDeleteRetentionPeriodInDays?: number | undefined;
   /** Source side threat information */
-  sourceSideScanInfo?: SourceSideScanInfo;
+  sourceSideScanInfo?: SourceSideScanInfo | undefined;
   /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
-  protectionState?: string;
+  protectionState?: string | undefined;
   /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
-  extendedProperties?: unknown;
+  extendedProperties?: unknown | undefined;
 }
 /** Resource tags. */
 export type ProtectedItemsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2334,37 +2340,37 @@ export interface ProtectedItemsCreateOrUpdateRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** ProtectedItemResource properties */
-  properties?: ProtectedItemInput;
+  properties?: ProtectedItemInput | undefined;
   /** Resource tags. */
-  tags?: ProtectedItemsCreateOrUpdateRequestTagsMap;
+  tags?: ProtectedItemsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectedItemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProtectedItemsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectedItemResource properties */
-  properties?: ProtectedItem;
+  properties?: ProtectedItem | undefined;
   /** Resource tags. */
-  tags?: ProtectedItemsCreateOrUpdateResponseTagsMap;
+  tags?: ProtectedItemsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ProtectionContainersInquireRequest {
   /** The ID of the target subscription. */
@@ -2378,7 +2384,7 @@ export interface ProtectionContainersInquireRequest {
   /** Name of the container whose details need to be fetched. */
   containerName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ProtectionContainersInquireResponse {}
 /** Resource tags. */
@@ -2395,33 +2401,33 @@ export interface ProtectionIntentCreateOrUpdateRequest {
   /** Backed up item name whose details are to be fetched. */
   intentObjectName: string;
   /** ProtectionIntentResource properties */
-  properties?: ProtectionIntent;
+  properties?: ProtectionIntent | undefined;
   /** Resource tags. */
-  tags?: ProtectionIntentCreateOrUpdateRequestTagsMap;
+  tags?: ProtectionIntentCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionIntentCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProtectionIntentCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionIntentResource properties */
-  properties?: ProtectionIntent;
+  properties?: ProtectionIntent | undefined;
   /** Resource tags. */
-  tags?: ProtectionIntentCreateOrUpdateResponseTagsMap;
+  tags?: ProtectionIntentCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2435,33 +2441,33 @@ export interface ProtectionPoliciesCreateOrUpdateRequest {
   /** Backup policy information to be fetched. */
   policyName: string;
   /** ProtectionPolicyResource properties */
-  properties?: ProtectionPolicy;
+  properties?: ProtectionPolicy | undefined;
   /** Resource tags. */
-  tags?: ProtectionPoliciesCreateOrUpdateRequestTagsMap;
+  tags?: ProtectionPoliciesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProtectionPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionPolicyResource properties */
-  properties?: ProtectionPolicy;
+  properties?: ProtectionPolicy | undefined;
   /** Resource tags. */
-  tags?: ProtectionPoliciesCreateOrUpdateResponseTagsMap;
+  tags?: ProtectionPoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type ProvisionItemLevelRecoveryConnectionRequestTagsMap = {
@@ -2485,13 +2491,13 @@ export interface ProvisionItemLevelRecoveryConnectionRequest {
   /** RecoveryPointID represents the backed up data to be fetched. */
   recoveryPointId: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ProvisionItemLevelRecoveryConnectionRequestTagsMap;
+  tags?: ProvisionItemLevelRecoveryConnectionRequestTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** ILRRequestResource properties */
-  properties?: OperationStatusExtendedInfo;
+  properties?: OperationStatusExtendedInfo | undefined;
 }
 export interface ProvisionItemLevelRecoveryConnectionResponse {}
 /** Resource tags. */
@@ -2504,33 +2510,33 @@ export interface PutBackupResourceVaultConfigRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** BackupResourceVaultConfigResource properties */
-  properties?: BackupResourceVaultConfig;
+  properties?: BackupResourceVaultConfig | undefined;
   /** Resource tags. */
-  tags?: PutBackupResourceVaultConfigRequestTagsMap;
+  tags?: PutBackupResourceVaultConfigRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export interface PutBackupResourceVaultConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupResourceVaultConfigResource properties */
-  properties?: BackupResourceVaultConfig;
+  properties?: BackupResourceVaultConfig | undefined;
   /** Resource tags. */
-  tags?: PutBackupResourceVaultConfigResponseTagsMap;
+  tags?: PutBackupResourceVaultConfigResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutPrivateEndpointConnectionRequestTagsMap = { [key: string]: string | undefined };
@@ -2544,37 +2550,37 @@ export interface PutPrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** PrivateEndpointConnectionResource properties */
-  properties?: PrivateEndpointConnection;
+  properties?: PrivateEndpointConnection | undefined;
   /** Resource tags. */
-  tags?: PutPrivateEndpointConnectionRequestTagsMap;
+  tags?: PutPrivateEndpointConnectionRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface PutPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** PrivateEndpointConnectionResource properties */
-  properties?: PrivateEndpointConnection;
+  properties?: PrivateEndpointConnection | undefined;
   /** Resource tags. */
-  tags?: PutPrivateEndpointConnectionResponseTagsMap;
+  tags?: PutPrivateEndpointConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type PutResourceGuardProxyRequestTagsMap = { [key: string]: string | undefined };
@@ -2587,33 +2593,33 @@ export interface PutResourceGuardProxyRequest {
   vaultName: string;
   resourceGuardProxyName: string;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
   /** Resource tags. */
-  tags?: PutResourceGuardProxyRequestTagsMap;
+  tags?: PutResourceGuardProxyRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutResourceGuardProxyResponseTagsMap = { [key: string]: string | undefined };
 export interface PutResourceGuardProxyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
   /** Resource tags. */
-  tags?: PutResourceGuardProxyResponseTagsMap;
+  tags?: PutResourceGuardProxyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface RefreshProtectionContainerRequest {
   /** The ID of the target subscription. */
@@ -2625,41 +2631,41 @@ export interface RefreshProtectionContainerRequest {
   /** Fabric name associated the container. */
   fabricName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface RefreshProtectionContainerResponse {}
 /** Base class for container with backup items. Containers with specific workloads are derived from this class. */
 export interface ProtectionContainerInput {
   /** Friendly name of the container. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Type of backup management for the container. */
-  backupManagementType?: BackupManagementType | (string & {});
+  backupManagementType?: BackupManagementType | (string & {}) | undefined;
   /** Status of registration of the container with the Recovery Services Vault. */
-  registrationStatus?: string;
+  registrationStatus?: string | undefined;
   /** Status of health of the container. */
-  healthStatus?: string;
+  healthStatus?: string | undefined;
   /** Type of the container. The value of this property for: 1. Compute Azure VM is Microsoft.Compute/virtualMachines 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines 3. Windows machines (like MAB, DPM etc) is Windows 4. Azure SQL instance is AzureSqlContainer. 5. Storage containers is StorageContainer. 6. Azure workload Backup is VMAppContainer */
   containerType: ProtectableContainerType | (string & {});
   /** Type of the protectable object associated with this container */
-  protectableObjectType?: string;
+  protectableObjectType?: string | undefined;
   /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
-  acquireStorageAccountLock?: string;
+  acquireStorageAccountLock?: string | undefined;
   /** Number of items backed up in this container (StorageContainer). */
-  protectedItemCount?: number;
+  protectedItemCount?: number | undefined;
   /** Storage account version (StorageContainer). */
-  storageAccountVersion?: string;
+  storageAccountVersion?: string | undefined;
   /** Resource group of the registered resource (StorageContainer). */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Workload type for the container (VMAppContainer). */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
-  operationType?: string;
+  operationType?: string | undefined;
   /** Additional container information (VMAppContainer). */
-  extendedInfo?: unknown;
+  extendedInfo?: unknown | undefined;
   /** Time the container was last refreshed (VMAppContainer). */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
 }
 /** Resource tags. */
 export type RegisterProtectionContainerRequestTagsMap = { [key: string]: string | undefined };
@@ -2675,37 +2681,37 @@ export interface RegisterProtectionContainerRequest {
   /** Name of the container whose details need to be fetched. */
   containerName: string;
   /** ProtectionContainerResource properties */
-  properties?: ProtectionContainerInput;
+  properties?: ProtectionContainerInput | undefined;
   /** Resource tags. */
-  tags?: RegisterProtectionContainerRequestTagsMap;
+  tags?: RegisterProtectionContainerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type RegisterProtectionContainerResponseTagsMap = { [key: string]: string | undefined };
 export interface RegisterProtectionContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ProtectionContainerResource properties */
-  properties?: ProtectionContainer;
+  properties?: ProtectionContainer | undefined;
   /** Resource tags. */
-  tags?: RegisterProtectionContainerResponseTagsMap;
+  tags?: RegisterProtectionContainerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList = Array<string>;
 export interface ResourceGuardProxyUnlockDeleteRequest {
@@ -2716,13 +2722,15 @@ export interface ResourceGuardProxyUnlockDeleteRequest {
   /** The name of the VaultResource */
   vaultName: string;
   resourceGuardProxyName: string;
-  resourceGuardOperationRequests?: ResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList;
-  resourceToBeDeleted?: string;
+  resourceGuardOperationRequests?:
+    | ResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList
+    | undefined;
+  resourceToBeDeleted?: string | undefined;
 }
 /** Response of Unlock Delete API. */
 export interface UnlockDeleteResponse {
   /** This is the time when unlock delete privileges will get expired. */
-  unlockDeleteExpiryTime?: string;
+  unlockDeleteExpiryTime?: string | undefined;
 }
 export interface RevokeItemLevelRecoveryConnectionRequest {
   /** The ID of the target subscription. */
@@ -2759,13 +2767,13 @@ export interface TriggerBackupRequest {
   /** Backed up item name whose details are to be fetched. */
   protectedItemName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: TriggerBackupRequestTagsMap;
+  tags?: TriggerBackupRequestTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** BackupRequestResource properties */
-  properties?: OperationStatusExtendedInfo;
+  properties?: OperationStatusExtendedInfo | undefined;
 }
 export interface TriggerBackupResponse {}
 export interface TriggerJobCancellationRequest {
@@ -2788,7 +2796,7 @@ export interface RestoreRequest {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: RestoreRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: RestoreRequestResourceGuardOperationRequestsList | undefined;
 }
 export interface TriggerRestoreRequest {
   /** The ID of the target subscription. */
@@ -2806,19 +2814,19 @@ export interface TriggerRestoreRequest {
   /** RecoveryPointID represents the backed up data to be fetched. */
   recoveryPointId: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: TriggerRestoreRequestTagsMap;
+  tags?: TriggerRestoreRequestTagsMap | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** RestoreRequestResource properties */
-  properties?: RestoreRequest;
+  properties?: RestoreRequest | undefined;
 }
 export interface TriggerRestoreResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Base class for validate operation request. */
 export type ValidateOperationRequest = OperationStatusExtendedInfo;
@@ -2836,9 +2844,9 @@ export interface TriggerValidateOperationRequest {
 }
 export interface TriggerValidateOperationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UnregisterProtectionContainerRequest {
   /** The ID of the target subscription. */
@@ -2855,13 +2863,13 @@ export interface UnregisterProtectionContainerRequest {
 export interface UnregisterProtectionContainerResponse {}
 export interface BackupResourceEncryptionConfig {
   /** Encryption At Rest Type */
-  encryptionAtRestType?: EncryptionAtRestType | (string & {});
+  encryptionAtRestType?: EncryptionAtRestType | (string & {}) | undefined;
   /** Key Vault Key URI */
-  keyUri?: string;
+  keyUri?: string | undefined;
   /** Key Vault Subscription Id */
-  subscriptionId?: string;
-  lastUpdateStatus?: LastUpdateStatus | (string & {});
-  infrastructureEncryptionState?: InfrastructureEncryptionState | (string & {});
+  subscriptionId?: string | undefined;
+  lastUpdateStatus?: LastUpdateStatus | (string & {}) | undefined;
+  infrastructureEncryptionState?: InfrastructureEncryptionState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupResourceEncryptionConfigRequestTagsMap = {
@@ -2875,13 +2883,13 @@ export interface UpdateBackupResourceEncryptionConfigRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** The properties of the backup resource encryption config */
-  properties?: BackupResourceEncryptionConfig;
+  properties?: BackupResourceEncryptionConfig | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupResourceEncryptionConfigRequestTagsMap;
+  tags?: UpdateBackupResourceEncryptionConfigRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface UpdateBackupResourceEncryptionConfigResponse {}
 /** Resource tags. */
@@ -2896,13 +2904,13 @@ export interface UpdateBackupResourceStorageConfigsNonCRRRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** BackupResourceConfigResource properties */
-  properties?: BackupResourceConfig;
+  properties?: BackupResourceConfig | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupResourceStorageConfigsNonCRRRequestTagsMap;
+  tags?: UpdateBackupResourceStorageConfigsNonCRRRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupResourceStorageConfigsNonCRRResponseTagsMap = {
@@ -2910,21 +2918,21 @@ export type UpdateBackupResourceStorageConfigsNonCRRResponseTagsMap = {
 };
 export interface UpdateBackupResourceStorageConfigsNonCRRResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupResourceConfigResource properties */
-  properties?: BackupResourceConfig;
+  properties?: BackupResourceConfig | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupResourceStorageConfigsNonCRRResponseTagsMap;
+  tags?: UpdateBackupResourceStorageConfigsNonCRRResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupResourceVaultConfigRequestTagsMap = { [key: string]: string | undefined };
@@ -2936,33 +2944,33 @@ export interface UpdateBackupResourceVaultConfigRequest {
   /** The name of the VaultResource */
   vaultName: string;
   /** BackupResourceVaultConfigResource properties */
-  properties?: BackupResourceVaultConfig;
+  properties?: BackupResourceVaultConfig | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupResourceVaultConfigRequestTagsMap;
+  tags?: UpdateBackupResourceVaultConfigRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBackupResourceVaultConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupResourceVaultConfigResource properties */
-  properties?: BackupResourceVaultConfig;
+  properties?: BackupResourceVaultConfig | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupResourceVaultConfigResponseTagsMap;
+  tags?: UpdateBackupResourceVaultConfigResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ValidateFeatureSupportRequest {
   /** The ID of the target subscription. */
@@ -2977,7 +2985,7 @@ export type SupportStatus = "Invalid" | "Supported" | "DefaultOFF" | "DefaultON"
 /** Response for feature support requests for Azure IaasVm */
 export interface AzureVMResourceFeatureSupportResponse {
   /** Support status of feature */
-  supportStatus?: SupportStatus;
+  supportStatus?: SupportStatus | undefined;
 }
 export interface ValidateOperationRequest2 {
   /** The ID of the target subscription. */
@@ -2997,30 +3005,30 @@ export interface ValidateProtectionIntentRequest {
   /** Azure region to hit Api */
   azureRegion: string;
   /** ProtectedItem Type- VM, SqlDataBase, AzureFileShare etc */
-  resourceType?: DataSourceType | (string & {});
+  resourceType?: DataSourceType | (string & {}) | undefined;
   /** ARM Virtual Machine Id */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** ARM id of the Recovery Services Vault */
-  vaultId?: string;
+  vaultId?: string | undefined;
   /** Configuration of VM if any needs to be validated like OS type etc */
-  properties?: string;
+  properties?: string | undefined;
 }
 /** Validation Status */
 export type ValidationStatus = "Invalid" | "Succeeded" | "Failed";
 /** Response contract for enable backup validation request */
 export interface PreValidateEnableBackupResponse {
   /** Validation Status */
-  status?: ValidationStatus;
+  status?: ValidationStatus | undefined;
   /** Response error code */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Response error message */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Recommended action for user */
-  recommendation?: string;
+  recommendation?: string | undefined;
   /** Specifies the product specific container name. E.g. iaasvmcontainer;iaasvmcontainer;rgname;vmname. This is required for portal */
-  containerName?: string;
+  containerName?: string | undefined;
   /** Specifies the product specific ds name. E.g. vm;iaasvmcontainer;rgname;vmname. This is required for portal */
-  protectedItemName?: string;
+  protectedItemName?: string | undefined;
 }
 export type BMSTriggerDataMoveError = AzureOpError;
 /** Triggers Data Move Operation on target vault */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -165,24 +166,24 @@ export type QueryString = string;
 export type WorkGroupName = string;
 export interface NamedQuery {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Database: string;
   QueryString: string;
-  NamedQueryId?: string;
-  WorkGroup?: string;
+  NamedQueryId?: string | undefined;
+  WorkGroup?: string | undefined;
 }
 export type NamedQueryList = NamedQuery[];
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface UnprocessedNamedQueryId {
-  NamedQueryId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  NamedQueryId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedNamedQueryIdList = UnprocessedNamedQueryId[];
 export interface BatchGetNamedQueryOutput {
-  NamedQueries?: NamedQuery[];
-  UnprocessedNamedQueryIds?: UnprocessedNamedQueryId[];
+  NamedQueries?: NamedQuery[] | undefined;
+  UnprocessedNamedQueryIds?: UnprocessedNamedQueryId[] | undefined;
 }
 export type StatementName = string;
 export type PreparedStatementNameList = string[];
@@ -191,22 +192,22 @@ export interface BatchGetPreparedStatementInput {
   WorkGroup: string;
 }
 export interface PreparedStatement {
-  StatementName?: string;
-  QueryStatement?: string;
-  WorkGroupName?: string;
-  Description?: string;
-  LastModifiedTime?: Date;
+  StatementName?: string | undefined;
+  QueryStatement?: string | undefined;
+  WorkGroupName?: string | undefined;
+  Description?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type PreparedStatementDetailsList = PreparedStatement[];
 export interface UnprocessedPreparedStatementName {
-  StatementName?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  StatementName?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedPreparedStatementNameList = UnprocessedPreparedStatementName[];
 export interface BatchGetPreparedStatementOutput {
-  PreparedStatements?: PreparedStatement[];
-  UnprocessedPreparedStatementNames?: UnprocessedPreparedStatementName[];
+  PreparedStatements?: PreparedStatement[] | undefined;
+  UnprocessedPreparedStatementNames?: UnprocessedPreparedStatementName[] | undefined;
 }
 export type QueryExecutionId = string;
 export type QueryExecutionIdList = string[];
@@ -220,13 +221,13 @@ export interface ManagedQueryResultsEncryptionConfiguration {
 }
 export interface ManagedQueryResultsConfiguration {
   Enabled: boolean;
-  EncryptionConfiguration?: ManagedQueryResultsEncryptionConfiguration;
+  EncryptionConfiguration?: ManagedQueryResultsEncryptionConfiguration | undefined;
 }
 export type ResultOutputLocation = string;
 export type EncryptionOption = "SSE_S3" | "SSE_KMS" | "CSE_KMS" | (string & {});
 export interface EncryptionConfiguration {
   EncryptionOption: EncryptionOption;
-  KmsKey?: string;
+  KmsKey?: string | undefined;
 }
 export type AwsAccountId = string;
 export type S3AclOption = "BUCKET_OWNER_FULL_CONTROL" | (string & {});
@@ -234,23 +235,23 @@ export interface AclConfiguration {
   S3AclOption: S3AclOption;
 }
 export interface ResultConfiguration {
-  OutputLocation?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  ExpectedBucketOwner?: string;
-  AclConfiguration?: AclConfiguration;
+  OutputLocation?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  AclConfiguration?: AclConfiguration | undefined;
 }
 export type Age = number;
 export interface ResultReuseByAgeConfiguration {
   Enabled: boolean;
-  MaxAgeInMinutes?: number;
+  MaxAgeInMinutes?: number | undefined;
 }
 export interface ResultReuseConfiguration {
-  ResultReuseByAgeConfiguration?: ResultReuseByAgeConfiguration;
+  ResultReuseByAgeConfiguration?: ResultReuseByAgeConfiguration | undefined;
 }
 export type CatalogNameString = string;
 export interface QueryExecutionContext {
-  Database?: string;
-  Catalog?: string;
+  Database?: string | undefined;
+  Catalog?: string | undefined;
 }
 export type QueryExecutionState =
   | "QUEUED"
@@ -262,37 +263,37 @@ export type QueryExecutionState =
 export type ErrorCategory = number;
 export type ErrorType = number;
 export interface AthenaError {
-  ErrorCategory?: number;
-  ErrorType?: number;
-  Retryable?: boolean;
-  ErrorMessage?: string;
+  ErrorCategory?: number | undefined;
+  ErrorType?: number | undefined;
+  Retryable?: boolean | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface QueryExecutionStatus {
-  State?: QueryExecutionState;
-  StateChangeReason?: string;
-  SubmissionDateTime?: Date;
-  CompletionDateTime?: Date;
-  AthenaError?: AthenaError;
+  State?: QueryExecutionState | undefined;
+  StateChangeReason?: string | undefined;
+  SubmissionDateTime?: Date | undefined;
+  CompletionDateTime?: Date | undefined;
+  AthenaError?: AthenaError | undefined;
 }
 export interface ResultReuseInformation {
   ReusedPreviousResult: boolean;
 }
 export type DpuCount = number;
 export interface QueryExecutionStatistics {
-  EngineExecutionTimeInMillis?: number;
-  DataScannedInBytes?: number;
-  DataManifestLocation?: string;
-  TotalExecutionTimeInMillis?: number;
-  QueryQueueTimeInMillis?: number;
-  ServicePreProcessingTimeInMillis?: number;
-  QueryPlanningTimeInMillis?: number;
-  ServiceProcessingTimeInMillis?: number;
-  ResultReuseInformation?: ResultReuseInformation;
-  DpuCount?: number;
+  EngineExecutionTimeInMillis?: number | undefined;
+  DataScannedInBytes?: number | undefined;
+  DataManifestLocation?: string | undefined;
+  TotalExecutionTimeInMillis?: number | undefined;
+  QueryQueueTimeInMillis?: number | undefined;
+  ServicePreProcessingTimeInMillis?: number | undefined;
+  QueryPlanningTimeInMillis?: number | undefined;
+  ServiceProcessingTimeInMillis?: number | undefined;
+  ResultReuseInformation?: ResultReuseInformation | undefined;
+  DpuCount?: number | undefined;
 }
 export interface EngineVersion {
-  SelectedEngineVersion?: string;
-  EffectiveEngineVersion?: string;
+  SelectedEngineVersion?: string | undefined;
+  EffectiveEngineVersion?: string | undefined;
 }
 export type ExecutionParameter = string;
 export type ExecutionParameters = string[];
@@ -300,35 +301,35 @@ export type BoxedBoolean = boolean;
 export type AuthenticationType = "DIRECTORY_IDENTITY" | (string & {});
 export interface QueryResultsS3AccessGrantsConfiguration {
   EnableS3AccessGrants: boolean;
-  CreateUserLevelPrefix?: boolean;
+  CreateUserLevelPrefix?: boolean | undefined;
   AuthenticationType: AuthenticationType;
 }
 export interface QueryExecution {
-  QueryExecutionId?: string;
-  Query?: string;
-  StatementType?: StatementType;
-  ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration;
-  ResultConfiguration?: ResultConfiguration;
-  ResultReuseConfiguration?: ResultReuseConfiguration;
-  QueryExecutionContext?: QueryExecutionContext;
-  Status?: QueryExecutionStatus;
-  Statistics?: QueryExecutionStatistics;
-  WorkGroup?: string;
-  EngineVersion?: EngineVersion;
-  ExecutionParameters?: string[];
-  SubstatementType?: string;
-  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration;
+  QueryExecutionId?: string | undefined;
+  Query?: string | undefined;
+  StatementType?: StatementType | undefined;
+  ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration | undefined;
+  ResultConfiguration?: ResultConfiguration | undefined;
+  ResultReuseConfiguration?: ResultReuseConfiguration | undefined;
+  QueryExecutionContext?: QueryExecutionContext | undefined;
+  Status?: QueryExecutionStatus | undefined;
+  Statistics?: QueryExecutionStatistics | undefined;
+  WorkGroup?: string | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  ExecutionParameters?: string[] | undefined;
+  SubstatementType?: string | undefined;
+  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration | undefined;
 }
 export type QueryExecutionList = QueryExecution[];
 export interface UnprocessedQueryExecutionId {
-  QueryExecutionId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  QueryExecutionId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedQueryExecutionIdList = UnprocessedQueryExecutionId[];
 export interface BatchGetQueryExecutionOutput {
-  QueryExecutions?: QueryExecution[];
-  UnprocessedQueryExecutionIds?: UnprocessedQueryExecutionId[];
+  QueryExecutions?: QueryExecution[] | undefined;
+  UnprocessedQueryExecutionIds?: UnprocessedQueryExecutionId[] | undefined;
 }
 export type CapacityReservationName = string;
 export interface CancelCapacityReservationInput {
@@ -339,14 +340,14 @@ export type TargetDpusInteger = number;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateCapacityReservationInput {
   TargetDpus: number;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateCapacityReservationOutput {}
 export type DataCatalogType = "LAMBDA" | "GLUE" | "HIVE" | "FEDERATED" | (string & {});
@@ -356,9 +357,9 @@ export type ParametersMap = { [key: string]: string | undefined };
 export interface CreateDataCatalogInput {
   Name: string;
   Type: DataCatalogType;
-  Description?: string;
-  Parameters?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DataCatalogStatus =
   | "CREATE_IN_PROGRESS"
@@ -395,44 +396,44 @@ export type ConnectionType =
   | (string & {});
 export interface DataCatalog {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Type: DataCatalogType;
-  Parameters?: { [key: string]: string | undefined };
-  Status?: DataCatalogStatus;
-  ConnectionType?: ConnectionType;
-  Error?: string;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  Status?: DataCatalogStatus | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  Error?: string | undefined;
 }
 export interface CreateDataCatalogOutput {
-  DataCatalog?: DataCatalog;
+  DataCatalog?: DataCatalog | undefined;
 }
 export type IdempotencyToken = string;
 export interface CreateNamedQueryInput {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Database: string;
   QueryString: string;
-  ClientRequestToken?: string;
-  WorkGroup?: string;
+  ClientRequestToken?: string | undefined;
+  WorkGroup?: string | undefined;
 }
 export interface CreateNamedQueryOutput {
-  NamedQueryId?: string;
+  NamedQueryId?: string | undefined;
 }
 export type NotebookName = string;
 export type ClientRequestToken = string;
 export interface CreateNotebookInput {
   WorkGroup: string;
   Name: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export type NotebookId = string;
 export interface CreateNotebookOutput {
-  NotebookId?: string;
+  NotebookId?: string | undefined;
 }
 export interface CreatePreparedStatementInput {
   StatementName: string;
   WorkGroup: string;
   QueryStatement: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface CreatePreparedStatementOutput {}
 export type SessionId = string;
@@ -455,72 +456,72 @@ export type LogTypeValuesList = string[];
 export type LogTypesMap = { [key: string]: string[] | undefined };
 export interface CloudWatchLoggingConfiguration {
   Enabled: boolean;
-  LogGroup?: string;
-  LogStreamNamePrefix?: string;
-  LogTypes?: { [key: string]: string[] | undefined };
+  LogGroup?: string | undefined;
+  LogStreamNamePrefix?: string | undefined;
+  LogTypes?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface ManagedLoggingConfiguration {
   Enabled: boolean;
-  KmsKey?: string;
+  KmsKey?: string | undefined;
 }
 export type S3OutputLocation = string;
 export interface S3LoggingConfiguration {
   Enabled: boolean;
-  KmsKey?: string;
-  LogLocation?: string;
+  KmsKey?: string | undefined;
+  LogLocation?: string | undefined;
 }
 export interface MonitoringConfiguration {
-  CloudWatchLoggingConfiguration?: CloudWatchLoggingConfiguration;
-  ManagedLoggingConfiguration?: ManagedLoggingConfiguration;
-  S3LoggingConfiguration?: S3LoggingConfiguration;
+  CloudWatchLoggingConfiguration?: CloudWatchLoggingConfiguration | undefined;
+  ManagedLoggingConfiguration?: ManagedLoggingConfiguration | undefined;
+  S3LoggingConfiguration?: S3LoggingConfiguration | undefined;
 }
 export type CoordinatorDpuSize = number;
 export type MaxConcurrentDpus = number;
 export type DefaultExecutorDpuSize = number;
 export interface Classification {
-  Name?: string;
-  Properties?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export type ClassificationList = Classification[];
 export interface EngineConfiguration {
-  CoordinatorDpuSize?: number;
-  MaxConcurrentDpus?: number;
-  DefaultExecutorDpuSize?: number;
-  AdditionalConfigs?: { [key: string]: string | undefined };
-  SparkProperties?: { [key: string]: string | undefined };
-  Classifications?: Classification[];
+  CoordinatorDpuSize?: number | undefined;
+  MaxConcurrentDpus?: number | undefined;
+  DefaultExecutorDpuSize?: number | undefined;
+  AdditionalConfigs?: { [key: string]: string | undefined } | undefined;
+  SparkProperties?: { [key: string]: string | undefined } | undefined;
+  Classifications?: Classification[] | undefined;
 }
 export interface CustomerContentEncryptionConfiguration {
   KmsKey: string;
 }
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenterConfiguration {
-  EnableIdentityCenter?: boolean;
-  IdentityCenterInstanceArn?: string;
+  EnableIdentityCenter?: boolean | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
 }
 export interface WorkGroupConfiguration {
-  ResultConfiguration?: ResultConfiguration;
-  ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration;
-  EnforceWorkGroupConfiguration?: boolean;
-  PublishCloudWatchMetricsEnabled?: boolean;
-  BytesScannedCutoffPerQuery?: number;
-  RequesterPaysEnabled?: boolean;
-  EngineVersion?: EngineVersion;
-  AdditionalConfiguration?: string;
-  ExecutionRole?: string;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  EngineConfiguration?: EngineConfiguration;
-  CustomerContentEncryptionConfiguration?: CustomerContentEncryptionConfiguration;
-  EnableMinimumEncryptionConfiguration?: boolean;
-  IdentityCenterConfiguration?: IdentityCenterConfiguration;
-  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration;
+  ResultConfiguration?: ResultConfiguration | undefined;
+  ManagedQueryResultsConfiguration?: ManagedQueryResultsConfiguration | undefined;
+  EnforceWorkGroupConfiguration?: boolean | undefined;
+  PublishCloudWatchMetricsEnabled?: boolean | undefined;
+  BytesScannedCutoffPerQuery?: number | undefined;
+  RequesterPaysEnabled?: boolean | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  AdditionalConfiguration?: string | undefined;
+  ExecutionRole?: string | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  EngineConfiguration?: EngineConfiguration | undefined;
+  CustomerContentEncryptionConfiguration?: CustomerContentEncryptionConfiguration | undefined;
+  EnableMinimumEncryptionConfiguration?: boolean | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration | undefined;
 }
 export type WorkGroupDescriptionString = string;
 export interface CreateWorkGroupInput {
   Name: string;
-  Configuration?: WorkGroupConfiguration;
-  Description?: string;
-  Tags?: Tag[];
+  Configuration?: WorkGroupConfiguration | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateWorkGroupOutput {}
 export interface DeleteCapacityReservationInput {
@@ -529,10 +530,10 @@ export interface DeleteCapacityReservationInput {
 export interface DeleteCapacityReservationOutput {}
 export interface DeleteDataCatalogInput {
   Name: string;
-  DeleteCatalogOnly?: boolean;
+  DeleteCatalogOnly?: boolean | undefined;
 }
 export interface DeleteDataCatalogOutput {
-  DataCatalog?: DataCatalog;
+  DataCatalog?: DataCatalog | undefined;
 }
 export interface DeleteNamedQueryInput {
   NamedQueryId: string;
@@ -549,7 +550,7 @@ export interface DeletePreparedStatementInput {
 export interface DeletePreparedStatementOutput {}
 export interface DeleteWorkGroupInput {
   WorkGroup: string;
-  RecursiveDeleteOption?: boolean;
+  RecursiveDeleteOption?: boolean | undefined;
 }
 export interface DeleteWorkGroupOutput {}
 export interface ExportNotebookInput {
@@ -557,17 +558,17 @@ export interface ExportNotebookInput {
 }
 export type NotebookType = "IPYNB" | (string & {});
 export interface NotebookMetadata {
-  NotebookId?: string;
-  Name?: string;
-  WorkGroup?: string;
-  CreationTime?: Date;
-  Type?: NotebookType;
-  LastModifiedTime?: Date;
+  NotebookId?: string | undefined;
+  Name?: string | undefined;
+  WorkGroup?: string | undefined;
+  CreationTime?: Date | undefined;
+  Type?: NotebookType | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type Payload = string;
 export interface ExportNotebookOutput {
-  NotebookMetadata?: NotebookMetadata;
-  Payload?: string;
+  NotebookMetadata?: NotebookMetadata | undefined;
+  Payload?: string | undefined;
 }
 export type CalculationExecutionId = string;
 export interface GetCalculationExecutionRequest {
@@ -585,56 +586,56 @@ export type CalculationExecutionState =
   | "FAILED"
   | (string & {});
 export interface CalculationStatus {
-  SubmissionDateTime?: Date;
-  CompletionDateTime?: Date;
-  State?: CalculationExecutionState;
-  StateChangeReason?: string;
+  SubmissionDateTime?: Date | undefined;
+  CompletionDateTime?: Date | undefined;
+  State?: CalculationExecutionState | undefined;
+  StateChangeReason?: string | undefined;
 }
 export interface CalculationStatistics {
-  DpuExecutionInMillis?: number;
-  Progress?: string;
+  DpuExecutionInMillis?: number | undefined;
+  Progress?: string | undefined;
 }
 export type CalculationResultType = string;
 export interface CalculationResult {
-  StdOutS3Uri?: string;
-  StdErrorS3Uri?: string;
-  ResultS3Uri?: string;
-  ResultType?: string;
+  StdOutS3Uri?: string | undefined;
+  StdErrorS3Uri?: string | undefined;
+  ResultS3Uri?: string | undefined;
+  ResultType?: string | undefined;
 }
 export interface GetCalculationExecutionResponse {
-  CalculationExecutionId?: string;
-  SessionId?: string;
-  Description?: string;
-  WorkingDirectory?: string;
-  Status?: CalculationStatus;
-  Statistics?: CalculationStatistics;
-  Result?: CalculationResult;
+  CalculationExecutionId?: string | undefined;
+  SessionId?: string | undefined;
+  Description?: string | undefined;
+  WorkingDirectory?: string | undefined;
+  Status?: CalculationStatus | undefined;
+  Statistics?: CalculationStatistics | undefined;
+  Result?: CalculationResult | undefined;
 }
 export interface GetCalculationExecutionCodeRequest {
   CalculationExecutionId: string;
 }
 export type CodeBlock = string;
 export interface GetCalculationExecutionCodeResponse {
-  CodeBlock?: string;
+  CodeBlock?: string | undefined;
 }
 export interface GetCalculationExecutionStatusRequest {
   CalculationExecutionId: string;
 }
 export interface GetCalculationExecutionStatusResponse {
-  Status?: CalculationStatus;
-  Statistics?: CalculationStatistics;
+  Status?: CalculationStatus | undefined;
+  Statistics?: CalculationStatistics | undefined;
 }
 export interface GetCapacityAssignmentConfigurationInput {
   CapacityReservationName: string;
 }
 export type WorkGroupNamesList = string[];
 export interface CapacityAssignment {
-  WorkGroupNames?: string[];
+  WorkGroupNames?: string[] | undefined;
 }
 export type CapacityAssignmentsList = CapacityAssignment[];
 export interface CapacityAssignmentConfiguration {
-  CapacityReservationName?: string;
-  CapacityAssignments?: CapacityAssignment[];
+  CapacityReservationName?: string | undefined;
+  CapacityAssignments?: CapacityAssignment[] | undefined;
 }
 export interface GetCapacityAssignmentConfigurationOutput {
   CapacityAssignmentConfiguration: CapacityAssignmentConfiguration;
@@ -654,17 +655,17 @@ export type AllocatedDpusInteger = number;
 export type CapacityAllocationStatus = "PENDING" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface CapacityAllocation {
   Status: CapacityAllocationStatus;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
   RequestTime: Date;
-  RequestCompletionTime?: Date;
+  RequestCompletionTime?: Date | undefined;
 }
 export interface CapacityReservation {
   Name: string;
   Status: CapacityReservationStatus;
   TargetDpus: number;
   AllocatedDpus: number;
-  LastAllocation?: CapacityAllocation;
-  LastSuccessfulAllocationTime?: Date;
+  LastAllocation?: CapacityAllocation | undefined;
+  LastSuccessfulAllocationTime?: Date | undefined;
   CreationTime: Date;
 }
 export interface GetCapacityReservationOutput {
@@ -673,136 +674,136 @@ export interface GetCapacityReservationOutput {
 export interface GetDatabaseInput {
   CatalogName: string;
   DatabaseName: string;
-  WorkGroup?: string;
+  WorkGroup?: string | undefined;
 }
 export interface Database {
   Name: string;
-  Description?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDatabaseOutput {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export interface GetDataCatalogInput {
   Name: string;
-  WorkGroup?: string;
+  WorkGroup?: string | undefined;
 }
 export interface GetDataCatalogOutput {
-  DataCatalog?: DataCatalog;
+  DataCatalog?: DataCatalog | undefined;
 }
 export interface GetNamedQueryInput {
   NamedQueryId: string;
 }
 export interface GetNamedQueryOutput {
-  NamedQuery?: NamedQuery;
+  NamedQuery?: NamedQuery | undefined;
 }
 export interface GetNotebookMetadataInput {
   NotebookId: string;
 }
 export interface GetNotebookMetadataOutput {
-  NotebookMetadata?: NotebookMetadata;
+  NotebookMetadata?: NotebookMetadata | undefined;
 }
 export interface GetPreparedStatementInput {
   StatementName: string;
   WorkGroup: string;
 }
 export interface GetPreparedStatementOutput {
-  PreparedStatement?: PreparedStatement;
+  PreparedStatement?: PreparedStatement | undefined;
 }
 export interface GetQueryExecutionInput {
   QueryExecutionId: string;
 }
 export interface GetQueryExecutionOutput {
-  QueryExecution?: QueryExecution;
+  QueryExecution?: QueryExecution | undefined;
 }
 export type Token = string;
 export type MaxQueryResults = number;
 export type QueryResultType = "DATA_MANIFEST" | "DATA_ROWS" | (string & {});
 export interface GetQueryResultsInput {
   QueryExecutionId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  QueryResultType?: QueryResultType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QueryResultType?: QueryResultType | undefined;
 }
 export type DatumString = string;
 export interface Datum {
-  VarCharValue?: string;
+  VarCharValue?: string | undefined;
 }
 export type DatumList = Datum[];
 export interface Row {
-  Data?: Datum[];
+  Data?: Datum[] | undefined;
 }
 export type RowList = Row[];
 export type ColumnNullable = "NOT_NULL" | "NULLABLE" | "UNKNOWN" | (string & {});
 export interface ColumnInfo {
-  CatalogName?: string;
-  SchemaName?: string;
-  TableName?: string;
+  CatalogName?: string | undefined;
+  SchemaName?: string | undefined;
+  TableName?: string | undefined;
   Name: string;
-  Label?: string;
+  Label?: string | undefined;
   Type: string;
-  Precision?: number;
-  Scale?: number;
-  Nullable?: ColumnNullable;
-  CaseSensitive?: boolean;
+  Precision?: number | undefined;
+  Scale?: number | undefined;
+  Nullable?: ColumnNullable | undefined;
+  CaseSensitive?: boolean | undefined;
 }
 export type ColumnInfoList = ColumnInfo[];
 export interface ResultSetMetadata {
-  ColumnInfo?: ColumnInfo[];
+  ColumnInfo?: ColumnInfo[] | undefined;
 }
 export interface ResultSet {
-  Rows?: Row[];
-  ResultSetMetadata?: ResultSetMetadata;
+  Rows?: Row[] | undefined;
+  ResultSetMetadata?: ResultSetMetadata | undefined;
 }
 export interface GetQueryResultsOutput {
-  UpdateCount?: number;
-  ResultSet?: ResultSet;
-  NextToken?: string;
+  UpdateCount?: number | undefined;
+  ResultSet?: ResultSet | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetQueryRuntimeStatisticsInput {
   QueryExecutionId: string;
 }
 export interface QueryRuntimeStatisticsTimeline {
-  QueryQueueTimeInMillis?: number;
-  ServicePreProcessingTimeInMillis?: number;
-  QueryPlanningTimeInMillis?: number;
-  EngineExecutionTimeInMillis?: number;
-  ServiceProcessingTimeInMillis?: number;
-  TotalExecutionTimeInMillis?: number;
+  QueryQueueTimeInMillis?: number | undefined;
+  ServicePreProcessingTimeInMillis?: number | undefined;
+  QueryPlanningTimeInMillis?: number | undefined;
+  EngineExecutionTimeInMillis?: number | undefined;
+  ServiceProcessingTimeInMillis?: number | undefined;
+  TotalExecutionTimeInMillis?: number | undefined;
 }
 export interface QueryRuntimeStatisticsRows {
-  InputRows?: number;
-  InputBytes?: number;
-  OutputBytes?: number;
-  OutputRows?: number;
+  InputRows?: number | undefined;
+  InputBytes?: number | undefined;
+  OutputBytes?: number | undefined;
+  OutputRows?: number | undefined;
 }
 export type QueryStagePlanNodes = QueryStagePlanNode[];
 export type StringList = string[];
 export interface QueryStagePlanNode {
-  Name?: string;
-  Identifier?: string;
-  Children?: QueryStagePlanNode[];
-  RemoteSources?: string[];
+  Name?: string | undefined;
+  Identifier?: string | undefined;
+  Children?: QueryStagePlanNode[] | undefined;
+  RemoteSources?: string[] | undefined;
 }
 export type QueryStages = QueryStage[];
 export interface QueryStage {
-  StageId?: number;
-  State?: string;
-  OutputBytes?: number;
-  OutputRows?: number;
-  InputBytes?: number;
-  InputRows?: number;
-  ExecutionTime?: number;
-  QueryStagePlan?: QueryStagePlanNode;
-  SubStages?: QueryStage[];
+  StageId?: number | undefined;
+  State?: string | undefined;
+  OutputBytes?: number | undefined;
+  OutputRows?: number | undefined;
+  InputBytes?: number | undefined;
+  InputRows?: number | undefined;
+  ExecutionTime?: number | undefined;
+  QueryStagePlan?: QueryStagePlanNode | undefined;
+  SubStages?: QueryStage[] | undefined;
 }
 export interface QueryRuntimeStatistics {
-  Timeline?: QueryRuntimeStatisticsTimeline;
-  Rows?: QueryRuntimeStatisticsRows;
-  OutputStage?: QueryStage;
+  Timeline?: QueryRuntimeStatisticsTimeline | undefined;
+  Rows?: QueryRuntimeStatisticsRows | undefined;
+  OutputStage?: QueryStage | undefined;
 }
 export interface GetQueryRuntimeStatisticsOutput {
-  QueryRuntimeStatistics?: QueryRuntimeStatistics;
+  QueryRuntimeStatistics?: QueryRuntimeStatistics | undefined;
 }
 export type AmazonResourceName = string;
 export interface GetResourceDashboardRequest {
@@ -816,11 +817,11 @@ export interface GetSessionRequest {
 }
 export type SessionIdleTimeoutInMinutes = number;
 export interface SessionConfiguration {
-  ExecutionRole?: string;
-  WorkingDirectory?: string;
-  IdleTimeoutSeconds?: number;
-  SessionIdleTimeoutInMinutes?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  ExecutionRole?: string | undefined;
+  WorkingDirectory?: string | undefined;
+  IdleTimeoutSeconds?: number | undefined;
+  SessionIdleTimeoutInMinutes?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type SessionState =
   | "CREATING"
@@ -833,27 +834,27 @@ export type SessionState =
   | "FAILED"
   | (string & {});
 export interface SessionStatus {
-  StartDateTime?: Date;
-  LastModifiedDateTime?: Date;
-  EndDateTime?: Date;
-  IdleSinceDateTime?: Date;
-  State?: SessionState;
-  StateChangeReason?: string;
+  StartDateTime?: Date | undefined;
+  LastModifiedDateTime?: Date | undefined;
+  EndDateTime?: Date | undefined;
+  IdleSinceDateTime?: Date | undefined;
+  State?: SessionState | undefined;
+  StateChangeReason?: string | undefined;
 }
 export interface SessionStatistics {
-  DpuExecutionInMillis?: number;
+  DpuExecutionInMillis?: number | undefined;
 }
 export interface GetSessionResponse {
-  SessionId?: string;
-  Description?: string;
-  WorkGroup?: string;
-  EngineVersion?: string;
-  EngineConfiguration?: EngineConfiguration;
-  NotebookVersion?: string;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  SessionConfiguration?: SessionConfiguration;
-  Status?: SessionStatus;
-  Statistics?: SessionStatistics;
+  SessionId?: string | undefined;
+  Description?: string | undefined;
+  WorkGroup?: string | undefined;
+  EngineVersion?: string | undefined;
+  EngineConfiguration?: EngineConfiguration | undefined;
+  NotebookVersion?: string | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  SessionConfiguration?: SessionConfiguration | undefined;
+  Status?: SessionStatus | undefined;
+  Statistics?: SessionStatistics | undefined;
 }
 export interface GetSessionEndpointRequest {
   SessionId: string;
@@ -867,35 +868,35 @@ export interface GetSessionStatusRequest {
   SessionId: string;
 }
 export interface GetSessionStatusResponse {
-  SessionId?: string;
-  Status?: SessionStatus;
+  SessionId?: string | undefined;
+  Status?: SessionStatus | undefined;
 }
 export interface GetTableMetadataInput {
   CatalogName: string;
   DatabaseName: string;
   TableName: string;
-  WorkGroup?: string;
+  WorkGroup?: string | undefined;
 }
 export type TableTypeString = string;
 export type TypeString = string;
 export type CommentString = string;
 export interface Column {
   Name: string;
-  Type?: string;
-  Comment?: string;
+  Type?: string | undefined;
+  Comment?: string | undefined;
 }
 export type ColumnList = Column[];
 export interface TableMetadata {
   Name: string;
-  CreateTime?: Date;
-  LastAccessTime?: Date;
-  TableType?: string;
-  Columns?: Column[];
-  PartitionKeys?: Column[];
-  Parameters?: { [key: string]: string | undefined };
+  CreateTime?: Date | undefined;
+  LastAccessTime?: Date | undefined;
+  TableType?: string | undefined;
+  Columns?: Column[] | undefined;
+  PartitionKeys?: Column[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTableMetadataOutput {
-  TableMetadata?: TableMetadata;
+  TableMetadata?: TableMetadata | undefined;
 }
 export interface GetWorkGroupInput {
   WorkGroup: string;
@@ -904,108 +905,108 @@ export type WorkGroupState = "ENABLED" | "DISABLED" | (string & {});
 export type IdentityCenterApplicationArn = string;
 export interface WorkGroup {
   Name: string;
-  State?: WorkGroupState;
-  Configuration?: WorkGroupConfiguration;
-  Description?: string;
-  CreationTime?: Date;
-  IdentityCenterApplicationArn?: string;
+  State?: WorkGroupState | undefined;
+  Configuration?: WorkGroupConfiguration | undefined;
+  Description?: string | undefined;
+  CreationTime?: Date | undefined;
+  IdentityCenterApplicationArn?: string | undefined;
 }
 export interface GetWorkGroupOutput {
-  WorkGroup?: WorkGroup;
+  WorkGroup?: WorkGroup | undefined;
 }
 export interface ImportNotebookInput {
   WorkGroup: string;
   Name: string;
-  Payload?: string;
+  Payload?: string | undefined;
   Type: NotebookType;
-  NotebookS3LocationUri?: string;
-  ClientRequestToken?: string;
+  NotebookS3LocationUri?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface ImportNotebookOutput {
-  NotebookId?: string;
+  NotebookId?: string | undefined;
 }
 export type MaxApplicationDPUSizesCount = number;
 export interface ListApplicationDPUSizesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SupportedDPUSizeList = number[];
 export interface ApplicationDPUSizes {
-  ApplicationRuntimeId?: string;
-  SupportedDPUSizes?: number[];
+  ApplicationRuntimeId?: string | undefined;
+  SupportedDPUSizes?: number[] | undefined;
 }
 export type ApplicationDPUSizesList = ApplicationDPUSizes[];
 export interface ListApplicationDPUSizesOutput {
-  ApplicationDPUSizes?: ApplicationDPUSizes[];
-  NextToken?: string;
+  ApplicationDPUSizes?: ApplicationDPUSizes[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxCalculationsCount = number;
 export type SessionManagerToken = string;
 export interface ListCalculationExecutionsRequest {
   SessionId: string;
-  StateFilter?: CalculationExecutionState;
-  MaxResults?: number;
-  NextToken?: string;
+  StateFilter?: CalculationExecutionState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CalculationSummary {
-  CalculationExecutionId?: string;
-  Description?: string;
-  Status?: CalculationStatus;
+  CalculationExecutionId?: string | undefined;
+  Description?: string | undefined;
+  Status?: CalculationStatus | undefined;
 }
 export type CalculationsList = CalculationSummary[];
 export interface ListCalculationExecutionsResponse {
-  NextToken?: string;
-  Calculations?: CalculationSummary[];
+  NextToken?: string | undefined;
+  Calculations?: CalculationSummary[] | undefined;
 }
 export type MaxCapacityReservationsCount = number;
 export interface ListCapacityReservationsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CapacityReservationsList = CapacityReservation[];
 export interface ListCapacityReservationsOutput {
-  NextToken?: string;
+  NextToken?: string | undefined;
   CapacityReservations: CapacityReservation[];
 }
 export type MaxDatabasesCount = number;
 export interface ListDatabasesInput {
   CatalogName: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkGroup?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkGroup?: string | undefined;
 }
 export type DatabaseList = Database[];
 export interface ListDatabasesOutput {
-  DatabaseList?: Database[];
-  NextToken?: string;
+  DatabaseList?: Database[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxDataCatalogsCount = number;
 export interface ListDataCatalogsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  WorkGroup?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkGroup?: string | undefined;
 }
 export interface DataCatalogSummary {
-  CatalogName?: string;
-  Type?: DataCatalogType;
-  Status?: DataCatalogStatus;
-  ConnectionType?: ConnectionType;
-  Error?: string;
+  CatalogName?: string | undefined;
+  Type?: DataCatalogType | undefined;
+  Status?: DataCatalogStatus | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  Error?: string | undefined;
 }
 export type DataCatalogSummaryList = DataCatalogSummary[];
 export interface ListDataCatalogsOutput {
-  DataCatalogsSummary?: DataCatalogSummary[];
-  NextToken?: string;
+  DataCatalogsSummary?: DataCatalogSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxEngineVersionsCount = number;
 export interface ListEngineVersionsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EngineVersionsList = EngineVersion[];
 export interface ListEngineVersionsOutput {
-  EngineVersions?: EngineVersion[];
-  NextToken?: string;
+  EngineVersions?: EngineVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ExecutorState =
   | "CREATING"
@@ -1018,151 +1019,151 @@ export type ExecutorState =
 export type MaxListExecutorsCount = number;
 export interface ListExecutorsRequest {
   SessionId: string;
-  ExecutorStateFilter?: ExecutorState;
-  MaxResults?: number;
-  NextToken?: string;
+  ExecutorStateFilter?: ExecutorState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ExecutorId = string;
 export type ExecutorType = "COORDINATOR" | "GATEWAY" | "WORKER" | (string & {});
 export interface ExecutorsSummary {
   ExecutorId: string;
-  ExecutorType?: ExecutorType;
-  StartDateTime?: number;
-  TerminationDateTime?: number;
-  ExecutorState?: ExecutorState;
-  ExecutorSize?: number;
+  ExecutorType?: ExecutorType | undefined;
+  StartDateTime?: number | undefined;
+  TerminationDateTime?: number | undefined;
+  ExecutorState?: ExecutorState | undefined;
+  ExecutorSize?: number | undefined;
 }
 export type ExecutorsSummaryList = ExecutorsSummary[];
 export interface ListExecutorsResponse {
   SessionId: string;
-  NextToken?: string;
-  ExecutorsSummary?: ExecutorsSummary[];
+  NextToken?: string | undefined;
+  ExecutorsSummary?: ExecutorsSummary[] | undefined;
 }
 export type MaxNamedQueriesCount = number;
 export interface ListNamedQueriesInput {
-  NextToken?: string;
-  MaxResults?: number;
-  WorkGroup?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkGroup?: string | undefined;
 }
 export interface ListNamedQueriesOutput {
-  NamedQueryIds?: string[];
-  NextToken?: string;
+  NamedQueryIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface FilterDefinition {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type MaxNotebooksCount = number;
 export interface ListNotebookMetadataInput {
-  Filters?: FilterDefinition;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: FilterDefinition | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   WorkGroup: string;
 }
 export type NotebookMetadataArray = NotebookMetadata[];
 export interface ListNotebookMetadataOutput {
-  NextToken?: string;
-  NotebookMetadataList?: NotebookMetadata[];
+  NextToken?: string | undefined;
+  NotebookMetadataList?: NotebookMetadata[] | undefined;
 }
 export type MaxSessionsCount = number;
 export interface ListNotebookSessionsRequest {
   NotebookId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface NotebookSessionSummary {
-  SessionId?: string;
-  CreationTime?: Date;
+  SessionId?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export type NotebookSessionsList = NotebookSessionSummary[];
 export interface ListNotebookSessionsResponse {
   NotebookSessionsList: NotebookSessionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxPreparedStatementsCount = number;
 export interface ListPreparedStatementsInput {
   WorkGroup: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PreparedStatementSummary {
-  StatementName?: string;
-  LastModifiedTime?: Date;
+  StatementName?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type PreparedStatementsList = PreparedStatementSummary[];
 export interface ListPreparedStatementsOutput {
-  PreparedStatements?: PreparedStatementSummary[];
-  NextToken?: string;
+  PreparedStatements?: PreparedStatementSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxQueryExecutionsCount = number;
 export interface ListQueryExecutionsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  WorkGroup?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkGroup?: string | undefined;
 }
 export interface ListQueryExecutionsOutput {
-  QueryExecutionIds?: string[];
-  NextToken?: string;
+  QueryExecutionIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSessionsRequest {
   WorkGroup: string;
-  StateFilter?: SessionState;
-  MaxResults?: number;
-  NextToken?: string;
+  StateFilter?: SessionState | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SessionSummary {
-  SessionId?: string;
-  Description?: string;
-  EngineVersion?: EngineVersion;
-  NotebookVersion?: string;
-  Status?: SessionStatus;
+  SessionId?: string | undefined;
+  Description?: string | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  NotebookVersion?: string | undefined;
+  Status?: SessionStatus | undefined;
 }
 export type SessionsList = SessionSummary[];
 export interface ListSessionsResponse {
-  NextToken?: string;
-  Sessions?: SessionSummary[];
+  NextToken?: string | undefined;
+  Sessions?: SessionSummary[] | undefined;
 }
 export type ExpressionString = string;
 export type MaxTableMetadataCount = number;
 export interface ListTableMetadataInput {
   CatalogName: string;
   DatabaseName: string;
-  Expression?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkGroup?: string;
+  Expression?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkGroup?: string | undefined;
 }
 export type TableMetadataList = TableMetadata[];
 export interface ListTableMetadataOutput {
-  TableMetadataList?: TableMetadata[];
-  NextToken?: string;
+  TableMetadataList?: TableMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxTagsCount = number;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxWorkGroupsCount = number;
 export interface ListWorkGroupsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkGroupSummary {
-  Name?: string;
-  State?: WorkGroupState;
-  Description?: string;
-  CreationTime?: Date;
-  EngineVersion?: EngineVersion;
-  IdentityCenterApplicationArn?: string;
+  Name?: string | undefined;
+  State?: WorkGroupState | undefined;
+  Description?: string | undefined;
+  CreationTime?: Date | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  IdentityCenterApplicationArn?: string | undefined;
 }
 export type WorkGroupsList = WorkGroupSummary[];
 export interface ListWorkGroupsOutput {
-  WorkGroups?: WorkGroupSummary[];
-  NextToken?: string;
+  WorkGroups?: WorkGroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutCapacityAssignmentConfigurationInput {
   CapacityReservationName: string;
@@ -1170,53 +1171,53 @@ export interface PutCapacityAssignmentConfigurationInput {
 }
 export interface PutCapacityAssignmentConfigurationOutput {}
 export interface CalculationConfiguration {
-  CodeBlock?: string;
+  CodeBlock?: string | undefined;
 }
 export interface StartCalculationExecutionRequest {
   SessionId: string;
-  Description?: string;
-  CalculationConfiguration?: CalculationConfiguration;
-  CodeBlock?: string;
-  ClientRequestToken?: string;
+  Description?: string | undefined;
+  CalculationConfiguration?: CalculationConfiguration | undefined;
+  CodeBlock?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface StartCalculationExecutionResponse {
-  CalculationExecutionId?: string;
-  State?: CalculationExecutionState;
+  CalculationExecutionId?: string | undefined;
+  State?: CalculationExecutionState | undefined;
 }
 export interface StartQueryExecutionInput {
   QueryString: string;
-  ClientRequestToken?: string;
-  QueryExecutionContext?: QueryExecutionContext;
-  ResultConfiguration?: ResultConfiguration;
-  WorkGroup?: string;
-  ExecutionParameters?: string[];
-  ResultReuseConfiguration?: ResultReuseConfiguration;
-  EngineConfiguration?: EngineConfiguration;
+  ClientRequestToken?: string | undefined;
+  QueryExecutionContext?: QueryExecutionContext | undefined;
+  ResultConfiguration?: ResultConfiguration | undefined;
+  WorkGroup?: string | undefined;
+  ExecutionParameters?: string[] | undefined;
+  ResultReuseConfiguration?: ResultReuseConfiguration | undefined;
+  EngineConfiguration?: EngineConfiguration | undefined;
 }
 export interface StartQueryExecutionOutput {
-  QueryExecutionId?: string;
+  QueryExecutionId?: string | undefined;
 }
 export interface StartSessionRequest {
-  Description?: string;
+  Description?: string | undefined;
   WorkGroup: string;
   EngineConfiguration: EngineConfiguration;
-  ExecutionRole?: string;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  NotebookVersion?: string;
-  SessionIdleTimeoutInMinutes?: number;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
-  CopyWorkGroupTags?: boolean;
+  ExecutionRole?: string | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  NotebookVersion?: string | undefined;
+  SessionIdleTimeoutInMinutes?: number | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CopyWorkGroupTags?: boolean | undefined;
 }
 export interface StartSessionResponse {
-  SessionId?: string;
-  State?: SessionState;
+  SessionId?: string | undefined;
+  State?: SessionState | undefined;
 }
 export interface StopCalculationExecutionRequest {
   CalculationExecutionId: string;
 }
 export interface StopCalculationExecutionResponse {
-  State?: CalculationExecutionState;
+  State?: CalculationExecutionState | undefined;
 }
 export interface StopQueryExecutionInput {
   QueryExecutionId: string;
@@ -1231,7 +1232,7 @@ export interface TerminateSessionRequest {
   SessionId: string;
 }
 export interface TerminateSessionResponse {
-  State?: SessionState;
+  State?: SessionState | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceInput {
@@ -1247,15 +1248,15 @@ export interface UpdateCapacityReservationOutput {}
 export interface UpdateDataCatalogInput {
   Name: string;
   Type: DataCatalogType;
-  Description?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDataCatalogOutput {}
 export type NamedQueryDescriptionString = string;
 export interface UpdateNamedQueryInput {
   NamedQueryId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   QueryString: string;
 }
 export interface UpdateNamedQueryOutput {}
@@ -1263,13 +1264,13 @@ export interface UpdateNotebookInput {
   NotebookId: string;
   Payload: string;
   Type: NotebookType;
-  SessionId?: string;
-  ClientRequestToken?: string;
+  SessionId?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface UpdateNotebookOutput {}
 export interface UpdateNotebookMetadataInput {
   NotebookId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
   Name: string;
 }
 export interface UpdateNotebookMetadataOutput {}
@@ -1277,47 +1278,47 @@ export interface UpdatePreparedStatementInput {
   StatementName: string;
   WorkGroup: string;
   QueryStatement: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdatePreparedStatementOutput {}
 export interface ResultConfigurationUpdates {
-  OutputLocation?: string;
-  RemoveOutputLocation?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  RemoveEncryptionConfiguration?: boolean;
-  ExpectedBucketOwner?: string;
-  RemoveExpectedBucketOwner?: boolean;
-  AclConfiguration?: AclConfiguration;
-  RemoveAclConfiguration?: boolean;
+  OutputLocation?: string | undefined;
+  RemoveOutputLocation?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  RemoveEncryptionConfiguration?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  RemoveExpectedBucketOwner?: boolean | undefined;
+  AclConfiguration?: AclConfiguration | undefined;
+  RemoveAclConfiguration?: boolean | undefined;
 }
 export interface ManagedQueryResultsConfigurationUpdates {
-  Enabled?: boolean;
-  EncryptionConfiguration?: ManagedQueryResultsEncryptionConfiguration;
-  RemoveEncryptionConfiguration?: boolean;
+  Enabled?: boolean | undefined;
+  EncryptionConfiguration?: ManagedQueryResultsEncryptionConfiguration | undefined;
+  RemoveEncryptionConfiguration?: boolean | undefined;
 }
 export interface WorkGroupConfigurationUpdates {
-  EnforceWorkGroupConfiguration?: boolean;
-  ResultConfigurationUpdates?: ResultConfigurationUpdates;
-  ManagedQueryResultsConfigurationUpdates?: ManagedQueryResultsConfigurationUpdates;
-  PublishCloudWatchMetricsEnabled?: boolean;
-  BytesScannedCutoffPerQuery?: number;
-  RemoveBytesScannedCutoffPerQuery?: boolean;
-  RequesterPaysEnabled?: boolean;
-  EngineVersion?: EngineVersion;
-  RemoveCustomerContentEncryptionConfiguration?: boolean;
-  AdditionalConfiguration?: string;
-  ExecutionRole?: string;
-  CustomerContentEncryptionConfiguration?: CustomerContentEncryptionConfiguration;
-  EnableMinimumEncryptionConfiguration?: boolean;
-  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration;
-  MonitoringConfiguration?: MonitoringConfiguration;
-  EngineConfiguration?: EngineConfiguration;
+  EnforceWorkGroupConfiguration?: boolean | undefined;
+  ResultConfigurationUpdates?: ResultConfigurationUpdates | undefined;
+  ManagedQueryResultsConfigurationUpdates?: ManagedQueryResultsConfigurationUpdates | undefined;
+  PublishCloudWatchMetricsEnabled?: boolean | undefined;
+  BytesScannedCutoffPerQuery?: number | undefined;
+  RemoveBytesScannedCutoffPerQuery?: boolean | undefined;
+  RequesterPaysEnabled?: boolean | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  RemoveCustomerContentEncryptionConfiguration?: boolean | undefined;
+  AdditionalConfiguration?: string | undefined;
+  ExecutionRole?: string | undefined;
+  CustomerContentEncryptionConfiguration?: CustomerContentEncryptionConfiguration | undefined;
+  EnableMinimumEncryptionConfiguration?: boolean | undefined;
+  QueryResultsS3AccessGrantsConfiguration?: QueryResultsS3AccessGrantsConfiguration | undefined;
+  MonitoringConfiguration?: MonitoringConfiguration | undefined;
+  EngineConfiguration?: EngineConfiguration | undefined;
 }
 export interface UpdateWorkGroupInput {
   WorkGroup: string;
-  Description?: string;
-  ConfigurationUpdates?: WorkGroupConfigurationUpdates;
-  State?: WorkGroupState;
+  Description?: string | undefined;
+  ConfigurationUpdates?: WorkGroupConfigurationUpdates | undefined;
+  State?: WorkGroupState | undefined;
 }
 export interface UpdateWorkGroupOutput {}
 export type ThrottleReason = "CONCURRENT_QUERY_LIMIT_EXCEEDED" | (string & {});
@@ -1337,7 +1338,7 @@ export type BatchGetNamedQueryError =
  * query execution IDs.
  */
 export const batchGetNamedQuery: API.OperationMethod<
-  BatchGetNamedQueryInput,
+  BatchGetNamedQueryInput & RegionInput,
   BatchGetNamedQueryOutput,
   BatchGetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1364,7 +1365,7 @@ export type BatchGetPreparedStatementError =
  * `UnprocessedPreparedStatementNames`.
  */
 export const batchGetPreparedStatement: API.OperationMethod<
-  BatchGetPreparedStatementInput,
+  BatchGetPreparedStatementInput & RegionInput,
   BatchGetPreparedStatementOutput,
   BatchGetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type BatchGetQueryExecutionError =
  * about named queries.
  */
 export const batchGetQueryExecution: API.OperationMethod<
-  BatchGetQueryExecutionInput,
+  BatchGetQueryExecutionInput & RegionInput,
   BatchGetQueryExecutionOutput,
   BatchGetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type CancelCapacityReservationError =
  * refer to its tags and view it for historical reference.
  */
 export const cancelCapacityReservation: API.OperationMethod<
-  CancelCapacityReservationInput,
+  CancelCapacityReservationInput & RegionInput,
   CancelCapacityReservationOutput,
   CancelCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type CreateCapacityReservationError =
  * processing units.
  */
 export const createCapacityReservation: API.OperationMethod<
-  CreateCapacityReservationInput,
+  CreateCapacityReservationInput & RegionInput,
   CreateCapacityReservationOutput,
   CreateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1481,7 +1482,7 @@ export type CreateDataCatalogError =
  * characters.
  */
 export const createDataCatalog: API.OperationMethod<
-  CreateDataCatalogInput,
+  CreateDataCatalogInput & RegionInput,
   CreateDataCatalogOutput,
   CreateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1505,7 +1506,7 @@ export type CreateNamedQueryError =
  * workgroup.
  */
 export const createNamedQuery: API.OperationMethod<
-  CreateNamedQueryInput,
+  CreateNamedQueryInput & RegionInput,
   CreateNamedQueryOutput,
   CreateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1531,7 +1532,7 @@ export type CreateNotebookError =
  * exists.
  */
 export const createNotebook: API.OperationMethod<
-  CreateNotebookInput,
+  CreateNotebookInput & RegionInput,
   CreateNotebookOutput,
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type CreatePreparedStatementError =
  * Creates a prepared statement for use with SQL queries in Athena.
  */
 export const createPreparedStatement: API.OperationMethod<
-  CreatePreparedStatementInput,
+  CreatePreparedStatementInput & RegionInput,
   CreatePreparedStatementOutput,
   CreatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1582,7 +1583,7 @@ export type CreatePresignedNotebookUrlError =
  * programmatic access.
  */
 export const createPresignedNotebookUrl: API.OperationMethod<
-  CreatePresignedNotebookUrlRequest,
+  CreatePresignedNotebookUrlRequest & RegionInput,
   CreatePresignedNotebookUrlResponse,
   CreatePresignedNotebookUrlError,
   Credentials | HttpClient.HttpClient
@@ -1603,7 +1604,7 @@ export type CreateWorkGroupError = InternalServerException | InvalidRequestExcep
  * enabled workgroup or an Athena SQL workgroup.
  */
 export const createWorkGroup: API.OperationMethod<
-  CreateWorkGroupInput,
+  CreateWorkGroupInput & RegionInput,
   CreateWorkGroupOutput,
   CreateWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type DeleteCapacityReservationError =
  * output of `ListCapacityReservations`.
  */
 export const deleteCapacityReservation: API.OperationMethod<
-  DeleteCapacityReservationInput,
+  DeleteCapacityReservationInput & RegionInput,
   DeleteCapacityReservationOutput,
   DeleteCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1654,7 +1655,7 @@ export type DeleteDataCatalogError =
  * Deletes a data catalog.
  */
 export const deleteDataCatalog: API.OperationMethod<
-  DeleteDataCatalogInput,
+  DeleteDataCatalogInput & RegionInput,
   DeleteDataCatalogOutput,
   DeleteDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1679,7 +1680,7 @@ export type DeleteNamedQueryError =
  * saved.
  */
 export const deleteNamedQuery: API.OperationMethod<
-  DeleteNamedQueryInput,
+  DeleteNamedQueryInput & RegionInput,
   DeleteNamedQueryOutput,
   DeleteNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1703,7 +1704,7 @@ export type DeleteNotebookError =
  * Deletes the specified notebook.
  */
 export const deleteNotebook: API.OperationMethod<
-  DeleteNotebookInput,
+  DeleteNotebookInput & RegionInput,
   DeleteNotebookOutput,
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1729,7 +1730,7 @@ export type DeletePreparedStatementError =
  * workgroup.
  */
 export const deletePreparedStatement: API.OperationMethod<
-  DeletePreparedStatementInput,
+  DeletePreparedStatementInput & RegionInput,
   DeletePreparedStatementOutput,
   DeletePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type DeleteWorkGroupError = InternalServerException | InvalidRequestExcep
  * deleted.
  */
 export const deleteWorkGroup: API.OperationMethod<
-  DeleteWorkGroupInput,
+  DeleteWorkGroupInput & RegionInput,
   DeleteWorkGroupOutput,
   DeleteWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1780,7 @@ export type ExportNotebookError =
  * Exports the specified notebook and its metadata.
  */
 export const exportNotebook: API.OperationMethod<
-  ExportNotebookInput,
+  ExportNotebookInput & RegionInput,
   ExportNotebookOutput,
   ExportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -1803,7 +1804,7 @@ export type GetCalculationExecutionError =
  * Describes a previously submitted calculation execution.
  */
 export const getCalculationExecution: API.OperationMethod<
-  GetCalculationExecutionRequest,
+  GetCalculationExecutionRequest & RegionInput,
   GetCalculationExecutionResponse,
   GetCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetCalculationExecutionCodeError =
  * Retrieves the unencrypted code that was executed for the calculation.
  */
 export const getCalculationExecutionCode: API.OperationMethod<
-  GetCalculationExecutionCodeRequest,
+  GetCalculationExecutionCodeRequest & RegionInput,
   GetCalculationExecutionCodeResponse,
   GetCalculationExecutionCodeError,
   Credentials | HttpClient.HttpClient
@@ -1851,7 +1852,7 @@ export type GetCalculationExecutionStatusError =
  * Gets the status of a current calculation.
  */
 export const getCalculationExecutionStatus: API.OperationMethod<
-  GetCalculationExecutionStatusRequest,
+  GetCalculationExecutionStatusRequest & RegionInput,
   GetCalculationExecutionStatusResponse,
   GetCalculationExecutionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1875,7 +1876,7 @@ export type GetCapacityAssignmentConfigurationError =
  * exists.
  */
 export const getCapacityAssignmentConfiguration: API.OperationMethod<
-  GetCapacityAssignmentConfigurationInput,
+  GetCapacityAssignmentConfigurationInput & RegionInput,
   GetCapacityAssignmentConfigurationOutput,
   GetCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1898,7 +1899,7 @@ export type GetCapacityReservationError =
  * Returns information about the capacity reservation with the specified name.
  */
 export const getCapacityReservation: API.OperationMethod<
-  GetCapacityReservationInput,
+  GetCapacityReservationInput & RegionInput,
   GetCapacityReservationOutput,
   GetCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -1922,7 +1923,7 @@ export type GetDatabaseError =
  * Returns a database object for the specified database and data catalog.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseInput,
+  GetDatabaseInput & RegionInput,
   GetDatabaseOutput,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1946,7 +1947,7 @@ export type GetDataCatalogError =
  * Returns the specified data catalog.
  */
 export const getDataCatalog: API.OperationMethod<
-  GetDataCatalogInput,
+  GetDataCatalogInput & RegionInput,
   GetDataCatalogOutput,
   GetDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1971,7 +1972,7 @@ export type GetNamedQueryError =
  * workgroup in which the query was saved.
  */
 export const getNamedQuery: API.OperationMethod<
-  GetNamedQueryInput,
+  GetNamedQueryInput & RegionInput,
   GetNamedQueryOutput,
   GetNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +1996,7 @@ export type GetNotebookMetadataError =
  * Retrieves notebook metadata for the specified notebook ID.
  */
 export const getNotebookMetadata: API.OperationMethod<
-  GetNotebookMetadataInput,
+  GetNotebookMetadataInput & RegionInput,
   GetNotebookMetadataOutput,
   GetNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type GetPreparedStatementError =
  * workgroup.
  */
 export const getPreparedStatement: API.OperationMethod<
-  GetPreparedStatementInput,
+  GetPreparedStatementInput & RegionInput,
   GetPreparedStatementOutput,
   GetPreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -2051,7 +2052,7 @@ export type GetQueryExecutionError =
  * query execution is saved with a unique ID.
  */
 export const getQueryExecution: API.OperationMethod<
-  GetQueryExecutionInput,
+  GetQueryExecutionInput & RegionInput,
   GetQueryExecutionOutput,
   GetQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2090,7 +2091,7 @@ export type GetQueryResultsError =
  * are denied.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsInput,
+  GetQueryResultsInput & RegionInput,
   GetQueryResultsOutput,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -2125,7 +2126,7 @@ export type GetQueryRuntimeStatisticsError =
  * statistics are also not included when a query has row-level filters defined in Lake Formation.
  */
 export const getQueryRuntimeStatistics: API.OperationMethod<
-  GetQueryRuntimeStatisticsInput,
+  GetQueryRuntimeStatisticsInput & RegionInput,
   GetQueryRuntimeStatisticsOutput,
   GetQueryRuntimeStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type GetResourceDashboardError =
  * Gets the Live UI/Persistence UI for a session.
  */
 export const getResourceDashboard: API.OperationMethod<
-  GetResourceDashboardRequest,
+  GetResourceDashboardRequest & RegionInput,
   GetResourceDashboardResponse,
   GetResourceDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2174,7 +2175,7 @@ export type GetSessionError =
  * and configuration.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -2198,7 +2199,7 @@ export type GetSessionEndpointError =
  * Gets a connection endpoint and authentication token for a given session Id.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2222,7 +2223,7 @@ export type GetSessionStatusError =
  * Gets the current status of a session.
  */
 export const getSessionStatus: API.OperationMethod<
-  GetSessionStatusRequest,
+  GetSessionStatusRequest & RegionInput,
   GetSessionStatusResponse,
   GetSessionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2246,7 +2247,7 @@ export type GetTableMetadataError =
  * Returns table metadata for the specified catalog, database, and table.
  */
 export const getTableMetadata: API.OperationMethod<
-  GetTableMetadataInput,
+  GetTableMetadataInput & RegionInput,
   GetTableMetadataOutput,
   GetTableMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2271,7 @@ export type GetWorkGroupError =
  * Returns information about the workgroup with the specified name.
  */
 export const getWorkGroup: API.OperationMethod<
-  GetWorkGroupInput,
+  GetWorkGroupInput & RegionInput,
   GetWorkGroupOutput,
   GetWorkGroupError,
   Credentials | HttpClient.HttpClient
@@ -2299,7 +2300,7 @@ export type ImportNotebookError =
  * exists in the workgroup, throws an error.
  */
 export const importNotebook: API.OperationMethod<
-  ImportNotebookInput,
+  ImportNotebookInput & RegionInput,
   ImportNotebookOutput,
   ImportNotebookError,
   Credentials | HttpClient.HttpClient
@@ -2324,7 +2325,7 @@ export type ListApplicationDPUSizesError =
  * `Athena notebook version 1`).
  */
 export const listApplicationDPUSizes: API.PaginatedOperationMethod<
-  ListApplicationDPUSizesInput,
+  ListApplicationDPUSizesInput & RegionInput,
   ListApplicationDPUSizesOutput,
   ListApplicationDPUSizesError,
   Credentials | HttpClient.HttpClient,
@@ -2355,7 +2356,7 @@ export type ListCalculationExecutionsError =
  * Newer calculations are listed first; older calculations are listed later.
  */
 export const listCalculationExecutions: API.PaginatedOperationMethod<
-  ListCalculationExecutionsRequest,
+  ListCalculationExecutionsRequest & RegionInput,
   ListCalculationExecutionsResponse,
   ListCalculationExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2384,7 +2385,7 @@ export type ListCapacityReservationsError =
  * Lists the capacity reservations for the current account.
  */
 export const listCapacityReservations: API.PaginatedOperationMethod<
-  ListCapacityReservationsInput,
+  ListCapacityReservationsInput & RegionInput,
   ListCapacityReservationsOutput,
   ListCapacityReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -2414,7 +2415,7 @@ export type ListDatabasesError =
  * Lists the databases in the specified data catalog.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesInput,
+  ListDatabasesInput & RegionInput,
   ListDatabasesOutput,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -2447,7 +2448,7 @@ export type ListDataCatalogsError =
  * the **Data sources** page under the **Data source name** column.
  */
 export const listDataCatalogs: API.PaginatedOperationMethod<
-  ListDataCatalogsInput,
+  ListDataCatalogsInput & RegionInput,
   ListDataCatalogsOutput,
   ListDataCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -2478,7 +2479,7 @@ export type ListEngineVersionsError =
  * Auto option.
  */
 export const listEngineVersions: API.PaginatedOperationMethod<
-  ListEngineVersionsInput,
+  ListEngineVersionsInput & RegionInput,
   ListEngineVersionsOutput,
   ListEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2510,7 +2511,7 @@ export type ListExecutorsError =
  * state.
  */
 export const listExecutors: API.PaginatedOperationMethod<
-  ListExecutorsRequest,
+  ListExecutorsRequest & RegionInput,
   ListExecutorsResponse,
   ListExecutorsError,
   Credentials | HttpClient.HttpClient,
@@ -2541,7 +2542,7 @@ export type ListNamedQueriesError =
  * not specified, lists the saved queries for the primary workgroup.
  */
 export const listNamedQueries: API.PaginatedOperationMethod<
-  ListNamedQueriesInput,
+  ListNamedQueriesInput & RegionInput,
   ListNamedQueriesOutput,
   ListNamedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -2571,7 +2572,7 @@ export type ListNotebookMetadataError =
  * Displays the notebook files for the specified workgroup in paginated format.
  */
 export const listNotebookMetadata: API.OperationMethod<
-  ListNotebookMetadataInput,
+  ListNotebookMetadataInput & RegionInput,
   ListNotebookMetadataOutput,
   ListNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2598,7 +2599,7 @@ export type ListNotebookSessionsError =
  * later.
  */
 export const listNotebookSessions: API.OperationMethod<
-  ListNotebookSessionsRequest,
+  ListNotebookSessionsRequest & RegionInput,
   ListNotebookSessionsResponse,
   ListNotebookSessionsError,
   Credentials | HttpClient.HttpClient
@@ -2621,7 +2622,7 @@ export type ListPreparedStatementsError =
  * Lists the prepared statements in the specified workgroup.
  */
 export const listPreparedStatements: API.PaginatedOperationMethod<
-  ListPreparedStatementsInput,
+  ListPreparedStatementsInput & RegionInput,
   ListPreparedStatementsOutput,
   ListPreparedStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -2653,7 +2654,7 @@ export type ListQueryExecutionsError =
  * to have access to the workgroup in which the queries ran.
  */
 export const listQueryExecutions: API.PaginatedOperationMethod<
-  ListQueryExecutionsInput,
+  ListQueryExecutionsInput & RegionInput,
   ListQueryExecutionsOutput,
   ListQueryExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2686,7 +2687,7 @@ export type ListSessionsError =
  * later.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -2716,7 +2717,7 @@ export type ListTableMetadataError =
  * Lists the metadata for the tables in the specified data catalog database.
  */
 export const listTableMetadata: API.PaginatedOperationMethod<
-  ListTableMetadataInput,
+  ListTableMetadataInput & RegionInput,
   ListTableMetadataOutput,
   ListTableMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -2747,7 +2748,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an Athena resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -2774,7 +2775,7 @@ export type ListWorkGroupsError = InternalServerException | InvalidRequestExcept
  * Lists available workgroups for the account.
  */
 export const listWorkGroups: API.PaginatedOperationMethod<
-  ListWorkGroupsInput,
+  ListWorkGroupsInput & RegionInput,
   ListWorkGroupsOutput,
   ListWorkGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2805,7 +2806,7 @@ export type PutCapacityAssignmentConfigurationError =
  * replaces the existing capacity assignment configuration.
  */
 export const putCapacityAssignmentConfiguration: API.OperationMethod<
-  PutCapacityAssignmentConfigurationInput,
+  PutCapacityAssignmentConfigurationInput & RegionInput,
   PutCapacityAssignmentConfigurationOutput,
   PutCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2835,7 +2836,7 @@ export type StartCalculationExecutionError =
  * instead.
  */
 export const startCalculationExecution: API.OperationMethod<
-  StartCalculationExecutionRequest,
+  StartCalculationExecutionRequest & RegionInput,
   StartCalculationExecutionResponse,
   StartCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2864,7 +2865,7 @@ export type StartQueryExecutionError =
  * Guide.
  */
 export const startQueryExecution: API.OperationMethod<
-  StartQueryExecutionInput,
+  StartQueryExecutionInput & RegionInput,
   StartQueryExecutionOutput,
   StartQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2892,7 @@ export type StartSessionError =
  * when it reaches an `IDLE` state.
  */
 export const startSession: API.OperationMethod<
-  StartSessionRequest,
+  StartSessionRequest & RegionInput,
   StartSessionResponse,
   StartSessionError,
   Credentials | HttpClient.HttpClient
@@ -2929,7 +2930,7 @@ export type StopCalculationExecutionError =
  * session in which the calculation is running.
  */
 export const stopCalculationExecution: API.OperationMethod<
-  StopCalculationExecutionRequest,
+  StopCalculationExecutionRequest & RegionInput,
   StopCalculationExecutionResponse,
   StopCalculationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2953,7 +2954,7 @@ export type StopQueryExecutionError =
  * query ran.
  */
 export const stopQueryExecution: API.OperationMethod<
-  StopQueryExecutionInput,
+  StopQueryExecutionInput & RegionInput,
   StopQueryExecutionOutput,
   StopQueryExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2987,7 +2988,7 @@ export type TagResourceError =
  * than one tag, separate them by commas.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3015,7 +3016,7 @@ export type TerminateSessionError =
  * display as `FAILED` instead of `STOPPED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionRequest,
+  TerminateSessionRequest & RegionInput,
   TerminateSessionResponse,
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
@@ -3039,7 +3040,7 @@ export type UntagResourceError =
  * Removes one or more tags from an Athena resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3063,7 +3064,7 @@ export type UpdateCapacityReservationError =
  * with the specified name.
  */
 export const updateCapacityReservation: API.OperationMethod<
-  UpdateCapacityReservationInput,
+  UpdateCapacityReservationInput & RegionInput,
   UpdateCapacityReservationOutput,
   UpdateCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -3087,7 +3088,7 @@ export type UpdateDataCatalogError =
  * Updates the data catalog that has the specified name.
  */
 export const updateDataCatalog: API.OperationMethod<
-  UpdateDataCatalogInput,
+  UpdateDataCatalogInput & RegionInput,
   UpdateDataCatalogOutput,
   UpdateDataCatalogError,
   Credentials | HttpClient.HttpClient
@@ -3112,7 +3113,7 @@ export type UpdateNamedQueryError =
  * updated.
  */
 export const updateNamedQuery: API.OperationMethod<
-  UpdateNamedQueryInput,
+  UpdateNamedQueryInput & RegionInput,
   UpdateNamedQueryOutput,
   UpdateNamedQueryError,
   Credentials | HttpClient.HttpClient
@@ -3136,7 +3137,7 @@ export type UpdateNotebookError =
  * Updates the contents of a Spark notebook.
  */
 export const updateNotebook: API.OperationMethod<
-  UpdateNotebookInput,
+  UpdateNotebookInput & RegionInput,
   UpdateNotebookOutput,
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -3160,7 +3161,7 @@ export type UpdateNotebookMetadataError =
  * Updates the metadata for a notebook.
  */
 export const updateNotebookMetadata: API.OperationMethod<
-  UpdateNotebookMetadataInput,
+  UpdateNotebookMetadataInput & RegionInput,
   UpdateNotebookMetadataOutput,
   UpdateNotebookMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3184,7 +3185,7 @@ export type UpdatePreparedStatementError =
  * Updates a prepared statement.
  */
 export const updatePreparedStatement: API.OperationMethod<
-  UpdatePreparedStatementInput,
+  UpdatePreparedStatementInput & RegionInput,
   UpdatePreparedStatementOutput,
   UpdatePreparedStatementError,
   Credentials | HttpClient.HttpClient
@@ -3209,7 +3210,7 @@ export type UpdateWorkGroupError =
  * Only `ConfigurationUpdates` can be specified.
  */
 export const updateWorkGroup: API.OperationMethod<
-  UpdateWorkGroupInput,
+  UpdateWorkGroupInput & RegionInput,
   UpdateWorkGroupOutput,
   UpdateWorkGroupError,
   Credentials | HttpClient.HttpClient

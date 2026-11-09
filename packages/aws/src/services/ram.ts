@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -377,7 +378,7 @@ export class UnmatchedPolicyPermissionException
   ).pipe(C.withBadRequestError) {}
 export interface AcceptResourceShareInvitationRequest {
   resourceShareInvitationArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ResourceShareInvitationStatus =
   | "PENDING"
@@ -397,72 +398,72 @@ export type ResourceShareAssociationStatus =
   | "RESTORING"
   | (string & {});
 export interface ResourceShareAssociation {
-  resourceShareArn?: string;
-  resourceShareName?: string;
-  associatedEntity?: string;
-  associationType?: ResourceShareAssociationType;
-  status?: ResourceShareAssociationStatus;
-  statusMessage?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  external?: boolean;
+  resourceShareArn?: string | undefined;
+  resourceShareName?: string | undefined;
+  associatedEntity?: string | undefined;
+  associationType?: ResourceShareAssociationType | undefined;
+  status?: ResourceShareAssociationStatus | undefined;
+  statusMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  external?: boolean | undefined;
 }
 export type ResourceShareAssociationList = ResourceShareAssociation[];
 export interface ResourceShareInvitation {
-  resourceShareInvitationArn?: string;
-  resourceShareName?: string;
-  resourceShareArn?: string;
-  senderAccountId?: string;
-  receiverAccountId?: string;
-  invitationTimestamp?: Date;
-  status?: ResourceShareInvitationStatus;
-  resourceShareAssociations?: ResourceShareAssociation[];
-  receiverArn?: string;
+  resourceShareInvitationArn?: string | undefined;
+  resourceShareName?: string | undefined;
+  resourceShareArn?: string | undefined;
+  senderAccountId?: string | undefined;
+  receiverAccountId?: string | undefined;
+  invitationTimestamp?: Date | undefined;
+  status?: ResourceShareInvitationStatus | undefined;
+  resourceShareAssociations?: ResourceShareAssociation[] | undefined;
+  receiverArn?: string | undefined;
 }
 export interface AcceptResourceShareInvitationResponse {
-  resourceShareInvitation?: ResourceShareInvitation;
-  clientToken?: string;
+  resourceShareInvitation?: ResourceShareInvitation | undefined;
+  clientToken?: string | undefined;
 }
 export type ResourceArnList = string[];
 export type PrincipalArnOrIdList = string[];
 export type SourceArnOrAccountList = string[];
 export interface AssociateResourceShareRequest {
   resourceShareArn: string;
-  resourceArns?: string[];
-  principals?: string[];
-  clientToken?: string;
-  sources?: string[];
+  resourceArns?: string[] | undefined;
+  principals?: string[] | undefined;
+  clientToken?: string | undefined;
+  sources?: string[] | undefined;
 }
 export interface AssociateResourceShareResponse {
-  resourceShareAssociations?: ResourceShareAssociation[];
-  clientToken?: string;
+  resourceShareAssociations?: ResourceShareAssociation[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface AssociateResourceSharePermissionRequest {
   resourceShareArn: string;
   permissionArn: string;
-  replace?: boolean;
-  clientToken?: string;
-  permissionVersion?: number;
+  replace?: boolean | undefined;
+  clientToken?: string | undefined;
+  permissionVersion?: number | undefined;
 }
 export interface AssociateResourceSharePermissionResponse {
-  returnValue?: boolean;
-  clientToken?: string;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export type PermissionName = string;
 export type Policy = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreatePermissionRequest {
   name: string;
   resourceType: string;
   policyTemplate: string;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type PermissionType = "CUSTOMER_MANAGED" | "AWS_MANAGED" | (string & {});
 export type PermissionFeatureSet =
@@ -471,27 +472,27 @@ export type PermissionFeatureSet =
   | "STANDARD"
   | (string & {});
 export interface ResourceSharePermissionSummary {
-  arn?: string;
-  version?: string;
-  defaultVersion?: boolean;
-  name?: string;
-  resourceType?: string;
-  status?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  isResourceTypeDefault?: boolean;
-  permissionType?: PermissionType;
-  featureSet?: PermissionFeatureSet;
-  tags?: Tag[];
+  arn?: string | undefined;
+  version?: string | undefined;
+  defaultVersion?: boolean | undefined;
+  name?: string | undefined;
+  resourceType?: string | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  isResourceTypeDefault?: boolean | undefined;
+  permissionType?: PermissionType | undefined;
+  featureSet?: PermissionFeatureSet | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreatePermissionResponse {
-  permission?: ResourceSharePermissionSummary;
-  clientToken?: string;
+  permission?: ResourceSharePermissionSummary | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreatePermissionVersionRequest {
   permissionArn: string;
   policyTemplate: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type PermissionStatus =
   | "ATTACHABLE"
@@ -500,38 +501,38 @@ export type PermissionStatus =
   | "DELETED"
   | (string & {});
 export interface ResourceSharePermissionDetail {
-  arn?: string;
-  version?: string;
-  defaultVersion?: boolean;
-  name?: string;
-  resourceType?: string;
-  permission?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  isResourceTypeDefault?: boolean;
-  permissionType?: PermissionType;
-  featureSet?: PermissionFeatureSet;
-  status?: PermissionStatus;
-  tags?: Tag[];
+  arn?: string | undefined;
+  version?: string | undefined;
+  defaultVersion?: boolean | undefined;
+  name?: string | undefined;
+  resourceType?: string | undefined;
+  permission?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  isResourceTypeDefault?: boolean | undefined;
+  permissionType?: PermissionType | undefined;
+  featureSet?: PermissionFeatureSet | undefined;
+  status?: PermissionStatus | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreatePermissionVersionResponse {
-  permission?: ResourceSharePermissionDetail;
-  clientToken?: string;
+  permission?: ResourceSharePermissionDetail | undefined;
+  clientToken?: string | undefined;
 }
 export type PermissionArnList = string[];
 export interface ResourceShareConfiguration {
-  retainSharingOnAccountLeaveOrganization?: boolean;
+  retainSharingOnAccountLeaveOrganization?: boolean | undefined;
 }
 export interface CreateResourceShareRequest {
   name: string;
-  resourceArns?: string[];
-  principals?: string[];
-  tags?: Tag[];
-  allowExternalPrincipals?: boolean;
-  clientToken?: string;
-  permissionArns?: string[];
-  sources?: string[];
-  resourceShareConfiguration?: ResourceShareConfiguration;
+  resourceArns?: string[] | undefined;
+  principals?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  allowExternalPrincipals?: boolean | undefined;
+  clientToken?: string | undefined;
+  permissionArns?: string[] | undefined;
+  sources?: string[] | undefined;
+  resourceShareConfiguration?: ResourceShareConfiguration | undefined;
 }
 export type ResourceShareStatus =
   | "PENDING"
@@ -546,147 +547,147 @@ export type ResourceShareFeatureSet =
   | "STANDARD"
   | (string & {});
 export interface ResourceShare {
-  resourceShareArn?: string;
-  name?: string;
-  owningAccountId?: string;
-  allowExternalPrincipals?: boolean;
-  status?: ResourceShareStatus;
-  statusMessage?: string;
-  tags?: Tag[];
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  featureSet?: ResourceShareFeatureSet;
-  resourceShareConfiguration?: ResourceShareConfiguration;
+  resourceShareArn?: string | undefined;
+  name?: string | undefined;
+  owningAccountId?: string | undefined;
+  allowExternalPrincipals?: boolean | undefined;
+  status?: ResourceShareStatus | undefined;
+  statusMessage?: string | undefined;
+  tags?: Tag[] | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  featureSet?: ResourceShareFeatureSet | undefined;
+  resourceShareConfiguration?: ResourceShareConfiguration | undefined;
 }
 export interface CreateResourceShareResponse {
-  resourceShare?: ResourceShare;
-  clientToken?: string;
+  resourceShare?: ResourceShare | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeletePermissionRequest {
   permissionArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePermissionResponse {
-  returnValue?: boolean;
-  clientToken?: string;
-  permissionStatus?: PermissionStatus;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
+  permissionStatus?: PermissionStatus | undefined;
 }
 export interface DeletePermissionVersionRequest {
   permissionArn: string;
   permissionVersion: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePermissionVersionResponse {
-  returnValue?: boolean;
-  clientToken?: string;
-  permissionStatus?: PermissionStatus;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
+  permissionStatus?: PermissionStatus | undefined;
 }
 export interface DeleteResourceShareRequest {
   resourceShareArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteResourceShareResponse {
-  returnValue?: boolean;
-  clientToken?: string;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface DisassociateResourceShareRequest {
   resourceShareArn: string;
-  resourceArns?: string[];
-  principals?: string[];
-  clientToken?: string;
-  sources?: string[];
+  resourceArns?: string[] | undefined;
+  principals?: string[] | undefined;
+  clientToken?: string | undefined;
+  sources?: string[] | undefined;
 }
 export interface DisassociateResourceShareResponse {
-  resourceShareAssociations?: ResourceShareAssociation[];
-  clientToken?: string;
+  resourceShareAssociations?: ResourceShareAssociation[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface DisassociateResourceSharePermissionRequest {
   resourceShareArn: string;
   permissionArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateResourceSharePermissionResponse {
-  returnValue?: boolean;
-  clientToken?: string;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface EnableSharingWithAwsOrganizationRequest {}
 export interface EnableSharingWithAwsOrganizationResponse {
-  returnValue?: boolean;
+  returnValue?: boolean | undefined;
 }
 export interface GetPermissionRequest {
   permissionArn: string;
-  permissionVersion?: number;
+  permissionVersion?: number | undefined;
 }
 export interface GetPermissionResponse {
-  permission?: ResourceSharePermissionDetail;
+  permission?: ResourceSharePermissionDetail | undefined;
 }
 export type MaxResults = number;
 export interface GetResourcePoliciesRequest {
   resourceArns: string[];
-  principal?: string;
-  nextToken?: string;
-  maxResults?: number;
+  principal?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PolicyList = string[];
 export interface GetResourcePoliciesResponse {
-  policies?: string[];
-  nextToken?: string;
+  policies?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceShareArnList = string[];
 export interface GetResourceShareAssociationsRequest {
   associationType: ResourceShareAssociationType;
-  resourceShareArns?: string[];
-  resourceArn?: string;
-  principal?: string;
-  associationStatus?: ResourceShareAssociationStatus;
-  nextToken?: string;
-  maxResults?: number;
+  resourceShareArns?: string[] | undefined;
+  resourceArn?: string | undefined;
+  principal?: string | undefined;
+  associationStatus?: ResourceShareAssociationStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GetResourceShareAssociationsResponse {
-  resourceShareAssociations?: ResourceShareAssociation[];
-  nextToken?: string;
+  resourceShareAssociations?: ResourceShareAssociation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceShareInvitationArnList = string[];
 export interface GetResourceShareInvitationsRequest {
-  resourceShareInvitationArns?: string[];
-  resourceShareArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resourceShareInvitationArns?: string[] | undefined;
+  resourceShareArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ResourceShareInvitationList = ResourceShareInvitation[];
 export interface GetResourceShareInvitationsResponse {
-  resourceShareInvitations?: ResourceShareInvitation[];
-  nextToken?: string;
+  resourceShareInvitations?: ResourceShareInvitation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceOwner = "SELF" | "OTHER-ACCOUNTS" | (string & {});
 export type TagValueList = string[];
 export interface TagFilter {
-  tagKey?: string;
-  tagValues?: string[];
+  tagKey?: string | undefined;
+  tagValues?: string[] | undefined;
 }
 export type TagFilters = TagFilter[];
 export interface GetResourceSharesRequest {
-  resourceShareArns?: string[];
-  resourceShareStatus?: ResourceShareStatus;
+  resourceShareArns?: string[] | undefined;
+  resourceShareStatus?: ResourceShareStatus | undefined;
   resourceOwner: ResourceOwner;
-  name?: string;
-  tagFilters?: TagFilter[];
-  nextToken?: string;
-  maxResults?: number;
-  permissionArn?: string;
-  permissionVersion?: number;
+  name?: string | undefined;
+  tagFilters?: TagFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  permissionArn?: string | undefined;
+  permissionVersion?: number | undefined;
 }
 export type ResourceShareList = ResourceShare[];
 export interface GetResourceSharesResponse {
-  resourceShares?: ResourceShare[];
-  nextToken?: string;
+  resourceShares?: ResourceShare[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceRegionScopeFilter = "ALL" | "REGIONAL" | "GLOBAL" | (string & {});
 export interface ListPendingInvitationResourcesRequest {
   resourceShareInvitationArn: string;
-  nextToken?: string;
-  maxResults?: number;
-  resourceRegionScope?: ResourceRegionScopeFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  resourceRegionScope?: ResourceRegionScopeFilter | undefined;
 }
 export type ResourceStatus =
   | "AVAILABLE"
@@ -697,87 +698,87 @@ export type ResourceStatus =
   | (string & {});
 export type ResourceRegionScope = "REGIONAL" | "GLOBAL" | (string & {});
 export interface Resource {
-  arn?: string;
-  type?: string;
-  resourceShareArn?: string;
-  resourceGroupArn?: string;
-  status?: ResourceStatus;
-  statusMessage?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  resourceRegionScope?: ResourceRegionScope;
+  arn?: string | undefined;
+  type?: string | undefined;
+  resourceShareArn?: string | undefined;
+  resourceGroupArn?: string | undefined;
+  status?: ResourceStatus | undefined;
+  statusMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  resourceRegionScope?: ResourceRegionScope | undefined;
 }
 export type ResourceList = Resource[];
 export interface ListPendingInvitationResourcesResponse {
-  resources?: Resource[];
-  nextToken?: string;
+  resources?: Resource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPermissionAssociationsRequest {
-  permissionArn?: string;
-  permissionVersion?: number;
-  associationStatus?: ResourceShareAssociationStatus;
-  resourceType?: string;
-  featureSet?: PermissionFeatureSet;
-  defaultVersion?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  permissionArn?: string | undefined;
+  permissionVersion?: number | undefined;
+  associationStatus?: ResourceShareAssociationStatus | undefined;
+  resourceType?: string | undefined;
+  featureSet?: PermissionFeatureSet | undefined;
+  defaultVersion?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssociatedPermission {
-  arn?: string;
-  permissionVersion?: string;
-  defaultVersion?: boolean;
-  resourceType?: string;
-  status?: string;
-  featureSet?: PermissionFeatureSet;
-  lastUpdatedTime?: Date;
-  resourceShareArn?: string;
+  arn?: string | undefined;
+  permissionVersion?: string | undefined;
+  defaultVersion?: boolean | undefined;
+  resourceType?: string | undefined;
+  status?: string | undefined;
+  featureSet?: PermissionFeatureSet | undefined;
+  lastUpdatedTime?: Date | undefined;
+  resourceShareArn?: string | undefined;
 }
 export type AssociatedPermissionList = AssociatedPermission[];
 export interface ListPermissionAssociationsResponse {
-  permissions?: AssociatedPermission[];
-  nextToken?: string;
+  permissions?: AssociatedPermission[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PermissionTypeFilter = "ALL" | "AWS_MANAGED" | "CUSTOMER_MANAGED" | (string & {});
 export interface ListPermissionsRequest {
-  resourceType?: string;
-  nextToken?: string;
-  maxResults?: number;
-  permissionType?: PermissionTypeFilter;
+  resourceType?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  permissionType?: PermissionTypeFilter | undefined;
 }
 export type ResourceSharePermissionList = ResourceSharePermissionSummary[];
 export interface ListPermissionsResponse {
-  permissions?: ResourceSharePermissionSummary[];
-  nextToken?: string;
+  permissions?: ResourceSharePermissionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPermissionVersionsRequest {
   permissionArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListPermissionVersionsResponse {
-  permissions?: ResourceSharePermissionSummary[];
-  nextToken?: string;
+  permissions?: ResourceSharePermissionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPrincipalsRequest {
   resourceOwner: ResourceOwner;
-  resourceArn?: string;
-  principals?: string[];
-  resourceType?: string;
-  resourceShareArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resourceArn?: string | undefined;
+  principals?: string[] | undefined;
+  resourceType?: string | undefined;
+  resourceShareArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Principal {
-  id?: string;
-  resourceShareArn?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
-  external?: boolean;
+  id?: string | undefined;
+  resourceShareArn?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  external?: boolean | undefined;
 }
 export type PrincipalList = Principal[];
 export interface ListPrincipalsResponse {
-  principals?: Principal[];
-  nextToken?: string;
+  principals?: Principal[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplacePermissionAssociationsWorkIdList = string[];
 export type ReplacePermissionAssociationsWorkStatus =
@@ -786,151 +787,151 @@ export type ReplacePermissionAssociationsWorkStatus =
   | "FAILED"
   | (string & {});
 export interface ListReplacePermissionAssociationsWorkRequest {
-  workIds?: string[];
-  status?: ReplacePermissionAssociationsWorkStatus;
-  nextToken?: string;
-  maxResults?: number;
+  workIds?: string[] | undefined;
+  status?: ReplacePermissionAssociationsWorkStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ReplacePermissionAssociationsWork {
-  id?: string;
-  fromPermissionArn?: string;
-  fromPermissionVersion?: string;
-  toPermissionArn?: string;
-  toPermissionVersion?: string;
-  status?: ReplacePermissionAssociationsWorkStatus;
-  statusMessage?: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
+  id?: string | undefined;
+  fromPermissionArn?: string | undefined;
+  fromPermissionVersion?: string | undefined;
+  toPermissionArn?: string | undefined;
+  toPermissionVersion?: string | undefined;
+  status?: ReplacePermissionAssociationsWorkStatus | undefined;
+  statusMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
 }
 export type ReplacePermissionAssociationsWorkList = ReplacePermissionAssociationsWork[];
 export interface ListReplacePermissionAssociationsWorkResponse {
-  replacePermissionAssociationsWorks?: ReplacePermissionAssociationsWork[];
-  nextToken?: string;
+  replacePermissionAssociationsWorks?: ReplacePermissionAssociationsWork[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourcesRequest {
   resourceOwner: ResourceOwner;
-  principal?: string;
-  resourceType?: string;
-  resourceArns?: string[];
-  resourceShareArns?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  resourceRegionScope?: ResourceRegionScopeFilter;
+  principal?: string | undefined;
+  resourceType?: string | undefined;
+  resourceArns?: string[] | undefined;
+  resourceShareArns?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  resourceRegionScope?: ResourceRegionScopeFilter | undefined;
 }
 export interface ListResourcesResponse {
-  resources?: Resource[];
-  nextToken?: string;
+  resources?: Resource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourceSharePermissionsRequest {
   resourceShareArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListResourceSharePermissionsResponse {
-  permissions?: ResourceSharePermissionSummary[];
-  nextToken?: string;
+  permissions?: ResourceSharePermissionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourceTypesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  resourceRegionScope?: ResourceRegionScopeFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  resourceRegionScope?: ResourceRegionScopeFilter | undefined;
 }
 export interface ServiceNameAndResourceType {
-  resourceType?: string;
-  serviceName?: string;
-  resourceRegionScope?: ResourceRegionScope;
+  resourceType?: string | undefined;
+  serviceName?: string | undefined;
+  resourceRegionScope?: ResourceRegionScope | undefined;
 }
 export type ServiceNameAndResourceTypeList = ServiceNameAndResourceType[];
 export interface ListResourceTypesResponse {
-  resourceTypes?: ServiceNameAndResourceType[];
-  nextToken?: string;
+  resourceTypes?: ServiceNameAndResourceType[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSourceAssociationsRequest {
-  resourceShareArns?: string[];
-  sourceId?: string;
-  sourceType?: string;
-  associationStatus?: ResourceShareAssociationStatus;
-  nextToken?: string;
-  maxResults?: number;
+  resourceShareArns?: string[] | undefined;
+  sourceId?: string | undefined;
+  sourceType?: string | undefined;
+  associationStatus?: ResourceShareAssociationStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssociatedSource {
-  resourceShareArn?: string;
-  sourceId?: string;
-  sourceType?: string;
-  status?: string;
-  lastUpdatedTime?: Date;
-  creationTime?: Date;
-  statusMessage?: string;
+  resourceShareArn?: string | undefined;
+  sourceId?: string | undefined;
+  sourceType?: string | undefined;
+  status?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  creationTime?: Date | undefined;
+  statusMessage?: string | undefined;
 }
 export type AssociatedSourceList = AssociatedSource[];
 export interface ListSourceAssociationsResponse {
-  sourceAssociations?: AssociatedSource[];
-  nextToken?: string;
+  sourceAssociations?: AssociatedSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PromotePermissionCreatedFromPolicyRequest {
   permissionArn: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PromotePermissionCreatedFromPolicyResponse {
-  permission?: ResourceSharePermissionSummary;
-  clientToken?: string;
+  permission?: ResourceSharePermissionSummary | undefined;
+  clientToken?: string | undefined;
 }
 export interface PromoteResourceShareCreatedFromPolicyRequest {
   resourceShareArn: string;
 }
 export interface PromoteResourceShareCreatedFromPolicyResponse {
-  returnValue?: boolean;
+  returnValue?: boolean | undefined;
 }
 export interface RejectResourceShareInvitationRequest {
   resourceShareInvitationArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RejectResourceShareInvitationResponse {
-  resourceShareInvitation?: ResourceShareInvitation;
-  clientToken?: string;
+  resourceShareInvitation?: ResourceShareInvitation | undefined;
+  clientToken?: string | undefined;
 }
 export interface ReplacePermissionAssociationsRequest {
   fromPermissionArn: string;
-  fromPermissionVersion?: number;
+  fromPermissionVersion?: number | undefined;
   toPermissionArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface ReplacePermissionAssociationsResponse {
-  replacePermissionAssociationsWork?: ReplacePermissionAssociationsWork;
-  clientToken?: string;
+  replacePermissionAssociationsWork?: ReplacePermissionAssociationsWork | undefined;
+  clientToken?: string | undefined;
 }
 export interface SetDefaultPermissionVersionRequest {
   permissionArn: string;
   permissionVersion: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface SetDefaultPermissionVersionResponse {
-  returnValue?: boolean;
-  clientToken?: string;
+  returnValue?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface TagResourceRequest {
-  resourceShareArn?: string;
+  resourceShareArn?: string | undefined;
   tags: Tag[];
-  resourceArn?: string;
+  resourceArn?: string | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
-  resourceShareArn?: string;
+  resourceShareArn?: string | undefined;
   tagKeys: string[];
-  resourceArn?: string;
+  resourceArn?: string | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateResourceShareRequest {
   resourceShareArn: string;
-  name?: string;
-  allowExternalPrincipals?: boolean;
-  clientToken?: string;
+  name?: string | undefined;
+  allowExternalPrincipals?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateResourceShareResponse {
-  resourceShare?: ResourceShare;
-  clientToken?: string;
+  resourceShare?: ResourceShare | undefined;
+  clientToken?: string | undefined;
 }
 export type AcceptResourceShareInvitationError =
   | IdempotentParameterMismatchException
@@ -950,7 +951,7 @@ export type AcceptResourceShareInvitationError =
  * relevant Amazon Web Services Management Consoles and tools.
  */
 export const acceptResourceShareInvitation: API.OperationMethod<
-  AcceptResourceShareInvitationRequest,
+  AcceptResourceShareInvitationRequest & RegionInput,
   AcceptResourceShareInvitationResponse,
   AcceptResourceShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -995,7 +996,7 @@ export type AssociateResourceShareError =
  * Newly added principals immediately receive access to the resources shared in this resource share.
  */
 export const associateResourceShare: API.OperationMethod<
-  AssociateResourceShareRequest,
+  AssociateResourceShareRequest & RegionInput,
   AssociateResourceShareResponse,
   AssociateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type AssociateResourceSharePermissionError =
  * currently in the resource share.
  */
 export const associateResourceSharePermission: API.OperationMethod<
-  AssociateResourceSharePermissionRequest,
+  AssociateResourceSharePermissionRequest & RegionInput,
   AssociateResourceSharePermissionResponse,
   AssociateResourceSharePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type CreatePermissionError =
  * It is created in the Amazon Web Services Region in which you call the operation.
  */
 export const createPermission: API.OperationMethod<
-  CreatePermissionRequest,
+  CreatePermissionRequest & RegionInput,
   CreatePermissionResponse,
   CreatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1126,7 +1127,7 @@ export type CreatePermissionVersionError =
  * you must delete one of the existing versions before you can create a new one.
  */
 export const createPermissionVersion: API.OperationMethod<
-  CreatePermissionVersionRequest,
+  CreatePermissionVersionRequest & RegionInput,
   CreatePermissionVersionResponse,
   CreatePermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type CreateResourceShareError =
  * quotas that apply to the resource in the account that created it.
  */
 export const createResourceShare: API.OperationMethod<
-  CreateResourceShareRequest,
+  CreateResourceShareRequest & RegionInput,
   CreateResourceShareResponse,
   CreateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1221,7 +1222,7 @@ export type DeletePermissionError =
  * versions associated with the customer managed permission.
  */
 export const deletePermission: API.OperationMethod<
-  DeletePermissionRequest,
+  DeletePermissionRequest & RegionInput,
   DeletePermissionResponse,
   DeletePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1262,7 +1263,7 @@ export type DeletePermissionVersionError =
  * least one version before you can create another.
  */
 export const deletePermissionVersion: API.OperationMethod<
-  DeletePermissionVersionRequest,
+  DeletePermissionVersionRequest & RegionInput,
   DeletePermissionVersionResponse,
   DeletePermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type DeleteResourceShareError =
  * only stops the sharing of those resources through this resource share.
  */
 export const deleteResourceShare: API.OperationMethod<
-  DeleteResourceShareRequest,
+  DeleteResourceShareRequest & RegionInput,
   DeleteResourceShareResponse,
   DeleteResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1349,7 +1350,7 @@ export type DisassociateResourceShareError =
  * resource share.
  */
 export const disassociateResourceShare: API.OperationMethod<
-  DisassociateResourceShareRequest,
+  DisassociateResourceShareRequest & RegionInput,
   DisassociateResourceShareResponse,
   DisassociateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type DisassociateResourceSharePermissionError =
  * resource type currently attached to the resource share.
  */
 export const disassociateResourceSharePermission: API.OperationMethod<
-  DisassociateResourceSharePermissionRequest,
+  DisassociateResourceSharePermissionRequest & RegionInput,
   DisassociateResourceSharePermissionResponse,
   DisassociateResourceSharePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type EnableSharingWithAwsOrganizationError =
  * management account.
  */
 export const enableSharingWithAwsOrganization: API.OperationMethod<
-  EnableSharingWithAwsOrganizationRequest,
+  EnableSharingWithAwsOrganizationRequest & RegionInput,
   EnableSharingWithAwsOrganizationResponse,
   EnableSharingWithAwsOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type GetPermissionError =
  * Retrieves the contents of a managed permission in JSON format.
  */
 export const getPermission: API.OperationMethod<
-  GetPermissionRequest,
+  GetPermissionRequest & RegionInput,
   GetPermissionResponse,
   GetPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetResourcePoliciesError =
  * when there are no more results to display.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesRequest,
+  GetResourcePoliciesRequest & RegionInput,
   GetResourcePoliciesResponse,
   GetResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1551,7 +1552,7 @@ export type GetResourceShareAssociationsError =
  * when there are no more results to display.
  */
 export const getResourceShareAssociations: API.PaginatedOperationMethod<
-  GetResourceShareAssociationsRequest,
+  GetResourceShareAssociationsRequest & RegionInput,
   GetResourceShareAssociationsResponse,
   GetResourceShareAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1600,7 +1601,7 @@ export type GetResourceShareInvitationsError =
  * when there are no more results to display.
  */
 export const getResourceShareInvitations: API.PaginatedOperationMethod<
-  GetResourceShareInvitationsRequest,
+  GetResourceShareInvitationsRequest & RegionInput,
   GetResourceShareInvitationsResponse,
   GetResourceShareInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1648,7 +1649,7 @@ export type GetResourceSharesError =
  * when there are no more results to display.
  */
 export const getResourceShares: API.PaginatedOperationMethod<
-  GetResourceSharesRequest,
+  GetResourceSharesRequest & RegionInput,
   GetResourceSharesResponse,
   GetResourceSharesError,
   Credentials | HttpClient.HttpClient,
@@ -1699,7 +1700,7 @@ export type ListPendingInvitationResourcesError =
  * when there are no more results to display.
  */
 export const listPendingInvitationResources: API.PaginatedOperationMethod<
-  ListPendingInvitationResourcesRequest,
+  ListPendingInvitationResourcesRequest & RegionInput,
   ListPendingInvitationResourcesResponse,
   ListPendingInvitationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1749,7 +1750,7 @@ export type ListPermissionAssociationsError =
  * when there are no more results to display.
  */
 export const listPermissionAssociations: API.PaginatedOperationMethod<
-  ListPermissionAssociationsRequest,
+  ListPermissionAssociationsRequest & RegionInput,
   ListPermissionAssociationsResponse,
   ListPermissionAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1794,7 +1795,7 @@ export type ListPermissionsError =
  * when there are no more results to display.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1840,7 +1841,7 @@ export type ListPermissionVersionsError =
  * when there are no more results to display.
  */
 export const listPermissionVersions: API.PaginatedOperationMethod<
-  ListPermissionVersionsRequest,
+  ListPermissionVersionsRequest & RegionInput,
   ListPermissionVersionsResponse,
   ListPermissionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1888,7 +1889,7 @@ export type ListPrincipalsError =
  * when there are no more results to display.
  */
 export const listPrincipals: API.PaginatedOperationMethod<
-  ListPrincipalsRequest,
+  ListPrincipalsRequest & RegionInput,
   ListPrincipalsResponse,
   ListPrincipalsError,
   Credentials | HttpClient.HttpClient,
@@ -1933,7 +1934,7 @@ export type ListReplacePermissionAssociationsWorkError =
  * when there are no more results to display.
  */
 export const listReplacePermissionAssociationsWork: API.PaginatedOperationMethod<
-  ListReplacePermissionAssociationsWorkRequest,
+  ListReplacePermissionAssociationsWorkRequest & RegionInput,
   ListReplacePermissionAssociationsWorkResponse,
   ListReplacePermissionAssociationsWorkError,
   Credentials | HttpClient.HttpClient,
@@ -1979,7 +1980,7 @@ export type ListResourcesError =
  * when there are no more results to display.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2027,7 +2028,7 @@ export type ListResourceSharePermissionsError =
  * when there are no more results to display.
  */
 export const listResourceSharePermissions: API.PaginatedOperationMethod<
-  ListResourceSharePermissionsRequest,
+  ListResourceSharePermissionsRequest & RegionInput,
   ListResourceSharePermissionsResponse,
   ListResourceSharePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -2066,7 +2067,7 @@ export type ListResourceTypesError =
  * Lists the resource types that can be shared by RAM.
  */
 export const listResourceTypes: API.PaginatedOperationMethod<
-  ListResourceTypesRequest,
+  ListResourceTypesRequest & RegionInput,
   ListResourceTypesResponse,
   ListResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2106,7 +2107,7 @@ export type ListSourceAssociationsError =
  * You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSourceAssociations: API.PaginatedOperationMethod<
-  ListSourceAssociationsRequest,
+  ListSourceAssociationsRequest & RegionInput,
   ListSourceAssociationsResponse,
   ListSourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2175,7 +2176,7 @@ export type PromotePermissionCreatedFromPolicyError =
  * it.
  */
 export const promotePermissionCreatedFromPolicy: API.OperationMethod<
-  PromotePermissionCreatedFromPolicyRequest,
+  PromotePermissionCreatedFromPolicyRequest & RegionInput,
   PromotePermissionCreatedFromPolicyResponse,
   PromotePermissionCreatedFromPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type PromoteResourceShareCreatedFromPolicyError =
  * `CREATED_FROM_POLICY` permission, then this operation fails.
  */
 export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
-  PromoteResourceShareCreatedFromPolicyRequest,
+  PromoteResourceShareCreatedFromPolicyRequest & RegionInput,
   PromoteResourceShareCreatedFromPolicyResponse,
   PromoteResourceShareCreatedFromPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2271,7 @@ export type RejectResourceShareInvitationError =
  * Rejects an invitation to a resource share from another Amazon Web Services account.
  */
 export const rejectResourceShareInvitation: API.OperationMethod<
-  RejectResourceShareInvitationRequest,
+  RejectResourceShareInvitationRequest & RegionInput,
   RejectResourceShareInvitationResponse,
   RejectResourceShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2325,7 +2326,7 @@ export type ReplacePermissionAssociationsError =
  * resource-based policy on all affected resource types.
  */
 export const replacePermissionAssociations: API.OperationMethod<
-  ReplacePermissionAssociationsRequest,
+  ReplacePermissionAssociationsRequest & RegionInput,
   ReplacePermissionAssociationsResponse,
   ReplacePermissionAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type SetDefaultPermissionVersionError =
  * resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them.
  */
 export const setDefaultPermissionVersion: API.OperationMethod<
-  SetDefaultPermissionVersionRequest,
+  SetDefaultPermissionVersionRequest & RegionInput,
   SetDefaultPermissionVersionResponse,
   SetDefaultPermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2404,7 +2405,7 @@ export type TagResourceError =
  * The tags on a managed permission are the same for all versions of the managed permission.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type UntagResourceError =
  * Removes the specified tag key and value pairs from the specified resource share or managed permission.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2475,7 +2476,7 @@ export type UpdateResourceShareError =
  * Modifies some of the properties of the specified resource share.
  */
 export const updateResourceShare: API.OperationMethod<
-  UpdateResourceShareRequest,
+  UpdateResourceShareRequest & RegionInput,
   UpdateResourceShareResponse,
   UpdateResourceShareError,
   Credentials | HttpClient.HttpClient

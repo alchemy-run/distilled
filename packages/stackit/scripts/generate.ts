@@ -75,6 +75,7 @@ const spec: SdkSpec = {
   paginationProfiles: {
     page: {
       strategy: "paginateByTotalPages",
+      requires: () => ["inputToken", "outputToken"],
       itemsFallback: "",
     },
   },

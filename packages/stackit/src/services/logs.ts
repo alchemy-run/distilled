@@ -65,14 +65,14 @@ export interface CreateAccessPolicyRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The description of the access policy. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The email address of the STACKIT IAM subject (user, group, or service account). */
   email: string;
   permissions: Permissions;
 }
 export interface AccessPolicy {
   /** The description of the access policy. */
-  description?: string;
+  description?: string | undefined;
   /** The email address of the STACKIT IAM subject (user, group, or service account). */
   email: string;
   /** An auto generated unique id which identifies the access policy. */
@@ -88,21 +88,21 @@ export interface CreateAccessTokenRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
   displayName: string;
   /** A lifetime period for an access token in days. If unset the token will not expire. */
-  lifetime?: number;
+  lifetime?: number | undefined;
   permissions: Permissions;
 }
 export type AccessTokenStatus = "active" | "expired";
 export interface AccessToken {
   /** A generated access token. Only available on creation. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The user who created the access token. */
   creator: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
   displayName: string;
   /** Indicates if the access token can expire. */
@@ -112,7 +112,7 @@ export interface AccessToken {
   permissions: Permissions;
   status: AccessTokenStatus;
   /** The date and time util an access token is valid to (inclusively). */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export type CreateLogsInstanceRequestRegionId = "eu01" | "eu02";
 /** The access control list for the Logs instance. */
@@ -123,9 +123,9 @@ export interface CreateLogsInstanceRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateLogsInstanceRequestRegionId | (string & {});
   /** The access control list for the Logs instance. */
-  acl?: CreateLogsInstanceRequestAclList;
+  acl?: CreateLogsInstanceRequestAclList | undefined;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple Logs instances. */
   displayName: string;
   /** The log retention time in days. */
@@ -137,25 +137,25 @@ export type LogsInstanceAclList = Array<string>;
 export type LogsInstanceStatus = "active" | "deleting" | "reconciling";
 export interface LogsInstance {
   /** The access control list for the Logs instance. */
-  acl?: LogsInstanceAclList;
+  acl?: LogsInstanceAclList | undefined;
   /** The date and time the creation of the Logs instance was triggered. */
   created: string;
   /** The Logs instance's datasource URL, can be used in Grafana as a datasource URL */
-  datasourceUrl?: string;
+  datasourceUrl?: string | undefined;
   /** The description of the Logs instance. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the Logs instance. */
   displayName: string;
   /** A auto generated unique id which identifies the Logs instance. */
   id: string;
   /** The Logs instance's ingest logs via OTLP URL */
-  ingestOtlpUrl?: string;
+  ingestOtlpUrl?: string | undefined;
   /** The Logs instance's ingest logs URL */
-  ingestUrl?: string;
+  ingestUrl?: string | undefined;
   /** The Logs instance's query range URL */
-  queryRangeUrl?: string;
+  queryRangeUrl?: string | undefined;
   /** The Logs instance's query URL */
-  queryUrl?: string;
+  queryUrl?: string | undefined;
   /** The log retention time in days. */
   retentionDays: number;
   /** The current status of the Logs instance. */
@@ -301,8 +301,8 @@ export interface UpdateAccessPolicyRequest {
   /** The access policy unique id. */
   pId: string;
   /** The updated description of the access policy. If not present will be ignored in update. */
-  description?: string | null;
-  permissions?: Permissions;
+  description?: string | null | undefined;
+  permissions?: Permissions | undefined;
 }
 export type UpdateAccessTokenRequestRegionId = "eu01" | "eu02";
 export interface UpdateAccessTokenRequest {
@@ -315,9 +315,9 @@ export interface UpdateAccessTokenRequest {
   /** The access token UUID. */
   tId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface UpdateAccessTokenResponse {}
 export type UpdateLogsInstanceRequestRegionId = "eu01" | "eu02";
@@ -331,13 +331,13 @@ export interface UpdateLogsInstanceRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The access control list for the Logs instance. */
-  acl?: UpdateLogsInstanceRequestAclList;
+  acl?: UpdateLogsInstanceRequestAclList | undefined;
   /** The description of the Logs instance. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple Logs instances. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The log retention time in days. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 export type CreateAccessPolicyError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Create Access Policy Create a new access policy for Logs instance */

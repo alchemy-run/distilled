@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -134,12 +135,12 @@ export type CorsMethodList = string[];
 export type CorsOriginList = string[];
 export type IntegerWithLengthBetweenMinus1And86400 = number;
 export interface Cors {
-  AllowCredentials?: boolean;
-  AllowHeaders?: string[];
-  AllowMethods?: string[];
-  AllowOrigins?: string[];
-  ExposeHeaders?: string[];
-  MaxAge?: number;
+  AllowCredentials?: boolean | undefined;
+  AllowHeaders?: string[] | undefined;
+  AllowMethods?: string[] | undefined;
+  AllowOrigins?: string[] | undefined;
+  ExposeHeaders?: string[] | undefined;
+  MaxAge?: number | undefined;
 }
 export type Arn = string;
 export type StringWithLengthBetween0And1024 = string;
@@ -151,102 +152,102 @@ export type StringWithLengthBetween1And1600 = string;
 export type Tags = { [key: string]: string | undefined };
 export type UriWithLengthBetween1And2048 = string;
 export interface CreateApiRequest {
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CredentialsArn?: string;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteKey?: string;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Target?: string;
-  Version?: string;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteKey?: string | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Target?: string | undefined;
+  Version?: string | undefined;
 }
 export type Id = string;
 export type __timestampIso8601 = Date;
 export type __listOf__string = string[];
 const __listOf__string = __S(1088, __c68, 0) as any as S.Schema<__listOf__string>;
 export interface CreateApiResponse {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface CreateApiMappingRequest {
-  ApiId?: string;
-  ApiMappingKey?: string;
+  ApiId?: string | undefined;
+  ApiMappingKey?: string | undefined;
   DomainName: string;
-  Stage?: string;
+  Stage?: string | undefined;
 }
 export interface CreateApiMappingResponse {
-  ApiId?: string;
-  ApiMappingId?: string;
-  ApiMappingKey?: string;
-  Stage?: string;
+  ApiId?: string | undefined;
+  ApiMappingId?: string | undefined;
+  ApiMappingKey?: string | undefined;
+  Stage?: string | undefined;
 }
 export type IntegerWithLengthBetween0And3600 = number;
 export type AuthorizerType = "REQUEST" | "JWT" | (string & {});
 export type IdentitySourceList = string[];
 export interface JWTConfiguration {
-  Audience?: string[];
-  Issuer?: string;
+  Audience?: string[] | undefined;
+  Issuer?: string | undefined;
 }
 export interface CreateAuthorizerRequest {
   ApiId: string;
-  AuthorizerCredentialsArn?: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerCredentialsArn?: string | undefined;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface CreateAuthorizerResponse {
-  AuthorizerCredentialsArn?: string;
-  AuthorizerId?: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerCredentialsArn?: string | undefined;
+  AuthorizerId?: string | undefined;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface CreateDeploymentRequest {
   ApiId: string;
-  Description?: string;
-  StageName?: string;
+  Description?: string | undefined;
+  StageName?: string | undefined;
 }
 export type DeploymentStatus = "PENDING" | "FAILED" | "DEPLOYED" | (string & {});
 export interface CreateDeploymentResponse {
-  AutoDeployed?: boolean;
-  CreatedDate?: Date;
-  DeploymentId?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentStatusMessage?: string;
-  Description?: string;
+  AutoDeployed?: boolean | undefined;
+  CreatedDate?: Date | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentStatusMessage?: string | undefined;
+  Description?: string | undefined;
 }
 export type StringWithLengthBetween1And512 = string;
 export type DomainNameStatus =
@@ -258,22 +259,22 @@ export type DomainNameStatus =
 export type EndpointType = "REGIONAL" | "EDGE" | (string & {});
 export type SecurityPolicy = "TLS_1_0" | "TLS_1_2" | (string & {});
 export interface DomainNameConfiguration {
-  ApiGatewayDomainName?: string;
-  CertificateArn?: string;
-  CertificateName?: string;
-  CertificateUploadDate?: Date;
-  DomainNameStatus?: DomainNameStatus;
-  DomainNameStatusMessage?: string;
-  EndpointType?: EndpointType;
-  HostedZoneId?: string;
-  IpAddressType?: IpAddressType;
-  SecurityPolicy?: SecurityPolicy;
-  OwnershipVerificationCertificateArn?: string;
+  ApiGatewayDomainName?: string | undefined;
+  CertificateArn?: string | undefined;
+  CertificateName?: string | undefined;
+  CertificateUploadDate?: Date | undefined;
+  DomainNameStatus?: DomainNameStatus | undefined;
+  DomainNameStatusMessage?: string | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostedZoneId?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  SecurityPolicy?: SecurityPolicy | undefined;
+  OwnershipVerificationCertificateArn?: string | undefined;
 }
 export type DomainNameConfigurations = DomainNameConfiguration[];
 export interface MutualTlsAuthenticationInput {
-  TruststoreUri?: string;
-  TruststoreVersion?: string;
+  TruststoreUri?: string | undefined;
+  TruststoreVersion?: string | undefined;
 }
 export type RoutingMode =
   | "API_MAPPING_ONLY"
@@ -281,25 +282,25 @@ export type RoutingMode =
   | "ROUTING_RULE_THEN_API_MAPPING"
   | (string & {});
 export interface CreateDomainNameRequest {
-  DomainName?: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthenticationInput;
-  RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string | undefined };
+  DomainName?: string | undefined;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthenticationInput | undefined;
+  RoutingMode?: RoutingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface MutualTlsAuthentication {
-  TruststoreUri?: string;
-  TruststoreVersion?: string;
-  TruststoreWarnings?: string[];
+  TruststoreUri?: string | undefined;
+  TruststoreVersion?: string | undefined;
+  TruststoreWarnings?: string[] | undefined;
 }
 export interface CreateDomainNameResponse {
-  ApiMappingSelectionExpression?: string;
-  DomainName?: string;
-  DomainNameArn?: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthentication;
-  RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string | undefined };
+  ApiMappingSelectionExpression?: string | undefined;
+  DomainName?: string | undefined;
+  DomainNameArn?: string | undefined;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  RoutingMode?: RoutingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringWithLengthBetween1And1024 = string;
 export type ConnectionType = "INTERNET" | "VPC_LINK" | (string & {});
@@ -314,106 +315,110 @@ export type ResponseParameters = {
 };
 export type IntegerWithLengthBetween50And30000 = number;
 export interface TlsConfigInput {
-  ServerNameToVerify?: string;
+  ServerNameToVerify?: string | undefined;
 }
 export interface CreateIntegrationRequest {
   ApiId: string;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
-  IntegrationMethod?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfigInput;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationMethod?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfigInput | undefined;
 }
 export interface TlsConfig {
-  ServerNameToVerify?: string;
+  ServerNameToVerify?: string | undefined;
 }
 export interface CreateIntegrationResult {
-  ApiGatewayManaged?: boolean;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
-  IntegrationId?: string;
-  IntegrationMethod?: string;
-  IntegrationResponseSelectionExpression?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfig;
+  ApiGatewayManaged?: boolean | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationId?: string | undefined;
+  IntegrationMethod?: string | undefined;
+  IntegrationResponseSelectionExpression?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfig | undefined;
 }
 export interface CreateIntegrationResponseRequest {
   ApiId: string;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
   IntegrationId: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export interface CreateIntegrationResponseResponse {
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  IntegrationResponseId?: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  IntegrationResponseId?: string | undefined;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export type StringWithLengthBetween1And256 = string;
 export interface CreateModelRequest {
   ApiId: string;
-  ContentType?: string;
-  Description?: string;
-  Name?: string;
-  Schema?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface CreateModelResponse {
-  ContentType?: string;
-  Description?: string;
-  ModelId?: string;
-  Name?: string;
-  Schema?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
+  ModelId?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export type __stringMin1Max256 = string;
 export type __stringMin20Max2048 = string;
 export interface CognitoConfig {
-  AppClientId?: string;
-  UserPoolArn?: string;
-  UserPoolDomain?: string;
+  AppClientId?: string | undefined;
+  UserPoolArn?: string | undefined;
+  UserPoolDomain?: string | undefined;
 }
 export interface None {}
 export interface Authorization {
-  CognitoConfig?: CognitoConfig;
-  None?: None;
+  CognitoConfig?: CognitoConfig | undefined;
+  None?: None | undefined;
 }
 export type __stringMin10Max2048 = string;
 export type __stringMin3Max256 = string;
 export interface ACMManaged {
-  CertificateArn?: string;
-  DomainName?: string;
+  CertificateArn?: string | undefined;
+  DomainName?: string | undefined;
 }
 export interface EndpointConfigurationRequest {
-  AcmManaged?: ACMManaged;
-  None?: None;
+  AcmManaged?: ACMManaged | undefined;
+  None?: None | undefined;
 }
 export type __listOf__stringMin20Max2048 = string[];
 const __listOf__stringMin20Max2048 = __S(
@@ -426,38 +431,38 @@ export type __stringMin0Max1024 = string;
 export type __stringMin3Max255 = string;
 export type __stringMin1Max16 = string;
 export interface CustomColors {
-  AccentColor?: string;
-  BackgroundColor?: string;
-  ErrorValidationColor?: string;
-  HeaderColor?: string;
-  NavigationColor?: string;
-  TextColor?: string;
+  AccentColor?: string | undefined;
+  BackgroundColor?: string | undefined;
+  ErrorValidationColor?: string | undefined;
+  HeaderColor?: string | undefined;
+  NavigationColor?: string | undefined;
+  TextColor?: string | undefined;
 }
 export interface PortalTheme {
-  CustomColors?: CustomColors;
-  LogoLastUploaded?: Date;
+  CustomColors?: CustomColors | undefined;
+  LogoLastUploaded?: Date | undefined;
 }
 export interface PortalContent {
-  Description?: string;
-  DisplayName?: string;
-  Theme?: PortalTheme;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  Theme?: PortalTheme | undefined;
 }
 export type __stringMin0Max255 = string;
 export interface CreatePortalRequest {
-  Authorization?: Authorization;
-  EndpointConfiguration?: EndpointConfigurationRequest;
-  IncludedPortalProductArns?: string[];
-  LogoUri?: string;
-  PortalContent?: PortalContent;
-  RumAppMonitorName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?: Authorization | undefined;
+  EndpointConfiguration?: EndpointConfigurationRequest | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LogoUri?: string | undefined;
+  PortalContent?: PortalContent | undefined;
+  RumAppMonitorName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin1Max64 = string;
 export interface EndpointConfigurationResponse {
-  CertificateArn?: string;
-  DomainName?: string;
-  PortalDefaultDomainName?: string;
-  PortalDomainHostedZoneId?: string;
+  CertificateArn?: string | undefined;
+  DomainName?: string | undefined;
+  PortalDefaultDomainName?: string | undefined;
+  PortalDomainHostedZoneId?: string | undefined;
 }
 export type __stringMin10Max30PatternAZ09 = string;
 export type PublishStatus =
@@ -470,301 +475,320 @@ export type PublishStatus =
   | (string & {});
 export type __stringMin1Max2048 = string;
 export interface StatusException {
-  Exception?: string;
-  Message?: string;
+  Exception?: string | undefined;
+  Message?: string | undefined;
 }
 export interface CreatePortalResponse {
-  Authorization?: Authorization & {
-    CognitoConfig: CognitoConfig & {
-      AppClientId: __stringMin1Max256;
-      UserPoolArn: __stringMin20Max2048;
-      UserPoolDomain: __stringMin20Max2048;
-    };
-  };
-  EndpointConfiguration?: EndpointConfigurationResponse & {
-    PortalDefaultDomainName: __stringMin3Max256;
-    PortalDomainHostedZoneId: __stringMin1Max64;
-  };
-  IncludedPortalProductArns?: string[];
-  LastModified?: Date;
-  LastPublished?: Date;
-  LastPublishedDescription?: string;
-  PortalArn?: string;
-  PortalContent?: PortalContent & {
-    DisplayName: __stringMin3Max255;
-    Theme: PortalTheme & {
-      CustomColors: CustomColors & {
-        AccentColor: __stringMin1Max16;
-        BackgroundColor: __stringMin1Max16;
-        ErrorValidationColor: __stringMin1Max16;
-        HeaderColor: __stringMin1Max16;
-        NavigationColor: __stringMin1Max16;
-        TextColor: __stringMin1Max16;
-      };
-    };
-  };
-  PortalId?: string;
-  PublishStatus?: PublishStatus;
-  RumAppMonitorName?: string;
-  StatusException?: StatusException;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?:
+    | (Authorization & {
+        CognitoConfig: CognitoConfig & {
+          AppClientId: __stringMin1Max256;
+          UserPoolArn: __stringMin20Max2048;
+          UserPoolDomain: __stringMin20Max2048;
+        };
+      })
+    | undefined;
+  EndpointConfiguration?:
+    | (EndpointConfigurationResponse & {
+        PortalDefaultDomainName: __stringMin3Max256;
+        PortalDomainHostedZoneId: __stringMin1Max64;
+      })
+    | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LastModified?: Date | undefined;
+  LastPublished?: Date | undefined;
+  LastPublishedDescription?: string | undefined;
+  PortalArn?: string | undefined;
+  PortalContent?:
+    | (PortalContent & {
+        DisplayName: __stringMin3Max255;
+        Theme: PortalTheme & {
+          CustomColors: CustomColors & {
+            AccentColor: __stringMin1Max16;
+            BackgroundColor: __stringMin1Max16;
+            ErrorValidationColor: __stringMin1Max16;
+            HeaderColor: __stringMin1Max16;
+            NavigationColor: __stringMin1Max16;
+            TextColor: __stringMin1Max16;
+          };
+        };
+      })
+    | undefined;
+  PortalId?: string | undefined;
+  PublishStatus?: PublishStatus | undefined;
+  RumAppMonitorName?: string | undefined;
+  StatusException?: StatusException | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin1Max255 = string;
 export interface CreatePortalProductRequest {
-  Description?: string;
-  DisplayName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface Section {
-  ProductRestEndpointPageArns?: string[];
-  SectionName?: string;
+  ProductRestEndpointPageArns?: string[] | undefined;
+  SectionName?: string | undefined;
 }
 export type __listOfSection = Section[];
 const __listOfSection = /*@__PURE__*/ __L.at(__c20, 1);
 export interface DisplayOrder {
-  Contents?: Section[];
-  OverviewPageArn?: string;
-  ProductPageArns?: string[];
+  Contents?: Section[] | undefined;
+  OverviewPageArn?: string | undefined;
+  ProductPageArns?: string[] | undefined;
 }
 export interface CreatePortalProductResponse {
-  Description?: string;
-  DisplayName?: string;
-  DisplayOrder?: DisplayOrder & {
-    Contents: (Section & {
-      ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
-      SectionName: string;
-    })[];
-  };
-  LastModified?: Date;
-  PortalProductArn?: string;
-  PortalProductId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayOrder?:
+    | (DisplayOrder & {
+        Contents: (Section & {
+          ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
+          SectionName: string;
+        })[];
+      })
+    | undefined;
+  LastModified?: Date | undefined;
+  PortalProductArn?: string | undefined;
+  PortalProductId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMin1Max32768 = string;
 export interface DisplayContent {
-  Body?: string;
-  Title?: string;
+  Body?: string | undefined;
+  Title?: string | undefined;
 }
 export interface CreateProductPageRequest {
-  DisplayContent?: DisplayContent;
+  DisplayContent?: DisplayContent | undefined;
   PortalProductId: string;
 }
 export interface CreateProductPageResponse {
-  DisplayContent?: DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 };
-  LastModified?: Date;
-  ProductPageArn?: string;
-  ProductPageId?: string;
+  DisplayContent?:
+    | (DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 })
+    | undefined;
+  LastModified?: Date | undefined;
+  ProductPageArn?: string | undefined;
+  ProductPageId?: string | undefined;
 }
 export type __stringMin1Max1024 = string;
 export interface DisplayContentOverrides {
-  Body?: string;
-  Endpoint?: string;
-  OperationName?: string;
+  Body?: string | undefined;
+  Endpoint?: string | undefined;
+  OperationName?: string | undefined;
 }
 export interface EndpointDisplayContent {
-  None?: None;
-  Overrides?: DisplayContentOverrides;
+  None?: None | undefined;
+  Overrides?: DisplayContentOverrides | undefined;
 }
 export type __stringMin1Max20 = string;
 export type __stringMin1Max4096 = string;
 export type __stringMin1Max50 = string;
 export type __stringMin1Max128 = string;
 export interface IdentifierParts {
-  Method?: string;
-  Path?: string;
-  RestApiId?: string;
-  Stage?: string;
+  Method?: string | undefined;
+  Path?: string | undefined;
+  RestApiId?: string | undefined;
+  Stage?: string | undefined;
 }
 export interface RestEndpointIdentifier {
-  IdentifierParts?: IdentifierParts;
+  IdentifierParts?: IdentifierParts | undefined;
 }
 export type TryItState = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateProductRestEndpointPageRequest {
-  DisplayContent?: EndpointDisplayContent;
+  DisplayContent?: EndpointDisplayContent | undefined;
   PortalProductId: string;
-  RestEndpointIdentifier?: RestEndpointIdentifier;
-  TryItState?: TryItState;
+  RestEndpointIdentifier?: RestEndpointIdentifier | undefined;
+  TryItState?: TryItState | undefined;
 }
 export interface EndpointDisplayContentResponse {
-  Body?: string;
-  Endpoint?: string;
-  OperationName?: string;
+  Body?: string | undefined;
+  Endpoint?: string | undefined;
+  OperationName?: string | undefined;
 }
 export type Status = "AVAILABLE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface CreateProductRestEndpointPageResponse {
-  DisplayContent?: EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 };
-  LastModified?: Date;
-  ProductRestEndpointPageArn?: string;
-  ProductRestEndpointPageId?: string;
-  RestEndpointIdentifier?: RestEndpointIdentifier & {
-    IdentifierParts: IdentifierParts & {
-      Method: __stringMin1Max20;
-      Path: __stringMin1Max4096;
-      RestApiId: __stringMin1Max50;
-      Stage: __stringMin1Max128;
-    };
-  };
-  Status?: Status;
-  StatusException?: StatusException;
-  TryItState?: TryItState;
+  DisplayContent?: (EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 }) | undefined;
+  LastModified?: Date | undefined;
+  ProductRestEndpointPageArn?: string | undefined;
+  ProductRestEndpointPageId?: string | undefined;
+  RestEndpointIdentifier?:
+    | (RestEndpointIdentifier & {
+        IdentifierParts: IdentifierParts & {
+          Method: __stringMin1Max20;
+          Path: __stringMin1Max4096;
+          RestApiId: __stringMin1Max50;
+          Stage: __stringMin1Max128;
+        };
+      })
+    | undefined;
+  Status?: Status | undefined;
+  StatusException?: StatusException | undefined;
+  TryItState?: TryItState | undefined;
 }
 export type AuthorizationScopes = string[];
 export type AuthorizationType = "NONE" | "AWS_IAM" | "CUSTOM" | "JWT" | (string & {});
 export type RouteModels = { [key: string]: string | undefined };
 export interface ParameterConstraints {
-  Required?: boolean;
+  Required?: boolean | undefined;
 }
 export type RouteParameters = { [key: string]: ParameterConstraints | undefined };
 export interface CreateRouteRequest {
   ApiId: string;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export interface CreateRouteResult {
-  ApiGatewayManaged?: boolean;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteId?: string;
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteId?: string | undefined;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export interface CreateRouteResponseRequest {
   ApiId: string;
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
   RouteId: string;
-  RouteResponseKey?: string;
+  RouteResponseKey?: string | undefined;
 }
 export interface CreateRouteResponseResponse {
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteResponseId?: string;
-  RouteResponseKey?: string;
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteResponseId?: string | undefined;
+  RouteResponseKey?: string | undefined;
 }
 export interface RoutingRuleActionInvokeApi {
-  ApiId?: string;
-  Stage?: string;
-  StripBasePath?: boolean;
+  ApiId?: string | undefined;
+  Stage?: string | undefined;
+  StripBasePath?: boolean | undefined;
 }
 export interface RoutingRuleAction {
-  InvokeApi?: RoutingRuleActionInvokeApi;
+  InvokeApi?: RoutingRuleActionInvokeApi | undefined;
 }
 export type __listOfRoutingRuleAction = RoutingRuleAction[];
 const __listOfRoutingRuleAction = /*@__PURE__*/ __L.at(__c33, 2);
 export type __listOfSelectionKey = string[];
 const __listOfSelectionKey = __S(1088, __c68, 0) as any as S.Schema<__listOfSelectionKey>;
 export interface RoutingRuleMatchBasePaths {
-  AnyOf?: string[];
+  AnyOf?: string[] | undefined;
 }
 export interface RoutingRuleMatchHeaderValue {
-  Header?: string;
-  ValueGlob?: string;
+  Header?: string | undefined;
+  ValueGlob?: string | undefined;
 }
 export type __listOfRoutingRuleMatchHeaderValue = RoutingRuleMatchHeaderValue[];
 const __listOfRoutingRuleMatchHeaderValue = /*@__PURE__*/ __L.at(__c33, 5);
 export interface RoutingRuleMatchHeaders {
-  AnyOf?: RoutingRuleMatchHeaderValue[];
+  AnyOf?: RoutingRuleMatchHeaderValue[] | undefined;
 }
 export interface RoutingRuleCondition {
-  MatchBasePaths?: RoutingRuleMatchBasePaths;
-  MatchHeaders?: RoutingRuleMatchHeaders;
+  MatchBasePaths?: RoutingRuleMatchBasePaths | undefined;
+  MatchHeaders?: RoutingRuleMatchHeaders | undefined;
 }
 export type __listOfRoutingRuleCondition = RoutingRuleCondition[];
 const __listOfRoutingRuleCondition = /*@__PURE__*/ __L.at(__c33, 8);
 export type RoutingRulePriority = number;
 export interface CreateRoutingRuleRequest {
-  Actions?: RoutingRuleAction[];
-  Conditions?: RoutingRuleCondition[];
+  Actions?: RoutingRuleAction[] | undefined;
+  Conditions?: RoutingRuleCondition[] | undefined;
   DomainName: string;
-  DomainNameId?: string;
-  Priority?: number;
+  DomainNameId?: string | undefined;
+  Priority?: number | undefined;
 }
 export interface CreateRoutingRuleResponse {
-  Actions?: (RoutingRuleAction & {
-    InvokeApi: RoutingRuleActionInvokeApi & { ApiId: Id; Stage: StringWithLengthBetween1And128 };
-  })[];
-  Conditions?: (RoutingRuleCondition & {
-    MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
-    MatchHeaders: RoutingRuleMatchHeaders & {
-      AnyOf: (RoutingRuleMatchHeaderValue & {
-        Header: SelectionKey;
-        ValueGlob: SelectionExpression;
-      })[];
-    };
-  })[];
-  Priority?: number;
-  RoutingRuleArn?: string;
-  RoutingRuleId?: string;
+  Actions?:
+    | (RoutingRuleAction & {
+        InvokeApi: RoutingRuleActionInvokeApi & {
+          ApiId: Id;
+          Stage: StringWithLengthBetween1And128;
+        };
+      })[]
+    | undefined;
+  Conditions?:
+    | (RoutingRuleCondition & {
+        MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
+        MatchHeaders: RoutingRuleMatchHeaders & {
+          AnyOf: (RoutingRuleMatchHeaderValue & {
+            Header: SelectionKey;
+            ValueGlob: SelectionExpression;
+          })[];
+        };
+      })[]
+    | undefined;
+  Priority?: number | undefined;
+  RoutingRuleArn?: string | undefined;
+  RoutingRuleId?: string | undefined;
 }
 export interface AccessLogSettings {
-  DestinationArn?: string;
-  Format?: string;
+  DestinationArn?: string | undefined;
+  Format?: string | undefined;
 }
 export type LoggingLevel = "ERROR" | "INFO" | "OFF" | (string & {});
 export interface RouteSettings {
-  DataTraceEnabled?: boolean;
-  DetailedMetricsEnabled?: boolean;
-  LoggingLevel?: LoggingLevel;
-  ThrottlingBurstLimit?: number;
-  ThrottlingRateLimit?: number;
+  DataTraceEnabled?: boolean | undefined;
+  DetailedMetricsEnabled?: boolean | undefined;
+  LoggingLevel?: LoggingLevel | undefined;
+  ThrottlingBurstLimit?: number | undefined;
+  ThrottlingRateLimit?: number | undefined;
 }
 export type RouteSettingsMap = { [key: string]: RouteSettings | undefined };
 export type StringWithLengthBetween0And2048 = string;
 export type StageVariablesMap = { [key: string]: string | undefined };
 export interface CreateStageRequest {
-  AccessLogSettings?: AccessLogSettings;
+  AccessLogSettings?: AccessLogSettings | undefined;
   ApiId: string;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateStageResponse {
-  AccessLogSettings?: AccessLogSettings;
-  ApiGatewayManaged?: boolean;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  CreatedDate?: Date;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  LastDeploymentStatusMessage?: string;
-  LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  AccessLogSettings?: AccessLogSettings | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  LastDeploymentStatusMessage?: string | undefined;
+  LastUpdatedDate?: Date | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SecurityGroupIdList = string[];
 export type SubnetIdList = string[];
 export interface CreateVpcLinkRequest {
-  Name?: string;
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VpcLinkStatus =
   | "PENDING"
@@ -775,15 +799,15 @@ export type VpcLinkStatus =
   | (string & {});
 export type VpcLinkVersion = "V2" | (string & {});
 export interface CreateVpcLinkResponse {
-  CreatedDate?: Date;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  VpcLinkId?: string;
-  VpcLinkStatus?: VpcLinkStatus;
-  VpcLinkStatusMessage?: string;
-  VpcLinkVersion?: VpcLinkVersion;
+  CreatedDate?: Date | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VpcLinkId?: string | undefined;
+  VpcLinkStatus?: VpcLinkStatus | undefined;
+  VpcLinkStatusMessage?: string | undefined;
+  VpcLinkVersion?: VpcLinkVersion | undefined;
 }
 export interface DeleteAccessLogSettingsRequest {
   ApiId: string;
@@ -880,7 +904,7 @@ export interface DeleteRouteSettingsRequest {
 export interface DeleteRouteSettingsResponse {}
 export interface DeleteRoutingRuleRequest {
   DomainName: string;
-  DomainNameId?: string;
+  DomainNameId?: string | undefined;
   RoutingRuleId: string;
 }
 export interface DeleteRoutingRuleResponse {}
@@ -899,226 +923,230 @@ export interface DisablePortalRequest {
 export interface DisablePortalResponse {}
 export interface ExportApiRequest {
   ApiId: string;
-  ExportVersion?: string;
-  IncludeExtensions?: boolean;
-  OutputType?: string;
+  ExportVersion?: string | undefined;
+  IncludeExtensions?: boolean | undefined;
+  OutputType?: string | undefined;
   Specification: string;
-  StageName?: string;
+  StageName?: string | undefined;
 }
 export interface ExportApiResponse {
-  body?: T.StreamingOutputBody;
+  body?: T.StreamingOutputBody | undefined;
 }
 export interface GetApiRequest {
   ApiId: string;
 }
 export interface GetApiResponse {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface GetApiMappingRequest {
   ApiMappingId: string;
   DomainName: string;
 }
 export interface GetApiMappingResponse {
-  ApiId?: string;
-  ApiMappingId?: string;
-  ApiMappingKey?: string;
-  Stage?: string;
+  ApiId?: string | undefined;
+  ApiMappingId?: string | undefined;
+  ApiMappingKey?: string | undefined;
+  Stage?: string | undefined;
 }
 export interface GetApiMappingsRequest {
   DomainName: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApiMapping {
-  ApiId?: string;
-  ApiMappingId?: string;
-  ApiMappingKey?: string;
-  Stage?: string;
+  ApiId?: string | undefined;
+  ApiMappingId?: string | undefined;
+  ApiMappingKey?: string | undefined;
+  Stage?: string | undefined;
 }
 export type __listOfApiMapping = ApiMapping[];
 const __listOfApiMapping = /*@__PURE__*/ __L.at(__c64, 1);
 export type NextToken = string;
 export interface GetApiMappingsResponse {
-  Items?: (ApiMapping & { ApiId: Id; Stage: StringWithLengthBetween1And128 })[];
-  NextToken?: string;
+  Items?: (ApiMapping & { ApiId: Id; Stage: StringWithLengthBetween1And128 })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetApisRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Api {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export type __listOfApi = Api[];
 const __listOfApi = /*@__PURE__*/ __L.at(__c65, 1);
 export interface GetApisResponse {
-  Items?: (Api & {
-    Name: StringWithLengthBetween1And128;
-    ProtocolType: ProtocolType;
-    RouteSelectionExpression: SelectionExpression;
-  })[];
-  NextToken?: string;
+  Items?:
+    | (Api & {
+        Name: StringWithLengthBetween1And128;
+        ProtocolType: ProtocolType;
+        RouteSelectionExpression: SelectionExpression;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetAuthorizerRequest {
   ApiId: string;
   AuthorizerId: string;
 }
 export interface GetAuthorizerResponse {
-  AuthorizerCredentialsArn?: string;
-  AuthorizerId?: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerCredentialsArn?: string | undefined;
+  AuthorizerId?: string | undefined;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface GetAuthorizersRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Authorizer {
-  AuthorizerCredentialsArn?: string;
-  AuthorizerId?: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerCredentialsArn?: string | undefined;
+  AuthorizerId?: string | undefined;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export type __listOfAuthorizer = Authorizer[];
 const __listOfAuthorizer = /*@__PURE__*/ __L.at(__c71, 1);
 export interface GetAuthorizersResponse {
-  Items?: (Authorizer & { Name: StringWithLengthBetween1And128 })[];
-  NextToken?: string;
+  Items?: (Authorizer & { Name: StringWithLengthBetween1And128 })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDeploymentRequest {
   ApiId: string;
   DeploymentId: string;
 }
 export interface GetDeploymentResponse {
-  AutoDeployed?: boolean;
-  CreatedDate?: Date;
-  DeploymentId?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentStatusMessage?: string;
-  Description?: string;
+  AutoDeployed?: boolean | undefined;
+  CreatedDate?: Date | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentStatusMessage?: string | undefined;
+  Description?: string | undefined;
 }
 export interface GetDeploymentsRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Deployment {
-  AutoDeployed?: boolean;
-  CreatedDate?: Date;
-  DeploymentId?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentStatusMessage?: string;
-  Description?: string;
+  AutoDeployed?: boolean | undefined;
+  CreatedDate?: Date | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentStatusMessage?: string | undefined;
+  Description?: string | undefined;
 }
 export type __listOfDeployment = Deployment[];
 const __listOfDeployment = /*@__PURE__*/ __L.at(__c73, 1);
 export interface GetDeploymentsResponse {
-  Items?: Deployment[];
-  NextToken?: string;
+  Items?: Deployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDomainNameRequest {
   DomainName: string;
 }
 export interface GetDomainNameResponse {
-  ApiMappingSelectionExpression?: string;
-  DomainName?: string;
-  DomainNameArn?: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthentication;
-  RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string | undefined };
+  ApiMappingSelectionExpression?: string | undefined;
+  DomainName?: string | undefined;
+  DomainNameArn?: string | undefined;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  RoutingMode?: RoutingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDomainNamesRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainName {
-  ApiMappingSelectionExpression?: string;
-  DomainName?: string;
-  DomainNameArn?: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthentication;
-  RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string | undefined };
+  ApiMappingSelectionExpression?: string | undefined;
+  DomainName?: string | undefined;
+  DomainNameArn?: string | undefined;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  RoutingMode?: RoutingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfDomainName = DomainName[];
 const __listOfDomainName = /*@__PURE__*/ __L.at(__c75, 1);
 export interface GetDomainNamesResponse {
-  Items?: (DomainName & { DomainName: StringWithLengthBetween1And512 })[];
-  NextToken?: string;
+  Items?: (DomainName & { DomainName: StringWithLengthBetween1And512 })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetIntegrationRequest {
   ApiId: string;
   IntegrationId: string;
 }
 export interface GetIntegrationResult {
-  ApiGatewayManaged?: boolean;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
-  IntegrationId?: string;
-  IntegrationMethod?: string;
-  IntegrationResponseSelectionExpression?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfig;
+  ApiGatewayManaged?: boolean | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationId?: string | undefined;
+  IntegrationMethod?: string | undefined;
+  IntegrationResponseSelectionExpression?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfig | undefined;
 }
 export interface GetIntegrationResponseRequest {
   ApiId: string;
@@ -1126,101 +1154,103 @@ export interface GetIntegrationResponseRequest {
   IntegrationResponseId: string;
 }
 export interface GetIntegrationResponseResponse {
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  IntegrationResponseId?: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  IntegrationResponseId?: string | undefined;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export interface GetIntegrationResponsesRequest {
   ApiId: string;
   IntegrationId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface IntegrationResponse {
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  IntegrationResponseId?: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  IntegrationResponseId?: string | undefined;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export type __listOfIntegrationResponse = IntegrationResponse[];
 const __listOfIntegrationResponse = /*@__PURE__*/ __L.at(__c78, 1);
 export interface GetIntegrationResponsesResponse {
-  Items?: (IntegrationResponse & { IntegrationResponseKey: SelectionKey })[];
-  NextToken?: string;
+  Items?: (IntegrationResponse & { IntegrationResponseKey: SelectionKey })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetIntegrationsRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Integration {
-  ApiGatewayManaged?: boolean;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
-  IntegrationId?: string;
-  IntegrationMethod?: string;
-  IntegrationResponseSelectionExpression?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfig;
+  ApiGatewayManaged?: boolean | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationId?: string | undefined;
+  IntegrationMethod?: string | undefined;
+  IntegrationResponseSelectionExpression?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfig | undefined;
 }
 export type __listOfIntegration = Integration[];
 const __listOfIntegration = /*@__PURE__*/ __L.at(__c79, 1);
 export interface GetIntegrationsResponse {
-  Items?: Integration[];
-  NextToken?: string;
+  Items?: Integration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetModelRequest {
   ApiId: string;
   ModelId: string;
 }
 export interface GetModelResponse {
-  ContentType?: string;
-  Description?: string;
-  ModelId?: string;
-  Name?: string;
-  Schema?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
+  ModelId?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface GetModelsRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Model {
-  ContentType?: string;
-  Description?: string;
-  ModelId?: string;
-  Name?: string;
-  Schema?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
+  ModelId?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export type __listOfModel = Model[];
 const __listOfModel = /*@__PURE__*/ __L.at(__c83, 1);
 export interface GetModelsResponse {
-  Items?: (Model & { Name: StringWithLengthBetween1And128 })[];
-  NextToken?: string;
+  Items?: (Model & { Name: StringWithLengthBetween1And128 })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetModelTemplateRequest {
   ApiId: string;
   ModelId: string;
 }
 export interface GetModelTemplateResponse {
-  Value?: string;
+  Value?: string | undefined;
 }
 export interface GetPortalRequest {
   PortalId: string;
@@ -1231,126 +1261,138 @@ export type PreviewStatus =
   | "PREVIEW_READY"
   | (string & {});
 export interface Preview {
-  PreviewStatus?: PreviewStatus;
-  PreviewUrl?: string;
-  StatusException?: StatusException;
+  PreviewStatus?: PreviewStatus | undefined;
+  PreviewUrl?: string | undefined;
+  StatusException?: StatusException | undefined;
 }
 export interface GetPortalResponse {
-  Authorization?: Authorization & {
-    CognitoConfig: CognitoConfig & {
-      AppClientId: __stringMin1Max256;
-      UserPoolArn: __stringMin20Max2048;
-      UserPoolDomain: __stringMin20Max2048;
-    };
-  };
-  EndpointConfiguration?: EndpointConfigurationResponse & {
-    PortalDefaultDomainName: __stringMin3Max256;
-    PortalDomainHostedZoneId: __stringMin1Max64;
-  };
-  IncludedPortalProductArns?: string[];
-  LastModified?: Date;
-  LastPublished?: Date;
-  LastPublishedDescription?: string;
-  PortalArn?: string;
-  PortalContent?: PortalContent & {
-    DisplayName: __stringMin3Max255;
-    Theme: PortalTheme & {
-      CustomColors: CustomColors & {
-        AccentColor: __stringMin1Max16;
-        BackgroundColor: __stringMin1Max16;
-        ErrorValidationColor: __stringMin1Max16;
-        HeaderColor: __stringMin1Max16;
-        NavigationColor: __stringMin1Max16;
-        TextColor: __stringMin1Max16;
-      };
-    };
-  };
-  PortalId?: string;
-  Preview?: Preview & { PreviewStatus: PreviewStatus };
-  PublishStatus?: PublishStatus;
-  RumAppMonitorName?: string;
-  StatusException?: StatusException;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?:
+    | (Authorization & {
+        CognitoConfig: CognitoConfig & {
+          AppClientId: __stringMin1Max256;
+          UserPoolArn: __stringMin20Max2048;
+          UserPoolDomain: __stringMin20Max2048;
+        };
+      })
+    | undefined;
+  EndpointConfiguration?:
+    | (EndpointConfigurationResponse & {
+        PortalDefaultDomainName: __stringMin3Max256;
+        PortalDomainHostedZoneId: __stringMin1Max64;
+      })
+    | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LastModified?: Date | undefined;
+  LastPublished?: Date | undefined;
+  LastPublishedDescription?: string | undefined;
+  PortalArn?: string | undefined;
+  PortalContent?:
+    | (PortalContent & {
+        DisplayName: __stringMin3Max255;
+        Theme: PortalTheme & {
+          CustomColors: CustomColors & {
+            AccentColor: __stringMin1Max16;
+            BackgroundColor: __stringMin1Max16;
+            ErrorValidationColor: __stringMin1Max16;
+            HeaderColor: __stringMin1Max16;
+            NavigationColor: __stringMin1Max16;
+            TextColor: __stringMin1Max16;
+          };
+        };
+      })
+    | undefined;
+  PortalId?: string | undefined;
+  Preview?: (Preview & { PreviewStatus: PreviewStatus }) | undefined;
+  PublishStatus?: PublishStatus | undefined;
+  RumAppMonitorName?: string | undefined;
+  StatusException?: StatusException | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPortalProductRequest {
   PortalProductId: string;
-  ResourceOwnerAccountId?: string;
+  ResourceOwnerAccountId?: string | undefined;
 }
 export interface GetPortalProductResponse {
-  Description?: string;
-  DisplayName?: string;
-  DisplayOrder?: DisplayOrder & {
-    Contents: (Section & {
-      ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
-      SectionName: string;
-    })[];
-  };
-  LastModified?: Date;
-  PortalProductArn?: string;
-  PortalProductId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayOrder?:
+    | (DisplayOrder & {
+        Contents: (Section & {
+          ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
+          SectionName: string;
+        })[];
+      })
+    | undefined;
+  LastModified?: Date | undefined;
+  PortalProductArn?: string | undefined;
+  PortalProductId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPortalProductSharingPolicyRequest {
   PortalProductId: string;
 }
 export type __stringMin1Max307200 = string;
 export interface GetPortalProductSharingPolicyResponse {
-  PolicyDocument?: string;
-  PortalProductId?: string;
+  PolicyDocument?: string | undefined;
+  PortalProductId?: string | undefined;
 }
 export interface GetProductPageRequest {
   PortalProductId: string;
   ProductPageId: string;
-  ResourceOwnerAccountId?: string;
+  ResourceOwnerAccountId?: string | undefined;
 }
 export interface GetProductPageResponse {
-  DisplayContent?: DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 };
-  LastModified?: Date;
-  ProductPageArn?: string;
-  ProductPageId?: string;
+  DisplayContent?:
+    | (DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 })
+    | undefined;
+  LastModified?: Date | undefined;
+  ProductPageArn?: string | undefined;
+  ProductPageId?: string | undefined;
 }
 export interface GetProductRestEndpointPageRequest {
-  IncludeRawDisplayContent?: string;
+  IncludeRawDisplayContent?: string | undefined;
   PortalProductId: string;
   ProductRestEndpointPageId: string;
-  ResourceOwnerAccountId?: string;
+  ResourceOwnerAccountId?: string | undefined;
 }
 export interface GetProductRestEndpointPageResponse {
-  DisplayContent?: EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 };
-  LastModified?: Date;
-  ProductRestEndpointPageArn?: string;
-  ProductRestEndpointPageId?: string;
-  RawDisplayContent?: string;
-  RestEndpointIdentifier?: RestEndpointIdentifier & {
-    IdentifierParts: IdentifierParts & {
-      Method: __stringMin1Max20;
-      Path: __stringMin1Max4096;
-      RestApiId: __stringMin1Max50;
-      Stage: __stringMin1Max128;
-    };
-  };
-  Status?: Status;
-  StatusException?: StatusException;
-  TryItState?: TryItState;
+  DisplayContent?: (EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 }) | undefined;
+  LastModified?: Date | undefined;
+  ProductRestEndpointPageArn?: string | undefined;
+  ProductRestEndpointPageId?: string | undefined;
+  RawDisplayContent?: string | undefined;
+  RestEndpointIdentifier?:
+    | (RestEndpointIdentifier & {
+        IdentifierParts: IdentifierParts & {
+          Method: __stringMin1Max20;
+          Path: __stringMin1Max4096;
+          RestApiId: __stringMin1Max50;
+          Stage: __stringMin1Max128;
+        };
+      })
+    | undefined;
+  Status?: Status | undefined;
+  StatusException?: StatusException | undefined;
+  TryItState?: TryItState | undefined;
 }
 export interface GetRouteRequest {
   ApiId: string;
   RouteId: string;
 }
 export interface GetRouteResult {
-  ApiGatewayManaged?: boolean;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteId?: string;
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteId?: string | undefined;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export interface GetRouteResponseRequest {
   ApiId: string;
@@ -1358,434 +1400,463 @@ export interface GetRouteResponseRequest {
   RouteResponseId: string;
 }
 export interface GetRouteResponseResponse {
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteResponseId?: string;
-  RouteResponseKey?: string;
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteResponseId?: string | undefined;
+  RouteResponseKey?: string | undefined;
 }
 export interface GetRouteResponsesRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   RouteId: string;
 }
 export interface RouteResponse {
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteResponseId?: string;
-  RouteResponseKey?: string;
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteResponseId?: string | undefined;
+  RouteResponseKey?: string | undefined;
 }
 export type __listOfRouteResponse = RouteResponse[];
 const __listOfRouteResponse = /*@__PURE__*/ __L.at(__c95, 1);
 export interface GetRouteResponsesResponse {
-  Items?: (RouteResponse & { RouteResponseKey: SelectionKey })[];
-  NextToken?: string;
+  Items?: (RouteResponse & { RouteResponseKey: SelectionKey })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetRoutesRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Route {
-  ApiGatewayManaged?: boolean;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteId?: string;
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteId?: string | undefined;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export type __listOfRoute = Route[];
 const __listOfRoute = /*@__PURE__*/ __L.at(__c96, 1);
 export interface GetRoutesResponse {
-  Items?: (Route & { RouteKey: SelectionKey })[];
-  NextToken?: string;
+  Items?: (Route & { RouteKey: SelectionKey })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetRoutingRuleRequest {
   DomainName: string;
-  DomainNameId?: string;
+  DomainNameId?: string | undefined;
   RoutingRuleId: string;
 }
 export interface GetRoutingRuleResponse {
-  Actions?: (RoutingRuleAction & {
-    InvokeApi: RoutingRuleActionInvokeApi & { ApiId: Id; Stage: StringWithLengthBetween1And128 };
-  })[];
-  Conditions?: (RoutingRuleCondition & {
-    MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
-    MatchHeaders: RoutingRuleMatchHeaders & {
-      AnyOf: (RoutingRuleMatchHeaderValue & {
-        Header: SelectionKey;
-        ValueGlob: SelectionExpression;
-      })[];
-    };
-  })[];
-  Priority?: number;
-  RoutingRuleArn?: string;
-  RoutingRuleId?: string;
+  Actions?:
+    | (RoutingRuleAction & {
+        InvokeApi: RoutingRuleActionInvokeApi & {
+          ApiId: Id;
+          Stage: StringWithLengthBetween1And128;
+        };
+      })[]
+    | undefined;
+  Conditions?:
+    | (RoutingRuleCondition & {
+        MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
+        MatchHeaders: RoutingRuleMatchHeaders & {
+          AnyOf: (RoutingRuleMatchHeaderValue & {
+            Header: SelectionKey;
+            ValueGlob: SelectionExpression;
+          })[];
+        };
+      })[]
+    | undefined;
+  Priority?: number | undefined;
+  RoutingRuleArn?: string | undefined;
+  RoutingRuleId?: string | undefined;
 }
 export interface GetStageRequest {
   ApiId: string;
   StageName: string;
 }
 export interface GetStageResponse {
-  AccessLogSettings?: AccessLogSettings;
-  ApiGatewayManaged?: boolean;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  CreatedDate?: Date;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  LastDeploymentStatusMessage?: string;
-  LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  AccessLogSettings?: AccessLogSettings | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  LastDeploymentStatusMessage?: string | undefined;
+  LastUpdatedDate?: Date | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetStagesRequest {
   ApiId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Stage {
-  AccessLogSettings?: AccessLogSettings;
-  ApiGatewayManaged?: boolean;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  CreatedDate?: Date;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  LastDeploymentStatusMessage?: string;
-  LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  AccessLogSettings?: AccessLogSettings | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  LastDeploymentStatusMessage?: string | undefined;
+  LastUpdatedDate?: Date | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfStage = Stage[];
 const __listOfStage = /*@__PURE__*/ __L.at(__c99, 1);
 export interface GetStagesResponse {
-  Items?: (Stage & { StageName: StringWithLengthBetween1And128 })[];
-  NextToken?: string;
+  Items?: (Stage & { StageName: StringWithLengthBetween1And128 })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTagsRequest {
   ResourceArn: string;
 }
 export interface GetTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetVpcLinkRequest {
   VpcLinkId: string;
 }
 export interface GetVpcLinkResponse {
-  CreatedDate?: Date;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  VpcLinkId?: string;
-  VpcLinkStatus?: VpcLinkStatus;
-  VpcLinkStatusMessage?: string;
-  VpcLinkVersion?: VpcLinkVersion;
+  CreatedDate?: Date | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VpcLinkId?: string | undefined;
+  VpcLinkStatus?: VpcLinkStatus | undefined;
+  VpcLinkStatusMessage?: string | undefined;
+  VpcLinkVersion?: VpcLinkVersion | undefined;
 }
 export interface GetVpcLinksRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface VpcLink {
-  CreatedDate?: Date;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  VpcLinkId?: string;
-  VpcLinkStatus?: VpcLinkStatus;
-  VpcLinkStatusMessage?: string;
-  VpcLinkVersion?: VpcLinkVersion;
+  CreatedDate?: Date | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VpcLinkId?: string | undefined;
+  VpcLinkStatus?: VpcLinkStatus | undefined;
+  VpcLinkStatusMessage?: string | undefined;
+  VpcLinkVersion?: VpcLinkVersion | undefined;
 }
 export type __listOfVpcLink = VpcLink[];
 const __listOfVpcLink = /*@__PURE__*/ __L.at(__c102, 1);
 export interface GetVpcLinksResponse {
-  Items?: (VpcLink & {
-    Name: StringWithLengthBetween1And128;
-    SecurityGroupIds: SecurityGroupIdList;
-    SubnetIds: SubnetIdList;
-    VpcLinkId: Id;
-  })[];
-  NextToken?: string;
+  Items?:
+    | (VpcLink & {
+        Name: StringWithLengthBetween1And128;
+        SecurityGroupIds: SecurityGroupIdList;
+        SubnetIds: SubnetIdList;
+        VpcLinkId: Id;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportApiRequest {
-  Basepath?: string;
-  Body?: string;
-  FailOnWarnings?: boolean;
+  Basepath?: string | undefined;
+  Body?: string | undefined;
+  FailOnWarnings?: boolean | undefined;
 }
 export interface ImportApiResponse {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface ListPortalProductsRequest {
-  MaxResults?: string;
-  NextToken?: string;
-  ResourceOwner?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
+  ResourceOwner?: string | undefined;
 }
 export interface PortalProductSummary {
-  Description?: string;
-  DisplayName?: string;
-  LastModified?: Date;
-  PortalProductArn?: string;
-  PortalProductId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  LastModified?: Date | undefined;
+  PortalProductArn?: string | undefined;
+  PortalProductId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfPortalProductSummary = PortalProductSummary[];
 const __listOfPortalProductSummary = /*@__PURE__*/ __L.at(__c104, 2);
 export interface ListPortalProductsResponse {
-  Items?: (PortalProductSummary & {
-    Description: __stringMin0Max1024;
-    DisplayName: __stringMin1Max255;
-    LastModified: __timestampIso8601;
-    PortalProductArn: __stringMin20Max2048;
-    PortalProductId: __stringMin10Max30PatternAZ09;
-  })[];
-  NextToken?: string;
+  Items?:
+    | (PortalProductSummary & {
+        Description: __stringMin0Max1024;
+        DisplayName: __stringMin1Max255;
+        LastModified: __timestampIso8601;
+        PortalProductArn: __stringMin20Max2048;
+        PortalProductId: __stringMin10Max30PatternAZ09;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPortalsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface PortalSummary {
-  Authorization?: Authorization;
-  EndpointConfiguration?: EndpointConfigurationResponse;
-  IncludedPortalProductArns?: string[];
-  LastModified?: Date;
-  LastPublished?: Date;
-  LastPublishedDescription?: string;
-  PortalArn?: string;
-  PortalContent?: PortalContent;
-  PortalId?: string;
-  Preview?: Preview;
-  PublishStatus?: PublishStatus;
-  RumAppMonitorName?: string;
-  StatusException?: StatusException;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?: Authorization | undefined;
+  EndpointConfiguration?: EndpointConfigurationResponse | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LastModified?: Date | undefined;
+  LastPublished?: Date | undefined;
+  LastPublishedDescription?: string | undefined;
+  PortalArn?: string | undefined;
+  PortalContent?: PortalContent | undefined;
+  PortalId?: string | undefined;
+  Preview?: Preview | undefined;
+  PublishStatus?: PublishStatus | undefined;
+  RumAppMonitorName?: string | undefined;
+  StatusException?: StatusException | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfPortalSummary = PortalSummary[];
 const __listOfPortalSummary = /*@__PURE__*/ __L.at(__c107, 1);
 export interface ListPortalsResponse {
-  Items?: (PortalSummary & {
-    Authorization: Authorization & {
-      CognitoConfig: CognitoConfig & {
-        AppClientId: __stringMin1Max256;
-        UserPoolArn: __stringMin20Max2048;
-        UserPoolDomain: __stringMin20Max2048;
-      };
-    };
-    EndpointConfiguration: EndpointConfigurationResponse & {
-      PortalDefaultDomainName: __stringMin3Max256;
-      PortalDomainHostedZoneId: __stringMin1Max64;
-    };
-    IncludedPortalProductArns: __listOf__stringMin20Max2048;
-    LastModified: __timestampIso8601;
-    PortalArn: __stringMin20Max2048;
-    PortalContent: PortalContent & {
-      DisplayName: __stringMin3Max255;
-      Theme: PortalTheme & {
-        CustomColors: CustomColors & {
-          AccentColor: __stringMin1Max16;
-          BackgroundColor: __stringMin1Max16;
-          ErrorValidationColor: __stringMin1Max16;
-          HeaderColor: __stringMin1Max16;
-          NavigationColor: __stringMin1Max16;
-          TextColor: __stringMin1Max16;
+  Items?:
+    | (PortalSummary & {
+        Authorization: Authorization & {
+          CognitoConfig: CognitoConfig & {
+            AppClientId: __stringMin1Max256;
+            UserPoolArn: __stringMin20Max2048;
+            UserPoolDomain: __stringMin20Max2048;
+          };
         };
-      };
-    };
-    PortalId: __stringMin10Max30PatternAZ09;
-    Preview: Preview & { PreviewStatus: PreviewStatus };
-  })[];
-  NextToken?: string;
+        EndpointConfiguration: EndpointConfigurationResponse & {
+          PortalDefaultDomainName: __stringMin3Max256;
+          PortalDomainHostedZoneId: __stringMin1Max64;
+        };
+        IncludedPortalProductArns: __listOf__stringMin20Max2048;
+        LastModified: __timestampIso8601;
+        PortalArn: __stringMin20Max2048;
+        PortalContent: PortalContent & {
+          DisplayName: __stringMin3Max255;
+          Theme: PortalTheme & {
+            CustomColors: CustomColors & {
+              AccentColor: __stringMin1Max16;
+              BackgroundColor: __stringMin1Max16;
+              ErrorValidationColor: __stringMin1Max16;
+              HeaderColor: __stringMin1Max16;
+              NavigationColor: __stringMin1Max16;
+              TextColor: __stringMin1Max16;
+            };
+          };
+        };
+        PortalId: __stringMin10Max30PatternAZ09;
+        Preview: Preview & { PreviewStatus: PreviewStatus };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProductPagesRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   PortalProductId: string;
-  ResourceOwnerAccountId?: string;
+  ResourceOwnerAccountId?: string | undefined;
 }
 export interface ProductPageSummaryNoBody {
-  LastModified?: Date;
-  PageTitle?: string;
-  ProductPageArn?: string;
-  ProductPageId?: string;
+  LastModified?: Date | undefined;
+  PageTitle?: string | undefined;
+  ProductPageArn?: string | undefined;
+  ProductPageId?: string | undefined;
 }
 export type __listOfProductPageSummaryNoBody = ProductPageSummaryNoBody[];
 const __listOfProductPageSummaryNoBody = /*@__PURE__*/ __L.at(__c108, 2);
 export interface ListProductPagesResponse {
-  Items?: (ProductPageSummaryNoBody & {
-    LastModified: __timestampIso8601;
-    PageTitle: __stringMin1Max255;
-    ProductPageArn: __stringMin20Max2048;
-    ProductPageId: __stringMin10Max30PatternAZ09;
-  })[];
-  NextToken?: string;
+  Items?:
+    | (ProductPageSummaryNoBody & {
+        LastModified: __timestampIso8601;
+        PageTitle: __stringMin1Max255;
+        ProductPageArn: __stringMin20Max2048;
+        ProductPageId: __stringMin10Max30PatternAZ09;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProductRestEndpointPagesRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   PortalProductId: string;
-  ResourceOwnerAccountId?: string;
+  ResourceOwnerAccountId?: string | undefined;
 }
 export interface ProductRestEndpointPageSummaryNoBody {
-  Endpoint?: string;
-  LastModified?: Date;
-  OperationName?: string;
-  ProductRestEndpointPageArn?: string;
-  ProductRestEndpointPageId?: string;
-  RestEndpointIdentifier?: RestEndpointIdentifier;
-  Status?: Status;
-  StatusException?: StatusException;
-  TryItState?: TryItState;
+  Endpoint?: string | undefined;
+  LastModified?: Date | undefined;
+  OperationName?: string | undefined;
+  ProductRestEndpointPageArn?: string | undefined;
+  ProductRestEndpointPageId?: string | undefined;
+  RestEndpointIdentifier?: RestEndpointIdentifier | undefined;
+  Status?: Status | undefined;
+  StatusException?: StatusException | undefined;
+  TryItState?: TryItState | undefined;
 }
 export type __listOfProductRestEndpointPageSummaryNoBody = ProductRestEndpointPageSummaryNoBody[];
 const __listOfProductRestEndpointPageSummaryNoBody = /*@__PURE__*/ __L.at(__c109, 2);
 export interface ListProductRestEndpointPagesResponse {
-  Items?: (ProductRestEndpointPageSummaryNoBody & {
-    Endpoint: __stringMin1Max1024;
-    LastModified: __timestampIso8601;
-    ProductRestEndpointPageArn: __stringMin20Max2048;
-    ProductRestEndpointPageId: __stringMin10Max30PatternAZ09;
-    RestEndpointIdentifier: RestEndpointIdentifier & {
-      IdentifierParts: IdentifierParts & {
-        Method: __stringMin1Max20;
-        Path: __stringMin1Max4096;
-        RestApiId: __stringMin1Max50;
-        Stage: __stringMin1Max128;
-      };
-    };
-    Status: Status;
-    TryItState: TryItState;
-  })[];
-  NextToken?: string;
+  Items?:
+    | (ProductRestEndpointPageSummaryNoBody & {
+        Endpoint: __stringMin1Max1024;
+        LastModified: __timestampIso8601;
+        ProductRestEndpointPageArn: __stringMin20Max2048;
+        ProductRestEndpointPageId: __stringMin10Max30PatternAZ09;
+        RestEndpointIdentifier: RestEndpointIdentifier & {
+          IdentifierParts: IdentifierParts & {
+            Method: __stringMin1Max20;
+            Path: __stringMin1Max4096;
+            RestApiId: __stringMin1Max50;
+            Stage: __stringMin1Max128;
+          };
+        };
+        Status: Status;
+        TryItState: TryItState;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListRoutingRulesRequest {
   DomainName: string;
-  DomainNameId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DomainNameId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RoutingRule {
-  Actions?: RoutingRuleAction[];
-  Conditions?: RoutingRuleCondition[];
-  Priority?: number;
-  RoutingRuleArn?: string;
-  RoutingRuleId?: string;
+  Actions?: RoutingRuleAction[] | undefined;
+  Conditions?: RoutingRuleCondition[] | undefined;
+  Priority?: number | undefined;
+  RoutingRuleArn?: string | undefined;
+  RoutingRuleId?: string | undefined;
 }
 export type __listOfRoutingRule = RoutingRule[];
 const __listOfRoutingRule = /*@__PURE__*/ __L.at(__c110, 1);
 export interface ListRoutingRulesResponse {
-  NextToken?: string;
-  RoutingRules?: (RoutingRule & {
-    Actions: (RoutingRuleAction & {
-      InvokeApi: RoutingRuleActionInvokeApi & { ApiId: Id; Stage: StringWithLengthBetween1And128 };
-    })[];
-    Conditions: (RoutingRuleCondition & {
-      MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
-      MatchHeaders: RoutingRuleMatchHeaders & {
-        AnyOf: (RoutingRuleMatchHeaderValue & {
-          Header: SelectionKey;
-          ValueGlob: SelectionExpression;
+  NextToken?: string | undefined;
+  RoutingRules?:
+    | (RoutingRule & {
+        Actions: (RoutingRuleAction & {
+          InvokeApi: RoutingRuleActionInvokeApi & {
+            ApiId: Id;
+            Stage: StringWithLengthBetween1And128;
+          };
         })[];
-      };
-    })[];
-  })[];
+        Conditions: (RoutingRuleCondition & {
+          MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
+          MatchHeaders: RoutingRuleMatchHeaders & {
+            AnyOf: (RoutingRuleMatchHeaderValue & {
+              Header: SelectionKey;
+              ValueGlob: SelectionExpression;
+            })[];
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export interface PreviewPortalRequest {
   PortalId: string;
 }
 export interface PreviewPortalResponse {}
 export interface PublishPortalRequest {
-  Description?: string;
+  Description?: string | undefined;
   PortalId: string;
 }
 export interface PublishPortalResponse {}
 export interface PutPortalProductSharingPolicyRequest {
-  PolicyDocument?: string;
+  PolicyDocument?: string | undefined;
   PortalProductId: string;
 }
 export interface PutPortalProductSharingPolicyResponse {}
 export interface PutRoutingRuleRequest {
-  Actions?: RoutingRuleAction[];
-  Conditions?: RoutingRuleCondition[];
+  Actions?: RoutingRuleAction[] | undefined;
+  Conditions?: RoutingRuleCondition[] | undefined;
   DomainName: string;
-  DomainNameId?: string;
-  Priority?: number;
+  DomainNameId?: string | undefined;
+  Priority?: number | undefined;
   RoutingRuleId: string;
 }
 export interface PutRoutingRuleResponse {
-  Actions?: (RoutingRuleAction & {
-    InvokeApi: RoutingRuleActionInvokeApi & { ApiId: Id; Stage: StringWithLengthBetween1And128 };
-  })[];
-  Conditions?: (RoutingRuleCondition & {
-    MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
-    MatchHeaders: RoutingRuleMatchHeaders & {
-      AnyOf: (RoutingRuleMatchHeaderValue & {
-        Header: SelectionKey;
-        ValueGlob: SelectionExpression;
-      })[];
-    };
-  })[];
-  Priority?: number;
-  RoutingRuleArn?: string;
-  RoutingRuleId?: string;
+  Actions?:
+    | (RoutingRuleAction & {
+        InvokeApi: RoutingRuleActionInvokeApi & {
+          ApiId: Id;
+          Stage: StringWithLengthBetween1And128;
+        };
+      })[]
+    | undefined;
+  Conditions?:
+    | (RoutingRuleCondition & {
+        MatchBasePaths: RoutingRuleMatchBasePaths & { AnyOf: __listOfSelectionKey };
+        MatchHeaders: RoutingRuleMatchHeaders & {
+          AnyOf: (RoutingRuleMatchHeaderValue & {
+            Header: SelectionKey;
+            ValueGlob: SelectionExpression;
+          })[];
+        };
+      })[]
+    | undefined;
+  Priority?: number | undefined;
+  RoutingRuleArn?: string | undefined;
+  RoutingRuleId?: string | undefined;
 }
 export interface ReimportApiRequest {
   ApiId: string;
-  Basepath?: string;
-  Body?: string;
-  FailOnWarnings?: boolean;
+  Basepath?: string | undefined;
+  Body?: string | undefined;
+  FailOnWarnings?: boolean | undefined;
 }
 export interface ReimportApiResponse {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface ResetAuthorizersCacheRequest {
   ApiId: string;
@@ -1794,380 +1865,396 @@ export interface ResetAuthorizersCacheRequest {
 export interface ResetAuthorizersCacheResponse {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateApiRequest {
   ApiId: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CredentialsArn?: string;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  RouteKey?: string;
-  RouteSelectionExpression?: string;
-  Target?: string;
-  Version?: string;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  RouteKey?: string | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Target?: string | undefined;
+  Version?: string | undefined;
 }
 export interface UpdateApiResponse {
-  ApiEndpoint?: string;
-  ApiGatewayManaged?: boolean;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CorsConfiguration?: Cors;
-  CreatedDate?: Date;
-  Description?: string;
-  DisableSchemaValidation?: boolean;
-  DisableExecuteApiEndpoint?: boolean;
-  ImportInfo?: string[];
-  IpAddressType?: IpAddressType;
-  Name?: string;
-  ProtocolType?: ProtocolType;
-  RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string | undefined };
-  Version?: string;
-  Warnings?: string[];
+  ApiEndpoint?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CorsConfiguration?: Cors | undefined;
+  CreatedDate?: Date | undefined;
+  Description?: string | undefined;
+  DisableSchemaValidation?: boolean | undefined;
+  DisableExecuteApiEndpoint?: boolean | undefined;
+  ImportInfo?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Name?: string | undefined;
+  ProtocolType?: ProtocolType | undefined;
+  RouteSelectionExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Version?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface UpdateApiMappingRequest {
-  ApiId?: string;
+  ApiId?: string | undefined;
   ApiMappingId: string;
-  ApiMappingKey?: string;
+  ApiMappingKey?: string | undefined;
   DomainName: string;
-  Stage?: string;
+  Stage?: string | undefined;
 }
 export interface UpdateApiMappingResponse {
-  ApiId?: string;
-  ApiMappingId?: string;
-  ApiMappingKey?: string;
-  Stage?: string;
+  ApiId?: string | undefined;
+  ApiMappingId?: string | undefined;
+  ApiMappingKey?: string | undefined;
+  Stage?: string | undefined;
 }
 export interface UpdateAuthorizerRequest {
   ApiId: string;
-  AuthorizerCredentialsArn?: string;
+  AuthorizerCredentialsArn?: string | undefined;
   AuthorizerId: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateAuthorizerResponse {
-  AuthorizerCredentialsArn?: string;
-  AuthorizerId?: string;
-  AuthorizerPayloadFormatVersion?: string;
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerType?: AuthorizerType;
-  AuthorizerUri?: string;
-  EnableSimpleResponses?: boolean;
-  IdentitySource?: string[];
-  IdentityValidationExpression?: string;
-  JwtConfiguration?: JWTConfiguration;
-  Name?: string;
+  AuthorizerCredentialsArn?: string | undefined;
+  AuthorizerId?: string | undefined;
+  AuthorizerPayloadFormatVersion?: string | undefined;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerType?: AuthorizerType | undefined;
+  AuthorizerUri?: string | undefined;
+  EnableSimpleResponses?: boolean | undefined;
+  IdentitySource?: string[] | undefined;
+  IdentityValidationExpression?: string | undefined;
+  JwtConfiguration?: JWTConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateDeploymentRequest {
   ApiId: string;
   DeploymentId: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateDeploymentResponse {
-  AutoDeployed?: boolean;
-  CreatedDate?: Date;
-  DeploymentId?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentStatusMessage?: string;
-  Description?: string;
+  AutoDeployed?: boolean | undefined;
+  CreatedDate?: Date | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentStatusMessage?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateDomainNameRequest {
   DomainName: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthenticationInput;
-  RoutingMode?: RoutingMode;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthenticationInput | undefined;
+  RoutingMode?: RoutingMode | undefined;
 }
 export interface UpdateDomainNameResponse {
-  ApiMappingSelectionExpression?: string;
-  DomainName?: string;
-  DomainNameArn?: string;
-  DomainNameConfigurations?: DomainNameConfiguration[];
-  MutualTlsAuthentication?: MutualTlsAuthentication;
-  RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string | undefined };
+  ApiMappingSelectionExpression?: string | undefined;
+  DomainName?: string | undefined;
+  DomainNameArn?: string | undefined;
+  DomainNameConfigurations?: DomainNameConfiguration[] | undefined;
+  MutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  RoutingMode?: RoutingMode | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateIntegrationRequest {
   ApiId: string;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
   IntegrationId: string;
-  IntegrationMethod?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfigInput;
+  IntegrationMethod?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfigInput | undefined;
 }
 export interface UpdateIntegrationResult {
-  ApiGatewayManaged?: boolean;
-  ConnectionId?: string;
-  ConnectionType?: ConnectionType;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  CredentialsArn?: string;
-  Description?: string;
-  IntegrationId?: string;
-  IntegrationMethod?: string;
-  IntegrationResponseSelectionExpression?: string;
-  IntegrationSubtype?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationUri?: string;
-  PassthroughBehavior?: PassthroughBehavior;
-  PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string | undefined };
-  RequestTemplates?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: { [key: string]: string | undefined } | undefined };
-  TemplateSelectionExpression?: string;
-  TimeoutInMillis?: number;
-  TlsConfig?: TlsConfig;
+  ApiGatewayManaged?: boolean | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  CredentialsArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationId?: string | undefined;
+  IntegrationMethod?: string | undefined;
+  IntegrationResponseSelectionExpression?: string | undefined;
+  IntegrationSubtype?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationUri?: string | undefined;
+  PassthroughBehavior?: PassthroughBehavior | undefined;
+  PayloadFormatVersion?: string | undefined;
+  RequestParameters?: { [key: string]: string | undefined } | undefined;
+  RequestTemplates?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
+  TemplateSelectionExpression?: string | undefined;
+  TimeoutInMillis?: number | undefined;
+  TlsConfig?: TlsConfig | undefined;
 }
 export interface UpdateIntegrationResponseRequest {
   ApiId: string;
-  ContentHandlingStrategy?: ContentHandlingStrategy;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
   IntegrationId: string;
   IntegrationResponseId: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export interface UpdateIntegrationResponseResponse {
-  ContentHandlingStrategy?: ContentHandlingStrategy;
-  IntegrationResponseId?: string;
-  IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string | undefined };
-  ResponseTemplates?: { [key: string]: string | undefined };
-  TemplateSelectionExpression?: string;
+  ContentHandlingStrategy?: ContentHandlingStrategy | undefined;
+  IntegrationResponseId?: string | undefined;
+  IntegrationResponseKey?: string | undefined;
+  ResponseParameters?: { [key: string]: string | undefined } | undefined;
+  ResponseTemplates?: { [key: string]: string | undefined } | undefined;
+  TemplateSelectionExpression?: string | undefined;
 }
 export interface UpdateModelRequest {
   ApiId: string;
-  ContentType?: string;
-  Description?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
   ModelId: string;
-  Name?: string;
-  Schema?: string;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface UpdateModelResponse {
-  ContentType?: string;
-  Description?: string;
-  ModelId?: string;
-  Name?: string;
-  Schema?: string;
+  ContentType?: string | undefined;
+  Description?: string | undefined;
+  ModelId?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface UpdatePortalRequest {
-  Authorization?: Authorization;
-  EndpointConfiguration?: EndpointConfigurationRequest;
-  IncludedPortalProductArns?: string[];
-  LogoUri?: string;
-  PortalContent?: PortalContent;
+  Authorization?: Authorization | undefined;
+  EndpointConfiguration?: EndpointConfigurationRequest | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LogoUri?: string | undefined;
+  PortalContent?: PortalContent | undefined;
   PortalId: string;
-  RumAppMonitorName?: string;
+  RumAppMonitorName?: string | undefined;
 }
 export interface UpdatePortalResponse {
-  Authorization?: Authorization & {
-    CognitoConfig: CognitoConfig & {
-      AppClientId: __stringMin1Max256;
-      UserPoolArn: __stringMin20Max2048;
-      UserPoolDomain: __stringMin20Max2048;
-    };
-  };
-  EndpointConfiguration?: EndpointConfigurationResponse & {
-    PortalDefaultDomainName: __stringMin3Max256;
-    PortalDomainHostedZoneId: __stringMin1Max64;
-  };
-  IncludedPortalProductArns?: string[];
-  LastModified?: Date;
-  LastPublished?: Date;
-  LastPublishedDescription?: string;
-  PortalArn?: string;
-  PortalContent?: PortalContent & {
-    DisplayName: __stringMin3Max255;
-    Theme: PortalTheme & {
-      CustomColors: CustomColors & {
-        AccentColor: __stringMin1Max16;
-        BackgroundColor: __stringMin1Max16;
-        ErrorValidationColor: __stringMin1Max16;
-        HeaderColor: __stringMin1Max16;
-        NavigationColor: __stringMin1Max16;
-        TextColor: __stringMin1Max16;
-      };
-    };
-  };
-  PortalId?: string;
-  Preview?: Preview & { PreviewStatus: PreviewStatus };
-  PublishStatus?: PublishStatus;
-  RumAppMonitorName?: string;
-  StatusException?: StatusException;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?:
+    | (Authorization & {
+        CognitoConfig: CognitoConfig & {
+          AppClientId: __stringMin1Max256;
+          UserPoolArn: __stringMin20Max2048;
+          UserPoolDomain: __stringMin20Max2048;
+        };
+      })
+    | undefined;
+  EndpointConfiguration?:
+    | (EndpointConfigurationResponse & {
+        PortalDefaultDomainName: __stringMin3Max256;
+        PortalDomainHostedZoneId: __stringMin1Max64;
+      })
+    | undefined;
+  IncludedPortalProductArns?: string[] | undefined;
+  LastModified?: Date | undefined;
+  LastPublished?: Date | undefined;
+  LastPublishedDescription?: string | undefined;
+  PortalArn?: string | undefined;
+  PortalContent?:
+    | (PortalContent & {
+        DisplayName: __stringMin3Max255;
+        Theme: PortalTheme & {
+          CustomColors: CustomColors & {
+            AccentColor: __stringMin1Max16;
+            BackgroundColor: __stringMin1Max16;
+            ErrorValidationColor: __stringMin1Max16;
+            HeaderColor: __stringMin1Max16;
+            NavigationColor: __stringMin1Max16;
+            TextColor: __stringMin1Max16;
+          };
+        };
+      })
+    | undefined;
+  PortalId?: string | undefined;
+  Preview?: (Preview & { PreviewStatus: PreviewStatus }) | undefined;
+  PublishStatus?: PublishStatus | undefined;
+  RumAppMonitorName?: string | undefined;
+  StatusException?: StatusException | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdatePortalProductRequest {
-  Description?: string;
-  DisplayName?: string;
-  DisplayOrder?: DisplayOrder;
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayOrder?: DisplayOrder | undefined;
   PortalProductId: string;
 }
 export interface UpdatePortalProductResponse {
-  Description?: string;
-  DisplayName?: string;
-  DisplayOrder?: DisplayOrder & {
-    Contents: (Section & {
-      ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
-      SectionName: string;
-    })[];
-  };
-  LastModified?: Date;
-  PortalProductArn?: string;
-  PortalProductId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  DisplayName?: string | undefined;
+  DisplayOrder?:
+    | (DisplayOrder & {
+        Contents: (Section & {
+          ProductRestEndpointPageArns: __listOf__stringMin20Max2048;
+          SectionName: string;
+        })[];
+      })
+    | undefined;
+  LastModified?: Date | undefined;
+  PortalProductArn?: string | undefined;
+  PortalProductId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateProductPageRequest {
-  DisplayContent?: DisplayContent;
+  DisplayContent?: DisplayContent | undefined;
   PortalProductId: string;
   ProductPageId: string;
 }
 export interface UpdateProductPageResponse {
-  DisplayContent?: DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 };
-  LastModified?: Date;
-  ProductPageArn?: string;
-  ProductPageId?: string;
+  DisplayContent?:
+    | (DisplayContent & { Body: __stringMin1Max32768; Title: __stringMin1Max255 })
+    | undefined;
+  LastModified?: Date | undefined;
+  ProductPageArn?: string | undefined;
+  ProductPageId?: string | undefined;
 }
 export interface UpdateProductRestEndpointPageRequest {
-  DisplayContent?: EndpointDisplayContent;
+  DisplayContent?: EndpointDisplayContent | undefined;
   PortalProductId: string;
   ProductRestEndpointPageId: string;
-  TryItState?: TryItState;
+  TryItState?: TryItState | undefined;
 }
 export interface UpdateProductRestEndpointPageResponse {
-  DisplayContent?: EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 };
-  LastModified?: Date;
-  ProductRestEndpointPageArn?: string;
-  ProductRestEndpointPageId?: string;
-  RestEndpointIdentifier?: RestEndpointIdentifier & {
-    IdentifierParts: IdentifierParts & {
-      Method: __stringMin1Max20;
-      Path: __stringMin1Max4096;
-      RestApiId: __stringMin1Max50;
-      Stage: __stringMin1Max128;
-    };
-  };
-  Status?: Status;
-  StatusException?: StatusException;
-  TryItState?: TryItState;
+  DisplayContent?: (EndpointDisplayContentResponse & { Endpoint: __stringMin1Max1024 }) | undefined;
+  LastModified?: Date | undefined;
+  ProductRestEndpointPageArn?: string | undefined;
+  ProductRestEndpointPageId?: string | undefined;
+  RestEndpointIdentifier?:
+    | (RestEndpointIdentifier & {
+        IdentifierParts: IdentifierParts & {
+          Method: __stringMin1Max20;
+          Path: __stringMin1Max4096;
+          RestApiId: __stringMin1Max50;
+          Stage: __stringMin1Max128;
+        };
+      })
+    | undefined;
+  Status?: Status | undefined;
+  StatusException?: StatusException | undefined;
+  TryItState?: TryItState | undefined;
 }
 export interface UpdateRouteRequest {
   ApiId: string;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
   RouteId: string;
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export interface UpdateRouteResult {
-  ApiGatewayManaged?: boolean;
-  ApiKeyRequired?: boolean;
-  AuthorizationScopes?: string[];
-  AuthorizationType?: AuthorizationType;
-  AuthorizerId?: string;
-  ModelSelectionExpression?: string;
-  OperationName?: string;
-  RequestModels?: { [key: string]: string | undefined };
-  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteId?: string;
-  RouteKey?: string;
-  RouteResponseSelectionExpression?: string;
-  Target?: string;
+  ApiGatewayManaged?: boolean | undefined;
+  ApiKeyRequired?: boolean | undefined;
+  AuthorizationScopes?: string[] | undefined;
+  AuthorizationType?: AuthorizationType | undefined;
+  AuthorizerId?: string | undefined;
+  ModelSelectionExpression?: string | undefined;
+  OperationName?: string | undefined;
+  RequestModels?: { [key: string]: string | undefined } | undefined;
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteId?: string | undefined;
+  RouteKey?: string | undefined;
+  RouteResponseSelectionExpression?: string | undefined;
+  Target?: string | undefined;
 }
 export interface UpdateRouteResponseRequest {
   ApiId: string;
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
   RouteId: string;
   RouteResponseId: string;
-  RouteResponseKey?: string;
+  RouteResponseKey?: string | undefined;
 }
 export interface UpdateRouteResponseResponse {
-  ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string | undefined };
-  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
-  RouteResponseId?: string;
-  RouteResponseKey?: string;
+  ModelSelectionExpression?: string | undefined;
+  ResponseModels?: { [key: string]: string | undefined } | undefined;
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined } | undefined;
+  RouteResponseId?: string | undefined;
+  RouteResponseKey?: string | undefined;
 }
 export interface UpdateStageRequest {
-  AccessLogSettings?: AccessLogSettings;
+  AccessLogSettings?: AccessLogSettings | undefined;
   ApiId: string;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
   StageName: string;
-  StageVariables?: { [key: string]: string | undefined };
+  StageVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateStageResponse {
-  AccessLogSettings?: AccessLogSettings;
-  ApiGatewayManaged?: boolean;
-  AutoDeploy?: boolean;
-  ClientCertificateId?: string;
-  CreatedDate?: Date;
-  DefaultRouteSettings?: RouteSettings;
-  DeploymentId?: string;
-  Description?: string;
-  LastDeploymentStatusMessage?: string;
-  LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings | undefined };
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  AccessLogSettings?: AccessLogSettings | undefined;
+  ApiGatewayManaged?: boolean | undefined;
+  AutoDeploy?: boolean | undefined;
+  ClientCertificateId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  DefaultRouteSettings?: RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  Description?: string | undefined;
+  LastDeploymentStatusMessage?: string | undefined;
+  LastUpdatedDate?: Date | undefined;
+  RouteSettings?: { [key: string]: RouteSettings | undefined } | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateVpcLinkRequest {
-  Name?: string;
+  Name?: string | undefined;
   VpcLinkId: string;
 }
 export interface UpdateVpcLinkResponse {
-  CreatedDate?: Date;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  VpcLinkId?: string;
-  VpcLinkStatus?: VpcLinkStatus;
-  VpcLinkStatusMessage?: string;
-  VpcLinkVersion?: VpcLinkVersion;
+  CreatedDate?: Date | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  VpcLinkId?: string | undefined;
+  VpcLinkStatus?: VpcLinkStatus | undefined;
+  VpcLinkStatusMessage?: string | undefined;
+  VpcLinkVersion?: VpcLinkVersion | undefined;
 }
 export type CreateApiError =
   | BadRequestException
@@ -2179,7 +2266,7 @@ export type CreateApiError =
  * Creates an Api resource.
  */
 export const createApi: API.OperationMethod<
-  CreateApiRequest,
+  CreateApiRequest & RegionInput,
   CreateApiResponse,
   CreateApiError,
   Credentials | HttpClient.HttpClient
@@ -2204,7 +2291,7 @@ export type CreateApiMappingError =
  * Creates an API mapping.
  */
 export const createApiMapping: API.OperationMethod<
-  CreateApiMappingRequest,
+  CreateApiMappingRequest & RegionInput,
   CreateApiMappingResponse,
   CreateApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -2229,7 +2316,7 @@ export type CreateAuthorizerError =
  * Creates an Authorizer for an API.
  */
 export const createAuthorizer: API.OperationMethod<
-  CreateAuthorizerRequest,
+  CreateAuthorizerRequest & RegionInput,
   CreateAuthorizerResponse,
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2254,7 +2341,7 @@ export type CreateDeploymentError =
  * Creates a Deployment for an API.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2280,7 +2367,7 @@ export type CreateDomainNameError =
  * Creates a domain name.
  */
 export const createDomainName: API.OperationMethod<
-  CreateDomainNameRequest,
+  CreateDomainNameRequest & RegionInput,
   CreateDomainNameResponse,
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2311,7 +2398,7 @@ export type CreateIntegrationError =
  * Creates an Integration.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationRequest,
+  CreateIntegrationRequest & RegionInput,
   CreateIntegrationResult,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2336,7 +2423,7 @@ export type CreateIntegrationResponseError =
  * Creates an IntegrationResponses.
  */
 export const createIntegrationResponse: API.OperationMethod<
-  CreateIntegrationResponseRequest,
+  CreateIntegrationResponseRequest & RegionInput,
   CreateIntegrationResponseResponse,
   CreateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2448,7 @@ export type CreateModelError =
  * Creates a Model for an API.
  */
 export const createModel: API.OperationMethod<
-  CreateModelRequest,
+  CreateModelRequest & RegionInput,
   CreateModelResponse,
   CreateModelError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2472,7 @@ export type CreatePortalError =
  * Creates a portal.
  */
 export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
+  CreatePortalRequest & RegionInput,
   CreatePortalResponse,
   CreatePortalError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2496,7 @@ export type CreatePortalProductError =
  * Creates a new portal product.
  */
 export const createPortalProduct: API.OperationMethod<
-  CreatePortalProductRequest,
+  CreatePortalProductRequest & RegionInput,
   CreatePortalProductResponse,
   CreatePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2521,7 @@ export type CreateProductPageError =
  * Creates a new product page for a portal product.
  */
 export const createProductPage: API.OperationMethod<
-  CreateProductPageRequest,
+  CreateProductPageRequest & RegionInput,
   CreateProductPageResponse,
   CreateProductPageError,
   Credentials | HttpClient.HttpClient
@@ -2459,7 +2546,7 @@ export type CreateProductRestEndpointPageError =
  * Creates a product REST endpoint page for a portal product.
  */
 export const createProductRestEndpointPage: API.OperationMethod<
-  CreateProductRestEndpointPageRequest,
+  CreateProductRestEndpointPageRequest & RegionInput,
   CreateProductRestEndpointPageResponse,
   CreateProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -2484,7 +2571,7 @@ export type CreateRouteError =
  * Creates a Route for an API.
  */
 export const createRoute: API.OperationMethod<
-  CreateRouteRequest,
+  CreateRouteRequest & RegionInput,
   CreateRouteResult,
   CreateRouteError,
   Credentials | HttpClient.HttpClient
@@ -2509,7 +2596,7 @@ export type CreateRouteResponseError =
  * Creates a RouteResponse for a Route.
  */
 export const createRouteResponse: API.OperationMethod<
-  CreateRouteResponseRequest,
+  CreateRouteResponseRequest & RegionInput,
   CreateRouteResponseResponse,
   CreateRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -2534,7 +2621,7 @@ export type CreateRoutingRuleError =
  * Creates a RoutingRule.
  */
 export const createRoutingRule: API.OperationMethod<
-  CreateRoutingRuleRequest,
+  CreateRoutingRuleRequest & RegionInput,
   CreateRoutingRuleResponse,
   CreateRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2646,7 @@ export type CreateStageError =
  * Creates a Stage for an API.
  */
 export const createStage: API.OperationMethod<
-  CreateStageRequest,
+  CreateStageRequest & RegionInput,
   CreateStageResponse,
   CreateStageError,
   Credentials | HttpClient.HttpClient
@@ -2579,7 +2666,7 @@ export type CreateVpcLinkError = BadRequestException | TooManyRequestsException 
  * Creates a VPC link.
  */
 export const createVpcLink: API.OperationMethod<
-  CreateVpcLinkRequest,
+  CreateVpcLinkRequest & RegionInput,
   CreateVpcLinkResponse,
   CreateVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -2602,7 +2689,7 @@ export type DeleteAccessLogSettingsError =
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
 export const deleteAccessLogSettings: API.OperationMethod<
-  DeleteAccessLogSettingsRequest,
+  DeleteAccessLogSettingsRequest & RegionInput,
   DeleteAccessLogSettingsResponse,
   DeleteAccessLogSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2709,7 @@ export type DeleteApiError = NotFoundException | TooManyRequestsException | Comm
  * Deletes an Api resource.
  */
 export const deleteApi: API.OperationMethod<
-  DeleteApiRequest,
+  DeleteApiRequest & RegionInput,
   DeleteApiResponse,
   DeleteApiError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2733,7 @@ export type DeleteApiMappingError =
  * Deletes an API mapping.
  */
 export const deleteApiMapping: API.OperationMethod<
-  DeleteApiMappingRequest,
+  DeleteApiMappingRequest & RegionInput,
   DeleteApiMappingResponse,
   DeleteApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -2666,7 +2753,7 @@ export type DeleteAuthorizerError = NotFoundException | TooManyRequestsException
  * Deletes an Authorizer.
  */
 export const deleteAuthorizer: API.OperationMethod<
-  DeleteAuthorizerRequest,
+  DeleteAuthorizerRequest & RegionInput,
   DeleteAuthorizerResponse,
   DeleteAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2776,7 @@ export type DeleteCorsConfigurationError =
  * Deletes a CORS configuration.
  */
 export const deleteCorsConfiguration: API.OperationMethod<
-  DeleteCorsConfigurationRequest,
+  DeleteCorsConfigurationRequest & RegionInput,
   DeleteCorsConfigurationResponse,
   DeleteCorsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2796,7 @@ export type DeleteDeploymentError = NotFoundException | TooManyRequestsException
  * Deletes a Deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2816,7 @@ export type DeleteDomainNameError = NotFoundException | TooManyRequestsException
  * Deletes a domain name.
  */
 export const deleteDomainName: API.OperationMethod<
-  DeleteDomainNameRequest,
+  DeleteDomainNameRequest & RegionInput,
   DeleteDomainNameResponse,
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -2749,7 +2836,7 @@ export type DeleteIntegrationError = NotFoundException | TooManyRequestsExceptio
  * Deletes an Integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2772,7 +2859,7 @@ export type DeleteIntegrationResponseError =
  * Deletes an IntegrationResponses.
  */
 export const deleteIntegrationResponse: API.OperationMethod<
-  DeleteIntegrationResponseRequest,
+  DeleteIntegrationResponseRequest & RegionInput,
   DeleteIntegrationResponseResponse,
   DeleteIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -2792,7 +2879,7 @@ export type DeleteModelError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Model.
  */
 export const deleteModel: API.OperationMethod<
-  DeleteModelRequest,
+  DeleteModelRequest & RegionInput,
   DeleteModelResponse,
   DeleteModelError,
   Credentials | HttpClient.HttpClient
@@ -2816,7 +2903,7 @@ export type DeletePortalError =
  * Deletes a portal.
  */
 export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
+  DeletePortalRequest & RegionInput,
   DeletePortalResponse,
   DeletePortalError,
   Credentials | HttpClient.HttpClient
@@ -2841,7 +2928,7 @@ export type DeletePortalProductError =
  * Deletes a portal product.
  */
 export const deletePortalProduct: API.OperationMethod<
-  DeletePortalProductRequest,
+  DeletePortalProductRequest & RegionInput,
   DeletePortalProductResponse,
   DeletePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -2866,7 +2953,7 @@ export type DeletePortalProductSharingPolicyError =
  * Deletes the sharing policy for a portal product.
  */
 export const deletePortalProductSharingPolicy: API.OperationMethod<
-  DeletePortalProductSharingPolicyRequest,
+  DeletePortalProductSharingPolicyRequest & RegionInput,
   DeletePortalProductSharingPolicyResponse,
   DeletePortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2978,7 @@ export type DeleteProductPageError =
  * Deletes a product page of a portal product.
  */
 export const deleteProductPage: API.OperationMethod<
-  DeleteProductPageRequest,
+  DeleteProductPageRequest & RegionInput,
   DeleteProductPageResponse,
   DeleteProductPageError,
   Credentials | HttpClient.HttpClient
@@ -2916,7 +3003,7 @@ export type DeleteProductRestEndpointPageError =
  * Deletes a product REST endpoint page.
  */
 export const deleteProductRestEndpointPage: API.OperationMethod<
-  DeleteProductRestEndpointPageRequest,
+  DeleteProductRestEndpointPageRequest & RegionInput,
   DeleteProductRestEndpointPageResponse,
   DeleteProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -2936,7 +3023,7 @@ export type DeleteRouteError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Route.
  */
 export const deleteRoute: API.OperationMethod<
-  DeleteRouteRequest,
+  DeleteRouteRequest & RegionInput,
   DeleteRouteResponse,
   DeleteRouteError,
   Credentials | HttpClient.HttpClient
@@ -2959,7 +3046,7 @@ export type DeleteRouteRequestParameterError =
  * Deletes a route request parameter. Supported only for WebSocket APIs.
  */
 export const deleteRouteRequestParameter: API.OperationMethod<
-  DeleteRouteRequestParameterRequest,
+  DeleteRouteRequestParameterRequest & RegionInput,
   DeleteRouteRequestParameterResponse,
   DeleteRouteRequestParameterError,
   Credentials | HttpClient.HttpClient
@@ -2979,7 +3066,7 @@ export type DeleteRouteResponseError = NotFoundException | TooManyRequestsExcept
  * Deletes a RouteResponse.
  */
 export const deleteRouteResponse: API.OperationMethod<
-  DeleteRouteResponseRequest,
+  DeleteRouteResponseRequest & RegionInput,
   DeleteRouteResponseResponse,
   DeleteRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -2999,7 +3086,7 @@ export type DeleteRouteSettingsError = NotFoundException | TooManyRequestsExcept
  * Deletes the RouteSettings for a stage.
  */
 export const deleteRouteSettings: API.OperationMethod<
-  DeleteRouteSettingsRequest,
+  DeleteRouteSettingsRequest & RegionInput,
   DeleteRouteSettingsResponse,
   DeleteRouteSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3023,7 +3110,7 @@ export type DeleteRoutingRuleError =
  * Deletes a routing rule.
  */
 export const deleteRoutingRule: API.OperationMethod<
-  DeleteRoutingRuleRequest,
+  DeleteRoutingRuleRequest & RegionInput,
   DeleteRoutingRuleResponse,
   DeleteRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -3043,7 +3130,7 @@ export type DeleteStageError = NotFoundException | TooManyRequestsException | Co
  * Deletes a Stage.
  */
 export const deleteStage: API.OperationMethod<
-  DeleteStageRequest,
+  DeleteStageRequest & RegionInput,
   DeleteStageResponse,
   DeleteStageError,
   Credentials | HttpClient.HttpClient
@@ -3063,7 +3150,7 @@ export type DeleteVpcLinkError = NotFoundException | TooManyRequestsException | 
  * Deletes a VPC link.
  */
 export const deleteVpcLink: API.OperationMethod<
-  DeleteVpcLinkRequest,
+  DeleteVpcLinkRequest & RegionInput,
   DeleteVpcLinkResponse,
   DeleteVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -3089,7 +3176,7 @@ export type DisablePortalError =
  * Deletes the publication of a portal portal.
  */
 export const disablePortal: API.OperationMethod<
-  DisablePortalRequest,
+  DisablePortalRequest & RegionInput,
   DisablePortalResponse,
   DisablePortalError,
   Credentials | HttpClient.HttpClient
@@ -3119,7 +3206,7 @@ export type ExportApiError =
  *
  */
 export const exportApi: API.OperationMethod<
-  ExportApiRequest,
+  ExportApiRequest & RegionInput,
   ExportApiResponse,
   ExportApiError,
   Credentials | HttpClient.HttpClient
@@ -3139,7 +3226,7 @@ export type GetApiError = NotFoundException | TooManyRequestsException | CommonE
  * Gets an Api resource.
  */
 export const getApi: API.OperationMethod<
-  GetApiRequest,
+  GetApiRequest & RegionInput,
   GetApiResponse,
   GetApiError,
   Credentials | HttpClient.HttpClient
@@ -3163,7 +3250,7 @@ export type GetApiMappingError =
  * Gets an API mapping.
  */
 export const getApiMapping: API.OperationMethod<
-  GetApiMappingRequest,
+  GetApiMappingRequest & RegionInput,
   GetApiMappingResponse,
   GetApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -3187,7 +3274,7 @@ export type GetApiMappingsError =
  * Gets API mappings.
  */
 export const getApiMappings: API.OperationMethod<
-  GetApiMappingsRequest,
+  GetApiMappingsRequest & RegionInput,
   GetApiMappingsResponse,
   GetApiMappingsError,
   Credentials | HttpClient.HttpClient
@@ -3211,7 +3298,7 @@ export type GetApisError =
  * Gets a collection of Api resources.
  */
 export const getApis: API.OperationMethod<
-  GetApisRequest,
+  GetApisRequest & RegionInput,
   GetApisResponse,
   GetApisError,
   Credentials | HttpClient.HttpClient
@@ -3231,7 +3318,7 @@ export type GetAuthorizerError = NotFoundException | TooManyRequestsException | 
  * Gets an Authorizer.
  */
 export const getAuthorizer: API.OperationMethod<
-  GetAuthorizerRequest,
+  GetAuthorizerRequest & RegionInput,
   GetAuthorizerResponse,
   GetAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -3255,7 +3342,7 @@ export type GetAuthorizersError =
  * Gets the Authorizers for an API.
  */
 export const getAuthorizers: API.OperationMethod<
-  GetAuthorizersRequest,
+  GetAuthorizersRequest & RegionInput,
   GetAuthorizersResponse,
   GetAuthorizersError,
   Credentials | HttpClient.HttpClient
@@ -3275,7 +3362,7 @@ export type GetDeploymentError = NotFoundException | TooManyRequestsException | 
  * Gets a Deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3299,7 +3386,7 @@ export type GetDeploymentsError =
  * Gets the Deployments for an API.
  */
 export const getDeployments: API.OperationMethod<
-  GetDeploymentsRequest,
+  GetDeploymentsRequest & RegionInput,
   GetDeploymentsResponse,
   GetDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -3319,7 +3406,7 @@ export type GetDomainNameError = NotFoundException | TooManyRequestsException | 
  * Gets a domain name.
  */
 export const getDomainName: API.OperationMethod<
-  GetDomainNameRequest,
+  GetDomainNameRequest & RegionInput,
   GetDomainNameResponse,
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -3343,7 +3430,7 @@ export type GetDomainNamesError =
  * Gets the domain names for an AWS account.
  */
 export const getDomainNames: API.OperationMethod<
-  GetDomainNamesRequest,
+  GetDomainNamesRequest & RegionInput,
   GetDomainNamesResponse,
   GetDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3450,7 @@ export type GetIntegrationError = NotFoundException | TooManyRequestsException |
  * Gets an Integration.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResult,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3386,7 +3473,7 @@ export type GetIntegrationResponseError =
  * Gets an IntegrationResponses.
  */
 export const getIntegrationResponse: API.OperationMethod<
-  GetIntegrationResponseRequest,
+  GetIntegrationResponseRequest & RegionInput,
   GetIntegrationResponseResponse,
   GetIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -3410,7 +3497,7 @@ export type GetIntegrationResponsesError =
  * Gets the IntegrationResponses for an Integration.
  */
 export const getIntegrationResponses: API.OperationMethod<
-  GetIntegrationResponsesRequest,
+  GetIntegrationResponsesRequest & RegionInput,
   GetIntegrationResponsesResponse,
   GetIntegrationResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3434,7 +3521,7 @@ export type GetIntegrationsError =
  * Gets the Integrations for an API.
  */
 export const getIntegrations: API.OperationMethod<
-  GetIntegrationsRequest,
+  GetIntegrationsRequest & RegionInput,
   GetIntegrationsResponse,
   GetIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -3454,7 +3541,7 @@ export type GetModelError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Model.
  */
 export const getModel: API.OperationMethod<
-  GetModelRequest,
+  GetModelRequest & RegionInput,
   GetModelResponse,
   GetModelError,
   Credentials | HttpClient.HttpClient
@@ -3478,7 +3565,7 @@ export type GetModelsError =
  * Gets the Models for an API.
  */
 export const getModels: API.OperationMethod<
-  GetModelsRequest,
+  GetModelsRequest & RegionInput,
   GetModelsResponse,
   GetModelsError,
   Credentials | HttpClient.HttpClient
@@ -3498,7 +3585,7 @@ export type GetModelTemplateError = NotFoundException | TooManyRequestsException
  * Gets a model template.
  */
 export const getModelTemplate: API.OperationMethod<
-  GetModelTemplateRequest,
+  GetModelTemplateRequest & RegionInput,
   GetModelTemplateResponse,
   GetModelTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3523,7 +3610,7 @@ export type GetPortalError =
  * Gets a portal.
  */
 export const getPortal: API.OperationMethod<
-  GetPortalRequest,
+  GetPortalRequest & RegionInput,
   GetPortalResponse,
   GetPortalError,
   Credentials | HttpClient.HttpClient
@@ -3548,7 +3635,7 @@ export type GetPortalProductError =
  * Gets a portal product.
  */
 export const getPortalProduct: API.OperationMethod<
-  GetPortalProductRequest,
+  GetPortalProductRequest & RegionInput,
   GetPortalProductResponse,
   GetPortalProductError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3660,7 @@ export type GetPortalProductSharingPolicyError =
  * Gets the sharing policy for a portal product.
  */
 export const getPortalProductSharingPolicy: API.OperationMethod<
-  GetPortalProductSharingPolicyRequest,
+  GetPortalProductSharingPolicyRequest & RegionInput,
   GetPortalProductSharingPolicyResponse,
   GetPortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3598,7 +3685,7 @@ export type GetProductPageError =
  * Gets a product page of a portal product.
  */
 export const getProductPage: API.OperationMethod<
-  GetProductPageRequest,
+  GetProductPageRequest & RegionInput,
   GetProductPageResponse,
   GetProductPageError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3710,7 @@ export type GetProductRestEndpointPageError =
  * Gets a product REST endpoint page.
  */
 export const getProductRestEndpointPage: API.OperationMethod<
-  GetProductRestEndpointPageRequest,
+  GetProductRestEndpointPageRequest & RegionInput,
   GetProductRestEndpointPageResponse,
   GetProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -3643,7 +3730,7 @@ export type GetRouteError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Route.
  */
 export const getRoute: API.OperationMethod<
-  GetRouteRequest,
+  GetRouteRequest & RegionInput,
   GetRouteResult,
   GetRouteError,
   Credentials | HttpClient.HttpClient
@@ -3663,7 +3750,7 @@ export type GetRouteResponseError = NotFoundException | TooManyRequestsException
  * Gets a RouteResponse.
  */
 export const getRouteResponse: API.OperationMethod<
-  GetRouteResponseRequest,
+  GetRouteResponseRequest & RegionInput,
   GetRouteResponseResponse,
   GetRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3774,7 @@ export type GetRouteResponsesError =
  * Gets the RouteResponses for a Route.
  */
 export const getRouteResponses: API.OperationMethod<
-  GetRouteResponsesRequest,
+  GetRouteResponsesRequest & RegionInput,
   GetRouteResponsesResponse,
   GetRouteResponsesError,
   Credentials | HttpClient.HttpClient
@@ -3711,7 +3798,7 @@ export type GetRoutesError =
  * Gets the Routes for an API.
  */
 export const getRoutes: API.OperationMethod<
-  GetRoutesRequest,
+  GetRoutesRequest & RegionInput,
   GetRoutesResponse,
   GetRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3735,7 +3822,7 @@ export type GetRoutingRuleError =
  * Gets a routing rule.
  */
 export const getRoutingRule: API.OperationMethod<
-  GetRoutingRuleRequest,
+  GetRoutingRuleRequest & RegionInput,
   GetRoutingRuleResponse,
   GetRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3842,7 @@ export type GetStageError = NotFoundException | TooManyRequestsException | Commo
  * Gets a Stage.
  */
 export const getStage: API.OperationMethod<
-  GetStageRequest,
+  GetStageRequest & RegionInput,
   GetStageResponse,
   GetStageError,
   Credentials | HttpClient.HttpClient
@@ -3779,7 +3866,7 @@ export type GetStagesError =
  * Gets the Stages for an API.
  */
 export const getStages: API.OperationMethod<
-  GetStagesRequest,
+  GetStagesRequest & RegionInput,
   GetStagesResponse,
   GetStagesError,
   Credentials | HttpClient.HttpClient
@@ -3804,7 +3891,7 @@ export type GetTagsError =
  * Gets a collection of Tag resources.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   GetTagsResponse,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -3824,7 +3911,7 @@ export type GetVpcLinkError = NotFoundException | TooManyRequestsException | Com
  * Gets a VPC link.
  */
 export const getVpcLink: API.OperationMethod<
-  GetVpcLinkRequest,
+  GetVpcLinkRequest & RegionInput,
   GetVpcLinkResponse,
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
@@ -3844,7 +3931,7 @@ export type GetVpcLinksError = BadRequestException | TooManyRequestsException | 
  * Gets a collection of VPC links.
  */
 export const getVpcLinks: API.OperationMethod<
-  GetVpcLinksRequest,
+  GetVpcLinksRequest & RegionInput,
   GetVpcLinksResponse,
   GetVpcLinksError,
   Credentials | HttpClient.HttpClient
@@ -3869,7 +3956,7 @@ export type ImportApiError =
  * Imports an API.
  */
 export const importApi: API.OperationMethod<
-  ImportApiRequest,
+  ImportApiRequest & RegionInput,
   ImportApiResponse,
   ImportApiError,
   Credentials | HttpClient.HttpClient
@@ -3893,7 +3980,7 @@ export type ListPortalProductsError =
  * Lists portal products.
  */
 export const listPortalProducts: API.OperationMethod<
-  ListPortalProductsRequest,
+  ListPortalProductsRequest & RegionInput,
   ListPortalProductsResponse,
   ListPortalProductsError,
   Credentials | HttpClient.HttpClient
@@ -3917,7 +4004,7 @@ export type ListPortalsError =
  * Lists portals.
  */
 export const listPortals: API.OperationMethod<
-  ListPortalsRequest,
+  ListPortalsRequest & RegionInput,
   ListPortalsResponse,
   ListPortalsError,
   Credentials | HttpClient.HttpClient
@@ -3942,7 +4029,7 @@ export type ListProductPagesError =
  * Lists the product pages for a portal product.
  */
 export const listProductPages: API.OperationMethod<
-  ListProductPagesRequest,
+  ListProductPagesRequest & RegionInput,
   ListProductPagesResponse,
   ListProductPagesError,
   Credentials | HttpClient.HttpClient
@@ -3967,7 +4054,7 @@ export type ListProductRestEndpointPagesError =
  * Lists the product REST endpoint pages of a portal product.
  */
 export const listProductRestEndpointPages: API.OperationMethod<
-  ListProductRestEndpointPagesRequest,
+  ListProductRestEndpointPagesRequest & RegionInput,
   ListProductRestEndpointPagesResponse,
   ListProductRestEndpointPagesError,
   Credentials | HttpClient.HttpClient
@@ -3991,7 +4078,7 @@ export type ListRoutingRulesError =
  * Lists routing rules.
  */
 export const listRoutingRules: API.PaginatedOperationMethod<
-  ListRoutingRulesRequest,
+  ListRoutingRulesRequest & RegionInput,
   ListRoutingRulesResponse,
   ListRoutingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -4024,7 +4111,7 @@ export type PreviewPortalError =
  * Creates a portal preview.
  */
 export const previewPortal: API.OperationMethod<
-  PreviewPortalRequest,
+  PreviewPortalRequest & RegionInput,
   PreviewPortalResponse,
   PreviewPortalError,
   Credentials | HttpClient.HttpClient
@@ -4056,7 +4143,7 @@ export type PublishPortalError =
  * Publishes a portal.
  */
 export const publishPortal: API.OperationMethod<
-  PublishPortalRequest,
+  PublishPortalRequest & RegionInput,
   PublishPortalResponse,
   PublishPortalError,
   Credentials | HttpClient.HttpClient
@@ -4087,7 +4174,7 @@ export type PutPortalProductSharingPolicyError =
  * Updates the sharing policy for a portal product.
  */
 export const putPortalProductSharingPolicy: API.OperationMethod<
-  PutPortalProductSharingPolicyRequest,
+  PutPortalProductSharingPolicyRequest & RegionInput,
   PutPortalProductSharingPolicyResponse,
   PutPortalProductSharingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4112,7 +4199,7 @@ export type PutRoutingRuleError =
  * Updates a routing rule.
  */
 export const putRoutingRule: API.OperationMethod<
-  PutRoutingRuleRequest,
+  PutRoutingRuleRequest & RegionInput,
   PutRoutingRuleResponse,
   PutRoutingRuleError,
   Credentials | HttpClient.HttpClient
@@ -4137,7 +4224,7 @@ export type ReimportApiError =
  * Puts an Api resource.
  */
 export const reimportApi: API.OperationMethod<
-  ReimportApiRequest,
+  ReimportApiRequest & RegionInput,
   ReimportApiResponse,
   ReimportApiError,
   Credentials | HttpClient.HttpClient
@@ -4160,7 +4247,7 @@ export type ResetAuthorizersCacheError =
  * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
  */
 export const resetAuthorizersCache: API.OperationMethod<
-  ResetAuthorizersCacheRequest,
+  ResetAuthorizersCacheRequest & RegionInput,
   ResetAuthorizersCacheResponse,
   ResetAuthorizersCacheError,
   Credentials | HttpClient.HttpClient
@@ -4185,7 +4272,7 @@ export type TagResourceError =
  * Creates a new Tag resource to represent a tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4210,7 +4297,7 @@ export type UntagResourceError =
  * Deletes a Tag.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4235,7 +4322,7 @@ export type UpdateApiError =
  * Updates an Api resource.
  */
 export const updateApi: API.OperationMethod<
-  UpdateApiRequest,
+  UpdateApiRequest & RegionInput,
   UpdateApiResponse,
   UpdateApiError,
   Credentials | HttpClient.HttpClient
@@ -4260,7 +4347,7 @@ export type UpdateApiMappingError =
  * The API mapping.
  */
 export const updateApiMapping: API.OperationMethod<
-  UpdateApiMappingRequest,
+  UpdateApiMappingRequest & RegionInput,
   UpdateApiMappingResponse,
   UpdateApiMappingError,
   Credentials | HttpClient.HttpClient
@@ -4285,7 +4372,7 @@ export type UpdateAuthorizerError =
  * Updates an Authorizer.
  */
 export const updateAuthorizer: API.OperationMethod<
-  UpdateAuthorizerRequest,
+  UpdateAuthorizerRequest & RegionInput,
   UpdateAuthorizerResponse,
   UpdateAuthorizerError,
   Credentials | HttpClient.HttpClient
@@ -4310,7 +4397,7 @@ export type UpdateDeploymentError =
  * Updates a Deployment.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentRequest,
+  UpdateDeploymentRequest & RegionInput,
   UpdateDeploymentResponse,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -4335,7 +4422,7 @@ export type UpdateDomainNameError =
  * Updates a domain name.
  */
 export const updateDomainName: API.OperationMethod<
-  UpdateDomainNameRequest,
+  UpdateDomainNameRequest & RegionInput,
   UpdateDomainNameResponse,
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
@@ -4360,7 +4447,7 @@ export type UpdateIntegrationError =
  * Updates an Integration.
  */
 export const updateIntegration: API.OperationMethod<
-  UpdateIntegrationRequest,
+  UpdateIntegrationRequest & RegionInput,
   UpdateIntegrationResult,
   UpdateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4385,7 +4472,7 @@ export type UpdateIntegrationResponseError =
  * Updates an IntegrationResponses.
  */
 export const updateIntegrationResponse: API.OperationMethod<
-  UpdateIntegrationResponseRequest,
+  UpdateIntegrationResponseRequest & RegionInput,
   UpdateIntegrationResponseResponse,
   UpdateIntegrationResponseError,
   Credentials | HttpClient.HttpClient
@@ -4410,7 +4497,7 @@ export type UpdateModelError =
  * Updates a Model.
  */
 export const updateModel: API.OperationMethod<
-  UpdateModelRequest,
+  UpdateModelRequest & RegionInput,
   UpdateModelResponse,
   UpdateModelError,
   Credentials | HttpClient.HttpClient
@@ -4436,7 +4523,7 @@ export type UpdatePortalError =
  * Updates a portal.
  */
 export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
+  UpdatePortalRequest & RegionInput,
   UpdatePortalResponse,
   UpdatePortalError,
   Credentials | HttpClient.HttpClient
@@ -4467,7 +4554,7 @@ export type UpdatePortalProductError =
  * Updates the portal product.
  */
 export const updatePortalProduct: API.OperationMethod<
-  UpdatePortalProductRequest,
+  UpdatePortalProductRequest & RegionInput,
   UpdatePortalProductResponse,
   UpdatePortalProductError,
   Credentials | HttpClient.HttpClient
@@ -4492,7 +4579,7 @@ export type UpdateProductPageError =
  * Updates a product page of a portal product.
  */
 export const updateProductPage: API.OperationMethod<
-  UpdateProductPageRequest,
+  UpdateProductPageRequest & RegionInput,
   UpdateProductPageResponse,
   UpdateProductPageError,
   Credentials | HttpClient.HttpClient
@@ -4517,7 +4604,7 @@ export type UpdateProductRestEndpointPageError =
  * Updates a product REST endpoint page.
  */
 export const updateProductRestEndpointPage: API.OperationMethod<
-  UpdateProductRestEndpointPageRequest,
+  UpdateProductRestEndpointPageRequest & RegionInput,
   UpdateProductRestEndpointPageResponse,
   UpdateProductRestEndpointPageError,
   Credentials | HttpClient.HttpClient
@@ -4542,7 +4629,7 @@ export type UpdateRouteError =
  * Updates a Route.
  */
 export const updateRoute: API.OperationMethod<
-  UpdateRouteRequest,
+  UpdateRouteRequest & RegionInput,
   UpdateRouteResult,
   UpdateRouteError,
   Credentials | HttpClient.HttpClient
@@ -4567,7 +4654,7 @@ export type UpdateRouteResponseError =
  * Updates a RouteResponse.
  */
 export const updateRouteResponse: API.OperationMethod<
-  UpdateRouteResponseRequest,
+  UpdateRouteResponseRequest & RegionInput,
   UpdateRouteResponseResponse,
   UpdateRouteResponseError,
   Credentials | HttpClient.HttpClient
@@ -4592,7 +4679,7 @@ export type UpdateStageError =
  * Updates a Stage.
  */
 export const updateStage: API.OperationMethod<
-  UpdateStageRequest,
+  UpdateStageRequest & RegionInput,
   UpdateStageResponse,
   UpdateStageError,
   Credentials | HttpClient.HttpClient
@@ -4616,7 +4703,7 @@ export type UpdateVpcLinkError =
  * Updates a VPC link.
  */
 export const updateVpcLink: API.OperationMethod<
-  UpdateVpcLinkRequest,
+  UpdateVpcLinkRequest & RegionInput,
   UpdateVpcLinkResponse,
   UpdateVpcLinkError,
   Credentials | HttpClient.HttpClient

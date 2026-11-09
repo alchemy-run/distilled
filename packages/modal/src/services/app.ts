@@ -23,49 +23,69 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** An app with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class AppAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppAlreadyExists>()("AppAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The app doesn't exist (gRPC NOT_FOUND). */
+export class AppNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppNotFound>()("AppNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export type FileDescriptor =
   | "FILE_DESCRIPTOR_UNSPECIFIED"
   | "FILE_DESCRIPTOR_STDOUT"
   | "FILE_DESCRIPTOR_STDERR"
   | "FILE_DESCRIPTOR_INFO";
 export interface AppCountLogsRequest {
-  appId?: string;
-  taskId?: string;
-  functionId?: string;
-  functionCallId?: string;
-  sandboxId?: string;
-  searchText?: string;
-  since?: string;
-  until?: string;
-  bucketSecs?: number;
-  source?: FileDescriptor | (string & {});
+  appId?: string | undefined;
+  taskId?: string | undefined;
+  functionId?: string | undefined;
+  functionCallId?: string | undefined;
+  sandboxId?: string | undefined;
+  searchText?: string | undefined;
+  since?: string | undefined;
+  until?: string | undefined;
+  bucketSecs?: number | undefined;
+  source?: FileDescriptor | (string & {}) | undefined;
   /** Restrict logs to this exact Function ID, including when it is the base Function. */
-  parametrizedFunctionId?: string;
+  parametrizedFunctionId?: string | undefined;
 }
 export interface AppCountLogsResponseLogBucket {
-  bucketStartAt?: string;
-  stdoutLogs?: string;
-  stderrLogs?: string;
-  systemLogs?: string;
+  bucketStartAt?: string | undefined;
+  stdoutLogs: string;
+  stderrLogs: string;
+  systemLogs: string;
 }
 export type AppCountLogsResponseLogBucketList = Array<AppCountLogsResponseLogBucket>;
 export interface AppCountLogsResponse {
-  appId?: string;
-  buckets?: AppCountLogsResponseLogBucketList;
+  appId: string;
+  buckets: AppCountLogsResponseLogBucketList;
 }
 export interface AppDeploymentHistoryRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface CommitInfo {
-  vcs?: string;
+  vcs?: string | undefined;
   /** Only git is supported for now */
-  branch?: string;
-  commitHash?: string;
-  commitTimestamp?: string;
-  dirty?: boolean;
-  authorName?: string;
-  authorEmail?: string;
-  repoUrl?: string;
+  branch?: string | undefined;
+  commitHash?: string | undefined;
+  commitTimestamp?: string | undefined;
+  dirty?: boolean | undefined;
+  authorName?: string | undefined;
+  authorEmail?: string | undefined;
+  repoUrl?: string | undefined;
 }
 export type DeploymentType =
   | "DEPLOYMENT_TYPE_UNSPECIFIED"
@@ -75,36 +95,36 @@ export type DeploymentType =
   | "DEPLOYMENT_TYPE_PROMOTION"
   | "DEPLOYMENT_TYPE_STAGED";
 export interface AppDeploymentHistory2 {
-  appId?: string;
-  version?: number;
-  clientVersion?: string;
-  deployedAt?: number;
-  deployedBy?: string;
-  deployedByAvatarUrl?: string;
-  tag?: string;
-  rollbackVersion?: number;
-  rollbackAllowed?: boolean;
-  commitInfo?: CommitInfo;
-  deploymentType?: DeploymentType;
+  appId: string;
+  version: number;
+  clientVersion: string;
+  deployedAt: number;
+  deployedBy: string;
+  deployedByAvatarUrl: string;
+  tag: string;
+  rollbackVersion: number;
+  rollbackAllowed: boolean;
+  commitInfo?: CommitInfo | undefined;
+  deploymentType: DeploymentType;
 }
 export type AppDeploymentHistory2List = Array<AppDeploymentHistory2>;
 export interface AppDeploymentHistoryResponse {
-  appDeploymentHistories?: AppDeploymentHistory2List;
-  productionAppVersion?: number;
+  appDeploymentHistories: AppDeploymentHistory2List;
+  productionAppVersion: number;
 }
 export interface AppFetchLogsRequest {
-  appId?: string;
-  since?: string;
-  until?: string;
-  limit?: number;
-  source?: FileDescriptor | (string & {});
-  functionId?: string;
-  functionCallId?: string;
-  taskId?: string;
-  sandboxId?: string;
-  searchText?: string;
+  appId?: string | undefined;
+  since?: string | undefined;
+  until?: string | undefined;
+  limit?: number | undefined;
+  source?: FileDescriptor | (string & {}) | undefined;
+  functionId?: string | undefined;
+  functionCallId?: string | undefined;
+  taskId?: string | undefined;
+  sandboxId?: string | undefined;
+  searchText?: string | undefined;
   /** Restrict logs to this exact Function ID, including when it is the base Function. */
-  parametrizedFunctionId?: string;
+  parametrizedFunctionId?: string | undefined;
 }
 export type TaskState =
   | "TASK_STATE_UNSPECIFIED"
@@ -121,48 +141,48 @@ export type TaskState =
   | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export interface TaskProgress {
-  len?: string;
-  pos?: string;
-  progressType?: ProgressType;
-  description?: string;
+  len: string;
+  pos: string;
+  progressType: ProgressType;
+  description: string;
 }
 export interface TaskLogs {
-  data?: string;
-  taskState?: TaskState;
-  timestamp?: number;
-  fileDescriptor?: FileDescriptor;
-  taskProgress?: TaskProgress;
-  functionCallId?: string;
-  inputId?: string;
-  timestampNs?: string;
-  containerId?: string;
-  containerName?: string;
+  data: string;
+  taskState: TaskState;
+  timestamp: number;
+  fileDescriptor: FileDescriptor;
+  taskProgress?: TaskProgress | undefined;
+  functionCallId: string;
+  inputId: string;
+  timestampNs: string;
+  containerId: string;
+  containerName: string;
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface TaskLogsBatch {
-  taskId?: string;
-  items?: TaskLogsList;
-  entryId?: string;
-  appDone?: boolean;
-  functionId?: string;
-  inputId?: string;
-  imageId?: string;
+  taskId: string;
+  items: TaskLogsList;
+  entryId: string;
+  appDone: boolean;
+  functionId: string;
+  inputId: string;
+  imageId: string;
   /** Used for image logs */
-  eof?: boolean;
-  ptyExecId?: string;
+  eof: boolean;
+  ptyExecId: string;
   /** Used for interactive functions */
-  rootFunctionId?: string;
-  ttlDays?: number;
-  sandboxId?: string;
+  rootFunctionId: string;
+  ttlDays: number;
+  sandboxId: string;
 }
 export type TaskLogsBatchList = Array<TaskLogsBatch>;
 export interface AppFetchLogsResponse {
-  batches?: TaskLogsBatchList;
+  batches: TaskLogsBatchList;
 }
 export interface AppGetByDeploymentNameRequest {
   /** removed namespace */
-  name?: string;
-  environmentName?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
 }
 /** NOTE: make sure to update the frontend if we add a new state here https://github.com/modal-labs/modal/blob/main/frontend/src/routes/(dashboard)/%5B%5Bworkspace%5D%5D/apps/+page.svelte#L95 */
 export type AppState =
@@ -178,41 +198,41 @@ export type AppState =
   | "APP_STATE_DERIVED";
 /** tag -> class id */
 export interface AppLifecycle {
-  appState?: AppState;
-  createdAt?: number;
-  createdBy?: string;
+  appState: AppState;
+  createdAt: number;
+  createdBy: string;
   /** User or service user name */
-  deployedAt?: number;
+  deployedAt: number;
   /** Most recent deployment event */
-  deployedBy?: string;
+  deployedBy: string;
   /** User or service user name */
-  version?: number;
+  version: number;
   /** Only meaningful when App is deployed */
-  stoppedAt?: number;
+  stoppedAt: number;
   /** Unset when App is still running */
-  stoppedBy?: string;
+  stoppedBy: string;
 }
 export interface AppGetByDeploymentNameResponse {
-  appId?: string;
+  appId: string;
   /** Null when App with requested name is not deployed */
-  previousAppId?: string;
+  previousAppId: string;
   /** Populated if App with requested name was recently stopped */
-  environmentName?: string;
+  environmentName: string;
   /** Populated because server may resolve default environment */
-  lifecycle?: AppLifecycle;
+  lifecycle?: AppLifecycle | undefined;
 }
 export interface AppGetInfoRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface AppHandleMetadata {
-  description?: string;
-  appId?: string;
-  environmentName?: string;
-  lifecycle?: AppLifecycle;
-  functions?: StringMap;
+  description: string;
+  appId: string;
+  environmentName: string;
+  lifecycle?: AppLifecycle | undefined;
+  functions: StringMap;
   /** tag -> function id */
-  servers?: StringMap;
+  servers: StringMap;
 }
 export type GPUType =
   | "GPU_TYPE_UNSPECIFIED"
@@ -226,47 +246,47 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType;
+  type: GPUType;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  count: number;
+  gpuType: string;
 }
 export type GPUConfigList = Array<GPUConfig>;
 export interface ScheduleCron {
-  cronString?: string;
-  timezone?: string;
+  cronString: string;
+  timezone: string;
 }
 export interface SchedulePeriod {
-  years?: number;
-  months?: number;
-  weeks?: number;
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  years: number;
+  months: number;
+  weeks: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 export interface Schedule {
-  cron?: ScheduleCron;
-  period?: SchedulePeriod;
+  cron?: ScheduleCron | undefined;
+  period?: SchedulePeriod | undefined;
 }
 export interface AppGetInfoResponseFunctionInfoSummary {
-  gpuConfig?: GPUConfigList;
-  schedule?: Schedule;
+  gpuConfig: GPUConfigList;
+  schedule?: Schedule | undefined;
   /** True for Web Functions and classes with web methods; false for Servers. */
-  webFunction?: boolean;
-  requiresProxyAuth?: boolean;
+  webFunction: boolean;
+  requiresProxyAuth?: boolean | undefined;
   /** True for Sessioned Servers. */
-  isSessioned?: boolean;
+  isSessioned: boolean;
 }
 export type AppGetInfoResponseFunctionInfoSummaryMap = {
   [key: string]: AppGetInfoResponseFunctionInfoSummary | undefined;
 };
 export interface AppGetInfoResponse {
-  info?: AppHandleMetadata;
-  functionInfoSummaries?: AppGetInfoResponseFunctionInfoSummaryMap;
+  info?: AppHandleMetadata | undefined;
+  functionInfoSummaries: AppGetInfoResponseFunctionInfoSummaryMap;
 }
 export interface AppGetLayoutRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export type FunctionFunctionType =
   | "FUNCTION_TYPE_UNSPECIFIED"
@@ -289,36 +309,36 @@ export type ParameterType =
   | "PARAM_TYPE_BOOL";
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
-  baseType?: ParameterType;
-  subTypes?: GenericPayloadTypeList;
+  baseType: ParameterType;
+  subTypes: GenericPayloadTypeList;
 }
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
-  name?: string;
-  type?: ParameterType;
+  name: string;
+  type: ParameterType;
   /** TODO: deprecate - use full_type instead */
-  hasDefault?: boolean;
+  hasDefault: boolean;
   /** Default *values* are only registered for class parameters */
-  stringDefault?: string;
-  intDefault?: string;
-  pickleDefault?: string;
-  bytesDefault?: string;
-  boolDefault?: boolean;
-  fullType?: GenericPayloadType;
+  stringDefault?: string | undefined;
+  intDefault?: string | undefined;
+  pickleDefault?: string | undefined;
+  bytesDefault?: string | undefined;
+  boolDefault?: boolean | undefined;
+  fullType?: GenericPayloadType | undefined;
 }
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
   /** new format using api.FunctionParameterSet */
-  format?: ClassParameterInfoParameterSerializationFormat;
-  schema?: ClassParameterSpecList;
+  format: ClassParameterInfoParameterSerializationFormat;
+  schema: ClassParameterSpecList;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType?: FunctionSchemaFunctionSchemaType;
+  schemaType: FunctionSchemaFunctionSchemaType;
   /** allows easy disambiguation between empty schema and no schema collection etc. */
-  arguments?: ClassParameterSpecList;
-  returnType?: GenericPayloadType;
+  arguments: ClassParameterSpecList;
+  returnType?: GenericPayloadType | undefined;
 }
 export type StringList = Array<string>;
 /** Which data format a binary message is encoded with. */
@@ -331,45 +351,45 @@ export type DataFormat =
 export type DataFormatList = Array<DataFormat>;
 export interface FunctionHandleMetadata {
   /** contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above */
-  functionName?: string;
-  functionType?: FunctionFunctionType;
-  webUrl?: string;
-  isMethod?: boolean;
+  functionName: string;
+  functionType: FunctionFunctionType;
+  webUrl: string;
+  isMethod: boolean;
   /** use_function_id, pre-0.67 class method placeholders */
-  useMethodName?: string;
+  useMethodName: string;
   /** used for methods */
-  definitionId?: string;
-  classParameterInfo?: ClassParameterInfo;
+  definitionId: string;
+  classParameterInfo?: ClassParameterInfo | undefined;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
-  methodHandleMetadata?: FunctionHandleMetadataMap;
-  functionSchema?: FunctionSchema;
-  inputPlaneUrl?: string;
-  inputPlaneRegion?: string;
+  methodHandleMetadata: FunctionHandleMetadataMap;
+  functionSchema?: FunctionSchema | undefined;
+  inputPlaneUrl?: string | undefined;
+  inputPlaneRegion?: string | undefined;
   /** Use optional to ensure unset values default to None instead of 0 */
-  maxObjectSizeBytes?: string;
-  maxAsyncObjectSizeBytes?: string;
-  ExperimentalFlashUrls?: StringList;
+  maxObjectSizeBytes?: string | undefined;
+  maxAsyncObjectSizeBytes?: string | undefined;
+  ExperimentalFlashUrls: StringList;
   /** (Optional) urls for flash services */
-  supportedInputFormats?: DataFormatList;
-  supportedOutputFormats?: DataFormatList;
-  appId?: string;
+  supportedInputFormats: DataFormatList;
+  supportedOutputFormats: DataFormatList;
+  appId: string;
   /** The base Function ID for a variant, or the Function's own ID otherwise. */
-  baseFunctionId?: string;
+  baseFunctionId: string;
 }
 export interface MountHandleMetadata {
-  contentChecksumSha256Hex?: string;
+  contentChecksumSha256Hex: string;
 }
 export interface ClassMethod {
-  functionName?: string;
-  functionId?: string;
+  functionName: string;
+  functionId: string;
   /** Class methods need to hydrate all functions on the class */
-  functionHandleMetadata?: FunctionHandleMetadata;
+  functionHandleMetadata?: FunctionHandleMetadata | undefined;
 }
 export type ClassMethodList = Array<ClassMethod>;
 export interface ClassHandleMetadata {
-  methods?: ClassMethodList;
-  classFunctionId?: string;
-  classFunctionMetadata?: FunctionHandleMetadata;
+  methods: ClassMethodList;
+  classFunctionId: string;
+  classFunctionMetadata?: FunctionHandleMetadata | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -381,30 +401,32 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
+  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  exception: string;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exitcode: number;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  traceback: string;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  serializedTb: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  propagationReason: string;
 }
 export interface SandboxHandleMetadata {
-  result?: GenericResult;
-  appId?: string;
+  result?: GenericResult | undefined;
+  appId: string;
 }
 /** HTTP/2 tunnel */
 export type VolumeFsVersion =
@@ -413,51 +435,68 @@ export type VolumeFsVersion =
   | "VOLUME_FS_VERSION_V2";
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export interface VolumeMetadata {
-  version?: VolumeFsVersion;
-  name?: string;
-  creationInfo?: CreationInfo;
+  version: VolumeFsVersion;
+  name: string;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface Object {
-  objectId?: string;
-  functionHandleMetadata?: FunctionHandleMetadata;
-  mountHandleMetadata?: MountHandleMetadata;
-  classHandleMetadata?: ClassHandleMetadata;
-  sandboxHandleMetadata?: SandboxHandleMetadata;
-  volumeMetadata?: VolumeMetadata;
+  objectId: string;
+  functionHandleMetadata?: FunctionHandleMetadata | undefined;
+  mountHandleMetadata?: MountHandleMetadata | undefined;
+  classHandleMetadata?: ClassHandleMetadata | undefined;
+  sandboxHandleMetadata?: SandboxHandleMetadata | undefined;
+  volumeMetadata?: VolumeMetadata | undefined;
 }
 export type ObjectList = Array<Object>;
 export interface AppLayout {
-  objects?: ObjectList;
-  functionIds?: StringMap;
+  objects: ObjectList;
+  functionIds: StringMap;
   /** tag -> function id */
-  classIds?: StringMap;
+  classIds: StringMap;
 }
 export interface AppGetLayoutResponse {
-  appLayout?: AppLayout;
+  appLayout?: AppLayout | undefined;
 }
 export interface AppGetLifecycleRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface AppGetLifecycleResponse {
-  lifecycle?: AppLifecycle;
+  lifecycle?: AppLifecycle | undefined;
+}
+export interface AppGetLogsRequest {
+  appId?: string | undefined;
+  timeout?: number | undefined;
+  lastEntryId?: string | undefined;
+  functionId?: string | undefined;
+  parametrizedFunctionId?: string | undefined;
+  inputId?: string | undefined;
+  taskId?: string | undefined;
+  functionCallId?: string | undefined;
+  fileDescriptor?: FileDescriptor | (string & {}) | undefined;
+  sandboxId?: string | undefined;
+  searchText?: string | undefined;
+}
+export interface AppGetLogsStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: TaskLogsBatchList;
 }
 export interface AppGetObjectsRequest {
-  appId?: string;
-  includeUnindexed?: boolean;
-  onlyClassFunction?: boolean;
+  appId?: string | undefined;
+  includeUnindexed?: boolean | undefined;
+  onlyClassFunction?: boolean | undefined;
 }
 export interface AppGetObjectsItem {
-  tag?: string;
-  object?: Object;
+  tag: string;
+  object?: Object | undefined;
 }
 export type AppGetObjectsItemList = Array<AppGetObjectsItem>;
 export interface AppGetObjectsResponse {
-  items?: AppGetObjectsItemList;
+  items: AppGetObjectsItemList;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -467,27 +506,27 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface AppGetOrCreateRequest {
-  appName?: string;
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  appName?: string | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface AppGetOrCreateResponse {
-  appId?: string;
-  handleMetadata?: AppHandleMetadata;
+  appId: string;
+  handleMetadata?: AppHandleMetadata | undefined;
 }
 export interface AppGetTagsRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface AppGetTagsResponse {
-  tags?: StringMap;
+  tags: StringMap;
 }
 export interface AppHeartbeatRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface AppHeartbeatResponse {}
 export interface AppRollbackRequest {
-  appId?: string;
-  version?: number;
+  appId?: string | undefined;
+  version?: number | undefined;
 }
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -495,48 +534,48 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface AppRollbackResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface AppRolloverRequest {
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface AppRolloverResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface AppSetObjectsRequest {
-  appId?: string;
-  indexedObjectIds?: StringMap;
-  clientId?: string;
-  unindexedObjectIds?: StringList;
-  newAppState?: AppState | (string & {});
+  appId?: string | undefined;
+  indexedObjectIds?: StringMap | undefined;
+  clientId?: string | undefined;
+  unindexedObjectIds?: StringList | undefined;
+  newAppState?: AppState | (string & {}) | undefined;
 }
 export interface AppSetObjectsResponse {}
 export interface AppSetTagsRequest {
-  appId?: string;
-  tags?: StringMap;
+  appId?: string | undefined;
+  tags?: StringMap | undefined;
 }
 export interface AppSetTagsResponse {}
 export interface CreateAppRequest {
-  clientId?: string;
-  description?: string;
+  clientId?: string | undefined;
+  description?: string | undefined;
   /** Human readable label for the app */
-  environmentName?: string;
-  appState?: AppState | (string & {});
-  tags?: StringMap;
+  environmentName?: string | undefined;
+  appState?: AppState | (string & {}) | undefined;
+  tags?: StringMap | undefined;
 }
 export interface CreateAppResponse {
-  appId?: string;
-  appPageUrl?: string;
-  appLogsUrl?: string;
+  appId: string;
+  appPageUrl: string;
+  appLogsUrl: string;
 }
 /** gRPC protos for Modal's public API surface. Warning: direct usage of Modal's gRPC API is discouraged, and no support or compatibility guarantees are provided. Message fields or entire RPCs may be changed or removed without notice. We recommend using official SDKs instead. */
 export type AppDeployVisibility =
@@ -544,15 +583,15 @@ export type AppDeployVisibility =
   | "APP_DEPLOY_VISIBILITY_WORKSPACE"
   | "APP_DEPLOY_VISIBILITY_PUBLIC";
 export interface DeployAppRequest {
-  appId?: string;
+  appId?: string | undefined;
   /** namespace */
-  name?: string;
-  objectEntity?: string;
-  visibility?: AppDeployVisibility | (string & {});
-  tag?: string;
+  name?: string | undefined;
+  objectEntity?: string | undefined;
+  visibility?: AppDeployVisibility | (string & {}) | undefined;
+  tag?: string | undefined;
 }
 export interface DeployAppResponse {
-  url?: string;
+  url: string;
 }
 export type AppDisconnectReason =
   | "APP_DISCONNECT_REASON_UNSPECIFIED"
@@ -562,72 +601,72 @@ export type AppDisconnectReason =
   | "APP_DISCONNECT_REASON_DEPLOYMENT_EXCEPTION"
   | "APP_DISCONNECT_REASON_REMOTE_EXCEPTION";
 export interface DisconnectAppClientRequest {
-  appId?: string;
-  reason?: AppDisconnectReason | (string & {});
-  exception?: string;
+  appId?: string | undefined;
+  reason?: AppDisconnectReason | (string & {}) | undefined;
+  exception?: string | undefined;
 }
 export interface DisconnectAppClientResponse {}
 export interface ListAppRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export interface ListAppResponseAppListItem {
-  appId?: string;
-  description?: string;
-  state?: AppState;
-  createdAt?: number;
-  stoppedAt?: number;
-  nRunningTasks?: number;
-  name?: string;
-  metadata?: AppHandleMetadata;
+  appId: string;
+  description: string;
+  state: AppState;
+  createdAt: number;
+  stoppedAt: number;
+  nRunningTasks: number;
+  name: string;
+  metadata?: AppHandleMetadata | undefined;
 }
 export type ListAppResponseAppListItemList = Array<ListAppResponseAppListItem>;
 export interface ListAppResponse {
-  apps?: ListAppResponseAppListItemList;
+  apps: ListAppResponseAppListItemList;
 }
 export interface LookupAppRequest {
-  appName?: string;
-  environmentName?: string;
+  appName?: string | undefined;
+  environmentName?: string | undefined;
 }
 export interface LookupAppResponse {
-  appId?: string;
+  appId: string;
 }
 export interface PromoteAppRequest {
-  appId?: string;
-  version?: number;
+  appId?: string | undefined;
+  version?: number | undefined;
 }
 export interface PromoteAppResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export interface PublishAppRequest {
-  appId?: string;
-  name?: string;
-  deploymentTag?: string;
+  appId?: string | undefined;
+  name?: string | undefined;
+  deploymentTag?: string | undefined;
   /** Additional metadata to identify a deployment */
-  appState?: AppState | (string & {});
+  appState?: AppState | (string & {}) | undefined;
   /** Published app will be in this state */
-  functionIds?: StringMap;
+  functionIds?: StringMap | undefined;
   /** function_name -> function_id */
-  classIds?: StringMap;
+  classIds?: StringMap | undefined;
   /** class_name -> class_id */
-  definitionIds?: StringMap;
+  definitionIds?: StringMap | undefined;
   /** function_id -> definition_id */
-  rollbackVersion?: number;
+  rollbackVersion?: number | undefined;
   /** Unused by client, but used internally */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Unused by client, but used internally */
-  commitInfo?: CommitInfo;
+  commitInfo?: CommitInfo | undefined;
   /** Git information for deployment tracking */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Additional metadata to attach to the App If true, create a version pinned deployment but don't update the production deployment definition on publish */
-  staged?: boolean;
-  deploymentType?: DeploymentType | (string & {});
+  staged?: boolean | undefined;
+  deploymentType?: DeploymentType | (string & {}) | undefined;
 }
 export interface PublishAppResponse {
-  url?: string;
-  serverWarnings?: WarningList;
-  deployedAt?: number;
+  url: string;
+  serverWarnings: WarningList;
+  deployedAt: number;
 }
 export type AppStopSource =
   | "APP_STOP_SOURCE_UNSPECIFIED"
@@ -635,164 +674,180 @@ export type AppStopSource =
   | "APP_STOP_SOURCE_PYTHON_CLIENT"
   | "APP_STOP_SOURCE_WEB";
 export interface StopAppRequest {
-  appId?: string;
-  source?: AppStopSource | (string & {});
+  appId?: string | undefined;
+  source?: AppStopSource | (string & {}) | undefined;
 }
 export interface StopAppResponse {}
-export type AppCountLogsError = ModalOpError;
+export type AppCountLogsError = AppNotFound | ModalOpError;
 export const appCountLogs: API.OperationMethod<
   AppCountLogsRequest,
   AppCountLogsResponse,
   AppCountLogsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AppCountLogsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<AppCountLogsResponse>,
-  errors: [UnknownModalError],
+  input: __S(384, __c12, 0) as any as S.Schema<AppCountLogsRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<AppCountLogsResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppCountLogs",
 }));
 
-export type AppDeploymentHistoryError = ModalOpError;
+export type AppDeploymentHistoryError = AppNotFound | ModalOpError;
 export const appDeploymentHistory: API.OperationMethod<
   AppDeploymentHistoryRequest,
   AppDeploymentHistoryResponse,
   AppDeploymentHistoryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<AppDeploymentHistoryRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<AppDeploymentHistoryResponse>,
-  errors: [UnknownModalError],
+  input: __S(608, __c19, 0) as any as S.Schema<AppDeploymentHistoryRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<AppDeploymentHistoryResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppDeploymentHistory",
 }));
 
-export type AppFetchLogsError = ModalOpError;
+export type AppFetchLogsError = AppNotFound | ModalOpError;
 export const appFetchLogs: API.OperationMethod<
   AppFetchLogsRequest,
   AppFetchLogsResponse,
   AppFetchLogsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<AppFetchLogsRequest>,
-  output: __S(486, __c15, 6) as any as S.Schema<AppFetchLogsResponse>,
-  errors: [UnknownModalError],
+  input: __S(672, __c21, 0) as any as S.Schema<AppFetchLogsRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<AppFetchLogsResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppFetchLogs",
 }));
 
-export type AppGetByDeploymentNameError = ModalOpError;
+export type AppGetByDeploymentNameError = AppNotFound | ModalOpError;
 export const appGetByDeploymentName: API.OperationMethod<
   AppGetByDeploymentNameRequest,
   AppGetByDeploymentNameResponse,
   AppGetByDeploymentNameError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<AppGetByDeploymentNameRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<AppGetByDeploymentNameResponse>,
-  errors: [UnknownModalError],
+  input: __S(736, __c23, 0) as any as S.Schema<AppGetByDeploymentNameRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<AppGetByDeploymentNameResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetByDeploymentName",
 }));
 
-export type AppGetInfoError = ModalOpError;
+export type AppGetInfoError = AppNotFound | ModalOpError;
 export const appGetInfo: API.OperationMethod<
   AppGetInfoRequest,
   AppGetInfoResponse,
   AppGetInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<AppGetInfoRequest>,
-  output: __S(680, __c21, 8) as any as S.Schema<AppGetInfoResponse>,
-  errors: [UnknownModalError],
+  input: __S(800, __c25, 0) as any as S.Schema<AppGetInfoRequest>,
+  output: __S(808, __c25, 8) as any as S.Schema<AppGetInfoResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetInfo",
 }));
 
-export type AppGetLayoutError = ModalOpError;
+export type AppGetLayoutError = AppNotFound | ModalOpError;
 export const appGetLayout: API.OperationMethod<
   AppGetLayoutRequest,
   AppGetLayoutResponse,
   AppGetLayoutError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<AppGetLayoutRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<AppGetLayoutResponse>,
-  errors: [UnknownModalError],
+  input: __S(896, __c28, 0) as any as S.Schema<AppGetLayoutRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<AppGetLayoutResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetLayout",
 }));
 
-export type AppGetLifecycleError = ModalOpError;
+export type AppGetLifecycleError = AppNotFound | ModalOpError;
 export const appGetLifecycle: API.OperationMethod<
   AppGetLifecycleRequest,
   AppGetLifecycleResponse,
   AppGetLifecycleError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<AppGetLifecycleRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<AppGetLifecycleResponse>,
-  errors: [UnknownModalError],
+  input: __S(992, __c31, 0) as any as S.Schema<AppGetLifecycleRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<AppGetLifecycleResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetLifecycle",
 }));
 
-export type AppGetObjectsError = ModalOpError;
+export type AppGetLogsError = AppNotFound | ModalOpError;
+export const appGetLogs: API.StreamingOperationMethod<
+  AppGetLogsRequest,
+  AppGetLogsStream,
+  AppGetLogsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<AppGetLogsRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<AppGetLogsStream>,
+  errors: [AppNotFound, UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetLogs",
+}));
+
+export type AppGetObjectsError = AppNotFound | ModalOpError;
 export const appGetObjects: API.OperationMethod<
   AppGetObjectsRequest,
   AppGetObjectsResponse,
   AppGetObjectsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<AppGetObjectsRequest>,
-  output: __S(899, __c28, 3) as any as S.Schema<AppGetObjectsResponse>,
-  errors: [UnknownModalError],
+  input: __S(0, __c0, 0) as any as S.Schema<AppGetObjectsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<AppGetObjectsResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetObjects",
 }));
 
-export type AppGetOrCreateError = ModalOpError;
+export type AppGetOrCreateError = AppNotFound | AppAlreadyExists | ModalOpError;
 export const appGetOrCreate: API.OperationMethod<
   AppGetOrCreateRequest,
   AppGetOrCreateResponse,
   AppGetOrCreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<AppGetOrCreateRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<AppGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  input: __S(32, __c1, 0) as any as S.Schema<AppGetOrCreateRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<AppGetOrCreateResponse>,
+  errors: [AppNotFound, AppAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppGetOrCreate",
 }));
 
-export type AppGetTagsError = ModalOpError;
+export type AppGetTagsError = AppNotFound | ModalOpError;
 export const appGetTags: API.OperationMethod<
   AppGetTagsRequest,
   AppGetTagsResponse,
   AppGetTagsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<AppGetTagsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<AppGetTagsResponse>,
-  errors: [UnknownModalError],
+  input: __S(64, __c2, 0) as any as S.Schema<AppGetTagsRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<AppGetTagsResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -815,7 +870,7 @@ export const appHeartbeat: API.OperationMethod<
   span: "AppHeartbeat",
 }));
 
-export type AppRollbackError = ModalOpError;
+export type AppRollbackError = AppNotFound | ModalOpError;
 export const appRollback: API.OperationMethod<
   AppRollbackRequest,
   AppRollbackResponse,
@@ -824,14 +879,14 @@ export const appRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<AppRollbackRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<AppRollbackResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppRollback",
 }));
 
-export type AppRolloverError = ModalOpError;
+export type AppRolloverError = AppNotFound | ModalOpError;
 export const appRollover: API.OperationMethod<
   AppRolloverRequest,
   AppRolloverResponse,
@@ -840,7 +895,7 @@ export const appRollover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<AppRolloverRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<AppRolloverResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +918,7 @@ export const appSetObjects: API.OperationMethod<
   span: "AppSetObjects",
 }));
 
-export type AppSetTagsError = ModalOpError;
+export type AppSetTagsError = AppNotFound | ModalOpError;
 export const appSetTags: API.OperationMethod<
   AppSetTagsRequest,
   AppSetTagsResponse,
@@ -872,14 +927,14 @@ export const appSetTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<AppSetTagsRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<AppSetTagsResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppSetTags",
 }));
 
-export type CreateAppError = ModalOpError;
+export type CreateAppError = AppAlreadyExists | ModalOpError;
 export const createApp: API.OperationMethod<
   CreateAppRequest,
   CreateAppResponse,
@@ -888,7 +943,7 @@ export const createApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateAppRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<CreateAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -911,7 +966,7 @@ export const deployApp: API.OperationMethod<
   span: "DeployApp",
 }));
 
-export type DisconnectAppClientError = ModalOpError;
+export type DisconnectAppClientError = AppNotFound | ModalOpError;
 /** Apps */
 export const disconnectAppClient: API.OperationMethod<
   DisconnectAppClientRequest,
@@ -919,9 +974,9 @@ export const disconnectAppClient: API.OperationMethod<
   DisconnectAppClientError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DisconnectAppClientRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<DisconnectAppClientRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DisconnectAppClientResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -935,8 +990,8 @@ export const listApp: API.OperationMethod<
   ListAppError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListAppRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<ListAppResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListAppRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<ListAppResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -944,23 +999,23 @@ export const listApp: API.OperationMethod<
   span: "ListApp",
 }));
 
-export type LookupAppError = ModalOpError;
+export type LookupAppError = AppNotFound | ModalOpError;
 export const lookupApp: API.OperationMethod<
   LookupAppRequest,
   LookupAppResponse,
   LookupAppError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<LookupAppRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<LookupAppResponse>,
-  errors: [UnknownModalError],
+  input: __S(480, __c15, 0) as any as S.Schema<LookupAppRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<LookupAppResponse>,
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupApp",
 }));
 
-export type PromoteAppError = ModalOpError;
+export type PromoteAppError = AppNotFound | ModalOpError;
 export const promoteApp: API.OperationMethod<
   PromoteAppRequest,
   PromoteAppResponse,
@@ -969,14 +1024,14 @@ export const promoteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<PromoteAppRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PromoteAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteApp",
 }));
 
-export type PublishAppError = ModalOpError;
+export type PublishAppError = AppNotFound | ModalOpError;
 export const publishApp: API.OperationMethod<
   PublishAppRequest,
   PublishAppResponse,
@@ -985,14 +1040,14 @@ export const publishApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<PublishAppRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PublishAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishApp",
 }));
 
-export type StopAppError = ModalOpError;
+export type StopAppError = AppNotFound | ModalOpError;
 export const stopApp: API.OperationMethod<
   StopAppRequest,
   StopAppResponse,
@@ -1001,7 +1056,7 @@ export const stopApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<StopAppRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<StopAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1015,38 +1070,27 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.optional(S.String),
-          taskId: S.optional(S.String),
-          functionId: S.optional(S.String),
-          functionCallId: S.optional(S.String),
-          sandboxId: S.optional(S.String),
-          searchText: S.optional(S.String),
-          since: S.optional(S.String),
-          until: S.optional(S.String),
-          bucketSecs: S.optional(S.Number),
-          source: S.optional(S.String),
-          parametrizedFunctionId: S.optional(S.String),
+          includeUnindexed: S.optional(S.Boolean),
+          onlyClassFunction: S.optional(S.Boolean),
         }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppCountLogs", code: 200 }),
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetObjects", code: 200 }),
         ),
-      ).annotate({ identifier: "AppCountLogsRequest" });
+      ).annotate({ identifier: "AppGetObjectsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bucketStartAt: S.optional(S.String),
-          stdoutLogs: S.optional(S.String),
-          stderrLogs: S.optional(S.String),
-          systemLogs: S.optional(S.String),
+          tag: S.String,
+          object: S.optional(__S(945, __c29, 17)),
         }),
-      ).annotate({ identifier: "AppCountLogsResponseLogBucket" });
+      ).annotate({ identifier: "AppGetObjectsItem" });
     case 2:
       return S.Array(__S(1, __c0, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          buckets: S.optional(__S(2, __c0, 2)),
+          items: __S(2, __c0, 2),
         }),
-      ).annotate({ identifier: "AppCountLogsResponse" });
+      ).annotate({ identifier: "AppGetObjectsResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1054,40 +1098,20 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
+          appName: S.optional(S.String),
+          environmentName: S.optional(S.String),
+          objectCreationType: S.optional(S.String),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/modal.client.ModalClient/AppDeploymentHistory",
-            code: 200,
-          }),
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetOrCreate", code: 200 }),
         ),
-      ).annotate({ identifier: "AppDeploymentHistoryRequest" });
+      ).annotate({ identifier: "AppGetOrCreateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          version: S.optional(S.Number),
-          clientVersion: S.optional(S.String),
-          deployedAt: S.optional(S.Number),
-          deployedBy: S.optional(S.String),
-          deployedByAvatarUrl: S.optional(S.String),
-          tag: S.optional(S.String),
-          rollbackVersion: S.optional(S.Number),
-          rollbackAllowed: S.optional(S.Boolean),
-          commitInfo: S.optional(__S(64, __c2, 0)),
-          deploymentType: S.optional(S.String),
+          appId: S.String,
+          handleMetadata: S.optional(__S(832, __c26, 0)),
         }),
-      ).annotate({ identifier: "AppDeploymentHistory2" });
-    case 2:
-      return S.Array(__S(33, __c1, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          appDeploymentHistories: S.optional(__S(34, __c1, 2)),
-          productionAppVersion: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AppDeploymentHistoryResponse" });
+      ).annotate({ identifier: "AppGetOrCreateResponse" });
   }
 }
 function __c2(j: number): any {
@@ -1095,16 +1119,15 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          vcs: S.optional(S.String),
-          branch: S.optional(S.String),
-          commitHash: S.optional(S.String),
-          commitTimestamp: S.optional(S.String),
-          dirty: S.optional(S.Boolean),
-          authorName: S.optional(S.String),
-          authorEmail: S.optional(S.String),
-          repoUrl: S.optional(S.String),
+          appId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetTags", code: 200 })),
+      ).annotate({ identifier: "AppGetTagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tags: __S(864, __c27, 0),
         }),
-      ).annotate({ identifier: "CommitInfo" });
+      ).annotate({ identifier: "AppGetTagsResponse" });
   }
 }
 function __c3(j: number): any {
@@ -1143,8 +1166,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 1:
@@ -1152,9 +1175,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          serverWarnings: S.optional(__S(193, __c6, 1)),
-          deployedAt: S.optional(S.Number),
+          url: S.String,
+          serverWarnings: __S(193, __c6, 1),
+          deployedAt: S.Number,
         }),
       ).annotate({ identifier: "AppRollbackResponse" });
   }
@@ -1177,9 +1200,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.optional(S.String),
-          indexedObjectIds: S.optional(__S(704, __c22, 0)),
+          indexedObjectIds: S.optional(__S(864, __c27, 0)),
           clientId: S.optional(S.String),
-          unindexedObjectIds: S.optional(__S(832, __c26, 0)),
+          unindexedObjectIds: S.optional(__S(960, __c30, 0)),
           newAppState: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppSetObjects", code: 200 }),
@@ -1193,7 +1216,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.optional(S.String),
-          tags: S.optional(__S(704, __c22, 0)),
+          tags: S.optional(__S(864, __c27, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppSetTags", code: 200 })),
       ).annotate({ identifier: "AppSetTagsRequest" });
   }
@@ -1207,15 +1230,15 @@ function __c10(j: number): any {
           description: S.optional(S.String),
           environmentName: S.optional(S.String),
           appState: S.optional(S.String),
-          tags: S.optional(__S(704, __c22, 0)),
+          tags: S.optional(__S(864, __c27, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppCreate", code: 200 })),
       ).annotate({ identifier: "CreateAppRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          appPageUrl: S.optional(S.String),
-          appLogsUrl: S.optional(S.String),
+          appId: S.String,
+          appPageUrl: S.String,
+          appLogsUrl: S.String,
         }),
       ).annotate({ identifier: "CreateAppResponse" });
   }
@@ -1235,12 +1258,52 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          url: S.String,
         }),
       ).annotate({ identifier: "DeployAppResponse" });
   }
 }
 function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.optional(S.String),
+          taskId: S.optional(S.String),
+          functionId: S.optional(S.String),
+          functionCallId: S.optional(S.String),
+          sandboxId: S.optional(S.String),
+          searchText: S.optional(S.String),
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          bucketSecs: S.optional(S.Number),
+          source: S.optional(S.String),
+          parametrizedFunctionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppCountLogs", code: 200 }),
+        ),
+      ).annotate({ identifier: "AppCountLogsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bucketStartAt: S.optional(S.String),
+          stdoutLogs: S.String,
+          stderrLogs: S.String,
+          systemLogs: S.String,
+        }),
+      ).annotate({ identifier: "AppCountLogsResponseLogBucket" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String,
+          buckets: __S(386, __c12, 2),
+        }),
+      ).annotate({ identifier: "AppCountLogsResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1258,7 +1321,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DisconnectAppClientRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1269,27 +1332,27 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          stoppedAt: S.optional(S.Number),
-          nRunningTasks: S.optional(S.Number),
-          name: S.optional(S.String),
-          metadata: S.optional(__S(736, __c23, 0)),
+          appId: S.String,
+          description: S.String,
+          state: S.String,
+          createdAt: S.Number,
+          stoppedAt: S.Number,
+          nRunningTasks: S.Number,
+          name: S.String,
+          metadata: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "ListAppResponseAppListItem" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(418, __c13, 2)),
+          apps: __S(450, __c14, 2),
         }),
       ).annotate({ identifier: "ListAppResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1301,82 +1364,9 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
+          appId: S.String,
         }),
       ).annotate({ identifier: "LookupAppResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.optional(S.String),
-          since: S.optional(S.String),
-          until: S.optional(S.String),
-          limit: S.optional(S.Number),
-          source: S.optional(S.String),
-          functionId: S.optional(S.String),
-          functionCallId: S.optional(S.String),
-          taskId: S.optional(S.String),
-          sandboxId: S.optional(S.String),
-          searchText: S.optional(S.String),
-          parametrizedFunctionId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppFetchLogs", code: 200 }),
-        ),
-      ).annotate({ identifier: "AppFetchLogsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          len: S.optional(S.String),
-          pos: S.optional(S.String),
-          progressType: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TaskProgress" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.String),
-          taskState: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          fileDescriptor: S.optional(S.String),
-          taskProgress: S.optional(__S(481, __c15, 1)),
-          functionCallId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          timestampNs: S.optional(S.String),
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TaskLogs" });
-    case 3:
-      return S.Array(__S(482, __c15, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          taskId: S.optional(S.String),
-          items: S.optional(__S(483, __c15, 3)),
-          entryId: S.optional(S.String),
-          appDone: S.optional(S.Boolean),
-          functionId: S.optional(S.String),
-          inputId: S.optional(S.String),
-          imageId: S.optional(S.String),
-          eof: S.optional(S.Boolean),
-          ptyExecId: S.optional(S.String),
-          rootFunctionId: S.optional(S.String),
-          ttlDays: S.optional(S.Number),
-          sandboxId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TaskLogsBatch" });
-    case 5:
-      return S.Array(__S(484, __c15, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          batches: S.optional(__S(485, __c15, 5)),
-        }),
-      ).annotate({ identifier: "AppFetchLogsResponse" });
   }
 }
 function __c16(j: number): any {
@@ -1399,13 +1389,13 @@ function __c17(j: number): any {
           name: S.optional(S.String),
           deploymentTag: S.optional(S.String),
           appState: S.optional(S.String),
-          functionIds: S.optional(__S(704, __c22, 0)),
-          classIds: S.optional(__S(704, __c22, 0)),
-          definitionIds: S.optional(__S(704, __c22, 0)),
+          functionIds: S.optional(__S(864, __c27, 0)),
+          classIds: S.optional(__S(864, __c27, 0)),
+          definitionIds: S.optional(__S(864, __c27, 0)),
           rollbackVersion: S.optional(S.Number),
           clientVersion: S.optional(S.String),
-          commitInfo: S.optional(__S(64, __c2, 0)),
-          tags: S.optional(__S(704, __c22, 0)),
+          commitInfo: S.optional(__S(640, __c20, 0)),
+          tags: S.optional(__S(864, __c27, 0)),
           staged: S.optional(S.Boolean),
           deploymentType: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppPublish", code: 200 })),
@@ -1428,6 +1418,141 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/AppDeploymentHistory",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AppDeploymentHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String,
+          version: S.Number,
+          clientVersion: S.String,
+          deployedAt: S.Number,
+          deployedBy: S.String,
+          deployedByAvatarUrl: S.String,
+          tag: S.String,
+          rollbackVersion: S.Number,
+          rollbackAllowed: S.Boolean,
+          commitInfo: S.optional(__S(640, __c20, 0)),
+          deploymentType: S.String,
+        }),
+      ).annotate({ identifier: "AppDeploymentHistory2" });
+    case 2:
+      return S.Array(__S(609, __c19, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          appDeploymentHistories: __S(610, __c19, 2),
+          productionAppVersion: S.Number,
+        }),
+      ).annotate({ identifier: "AppDeploymentHistoryResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vcs: S.optional(S.String),
+          branch: S.optional(S.String),
+          commitHash: S.optional(S.String),
+          commitTimestamp: S.optional(S.String),
+          dirty: S.optional(S.Boolean),
+          authorName: S.optional(S.String),
+          authorEmail: S.optional(S.String),
+          repoUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommitInfo" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.optional(S.String),
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          limit: S.optional(S.Number),
+          source: S.optional(S.String),
+          functionId: S.optional(S.String),
+          functionCallId: S.optional(S.String),
+          taskId: S.optional(S.String),
+          sandboxId: S.optional(S.String),
+          searchText: S.optional(S.String),
+          parametrizedFunctionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppFetchLogs", code: 200 }),
+        ),
+      ).annotate({ identifier: "AppFetchLogsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          batches: __S(708, __c22, 4),
+        }),
+      ).annotate({ identifier: "AppFetchLogsResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          len: S.String,
+          pos: S.String,
+          progressType: S.String,
+          description: S.String,
+        }),
+      ).annotate({ identifier: "TaskProgress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.String,
+          taskState: S.String,
+          timestamp: S.Number,
+          fileDescriptor: S.String,
+          taskProgress: S.optional(__S(704, __c22, 0)),
+          functionCallId: S.String,
+          inputId: S.String,
+          timestampNs: S.String,
+          containerId: S.String,
+          containerName: S.String,
+        }),
+      ).annotate({ identifier: "TaskLogs" });
+    case 2:
+      return S.Array(__S(705, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.String,
+          items: __S(706, __c22, 2),
+          entryId: S.String,
+          appDone: S.Boolean,
+          functionId: S.String,
+          inputId: S.String,
+          imageId: S.String,
+          eof: S.Boolean,
+          ptyExecId: S.String,
+          rootFunctionId: S.String,
+          ttlDays: S.Number,
+          sandboxId: S.String,
+        }),
+      ).annotate({ identifier: "TaskLogsBatch" });
+    case 4:
+      return S.Array(__S(707, __c22, 3));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           environmentName: S.optional(S.String),
         }).pipe(
@@ -1441,32 +1566,32 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          previousAppId: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          lifecycle: S.optional(__S(640, __c20, 0)),
+          appId: S.String,
+          previousAppId: S.String,
+          environmentName: S.String,
+          lifecycle: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "AppGetByDeploymentNameResponse" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appState: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
-          deployedAt: S.optional(S.Number),
-          deployedBy: S.optional(S.String),
-          version: S.optional(S.Number),
-          stoppedAt: S.optional(S.Number),
-          stoppedBy: S.optional(S.String),
+          appState: S.String,
+          createdAt: S.Number,
+          createdBy: S.String,
+          deployedAt: S.Number,
+          deployedBy: S.String,
+          version: S.Number,
+          stoppedAt: S.Number,
+          stoppedBy: S.String,
         }),
       ).annotate({ identifier: "AppLifecycle" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1477,82 +1602,82 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          count: S.optional(S.Number),
-          gpuType: S.optional(S.String),
+          type: S.String,
+          count: S.Number,
+          gpuType: S.String,
         }),
       ).annotate({ identifier: "GPUConfig" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(801, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cronString: S.optional(S.String),
-          timezone: S.optional(S.String),
+          cronString: S.String,
+          timezone: S.String,
         }),
       ).annotate({ identifier: "ScheduleCron" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          years: S.optional(S.Number),
-          months: S.optional(S.Number),
-          weeks: S.optional(S.Number),
-          days: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
+          years: S.Number,
+          months: S.Number,
+          weeks: S.Number,
+          days: S.Number,
+          hours: S.Number,
+          minutes: S.Number,
+          seconds: S.Number,
         }),
       ).annotate({ identifier: "SchedulePeriod" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cron: S.optional(__S(675, __c21, 3)),
-          period: S.optional(__S(676, __c21, 4)),
+          cron: S.optional(__S(803, __c25, 3)),
+          period: S.optional(__S(804, __c25, 4)),
         }),
       ).annotate({ identifier: "Schedule" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          gpuConfig: S.optional(__S(674, __c21, 2)),
-          schedule: S.optional(__S(677, __c21, 5)),
-          webFunction: S.optional(S.Boolean),
+          gpuConfig: __S(802, __c25, 2),
+          schedule: S.optional(__S(805, __c25, 5)),
+          webFunction: S.Boolean,
           requiresProxyAuth: S.optional(S.Boolean),
-          isSessioned: S.optional(S.Boolean),
+          isSessioned: S.Boolean,
         }),
       ).annotate({ identifier: "AppGetInfoResponseFunctionInfoSummary" });
     case 7:
-      return S.Record(S.String, __S(678, __c21, 6));
+      return S.Record(S.String, __S(806, __c25, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(736, __c23, 0)),
-          functionInfoSummaries: S.optional(__S(679, __c21, 7)),
+          info: S.optional(__S(832, __c26, 0)),
+          functionInfoSummaries: __S(807, __c25, 7),
         }),
       ).annotate({ identifier: "AppGetInfoResponse" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          appId: S.String,
+          environmentName: S.String,
+          lifecycle: S.optional(__S(768, __c24, 0)),
+          functions: __S(864, __c27, 0),
+          servers: __S(864, __c27, 0),
+        }),
+      ).annotate({ identifier: "AppHandleMetadata" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          appId: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          lifecycle: S.optional(__S(640, __c20, 0)),
-          functions: S.optional(__S(704, __c22, 0)),
-          servers: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "AppHandleMetadata" });
-  }
-}
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1563,68 +1688,68 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "AppGetLayoutRequest" });
     case 1:
-      return S.Array(__S(817, __c25, 17));
+      return S.Array(__S(945, __c29, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(769, __c24, 1)),
-          functionIds: S.optional(__S(704, __c22, 0)),
-          classIds: S.optional(__S(704, __c22, 0)),
+          objects: __S(897, __c28, 1),
+          functionIds: __S(864, __c27, 0),
+          classIds: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "AppLayout" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appLayout: S.optional(__S(770, __c24, 2)),
+          appLayout: S.optional(__S(898, __c28, 2)),
         }),
       ).annotate({ identifier: "AppGetLayoutResponse" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(801, __c25, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(929, __c29, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          baseType: S.optional(S.String),
-          subTypes: S.optional(__S(800, __c25, 0)),
+          baseType: S.String,
+          subTypes: __S(928, __c29, 0),
         }),
       ).annotate({ identifier: "GenericPayloadType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          hasDefault: S.optional(S.Boolean),
+          name: S.String,
+          type: S.String,
+          hasDefault: S.Boolean,
           stringDefault: S.optional(S.String),
           intDefault: S.optional(S.String),
           pickleDefault: S.optional(S.String),
           bytesDefault: S.optional(S.String),
           boolDefault: S.optional(S.Boolean),
-          fullType: S.optional(__S(801, __c25, 1)),
+          fullType: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ClassParameterSpec" });
     case 3:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(930, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
-          schema: S.optional(__S(803, __c25, 3)),
+          format: S.String,
+          schema: __S(931, __c29, 3),
         }),
       ).annotate({ identifier: "ClassParameterInfo" });
     case 5:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(808, __c25, 8)),
+        /*@__PURE__*/ S.suspend(() => __S(936, __c29, 8)),
       );
     case 6:
       return S.suspend(() =>
         S.Struct({
-          schemaType: S.optional(S.String),
-          arguments: S.optional(__S(803, __c25, 3)),
-          returnType: S.optional(__S(801, __c25, 1)),
+          schemaType: S.String,
+          arguments: __S(931, __c29, 3),
+          returnType: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "FunctionSchema" });
     case 7:
@@ -1632,106 +1757,106 @@ function __c25(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          functionName: S.optional(S.String),
-          functionType: S.optional(S.String),
-          webUrl: S.optional(S.String),
-          isMethod: S.optional(S.Boolean),
-          useMethodName: S.optional(S.String),
-          definitionId: S.optional(S.String),
-          classParameterInfo: S.optional(__S(804, __c25, 4)),
-          methodHandleMetadata: S.optional(__S(805, __c25, 5)),
-          functionSchema: S.optional(__S(806, __c25, 6)),
+          functionName: S.String,
+          functionType: S.String,
+          webUrl: S.String,
+          isMethod: S.Boolean,
+          useMethodName: S.String,
+          definitionId: S.String,
+          classParameterInfo: S.optional(__S(932, __c29, 4)),
+          methodHandleMetadata: __S(933, __c29, 5),
+          functionSchema: S.optional(__S(934, __c29, 6)),
           inputPlaneUrl: S.optional(S.String),
           inputPlaneRegion: S.optional(S.String),
           maxObjectSizeBytes: S.optional(S.String),
           maxAsyncObjectSizeBytes: S.optional(S.String),
-          ExperimentalFlashUrls: S.optional(__S(832, __c26, 0)),
-          supportedInputFormats: S.optional(__S(807, __c25, 7)),
-          supportedOutputFormats: S.optional(__S(807, __c25, 7)),
-          appId: S.optional(S.String),
-          baseFunctionId: S.optional(S.String),
+          ExperimentalFlashUrls: __S(960, __c30, 0),
+          supportedInputFormats: __S(935, __c29, 7),
+          supportedOutputFormats: __S(935, __c29, 7),
+          appId: S.String,
+          baseFunctionId: S.String,
         }),
       ).annotate({ identifier: "FunctionHandleMetadata" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          contentChecksumSha256Hex: S.optional(S.String),
+          contentChecksumSha256Hex: S.String,
         }),
       ).annotate({ identifier: "MountHandleMetadata" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          functionName: S.optional(S.String),
-          functionId: S.optional(S.String),
-          functionHandleMetadata: S.optional(__S(808, __c25, 8)),
+          functionName: S.String,
+          functionId: S.String,
+          functionHandleMetadata: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "ClassMethod" });
     case 11:
-      return S.Array(__S(810, __c25, 10));
+      return S.Array(__S(938, __c29, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          methods: S.optional(__S(811, __c25, 11)),
-          classFunctionId: S.optional(S.String),
-          classFunctionMetadata: S.optional(__S(808, __c25, 8)),
+          methods: __S(939, __c29, 11),
+          classFunctionId: S.String,
+          classFunctionMetadata: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "ClassHandleMetadata" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(813, __c25, 13)),
-          appId: S.optional(S.String),
+          result: S.optional(__S(941, __c29, 13)),
+          appId: S.String,
         }),
       ).annotate({ identifier: "SandboxHandleMetadata" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          name: S.optional(S.String),
-          creationInfo: S.optional(__S(815, __c25, 15)),
+          version: S.String,
+          name: S.String,
+          creationInfo: S.optional(__S(943, __c29, 15)),
         }),
       ).annotate({ identifier: "VolumeMetadata" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
-          functionHandleMetadata: S.optional(__S(808, __c25, 8)),
-          mountHandleMetadata: S.optional(__S(809, __c25, 9)),
-          classHandleMetadata: S.optional(__S(812, __c25, 12)),
-          sandboxHandleMetadata: S.optional(__S(814, __c25, 14)),
-          volumeMetadata: S.optional(__S(816, __c25, 16)),
+          objectId: S.String,
+          functionHandleMetadata: S.optional(__S(936, __c29, 8)),
+          mountHandleMetadata: S.optional(__S(937, __c29, 9)),
+          classHandleMetadata: S.optional(__S(940, __c29, 12)),
+          sandboxHandleMetadata: S.optional(__S(942, __c29, 14)),
+          volumeMetadata: S.optional(__S(944, __c29, 16)),
         }),
       ).annotate({ identifier: "Object" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1744,75 +1869,35 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lifecycle: S.optional(__S(640, __c20, 0)),
+          lifecycle: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "AppGetLifecycleResponse" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appId: S.optional(S.String),
-          includeUnindexed: S.optional(S.Boolean),
-          onlyClassFunction: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetObjects", code: 200 }),
-        ),
-      ).annotate({ identifier: "AppGetObjectsRequest" });
+          timeout: S.optional(S.Number),
+          lastEntryId: S.optional(S.String),
+          functionId: S.optional(S.String),
+          parametrizedFunctionId: S.optional(S.String),
+          inputId: S.optional(S.String),
+          taskId: S.optional(S.String),
+          functionCallId: S.optional(S.String),
+          fileDescriptor: S.optional(S.String),
+          sandboxId: S.optional(S.String),
+          searchText: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetLogs", code: 200 })),
+      ).annotate({ identifier: "AppGetLogsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(S.String),
-          object: S.optional(__S(817, __c25, 17)),
+          items: __S(708, __c22, 4),
         }),
-      ).annotate({ identifier: "AppGetObjectsItem" });
-    case 2:
-      return S.Array(__S(897, __c28, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          items: S.optional(__S(898, __c28, 2)),
-        }),
-      ).annotate({ identifier: "AppGetObjectsResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appName: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          objectCreationType: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetOrCreate", code: 200 }),
-        ),
-      ).annotate({ identifier: "AppGetOrCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.optional(S.String),
-          handleMetadata: S.optional(__S(736, __c23, 0)),
-        }),
-      ).annotate({ identifier: "AppGetOrCreateResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/AppGetTags", code: 200 })),
-      ).annotate({ identifier: "AppGetTagsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          tags: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "AppGetTagsResponse" });
+      ).annotate({ identifier: "AppGetLogsStream" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

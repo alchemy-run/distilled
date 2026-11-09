@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -171,9 +172,9 @@ export type OwnerId = string;
 export type DomainName = string;
 export type Region = string;
 export interface DomainInformation {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   DomainName: string;
-  Region?: string;
+  Region?: string | undefined;
 }
 export type InboundCrossClusterSearchConnectionStatusCode =
   | "PENDING_ACCEPTANCE"
@@ -185,17 +186,17 @@ export type InboundCrossClusterSearchConnectionStatusCode =
   | (string & {});
 export type CrossClusterSearchConnectionStatusMessage = string;
 export interface InboundCrossClusterSearchConnectionStatus {
-  StatusCode?: InboundCrossClusterSearchConnectionStatusCode;
-  Message?: string;
+  StatusCode?: InboundCrossClusterSearchConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export interface InboundCrossClusterSearchConnection {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  CrossClusterSearchConnectionId?: string;
-  ConnectionStatus?: InboundCrossClusterSearchConnectionStatus;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
+  ConnectionStatus?: InboundCrossClusterSearchConnectionStatus | undefined;
 }
 export interface AcceptInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export type ARN = string;
 export type TagKey = string;
@@ -230,22 +231,22 @@ export type ReferencePath = string;
 export type ErrorType = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface DomainPackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  LastUpdated?: Date;
-  DomainName?: string;
-  DomainPackageStatus?: DomainPackageStatus;
-  PackageVersion?: string;
-  ReferencePath?: string;
-  ErrorDetails?: ErrorDetails;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  LastUpdated?: Date | undefined;
+  DomainName?: string | undefined;
+  DomainPackageStatus?: DomainPackageStatus | undefined;
+  PackageVersion?: string | undefined;
+  ReferencePath?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface AssociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export type AWSAccount = string;
 export interface AuthorizeVpcEndpointAccessRequest {
@@ -254,8 +255,8 @@ export interface AuthorizeVpcEndpointAccessRequest {
 }
 export type PrincipalType = "AWS_ACCOUNT" | "AWS_SERVICE" | (string & {});
 export interface AuthorizedPrincipal {
-  PrincipalType?: PrincipalType;
-  Principal?: string;
+  PrincipalType?: PrincipalType | undefined;
+  Principal?: string | undefined;
 }
 export interface AuthorizeVpcEndpointAccessResponse {
   AuthorizedPrincipal: AuthorizedPrincipal;
@@ -263,20 +264,20 @@ export interface AuthorizeVpcEndpointAccessResponse {
 export type DryRun = boolean;
 export interface CancelDomainConfigChangeRequest {
   DomainName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export type GUID = string;
 export type GUIDList = string[];
 export interface CancelledChangeProperty {
-  PropertyName?: string;
-  CancelledValue?: string;
-  ActiveValue?: string;
+  PropertyName?: string | undefined;
+  CancelledValue?: string | undefined;
+  ActiveValue?: string | undefined;
 }
 export type CancelledChangePropertyList = CancelledChangeProperty[];
 export interface CancelDomainConfigChangeResponse {
-  DryRun?: boolean;
-  CancelledChangeIds?: string[];
-  CancelledChangeProperties?: CancelledChangeProperty[];
+  DryRun?: boolean | undefined;
+  CancelledChangeIds?: string[] | undefined;
+  CancelledChangeProperties?: CancelledChangeProperty[] | undefined;
 }
 export interface CancelElasticsearchServiceSoftwareUpdateRequest {
   DomainName: string;
@@ -290,17 +291,17 @@ export type DeploymentStatus =
   | (string & {});
 export type DeploymentCloseDateTimeStamp = Date;
 export interface ServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  Cancellable?: boolean;
-  UpdateStatus?: DeploymentStatus;
-  Description?: string;
-  AutomatedUpdateDate?: Date;
-  OptionalDeployment?: boolean;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  Cancellable?: boolean | undefined;
+  UpdateStatus?: DeploymentStatus | undefined;
+  Description?: string | undefined;
+  AutomatedUpdateDate?: Date | undefined;
+  OptionalDeployment?: boolean | undefined;
 }
 export interface CancelElasticsearchServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
 export type ElasticsearchVersionString = string;
 export type ESPartitionInstanceType =
@@ -365,7 +366,7 @@ export type ESPartitionInstanceType =
   | (string & {});
 export type IntegerClass = number;
 export interface ZoneAwarenessConfig {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
 export type ESWarmPartitionInstanceType =
   | "ultrawarm1.medium.elasticsearch"
@@ -375,51 +376,51 @@ export interface ColdStorageOptions {
   Enabled: boolean;
 }
 export interface ElasticsearchClusterConfig {
-  InstanceType?: ESPartitionInstanceType;
-  InstanceCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  ZoneAwarenessEnabled?: boolean;
-  ZoneAwarenessConfig?: ZoneAwarenessConfig;
-  DedicatedMasterType?: ESPartitionInstanceType;
-  DedicatedMasterCount?: number;
-  WarmEnabled?: boolean;
-  WarmType?: ESWarmPartitionInstanceType;
-  WarmCount?: number;
-  ColdStorageOptions?: ColdStorageOptions;
+  InstanceType?: ESPartitionInstanceType | undefined;
+  InstanceCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
+  ZoneAwarenessConfig?: ZoneAwarenessConfig | undefined;
+  DedicatedMasterType?: ESPartitionInstanceType | undefined;
+  DedicatedMasterCount?: number | undefined;
+  WarmEnabled?: boolean | undefined;
+  WarmType?: ESWarmPartitionInstanceType | undefined;
+  WarmCount?: number | undefined;
+  ColdStorageOptions?: ColdStorageOptions | undefined;
 }
 export type VolumeType = "standard" | "gp2" | "io1" | "gp3" | (string & {});
 export interface EBSOptions {
-  EBSEnabled?: boolean;
-  VolumeType?: VolumeType;
-  VolumeSize?: number;
-  Iops?: number;
-  Throughput?: number;
+  EBSEnabled?: boolean | undefined;
+  VolumeType?: VolumeType | undefined;
+  VolumeSize?: number | undefined;
+  Iops?: number | undefined;
+  Throughput?: number | undefined;
 }
 export type PolicyDocument = string;
 export interface SnapshotOptions {
-  AutomatedSnapshotStartHour?: number;
+  AutomatedSnapshotStartHour?: number | undefined;
 }
 export type StringList = string[];
 export interface VPCOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type UserPoolId = string;
 export type IdentityPoolId = string;
 export type RoleArn = string;
 export interface CognitoOptions {
-  Enabled?: boolean;
-  UserPoolId?: string;
-  IdentityPoolId?: string;
-  RoleArn?: string;
+  Enabled?: boolean | undefined;
+  UserPoolId?: string | undefined;
+  IdentityPoolId?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type KmsKeyId = string;
 export interface EncryptionAtRestOptions {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface NodeToNodeEncryptionOptions {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type AdvancedOptions = { [key: string]: string | undefined };
 export type LogType =
@@ -430,10 +431,10 @@ export type LogType =
   | (string & {});
 export type CloudWatchLogsLogGroupArn = string;
 export interface LogPublishingOption {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
-export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
+export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption | undefined };
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
@@ -442,18 +443,18 @@ export type TLSSecurityPolicy =
   | (string & {});
 export type DomainNameFqdn = string;
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
-  CustomEndpointEnabled?: boolean;
-  CustomEndpoint?: string;
-  CustomEndpointCertificateArn?: string;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
+  CustomEndpointEnabled?: boolean | undefined;
+  CustomEndpoint?: string | undefined;
+  CustomEndpointCertificateArn?: string | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface MasterUserOptions {
-  MasterUserARN?: string;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterUserPassword?: string | redacted.Redacted<string>;
+  MasterUserARN?: string | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type SAMLMetadata = string;
 export type SAMLEntityId = string;
@@ -463,38 +464,38 @@ export interface SAMLIdp {
 }
 export type BackendRole = string;
 export interface SAMLOptionsInput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterBackendRole?: string;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterBackendRole?: string | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export interface AdvancedSecurityOptionsInput {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  MasterUserOptions?: MasterUserOptions;
-  SAMLOptions?: SAMLOptionsInput;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  MasterUserOptions?: MasterUserOptions | undefined;
+  SAMLOptions?: SAMLOptionsInput | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type AutoTuneDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export type StartAt = Date;
 export type DurationValue = number;
 export type TimeUnit = "HOURS" | (string & {});
 export interface Duration {
-  Value?: number;
-  Unit?: TimeUnit;
+  Value?: number | undefined;
+  Unit?: TimeUnit | undefined;
 }
 export interface AutoTuneMaintenanceSchedule {
-  StartAt?: Date;
-  Duration?: Duration;
-  CronExpressionForRecurrence?: string;
+  StartAt?: Date | undefined;
+  Duration?: Duration | undefined;
+  CronExpressionForRecurrence?: string | undefined;
 }
 export type AutoTuneMaintenanceScheduleList = AutoTuneMaintenanceSchedule[];
 export interface AutoTuneOptionsInput {
-  DesiredState?: AutoTuneDesiredState;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
+  DesiredState?: AutoTuneDesiredState | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
 }
 export type DeploymentStrategy = "Default" | "CapacityOptimized" | (string & {});
 export interface DeploymentStrategyOptions {
@@ -503,56 +504,56 @@ export interface DeploymentStrategyOptions {
 export type UpdateTimestamp = Date;
 export interface AutomatedSnapshotPauseRequestOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type DomainUseCase = "SEARCH" | "VECTOR" | "OBSERVABILITY" | "MIXED" | (string & {});
 export type DomainEngineMode = "GENERAL" | "OPTIMIZED" | (string & {});
 export interface CreateElasticsearchDomainRequest {
   DomainName: string;
-  ElasticsearchVersion?: string;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  AutoTuneOptions?: AutoTuneOptionsInput;
-  TagList?: Tag[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  ElasticsearchVersion?: string | undefined;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  AutoTuneOptions?: AutoTuneOptionsInput | undefined;
+  TagList?: Tag[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export type DomainId = string;
 export type ServiceUrl = string;
 export type EndpointsMap = { [key: string]: string | undefined };
 export interface VPCDerivedInfo {
-  VPCId?: string;
-  SubnetIds?: string[];
-  AvailabilityZones?: string[];
-  SecurityGroupIds?: string[];
+  VPCId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export interface SAMLOptionsOutput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
 export type DisableTimestamp = Date;
 export interface AdvancedSecurityOptions {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  SAMLOptions?: SAMLOptionsOutput;
-  AnonymousAuthDisableDate?: Date;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  SAMLOptions?: SAMLOptionsOutput | undefined;
+  AnonymousAuthDisableDate?: Date | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
 export type AutoTuneState =
   | "ENABLED"
@@ -566,8 +567,8 @@ export type AutoTuneState =
   | "ERROR"
   | (string & {});
 export interface AutoTuneOptionsOutput {
-  State?: AutoTuneState;
-  ErrorMessage?: string;
+  State?: AutoTuneState | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type Message = string;
 export type ConfigChangeStatus =
@@ -582,12 +583,12 @@ export type ConfigChangeStatus =
   | (string & {});
 export type InitiatedBy = "CUSTOMER" | "SERVICE" | (string & {});
 export interface ChangeProgressDetails {
-  ChangeId?: string;
-  Message?: string;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  StartTime?: Date;
-  LastUpdatedTime?: Date;
-  InitiatedBy?: InitiatedBy;
+  ChangeId?: string | undefined;
+  Message?: string | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  StartTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
 }
 export type DomainProcessingStatusType =
   | "Creating"
@@ -600,54 +601,54 @@ export type DomainProcessingStatusType =
   | (string & {});
 export type PropertyValueType = "PLAIN_TEXT" | "STRINGIFIED_JSON" | (string & {});
 export interface ModifyingProperties {
-  Name?: string;
-  ActiveValue?: string;
-  PendingValue?: string;
-  ValueType?: PropertyValueType;
+  Name?: string | undefined;
+  ActiveValue?: string | undefined;
+  PendingValue?: string | undefined;
+  ValueType?: PropertyValueType | undefined;
 }
 export type ModifyingPropertiesList = ModifyingProperties[];
 export type PauseState = "Active" | "Completed" | "Scheduled" | "Disabled" | (string & {});
 export interface AutomatedSnapshotPauseOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
-  State?: PauseState;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  State?: PauseState | undefined;
 }
 export interface ElasticsearchDomainStatus {
   DomainId: string;
   DomainName: string;
   ARN: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  Endpoint?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  Processing?: boolean;
-  UpgradeProcessing?: boolean;
-  ElasticsearchVersion?: string;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  Endpoint?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  Processing?: boolean | undefined;
+  UpgradeProcessing?: boolean | undefined;
+  ElasticsearchVersion?: string | undefined;
   ElasticsearchClusterConfig: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCDerivedInfo;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptions;
-  AutoTuneOptions?: AutoTuneOptionsOutput;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  DomainProcessingStatus?: DomainProcessingStatusType;
-  ModifyingProperties?: ModifyingProperties[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCDerivedInfo | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptionsOutput | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  DomainProcessingStatus?: DomainProcessingStatusType | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export interface CreateElasticsearchDomainResponse {
-  DomainStatus?: ElasticsearchDomainStatus;
+  DomainStatus?: ElasticsearchDomainStatus | undefined;
 }
 export type ConnectionAlias = string;
 export interface CreateOutboundCrossClusterSearchConnectionRequest {
@@ -666,27 +667,27 @@ export type OutboundCrossClusterSearchConnectionStatusCode =
   | "DELETED"
   | (string & {});
 export interface OutboundCrossClusterSearchConnectionStatus {
-  StatusCode?: OutboundCrossClusterSearchConnectionStatusCode;
-  Message?: string;
+  StatusCode?: OutboundCrossClusterSearchConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
 export interface CreateOutboundCrossClusterSearchConnectionResponse {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus;
-  CrossClusterSearchConnectionId?: string;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
 }
 export type PackageDescription = string;
 export type S3BucketName = string;
 export type S3Key = string;
 export interface PackageSource {
-  S3BucketName?: string;
-  S3Key?: string;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
 }
 export interface CreatePackageRequest {
   PackageName: string;
   PackageType: PackageType;
-  PackageDescription?: string;
+  PackageDescription?: string | undefined;
   PackageSource: PackageSource;
 }
 export type PackageStatus =
@@ -701,25 +702,25 @@ export type PackageStatus =
   | (string & {});
 export type CreatedAt = Date;
 export interface PackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  PackageDescription?: string;
-  PackageStatus?: PackageStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AvailablePackageVersion?: string;
-  ErrorDetails?: ErrorDetails;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  PackageDescription?: string | undefined;
+  PackageStatus?: PackageStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AvailablePackageVersion?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface CreatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export type DomainArn = string;
 export type ClientToken = string;
 export interface CreateVpcEndpointRequest {
   DomainArn: string;
   VpcOptions: VPCOptions;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type VpcEndpointId = string;
 export type VpcEndpointStatus =
@@ -733,12 +734,12 @@ export type VpcEndpointStatus =
   | (string & {});
 export type Endpoint = string;
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  VpcOptions?: VPCDerivedInfo;
-  Status?: VpcEndpointStatus;
-  Endpoint?: string;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  VpcOptions?: VPCDerivedInfo | undefined;
+  Status?: VpcEndpointStatus | undefined;
+  Endpoint?: string | undefined;
 }
 export interface CreateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
@@ -747,7 +748,7 @@ export interface DeleteElasticsearchDomainRequest {
   DomainName: string;
 }
 export interface DeleteElasticsearchDomainResponse {
-  DomainStatus?: ElasticsearchDomainStatus;
+  DomainStatus?: ElasticsearchDomainStatus | undefined;
 }
 export interface DeleteElasticsearchServiceRoleRequest {}
 export interface DeleteElasticsearchServiceRoleResponse {}
@@ -755,35 +756,35 @@ export interface DeleteInboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface DeleteInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export interface DeleteOutboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface OutboundCrossClusterSearchConnection {
-  SourceDomainInfo?: DomainInformation;
-  DestinationDomainInfo?: DomainInformation;
-  CrossClusterSearchConnectionId?: string;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus;
+  SourceDomainInfo?: DomainInformation | undefined;
+  DestinationDomainInfo?: DomainInformation | undefined;
+  CrossClusterSearchConnectionId?: string | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundCrossClusterSearchConnectionStatus | undefined;
 }
 export interface DeleteOutboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: OutboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: OutboundCrossClusterSearchConnection | undefined;
 }
 export interface DeletePackageRequest {
   PackageID: string;
 }
 export interface DeletePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export interface DeleteVpcEndpointRequest {
   VpcEndpointId: string;
 }
 export interface VpcEndpointSummary {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  Status?: VpcEndpointStatus;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  Status?: VpcEndpointStatus | undefined;
 }
 export interface DeleteVpcEndpointResponse {
   VpcEndpointSummary: VpcEndpointSummary;
@@ -792,8 +793,8 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeDomainAutoTunesRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AutoTuneType = "SCHEDULED_ACTION" | (string & {});
 export type AutoTuneDate = Date;
@@ -804,26 +805,26 @@ export type ScheduledAutoTuneActionType =
 export type ScheduledAutoTuneDescription = string;
 export type ScheduledAutoTuneSeverityType = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface ScheduledAutoTuneDetails {
-  Date?: Date;
-  ActionType?: ScheduledAutoTuneActionType;
-  Action?: string;
-  Severity?: ScheduledAutoTuneSeverityType;
+  Date?: Date | undefined;
+  ActionType?: ScheduledAutoTuneActionType | undefined;
+  Action?: string | undefined;
+  Severity?: ScheduledAutoTuneSeverityType | undefined;
 }
 export interface AutoTuneDetails {
-  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails;
+  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails | undefined;
 }
 export interface AutoTune {
-  AutoTuneType?: AutoTuneType;
-  AutoTuneDetails?: AutoTuneDetails;
+  AutoTuneType?: AutoTuneType | undefined;
+  AutoTuneDetails?: AutoTuneDetails | undefined;
 }
 export type AutoTuneList = AutoTune[];
 export interface DescribeDomainAutoTunesResponse {
-  AutoTunes?: AutoTune[];
-  NextToken?: string;
+  AutoTunes?: AutoTune[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeDomainChangeProgressRequest {
   DomainName: string;
-  ChangeId?: string;
+  ChangeId?: string | undefined;
 }
 export type OverallChangeStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalNumberOfStages = number;
@@ -831,26 +832,26 @@ export type ChangeProgressStageName = string;
 export type ChangeProgressStageStatus = string;
 export type Description = string;
 export interface ChangeProgressStage {
-  Name?: string;
-  Status?: string;
-  Description?: string;
-  LastUpdated?: Date;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Description?: string | undefined;
+  LastUpdated?: Date | undefined;
 }
 export type ChangeProgressStageList = ChangeProgressStage[];
 export interface ChangeProgressStatusDetails {
-  ChangeId?: string;
-  StartTime?: Date;
-  Status?: OverallChangeStatus;
-  PendingProperties?: string[];
-  CompletedProperties?: string[];
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
-  ConfigChangeStatus?: ConfigChangeStatus;
-  LastUpdatedTime?: Date;
-  InitiatedBy?: InitiatedBy;
+  ChangeId?: string | undefined;
+  StartTime?: Date | undefined;
+  Status?: OverallChangeStatus | undefined;
+  PendingProperties?: string[] | undefined;
+  CompletedProperties?: string[] | undefined;
+  TotalNumberOfStages?: number | undefined;
+  ChangeProgressStages?: ChangeProgressStage[] | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
 }
 export interface DescribeDomainChangeProgressResponse {
-  ChangeProgressStatus?: ChangeProgressStatusDetails;
+  ChangeProgressStatus?: ChangeProgressStatusDetails | undefined;
 }
 export interface DescribeElasticsearchDomainRequest {
   DomainName: string;
@@ -866,9 +867,9 @@ export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
 export interface ElasticsearchVersionStatus {
   Options: string;
@@ -911,8 +912,8 @@ export interface AdvancedOptionsStatus {
   Status: OptionStatus;
 }
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption | undefined };
-  Status?: OptionStatus;
+  Options?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  Status?: OptionStatus | undefined;
 }
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
@@ -924,21 +925,21 @@ export interface AdvancedSecurityOptionsStatus {
 }
 export type RollbackOnDisable = "NO_ROLLBACK" | "DEFAULT_ROLLBACK" | (string & {});
 export interface AutoTuneOptions {
-  DesiredState?: AutoTuneDesiredState;
-  RollbackOnDisable?: RollbackOnDisable;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
+  DesiredState?: AutoTuneDesiredState | undefined;
+  RollbackOnDisable?: RollbackOnDisable | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
 }
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: AutoTuneState;
-  ErrorMessage?: string;
-  PendingDeletion?: boolean;
+  ErrorMessage?: string | undefined;
+  PendingDeletion?: boolean | undefined;
 }
 export interface AutoTuneOptionsStatus {
-  Options?: AutoTuneOptions;
-  Status?: AutoTuneStatus;
+  Options?: AutoTuneOptions | undefined;
+  Status?: AutoTuneStatus | undefined;
 }
 export interface DeploymentStrategyOptionsStatus {
   Options: DeploymentStrategyOptions;
@@ -957,26 +958,26 @@ export interface EngineModeStatus {
   Status: OptionStatus;
 }
 export interface ElasticsearchDomainConfig {
-  ElasticsearchVersion?: ElasticsearchVersionStatus;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfigStatus;
-  EBSOptions?: EBSOptionsStatus;
-  AccessPolicies?: AccessPoliciesStatus;
-  SnapshotOptions?: SnapshotOptionsStatus;
-  VPCOptions?: VPCDerivedInfoStatus;
-  CognitoOptions?: CognitoOptionsStatus;
-  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus;
-  AdvancedOptions?: AdvancedOptionsStatus;
-  LogPublishingOptions?: LogPublishingOptionsStatus;
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus;
-  AutoTuneOptions?: AutoTuneOptionsStatus;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  ModifyingProperties?: ModifyingProperties[];
-  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus;
-  UseCase?: UseCaseStatus;
-  EngineMode?: EngineModeStatus;
+  ElasticsearchVersion?: ElasticsearchVersionStatus | undefined;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfigStatus | undefined;
+  EBSOptions?: EBSOptionsStatus | undefined;
+  AccessPolicies?: AccessPoliciesStatus | undefined;
+  SnapshotOptions?: SnapshotOptionsStatus | undefined;
+  VPCOptions?: VPCDerivedInfoStatus | undefined;
+  CognitoOptions?: CognitoOptionsStatus | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus | undefined;
+  AdvancedOptions?: AdvancedOptionsStatus | undefined;
+  LogPublishingOptions?: LogPublishingOptionsStatus | undefined;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus | undefined;
+  AutoTuneOptions?: AutoTuneOptionsStatus | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus | undefined;
+  UseCase?: UseCaseStatus | undefined;
+  EngineMode?: EngineModeStatus | undefined;
 }
 export interface DescribeElasticsearchDomainConfigResponse {
   DomainConfig: ElasticsearchDomainConfig;
@@ -990,7 +991,7 @@ export interface DescribeElasticsearchDomainsResponse {
   DomainStatusList: ElasticsearchDomainStatus[];
 }
 export interface DescribeElasticsearchInstanceTypeLimitsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
   InstanceType: ESPartitionInstanceType;
   ElasticsearchVersion: string;
 }
@@ -1001,65 +1002,65 @@ export type LimitName = string;
 export type LimitValue = string;
 export type LimitValueList = string[];
 export interface StorageTypeLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type StorageTypeLimitList = StorageTypeLimit[];
 export interface StorageType {
-  StorageTypeName?: string;
-  StorageSubTypeName?: string;
-  StorageTypeLimits?: StorageTypeLimit[];
+  StorageTypeName?: string | undefined;
+  StorageSubTypeName?: string | undefined;
+  StorageTypeLimits?: StorageTypeLimit[] | undefined;
 }
 export type StorageTypeList = StorageType[];
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number;
-  MaximumInstanceCount?: number;
+  MinimumInstanceCount?: number | undefined;
+  MaximumInstanceCount?: number | undefined;
 }
 export interface InstanceLimits {
-  InstanceCountLimits?: InstanceCountLimits;
+  InstanceCountLimits?: InstanceCountLimits | undefined;
 }
 export interface AdditionalLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
 export type AdditionalLimitList = AdditionalLimit[];
 export interface Limits {
-  StorageTypes?: StorageType[];
-  InstanceLimits?: InstanceLimits;
-  AdditionalLimits?: AdditionalLimit[];
+  StorageTypes?: StorageType[] | undefined;
+  InstanceLimits?: InstanceLimits | undefined;
+  AdditionalLimits?: AdditionalLimit[] | undefined;
 }
 export type LimitsByRole = { [key: string]: Limits | undefined };
 export interface DescribeElasticsearchInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits | undefined };
+  LimitsByRole?: { [key: string]: Limits | undefined } | undefined;
 }
 export type NonEmptyString = string;
 export type ValueStringList = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface DescribeInboundCrossClusterSearchConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InboundCrossClusterSearchConnections = InboundCrossClusterSearchConnection[];
 export interface DescribeInboundCrossClusterSearchConnectionsResponse {
-  CrossClusterSearchConnections?: InboundCrossClusterSearchConnection[];
-  NextToken?: string;
+  CrossClusterSearchConnections?: InboundCrossClusterSearchConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeOutboundCrossClusterSearchConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutboundCrossClusterSearchConnections = OutboundCrossClusterSearchConnection[];
 export interface DescribeOutboundCrossClusterSearchConnectionsResponse {
-  CrossClusterSearchConnections?: OutboundCrossClusterSearchConnection[];
-  NextToken?: string;
+  CrossClusterSearchConnections?: OutboundCrossClusterSearchConnection[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DescribePackagesFilterName =
   | "PackageID"
@@ -1069,24 +1070,24 @@ export type DescribePackagesFilterName =
 export type DescribePackagesFilterValue = string;
 export type DescribePackagesFilterValues = string[];
 export interface DescribePackagesFilter {
-  Name?: DescribePackagesFilterName;
-  Value?: string[];
+  Name?: DescribePackagesFilterName | undefined;
+  Value?: string[] | undefined;
 }
 export type DescribePackagesFilterList = DescribePackagesFilter[];
 export interface DescribePackagesRequest {
-  Filters?: DescribePackagesFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: DescribePackagesFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PackageDetailsList = PackageDetails[];
 export interface DescribePackagesResponse {
-  PackageDetailsList?: PackageDetails[];
-  NextToken?: string;
+  PackageDetailsList?: PackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeReservedElasticsearchInstanceOfferingsRequest {
-  ReservedElasticsearchInstanceOfferingId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservedElasticsearchInstancePaymentOption =
   | "ALL_UPFRONT"
@@ -1094,50 +1095,50 @@ export type ReservedElasticsearchInstancePaymentOption =
   | "NO_UPFRONT"
   | (string & {});
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export interface ReservedElasticsearchInstanceOffering {
-  ReservedElasticsearchInstanceOfferingId?: string;
-  ElasticsearchInstanceType?: ESPartitionInstanceType;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  PaymentOption?: ReservedElasticsearchInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  PaymentOption?: ReservedElasticsearchInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedElasticsearchInstanceOfferingList = ReservedElasticsearchInstanceOffering[];
 export interface DescribeReservedElasticsearchInstanceOfferingsResponse {
-  NextToken?: string;
-  ReservedElasticsearchInstanceOfferings?: ReservedElasticsearchInstanceOffering[];
+  NextToken?: string | undefined;
+  ReservedElasticsearchInstanceOfferings?: ReservedElasticsearchInstanceOffering[] | undefined;
 }
 export interface DescribeReservedElasticsearchInstancesRequest {
-  ReservedElasticsearchInstanceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReservationToken = string;
 export interface ReservedElasticsearchInstance {
-  ReservationName?: string;
-  ReservedElasticsearchInstanceId?: string;
-  ReservedElasticsearchInstanceOfferingId?: string;
-  ElasticsearchInstanceType?: ESPartitionInstanceType;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  ElasticsearchInstanceCount?: number;
-  State?: string;
-  PaymentOption?: ReservedElasticsearchInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservationName?: string | undefined;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  ReservedElasticsearchInstanceOfferingId?: string | undefined;
+  ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  ElasticsearchInstanceCount?: number | undefined;
+  State?: string | undefined;
+  PaymentOption?: ReservedElasticsearchInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedElasticsearchInstanceList = ReservedElasticsearchInstance[];
 export interface DescribeReservedElasticsearchInstancesResponse {
-  NextToken?: string;
-  ReservedElasticsearchInstances?: ReservedElasticsearchInstance[];
+  NextToken?: string | undefined;
+  ReservedElasticsearchInstances?: ReservedElasticsearchInstance[] | undefined;
 }
 export type VpcEndpointIdList = string[];
 export interface DescribeVpcEndpointsRequest {
@@ -1146,9 +1147,9 @@ export interface DescribeVpcEndpointsRequest {
 export type VpcEndpoints = VpcEndpoint[];
 export type VpcEndpointErrorCode = "ENDPOINT_NOT_FOUND" | "SERVER_ERROR" | (string & {});
 export interface VpcEndpointError {
-  VpcEndpointId?: string;
-  ErrorCode?: VpcEndpointErrorCode;
-  ErrorMessage?: string;
+  VpcEndpointId?: string | undefined;
+  ErrorCode?: VpcEndpointErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type VpcEndpointErrorList = VpcEndpointError[];
 export interface DescribeVpcEndpointsResponse {
@@ -1160,41 +1161,41 @@ export interface DissociatePackageRequest {
   DomainName: string;
 }
 export interface DissociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
 export interface GetCompatibleElasticsearchVersionsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
 }
 export type ElasticsearchVersionList = string[];
 export interface CompatibleVersionsMap {
-  SourceVersion?: string;
-  TargetVersions?: string[];
+  SourceVersion?: string | undefined;
+  TargetVersions?: string[] | undefined;
 }
 export type CompatibleElasticsearchVersionsList = CompatibleVersionsMap[];
 export interface GetCompatibleElasticsearchVersionsResponse {
-  CompatibleElasticsearchVersions?: CompatibleVersionsMap[];
+  CompatibleElasticsearchVersions?: CompatibleVersionsMap[] | undefined;
 }
 export interface GetPackageVersionHistoryRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CommitMessage = string;
 export interface PackageVersionHistory {
-  PackageVersion?: string;
-  CommitMessage?: string;
-  CreatedAt?: Date;
+  PackageVersion?: string | undefined;
+  CommitMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type PackageVersionHistoryList = PackageVersionHistory[];
 export interface GetPackageVersionHistoryResponse {
-  PackageID?: string;
-  PackageVersionHistoryList?: PackageVersionHistory[];
-  NextToken?: string;
+  PackageID?: string | undefined;
+  PackageVersionHistoryList?: PackageVersionHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeHistoryRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UpgradeName = string;
 export type StartTimestamp = Date;
@@ -1208,90 +1209,90 @@ export type UpgradeStep = "PRE_UPGRADE_CHECK" | "SNAPSHOT" | "UPGRADE" | (string
 export type Issue = string;
 export type Issues = string[];
 export interface UpgradeStepItem {
-  UpgradeStep?: UpgradeStep;
-  UpgradeStepStatus?: UpgradeStatus;
-  Issues?: string[];
-  ProgressPercent?: number;
+  UpgradeStep?: UpgradeStep | undefined;
+  UpgradeStepStatus?: UpgradeStatus | undefined;
+  Issues?: string[] | undefined;
+  ProgressPercent?: number | undefined;
 }
 export type UpgradeStepsList = UpgradeStepItem[];
 export interface UpgradeHistory {
-  UpgradeName?: string;
-  StartTimestamp?: Date;
-  UpgradeStatus?: UpgradeStatus;
-  StepsList?: UpgradeStepItem[];
+  UpgradeName?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  UpgradeStatus?: UpgradeStatus | undefined;
+  StepsList?: UpgradeStepItem[] | undefined;
 }
 export type UpgradeHistoryList = UpgradeHistory[];
 export interface GetUpgradeHistoryResponse {
-  UpgradeHistories?: UpgradeHistory[];
-  NextToken?: string;
+  UpgradeHistories?: UpgradeHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetUpgradeStatusRequest {
   DomainName: string;
 }
 export interface GetUpgradeStatusResponse {
-  UpgradeStep?: UpgradeStep;
-  StepStatus?: UpgradeStatus;
-  UpgradeName?: string;
+  UpgradeStep?: UpgradeStep | undefined;
+  StepStatus?: UpgradeStatus | undefined;
+  UpgradeName?: string | undefined;
 }
 export type EngineType = "OpenSearch" | "Elasticsearch" | (string & {});
 export interface ListDomainNamesRequest {
-  EngineType?: EngineType;
+  EngineType?: EngineType | undefined;
 }
 export interface DomainInfo {
-  DomainName?: string;
-  EngineType?: EngineType;
+  DomainName?: string | undefined;
+  EngineType?: EngineType | undefined;
 }
 export type DomainInfoList = DomainInfo[];
 export interface ListDomainNamesResponse {
-  DomainNames?: DomainInfo[];
+  DomainNames?: DomainInfo[] | undefined;
 }
 export interface ListDomainsForPackageRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DomainPackageDetailsList = DomainPackageDetails[];
 export interface ListDomainsForPackageResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchInstanceTypesRequest {
   ElasticsearchVersion: string;
-  DomainName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DomainName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ElasticsearchInstanceTypeList = ESPartitionInstanceType[];
 export interface ListElasticsearchInstanceTypesResponse {
-  ElasticsearchInstanceTypes?: ESPartitionInstanceType[];
-  NextToken?: string;
+  ElasticsearchInstanceTypes?: ESPartitionInstanceType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListElasticsearchVersionsResponse {
-  ElasticsearchVersions?: string[];
-  NextToken?: string;
+  ElasticsearchVersions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagesForDomainRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagesForDomainResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsRequest {
   ARN: string;
 }
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface ListVpcEndpointAccessRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AuthorizedPrincipalList = AuthorizedPrincipal[];
 export interface ListVpcEndpointAccessResponse {
@@ -1299,7 +1300,7 @@ export interface ListVpcEndpointAccessResponse {
   NextToken: string;
 }
 export interface ListVpcEndpointsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type VpcEndpointSummaryList = VpcEndpointSummary[];
 export interface ListVpcEndpointsResponse {
@@ -1308,7 +1309,7 @@ export interface ListVpcEndpointsResponse {
 }
 export interface ListVpcEndpointsForDomainRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListVpcEndpointsForDomainResponse {
   VpcEndpointSummaryList: VpcEndpointSummary[];
@@ -1318,17 +1319,17 @@ export type InstanceCount = number;
 export interface PurchaseReservedElasticsearchInstanceOfferingRequest {
   ReservedElasticsearchInstanceOfferingId: string;
   ReservationName: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
 }
 export interface PurchaseReservedElasticsearchInstanceOfferingResponse {
-  ReservedElasticsearchInstanceId?: string;
-  ReservationName?: string;
+  ReservedElasticsearchInstanceId?: string | undefined;
+  ReservationName?: string | undefined;
 }
 export interface RejectInboundCrossClusterSearchConnectionRequest {
   CrossClusterSearchConnectionId: string;
 }
 export interface RejectInboundCrossClusterSearchConnectionResponse {
-  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection;
+  CrossClusterSearchConnection?: InboundCrossClusterSearchConnection | undefined;
 }
 export interface RemoveTagsRequest {
   ARN: string;
@@ -1344,46 +1345,46 @@ export interface StartElasticsearchServiceSoftwareUpdateRequest {
   DomainName: string;
 }
 export interface StartElasticsearchServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
 export interface UpdateElasticsearchDomainConfigRequest {
   DomainName: string;
-  ElasticsearchClusterConfig?: ElasticsearchClusterConfig;
-  EBSOptions?: EBSOptions;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  AccessPolicies?: string;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  AutoTuneOptions?: AutoTuneOptions;
-  DryRun?: boolean;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: DomainEngineMode;
+  ElasticsearchClusterConfig?: ElasticsearchClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  AccessPolicies?: string | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptions | undefined;
+  DryRun?: boolean | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: DomainEngineMode | undefined;
 }
 export type DeploymentType = string;
 export interface DryRunResults {
-  DeploymentType?: string;
-  Message?: string;
+  DeploymentType?: string | undefined;
+  Message?: string | undefined;
 }
 export interface UpdateElasticsearchDomainConfigResponse {
   DomainConfig: ElasticsearchDomainConfig;
-  DryRunResults?: DryRunResults;
+  DryRunResults?: DryRunResults | undefined;
 }
 export interface UpdatePackageRequest {
   PackageID: string;
   PackageSource: PackageSource;
-  PackageDescription?: string;
-  CommitMessage?: string;
+  PackageDescription?: string | undefined;
+  CommitMessage?: string | undefined;
 }
 export interface UpdatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
 export interface UpdateVpcEndpointRequest {
   VpcEndpointId: string;
@@ -1395,13 +1396,13 @@ export interface UpdateVpcEndpointResponse {
 export interface UpgradeElasticsearchDomainRequest {
   DomainName: string;
   TargetVersion: string;
-  PerformCheckOnly?: boolean;
+  PerformCheckOnly?: boolean | undefined;
 }
 export interface UpgradeElasticsearchDomainResponse {
-  DomainName?: string;
-  TargetVersion?: string;
-  PerformCheckOnly?: boolean;
-  ChangeProgressDetails?: ChangeProgressDetails;
+  DomainName?: string | undefined;
+  TargetVersion?: string | undefined;
+  PerformCheckOnly?: boolean | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
 }
 export type AcceptInboundCrossClusterSearchConnectionError =
   | DisabledOperationException
@@ -1412,7 +1413,7 @@ export type AcceptInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
 export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
-  AcceptInboundCrossClusterSearchConnectionRequest,
+  AcceptInboundCrossClusterSearchConnectionRequest & RegionInput,
   AcceptInboundCrossClusterSearchConnectionResponse,
   AcceptInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type AddTagsError =
  * Tagging Amazon Elasticsearch Service Domains for more information.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -1465,7 +1466,7 @@ export type AssociatePackageError =
  * Associates a package with an Amazon ES domain.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1499,7 +1500,7 @@ export type AuthorizeVpcEndpointAccessError =
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -1532,7 +1533,7 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type CancelElasticsearchServiceSoftwareUpdateError =
  * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
  */
 export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  CancelElasticsearchServiceSoftwareUpdateRequest,
+  CancelElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   CancelElasticsearchServiceSoftwareUpdateResponse,
   CancelElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type CreateElasticsearchDomainError =
  * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
  */
 export const createElasticsearchDomain: API.OperationMethod<
-  CreateElasticsearchDomainRequest,
+  CreateElasticsearchDomainRequest & RegionInput,
   CreateElasticsearchDomainResponse,
   CreateElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1625,7 +1626,7 @@ export type CreateOutboundCrossClusterSearchConnectionError =
  * Creates a new cross-cluster search connection from a source domain to a destination domain.
  */
 export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
-  CreateOutboundCrossClusterSearchConnectionRequest,
+  CreateOutboundCrossClusterSearchConnectionRequest & RegionInput,
   CreateOutboundCrossClusterSearchConnectionResponse,
   CreateOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type CreatePackageError =
  * Create a package for use with Amazon ES domains.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -1693,7 +1694,7 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1725,7 +1726,7 @@ export type DeleteElasticsearchDomainError =
  * Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
  */
 export const deleteElasticsearchDomain: API.OperationMethod<
-  DeleteElasticsearchDomainRequest,
+  DeleteElasticsearchDomainRequest & RegionInput,
   DeleteElasticsearchDomainResponse,
   DeleteElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1750,7 @@ export type DeleteElasticsearchServiceRoleError =
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
 export const deleteElasticsearchServiceRole: API.OperationMethod<
-  DeleteElasticsearchServiceRoleRequest,
+  DeleteElasticsearchServiceRoleRequest & RegionInput,
   DeleteElasticsearchServiceRoleResponse,
   DeleteElasticsearchServiceRoleError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type DeleteInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
  */
 export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteInboundCrossClusterSearchConnectionRequest,
+  DeleteInboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteInboundCrossClusterSearchConnectionResponse,
   DeleteInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1795,7 +1796,7 @@ export type DeleteOutboundCrossClusterSearchConnectionError =
  * Allows the source domain owner to delete an existing outbound cross-cluster search connection.
  */
 export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
-  DeleteOutboundCrossClusterSearchConnectionRequest,
+  DeleteOutboundCrossClusterSearchConnectionRequest & RegionInput,
   DeleteOutboundCrossClusterSearchConnectionResponse,
   DeleteOutboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1826,7 +1827,7 @@ export type DeletePackageError =
  * Delete the package.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1858,7 +1859,7 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1883,7 +1884,7 @@ export type DescribeDomainAutoTunesError =
  * Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
@@ -1915,7 +1916,7 @@ export type DescribeDomainChangeProgressError =
  * a change ID, status, and progress stages.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -1940,7 +1941,7 @@ export type DescribeElasticsearchDomainError =
  * Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomain: API.OperationMethod<
-  DescribeElasticsearchDomainRequest,
+  DescribeElasticsearchDomainRequest & RegionInput,
   DescribeElasticsearchDomainResponse,
   DescribeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient
@@ -1965,7 +1966,7 @@ export type DescribeElasticsearchDomainConfigError =
  * Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
  */
 export const describeElasticsearchDomainConfig: API.OperationMethod<
-  DescribeElasticsearchDomainConfigRequest,
+  DescribeElasticsearchDomainConfigRequest & RegionInput,
   DescribeElasticsearchDomainConfigResponse,
   DescribeElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -1989,7 +1990,7 @@ export type DescribeElasticsearchDomainsError =
  * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
  */
 export const describeElasticsearchDomains: API.OperationMethod<
-  DescribeElasticsearchDomainsRequest,
+  DescribeElasticsearchDomainsRequest & RegionInput,
   DescribeElasticsearchDomainsResponse,
   DescribeElasticsearchDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type DescribeElasticsearchInstanceTypeLimitsError =
  * to know what Limits are supported for modifying.
  */
 export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
-  DescribeElasticsearchInstanceTypeLimitsRequest,
+  DescribeElasticsearchInstanceTypeLimitsRequest & RegionInput,
   DescribeElasticsearchInstanceTypeLimitsResponse,
   DescribeElasticsearchInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2051,7 +2052,7 @@ export type DescribeInboundCrossClusterSearchConnectionsError =
  * Lists all the inbound cross-cluster search connections for a destination domain.
  */
 export const describeInboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeInboundCrossClusterSearchConnectionsRequest,
+  DescribeInboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeInboundCrossClusterSearchConnectionsResponse,
   DescribeInboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2088,7 +2089,7 @@ export type DescribeOutboundCrossClusterSearchConnectionsError =
  * Lists all the outbound cross-cluster search connections for a source domain.
  */
 export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperationMethod<
-  DescribeOutboundCrossClusterSearchConnectionsRequest,
+  DescribeOutboundCrossClusterSearchConnectionsRequest & RegionInput,
   DescribeOutboundCrossClusterSearchConnectionsResponse,
   DescribeOutboundCrossClusterSearchConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2128,7 +2129,7 @@ export type DescribePackagesError =
  * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2165,7 +2166,7 @@ export type DescribeReservedElasticsearchInstanceOfferingsError =
  * Lists available reserved Elasticsearch instance offerings.
  */
 export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstanceOfferingsRequest,
+  DescribeReservedElasticsearchInstanceOfferingsRequest & RegionInput,
   DescribeReservedElasticsearchInstanceOfferingsResponse,
   DescribeReservedElasticsearchInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -2209,7 +2210,7 @@ export type DescribeReservedElasticsearchInstancesError =
  * Returns information about reserved Elasticsearch instances for this account.
  */
 export const describeReservedElasticsearchInstances: API.PaginatedOperationMethod<
-  DescribeReservedElasticsearchInstancesRequest,
+  DescribeReservedElasticsearchInstancesRequest & RegionInput,
   DescribeReservedElasticsearchInstancesResponse,
   DescribeReservedElasticsearchInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2245,7 +2246,7 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2272,7 +2273,7 @@ export type DissociatePackageError =
  * Dissociates a package from the Amazon ES domain.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2310,7 +2311,7 @@ export type GetCompatibleElasticsearchVersionsError =
  * to get all upgrade compatible Elasticsearch versions for that specific domain.
  */
 export const getCompatibleElasticsearchVersions: API.OperationMethod<
-  GetCompatibleElasticsearchVersionsRequest,
+  GetCompatibleElasticsearchVersionsRequest & RegionInput,
   GetCompatibleElasticsearchVersionsResponse,
   GetCompatibleElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2342,7 +2343,7 @@ export type GetPackageVersionHistoryError =
  * Returns a list of versions of the package, along with their creation time and commit message.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2380,7 +2381,7 @@ export type GetUpgradeHistoryError =
  * Retrieves the complete history of the last 10 upgrades that were performed on the domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2418,7 +2419,7 @@ export type GetUpgradeStatusError =
  * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
@@ -2444,7 +2445,7 @@ export type ListDomainNamesError = BaseException | ValidationException | CommonE
  * Returns the name of all Elasticsearch domains owned by the current user's account.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -2470,7 +2471,7 @@ export type ListDomainsForPackageError =
  * Lists all Amazon ES domains associated with the package.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
@@ -2507,7 +2508,7 @@ export type ListElasticsearchInstanceTypesError =
  * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
  */
 export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
-  ListElasticsearchInstanceTypesRequest,
+  ListElasticsearchInstanceTypesRequest & RegionInput,
   ListElasticsearchInstanceTypesResponse,
   ListElasticsearchInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2538,7 +2539,7 @@ export type ListElasticsearchVersionsError =
  * List all supported Elasticsearch versions
  */
 export const listElasticsearchVersions: API.PaginatedOperationMethod<
-  ListElasticsearchVersionsRequest,
+  ListElasticsearchVersionsRequest & RegionInput,
   ListElasticsearchVersionsResponse,
   ListElasticsearchVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2570,7 +2571,7 @@ export type ListPackagesForDomainError =
  * Lists all packages associated with the Amazon ES domain.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2607,7 +2608,7 @@ export type ListTagsError =
  * Returns all tags for the given Elasticsearch domain.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -2633,7 +2634,7 @@ export type ListVpcEndpointAccessError =
  * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2657,7 +2658,7 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2682,7 +2683,7 @@ export type ListVpcEndpointsForDomainError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type PurchaseReservedElasticsearchInstanceOfferingError =
  * Allows you to purchase reserved Elasticsearch instances.
  */
 export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
-  PurchaseReservedElasticsearchInstanceOfferingRequest,
+  PurchaseReservedElasticsearchInstanceOfferingRequest & RegionInput,
   PurchaseReservedElasticsearchInstanceOfferingResponse,
   PurchaseReservedElasticsearchInstanceOfferingError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type RejectInboundCrossClusterSearchConnectionError =
  * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
  */
 export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
-  RejectInboundCrossClusterSearchConnectionRequest,
+  RejectInboundCrossClusterSearchConnectionRequest & RegionInput,
   RejectInboundCrossClusterSearchConnectionResponse,
   RejectInboundCrossClusterSearchConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2771,7 +2772,7 @@ export type RemoveTagsError =
  * Removes the specified set of tags from the specified Elasticsearch domain.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -2798,7 +2799,7 @@ export type RevokeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2829,7 +2830,7 @@ export type StartElasticsearchServiceSoftwareUpdateError =
  * Schedules a service software update for an Amazon ES domain.
  */
 export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
-  StartElasticsearchServiceSoftwareUpdateRequest,
+  StartElasticsearchServiceSoftwareUpdateRequest & RegionInput,
   StartElasticsearchServiceSoftwareUpdateResponse,
   StartElasticsearchServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2856,7 +2857,7 @@ export type UpdateElasticsearchDomainConfigError =
  * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
  */
 export const updateElasticsearchDomainConfig: API.OperationMethod<
-  UpdateElasticsearchDomainConfigRequest,
+  UpdateElasticsearchDomainConfigRequest & RegionInput,
   UpdateElasticsearchDomainConfigResponse,
   UpdateElasticsearchDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -2890,7 +2891,7 @@ export type UpdatePackageError =
  * Updates a package for use with Amazon ES domains.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2958,7 +2959,7 @@ export type UpgradeElasticsearchDomainError =
  * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
  */
 export const upgradeElasticsearchDomain: API.OperationMethod<
-  UpgradeElasticsearchDomainRequest,
+  UpgradeElasticsearchDomainRequest & RegionInput,
   UpgradeElasticsearchDomainResponse,
   UpgradeElasticsearchDomainError,
   Credentials | HttpClient.HttpClient

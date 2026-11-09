@@ -86,29 +86,29 @@ export class NotFound
 /** A job creating reports of a specific type. */
 export interface Job {
   /** The date/time when this job will expire/expired. After a job expired, no new reports are generated. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** True if this a system-managed job that cannot be modified by the user; otherwise false. */
-  systemManaged?: boolean;
+  systemManaged?: boolean | undefined;
   /** The server-generated ID of the job (max. 40 characters). */
-  id?: string;
+  id?: string | undefined;
   /** The name of the job (max. 100 characters). */
-  name?: string;
+  name?: string | undefined;
   /** The creation date/time of the job. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The type of reports this job creates. Corresponds to the ID of a ReportType. */
-  reportTypeId?: string;
+  reportTypeId?: string | undefined;
 }
 export interface CreateJobsRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 export interface DeleteJobsRequest {
   /** The ID of the job to delete. */
   jobId: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -133,28 +133,28 @@ export type GdataMediaReferenceTypeEnum =
 /** gdata */
 export interface GdataBlobstore2Info {
   /** gdata */
-  uploadMetadataContainer?: string;
+  uploadMetadataContainer?: string | undefined;
   /** gdata */
-  uploadFragmentListCreationInfo?: string;
+  uploadFragmentListCreationInfo?: string | undefined;
   /** gdata */
-  readToken?: string;
+  readToken?: string | undefined;
   /** gdata */
-  downloadReadHandle?: string;
+  downloadReadHandle?: string | undefined;
   /** gdata */
-  blobId?: string;
+  blobId?: string | undefined;
   /** gdata */
-  blobGeneration?: string;
+  blobGeneration?: string | undefined;
   /** gdata */
-  downloadExternalReadToken?: string;
+  downloadExternalReadToken?: string | undefined;
 }
 /** gdata */
 export interface GdataObjectId {
   /** gdata */
-  bucketName?: string;
+  bucketName?: string | undefined;
   /** gdata */
-  generation?: string;
+  generation?: string | undefined;
   /** gdata */
-  objectName?: string;
+  objectName?: string | undefined;
 }
 export type GdataCompositeMediaReferenceTypeEnum =
   | "PATH"
@@ -165,260 +165,260 @@ export type GdataCompositeMediaReferenceTypeEnum =
 /** gdata */
 export interface GdataCompositeMedia {
   /** gdata */
-  md5Hash?: string;
+  md5Hash?: string | undefined;
   /** gdata */
-  blobstore2Info?: GdataBlobstore2Info;
+  blobstore2Info?: GdataBlobstore2Info | undefined;
   /** gdata */
-  inline?: string;
+  inline?: string | undefined;
   /** gdata */
-  sha1Hash?: string;
+  sha1Hash?: string | undefined;
   /** gdata */
-  crc32cHash?: number;
+  crc32cHash?: number | undefined;
   /** gdata */
-  objectId?: GdataObjectId;
+  objectId?: GdataObjectId | undefined;
   /** gdata */
-  cosmoBinaryReference?: string;
+  cosmoBinaryReference?: string | undefined;
   /** gdata */
-  blobRef?: string;
+  blobRef?: string | undefined;
   /** gdata */
-  path?: string;
+  path?: string | undefined;
   /** gdata */
-  referenceType?: GdataCompositeMediaReferenceTypeEnum;
+  referenceType?: GdataCompositeMediaReferenceTypeEnum | undefined;
   /** gdata */
-  length?: string;
+  length?: string | undefined;
 }
 /** gdata */
 export interface GdataDiffUploadResponse {
   /** gdata */
-  originalObject?: GdataCompositeMedia;
+  originalObject?: GdataCompositeMedia | undefined;
   /** gdata */
-  objectVersion?: string;
+  objectVersion?: string | undefined;
 }
 /** gdata */
 export interface GdataDownloadParameters {
   /** gdata */
-  allowGzipCompression?: boolean;
+  allowGzipCompression?: boolean | undefined;
   /** gdata */
-  ignoreRange?: boolean;
+  ignoreRange?: boolean | undefined;
 }
 /** gdata */
 export interface GdataContentTypeInfo {
   /** gdata */
-  fromBytes?: string;
+  fromBytes?: string | undefined;
   /** gdata */
-  fromFusionId?: string;
+  fromFusionId?: string | undefined;
   /** gdata */
-  fromHeader?: string;
+  fromHeader?: string | undefined;
   /** gdata */
-  fromFileName?: string;
+  fromFileName?: string | undefined;
   /** gdata */
-  fusionIdDetectionMetadata?: string;
+  fusionIdDetectionMetadata?: string | undefined;
   /** gdata */
-  fromUrlPath?: string;
+  fromUrlPath?: string | undefined;
   /** gdata */
-  bestGuess?: string;
+  bestGuess?: string | undefined;
 }
 /** gdata */
 export interface GdataDiffUploadRequest {
   /** gdata */
-  objectInfo?: GdataCompositeMedia;
+  objectInfo?: GdataCompositeMedia | undefined;
   /** gdata */
-  objectVersion?: string;
+  objectVersion?: string | undefined;
   /** gdata */
-  checksumsInfo?: GdataCompositeMedia;
+  checksumsInfo?: GdataCompositeMedia | undefined;
 }
 /** gdata */
 export interface GdataDiffChecksumsResponse {
   /** gdata */
-  checksumsLocation?: GdataCompositeMedia;
+  checksumsLocation?: GdataCompositeMedia | undefined;
   /** gdata */
-  objectVersion?: string;
+  objectVersion?: string | undefined;
   /** gdata */
-  objectLocation?: GdataCompositeMedia;
+  objectLocation?: GdataCompositeMedia | undefined;
   /** gdata */
-  chunkSizeBytes?: string;
+  chunkSizeBytes?: string | undefined;
   /** gdata */
-  objectSizeBytes?: string;
+  objectSizeBytes?: string | undefined;
 }
 export type GdataCompositeMediaList = Array<GdataCompositeMedia>;
 /** gdata */
 export interface GdataDiffVersionResponse {
   /** gdata */
-  objectVersion?: string;
+  objectVersion?: string | undefined;
   /** gdata */
-  objectSizeBytes?: string;
+  objectSizeBytes?: string | undefined;
 }
 /** gdata */
 export interface GdataDiffDownloadResponse {
   /** gdata */
-  objectLocation?: GdataCompositeMedia;
+  objectLocation?: GdataCompositeMedia | undefined;
 }
 /** gdata */
 export interface GdataMedia {
   /** gdata */
-  referenceType?: GdataMediaReferenceTypeEnum;
+  referenceType?: GdataMediaReferenceTypeEnum | undefined;
   /** gdata */
-  diffUploadResponse?: GdataDiffUploadResponse;
+  diffUploadResponse?: GdataDiffUploadResponse | undefined;
   /** gdata */
-  sha256Hash?: string;
+  sha256Hash?: string | undefined;
   /** gdata */
-  downloadParameters?: GdataDownloadParameters;
+  downloadParameters?: GdataDownloadParameters | undefined;
   /** gdata */
-  inline?: string;
+  inline?: string | undefined;
   /** gdata */
-  isPotentialRetry?: boolean;
+  isPotentialRetry?: boolean | undefined;
   /** gdata */
-  contentTypeInfo?: GdataContentTypeInfo;
+  contentTypeInfo?: GdataContentTypeInfo | undefined;
   /** gdata */
-  objectId?: GdataObjectId;
+  objectId?: GdataObjectId | undefined;
   /** gdata */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** gdata */
-  diffUploadRequest?: GdataDiffUploadRequest;
+  diffUploadRequest?: GdataDiffUploadRequest | undefined;
   /** gdata */
-  contentType?: string;
+  contentType?: string | undefined;
   /** gdata */
-  blobRef?: string;
+  blobRef?: string | undefined;
   /** gdata */
-  filename?: string;
+  filename?: string | undefined;
   /** gdata */
-  token?: string;
+  token?: string | undefined;
   /** gdata */
-  diffChecksumsResponse?: GdataDiffChecksumsResponse;
+  diffChecksumsResponse?: GdataDiffChecksumsResponse | undefined;
   /** gdata */
-  blobstore2Info?: GdataBlobstore2Info;
+  blobstore2Info?: GdataBlobstore2Info | undefined;
   /** gdata */
-  sha512Hash?: string;
+  sha512Hash?: string | undefined;
   /** gdata */
-  algorithm?: string;
+  algorithm?: string | undefined;
   /** gdata */
-  mediaId?: string;
+  mediaId?: string | undefined;
   /** gdata */
-  length?: string;
+  length?: string | undefined;
   /** gdata */
-  compositeMedia?: GdataCompositeMediaList;
+  compositeMedia?: GdataCompositeMediaList | undefined;
   /** gdata */
-  md5Hash?: string;
+  md5Hash?: string | undefined;
   /** gdata */
-  hash?: string;
+  hash?: string | undefined;
   /** gdata */
-  diffVersionResponse?: GdataDiffVersionResponse;
+  diffVersionResponse?: GdataDiffVersionResponse | undefined;
   /** gdata */
-  crc32cHash?: number;
+  crc32cHash?: number | undefined;
   /** gdata */
-  hashVerified?: boolean;
+  hashVerified?: boolean | undefined;
   /** gdata */
-  diffDownloadResponse?: GdataDiffDownloadResponse;
+  diffDownloadResponse?: GdataDiffDownloadResponse | undefined;
   /** gdata */
-  cosmoBinaryReference?: string;
+  cosmoBinaryReference?: string | undefined;
   /** gdata */
-  bigstoreObjectRef?: string;
+  bigstoreObjectRef?: string | undefined;
   /** gdata */
-  sha1Hash?: string;
+  sha1Hash?: string | undefined;
   /** gdata */
-  path?: string;
+  path?: string | undefined;
 }
 export interface GetJobsRequest {
   /** The ID of the job to retrieve. */
   jobId: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
 }
 export interface GetJobsReportsRequest {
   /** The ID of the report to retrieve. */
   reportId: string;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
   /** The ID of the job. */
   jobId: string;
 }
 /** A report's metadata including the URL from which the report itself can be downloaded. */
 export interface Report {
   /** The server-generated ID of the report. */
-  id?: string;
+  id?: string | undefined;
   /** The date/time when this report was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The end of the time period that the report instance covers. The value is exclusive. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The URL from which the report can be downloaded (max. 1000 characters). */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** The start of the time period that the report instance covers. The value is inclusive. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The ID of the job that created this report. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** The date/time when the job this report belongs to will expire/expired. */
-  jobExpireTime?: string;
+  jobExpireTime?: string | undefined;
 }
 export interface ListJobsRequest {
   /** Requested page size. Server may return fewer jobs than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
   /** If set to true, also system-managed jobs will be returned; otherwise only user-created jobs will be returned. System-managed jobs can neither be modified nor deleted. */
-  includeSystemManaged?: boolean;
+  includeSystemManaged?: boolean | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListReportTypesResponse.next_page_token returned in response to the previous call to the `ListJobs` method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type JobList = Array<Job>;
 /** Response message for ReportingService.ListJobs. */
 export interface ListJobsResponse {
   /** A token to retrieve next page of results. Pass this value in the ListJobsRequest.page_token field in the subsequent call to `ListJobs` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of jobs. */
-  jobs?: JobList;
+  jobs?: JobList | undefined;
 }
 export interface ListJobsReportsRequest {
   /** Requested page size. Server may return fewer report types than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The ID of the job. */
   jobId: string;
   /** If set, only reports created after the specified date/time are returned. */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
   /** If set, only reports whose start time is smaller than the specified date/time are returned. */
-  startTimeBefore?: string;
+  startTimeBefore?: string | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListReportsResponse.next_page_token returned in response to the previous call to the `ListReports` method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If set, only reports whose start time is greater than or equal the specified date/time are returned. */
-  startTimeAtOrAfter?: string;
+  startTimeAtOrAfter?: string | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response message for ReportingService.ListReports. */
 export interface ListReportsResponse {
   /** The list of report types. */
-  reports?: ReportList;
+  reports?: ReportList | undefined;
   /** A token to retrieve next page of results. Pass this value in the ListReportsRequest.page_token field in the subsequent call to `ListReports` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListReportTypesRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string;
+  onBehalfOfContentOwner?: string | undefined;
   /** If set to true, also system-managed report types will be returned; otherwise only the report types that can be used to create new reporting jobs will be returned. */
-  includeSystemManaged?: boolean;
+  includeSystemManaged?: boolean | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListReportTypesResponse.next_page_token returned in response to the previous call to the `ListReportTypes` method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer report types than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** A report type. */
 export interface ReportType {
   /** True if this a system-managed report type; otherwise false. Reporting jobs for system-managed report types are created automatically and can thus not be used in the `CreateJob` method. */
-  systemManaged?: boolean;
+  systemManaged?: boolean | undefined;
   /** The ID of the report type (max. 100 characters). */
-  id?: string;
+  id?: string | undefined;
   /** The date/time when this report type was/will be deprecated. */
-  deprecateTime?: string;
+  deprecateTime?: string | undefined;
   /** The name of the report type (max. 100 characters). */
-  name?: string;
+  name?: string | undefined;
 }
 export type ReportTypeList = Array<ReportType>;
 /** Response message for ReportingService.ListReportTypes. */
 export interface ListReportTypesResponse {
   /** The list of report types. */
-  reportTypes?: ReportTypeList;
+  reportTypes?: ReportTypeList | undefined;
   /** A token to retrieve next page of results. Pass this value in the ListReportTypesRequest.page_token field in the subsequent call to `ListReportTypes` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type CreateJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a job and returns it. */

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1624,53 +1625,53 @@ export class UsageLimitNotFoundFault
     ),
   ).pipe(C.withBadRequestError) {}
 export interface AcceptReservedNodeExchangeInputMessage {
-  ReservedNodeId?: string;
-  TargetReservedNodeOfferingId?: string;
+  ReservedNodeId?: string | undefined;
+  TargetReservedNodeOfferingId?: string | undefined;
 }
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export type ReservedNodeOfferingType = "Regular" | "Upgradable" | (string & {});
 export interface ReservedNode {
-  ReservedNodeId?: string;
-  ReservedNodeOfferingId?: string;
-  NodeType?: string;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  NodeCount?: number;
-  State?: string;
-  OfferingType?: string;
-  RecurringCharges?: RecurringCharge[];
-  ReservedNodeOfferingType?: ReservedNodeOfferingType;
+  ReservedNodeId?: string | undefined;
+  ReservedNodeOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  NodeCount?: number | undefined;
+  State?: string | undefined;
+  OfferingType?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
+  ReservedNodeOfferingType?: ReservedNodeOfferingType | undefined;
 }
 export interface AcceptReservedNodeExchangeOutputMessage {
-  ExchangedReservedNode?: ReservedNode;
+  ExchangedReservedNode?: ReservedNode | undefined;
 }
 export type PartnerIntegrationAccountId = string;
 export type PartnerIntegrationClusterIdentifier = string;
 export type PartnerIntegrationDatabaseName = string;
 export type PartnerIntegrationPartnerName = string;
 export interface PartnerIntegrationInputMessage {
-  AccountId?: string;
-  ClusterIdentifier?: string;
-  DatabaseName?: string;
-  PartnerName?: string;
+  AccountId?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  DatabaseName?: string | undefined;
+  PartnerName?: string | undefined;
 }
 export interface PartnerIntegrationOutputMessage {
-  DatabaseName?: string;
-  PartnerName?: string;
+  DatabaseName?: string | undefined;
+  PartnerName?: string | undefined;
 }
 export interface AssociateDataShareConsumerMessage {
-  DataShareArn?: string;
-  AssociateEntireAccount?: boolean;
-  ConsumerArn?: string;
-  ConsumerRegion?: string;
-  AllowWrites?: boolean;
+  DataShareArn?: string | undefined;
+  AssociateEntireAccount?: boolean | undefined;
+  ConsumerArn?: string | undefined;
+  ConsumerRegion?: string | undefined;
+  AllowWrites?: boolean | undefined;
 }
 export type DataShareStatus =
   | "ACTIVE"
@@ -1681,206 +1682,206 @@ export type DataShareStatus =
   | "AVAILABLE"
   | (string & {});
 export interface DataShareAssociation {
-  ConsumerIdentifier?: string;
-  Status?: DataShareStatus;
-  ConsumerRegion?: string;
-  CreatedDate?: Date;
-  StatusChangeDate?: Date;
-  ProducerAllowedWrites?: boolean;
-  ConsumerAcceptedWrites?: boolean;
+  ConsumerIdentifier?: string | undefined;
+  Status?: DataShareStatus | undefined;
+  ConsumerRegion?: string | undefined;
+  CreatedDate?: Date | undefined;
+  StatusChangeDate?: Date | undefined;
+  ProducerAllowedWrites?: boolean | undefined;
+  ConsumerAcceptedWrites?: boolean | undefined;
 }
 export type DataShareAssociationList = DataShareAssociation[];
 export type DataShareType = "INTERNAL" | (string & {});
 export interface DataShare {
-  DataShareArn?: string;
-  ProducerArn?: string;
-  AllowPubliclyAccessibleConsumers?: boolean;
-  DataShareAssociations?: DataShareAssociation[];
-  ManagedBy?: string;
-  DataShareType?: DataShareType;
+  DataShareArn?: string | undefined;
+  ProducerArn?: string | undefined;
+  AllowPubliclyAccessibleConsumers?: boolean | undefined;
+  DataShareAssociations?: DataShareAssociation[] | undefined;
+  ManagedBy?: string | undefined;
+  DataShareType?: DataShareType | undefined;
 }
 export interface AuthorizeClusterSecurityGroupIngressMessage {
-  ClusterSecurityGroupName?: string;
-  CIDRIP?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
+  ClusterSecurityGroupName?: string | undefined;
+  CIDRIP?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
 }
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface EC2SecurityGroup {
-  Status?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
-  Tags?: Tag[];
+  Status?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type EC2SecurityGroupList = EC2SecurityGroup[];
 export interface IPRange {
-  Status?: string;
-  CIDRIP?: string;
-  Tags?: Tag[];
+  Status?: string | undefined;
+  CIDRIP?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type IPRangeList = IPRange[];
 export interface ClusterSecurityGroup {
-  ClusterSecurityGroupName?: string;
-  Description?: string;
-  EC2SecurityGroups?: EC2SecurityGroup[];
-  IPRanges?: IPRange[];
-  Tags?: Tag[];
+  ClusterSecurityGroupName?: string | undefined;
+  Description?: string | undefined;
+  EC2SecurityGroups?: EC2SecurityGroup[] | undefined;
+  IPRanges?: IPRange[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AuthorizeClusterSecurityGroupIngressResult {
-  ClusterSecurityGroup?: ClusterSecurityGroup;
+  ClusterSecurityGroup?: ClusterSecurityGroup | undefined;
 }
 export interface AuthorizeDataShareMessage {
-  DataShareArn?: string;
-  ConsumerIdentifier?: string;
-  AllowWrites?: boolean;
+  DataShareArn?: string | undefined;
+  ConsumerIdentifier?: string | undefined;
+  AllowWrites?: boolean | undefined;
 }
 export type VpcIdentifierList = string[];
 export interface AuthorizeEndpointAccessMessage {
-  ClusterIdentifier?: string;
-  Account?: string;
-  VpcIds?: string[];
+  ClusterIdentifier?: string | undefined;
+  Account?: string | undefined;
+  VpcIds?: string[] | undefined;
 }
 export type AuthorizationStatus = "Authorized" | "Revoking" | (string & {});
 export interface EndpointAuthorization {
-  Grantor?: string;
-  Grantee?: string;
-  ClusterIdentifier?: string;
-  AuthorizeTime?: Date;
-  ClusterStatus?: string;
-  Status?: AuthorizationStatus;
-  AllowedAllVPCs?: boolean;
-  AllowedVPCs?: string[];
-  EndpointCount?: number;
+  Grantor?: string | undefined;
+  Grantee?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  AuthorizeTime?: Date | undefined;
+  ClusterStatus?: string | undefined;
+  Status?: AuthorizationStatus | undefined;
+  AllowedAllVPCs?: boolean | undefined;
+  AllowedVPCs?: string[] | undefined;
+  EndpointCount?: number | undefined;
 }
 export interface AuthorizeSnapshotAccessMessage {
-  SnapshotIdentifier?: string;
-  SnapshotArn?: string;
-  SnapshotClusterIdentifier?: string;
-  AccountWithRestoreAccess?: string;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotArn?: string | undefined;
+  SnapshotClusterIdentifier?: string | undefined;
+  AccountWithRestoreAccess?: string | undefined;
 }
 export interface AccountWithRestoreAccess {
-  AccountId?: string;
-  AccountAlias?: string;
+  AccountId?: string | undefined;
+  AccountAlias?: string | undefined;
 }
 export type AccountsWithRestoreAccessList = AccountWithRestoreAccess[];
 export type RestorableNodeTypeList = string[];
 export interface Snapshot {
-  SnapshotIdentifier?: string;
-  ClusterIdentifier?: string;
-  SnapshotCreateTime?: Date;
-  Status?: string;
-  Port?: number;
-  AvailabilityZone?: string;
-  ClusterCreateTime?: Date;
-  MasterUsername?: string;
-  ClusterVersion?: string;
-  EngineFullVersion?: string;
-  SnapshotType?: string;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  DBName?: string;
-  VpcId?: string;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  EncryptedWithHSM?: boolean;
-  AccountsWithRestoreAccess?: AccountWithRestoreAccess[];
-  OwnerAccount?: string;
-  TotalBackupSizeInMegaBytes?: number;
-  ActualIncrementalBackupSizeInMegaBytes?: number;
-  BackupProgressInMegaBytes?: number;
-  CurrentBackupRateInMegaBytesPerSecond?: number;
-  EstimatedSecondsToCompletion?: number;
-  ElapsedTimeInSeconds?: number;
-  SourceRegion?: string;
-  Tags?: Tag[];
-  RestorableNodeTypes?: string[];
-  EnhancedVpcRouting?: boolean;
-  MaintenanceTrackName?: string;
-  ManualSnapshotRetentionPeriod?: number;
-  ManualSnapshotRemainingDays?: number;
-  SnapshotRetentionStartTime?: Date;
-  MasterPasswordSecretArn?: string;
-  MasterPasswordSecretKmsKeyId?: string;
-  SnapshotArn?: string;
+  SnapshotIdentifier?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  SnapshotCreateTime?: Date | undefined;
+  Status?: string | undefined;
+  Port?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  ClusterCreateTime?: Date | undefined;
+  MasterUsername?: string | undefined;
+  ClusterVersion?: string | undefined;
+  EngineFullVersion?: string | undefined;
+  SnapshotType?: string | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  DBName?: string | undefined;
+  VpcId?: string | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  EncryptedWithHSM?: boolean | undefined;
+  AccountsWithRestoreAccess?: AccountWithRestoreAccess[] | undefined;
+  OwnerAccount?: string | undefined;
+  TotalBackupSizeInMegaBytes?: number | undefined;
+  ActualIncrementalBackupSizeInMegaBytes?: number | undefined;
+  BackupProgressInMegaBytes?: number | undefined;
+  CurrentBackupRateInMegaBytesPerSecond?: number | undefined;
+  EstimatedSecondsToCompletion?: number | undefined;
+  ElapsedTimeInSeconds?: number | undefined;
+  SourceRegion?: string | undefined;
+  Tags?: Tag[] | undefined;
+  RestorableNodeTypes?: string[] | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  MaintenanceTrackName?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  ManualSnapshotRemainingDays?: number | undefined;
+  SnapshotRetentionStartTime?: Date | undefined;
+  MasterPasswordSecretArn?: string | undefined;
+  MasterPasswordSecretKmsKeyId?: string | undefined;
+  SnapshotArn?: string | undefined;
 }
 export interface AuthorizeSnapshotAccessResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface DeleteClusterSnapshotMessage {
-  SnapshotIdentifier?: string;
-  SnapshotClusterIdentifier?: string;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotClusterIdentifier?: string | undefined;
 }
 export type DeleteClusterSnapshotMessageList = DeleteClusterSnapshotMessage[];
 export interface BatchDeleteClusterSnapshotsRequest {
-  Identifiers?: DeleteClusterSnapshotMessage[];
+  Identifiers?: DeleteClusterSnapshotMessage[] | undefined;
 }
 export type SnapshotIdentifierList = string[];
 export interface SnapshotErrorMessage {
-  SnapshotIdentifier?: string;
-  SnapshotClusterIdentifier?: string;
-  FailureCode?: string;
-  FailureReason?: string;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotClusterIdentifier?: string | undefined;
+  FailureCode?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export type BatchSnapshotOperationErrorList = SnapshotErrorMessage[];
 export interface BatchDeleteClusterSnapshotsResult {
-  Resources?: string[];
-  Errors?: SnapshotErrorMessage[];
+  Resources?: string[] | undefined;
+  Errors?: SnapshotErrorMessage[] | undefined;
 }
 export interface BatchModifyClusterSnapshotsMessage {
-  SnapshotIdentifierList?: string[];
-  ManualSnapshotRetentionPeriod?: number;
-  Force?: boolean;
+  SnapshotIdentifierList?: string[] | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  Force?: boolean | undefined;
 }
 export type BatchSnapshotOperationErrors = SnapshotErrorMessage[];
 export interface BatchModifyClusterSnapshotsOutputMessage {
-  Resources?: string[];
-  Errors?: SnapshotErrorMessage[];
+  Resources?: string[] | undefined;
+  Errors?: SnapshotErrorMessage[] | undefined;
 }
 export interface CancelResizeMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export type ImportTablesCompleted = string[];
 export type ImportTablesInProgress = string[];
 export type ImportTablesNotStarted = string[];
 export interface ResizeProgressMessage {
-  TargetNodeType?: string;
-  TargetNumberOfNodes?: number;
-  TargetClusterType?: string;
-  Status?: string;
-  ImportTablesCompleted?: string[];
-  ImportTablesInProgress?: string[];
-  ImportTablesNotStarted?: string[];
-  AvgResizeRateInMegaBytesPerSecond?: number;
-  TotalResizeDataInMegaBytes?: number;
-  ProgressInMegaBytes?: number;
-  ElapsedTimeInSeconds?: number;
-  EstimatedTimeToCompletionInSeconds?: number;
-  ResizeType?: string;
-  Message?: string;
-  TargetEncryptionType?: string;
-  DataTransferProgressPercent?: number;
+  TargetNodeType?: string | undefined;
+  TargetNumberOfNodes?: number | undefined;
+  TargetClusterType?: string | undefined;
+  Status?: string | undefined;
+  ImportTablesCompleted?: string[] | undefined;
+  ImportTablesInProgress?: string[] | undefined;
+  ImportTablesNotStarted?: string[] | undefined;
+  AvgResizeRateInMegaBytesPerSecond?: number | undefined;
+  TotalResizeDataInMegaBytes?: number | undefined;
+  ProgressInMegaBytes?: number | undefined;
+  ElapsedTimeInSeconds?: number | undefined;
+  EstimatedTimeToCompletionInSeconds?: number | undefined;
+  ResizeType?: string | undefined;
+  Message?: string | undefined;
+  TargetEncryptionType?: string | undefined;
+  DataTransferProgressPercent?: number | undefined;
 }
 export interface CopyClusterSnapshotMessage {
-  SourceSnapshotIdentifier?: string;
-  SourceSnapshotClusterIdentifier?: string;
-  TargetSnapshotIdentifier?: string;
-  ManualSnapshotRetentionPeriod?: number;
+  SourceSnapshotIdentifier?: string | undefined;
+  SourceSnapshotClusterIdentifier?: string | undefined;
+  TargetSnapshotIdentifier?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
 }
 export interface CopyClusterSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type AuthenticationProfileNameString = string;
 export interface CreateAuthenticationProfileMessage {
-  AuthenticationProfileName?: string;
-  AuthenticationProfileContent?: string;
+  AuthenticationProfileName?: string | undefined;
+  AuthenticationProfileContent?: string | undefined;
 }
 export interface CreateAuthenticationProfileResult {
-  AuthenticationProfileName?: string;
-  AuthenticationProfileContent?: string;
+  AuthenticationProfileName?: string | undefined;
+  AuthenticationProfileContent?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export type ClusterSecurityGroupNameList = string[];
@@ -1889,161 +1890,161 @@ export type IamRoleArnList = string[];
 export type AquaConfigurationStatus = "enabled" | "disabled" | "auto" | (string & {});
 export type CatalogNameString = string;
 export interface CreateClusterMessage {
-  DBName?: string;
-  ClusterIdentifier?: string;
-  ClusterType?: string;
-  NodeType?: string;
-  MasterUsername?: string;
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  ClusterSecurityGroups?: string[];
-  VpcSecurityGroupIds?: string[];
-  ClusterSubnetGroupName?: string;
-  AvailabilityZone?: string;
-  PreferredMaintenanceWindow?: string;
-  ClusterParameterGroupName?: string;
-  AutomatedSnapshotRetentionPeriod?: number;
-  ManualSnapshotRetentionPeriod?: number;
-  Port?: number;
-  ClusterVersion?: string;
-  AllowVersionUpgrade?: boolean;
-  NumberOfNodes?: number;
-  PubliclyAccessible?: boolean;
-  Encrypted?: boolean;
-  HsmClientCertificateIdentifier?: string;
-  HsmConfigurationIdentifier?: string;
-  ElasticIp?: string;
-  Tags?: Tag[];
-  KmsKeyId?: string;
-  EnhancedVpcRouting?: boolean;
-  AdditionalInfo?: string;
-  IamRoles?: string[];
-  MaintenanceTrackName?: string;
-  SnapshotScheduleIdentifier?: string;
-  AvailabilityZoneRelocation?: boolean;
-  AquaConfigurationStatus?: AquaConfigurationStatus;
-  DefaultIamRoleArn?: string;
-  LoadSampleData?: string;
-  ManageMasterPassword?: boolean;
-  MasterPasswordSecretKmsKeyId?: string;
-  IpAddressType?: string;
-  MultiAZ?: boolean;
-  RedshiftIdcApplicationArn?: string;
-  CatalogName?: string;
-  ExtraComputeForAutomaticOptimization?: boolean;
+  DBName?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  ClusterType?: string | undefined;
+  NodeType?: string | undefined;
+  MasterUsername?: string | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  ClusterSecurityGroups?: string[] | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  ClusterSubnetGroupName?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  ClusterParameterGroupName?: string | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  Port?: number | undefined;
+  ClusterVersion?: string | undefined;
+  AllowVersionUpgrade?: boolean | undefined;
+  NumberOfNodes?: number | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  Encrypted?: boolean | undefined;
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmConfigurationIdentifier?: string | undefined;
+  ElasticIp?: string | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  AdditionalInfo?: string | undefined;
+  IamRoles?: string[] | undefined;
+  MaintenanceTrackName?: string | undefined;
+  SnapshotScheduleIdentifier?: string | undefined;
+  AvailabilityZoneRelocation?: boolean | undefined;
+  AquaConfigurationStatus?: AquaConfigurationStatus | undefined;
+  DefaultIamRoleArn?: string | undefined;
+  LoadSampleData?: string | undefined;
+  ManageMasterPassword?: boolean | undefined;
+  MasterPasswordSecretKmsKeyId?: string | undefined;
+  IpAddressType?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  RedshiftIdcApplicationArn?: string | undefined;
+  CatalogName?: string | undefined;
+  ExtraComputeForAutomaticOptimization?: boolean | undefined;
 }
 export interface NetworkInterface {
-  NetworkInterfaceId?: string;
-  SubnetId?: string;
-  PrivateIpAddress?: string;
-  AvailabilityZone?: string;
-  Ipv6Address?: string;
+  NetworkInterfaceId?: string | undefined;
+  SubnetId?: string | undefined;
+  PrivateIpAddress?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  Ipv6Address?: string | undefined;
 }
 export type NetworkInterfaceList = NetworkInterface[];
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcId?: string;
-  NetworkInterfaces?: NetworkInterface[];
+  VpcEndpointId?: string | undefined;
+  VpcId?: string | undefined;
+  NetworkInterfaces?: NetworkInterface[] | undefined;
 }
 export type VpcEndpointsList = VpcEndpoint[];
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
-  VpcEndpoints?: VpcEndpoint[];
+  Address?: string | undefined;
+  Port?: number | undefined;
+  VpcEndpoints?: VpcEndpoint[] | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 4) as any as S.Schema<Endpoint>;
 export interface ClusterSecurityGroupMembership {
-  ClusterSecurityGroupName?: string;
-  Status?: string;
+  ClusterSecurityGroupName?: string | undefined;
+  Status?: string | undefined;
 }
 export type ClusterSecurityGroupMembershipList = ClusterSecurityGroupMembership[];
 export interface VpcSecurityGroupMembership {
-  VpcSecurityGroupId?: string;
-  Status?: string;
+  VpcSecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export interface ClusterParameterStatus {
-  ParameterName?: string;
-  ParameterApplyStatus?: string;
-  ParameterApplyErrorDescription?: string;
+  ParameterName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
+  ParameterApplyErrorDescription?: string | undefined;
 }
 export type ClusterParameterStatusList = ClusterParameterStatus[];
 export interface ClusterParameterGroupStatus {
-  ParameterGroupName?: string;
-  ParameterApplyStatus?: string;
-  ClusterParameterStatusList?: ClusterParameterStatus[];
+  ParameterGroupName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
+  ClusterParameterStatusList?: ClusterParameterStatus[] | undefined;
 }
 export type ClusterParameterGroupStatusList = ClusterParameterGroupStatus[];
 export interface PendingModifiedValues {
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  ClusterType?: string;
-  ClusterVersion?: string;
-  AutomatedSnapshotRetentionPeriod?: number;
-  ClusterIdentifier?: string;
-  PubliclyAccessible?: boolean;
-  EnhancedVpcRouting?: boolean;
-  MaintenanceTrackName?: string;
-  EncryptionType?: string;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  ClusterType?: string | undefined;
+  ClusterVersion?: string | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ClusterIdentifier?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  MaintenanceTrackName?: string | undefined;
+  EncryptionType?: string | undefined;
 }
 export interface RestoreStatus {
-  Status?: string;
-  CurrentRestoreRateInMegaBytesPerSecond?: number;
-  SnapshotSizeInMegaBytes?: number;
-  ProgressInMegaBytes?: number;
-  ElapsedTimeInSeconds?: number;
-  EstimatedTimeToCompletionInSeconds?: number;
+  Status?: string | undefined;
+  CurrentRestoreRateInMegaBytesPerSecond?: number | undefined;
+  SnapshotSizeInMegaBytes?: number | undefined;
+  ProgressInMegaBytes?: number | undefined;
+  ElapsedTimeInSeconds?: number | undefined;
+  EstimatedTimeToCompletionInSeconds?: number | undefined;
 }
 export interface DataTransferProgress {
-  Status?: string;
-  CurrentRateInMegaBytesPerSecond?: number;
-  TotalDataInMegaBytes?: number;
-  DataTransferredInMegaBytes?: number;
-  EstimatedTimeToCompletionInSeconds?: number;
-  ElapsedTimeInSeconds?: number;
+  Status?: string | undefined;
+  CurrentRateInMegaBytesPerSecond?: number | undefined;
+  TotalDataInMegaBytes?: number | undefined;
+  DataTransferredInMegaBytes?: number | undefined;
+  EstimatedTimeToCompletionInSeconds?: number | undefined;
+  ElapsedTimeInSeconds?: number | undefined;
 }
 export interface HsmStatus {
-  HsmClientCertificateIdentifier?: string;
-  HsmConfigurationIdentifier?: string;
-  Status?: string;
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmConfigurationIdentifier?: string | undefined;
+  Status?: string | undefined;
 }
 export interface ClusterSnapshotCopyStatus {
-  DestinationRegion?: string;
-  RetentionPeriod?: number;
-  ManualSnapshotRetentionPeriod?: number;
-  SnapshotCopyGrantName?: string;
+  DestinationRegion?: string | undefined;
+  RetentionPeriod?: number | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  SnapshotCopyGrantName?: string | undefined;
 }
 export interface ClusterNode {
-  NodeRole?: string;
-  PrivateIPAddress?: string;
-  PublicIPAddress?: string;
+  NodeRole?: string | undefined;
+  PrivateIPAddress?: string | undefined;
+  PublicIPAddress?: string | undefined;
 }
 export type ClusterNodesList = ClusterNode[];
 export interface ElasticIpStatus {
-  ElasticIp?: string;
-  Status?: string;
+  ElasticIp?: string | undefined;
+  Status?: string | undefined;
 }
 export interface ClusterIamRole {
-  IamRoleArn?: string;
-  ApplyStatus?: string;
+  IamRoleArn?: string | undefined;
+  ApplyStatus?: string | undefined;
 }
 export type ClusterIamRoleList = ClusterIamRole[];
 export type PendingActionsList = string[];
 export interface DeferredMaintenanceWindow {
-  DeferMaintenanceIdentifier?: string;
-  DeferMaintenanceStartTime?: Date;
-  DeferMaintenanceEndTime?: Date;
+  DeferMaintenanceIdentifier?: string | undefined;
+  DeferMaintenanceStartTime?: Date | undefined;
+  DeferMaintenanceEndTime?: Date | undefined;
 }
 export type DeferredMaintenanceWindowsList = DeferredMaintenanceWindow[];
 export type ScheduleState = "MODIFYING" | "ACTIVE" | "FAILED" | (string & {});
 export interface ResizeInfo {
-  ResizeType?: string;
-  AllowCancelResize?: boolean;
+  ResizeType?: string | undefined;
+  AllowCancelResize?: boolean | undefined;
 }
 export type AquaStatus = "enabled" | "disabled" | "applying" | (string & {});
 export interface AquaConfiguration {
-  AquaStatus?: AquaStatus;
-  AquaConfigurationStatus?: AquaConfigurationStatus;
+  AquaStatus?: AquaStatus | undefined;
+  AquaConfigurationStatus?: AquaConfigurationStatus | undefined;
 }
 export type ReservedNodeExchangeStatusType =
   | "REQUESTED"
@@ -2054,257 +2055,257 @@ export type ReservedNodeExchangeStatusType =
   | "FAILED"
   | (string & {});
 export interface ReservedNodeExchangeStatus {
-  ReservedNodeExchangeRequestId?: string;
-  Status?: ReservedNodeExchangeStatusType;
-  RequestTime?: Date;
-  SourceReservedNodeId?: string;
-  SourceReservedNodeType?: string;
-  SourceReservedNodeCount?: number;
-  TargetReservedNodeOfferingId?: string;
-  TargetReservedNodeType?: string;
-  TargetReservedNodeCount?: number;
+  ReservedNodeExchangeRequestId?: string | undefined;
+  Status?: ReservedNodeExchangeStatusType | undefined;
+  RequestTime?: Date | undefined;
+  SourceReservedNodeId?: string | undefined;
+  SourceReservedNodeType?: string | undefined;
+  SourceReservedNodeCount?: number | undefined;
+  TargetReservedNodeOfferingId?: string | undefined;
+  TargetReservedNodeType?: string | undefined;
+  TargetReservedNodeCount?: number | undefined;
 }
 export interface SecondaryClusterInfo {
-  AvailabilityZone?: string;
-  ClusterNodes?: ClusterNode[];
+  AvailabilityZone?: string | undefined;
+  ClusterNodes?: ClusterNode[] | undefined;
 }
 export type LogTypeList = string[];
 export type S3TableLastIngestionTimeMap = { [key: string]: string | undefined };
 export interface S3TablePublishStatus {
-  S3Tables?: string[];
-  S3TableNamespace?: string;
-  S3TableGranularity?: string;
-  EnabledAll?: boolean;
-  LastIngestionTimes?: { [key: string]: string | undefined };
+  S3Tables?: string[] | undefined;
+  S3TableNamespace?: string | undefined;
+  S3TableGranularity?: string | undefined;
+  EnabledAll?: boolean | undefined;
+  LastIngestionTimes?: { [key: string]: string | undefined } | undefined;
 }
 export interface LoggingPublishStatus {
-  S3Tables?: S3TablePublishStatus;
+  S3Tables?: S3TablePublishStatus | undefined;
 }
 export interface Cluster {
-  ClusterIdentifier?: string;
-  NodeType?: string;
-  ClusterStatus?: string;
-  ClusterAvailabilityStatus?: string;
-  ModifyStatus?: string;
-  MasterUsername?: string;
-  DBName?: string;
-  Endpoint?: Endpoint;
-  ClusterCreateTime?: Date;
-  AutomatedSnapshotRetentionPeriod?: number;
-  ManualSnapshotRetentionPeriod?: number;
-  ClusterSecurityGroups?: ClusterSecurityGroupMembership[];
-  VpcSecurityGroups?: VpcSecurityGroupMembership[];
-  ClusterParameterGroups?: ClusterParameterGroupStatus[];
-  ClusterSubnetGroupName?: string;
-  VpcId?: string;
-  AvailabilityZone?: string;
-  PreferredMaintenanceWindow?: string;
-  PendingModifiedValues?: PendingModifiedValues;
-  ClusterVersion?: string;
-  AllowVersionUpgrade?: boolean;
-  NumberOfNodes?: number;
-  PubliclyAccessible?: boolean;
-  Encrypted?: boolean;
-  RestoreStatus?: RestoreStatus;
-  DataTransferProgress?: DataTransferProgress;
-  HsmStatus?: HsmStatus;
-  ClusterSnapshotCopyStatus?: ClusterSnapshotCopyStatus;
-  ClusterPublicKey?: string;
-  ClusterNodes?: ClusterNode[];
-  ElasticIpStatus?: ElasticIpStatus;
-  ClusterRevisionNumber?: string;
-  Tags?: Tag[];
-  KmsKeyId?: string;
-  EnhancedVpcRouting?: boolean;
-  IamRoles?: ClusterIamRole[];
-  PendingActions?: string[];
-  MaintenanceTrackName?: string;
-  ElasticResizeNumberOfNodeOptions?: string;
-  DeferredMaintenanceWindows?: DeferredMaintenanceWindow[];
-  SnapshotScheduleIdentifier?: string;
-  SnapshotScheduleState?: ScheduleState;
-  ExpectedNextSnapshotScheduleTime?: Date;
-  ExpectedNextSnapshotScheduleTimeStatus?: string;
-  NextMaintenanceWindowStartTime?: Date;
-  ResizeInfo?: ResizeInfo;
-  AvailabilityZoneRelocationStatus?: string;
-  ClusterNamespaceArn?: string;
-  TotalStorageCapacityInMegaBytes?: number;
-  AquaConfiguration?: AquaConfiguration;
-  DefaultIamRoleArn?: string;
-  ReservedNodeExchangeStatus?: ReservedNodeExchangeStatus;
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  CustomDomainCertificateExpiryDate?: Date;
-  MasterPasswordSecretArn?: string;
-  MasterPasswordSecretKmsKeyId?: string;
-  IpAddressType?: string;
-  MultiAZ?: string;
-  MultiAZSecondary?: SecondaryClusterInfo;
-  LakehouseRegistrationStatus?: string;
-  CatalogArn?: string;
-  ExtraComputeForAutomaticOptimization?: string;
-  LoggingPublishStatus?: LoggingPublishStatus;
+  ClusterIdentifier?: string | undefined;
+  NodeType?: string | undefined;
+  ClusterStatus?: string | undefined;
+  ClusterAvailabilityStatus?: string | undefined;
+  ModifyStatus?: string | undefined;
+  MasterUsername?: string | undefined;
+  DBName?: string | undefined;
+  Endpoint?: Endpoint | undefined;
+  ClusterCreateTime?: Date | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  ClusterSecurityGroups?: ClusterSecurityGroupMembership[] | undefined;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  ClusterParameterGroups?: ClusterParameterGroupStatus[] | undefined;
+  ClusterSubnetGroupName?: string | undefined;
+  VpcId?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PendingModifiedValues?: PendingModifiedValues | undefined;
+  ClusterVersion?: string | undefined;
+  AllowVersionUpgrade?: boolean | undefined;
+  NumberOfNodes?: number | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  Encrypted?: boolean | undefined;
+  RestoreStatus?: RestoreStatus | undefined;
+  DataTransferProgress?: DataTransferProgress | undefined;
+  HsmStatus?: HsmStatus | undefined;
+  ClusterSnapshotCopyStatus?: ClusterSnapshotCopyStatus | undefined;
+  ClusterPublicKey?: string | undefined;
+  ClusterNodes?: ClusterNode[] | undefined;
+  ElasticIpStatus?: ElasticIpStatus | undefined;
+  ClusterRevisionNumber?: string | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  IamRoles?: ClusterIamRole[] | undefined;
+  PendingActions?: string[] | undefined;
+  MaintenanceTrackName?: string | undefined;
+  ElasticResizeNumberOfNodeOptions?: string | undefined;
+  DeferredMaintenanceWindows?: DeferredMaintenanceWindow[] | undefined;
+  SnapshotScheduleIdentifier?: string | undefined;
+  SnapshotScheduleState?: ScheduleState | undefined;
+  ExpectedNextSnapshotScheduleTime?: Date | undefined;
+  ExpectedNextSnapshotScheduleTimeStatus?: string | undefined;
+  NextMaintenanceWindowStartTime?: Date | undefined;
+  ResizeInfo?: ResizeInfo | undefined;
+  AvailabilityZoneRelocationStatus?: string | undefined;
+  ClusterNamespaceArn?: string | undefined;
+  TotalStorageCapacityInMegaBytes?: number | undefined;
+  AquaConfiguration?: AquaConfiguration | undefined;
+  DefaultIamRoleArn?: string | undefined;
+  ReservedNodeExchangeStatus?: ReservedNodeExchangeStatus | undefined;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  CustomDomainCertificateExpiryDate?: Date | undefined;
+  MasterPasswordSecretArn?: string | undefined;
+  MasterPasswordSecretKmsKeyId?: string | undefined;
+  IpAddressType?: string | undefined;
+  MultiAZ?: string | undefined;
+  MultiAZSecondary?: SecondaryClusterInfo | undefined;
+  LakehouseRegistrationStatus?: string | undefined;
+  CatalogArn?: string | undefined;
+  ExtraComputeForAutomaticOptimization?: string | undefined;
+  LoggingPublishStatus?: LoggingPublishStatus | undefined;
 }
 export interface CreateClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateClusterParameterGroupMessage {
-  ParameterGroupName?: string;
-  ParameterGroupFamily?: string;
-  Description?: string;
-  Tags?: Tag[];
+  ParameterGroupName?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ClusterParameterGroup {
-  ParameterGroupName?: string;
-  ParameterGroupFamily?: string;
-  Description?: string;
-  Tags?: Tag[];
+  ParameterGroupName?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateClusterParameterGroupResult {
-  ClusterParameterGroup?: ClusterParameterGroup;
+  ClusterParameterGroup?: ClusterParameterGroup | undefined;
 }
 export interface CreateClusterSecurityGroupMessage {
-  ClusterSecurityGroupName?: string;
-  Description?: string;
-  Tags?: Tag[];
+  ClusterSecurityGroupName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateClusterSecurityGroupResult {
-  ClusterSecurityGroup?: ClusterSecurityGroup;
+  ClusterSecurityGroup?: ClusterSecurityGroup | undefined;
 }
 export interface CreateClusterSnapshotMessage {
-  SnapshotIdentifier?: string;
-  ClusterIdentifier?: string;
-  ManualSnapshotRetentionPeriod?: number;
-  Tags?: Tag[];
+  SnapshotIdentifier?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateClusterSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateClusterSubnetGroupMessage {
-  ClusterSubnetGroupName?: string;
-  Description?: string;
-  SubnetIds?: string[];
-  Tags?: Tag[];
+  ClusterSubnetGroupName?: string | undefined;
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface SupportedPlatform {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type SupportedPlatformsList = SupportedPlatform[];
 export interface AvailabilityZone {
-  Name?: string;
-  SupportedPlatforms?: SupportedPlatform[];
+  Name?: string | undefined;
+  SupportedPlatforms?: SupportedPlatform[] | undefined;
 }
 export interface Subnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: AvailabilityZone;
-  SubnetStatus?: string;
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: AvailabilityZone | undefined;
+  SubnetStatus?: string | undefined;
 }
 export type SubnetList = Subnet[];
 export type ValueStringList = string[];
 export interface ClusterSubnetGroup {
-  ClusterSubnetGroupName?: string;
-  Description?: string;
-  VpcId?: string;
-  SubnetGroupStatus?: string;
-  Subnets?: Subnet[];
-  Tags?: Tag[];
-  SupportedClusterIpAddressTypes?: string[];
+  ClusterSubnetGroupName?: string | undefined;
+  Description?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetGroupStatus?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  Tags?: Tag[] | undefined;
+  SupportedClusterIpAddressTypes?: string[] | undefined;
 }
 export interface CreateClusterSubnetGroupResult {
-  ClusterSubnetGroup?: ClusterSubnetGroup;
+  ClusterSubnetGroup?: ClusterSubnetGroup | undefined;
 }
 export type CustomDomainNameString = string;
 export type CustomDomainCertificateArnString = string;
 export interface CreateCustomDomainAssociationMessage {
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  ClusterIdentifier?: string;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  ClusterIdentifier?: string | undefined;
 }
 export interface CreateCustomDomainAssociationResult {
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  ClusterIdentifier?: string;
-  CustomDomainCertExpiryTime?: string;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  CustomDomainCertExpiryTime?: string | undefined;
 }
 export interface CreateEndpointAccessMessage {
-  ClusterIdentifier?: string;
-  ResourceOwner?: string;
-  EndpointName?: string;
-  SubnetGroupName?: string;
-  VpcSecurityGroupIds?: string[];
+  ClusterIdentifier?: string | undefined;
+  ResourceOwner?: string | undefined;
+  EndpointName?: string | undefined;
+  SubnetGroupName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
 }
 export interface EndpointAccess {
-  ClusterIdentifier?: string;
-  ResourceOwner?: string;
-  SubnetGroupName?: string;
-  EndpointStatus?: string;
-  EndpointName?: string;
-  EndpointCreateTime?: Date;
-  Port?: number;
-  Address?: string;
-  VpcSecurityGroups?: VpcSecurityGroupMembership[];
-  VpcEndpoint?: VpcEndpoint;
+  ClusterIdentifier?: string | undefined;
+  ResourceOwner?: string | undefined;
+  SubnetGroupName?: string | undefined;
+  EndpointStatus?: string | undefined;
+  EndpointName?: string | undefined;
+  EndpointCreateTime?: Date | undefined;
+  Port?: number | undefined;
+  Address?: string | undefined;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  VpcEndpoint?: VpcEndpoint | undefined;
 }
 export type SourceIdsList = string[];
 export type EventCategoriesList = string[];
 export interface CreateEventSubscriptionMessage {
-  SubscriptionName?: string;
-  SnsTopicArn?: string;
-  SourceType?: string;
-  SourceIds?: string[];
-  EventCategories?: string[];
-  Severity?: string;
-  Enabled?: boolean;
-  Tags?: Tag[];
+  SubscriptionName?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SourceType?: string | undefined;
+  SourceIds?: string[] | undefined;
+  EventCategories?: string[] | undefined;
+  Severity?: string | undefined;
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface EventSubscription {
-  CustomerAwsId?: string;
-  CustSubscriptionId?: string;
-  SnsTopicArn?: string;
-  Status?: string;
-  SubscriptionCreationTime?: Date;
-  SourceType?: string;
-  SourceIdsList?: string[];
-  EventCategoriesList?: string[];
-  Severity?: string;
-  Enabled?: boolean;
-  Tags?: Tag[];
+  CustomerAwsId?: string | undefined;
+  CustSubscriptionId?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  Status?: string | undefined;
+  SubscriptionCreationTime?: Date | undefined;
+  SourceType?: string | undefined;
+  SourceIdsList?: string[] | undefined;
+  EventCategoriesList?: string[] | undefined;
+  Severity?: string | undefined;
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateEventSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface CreateHsmClientCertificateMessage {
-  HsmClientCertificateIdentifier?: string;
-  Tags?: Tag[];
+  HsmClientCertificateIdentifier?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface HsmClientCertificate {
-  HsmClientCertificateIdentifier?: string;
-  HsmClientCertificatePublicKey?: string;
-  Tags?: Tag[];
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmClientCertificatePublicKey?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateHsmClientCertificateResult {
-  HsmClientCertificate?: HsmClientCertificate;
+  HsmClientCertificate?: HsmClientCertificate | undefined;
 }
 export interface CreateHsmConfigurationMessage {
-  HsmConfigurationIdentifier?: string;
-  Description?: string;
-  HsmIpAddress?: string;
-  HsmPartitionName?: string;
-  HsmPartitionPassword?: string;
-  HsmServerPublicCertificate?: string;
-  Tags?: Tag[];
+  HsmConfigurationIdentifier?: string | undefined;
+  Description?: string | undefined;
+  HsmIpAddress?: string | undefined;
+  HsmPartitionName?: string | undefined;
+  HsmPartitionPassword?: string | undefined;
+  HsmServerPublicCertificate?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface HsmConfiguration {
-  HsmConfigurationIdentifier?: string;
-  Description?: string;
-  HsmIpAddress?: string;
-  HsmPartitionName?: string;
-  Tags?: Tag[];
+  HsmConfigurationIdentifier?: string | undefined;
+  Description?: string | undefined;
+  HsmIpAddress?: string | undefined;
+  HsmPartitionName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateHsmConfigurationResult {
-  HsmConfiguration?: HsmConfiguration;
+  HsmConfiguration?: HsmConfiguration | undefined;
 }
 export type SourceArn = string;
 export type TargetArn = string;
@@ -2312,13 +2313,13 @@ export type IntegrationName = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
 export type IntegrationDescription = string;
 export interface CreateIntegrationMessage {
-  SourceArn?: string;
-  TargetArn?: string;
-  IntegrationName?: string;
-  KMSKeyId?: string;
-  TagList?: Tag[];
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Description?: string;
+  SourceArn?: string | undefined;
+  TargetArn?: string | undefined;
+  IntegrationName?: string | undefined;
+  KMSKeyId?: string | undefined;
+  TagList?: Tag[] | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Description?: string | undefined;
 }
 export type IntegrationArn = string;
 export type ZeroETLIntegrationStatus =
@@ -2331,192 +2332,194 @@ export type ZeroETLIntegrationStatus =
   | "needs_attention"
   | (string & {});
 export interface IntegrationError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type IntegrationErrorList = IntegrationError[];
 export type Description = string;
 export interface Integration {
-  IntegrationArn?: string;
-  IntegrationName?: string;
-  SourceArn?: string;
-  TargetArn?: string;
-  Status?: ZeroETLIntegrationStatus;
-  Errors?: (IntegrationError & { ErrorCode: string })[];
-  CreateTime?: Date;
-  Description?: string;
-  KMSKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  IntegrationArn?: string | undefined;
+  IntegrationName?: string | undefined;
+  SourceArn?: string | undefined;
+  TargetArn?: string | undefined;
+  Status?: ZeroETLIntegrationStatus | undefined;
+  Errors?: (IntegrationError & { ErrorCode: string })[] | undefined;
+  CreateTime?: Date | undefined;
+  Description?: string | undefined;
+  KMSKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Qev2IdcApplicationName = string;
 export type IdcDisplayNameString = string;
 export interface CreateQev2IdcApplicationMessage {
-  IdcInstanceArn?: string;
-  Qev2IdcApplicationName?: string;
-  IdcDisplayName?: string;
-  Tags?: Tag[];
+  IdcInstanceArn?: string | undefined;
+  Qev2IdcApplicationName?: string | undefined;
+  IdcDisplayName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface Qev2IdcApplication {
-  IdcInstanceArn?: string;
-  Qev2IdcApplicationName?: string;
-  Qev2IdcApplicationArn?: string;
-  IdcManagedApplicationArn?: string;
-  IdcOnboardStatus?: string;
-  IdcDisplayName?: string;
-  Tags?: Tag[];
+  IdcInstanceArn?: string | undefined;
+  Qev2IdcApplicationName?: string | undefined;
+  Qev2IdcApplicationArn?: string | undefined;
+  IdcManagedApplicationArn?: string | undefined;
+  IdcOnboardStatus?: string | undefined;
+  IdcDisplayName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateQev2IdcApplicationResult {
-  Qev2IdcApplication?: Qev2IdcApplication;
+  Qev2IdcApplication?: Qev2IdcApplication | undefined;
 }
 export type RedshiftIdcApplicationName = string;
 export type IdentityNamespaceString = string;
 export type AuthorizedAudienceList = string[];
 export interface AuthorizedTokenIssuer {
-  TrustedTokenIssuerArn?: string;
-  AuthorizedAudiencesList?: string[];
+  TrustedTokenIssuerArn?: string | undefined;
+  AuthorizedAudiencesList?: string[] | undefined;
 }
 export type AuthorizedTokenIssuerList = AuthorizedTokenIssuer[];
 export type ServiceAuthorization = "Enabled" | "Disabled" | (string & {});
 export interface LakeFormationQuery {
-  Authorization?: ServiceAuthorization;
+  Authorization?: ServiceAuthorization | undefined;
 }
 export type LakeFormationScopeUnion = { LakeFormationQuery: LakeFormationQuery };
 export type LakeFormationServiceIntegrations = LakeFormationScopeUnion[];
 export interface ReadWriteAccess {
-  Authorization?: ServiceAuthorization;
+  Authorization?: ServiceAuthorization | undefined;
 }
 export type S3AccessGrantsScopeUnion = { ReadWriteAccess: ReadWriteAccess };
 export type S3AccessGrantsServiceIntegrations = S3AccessGrantsScopeUnion[];
 export interface Connect {
-  Authorization?: ServiceAuthorization;
+  Authorization?: ServiceAuthorization | undefined;
 }
 export type RedshiftScopeUnion = { Connect: Connect };
 export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export type ServiceIntegrationsUnion =
-  | { LakeFormation: LakeFormationScopeUnion[]; S3AccessGrants?: never; Redshift?: never }
-  | { LakeFormation?: never; S3AccessGrants: S3AccessGrantsScopeUnion[]; Redshift?: never }
-  | { LakeFormation?: never; S3AccessGrants?: never; Redshift: RedshiftScopeUnion[] };
+  | { LakeFormation: LakeFormationScopeUnion[]; S3AccessGrants?: undefined; Redshift?: undefined }
+  | { LakeFormation?: undefined; S3AccessGrants: S3AccessGrantsScopeUnion[]; Redshift?: undefined }
+  | { LakeFormation?: undefined; S3AccessGrants?: undefined; Redshift: RedshiftScopeUnion[] };
 export type ServiceIntegrationList = ServiceIntegrationsUnion[];
 export type ApplicationType = "None" | "Lakehouse" | (string & {});
 export type TagKeyList = string[];
 export interface CreateRedshiftIdcApplicationMessage {
-  IdcInstanceArn?: string;
-  RedshiftIdcApplicationName?: string;
-  IdentityNamespace?: string;
-  IdcDisplayName?: string;
-  IamRoleArn?: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
-  ServiceIntegrations?: ServiceIntegrationsUnion[];
-  ApplicationType?: ApplicationType;
-  Tags?: Tag[];
-  SsoTagKeys?: string[];
+  IdcInstanceArn?: string | undefined;
+  RedshiftIdcApplicationName?: string | undefined;
+  IdentityNamespace?: string | undefined;
+  IdcDisplayName?: string | undefined;
+  IamRoleArn?: string | undefined;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationsUnion[] | undefined;
+  ApplicationType?: ApplicationType | undefined;
+  Tags?: Tag[] | undefined;
+  SsoTagKeys?: string[] | undefined;
 }
 export interface RedshiftIdcApplication {
-  IdcInstanceArn?: string;
-  RedshiftIdcApplicationName?: string;
-  RedshiftIdcApplicationArn?: string;
-  IdentityNamespace?: string;
-  IdcDisplayName?: string;
-  IamRoleArn?: string;
-  IdcManagedApplicationArn?: string;
-  IdcOnboardStatus?: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
-  ServiceIntegrations?: ServiceIntegrationsUnion[];
-  ApplicationType?: ApplicationType;
-  Tags?: Tag[];
-  SsoTagKeys?: string[];
+  IdcInstanceArn?: string | undefined;
+  RedshiftIdcApplicationName?: string | undefined;
+  RedshiftIdcApplicationArn?: string | undefined;
+  IdentityNamespace?: string | undefined;
+  IdcDisplayName?: string | undefined;
+  IamRoleArn?: string | undefined;
+  IdcManagedApplicationArn?: string | undefined;
+  IdcOnboardStatus?: string | undefined;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationsUnion[] | undefined;
+  ApplicationType?: ApplicationType | undefined;
+  Tags?: Tag[] | undefined;
+  SsoTagKeys?: string[] | undefined;
 }
 export interface CreateRedshiftIdcApplicationResult {
-  RedshiftIdcApplication?: RedshiftIdcApplication;
+  RedshiftIdcApplication?: RedshiftIdcApplication | undefined;
 }
 export interface ResizeClusterMessage {
-  ClusterIdentifier?: string;
-  ClusterType?: string;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  Classic?: boolean;
-  ReservedNodeId?: string;
-  TargetReservedNodeOfferingId?: string;
+  ClusterIdentifier?: string | undefined;
+  ClusterType?: string | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  Classic?: boolean | undefined;
+  ReservedNodeId?: string | undefined;
+  TargetReservedNodeOfferingId?: string | undefined;
 }
 export interface PauseClusterMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface ResumeClusterMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface ScheduledActionType {
-  ResizeCluster?: ResizeClusterMessage;
-  PauseCluster?: PauseClusterMessage;
-  ResumeCluster?: ResumeClusterMessage;
+  ResizeCluster?: ResizeClusterMessage | undefined;
+  PauseCluster?: PauseClusterMessage | undefined;
+  ResumeCluster?: ResumeClusterMessage | undefined;
 }
 export interface CreateScheduledActionMessage {
-  ScheduledActionName?: string;
-  TargetAction?: ScheduledActionType;
-  Schedule?: string;
-  IamRole?: string;
-  ScheduledActionDescription?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Enable?: boolean;
+  ScheduledActionName?: string | undefined;
+  TargetAction?: ScheduledActionType | undefined;
+  Schedule?: string | undefined;
+  IamRole?: string | undefined;
+  ScheduledActionDescription?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Enable?: boolean | undefined;
 }
 export type ScheduledActionState = "ACTIVE" | "DISABLED" | (string & {});
 export type ScheduledActionTimeList = Date[];
 export interface ScheduledAction {
-  ScheduledActionName?: string;
-  TargetAction?: ScheduledActionType & {
-    ResizeCluster: ResizeClusterMessage & { ClusterIdentifier: string };
-    PauseCluster: PauseClusterMessage & { ClusterIdentifier: string };
-    ResumeCluster: ResumeClusterMessage & { ClusterIdentifier: string };
-  };
-  Schedule?: string;
-  IamRole?: string;
-  ScheduledActionDescription?: string;
-  State?: ScheduledActionState;
-  NextInvocations?: Date[];
-  StartTime?: Date;
-  EndTime?: Date;
+  ScheduledActionName?: string | undefined;
+  TargetAction?:
+    | (ScheduledActionType & {
+        ResizeCluster: ResizeClusterMessage & { ClusterIdentifier: string };
+        PauseCluster: PauseClusterMessage & { ClusterIdentifier: string };
+        ResumeCluster: ResumeClusterMessage & { ClusterIdentifier: string };
+      })
+    | undefined;
+  Schedule?: string | undefined;
+  IamRole?: string | undefined;
+  ScheduledActionDescription?: string | undefined;
+  State?: ScheduledActionState | undefined;
+  NextInvocations?: Date[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface CreateSnapshotCopyGrantMessage {
-  SnapshotCopyGrantName?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  SnapshotCopyGrantName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface SnapshotCopyGrant {
-  SnapshotCopyGrantName?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  SnapshotCopyGrantName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotCopyGrantResult {
-  SnapshotCopyGrant?: SnapshotCopyGrant;
+  SnapshotCopyGrant?: SnapshotCopyGrant | undefined;
 }
 export type ScheduleDefinitionList = string[];
 export interface CreateSnapshotScheduleMessage {
-  ScheduleDefinitions?: string[];
-  ScheduleIdentifier?: string;
-  ScheduleDescription?: string;
-  Tags?: Tag[];
-  DryRun?: boolean;
-  NextInvocations?: number;
+  ScheduleDefinitions?: string[] | undefined;
+  ScheduleIdentifier?: string | undefined;
+  ScheduleDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DryRun?: boolean | undefined;
+  NextInvocations?: number | undefined;
 }
 export type ScheduledSnapshotTimeList = Date[];
 export interface ClusterAssociatedToSchedule {
-  ClusterIdentifier?: string;
-  ScheduleAssociationState?: ScheduleState;
+  ClusterIdentifier?: string | undefined;
+  ScheduleAssociationState?: ScheduleState | undefined;
 }
 export type AssociatedClusterList = ClusterAssociatedToSchedule[];
 export interface SnapshotSchedule {
-  ScheduleDefinitions?: string[];
-  ScheduleIdentifier?: string;
-  ScheduleDescription?: string;
-  Tags?: Tag[];
-  NextInvocations?: Date[];
-  AssociatedClusterCount?: number;
-  AssociatedClusters?: ClusterAssociatedToSchedule[];
+  ScheduleDefinitions?: string[] | undefined;
+  ScheduleIdentifier?: string | undefined;
+  ScheduleDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
+  NextInvocations?: Date[] | undefined;
+  AssociatedClusterCount?: number | undefined;
+  AssociatedClusters?: ClusterAssociatedToSchedule[] | undefined;
 }
 export interface CreateTagsMessage {
-  ResourceName?: string;
-  Tags?: Tag[];
+  ResourceName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateTagsResponse {}
 export type UsageLimitFeatureType =
@@ -2529,241 +2532,241 @@ export type UsageLimitLimitType = "time" | "data-scanned" | (string & {});
 export type UsageLimitPeriod = "daily" | "weekly" | "monthly" | (string & {});
 export type UsageLimitBreachAction = "log" | "emit-metric" | "disable" | (string & {});
 export interface CreateUsageLimitMessage {
-  ClusterIdentifier?: string;
-  FeatureType?: UsageLimitFeatureType;
-  LimitType?: UsageLimitLimitType;
-  Amount?: number;
-  Period?: UsageLimitPeriod;
-  BreachAction?: UsageLimitBreachAction;
-  Tags?: Tag[];
+  ClusterIdentifier?: string | undefined;
+  FeatureType?: UsageLimitFeatureType | undefined;
+  LimitType?: UsageLimitLimitType | undefined;
+  Amount?: number | undefined;
+  Period?: UsageLimitPeriod | undefined;
+  BreachAction?: UsageLimitBreachAction | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UsageLimit {
-  UsageLimitId?: string;
-  ClusterIdentifier?: string;
-  FeatureType?: UsageLimitFeatureType;
-  LimitType?: UsageLimitLimitType;
-  Amount?: number;
-  Period?: UsageLimitPeriod;
-  BreachAction?: UsageLimitBreachAction;
-  Tags?: Tag[];
+  UsageLimitId?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  FeatureType?: UsageLimitFeatureType | undefined;
+  LimitType?: UsageLimitLimitType | undefined;
+  Amount?: number | undefined;
+  Period?: UsageLimitPeriod | undefined;
+  BreachAction?: UsageLimitBreachAction | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DeauthorizeDataShareMessage {
-  DataShareArn?: string;
-  ConsumerIdentifier?: string;
+  DataShareArn?: string | undefined;
+  ConsumerIdentifier?: string | undefined;
 }
 export interface DeleteAuthenticationProfileMessage {
-  AuthenticationProfileName?: string;
+  AuthenticationProfileName?: string | undefined;
 }
 export interface DeleteAuthenticationProfileResult {
-  AuthenticationProfileName?: string;
+  AuthenticationProfileName?: string | undefined;
 }
 export interface DeleteClusterMessage {
-  ClusterIdentifier?: string;
-  SkipFinalClusterSnapshot?: boolean;
-  FinalClusterSnapshotIdentifier?: string;
-  FinalClusterSnapshotRetentionPeriod?: number;
+  ClusterIdentifier?: string | undefined;
+  SkipFinalClusterSnapshot?: boolean | undefined;
+  FinalClusterSnapshotIdentifier?: string | undefined;
+  FinalClusterSnapshotRetentionPeriod?: number | undefined;
 }
 export interface DeleteClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteClusterParameterGroupMessage {
-  ParameterGroupName?: string;
+  ParameterGroupName?: string | undefined;
 }
 export interface DeleteClusterParameterGroupResponse {}
 export interface DeleteClusterSecurityGroupMessage {
-  ClusterSecurityGroupName?: string;
+  ClusterSecurityGroupName?: string | undefined;
 }
 export interface DeleteClusterSecurityGroupResponse {}
 export interface DeleteClusterSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface DeleteClusterSubnetGroupMessage {
-  ClusterSubnetGroupName?: string;
+  ClusterSubnetGroupName?: string | undefined;
 }
 export interface DeleteClusterSubnetGroupResponse {}
 export interface DeleteCustomDomainAssociationMessage {
-  ClusterIdentifier?: string;
-  CustomDomainName?: string;
+  ClusterIdentifier?: string | undefined;
+  CustomDomainName?: string | undefined;
 }
 export interface DeleteCustomDomainAssociationResponse {}
 export interface DeleteEndpointAccessMessage {
-  EndpointName?: string;
+  EndpointName?: string | undefined;
 }
 export interface DeleteEventSubscriptionMessage {
-  SubscriptionName?: string;
+  SubscriptionName?: string | undefined;
 }
 export interface DeleteEventSubscriptionResponse {}
 export interface DeleteHsmClientCertificateMessage {
-  HsmClientCertificateIdentifier?: string;
+  HsmClientCertificateIdentifier?: string | undefined;
 }
 export interface DeleteHsmClientCertificateResponse {}
 export interface DeleteHsmConfigurationMessage {
-  HsmConfigurationIdentifier?: string;
+  HsmConfigurationIdentifier?: string | undefined;
 }
 export interface DeleteHsmConfigurationResponse {}
 export interface DeleteIntegrationMessage {
-  IntegrationArn?: string;
+  IntegrationArn?: string | undefined;
 }
 export interface DeleteQev2IdcApplicationMessage {
-  Qev2IdcApplicationArn?: string;
+  Qev2IdcApplicationArn?: string | undefined;
 }
 export interface DeleteQev2IdcApplicationResponse {}
 export interface DeleteRedshiftIdcApplicationMessage {
-  RedshiftIdcApplicationArn?: string;
+  RedshiftIdcApplicationArn?: string | undefined;
 }
 export interface DeleteRedshiftIdcApplicationResponse {}
 export interface DeleteResourcePolicyMessage {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteScheduledActionMessage {
-  ScheduledActionName?: string;
+  ScheduledActionName?: string | undefined;
 }
 export interface DeleteScheduledActionResponse {}
 export interface DeleteSnapshotCopyGrantMessage {
-  SnapshotCopyGrantName?: string;
+  SnapshotCopyGrantName?: string | undefined;
 }
 export interface DeleteSnapshotCopyGrantResponse {}
 export interface DeleteSnapshotScheduleMessage {
-  ScheduleIdentifier?: string;
+  ScheduleIdentifier?: string | undefined;
 }
 export interface DeleteSnapshotScheduleResponse {}
 export interface DeleteTagsMessage {
-  ResourceName?: string;
-  TagKeys?: string[];
+  ResourceName?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface DeleteTagsResponse {}
 export interface DeleteUsageLimitMessage {
-  UsageLimitId?: string;
+  UsageLimitId?: string | undefined;
 }
 export interface DeleteUsageLimitResponse {}
 export interface ServerlessIdentifier {
-  NamespaceIdentifier?: string;
-  WorkgroupIdentifier?: string;
+  NamespaceIdentifier?: string | undefined;
+  WorkgroupIdentifier?: string | undefined;
 }
 export interface ProvisionedIdentifier {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export type NamespaceIdentifierUnion =
-  | { ServerlessIdentifier: ServerlessIdentifier; ProvisionedIdentifier?: never }
-  | { ServerlessIdentifier?: never; ProvisionedIdentifier: ProvisionedIdentifier };
+  | { ServerlessIdentifier: ServerlessIdentifier; ProvisionedIdentifier?: undefined }
+  | { ServerlessIdentifier?: undefined; ProvisionedIdentifier: ProvisionedIdentifier };
 export type ConsumerIdentifierList = string[];
 export interface DeregisterNamespaceInputMessage {
-  NamespaceIdentifier?: NamespaceIdentifierUnion;
-  ConsumerIdentifiers?: string[];
+  NamespaceIdentifier?: NamespaceIdentifierUnion | undefined;
+  ConsumerIdentifiers?: string[] | undefined;
 }
 export type NamespaceRegistrationStatus = "Registering" | "Deregistering" | (string & {});
 export interface DeregisterNamespaceOutputMessage {
-  Status?: NamespaceRegistrationStatus;
+  Status?: NamespaceRegistrationStatus | undefined;
 }
 export type AttributeNameList = string[];
 export interface DescribeAccountAttributesMessage {
-  AttributeNames?: string[];
+  AttributeNames?: string[] | undefined;
 }
 export interface AttributeValueTarget {
-  AttributeValue?: string;
+  AttributeValue?: string | undefined;
 }
 export type AttributeValueList = AttributeValueTarget[];
 export interface AccountAttribute {
-  AttributeName?: string;
-  AttributeValues?: AttributeValueTarget[];
+  AttributeName?: string | undefined;
+  AttributeValues?: AttributeValueTarget[] | undefined;
 }
 export type AttributeList = AccountAttribute[];
 export interface AccountAttributeList {
-  AccountAttributes?: AccountAttribute[];
+  AccountAttributes?: AccountAttribute[] | undefined;
 }
 export interface DescribeAuthenticationProfilesMessage {
-  AuthenticationProfileName?: string;
+  AuthenticationProfileName?: string | undefined;
 }
 export interface AuthenticationProfile {
-  AuthenticationProfileName?: string;
-  AuthenticationProfileContent?: string;
+  AuthenticationProfileName?: string | undefined;
+  AuthenticationProfileContent?: string | undefined;
 }
 export type AuthenticationProfileList = AuthenticationProfile[];
 export interface DescribeAuthenticationProfilesResult {
-  AuthenticationProfiles?: AuthenticationProfile[];
+  AuthenticationProfiles?: AuthenticationProfile[] | undefined;
 }
 export interface DescribeClusterDbRevisionsMessage {
-  ClusterIdentifier?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterIdentifier?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface RevisionTarget {
-  DatabaseRevision?: string;
-  Description?: string;
-  DatabaseRevisionReleaseDate?: Date;
+  DatabaseRevision?: string | undefined;
+  Description?: string | undefined;
+  DatabaseRevisionReleaseDate?: Date | undefined;
 }
 export type RevisionTargetsList = RevisionTarget[];
 export interface ClusterDbRevision {
-  ClusterIdentifier?: string;
-  CurrentDatabaseRevision?: string;
-  DatabaseRevisionReleaseDate?: Date;
-  RevisionTargets?: RevisionTarget[];
+  ClusterIdentifier?: string | undefined;
+  CurrentDatabaseRevision?: string | undefined;
+  DatabaseRevisionReleaseDate?: Date | undefined;
+  RevisionTargets?: RevisionTarget[] | undefined;
 }
 export type ClusterDbRevisionsList = ClusterDbRevision[];
 export interface ClusterDbRevisionsMessage {
-  Marker?: string;
-  ClusterDbRevisions?: ClusterDbRevision[];
+  Marker?: string | undefined;
+  ClusterDbRevisions?: ClusterDbRevision[] | undefined;
 }
 export type TagValueList = string[];
 export interface DescribeClusterParameterGroupsMessage {
-  ParameterGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  ParameterGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type ParameterGroupList = ClusterParameterGroup[];
 export interface ClusterParameterGroupsMessage {
-  Marker?: string;
-  ParameterGroups?: ClusterParameterGroup[];
+  Marker?: string | undefined;
+  ParameterGroups?: ClusterParameterGroup[] | undefined;
 }
 export interface DescribeClusterParametersMessage {
-  ParameterGroupName?: string;
-  Source?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ParameterGroupName?: string | undefined;
+  Source?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ParameterApplyType = "static" | "dynamic" | (string & {});
 export interface Parameter {
-  ParameterName?: string;
-  ParameterValue?: string;
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  ApplyType?: ParameterApplyType;
-  IsModifiable?: boolean;
-  MinimumEngineVersion?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  ApplyType?: ParameterApplyType | undefined;
+  IsModifiable?: boolean | undefined;
+  MinimumEngineVersion?: string | undefined;
 }
 export type ParametersList = Parameter[];
 export interface ClusterParameterGroupDetails {
-  Parameters?: Parameter[];
-  Marker?: string;
+  Parameters?: Parameter[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeClustersMessage {
-  ClusterIdentifier?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  ClusterIdentifier?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type ClusterList = Cluster[];
 export interface ClustersMessage {
-  Marker?: string;
-  Clusters?: Cluster[];
+  Marker?: string | undefined;
+  Clusters?: Cluster[] | undefined;
 }
 export interface DescribeClusterSecurityGroupsMessage {
-  ClusterSecurityGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  ClusterSecurityGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type ClusterSecurityGroups = ClusterSecurityGroup[];
 export interface ClusterSecurityGroupMessage {
-  Marker?: string;
-  ClusterSecurityGroups?: ClusterSecurityGroup[];
+  Marker?: string | undefined;
+  ClusterSecurityGroups?: ClusterSecurityGroup[] | undefined;
 }
 export type SnapshotAttributeToSortBy =
   | "SOURCE_TYPE"
@@ -2772,124 +2775,124 @@ export type SnapshotAttributeToSortBy =
   | (string & {});
 export type SortByOrder = "ASC" | "DESC" | (string & {});
 export interface SnapshotSortingEntity {
-  Attribute?: SnapshotAttributeToSortBy;
-  SortOrder?: SortByOrder;
+  Attribute?: SnapshotAttributeToSortBy | undefined;
+  SortOrder?: SortByOrder | undefined;
 }
 export type SnapshotSortingEntityList = SnapshotSortingEntity[];
 export interface DescribeClusterSnapshotsMessage {
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  SnapshotArn?: string;
-  SnapshotType?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxRecords?: number;
-  Marker?: string;
-  OwnerAccount?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
-  ClusterExists?: boolean;
-  SortingEntities?: SnapshotSortingEntity[];
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotArn?: string | undefined;
+  SnapshotType?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  OwnerAccount?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
+  ClusterExists?: boolean | undefined;
+  SortingEntities?: SnapshotSortingEntity[] | undefined;
 }
 export type SnapshotList = Snapshot[];
 export interface SnapshotMessage {
-  Marker?: string;
-  Snapshots?: Snapshot[];
+  Marker?: string | undefined;
+  Snapshots?: Snapshot[] | undefined;
 }
 export interface DescribeClusterSubnetGroupsMessage {
-  ClusterSubnetGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  ClusterSubnetGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type ClusterSubnetGroups = ClusterSubnetGroup[];
 export interface ClusterSubnetGroupMessage {
-  Marker?: string;
-  ClusterSubnetGroups?: ClusterSubnetGroup[];
+  Marker?: string | undefined;
+  ClusterSubnetGroups?: ClusterSubnetGroup[] | undefined;
 }
 export interface DescribeClusterTracksMessage {
-  MaintenanceTrackName?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  MaintenanceTrackName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface SupportedOperation {
-  OperationName?: string;
+  OperationName?: string | undefined;
 }
 export type SupportedOperationList = SupportedOperation[];
 export interface UpdateTarget {
-  MaintenanceTrackName?: string;
-  DatabaseVersion?: string;
-  SupportedOperations?: SupportedOperation[];
+  MaintenanceTrackName?: string | undefined;
+  DatabaseVersion?: string | undefined;
+  SupportedOperations?: SupportedOperation[] | undefined;
 }
 export type EligibleTracksToUpdateList = UpdateTarget[];
 export interface MaintenanceTrack {
-  MaintenanceTrackName?: string;
-  DatabaseVersion?: string;
-  UpdateTargets?: UpdateTarget[];
+  MaintenanceTrackName?: string | undefined;
+  DatabaseVersion?: string | undefined;
+  UpdateTargets?: UpdateTarget[] | undefined;
 }
 export type TrackList = MaintenanceTrack[];
 export interface TrackListMessage {
-  MaintenanceTracks?: MaintenanceTrack[];
-  Marker?: string;
+  MaintenanceTracks?: MaintenanceTrack[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeClusterVersionsMessage {
-  ClusterVersion?: string;
-  ClusterParameterGroupFamily?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterVersion?: string | undefined;
+  ClusterParameterGroupFamily?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ClusterVersion {
-  ClusterVersion?: string;
-  ClusterParameterGroupFamily?: string;
-  Description?: string;
+  ClusterVersion?: string | undefined;
+  ClusterParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
 }
 export type ClusterVersionList = ClusterVersion[];
 export interface ClusterVersionsMessage {
-  Marker?: string;
-  ClusterVersions?: ClusterVersion[];
+  Marker?: string | undefined;
+  ClusterVersions?: ClusterVersion[] | undefined;
 }
 export interface DescribeCustomDomainAssociationsMessage {
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface CertificateAssociation {
-  CustomDomainName?: string;
-  ClusterIdentifier?: string;
+  CustomDomainName?: string | undefined;
+  ClusterIdentifier?: string | undefined;
 }
 export type CertificateAssociationList = CertificateAssociation[];
 export interface Association {
-  CustomDomainCertificateArn?: string;
-  CustomDomainCertificateExpiryDate?: Date;
-  CertificateAssociations?: CertificateAssociation[];
+  CustomDomainCertificateArn?: string | undefined;
+  CustomDomainCertificateExpiryDate?: Date | undefined;
+  CertificateAssociations?: CertificateAssociation[] | undefined;
 }
 export type AssociationList = Association[];
 export interface CustomDomainAssociationsMessage {
-  Marker?: string;
-  Associations?: Association[];
+  Marker?: string | undefined;
+  Associations?: Association[] | undefined;
 }
 export interface DescribeDataSharesMessage {
-  DataShareArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  DataShareArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DataShareList = DataShare[];
 export interface DescribeDataSharesResult {
-  DataShares?: DataShare[];
-  Marker?: string;
+  DataShares?: DataShare[] | undefined;
+  Marker?: string | undefined;
 }
 export type DataShareStatusForConsumer = "ACTIVE" | "AVAILABLE" | (string & {});
 export interface DescribeDataSharesForConsumerMessage {
-  ConsumerArn?: string;
-  Status?: DataShareStatusForConsumer;
-  MaxRecords?: number;
-  Marker?: string;
+  ConsumerArn?: string | undefined;
+  Status?: DataShareStatusForConsumer | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDataSharesForConsumerResult {
-  DataShares?: DataShare[];
-  Marker?: string;
+  DataShares?: DataShare[] | undefined;
+  Marker?: string | undefined;
 }
 export type DataShareStatusForProducer =
   | "ACTIVE"
@@ -2899,70 +2902,70 @@ export type DataShareStatusForProducer =
   | "REJECTED"
   | (string & {});
 export interface DescribeDataSharesForProducerMessage {
-  ProducerArn?: string;
-  Status?: DataShareStatusForProducer;
-  MaxRecords?: number;
-  Marker?: string;
+  ProducerArn?: string | undefined;
+  Status?: DataShareStatusForProducer | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDataSharesForProducerResult {
-  DataShares?: DataShare[];
-  Marker?: string;
+  DataShares?: DataShare[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDefaultClusterParametersMessage {
-  ParameterGroupFamily?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ParameterGroupFamily?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface DefaultClusterParameters {
-  ParameterGroupFamily?: string;
-  Marker?: string;
-  Parameters?: Parameter[];
+  ParameterGroupFamily?: string | undefined;
+  Marker?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface DescribeDefaultClusterParametersResult {
-  DefaultClusterParameters?: DefaultClusterParameters;
+  DefaultClusterParameters?: DefaultClusterParameters | undefined;
 }
 export interface DescribeEndpointAccessMessage {
-  ClusterIdentifier?: string;
-  ResourceOwner?: string;
-  EndpointName?: string;
-  VpcId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterIdentifier?: string | undefined;
+  ResourceOwner?: string | undefined;
+  EndpointName?: string | undefined;
+  VpcId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EndpointAccesses = EndpointAccess[];
 export interface EndpointAccessList {
-  EndpointAccessList?: EndpointAccess[];
-  Marker?: string;
+  EndpointAccessList?: EndpointAccess[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeEndpointAuthorizationMessage {
-  ClusterIdentifier?: string;
-  Account?: string;
-  Grantee?: boolean;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterIdentifier?: string | undefined;
+  Account?: string | undefined;
+  Grantee?: boolean | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EndpointAuthorizations = EndpointAuthorization[];
 export interface EndpointAuthorizationList {
-  EndpointAuthorizationList?: EndpointAuthorization[];
-  Marker?: string;
+  EndpointAuthorizationList?: EndpointAuthorization[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeEventCategoriesMessage {
-  SourceType?: string;
+  SourceType?: string | undefined;
 }
 export interface EventInfoMap {
-  EventId?: string;
-  EventCategories?: string[];
-  EventDescription?: string;
-  Severity?: string;
+  EventId?: string | undefined;
+  EventCategories?: string[] | undefined;
+  EventDescription?: string | undefined;
+  Severity?: string | undefined;
 }
 export type EventInfoMapList = EventInfoMap[];
 export interface EventCategoriesMap {
-  SourceType?: string;
-  Events?: EventInfoMap[];
+  SourceType?: string | undefined;
+  Events?: EventInfoMap[] | undefined;
 }
 export type EventCategoriesMapList = EventCategoriesMap[];
 export interface EventCategoriesMessage {
-  EventCategoriesMapList?: EventCategoriesMap[];
+  EventCategoriesMapList?: EventCategoriesMap[] | undefined;
 }
 export type SourceType =
   | "cluster"
@@ -2972,85 +2975,85 @@ export type SourceType =
   | "scheduled-action"
   | (string & {});
 export interface DescribeEventsMessage {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  MaxRecords?: number;
-  Marker?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface Event {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  EventCategories?: string[];
-  Severity?: string;
-  Date?: Date;
-  EventId?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  EventCategories?: string[] | undefined;
+  Severity?: string | undefined;
+  Date?: Date | undefined;
+  EventId?: string | undefined;
 }
 export type EventList = Event[];
 export interface EventsMessage {
-  Marker?: string;
-  Events?: Event[];
+  Marker?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export interface DescribeEventSubscriptionsMessage {
-  SubscriptionName?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  SubscriptionName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type EventSubscriptionsList = EventSubscription[];
 export interface EventSubscriptionsMessage {
-  Marker?: string;
-  EventSubscriptionsList?: EventSubscription[];
+  Marker?: string | undefined;
+  EventSubscriptionsList?: EventSubscription[] | undefined;
 }
 export interface DescribeHsmClientCertificatesMessage {
-  HsmClientCertificateIdentifier?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  HsmClientCertificateIdentifier?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type HsmClientCertificateList = HsmClientCertificate[];
 export interface HsmClientCertificateMessage {
-  Marker?: string;
-  HsmClientCertificates?: HsmClientCertificate[];
+  Marker?: string | undefined;
+  HsmClientCertificates?: HsmClientCertificate[] | undefined;
 }
 export interface DescribeHsmConfigurationsMessage {
-  HsmConfigurationIdentifier?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  HsmConfigurationIdentifier?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type HsmConfigurationList = HsmConfiguration[];
 export interface HsmConfigurationMessage {
-  Marker?: string;
-  HsmConfigurations?: HsmConfiguration[];
+  Marker?: string | undefined;
+  HsmConfigurations?: HsmConfiguration[] | undefined;
 }
 export type InboundIntegrationArn = string;
 export interface DescribeInboundIntegrationsMessage {
-  IntegrationArn?: string;
-  TargetArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  IntegrationArn?: string | undefined;
+  TargetArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface InboundIntegration {
-  IntegrationArn?: string;
-  SourceArn?: string;
-  TargetArn?: string;
-  Status?: ZeroETLIntegrationStatus;
-  Errors?: IntegrationError[];
-  CreateTime?: Date;
+  IntegrationArn?: string | undefined;
+  SourceArn?: string | undefined;
+  TargetArn?: string | undefined;
+  Status?: ZeroETLIntegrationStatus | undefined;
+  Errors?: IntegrationError[] | undefined;
+  CreateTime?: Date | undefined;
 }
 export type InboundIntegrationList = InboundIntegration[];
 export interface InboundIntegrationsMessage {
-  Marker?: string;
-  InboundIntegrations?: (InboundIntegration & {
-    Errors: (IntegrationError & { ErrorCode: string })[];
-  })[];
+  Marker?: string | undefined;
+  InboundIntegrations?:
+    | (InboundIntegration & { Errors: (IntegrationError & { ErrorCode: string })[] })[]
+    | undefined;
 }
 export type DescribeIntegrationsFilterName =
   | "integration-arn"
@@ -3060,36 +3063,38 @@ export type DescribeIntegrationsFilterName =
   | (string & {});
 export type DescribeIntegrationsFilterValueList = string[];
 export interface DescribeIntegrationsFilter {
-  Name?: DescribeIntegrationsFilterName;
-  Values?: string[];
+  Name?: DescribeIntegrationsFilterName | undefined;
+  Values?: string[] | undefined;
 }
 export type DescribeIntegrationsFilterList = DescribeIntegrationsFilter[];
 export interface DescribeIntegrationsMessage {
-  IntegrationArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  Filters?: DescribeIntegrationsFilter[];
+  IntegrationArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  Filters?: DescribeIntegrationsFilter[] | undefined;
 }
 export type IntegrationList = Integration[];
 export interface IntegrationsMessage {
-  Marker?: string;
-  Integrations?: (Integration & { Errors: (IntegrationError & { ErrorCode: string })[] })[];
+  Marker?: string | undefined;
+  Integrations?:
+    | (Integration & { Errors: (IntegrationError & { ErrorCode: string })[] })[]
+    | undefined;
 }
 export interface DescribeLoggingStatusMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export type S3KeyPrefixValue = string;
 export type LogDestinationType = "s3" | "cloudwatch" | "s3table" | (string & {});
 export interface LoggingStatus {
-  LoggingEnabled?: boolean;
-  BucketName?: string;
-  S3KeyPrefix?: string;
-  LastSuccessfulDeliveryTime?: Date;
-  LastFailureTime?: Date;
-  LastFailureMessage?: string;
-  LogDestinationType?: LogDestinationType;
-  LogExports?: string[];
-  S3Tables?: S3TablePublishStatus;
+  LoggingEnabled?: boolean | undefined;
+  BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  LastSuccessfulDeliveryTime?: Date | undefined;
+  LastFailureTime?: Date | undefined;
+  LastFailureMessage?: string | undefined;
+  LogDestinationType?: LogDestinationType | undefined;
+  LogExports?: string[] | undefined;
+  S3Tables?: S3TablePublishStatus | undefined;
 }
 export type ActionType =
   | "restore-cluster"
@@ -3104,56 +3109,56 @@ export type NodeConfigurationOptionsFilterName =
   | (string & {});
 export type OperatorType = "eq" | "lt" | "gt" | "le" | "ge" | "in" | "between" | (string & {});
 export interface NodeConfigurationOptionsFilter {
-  Name?: NodeConfigurationOptionsFilterName;
-  Operator?: OperatorType;
-  Values?: string[];
+  Name?: NodeConfigurationOptionsFilterName | undefined;
+  Operator?: OperatorType | undefined;
+  Values?: string[] | undefined;
 }
 export type NodeConfigurationOptionsFilterList = NodeConfigurationOptionsFilter[];
 export interface DescribeNodeConfigurationOptionsMessage {
-  ActionType?: ActionType;
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  SnapshotArn?: string;
-  OwnerAccount?: string;
-  Filters?: NodeConfigurationOptionsFilter[];
-  Marker?: string;
-  MaxRecords?: number;
+  ActionType?: ActionType | undefined;
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotArn?: string | undefined;
+  OwnerAccount?: string | undefined;
+  Filters?: NodeConfigurationOptionsFilter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type Mode = "standard" | "high-performance" | (string & {});
 export interface NodeConfigurationOption {
-  NodeType?: string;
-  NumberOfNodes?: number;
-  EstimatedDiskUtilizationPercent?: number;
-  Mode?: Mode;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  EstimatedDiskUtilizationPercent?: number | undefined;
+  Mode?: Mode | undefined;
 }
 export type NodeConfigurationOptionList = NodeConfigurationOption[];
 export interface NodeConfigurationOptionsMessage {
-  NodeConfigurationOptionList?: NodeConfigurationOption[];
-  Marker?: string;
+  NodeConfigurationOptionList?: NodeConfigurationOption[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeOrderableClusterOptionsMessage {
-  ClusterVersion?: string;
-  NodeType?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterVersion?: string | undefined;
+  NodeType?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type AvailabilityZoneList = AvailabilityZone[];
 export interface OrderableClusterOption {
-  ClusterVersion?: string;
-  ClusterType?: string;
-  NodeType?: string;
-  AvailabilityZones?: AvailabilityZone[];
+  ClusterVersion?: string | undefined;
+  ClusterType?: string | undefined;
+  NodeType?: string | undefined;
+  AvailabilityZones?: AvailabilityZone[] | undefined;
 }
 export type OrderableClusterOptionsList = OrderableClusterOption[];
 export interface OrderableClusterOptionsMessage {
-  OrderableClusterOptions?: OrderableClusterOption[];
-  Marker?: string;
+  OrderableClusterOptions?: OrderableClusterOption[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribePartnersInputMessage {
-  AccountId?: string;
-  ClusterIdentifier?: string;
-  DatabaseName?: string;
-  PartnerName?: string;
+  AccountId?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  DatabaseName?: string | undefined;
+  PartnerName?: string | undefined;
 }
 export type PartnerIntegrationStatus =
   | "Active"
@@ -3163,81 +3168,81 @@ export type PartnerIntegrationStatus =
   | (string & {});
 export type PartnerIntegrationStatusMessage = string;
 export interface PartnerIntegrationInfo {
-  DatabaseName?: string;
-  PartnerName?: string;
-  Status?: PartnerIntegrationStatus;
-  StatusMessage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DatabaseName?: string | undefined;
+  PartnerName?: string | undefined;
+  Status?: PartnerIntegrationStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type PartnerIntegrationInfoList = PartnerIntegrationInfo[];
 export interface DescribePartnersOutputMessage {
-  PartnerIntegrationInfoList?: PartnerIntegrationInfo[];
+  PartnerIntegrationInfoList?: PartnerIntegrationInfo[] | undefined;
 }
 export interface DescribeQev2IdcApplicationsMessage {
-  Qev2IdcApplicationArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  Qev2IdcApplicationArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type Qev2IdcApplicationList = Qev2IdcApplication[];
 export interface DescribeQev2IdcApplicationsResult {
-  Qev2IdcApplications?: Qev2IdcApplication[];
-  Marker?: string;
+  Qev2IdcApplications?: Qev2IdcApplication[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeRedshiftIdcApplicationsMessage {
-  RedshiftIdcApplicationArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  RedshiftIdcApplicationArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type RedshiftIdcApplicationList = RedshiftIdcApplication[];
 export interface DescribeRedshiftIdcApplicationsResult {
-  RedshiftIdcApplications?: RedshiftIdcApplication[];
-  Marker?: string;
+  RedshiftIdcApplications?: RedshiftIdcApplication[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeReservedNodeExchangeStatusInputMessage {
-  ReservedNodeId?: string;
-  ReservedNodeExchangeRequestId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedNodeId?: string | undefined;
+  ReservedNodeExchangeRequestId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReservedNodeExchangeStatusList = ReservedNodeExchangeStatus[];
 export interface DescribeReservedNodeExchangeStatusOutputMessage {
-  ReservedNodeExchangeStatusDetails?: ReservedNodeExchangeStatus[];
-  Marker?: string;
+  ReservedNodeExchangeStatusDetails?: ReservedNodeExchangeStatus[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeReservedNodeOfferingsMessage {
-  ReservedNodeOfferingId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedNodeOfferingId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReservedNodeOffering {
-  ReservedNodeOfferingId?: string;
-  NodeType?: string;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  OfferingType?: string;
-  RecurringCharges?: RecurringCharge[];
-  ReservedNodeOfferingType?: ReservedNodeOfferingType;
+  ReservedNodeOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  OfferingType?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
+  ReservedNodeOfferingType?: ReservedNodeOfferingType | undefined;
 }
 export type ReservedNodeOfferingList = ReservedNodeOffering[];
 export interface ReservedNodeOfferingsMessage {
-  Marker?: string;
-  ReservedNodeOfferings?: ReservedNodeOffering[];
+  Marker?: string | undefined;
+  ReservedNodeOfferings?: ReservedNodeOffering[] | undefined;
 }
 export interface DescribeReservedNodesMessage {
-  ReservedNodeId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedNodeId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReservedNodeList = ReservedNode[];
 export interface ReservedNodesMessage {
-  Marker?: string;
-  ReservedNodes?: ReservedNode[];
+  Marker?: string | undefined;
+  ReservedNodes?: ReservedNode[] | undefined;
 }
 export interface DescribeResizeMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export type ScheduledActionTypeValues =
   | "ResizeCluster"
@@ -3246,66 +3251,68 @@ export type ScheduledActionTypeValues =
   | (string & {});
 export type ScheduledActionFilterName = "cluster-identifier" | "iam-role" | (string & {});
 export interface ScheduledActionFilter {
-  Name?: ScheduledActionFilterName;
-  Values?: string[];
+  Name?: ScheduledActionFilterName | undefined;
+  Values?: string[] | undefined;
 }
 export type ScheduledActionFilterList = ScheduledActionFilter[];
 export interface DescribeScheduledActionsMessage {
-  ScheduledActionName?: string;
-  TargetActionType?: ScheduledActionTypeValues;
-  StartTime?: Date;
-  EndTime?: Date;
-  Active?: boolean;
-  Filters?: ScheduledActionFilter[];
-  Marker?: string;
-  MaxRecords?: number;
+  ScheduledActionName?: string | undefined;
+  TargetActionType?: ScheduledActionTypeValues | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Active?: boolean | undefined;
+  Filters?: ScheduledActionFilter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type ScheduledActionList = ScheduledAction[];
 export interface ScheduledActionsMessage {
-  Marker?: string;
-  ScheduledActions?: (ScheduledAction & {
-    TargetAction: ScheduledActionType & {
-      ResizeCluster: ResizeClusterMessage & { ClusterIdentifier: string };
-      PauseCluster: PauseClusterMessage & { ClusterIdentifier: string };
-      ResumeCluster: ResumeClusterMessage & { ClusterIdentifier: string };
-    };
-  })[];
+  Marker?: string | undefined;
+  ScheduledActions?:
+    | (ScheduledAction & {
+        TargetAction: ScheduledActionType & {
+          ResizeCluster: ResizeClusterMessage & { ClusterIdentifier: string };
+          PauseCluster: PauseClusterMessage & { ClusterIdentifier: string };
+          ResumeCluster: ResumeClusterMessage & { ClusterIdentifier: string };
+        };
+      })[]
+    | undefined;
 }
 export interface DescribeSnapshotCopyGrantsMessage {
-  SnapshotCopyGrantName?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  SnapshotCopyGrantName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type SnapshotCopyGrantList = SnapshotCopyGrant[];
 export interface SnapshotCopyGrantMessage {
-  Marker?: string;
-  SnapshotCopyGrants?: SnapshotCopyGrant[];
+  Marker?: string | undefined;
+  SnapshotCopyGrants?: SnapshotCopyGrant[] | undefined;
 }
 export interface DescribeSnapshotSchedulesMessage {
-  ClusterIdentifier?: string;
-  ScheduleIdentifier?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
-  Marker?: string;
-  MaxRecords?: number;
+  ClusterIdentifier?: string | undefined;
+  ScheduleIdentifier?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type SnapshotScheduleList = SnapshotSchedule[];
 export interface DescribeSnapshotSchedulesOutputMessage {
-  SnapshotSchedules?: SnapshotSchedule[];
-  Marker?: string;
+  SnapshotSchedules?: SnapshotSchedule[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeStorageRequest {}
 export interface CustomerStorageMessage {
-  TotalBackupSizeInMegaBytes?: number;
-  TotalProvisionedStorageInMegaBytes?: number;
+  TotalBackupSizeInMegaBytes?: number | undefined;
+  TotalProvisionedStorageInMegaBytes?: number | undefined;
 }
 export interface DescribeTableRestoreStatusMessage {
-  ClusterIdentifier?: string;
-  TableRestoreRequestId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterIdentifier?: string | undefined;
+  TableRestoreRequestId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type TableRestoreStatusType =
   | "PENDING"
@@ -3315,550 +3322,550 @@ export type TableRestoreStatusType =
   | "CANCELED"
   | (string & {});
 export interface TableRestoreStatus {
-  TableRestoreRequestId?: string;
-  Status?: TableRestoreStatusType;
-  Message?: string;
-  RequestTime?: Date;
-  ProgressInMegaBytes?: number;
-  TotalDataInMegaBytes?: number;
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  SourceDatabaseName?: string;
-  SourceSchemaName?: string;
-  SourceTableName?: string;
-  TargetDatabaseName?: string;
-  TargetSchemaName?: string;
-  NewTableName?: string;
+  TableRestoreRequestId?: string | undefined;
+  Status?: TableRestoreStatusType | undefined;
+  Message?: string | undefined;
+  RequestTime?: Date | undefined;
+  ProgressInMegaBytes?: number | undefined;
+  TotalDataInMegaBytes?: number | undefined;
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  SourceDatabaseName?: string | undefined;
+  SourceSchemaName?: string | undefined;
+  SourceTableName?: string | undefined;
+  TargetDatabaseName?: string | undefined;
+  TargetSchemaName?: string | undefined;
+  NewTableName?: string | undefined;
 }
 export type TableRestoreStatusList = TableRestoreStatus[];
 export interface TableRestoreStatusMessage {
-  TableRestoreStatusDetails?: TableRestoreStatus[];
-  Marker?: string;
+  TableRestoreStatusDetails?: TableRestoreStatus[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeTagsMessage {
-  ResourceName?: string;
-  ResourceType?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  ResourceName?: string | undefined;
+  ResourceType?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export interface TaggedResource {
-  Tag?: Tag;
-  ResourceName?: string;
-  ResourceType?: string;
+  Tag?: Tag | undefined;
+  ResourceName?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type TaggedResourceList = TaggedResource[];
 export interface TaggedResourceListMessage {
-  TaggedResources?: TaggedResource[];
-  Marker?: string;
+  TaggedResources?: TaggedResource[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeUsageLimitsMessage {
-  UsageLimitId?: string;
-  ClusterIdentifier?: string;
-  FeatureType?: UsageLimitFeatureType;
-  MaxRecords?: number;
-  Marker?: string;
-  TagKeys?: string[];
-  TagValues?: string[];
+  UsageLimitId?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  FeatureType?: UsageLimitFeatureType | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  TagKeys?: string[] | undefined;
+  TagValues?: string[] | undefined;
 }
 export type UsageLimits = UsageLimit[];
 export interface UsageLimitList {
-  UsageLimits?: UsageLimit[];
-  Marker?: string;
+  UsageLimits?: UsageLimit[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DisableLoggingMessage {
-  ClusterIdentifier?: string;
-  LogDestinationType?: LogDestinationType;
-  LogExports?: string[];
+  ClusterIdentifier?: string | undefined;
+  LogDestinationType?: LogDestinationType | undefined;
+  LogExports?: string[] | undefined;
 }
 export interface DisableSnapshotCopyMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface DisableSnapshotCopyResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DisassociateDataShareConsumerMessage {
-  DataShareArn?: string;
-  DisassociateEntireAccount?: boolean;
-  ConsumerArn?: string;
-  ConsumerRegion?: string;
+  DataShareArn?: string | undefined;
+  DisassociateEntireAccount?: boolean | undefined;
+  ConsumerArn?: string | undefined;
+  ConsumerRegion?: string | undefined;
 }
 export interface EnableLoggingMessage {
-  ClusterIdentifier?: string;
-  BucketName?: string;
-  S3KeyPrefix?: string;
-  LogDestinationType?: LogDestinationType;
-  LogExports?: string[];
-  S3TableKmsKeyId?: string;
-  S3TableGranularity?: string;
+  ClusterIdentifier?: string | undefined;
+  BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  LogDestinationType?: LogDestinationType | undefined;
+  LogExports?: string[] | undefined;
+  S3TableKmsKeyId?: string | undefined;
+  S3TableGranularity?: string | undefined;
 }
 export interface EnableSnapshotCopyMessage {
-  ClusterIdentifier?: string;
-  DestinationRegion?: string;
-  RetentionPeriod?: number;
-  SnapshotCopyGrantName?: string;
-  ManualSnapshotRetentionPeriod?: number;
+  ClusterIdentifier?: string | undefined;
+  DestinationRegion?: string | undefined;
+  RetentionPeriod?: number | undefined;
+  SnapshotCopyGrantName?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
 }
 export interface EnableSnapshotCopyResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface FailoverPrimaryComputeInputMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface FailoverPrimaryComputeResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export type DbGroupList = string[];
 export interface GetClusterCredentialsMessage {
-  DbUser?: string;
-  DbName?: string;
-  ClusterIdentifier?: string;
-  DurationSeconds?: number;
-  AutoCreate?: boolean;
-  DbGroups?: string[];
-  CustomDomainName?: string;
+  DbUser?: string | undefined;
+  DbName?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  DurationSeconds?: number | undefined;
+  AutoCreate?: boolean | undefined;
+  DbGroups?: string[] | undefined;
+  CustomDomainName?: string | undefined;
 }
 export interface ClusterCredentials {
-  DbUser?: string;
-  DbPassword?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  DbUser?: string | undefined;
+  DbPassword?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetClusterCredentialsWithIAMMessage {
-  DbName?: string;
-  ClusterIdentifier?: string;
-  DurationSeconds?: number;
-  CustomDomainName?: string;
+  DbName?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  DurationSeconds?: number | undefined;
+  CustomDomainName?: string | undefined;
 }
 export interface ClusterExtendedCredentials {
-  DbUser?: string;
-  DbPassword?: string | redacted.Redacted<string>;
-  Expiration?: Date;
-  NextRefreshTime?: Date;
+  DbUser?: string | undefined;
+  DbPassword?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
+  NextRefreshTime?: Date | undefined;
 }
 export type ClusterIdentifierList = string[];
 export interface GetIdentityCenterAuthTokenRequest {
-  ClusterIds?: string[];
+  ClusterIds?: string[] | undefined;
 }
 export interface GetIdentityCenterAuthTokenResponse {
-  Token?: string | redacted.Redacted<string>;
-  ExpirationTime?: Date;
+  Token?: string | redacted.Redacted<string> | undefined;
+  ExpirationTime?: Date | undefined;
 }
 export type ReservedNodeExchangeActionType = "restore-cluster" | "resize-cluster" | (string & {});
 export interface GetReservedNodeExchangeConfigurationOptionsInputMessage {
-  ActionType?: ReservedNodeExchangeActionType;
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ActionType?: ReservedNodeExchangeActionType | undefined;
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReservedNodeConfigurationOption {
-  SourceReservedNode?: ReservedNode;
-  TargetReservedNodeCount?: number;
-  TargetReservedNodeOffering?: ReservedNodeOffering;
+  SourceReservedNode?: ReservedNode | undefined;
+  TargetReservedNodeCount?: number | undefined;
+  TargetReservedNodeOffering?: ReservedNodeOffering | undefined;
 }
 export type ReservedNodeConfigurationOptionList = ReservedNodeConfigurationOption[];
 export interface GetReservedNodeExchangeConfigurationOptionsOutputMessage {
-  Marker?: string;
-  ReservedNodeConfigurationOptionList?: ReservedNodeConfigurationOption[];
+  Marker?: string | undefined;
+  ReservedNodeConfigurationOptionList?: ReservedNodeConfigurationOption[] | undefined;
 }
 export interface GetReservedNodeExchangeOfferingsInputMessage {
-  ReservedNodeId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedNodeId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface GetReservedNodeExchangeOfferingsOutputMessage {
-  Marker?: string;
-  ReservedNodeOfferings?: ReservedNodeOffering[];
+  Marker?: string | undefined;
+  ReservedNodeOfferings?: ReservedNodeOffering[] | undefined;
 }
 export interface GetResourcePolicyMessage {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface ResourcePolicy {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface GetResourcePolicyResult {
-  ResourcePolicy?: ResourcePolicy;
+  ResourcePolicy?: ResourcePolicy | undefined;
 }
 export interface ListRecommendationsMessage {
-  ClusterIdentifier?: string;
-  NamespaceArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ClusterIdentifier?: string | undefined;
+  NamespaceArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ImpactRankingType = "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export type RecommendedActionType = "SQL" | "CLI" | (string & {});
 export interface RecommendedAction {
-  Text?: string;
-  Database?: string;
-  Command?: string;
-  Type?: RecommendedActionType;
+  Text?: string | undefined;
+  Database?: string | undefined;
+  Command?: string | undefined;
+  Type?: RecommendedActionType | undefined;
 }
 export type RecommendedActionList = RecommendedAction[];
 export interface ReferenceLink {
-  Text?: string;
-  Link?: string;
+  Text?: string | undefined;
+  Link?: string | undefined;
 }
 export type ReferenceLinkList = ReferenceLink[];
 export interface Recommendation {
-  Id?: string;
-  ClusterIdentifier?: string;
-  NamespaceArn?: string;
-  CreatedAt?: Date;
-  RecommendationType?: string;
-  Title?: string;
-  Description?: string;
-  Observation?: string;
-  ImpactRanking?: ImpactRankingType;
-  RecommendationText?: string;
-  RecommendedActions?: RecommendedAction[];
-  ReferenceLinks?: ReferenceLink[];
+  Id?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  NamespaceArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  RecommendationType?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Observation?: string | undefined;
+  ImpactRanking?: ImpactRankingType | undefined;
+  RecommendationText?: string | undefined;
+  RecommendedActions?: RecommendedAction[] | undefined;
+  ReferenceLinks?: ReferenceLink[] | undefined;
 }
 export type RecommendationList = Recommendation[];
 export interface ListRecommendationsResult {
-  Recommendations?: Recommendation[];
-  Marker?: string;
+  Recommendations?: Recommendation[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ModifyAquaInputMessage {
-  ClusterIdentifier?: string;
-  AquaConfigurationStatus?: AquaConfigurationStatus;
+  ClusterIdentifier?: string | undefined;
+  AquaConfigurationStatus?: AquaConfigurationStatus | undefined;
 }
 export interface ModifyAquaOutputMessage {
-  AquaConfiguration?: AquaConfiguration;
+  AquaConfiguration?: AquaConfiguration | undefined;
 }
 export interface ModifyAuthenticationProfileMessage {
-  AuthenticationProfileName?: string;
-  AuthenticationProfileContent?: string;
+  AuthenticationProfileName?: string | undefined;
+  AuthenticationProfileContent?: string | undefined;
 }
 export interface ModifyAuthenticationProfileResult {
-  AuthenticationProfileName?: string;
-  AuthenticationProfileContent?: string;
+  AuthenticationProfileName?: string | undefined;
+  AuthenticationProfileContent?: string | undefined;
 }
 export interface ModifyClusterMessage {
-  ClusterIdentifier?: string;
-  ClusterType?: string;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  ClusterSecurityGroups?: string[];
-  VpcSecurityGroupIds?: string[];
-  MasterUserPassword?: string | redacted.Redacted<string>;
-  ClusterParameterGroupName?: string;
-  AutomatedSnapshotRetentionPeriod?: number;
-  ManualSnapshotRetentionPeriod?: number;
-  PreferredMaintenanceWindow?: string;
-  ClusterVersion?: string;
-  AllowVersionUpgrade?: boolean;
-  HsmClientCertificateIdentifier?: string;
-  HsmConfigurationIdentifier?: string;
-  NewClusterIdentifier?: string;
-  PubliclyAccessible?: boolean;
-  ElasticIp?: string;
-  EnhancedVpcRouting?: boolean;
-  MaintenanceTrackName?: string;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  AvailabilityZoneRelocation?: boolean;
-  AvailabilityZone?: string;
-  Port?: number;
-  ManageMasterPassword?: boolean;
-  MasterPasswordSecretKmsKeyId?: string;
-  IpAddressType?: string;
-  MultiAZ?: boolean;
-  ExtraComputeForAutomaticOptimization?: boolean;
+  ClusterIdentifier?: string | undefined;
+  ClusterType?: string | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  ClusterSecurityGroups?: string[] | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
+  ClusterParameterGroupName?: string | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  ClusterVersion?: string | undefined;
+  AllowVersionUpgrade?: boolean | undefined;
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmConfigurationIdentifier?: string | undefined;
+  NewClusterIdentifier?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  ElasticIp?: string | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  MaintenanceTrackName?: string | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  AvailabilityZoneRelocation?: boolean | undefined;
+  AvailabilityZone?: string | undefined;
+  Port?: number | undefined;
+  ManageMasterPassword?: boolean | undefined;
+  MasterPasswordSecretKmsKeyId?: string | undefined;
+  IpAddressType?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  ExtraComputeForAutomaticOptimization?: boolean | undefined;
 }
 export interface ModifyClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ModifyClusterDbRevisionMessage {
-  ClusterIdentifier?: string;
-  RevisionTarget?: string;
+  ClusterIdentifier?: string | undefined;
+  RevisionTarget?: string | undefined;
 }
 export interface ModifyClusterDbRevisionResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ModifyClusterIamRolesMessage {
-  ClusterIdentifier?: string;
-  AddIamRoles?: string[];
-  RemoveIamRoles?: string[];
-  DefaultIamRoleArn?: string;
+  ClusterIdentifier?: string | undefined;
+  AddIamRoles?: string[] | undefined;
+  RemoveIamRoles?: string[] | undefined;
+  DefaultIamRoleArn?: string | undefined;
 }
 export interface ModifyClusterIamRolesResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ModifyClusterMaintenanceMessage {
-  ClusterIdentifier?: string;
-  DeferMaintenance?: boolean;
-  DeferMaintenanceIdentifier?: string;
-  DeferMaintenanceStartTime?: Date;
-  DeferMaintenanceEndTime?: Date;
-  DeferMaintenanceDuration?: number;
+  ClusterIdentifier?: string | undefined;
+  DeferMaintenance?: boolean | undefined;
+  DeferMaintenanceIdentifier?: string | undefined;
+  DeferMaintenanceStartTime?: Date | undefined;
+  DeferMaintenanceEndTime?: Date | undefined;
+  DeferMaintenanceDuration?: number | undefined;
 }
 export interface ModifyClusterMaintenanceResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ModifyClusterParameterGroupMessage {
-  ParameterGroupName?: string;
-  Parameters?: Parameter[];
+  ParameterGroupName?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface ClusterParameterGroupNameMessage {
-  ParameterGroupName?: string;
-  ParameterGroupStatus?: string;
+  ParameterGroupName?: string | undefined;
+  ParameterGroupStatus?: string | undefined;
 }
 export interface ModifyClusterSnapshotMessage {
-  SnapshotIdentifier?: string;
-  ManualSnapshotRetentionPeriod?: number;
-  Force?: boolean;
+  SnapshotIdentifier?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  Force?: boolean | undefined;
 }
 export interface ModifyClusterSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface ModifyClusterSnapshotScheduleMessage {
-  ClusterIdentifier?: string;
-  ScheduleIdentifier?: string;
-  DisassociateSchedule?: boolean;
+  ClusterIdentifier?: string | undefined;
+  ScheduleIdentifier?: string | undefined;
+  DisassociateSchedule?: boolean | undefined;
 }
 export interface ModifyClusterSnapshotScheduleResponse {}
 export interface ModifyClusterSubnetGroupMessage {
-  ClusterSubnetGroupName?: string;
-  Description?: string;
-  SubnetIds?: string[];
+  ClusterSubnetGroupName?: string | undefined;
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface ModifyClusterSubnetGroupResult {
-  ClusterSubnetGroup?: ClusterSubnetGroup;
+  ClusterSubnetGroup?: ClusterSubnetGroup | undefined;
 }
 export interface ModifyCustomDomainAssociationMessage {
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  ClusterIdentifier?: string;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  ClusterIdentifier?: string | undefined;
 }
 export interface ModifyCustomDomainAssociationResult {
-  CustomDomainName?: string;
-  CustomDomainCertificateArn?: string;
-  ClusterIdentifier?: string;
-  CustomDomainCertExpiryTime?: string;
+  CustomDomainName?: string | undefined;
+  CustomDomainCertificateArn?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  CustomDomainCertExpiryTime?: string | undefined;
 }
 export interface ModifyEndpointAccessMessage {
-  EndpointName?: string;
-  VpcSecurityGroupIds?: string[];
+  EndpointName?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
 }
 export interface ModifyEventSubscriptionMessage {
-  SubscriptionName?: string;
-  SnsTopicArn?: string;
-  SourceType?: string;
-  SourceIds?: string[];
-  EventCategories?: string[];
-  Severity?: string;
-  Enabled?: boolean;
+  SubscriptionName?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SourceType?: string | undefined;
+  SourceIds?: string[] | undefined;
+  EventCategories?: string[] | undefined;
+  Severity?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface ModifyEventSubscriptionResult {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface ModifyIntegrationMessage {
-  IntegrationArn?: string;
-  Description?: string;
-  IntegrationName?: string;
+  IntegrationArn?: string | undefined;
+  Description?: string | undefined;
+  IntegrationName?: string | undefined;
 }
 export type LakehouseRegistration = "Register" | "Deregister" | (string & {});
 export type LakehouseIdcRegistration = "Associate" | "Disassociate" | (string & {});
 export interface ModifyLakehouseConfigurationMessage {
-  ClusterIdentifier?: string;
-  LakehouseRegistration?: LakehouseRegistration;
-  CatalogName?: string;
-  LakehouseIdcRegistration?: LakehouseIdcRegistration;
-  LakehouseIdcApplicationArn?: string;
-  DryRun?: boolean;
+  ClusterIdentifier?: string | undefined;
+  LakehouseRegistration?: LakehouseRegistration | undefined;
+  CatalogName?: string | undefined;
+  LakehouseIdcRegistration?: LakehouseIdcRegistration | undefined;
+  LakehouseIdcApplicationArn?: string | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface LakehouseConfiguration {
-  ClusterIdentifier?: string;
-  LakehouseIdcApplicationArn?: string;
-  LakehouseRegistrationStatus?: string;
-  CatalogArn?: string;
+  ClusterIdentifier?: string | undefined;
+  LakehouseIdcApplicationArn?: string | undefined;
+  LakehouseRegistrationStatus?: string | undefined;
+  CatalogArn?: string | undefined;
 }
 export interface ModifyQev2IdcApplicationMessage {
-  Qev2IdcApplicationArn?: string;
-  IdcDisplayName?: string;
+  Qev2IdcApplicationArn?: string | undefined;
+  IdcDisplayName?: string | undefined;
 }
 export interface ModifyQev2IdcApplicationResult {
-  Qev2IdcApplication?: Qev2IdcApplication;
+  Qev2IdcApplication?: Qev2IdcApplication | undefined;
 }
 export interface ModifyRedshiftIdcApplicationMessage {
-  RedshiftIdcApplicationArn?: string;
-  IdentityNamespace?: string;
-  IamRoleArn?: string;
-  IdcDisplayName?: string;
-  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[];
-  ServiceIntegrations?: ServiceIntegrationsUnion[];
+  RedshiftIdcApplicationArn?: string | undefined;
+  IdentityNamespace?: string | undefined;
+  IamRoleArn?: string | undefined;
+  IdcDisplayName?: string | undefined;
+  AuthorizedTokenIssuerList?: AuthorizedTokenIssuer[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationsUnion[] | undefined;
 }
 export interface ModifyRedshiftIdcApplicationResult {
-  RedshiftIdcApplication?: RedshiftIdcApplication;
+  RedshiftIdcApplication?: RedshiftIdcApplication | undefined;
 }
 export interface ModifyScheduledActionMessage {
-  ScheduledActionName?: string;
-  TargetAction?: ScheduledActionType;
-  Schedule?: string;
-  IamRole?: string;
-  ScheduledActionDescription?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Enable?: boolean;
+  ScheduledActionName?: string | undefined;
+  TargetAction?: ScheduledActionType | undefined;
+  Schedule?: string | undefined;
+  IamRole?: string | undefined;
+  ScheduledActionDescription?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Enable?: boolean | undefined;
 }
 export interface ModifySnapshotCopyRetentionPeriodMessage {
-  ClusterIdentifier?: string;
-  RetentionPeriod?: number;
-  Manual?: boolean;
+  ClusterIdentifier?: string | undefined;
+  RetentionPeriod?: number | undefined;
+  Manual?: boolean | undefined;
 }
 export interface ModifySnapshotCopyRetentionPeriodResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ModifySnapshotScheduleMessage {
-  ScheduleIdentifier?: string;
-  ScheduleDefinitions?: string[];
+  ScheduleIdentifier?: string | undefined;
+  ScheduleDefinitions?: string[] | undefined;
 }
 export interface ModifyUsageLimitMessage {
-  UsageLimitId?: string;
-  Amount?: number;
-  BreachAction?: UsageLimitBreachAction;
+  UsageLimitId?: string | undefined;
+  Amount?: number | undefined;
+  BreachAction?: UsageLimitBreachAction | undefined;
 }
 export interface PauseClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface PurchaseReservedNodeOfferingMessage {
-  ReservedNodeOfferingId?: string;
-  NodeCount?: number;
+  ReservedNodeOfferingId?: string | undefined;
+  NodeCount?: number | undefined;
 }
 export interface PurchaseReservedNodeOfferingResult {
-  ReservedNode?: ReservedNode;
+  ReservedNode?: ReservedNode | undefined;
 }
 export interface PutResourcePolicyMessage {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface PutResourcePolicyResult {
-  ResourcePolicy?: ResourcePolicy;
+  ResourcePolicy?: ResourcePolicy | undefined;
 }
 export interface RebootClusterMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface RebootClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface RegisterNamespaceInputMessage {
-  NamespaceIdentifier?: NamespaceIdentifierUnion;
-  ConsumerIdentifiers?: string[];
+  NamespaceIdentifier?: NamespaceIdentifierUnion | undefined;
+  ConsumerIdentifiers?: string[] | undefined;
 }
 export interface RegisterNamespaceOutputMessage {
-  Status?: NamespaceRegistrationStatus;
+  Status?: NamespaceRegistrationStatus | undefined;
 }
 export interface RejectDataShareMessage {
-  DataShareArn?: string;
+  DataShareArn?: string | undefined;
 }
 export interface ResetClusterParameterGroupMessage {
-  ParameterGroupName?: string;
-  ResetAllParameters?: boolean;
-  Parameters?: Parameter[];
+  ParameterGroupName?: string | undefined;
+  ResetAllParameters?: boolean | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export interface ResizeClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface RestoreFromClusterSnapshotMessage {
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  SnapshotArn?: string;
-  SnapshotClusterIdentifier?: string;
-  Port?: number;
-  AvailabilityZone?: string;
-  AllowVersionUpgrade?: boolean;
-  ClusterSubnetGroupName?: string;
-  PubliclyAccessible?: boolean;
-  OwnerAccount?: string;
-  HsmClientCertificateIdentifier?: string;
-  HsmConfigurationIdentifier?: string;
-  ElasticIp?: string;
-  ClusterParameterGroupName?: string;
-  ClusterSecurityGroups?: string[];
-  VpcSecurityGroupIds?: string[];
-  PreferredMaintenanceWindow?: string;
-  AutomatedSnapshotRetentionPeriod?: number;
-  ManualSnapshotRetentionPeriod?: number;
-  KmsKeyId?: string;
-  NodeType?: string;
-  EnhancedVpcRouting?: boolean;
-  AdditionalInfo?: string;
-  IamRoles?: string[];
-  MaintenanceTrackName?: string;
-  SnapshotScheduleIdentifier?: string;
-  NumberOfNodes?: number;
-  AvailabilityZoneRelocation?: boolean;
-  AquaConfigurationStatus?: AquaConfigurationStatus;
-  DefaultIamRoleArn?: string;
-  ReservedNodeId?: string;
-  TargetReservedNodeOfferingId?: string;
-  Encrypted?: boolean;
-  ManageMasterPassword?: boolean;
-  MasterPasswordSecretKmsKeyId?: string;
-  IpAddressType?: string;
-  MultiAZ?: boolean;
-  CatalogName?: string;
-  RedshiftIdcApplicationArn?: string;
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotArn?: string | undefined;
+  SnapshotClusterIdentifier?: string | undefined;
+  Port?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  AllowVersionUpgrade?: boolean | undefined;
+  ClusterSubnetGroupName?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  OwnerAccount?: string | undefined;
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmConfigurationIdentifier?: string | undefined;
+  ElasticIp?: string | undefined;
+  ClusterParameterGroupName?: string | undefined;
+  ClusterSecurityGroups?: string[] | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  KmsKeyId?: string | undefined;
+  NodeType?: string | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  AdditionalInfo?: string | undefined;
+  IamRoles?: string[] | undefined;
+  MaintenanceTrackName?: string | undefined;
+  SnapshotScheduleIdentifier?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  AvailabilityZoneRelocation?: boolean | undefined;
+  AquaConfigurationStatus?: AquaConfigurationStatus | undefined;
+  DefaultIamRoleArn?: string | undefined;
+  ReservedNodeId?: string | undefined;
+  TargetReservedNodeOfferingId?: string | undefined;
+  Encrypted?: boolean | undefined;
+  ManageMasterPassword?: boolean | undefined;
+  MasterPasswordSecretKmsKeyId?: string | undefined;
+  IpAddressType?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  CatalogName?: string | undefined;
+  RedshiftIdcApplicationArn?: string | undefined;
 }
 export interface RestoreFromClusterSnapshotResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface RestoreTableFromClusterSnapshotMessage {
-  ClusterIdentifier?: string;
-  SnapshotIdentifier?: string;
-  SourceDatabaseName?: string;
-  SourceSchemaName?: string;
-  SourceTableName?: string;
-  TargetDatabaseName?: string;
-  TargetSchemaName?: string;
-  NewTableName?: string;
-  EnableCaseSensitiveIdentifier?: boolean;
+  ClusterIdentifier?: string | undefined;
+  SnapshotIdentifier?: string | undefined;
+  SourceDatabaseName?: string | undefined;
+  SourceSchemaName?: string | undefined;
+  SourceTableName?: string | undefined;
+  TargetDatabaseName?: string | undefined;
+  TargetSchemaName?: string | undefined;
+  NewTableName?: string | undefined;
+  EnableCaseSensitiveIdentifier?: boolean | undefined;
 }
 export interface RestoreTableFromClusterSnapshotResult {
-  TableRestoreStatus?: TableRestoreStatus;
+  TableRestoreStatus?: TableRestoreStatus | undefined;
 }
 export interface ResumeClusterResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface RevokeClusterSecurityGroupIngressMessage {
-  ClusterSecurityGroupName?: string;
-  CIDRIP?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
+  ClusterSecurityGroupName?: string | undefined;
+  CIDRIP?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
 }
 export interface RevokeClusterSecurityGroupIngressResult {
-  ClusterSecurityGroup?: ClusterSecurityGroup;
+  ClusterSecurityGroup?: ClusterSecurityGroup | undefined;
 }
 export interface RevokeEndpointAccessMessage {
-  ClusterIdentifier?: string;
-  Account?: string;
-  VpcIds?: string[];
-  Force?: boolean;
+  ClusterIdentifier?: string | undefined;
+  Account?: string | undefined;
+  VpcIds?: string[] | undefined;
+  Force?: boolean | undefined;
 }
 export interface RevokeSnapshotAccessMessage {
-  SnapshotIdentifier?: string;
-  SnapshotArn?: string;
-  SnapshotClusterIdentifier?: string;
-  AccountWithRestoreAccess?: string;
+  SnapshotIdentifier?: string | undefined;
+  SnapshotArn?: string | undefined;
+  SnapshotClusterIdentifier?: string | undefined;
+  AccountWithRestoreAccess?: string | undefined;
 }
 export interface RevokeSnapshotAccessResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface RotateEncryptionKeyMessage {
-  ClusterIdentifier?: string;
+  ClusterIdentifier?: string | undefined;
 }
 export interface RotateEncryptionKeyResult {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface UpdatePartnerStatusInputMessage {
-  AccountId?: string;
-  ClusterIdentifier?: string;
-  DatabaseName?: string;
-  PartnerName?: string;
-  Status?: PartnerIntegrationStatus;
-  StatusMessage?: string;
+  AccountId?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  DatabaseName?: string | undefined;
+  PartnerName?: string | undefined;
+  Status?: PartnerIntegrationStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type AcceptReservedNodeExchangeError =
@@ -3875,7 +3882,7 @@ export type AcceptReservedNodeExchangeError =
  * configuration (term, payment type, or number of nodes) and no additional costs.
  */
 export const acceptReservedNodeExchange: API.OperationMethod<
-  AcceptReservedNodeExchangeInputMessage,
+  AcceptReservedNodeExchangeInputMessage & RegionInput,
   AcceptReservedNodeExchangeOutputMessage,
   AcceptReservedNodeExchangeError,
   Credentials | HttpClient.HttpClient
@@ -3910,7 +3917,7 @@ export type AddPartnerError =
  * To complete the integration, you also set up the integration on the partner website.
  */
 export const addPartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   AddPartnerError,
   Credentials | HttpClient.HttpClient
@@ -3940,7 +3947,7 @@ export type AssociateDataShareConsumerError =
  * can consume the datashare.
  */
 export const associateDataShareConsumer: API.OperationMethod<
-  AssociateDataShareConsumerMessage,
+  AssociateDataShareConsumerMessage & RegionInput,
   DataShare,
   AssociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -3983,7 +3990,7 @@ export type AuthorizeClusterSecurityGroupIngressError =
  * Groups in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
-  AuthorizeClusterSecurityGroupIngressMessage,
+  AuthorizeClusterSecurityGroupIngressMessage & RegionInput,
   AuthorizeClusterSecurityGroupIngressResult,
   AuthorizeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -4010,7 +4017,7 @@ export type AuthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * the producer account must have the correct access permissions.
  */
 export const authorizeDataShare: API.OperationMethod<
-  AuthorizeDataShareMessage,
+  AuthorizeDataShareMessage & RegionInput,
   DataShare,
   AuthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -4037,7 +4044,7 @@ export type AuthorizeEndpointAccessError =
  * Grants access to a cluster.
  */
 export const authorizeEndpointAccess: API.OperationMethod<
-  AuthorizeEndpointAccessMessage,
+  AuthorizeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   AuthorizeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4077,7 +4084,7 @@ export type AuthorizeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const authorizeSnapshotAccess: API.OperationMethod<
-  AuthorizeSnapshotAccessMessage,
+  AuthorizeSnapshotAccessMessage & RegionInput,
   AuthorizeSnapshotAccessResult,
   AuthorizeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -4105,7 +4112,7 @@ export type BatchDeleteClusterSnapshotsError = BatchDeleteRequestSizeExceededFau
  * Deletes a set of cluster snapshots.
  */
 export const batchDeleteClusterSnapshots: API.OperationMethod<
-  BatchDeleteClusterSnapshotsRequest,
+  BatchDeleteClusterSnapshotsRequest & RegionInput,
   BatchDeleteClusterSnapshotsResult,
   BatchDeleteClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4128,7 +4135,7 @@ export type BatchModifyClusterSnapshotsError =
  * Modifies the settings for a set of cluster snapshots.
  */
 export const batchModifyClusterSnapshots: API.OperationMethod<
-  BatchModifyClusterSnapshotsMessage,
+  BatchModifyClusterSnapshotsMessage & RegionInput,
   BatchModifyClusterSnapshotsOutputMessage,
   BatchModifyClusterSnapshotsError,
   Credentials | HttpClient.HttpClient
@@ -4153,7 +4160,7 @@ export type CancelResizeError =
  * Cancels a resize operation for a cluster.
  */
 export const cancelResize: API.OperationMethod<
-  CancelResizeMessage,
+  CancelResizeMessage & RegionInput,
   ResizeProgressMessage,
   CancelResizeError,
   Credentials | HttpClient.HttpClient
@@ -4197,7 +4204,7 @@ export type CopyClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const copyClusterSnapshot: API.OperationMethod<
-  CopyClusterSnapshotMessage,
+  CopyClusterSnapshotMessage & RegionInput,
   CopyClusterSnapshotResult,
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4228,7 +4235,7 @@ export type CreateAuthenticationProfileError =
  * Creates an authentication profile with the specified parameters.
  */
 export const createAuthenticationProfile: API.OperationMethod<
-  CreateAuthenticationProfileMessage,
+  CreateAuthenticationProfileMessage & RegionInput,
   CreateAuthenticationProfileResult,
   CreateAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -4305,7 +4312,7 @@ export type CreateClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterMessage,
+  CreateClusterMessage & RegionInput,
   CreateClusterResult,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -4368,7 +4375,7 @@ export type CreateClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterParameterGroup: API.OperationMethod<
-  CreateClusterParameterGroupMessage,
+  CreateClusterParameterGroupMessage & RegionInput,
   CreateClusterParameterGroupResult,
   CreateClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4403,7 +4410,7 @@ export type CreateClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSecurityGroup: API.OperationMethod<
-  CreateClusterSecurityGroupMessage,
+  CreateClusterSecurityGroupMessage & RegionInput,
   CreateClusterSecurityGroupResult,
   CreateClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -4441,7 +4448,7 @@ export type CreateClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSnapshot: API.OperationMethod<
-  CreateClusterSnapshotMessage,
+  CreateClusterSnapshotMessage & RegionInput,
   CreateClusterSnapshotResult,
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4484,7 +4491,7 @@ export type CreateClusterSubnetGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const createClusterSubnetGroup: API.OperationMethod<
-  CreateClusterSubnetGroupMessage,
+  CreateClusterSubnetGroupMessage & RegionInput,
   CreateClusterSubnetGroupResult,
   CreateClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -4518,7 +4525,7 @@ export type CreateCustomDomainAssociationError =
  * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
  */
 export const createCustomDomainAssociation: API.OperationMethod<
-  CreateCustomDomainAssociationMessage,
+  CreateCustomDomainAssociationMessage & RegionInput,
   CreateCustomDomainAssociationResult,
   CreateCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4549,7 +4556,7 @@ export type CreateEndpointAccessError =
  * Creates a Redshift-managed VPC endpoint.
  */
 export const createEndpointAccess: API.OperationMethod<
-  CreateEndpointAccessMessage,
+  CreateEndpointAccessMessage & RegionInput,
   EndpointAccess,
   CreateEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4610,7 +4617,7 @@ export type CreateEventSubscriptionError =
  * will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
  */
 export const createEventSubscription: API.OperationMethod<
-  CreateEventSubscriptionMessage,
+  CreateEventSubscriptionMessage & RegionInput,
   CreateEventSubscriptionResult,
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4655,7 +4662,7 @@ export type CreateHsmClientCertificateError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createHsmClientCertificate: API.OperationMethod<
-  CreateHsmClientCertificateMessage,
+  CreateHsmClientCertificateMessage & RegionInput,
   CreateHsmClientCertificateResult,
   CreateHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -4692,7 +4699,7 @@ export type CreateHsmConfigurationError =
  * in the Amazon Redshift Cluster Management Guide.
  */
 export const createHsmConfiguration: API.OperationMethod<
-  CreateHsmConfigurationMessage,
+  CreateHsmConfigurationMessage & RegionInput,
   CreateHsmConfigurationResult,
   CreateHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4727,7 +4734,7 @@ export type CreateIntegrationError =
  * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationMessage,
+  CreateIntegrationMessage & RegionInput,
   Integration,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4762,7 +4769,7 @@ export type CreateQev2IdcApplicationError =
  * Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const createQev2IdcApplication: API.OperationMethod<
-  CreateQev2IdcApplicationMessage,
+  CreateQev2IdcApplicationMessage & RegionInput,
   CreateQev2IdcApplicationResult,
   CreateQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4795,7 +4802,7 @@ export type CreateRedshiftIdcApplicationError =
  * Creates an Amazon Redshift application for use with IAM Identity Center.
  */
 export const createRedshiftIdcApplication: API.OperationMethod<
-  CreateRedshiftIdcApplicationMessage,
+  CreateRedshiftIdcApplicationMessage & RegionInput,
   CreateRedshiftIdcApplicationResult,
   CreateRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4833,7 +4840,7 @@ export type CreateScheduledActionError =
  * For example, you can create a schedule of when to run the `ResizeCluster` API operation.
  */
 export const createScheduledAction: API.OperationMethod<
-  CreateScheduledActionMessage,
+  CreateScheduledActionMessage & RegionInput,
   ScheduledAction,
   CreateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -4875,7 +4882,7 @@ export type CreateSnapshotCopyGrantError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const createSnapshotCopyGrant: API.OperationMethod<
-  CreateSnapshotCopyGrantMessage,
+  CreateSnapshotCopyGrantMessage & RegionInput,
   CreateSnapshotCopyGrantResult,
   CreateSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -4909,7 +4916,7 @@ export type CreateSnapshotScheduleError =
  * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
  */
 export const createSnapshotSchedule: API.OperationMethod<
-  CreateSnapshotScheduleMessage,
+  CreateSnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   CreateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4947,7 +4954,7 @@ export type CreateTagsError =
  * will be updated with the new value.
  */
 export const createTags: API.OperationMethod<
-  CreateTagsMessage,
+  CreateTagsMessage & RegionInput,
   CreateTagsResponse,
   CreateTagsError,
   Credentials | HttpClient.HttpClient
@@ -4976,7 +4983,7 @@ export type CreateUsageLimitError =
  * The usage limit is identified by the returned usage limit identifier.
  */
 export const createUsageLimit: API.OperationMethod<
-  CreateUsageLimitMessage,
+  CreateUsageLimitMessage & RegionInput,
   UsageLimit,
   CreateUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -5004,7 +5011,7 @@ export type DeauthorizeDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare producer account, removes authorization from the specified datashare.
  */
 export const deauthorizeDataShare: API.OperationMethod<
-  DeauthorizeDataShareMessage,
+  DeauthorizeDataShareMessage & RegionInput,
   DataShare,
   DeauthorizeDataShareError,
   Credentials | HttpClient.HttpClient
@@ -5027,7 +5034,7 @@ export type DeleteAuthenticationProfileError =
  * Deletes an authentication profile.
  */
 export const deleteAuthenticationProfile: API.OperationMethod<
-  DeleteAuthenticationProfileMessage,
+  DeleteAuthenticationProfileMessage & RegionInput,
   DeleteAuthenticationProfileResult,
   DeleteAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -5069,7 +5076,7 @@ export type DeleteClusterError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterMessage,
+  DeleteClusterMessage & RegionInput,
   DeleteClusterResult,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -5101,7 +5108,7 @@ export type DeleteClusterParameterGroupError =
  * cluster.
  */
 export const deleteClusterParameterGroup: API.OperationMethod<
-  DeleteClusterParameterGroupMessage,
+  DeleteClusterParameterGroupMessage & RegionInput,
   DeleteClusterParameterGroupResponse,
   DeleteClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -5131,7 +5138,7 @@ export type DeleteClusterSecurityGroupError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const deleteClusterSecurityGroup: API.OperationMethod<
-  DeleteClusterSecurityGroupMessage,
+  DeleteClusterSecurityGroupMessage & RegionInput,
   DeleteClusterSecurityGroupResponse,
   DeleteClusterSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -5161,7 +5168,7 @@ export type DeleteClusterSnapshotError =
  * snapshot.
  */
 export const deleteClusterSnapshot: API.OperationMethod<
-  DeleteClusterSnapshotMessage,
+  DeleteClusterSnapshotMessage & RegionInput,
   DeleteClusterSnapshotResult,
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -5185,7 +5192,7 @@ export type DeleteClusterSubnetGroupError =
  * Deletes the specified cluster subnet group.
  */
 export const deleteClusterSubnetGroup: API.OperationMethod<
-  DeleteClusterSubnetGroupMessage,
+  DeleteClusterSubnetGroupMessage & RegionInput,
   DeleteClusterSubnetGroupResponse,
   DeleteClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -5214,7 +5221,7 @@ export type DeleteCustomDomainAssociationError =
  * Contains information about deleting a custom domain association for a cluster.
  */
 export const deleteCustomDomainAssociation: API.OperationMethod<
-  DeleteCustomDomainAssociationMessage,
+  DeleteCustomDomainAssociationMessage & RegionInput,
   DeleteCustomDomainAssociationResponse,
   DeleteCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -5245,7 +5252,7 @@ export type DeleteEndpointAccessError =
  * Deletes a Redshift-managed VPC endpoint.
  */
 export const deleteEndpointAccess: API.OperationMethod<
-  DeleteEndpointAccessMessage,
+  DeleteEndpointAccessMessage & RegionInput,
   EndpointAccess,
   DeleteEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -5274,7 +5281,7 @@ export type DeleteEventSubscriptionError =
  * Deletes an Amazon Redshift event notification subscription.
  */
 export const deleteEventSubscription: API.OperationMethod<
-  DeleteEventSubscriptionMessage,
+  DeleteEventSubscriptionMessage & RegionInput,
   DeleteEventSubscriptionResponse,
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5297,7 +5304,7 @@ export type DeleteHsmClientCertificateError =
  * Deletes the specified HSM client certificate.
  */
 export const deleteHsmClientCertificate: API.OperationMethod<
-  DeleteHsmClientCertificateMessage,
+  DeleteHsmClientCertificateMessage & RegionInput,
   DeleteHsmClientCertificateResponse,
   DeleteHsmClientCertificateError,
   Credentials | HttpClient.HttpClient
@@ -5320,7 +5327,7 @@ export type DeleteHsmConfigurationError =
  * Deletes the specified Amazon Redshift HSM configuration.
  */
 export const deleteHsmConfiguration: API.OperationMethod<
-  DeleteHsmConfigurationMessage,
+  DeleteHsmConfigurationMessage & RegionInput,
   DeleteHsmConfigurationResponse,
   DeleteHsmConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5345,7 +5352,7 @@ export type DeleteIntegrationError =
  * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationMessage,
+  DeleteIntegrationMessage & RegionInput,
   Integration,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5375,7 +5382,7 @@ export type DeletePartnerError =
  * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
 export const deletePartner: API.OperationMethod<
-  PartnerIntegrationInputMessage,
+  PartnerIntegrationInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   DeletePartnerError,
   Credentials | HttpClient.HttpClient
@@ -5405,7 +5412,7 @@ export type DeleteQev2IdcApplicationError =
  * Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const deleteQev2IdcApplication: API.OperationMethod<
-  DeleteQev2IdcApplicationMessage,
+  DeleteQev2IdcApplicationMessage & RegionInput,
   DeleteQev2IdcApplicationResponse,
   DeleteQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5435,7 +5442,7 @@ export type DeleteRedshiftIdcApplicationError =
  * Deletes an Amazon Redshift IAM Identity Center application.
  */
 export const deleteRedshiftIdcApplication: API.OperationMethod<
-  DeleteRedshiftIdcApplicationMessage,
+  DeleteRedshiftIdcApplicationMessage & RegionInput,
   DeleteRedshiftIdcApplicationResponse,
   DeleteRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5463,7 +5470,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource policy for a specified resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyMessage,
+  DeleteResourcePolicyMessage & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5486,7 +5493,7 @@ export type DeleteScheduledActionError =
  * Deletes a scheduled action.
  */
 export const deleteScheduledAction: API.OperationMethod<
-  DeleteScheduledActionMessage,
+  DeleteScheduledActionMessage & RegionInput,
   DeleteScheduledActionResponse,
   DeleteScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -5509,7 +5516,7 @@ export type DeleteSnapshotCopyGrantError =
  * Deletes the specified snapshot copy grant.
  */
 export const deleteSnapshotCopyGrant: API.OperationMethod<
-  DeleteSnapshotCopyGrantMessage,
+  DeleteSnapshotCopyGrantMessage & RegionInput,
   DeleteSnapshotCopyGrantResponse,
   DeleteSnapshotCopyGrantError,
   Credentials | HttpClient.HttpClient
@@ -5532,7 +5539,7 @@ export type DeleteSnapshotScheduleError =
  * Deletes a snapshot schedule.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleMessage,
+  DeleteSnapshotScheduleMessage & RegionInput,
   DeleteSnapshotScheduleResponse,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -5553,7 +5560,7 @@ export type DeleteTagsError = InvalidTagFault | ResourceNotFoundFault | CommonEr
  * from which you want to delete the tag or tags.
  */
 export const deleteTags: API.OperationMethod<
-  DeleteTagsMessage,
+  DeleteTagsMessage & RegionInput,
   DeleteTagsResponse,
   DeleteTagsError,
   Credentials | HttpClient.HttpClient
@@ -5576,7 +5583,7 @@ export type DeleteUsageLimitError =
  * Deletes a usage limit from a cluster.
  */
 export const deleteUsageLimit: API.OperationMethod<
-  DeleteUsageLimitMessage,
+  DeleteUsageLimitMessage & RegionInput,
   DeleteUsageLimitResponse,
   DeleteUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -5600,7 +5607,7 @@ export type DeregisterNamespaceError =
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
 export const deregisterNamespace: API.OperationMethod<
-  DeregisterNamespaceInputMessage,
+  DeregisterNamespaceInputMessage & RegionInput,
   DeregisterNamespaceOutputMessage,
   DeregisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -5620,7 +5627,7 @@ export type DescribeAccountAttributesError = CommonErrors;
  * Returns a list of attributes attached to an account
  */
 export const describeAccountAttributes: API.OperationMethod<
-  DescribeAccountAttributesMessage,
+  DescribeAccountAttributesMessage & RegionInput,
   AccountAttributeList,
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
@@ -5643,7 +5650,7 @@ export type DescribeAuthenticationProfilesError =
  * Describes an authentication profile.
  */
 export const describeAuthenticationProfiles: API.OperationMethod<
-  DescribeAuthenticationProfilesMessage,
+  DescribeAuthenticationProfilesMessage & RegionInput,
   DescribeAuthenticationProfilesResult,
   DescribeAuthenticationProfilesError,
   Credentials | HttpClient.HttpClient
@@ -5666,7 +5673,7 @@ export type DescribeClusterDbRevisionsError =
  * Returns an array of `ClusterDbRevision` objects.
  */
 export const describeClusterDbRevisions: API.PaginatedOperationMethod<
-  DescribeClusterDbRevisionsMessage,
+  DescribeClusterDbRevisionsMessage & RegionInput,
   ClusterDbRevisionsMessage,
   DescribeClusterDbRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -5714,7 +5721,7 @@ export type DescribeClusterParameterGroupsError =
  * them.
  */
 export const describeClusterParameterGroups: API.PaginatedOperationMethod<
-  DescribeClusterParameterGroupsMessage,
+  DescribeClusterParameterGroupsMessage & RegionInput,
   ClusterParameterGroupsMessage,
   DescribeClusterParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5753,7 +5760,7 @@ export type DescribeClusterParametersError = ClusterParameterGroupNotFoundFault 
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterParameters: API.PaginatedOperationMethod<
-  DescribeClusterParametersMessage,
+  DescribeClusterParametersMessage & RegionInput,
   ClusterParameterGroupDetails,
   DescribeClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -5794,7 +5801,7 @@ export type DescribeClustersError = ClusterNotFoundFault | InvalidTagFault | Com
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersMessage,
+  DescribeClustersMessage & RegionInput,
   ClustersMessage,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -5840,7 +5847,7 @@ export type DescribeClusterSecurityGroupsError =
  * them.
  */
 export const describeClusterSecurityGroups: API.PaginatedOperationMethod<
-  DescribeClusterSecurityGroupsMessage,
+  DescribeClusterSecurityGroupsMessage & RegionInput,
   ClusterSecurityGroupMessage,
   DescribeClusterSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5886,7 +5893,7 @@ export type DescribeClusterSnapshotsError =
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeClusterSnapshots: API.PaginatedOperationMethod<
-  DescribeClusterSnapshotsMessage,
+  DescribeClusterSnapshotsMessage & RegionInput,
   SnapshotMessage,
   DescribeClusterSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -5933,7 +5940,7 @@ export type DescribeClusterSubnetGroupsError =
  * them.
  */
 export const describeClusterSubnetGroups: API.PaginatedOperationMethod<
-  DescribeClusterSubnetGroupsMessage,
+  DescribeClusterSubnetGroupsMessage & RegionInput,
   ClusterSubnetGroupMessage,
   DescribeClusterSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5963,7 +5970,7 @@ export type DescribeClusterTracksError =
  * Returns a list of all the available maintenance tracks.
  */
 export const describeClusterTracks: API.PaginatedOperationMethod<
-  DescribeClusterTracksMessage,
+  DescribeClusterTracksMessage & RegionInput,
   TrackListMessage,
   DescribeClusterTracksError,
   Credentials | HttpClient.HttpClient,
@@ -5995,7 +6002,7 @@ export type DescribeClusterVersionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeClusterVersions: API.PaginatedOperationMethod<
-  DescribeClusterVersionsMessage,
+  DescribeClusterVersionsMessage & RegionInput,
   ClusterVersionsMessage,
   DescribeClusterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -6025,7 +6032,7 @@ export type DescribeCustomDomainAssociationsError =
  * Contains information about custom domain associations for a cluster.
  */
 export const describeCustomDomainAssociations: API.PaginatedOperationMethod<
-  DescribeCustomDomainAssociationsMessage,
+  DescribeCustomDomainAssociationsMessage & RegionInput,
   CustomDomainAssociationsMessage,
   DescribeCustomDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -6053,7 +6060,7 @@ export type DescribeDataSharesError = InvalidDataShareFault | CommonErrors;
  * account.
  */
 export const describeDataShares: API.PaginatedOperationMethod<
-  DescribeDataSharesMessage,
+  DescribeDataSharesMessage & RegionInput,
   DescribeDataSharesResult,
   DescribeDataSharesError,
   Credentials | HttpClient.HttpClient,
@@ -6080,7 +6087,7 @@ export type DescribeDataSharesForConsumerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
 export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
-  DescribeDataSharesForConsumerMessage,
+  DescribeDataSharesForConsumerMessage & RegionInput,
   DescribeDataSharesForConsumerResult,
   DescribeDataSharesForConsumerError,
   Credentials | HttpClient.HttpClient,
@@ -6107,7 +6114,7 @@ export type DescribeDataSharesForProducerError = InvalidNamespaceFault | CommonE
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
 export const describeDataSharesForProducer: API.PaginatedOperationMethod<
-  DescribeDataSharesForProducerMessage,
+  DescribeDataSharesForProducerMessage & RegionInput,
   DescribeDataSharesForProducerResult,
   DescribeDataSharesForProducerError,
   Credentials | HttpClient.HttpClient,
@@ -6139,7 +6146,7 @@ export type DescribeDefaultClusterParametersError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeDefaultClusterParameters: API.PaginatedOperationMethod<
-  DescribeDefaultClusterParametersMessage,
+  DescribeDefaultClusterParametersMessage & RegionInput,
   DescribeDefaultClusterParametersResult,
   DescribeDefaultClusterParametersError,
   Credentials | HttpClient.HttpClient,
@@ -6170,7 +6177,7 @@ export type DescribeEndpointAccessError =
  * Describes a Redshift-managed VPC endpoint.
  */
 export const describeEndpointAccess: API.PaginatedOperationMethod<
-  DescribeEndpointAccessMessage,
+  DescribeEndpointAccessMessage & RegionInput,
   EndpointAccessList,
   DescribeEndpointAccessError,
   Credentials | HttpClient.HttpClient,
@@ -6200,7 +6207,7 @@ export type DescribeEndpointAuthorizationError =
  * Describes an endpoint authorization.
  */
 export const describeEndpointAuthorization: API.PaginatedOperationMethod<
-  DescribeEndpointAuthorizationMessage,
+  DescribeEndpointAuthorizationMessage & RegionInput,
   EndpointAuthorizationList,
   DescribeEndpointAuthorizationError,
   Credentials | HttpClient.HttpClient,
@@ -6229,7 +6236,7 @@ export type DescribeEventCategoriesError = CommonErrors;
  * Notifications.
  */
 export const describeEventCategories: API.OperationMethod<
-  DescribeEventCategoriesMessage,
+  DescribeEventCategoriesMessage & RegionInput,
   EventCategoriesMessage,
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -6252,7 +6259,7 @@ export type DescribeEventsError = CommonErrors;
  * default, the past hour of events are returned.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -6294,7 +6301,7 @@ export type DescribeEventSubscriptionsError =
  * them.
  */
 export const describeEventSubscriptions: API.PaginatedOperationMethod<
-  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsMessage & RegionInput,
   EventSubscriptionsMessage,
   DescribeEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6335,7 +6342,7 @@ export type DescribeHsmClientCertificatesError =
  * them.
  */
 export const describeHsmClientCertificates: API.PaginatedOperationMethod<
-  DescribeHsmClientCertificatesMessage,
+  DescribeHsmClientCertificatesMessage & RegionInput,
   HsmClientCertificateMessage,
   DescribeHsmClientCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -6377,7 +6384,7 @@ export type DescribeHsmConfigurationsError =
  * them.
  */
 export const describeHsmConfigurations: API.PaginatedOperationMethod<
-  DescribeHsmConfigurationsMessage,
+  DescribeHsmConfigurationsMessage & RegionInput,
   HsmConfigurationMessage,
   DescribeHsmConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6408,7 +6415,7 @@ export type DescribeInboundIntegrationsError =
  * Returns a list of inbound integrations.
  */
 export const describeInboundIntegrations: API.PaginatedOperationMethod<
-  DescribeInboundIntegrationsMessage,
+  DescribeInboundIntegrationsMessage & RegionInput,
   InboundIntegrationsMessage,
   DescribeInboundIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6438,7 +6445,7 @@ export type DescribeIntegrationsError =
  * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
  */
 export const describeIntegrations: API.PaginatedOperationMethod<
-  DescribeIntegrationsMessage,
+  DescribeIntegrationsMessage & RegionInput,
   IntegrationsMessage,
   DescribeIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -6469,7 +6476,7 @@ export type DescribeLoggingStatusError =
  * logged for the specified Amazon Redshift cluster.
  */
 export const describeLoggingStatus: API.OperationMethod<
-  DescribeLoggingStatusMessage,
+  DescribeLoggingStatusMessage & RegionInput,
   LoggingStatus,
   DescribeLoggingStatusError,
   Credentials | HttpClient.HttpClient
@@ -6496,7 +6503,7 @@ export type DescribeNodeConfigurationOptionsError =
  * disk usage for the specified action type.
  */
 export const describeNodeConfigurationOptions: API.PaginatedOperationMethod<
-  DescribeNodeConfigurationOptionsMessage,
+  DescribeNodeConfigurationOptionsMessage & RegionInput,
   NodeConfigurationOptionsMessage,
   DescribeNodeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6537,7 +6544,7 @@ export type DescribeOrderableClusterOptionsError = CommonErrors;
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeOrderableClusterOptions: API.PaginatedOperationMethod<
-  DescribeOrderableClusterOptionsMessage,
+  DescribeOrderableClusterOptionsMessage & RegionInput,
   OrderableClusterOptionsMessage,
   DescribeOrderableClusterOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -6568,7 +6575,7 @@ export type DescribePartnersError =
  * Returns information about the partner integrations defined for a cluster.
  */
 export const describePartners: API.OperationMethod<
-  DescribePartnersInputMessage,
+  DescribePartnersInputMessage & RegionInput,
   DescribePartnersOutputMessage,
   DescribePartnersError,
   Credentials | HttpClient.HttpClient
@@ -6593,7 +6600,7 @@ export type DescribeQev2IdcApplicationsError =
  * Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters.
  */
 export const describeQev2IdcApplications: API.PaginatedOperationMethod<
-  DescribeQev2IdcApplicationsMessage,
+  DescribeQev2IdcApplicationsMessage & RegionInput,
   DescribeQev2IdcApplicationsResult,
   DescribeQev2IdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6630,7 +6637,7 @@ export type DescribeRedshiftIdcApplicationsError =
  * Lists the Amazon Redshift IAM Identity Center applications.
  */
 export const describeRedshiftIdcApplications: API.PaginatedOperationMethod<
-  DescribeRedshiftIdcApplicationsMessage,
+  DescribeRedshiftIdcApplicationsMessage & RegionInput,
   DescribeRedshiftIdcApplicationsResult,
   DescribeRedshiftIdcApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -6667,7 +6674,7 @@ export type DescribeReservedNodeExchangeStatusError =
  * exchange. Statuses include such values as in progress and requested.
  */
 export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
-  DescribeReservedNodeExchangeStatusInputMessage,
+  DescribeReservedNodeExchangeStatusInputMessage & RegionInput,
   DescribeReservedNodeExchangeStatusOutputMessage,
   DescribeReservedNodeExchangeStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6707,7 +6714,7 @@ export type DescribeReservedNodeOfferingsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeReservedNodeOfferings: API.PaginatedOperationMethod<
-  DescribeReservedNodeOfferingsMessage,
+  DescribeReservedNodeOfferingsMessage & RegionInput,
   ReservedNodeOfferingsMessage,
   DescribeReservedNodeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -6741,7 +6748,7 @@ export type DescribeReservedNodesError =
  * Returns the descriptions of the reserved nodes.
  */
 export const describeReservedNodes: API.PaginatedOperationMethod<
-  DescribeReservedNodesMessage,
+  DescribeReservedNodesMessage & RegionInput,
   ReservedNodesMessage,
   DescribeReservedNodesError,
   Credentials | HttpClient.HttpClient,
@@ -6778,7 +6785,7 @@ export type DescribeResizeError =
  * specifying a different number or type of nodes for the cluster.
  */
 export const describeResize: API.OperationMethod<
-  DescribeResizeMessage,
+  DescribeResizeMessage & RegionInput,
   ResizeProgressMessage,
   DescribeResizeError,
   Credentials | HttpClient.HttpClient
@@ -6801,7 +6808,7 @@ export type DescribeScheduledActionsError =
  * Describes properties of scheduled actions.
  */
 export const describeScheduledActions: API.PaginatedOperationMethod<
-  DescribeScheduledActionsMessage,
+  DescribeScheduledActionsMessage & RegionInput,
   ScheduledActionsMessage,
   DescribeScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6836,7 +6843,7 @@ export type DescribeSnapshotCopyGrantsError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const describeSnapshotCopyGrants: API.PaginatedOperationMethod<
-  DescribeSnapshotCopyGrantsMessage,
+  DescribeSnapshotCopyGrantsMessage & RegionInput,
   SnapshotCopyGrantMessage,
   DescribeSnapshotCopyGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -6863,7 +6870,7 @@ export type DescribeSnapshotSchedulesError = CommonErrors;
  * Returns a list of snapshot schedules.
  */
 export const describeSnapshotSchedules: API.PaginatedOperationMethod<
-  DescribeSnapshotSchedulesMessage,
+  DescribeSnapshotSchedulesMessage & RegionInput,
   DescribeSnapshotSchedulesOutputMessage,
   DescribeSnapshotSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -6890,7 +6897,7 @@ export type DescribeStorageError = CommonErrors;
  * Returns account level backups storage size and provisional storage.
  */
 export const describeStorage: API.OperationMethod<
-  DescribeStorageRequest,
+  DescribeStorageRequest & RegionInput,
   CustomerStorageMessage,
   DescribeStorageError,
   Credentials | HttpClient.HttpClient
@@ -6918,7 +6925,7 @@ export type DescribeTableRestoreStatusError =
  * `TableRestoreRequestId`.
  */
 export const describeTableRestoreStatus: API.PaginatedOperationMethod<
-  DescribeTableRestoreStatusMessage,
+  DescribeTableRestoreStatusMessage & RegionInput,
   TableRestoreStatusMessage,
   DescribeTableRestoreStatusError,
   Credentials | HttpClient.HttpClient,
@@ -6967,7 +6974,7 @@ export type DescribeTagsError = InvalidTagFault | ResourceNotFoundFault | Common
  * regardless of whether they have tag keys or values associated with them.
  */
 export const describeTags: API.PaginatedOperationMethod<
-  DescribeTagsMessage,
+  DescribeTagsMessage & RegionInput,
   TaggedResourceListMessage,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient,
@@ -7010,7 +7017,7 @@ export type DescribeUsageLimitsError =
  * then all usage limit objects for the combination of cluster and feature are returned.
  */
 export const describeUsageLimits: API.PaginatedOperationMethod<
-  DescribeUsageLimitsMessage,
+  DescribeUsageLimitsMessage & RegionInput,
   UsageLimitList,
   DescribeUsageLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -7042,7 +7049,7 @@ export type DisableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const disableLogging: API.OperationMethod<
-  DisableLoggingMessage,
+  DisableLoggingMessage & RegionInput,
   LoggingStatus,
   DisableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -7073,7 +7080,7 @@ export type DisableSnapshotCopyError =
  * grants Amazon Redshift permission to the key in the destination region.
  */
 export const disableSnapshotCopy: API.OperationMethod<
-  DisableSnapshotCopyMessage,
+  DisableSnapshotCopyMessage & RegionInput,
   DisableSnapshotCopyResult,
   DisableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -7102,7 +7109,7 @@ export type DisassociateDataShareConsumerError =
  * From a datashare consumer account, remove association for the specified datashare.
  */
 export const disassociateDataShareConsumer: API.OperationMethod<
-  DisassociateDataShareConsumerMessage,
+  DisassociateDataShareConsumerMessage & RegionInput,
   DataShare,
   DisassociateDataShareConsumerError,
   Credentials | HttpClient.HttpClient
@@ -7131,7 +7138,7 @@ export type EnableLoggingError =
  * specified Amazon Redshift cluster.
  */
 export const enableLogging: API.OperationMethod<
-  EnableLoggingMessage,
+  EnableLoggingMessage & RegionInput,
   LoggingStatus,
   EnableLoggingError,
   Credentials | HttpClient.HttpClient
@@ -7172,7 +7179,7 @@ export type EnableSnapshotCopyError =
  * specified cluster.
  */
 export const enableSnapshotCopy: API.OperationMethod<
-  EnableSnapshotCopyMessage,
+  EnableSnapshotCopyMessage & RegionInput,
   EnableSnapshotCopyResult,
   EnableSnapshotCopyError,
   Credentials | HttpClient.HttpClient
@@ -7209,7 +7216,7 @@ export type FailoverPrimaryComputeError =
  * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
  */
 export const failoverPrimaryCompute: API.OperationMethod<
-  FailoverPrimaryComputeInputMessage,
+  FailoverPrimaryComputeInputMessage & RegionInput,
   FailoverPrimaryComputeResult,
   FailoverPrimaryComputeError,
   Credentials | HttpClient.HttpClient
@@ -7261,7 +7268,7 @@ export type GetClusterCredentialsError =
  * to the resource `dbname` for the specified database name.
  */
 export const getClusterCredentials: API.OperationMethod<
-  GetClusterCredentialsMessage,
+  GetClusterCredentialsMessage & RegionInput,
   ClusterCredentials,
   GetClusterCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -7294,7 +7301,7 @@ export type GetClusterCredentialsWithIAMError =
  * Amazon Redshift Cluster Management Guide.
  */
 export const getClusterCredentialsWithIAM: API.OperationMethod<
-  GetClusterCredentialsWithIAMMessage,
+  GetClusterCredentialsWithIAMMessage & RegionInput,
   ClusterExtendedCredentials,
   GetClusterCredentialsWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -7330,7 +7337,7 @@ export type GetIdentityCenterAuthTokenError =
  * return an error.
  */
 export const getIdentityCenterAuthToken: API.OperationMethod<
-  GetIdentityCenterAuthTokenRequest,
+  GetIdentityCenterAuthTokenRequest & RegionInput,
   GetIdentityCenterAuthTokenResponse,
   GetIdentityCenterAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -7366,7 +7373,7 @@ export type GetReservedNodeExchangeConfigurationOptionsError =
  * Details include the node type, the price, the node count, and the offering type.
  */
 export const getReservedNodeExchangeConfigurationOptions: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  GetReservedNodeExchangeConfigurationOptionsInputMessage & RegionInput,
   GetReservedNodeExchangeConfigurationOptionsOutputMessage,
   GetReservedNodeExchangeConfigurationOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -7418,7 +7425,7 @@ export type GetReservedNodeExchangeOfferingsError =
  * and usage price of the given DC1 reserved node.
  */
 export const getReservedNodeExchangeOfferings: API.PaginatedOperationMethod<
-  GetReservedNodeExchangeOfferingsInputMessage,
+  GetReservedNodeExchangeOfferingsInputMessage & RegionInput,
   GetReservedNodeExchangeOfferingsOutputMessage,
   GetReservedNodeExchangeOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -7456,7 +7463,7 @@ export type GetResourcePolicyError =
  * Get the resource policy for a specified resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyMessage,
+  GetResourcePolicyMessage & RegionInput,
   GetResourcePolicyResult,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -7479,7 +7486,7 @@ export type ListRecommendationsError =
  * List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsMessage,
+  ListRecommendationsMessage & RegionInput,
   ListRecommendationsResult,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -7510,7 +7517,7 @@ export type ModifyAquaConfigurationError =
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
 export const modifyAquaConfiguration: API.OperationMethod<
-  ModifyAquaInputMessage,
+  ModifyAquaInputMessage & RegionInput,
   ModifyAquaOutputMessage,
   ModifyAquaConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7534,7 +7541,7 @@ export type ModifyAuthenticationProfileError =
  * Modifies an authentication profile.
  */
 export const modifyAuthenticationProfile: API.OperationMethod<
-  ModifyAuthenticationProfileMessage,
+  ModifyAuthenticationProfileMessage & RegionInput,
   ModifyAuthenticationProfileResult,
   ModifyAuthenticationProfileError,
   Credentials | HttpClient.HttpClient
@@ -7609,7 +7616,7 @@ export type ModifyClusterError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterMessage,
+  ModifyClusterMessage & RegionInput,
   ModifyClusterResult,
   ModifyClusterError,
   Credentials | HttpClient.HttpClient
@@ -7658,7 +7665,7 @@ export type ModifyClusterDbRevisionError =
  * revision of the database running in a cluster.
  */
 export const modifyClusterDbRevision: API.OperationMethod<
-  ModifyClusterDbRevisionMessage,
+  ModifyClusterDbRevisionMessage & RegionInput,
   ModifyClusterDbRevisionResult,
   ModifyClusterDbRevisionError,
   Credentials | HttpClient.HttpClient
@@ -7691,7 +7698,7 @@ export type ModifyClusterIamRolesError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterIamRoles: API.OperationMethod<
-  ModifyClusterIamRolesMessage,
+  ModifyClusterIamRolesMessage & RegionInput,
   ModifyClusterIamRolesResult,
   ModifyClusterIamRolesError,
   Credentials | HttpClient.HttpClient
@@ -7714,7 +7721,7 @@ export type ModifyClusterMaintenanceError =
  * Modifies the maintenance settings of a cluster.
  */
 export const modifyClusterMaintenance: API.OperationMethod<
-  ModifyClusterMaintenanceMessage,
+  ModifyClusterMaintenanceMessage & RegionInput,
   ModifyClusterMaintenanceResult,
   ModifyClusterMaintenanceError,
   Credentials | HttpClient.HttpClient
@@ -7741,7 +7748,7 @@ export type ModifyClusterParameterGroupError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const modifyClusterParameterGroup: API.OperationMethod<
-  ModifyClusterParameterGroupMessage,
+  ModifyClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ModifyClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -7767,7 +7774,7 @@ export type ModifyClusterSnapshotError =
  * This exanmple modifies the manual retention period setting for a cluster snapshot.
  */
 export const modifyClusterSnapshot: API.OperationMethod<
-  ModifyClusterSnapshotMessage,
+  ModifyClusterSnapshotMessage & RegionInput,
   ModifyClusterSnapshotResult,
   ModifyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -7795,7 +7802,7 @@ export type ModifyClusterSnapshotScheduleError =
  * Modifies a snapshot schedule for a cluster.
  */
 export const modifyClusterSnapshotSchedule: API.OperationMethod<
-  ModifyClusterSnapshotScheduleMessage,
+  ModifyClusterSnapshotScheduleMessage & RegionInput,
   ModifyClusterSnapshotScheduleResponse,
   ModifyClusterSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -7845,7 +7852,7 @@ export type ModifyClusterSubnetGroupError =
  * subnets in the *Amazon VPC User Guide*.
  */
 export const modifyClusterSubnetGroup: API.OperationMethod<
-  ModifyClusterSubnetGroupMessage,
+  ModifyClusterSubnetGroupMessage & RegionInput,
   ModifyClusterSubnetGroupResult,
   ModifyClusterSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -7877,7 +7884,7 @@ export type ModifyCustomDomainAssociationError =
  * Contains information for changing a custom domain association.
  */
 export const modifyCustomDomainAssociation: API.OperationMethod<
-  ModifyCustomDomainAssociationMessage,
+  ModifyCustomDomainAssociationMessage & RegionInput,
   ModifyCustomDomainAssociationResult,
   ModifyCustomDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -7909,7 +7916,7 @@ export type ModifyEndpointAccessError =
  * Modifies a Redshift-managed VPC endpoint.
  */
 export const modifyEndpointAccess: API.OperationMethod<
-  ModifyEndpointAccessMessage,
+  ModifyEndpointAccessMessage & RegionInput,
   EndpointAccess,
   ModifyEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -7946,7 +7953,7 @@ export type ModifyEventSubscriptionError =
  * Modifies an existing Amazon Redshift event notification subscription.
  */
 export const modifyEventSubscription: API.OperationMethod<
-  ModifyEventSubscriptionMessage,
+  ModifyEventSubscriptionMessage & RegionInput,
   ModifyEventSubscriptionResult,
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -7982,7 +7989,7 @@ export type ModifyIntegrationError =
  * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
 export const modifyIntegration: API.OperationMethod<
-  ModifyIntegrationMessage,
+  ModifyIntegrationMessage & RegionInput,
   Integration,
   ModifyIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -8016,7 +8023,7 @@ export type ModifyLakehouseConfigurationError =
  * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
 export const modifyLakehouseConfiguration: API.OperationMethod<
-  ModifyLakehouseConfigurationMessage,
+  ModifyLakehouseConfigurationMessage & RegionInput,
   LakehouseConfiguration,
   ModifyLakehouseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8049,7 +8056,7 @@ export type ModifyQev2IdcApplicationError =
  * Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
  */
 export const modifyQev2IdcApplication: API.OperationMethod<
-  ModifyQev2IdcApplicationMessage,
+  ModifyQev2IdcApplicationMessage & RegionInput,
   ModifyQev2IdcApplicationResult,
   ModifyQev2IdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -8079,7 +8086,7 @@ export type ModifyRedshiftIdcApplicationError =
  * Changes an existing Amazon Redshift IAM Identity Center application.
  */
 export const modifyRedshiftIdcApplication: API.OperationMethod<
-  ModifyRedshiftIdcApplicationMessage,
+  ModifyRedshiftIdcApplicationMessage & RegionInput,
   ModifyRedshiftIdcApplicationResult,
   ModifyRedshiftIdcApplicationError,
   Credentials | HttpClient.HttpClient
@@ -8112,7 +8119,7 @@ export type ModifyScheduledActionError =
  * Modifies a scheduled action.
  */
 export const modifyScheduledAction: API.OperationMethod<
-  ModifyScheduledActionMessage,
+  ModifyScheduledActionMessage & RegionInput,
   ScheduledAction,
   ModifyScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -8152,7 +8159,7 @@ export type ModifySnapshotCopyRetentionPeriodError =
  * period.
  */
 export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
-  ModifySnapshotCopyRetentionPeriodMessage,
+  ModifySnapshotCopyRetentionPeriodMessage & RegionInput,
   ModifySnapshotCopyRetentionPeriodResult,
   ModifySnapshotCopyRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -8183,7 +8190,7 @@ export type ModifySnapshotScheduleError =
  * asynchronously.
  */
 export const modifySnapshotSchedule: API.OperationMethod<
-  ModifySnapshotScheduleMessage,
+  ModifySnapshotScheduleMessage & RegionInput,
   SnapshotSchedule,
   ModifySnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -8212,7 +8219,7 @@ export type ModifyUsageLimitError =
  * You can't modify the feature type or period of a usage limit.
  */
 export const modifyUsageLimit: API.OperationMethod<
-  ModifyUsageLimitMessage,
+  ModifyUsageLimitMessage & RegionInput,
   UsageLimit,
   ModifyUsageLimitError,
   Credentials | HttpClient.HttpClient
@@ -8236,7 +8243,7 @@ export type PauseClusterError =
  * Pauses a cluster.
  */
 export const pauseCluster: API.OperationMethod<
-  PauseClusterMessage,
+  PauseClusterMessage & RegionInput,
   PauseClusterResult,
   PauseClusterError,
   Credentials | HttpClient.HttpClient
@@ -8269,7 +8276,7 @@ export type PurchaseReservedNodeOfferingError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const purchaseReservedNodeOffering: API.OperationMethod<
-  PurchaseReservedNodeOfferingMessage,
+  PurchaseReservedNodeOfferingMessage & RegionInput,
   PurchaseReservedNodeOfferingResult,
   PurchaseReservedNodeOfferingError,
   Credentials | HttpClient.HttpClient
@@ -8299,7 +8306,7 @@ export type PutResourcePolicyError =
  * Updates the resource policy for a specified resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyMessage,
+  PutResourcePolicyMessage & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -8331,7 +8338,7 @@ export type RebootClusterError = ClusterNotFoundFault | InvalidClusterStateFault
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const rebootCluster: API.OperationMethod<
-  RebootClusterMessage,
+  RebootClusterMessage & RegionInput,
   RebootClusterResult,
   RebootClusterError,
   Credentials | HttpClient.HttpClient
@@ -8355,7 +8362,7 @@ export type RegisterNamespaceError =
  * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
  */
 export const registerNamespace: API.OperationMethod<
-  RegisterNamespaceInputMessage,
+  RegisterNamespaceInputMessage & RegionInput,
   RegisterNamespaceOutputMessage,
   RegisterNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -8375,7 +8382,7 @@ export type RejectDataShareError = InvalidDataShareFault | CommonErrors;
  * From a datashare consumer account, rejects the specified datashare.
  */
 export const rejectDataShare: API.OperationMethod<
-  RejectDataShareMessage,
+  RejectDataShareMessage & RegionInput,
   DataShare,
   RejectDataShareError,
   Credentials | HttpClient.HttpClient
@@ -8401,7 +8408,7 @@ export type ResetClusterParameterGroupError =
  * For parameter changes to take effect you must reboot any associated clusters.
  */
 export const resetClusterParameterGroup: API.OperationMethod<
-  ResetClusterParameterGroupMessage,
+  ResetClusterParameterGroupMessage & RegionInput,
   ClusterParameterGroupNameMessage,
   ResetClusterParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -8467,7 +8474,7 @@ export type ResizeClusterError =
  * cluster.
  */
 export const resizeCluster: API.OperationMethod<
-  ResizeClusterMessage,
+  ResizeClusterMessage & RegionInput,
   ResizeClusterResult,
   ResizeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8569,7 +8576,7 @@ export type RestoreFromClusterSnapshotError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const restoreFromClusterSnapshot: API.OperationMethod<
-  RestoreFromClusterSnapshotMessage,
+  RestoreFromClusterSnapshotMessage & RegionInput,
   RestoreFromClusterSnapshotResult,
   RestoreFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8648,7 +8655,7 @@ export type RestoreTableFromClusterSnapshotError =
  * interleaved sort keys.
  */
 export const restoreTableFromClusterSnapshot: API.OperationMethod<
-  RestoreTableFromClusterSnapshotMessage,
+  RestoreTableFromClusterSnapshotMessage & RegionInput,
   RestoreTableFromClusterSnapshotResult,
   RestoreTableFromClusterSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -8681,7 +8688,7 @@ export type ResumeClusterError =
  * Resumes a paused cluster.
  */
 export const resumeCluster: API.OperationMethod<
-  ResumeClusterMessage,
+  ResumeClusterMessage & RegionInput,
   ResumeClusterResult,
   ResumeClusterError,
   Credentials | HttpClient.HttpClient
@@ -8714,7 +8721,7 @@ export type RevokeClusterSecurityGroupIngressError =
  * *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeClusterSecurityGroupIngress: API.OperationMethod<
-  RevokeClusterSecurityGroupIngressMessage,
+  RevokeClusterSecurityGroupIngressMessage & RegionInput,
   RevokeClusterSecurityGroupIngressResult,
   RevokeClusterSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -8746,7 +8753,7 @@ export type RevokeEndpointAccessError =
  * Revokes access to a cluster.
  */
 export const revokeEndpointAccess: API.OperationMethod<
-  RevokeEndpointAccessMessage,
+  RevokeEndpointAccessMessage & RegionInput,
   EndpointAuthorization,
   RevokeEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -8785,7 +8792,7 @@ export type RevokeSnapshotAccessError =
  * in the *Amazon Redshift Cluster Management Guide*.
  */
 export const revokeSnapshotAccess: API.OperationMethod<
-  RevokeSnapshotAccessMessage,
+  RevokeSnapshotAccessMessage & RegionInput,
   RevokeSnapshotAccessResult,
   RevokeSnapshotAccessError,
   Credentials | HttpClient.HttpClient
@@ -8815,7 +8822,7 @@ export type RotateEncryptionKeyError =
  * Rotates the encryption keys for a cluster.
  */
 export const rotateEncryptionKey: API.OperationMethod<
-  RotateEncryptionKeyMessage,
+  RotateEncryptionKeyMessage & RegionInput,
   RotateEncryptionKeyResult,
   RotateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -8845,7 +8852,7 @@ export type UpdatePartnerStatusError =
  * Updates the status of a partner integration.
  */
 export const updatePartnerStatus: API.OperationMethod<
-  UpdatePartnerStatusInputMessage,
+  UpdatePartnerStatusInputMessage & RegionInput,
   PartnerIntegrationOutputMessage,
   UpdatePartnerStatusError,
   Credentials | HttpClient.HttpClient

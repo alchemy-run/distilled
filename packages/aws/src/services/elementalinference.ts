@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -158,7 +159,7 @@ export interface TemplateGroup {
 }
 export type TemplateGroupList = TemplateGroup[];
 export interface CroppingConfig {
-  templateGroups?: TemplateGroup[];
+  templateGroups?: TemplateGroup[] | undefined;
 }
 export type ResourceDescription = string;
 export type FixtureId = string;
@@ -166,8 +167,8 @@ export interface DataSourceConfiguration {
   fixtureId: string;
 }
 export interface ClippingConfig {
-  callbackMetadata?: string;
-  dataSourceConfiguration?: DataSourceConfiguration;
+  callbackMetadata?: string | undefined;
+  dataSourceConfiguration?: DataSourceConfiguration | undefined;
 }
 export type TranscriptionLanguage =
   | "eng"
@@ -188,24 +189,39 @@ export type DictionaryId = string;
 export type ProfanityFilterMode = "DISABLED" | "CENSOR" | "DROP" | (string & {});
 export interface SubtitlingConfig {
   language: TranscriptionLanguage;
-  aspectRatio?: AspectRatio;
-  dictionary?: string;
-  profanityFilter?: ProfanityFilterMode;
+  aspectRatio?: AspectRatio | undefined;
+  dictionary?: string | undefined;
+  profanityFilter?: ProfanityFilterMode | undefined;
 }
 export type SummaryGenerationMode = "ENABLED" | "DISABLED" | (string & {});
 export type ExtendedAnalysisMode = "ENABLED" | "DISABLED" | (string & {});
 export interface ContextualMetadataConfig {
-  summaryGeneration?: SummaryGenerationMode;
-  extendedAnalysis?: ExtendedAnalysisMode;
+  summaryGeneration?: SummaryGenerationMode | undefined;
+  extendedAnalysis?: ExtendedAnalysisMode | undefined;
 }
 export type OutputConfig =
-  | { cropping: CroppingConfig; clipping?: never; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping: ClippingConfig; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig; contextualMetadata?: never }
   | {
-      cropping?: never;
-      clipping?: never;
-      subtitling?: never;
+      cropping: CroppingConfig;
+      clipping?: undefined;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping: ClippingConfig;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling: SubtitlingConfig;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling?: undefined;
       contextualMetadata: ContextualMetadataConfig;
     };
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -213,14 +229,14 @@ export interface CreateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateOutputList = CreateOutput[];
 export interface AssociateFeedRequest {
   id: string;
   associatedResourceName: string;
   outputs: CreateOutput[];
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type FeedArn = string;
 export interface AssociateFeedResponse {
@@ -235,8 +251,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateDictionaryRequest {
   name: string;
   language: DictionaryLanguage;
-  entries?: string;
-  tags?: { [key: string]: string | undefined };
+  entries?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DictionaryArn = string;
 export type DictionaryStatus =
@@ -253,23 +269,23 @@ export interface CreateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IamRoleArn = string;
 export interface CreateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   outputs: CreateOutput[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringList = string[];
 export interface GetOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type GetOutputList = GetOutput[];
 export type FeedStatus =
@@ -290,10 +306,10 @@ export interface CreateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteDictionaryRequest {
   id: string;
@@ -318,7 +334,7 @@ export interface DeleteFeedPolicyResponse {}
 export interface DisassociateFeedRequest {
   id: string;
   associatedResourceName: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DisassociateFeedResponse {
   arn: string;
@@ -328,7 +344,7 @@ export interface ExportDictionaryEntriesRequest {
   id: string;
 }
 export interface ExportDictionaryEntriesResponse {
-  entries?: string;
+  entries?: string | undefined;
 }
 export interface GetDictionaryRequest {
   id: string;
@@ -339,8 +355,8 @@ export interface GetDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedRequest {
   id: string;
@@ -351,10 +367,10 @@ export interface GetFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedPolicyRequest {
   id: string;
@@ -367,21 +383,21 @@ export interface GetFixtureRequest {
   fixtureId: string;
 }
 export interface Competitor {
-  name?: string;
-  isHome?: boolean;
+  name?: string | undefined;
+  isHome?: boolean | undefined;
 }
 export type CompetitorList = Competitor[];
 export interface GetFixtureResponse {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export interface ListDictionariesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DictionarySummary {
   arn: string;
@@ -393,30 +409,30 @@ export interface DictionarySummary {
 export type DictionarySummaryList = DictionarySummary[];
 export interface ListDictionariesResponse {
   dictionaries: DictionarySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFeedsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FeedSummary {
   arn: string;
   id: string;
   name: string;
-  association?: FeedAssociation;
+  association?: FeedAssociation | undefined;
   status: FeedStatus;
 }
 export type FeedSummaryList = FeedSummary[];
 export interface ListFeedsResponse {
   feeds: FeedSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutFeedPolicyRequest {
   id: string;
@@ -436,23 +452,23 @@ export type SearchFilterList = SearchFilter[];
 export interface SearchFixturesRequest {
   sport: DataSourceSport;
   startDate: string;
-  endDate?: string;
-  filters?: SearchFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  endDate?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FixtureSummary {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export type FixtureSummaryList = FixtureSummary[];
 export interface SearchFixturesResponse {
   fixtures: FixtureSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -467,9 +483,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDictionaryRequest {
   id: string;
-  name?: string;
-  language?: DictionaryLanguage;
-  entries?: string;
+  name?: string | undefined;
+  language?: DictionaryLanguage | undefined;
+  entries?: string | undefined;
 }
 export interface UpdateDictionaryResponse {
   name: string;
@@ -477,20 +493,20 @@ export interface UpdateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type UpdateOutputList = UpdateOutput[];
 export interface UpdateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   id: string;
   outputs: UpdateOutput[];
 }
@@ -500,10 +516,10 @@ export interface UpdateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssociateFeedError =
   | AccessDeniedException
@@ -530,7 +546,7 @@ export type AssociateFeedError =
  * Also note that you can't change the feed name with AssociateFeed. Instead, use UpdateFeed.
  */
 export const associateFeed: API.OperationMethod<
-  AssociateFeedRequest,
+  AssociateFeedRequest & RegionInput,
   AssociateFeedResponse,
   AssociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -565,7 +581,7 @@ export type CreateDictionaryError =
  * Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output.
  */
 export const createDictionary: API.OperationMethod<
-  CreateDictionaryRequest,
+  CreateDictionaryRequest & RegionInput,
   CreateDictionaryResponse,
   CreateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +617,7 @@ export type CreateFeedError =
  * The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
  */
 export const createFeed: API.OperationMethod<
-  CreateFeedRequest,
+  CreateFeedRequest & RegionInput,
   CreateFeedResponse,
   CreateFeedError,
   Credentials | HttpClient.HttpClient
@@ -635,7 +651,7 @@ export type DeleteDictionaryError =
  * Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
  */
 export const deleteDictionary: API.OperationMethod<
-  DeleteDictionaryRequest,
+  DeleteDictionaryRequest & RegionInput,
   DeleteDictionaryResponse,
   DeleteDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -669,7 +685,7 @@ export type DeleteFeedError =
  * Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide.
  */
 export const deleteFeed: API.OperationMethod<
-  DeleteFeedRequest,
+  DeleteFeedRequest & RegionInput,
   DeleteFeedResponse,
   DeleteFeedError,
   Credentials | HttpClient.HttpClient
@@ -702,7 +718,7 @@ export type DeleteFeedPolicyError =
  * Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted.
  */
 export const deleteFeedPolicy: API.OperationMethod<
-  DeleteFeedPolicyRequest,
+  DeleteFeedPolicyRequest & RegionInput,
   DeleteFeedPolicyResponse,
   DeleteFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -735,7 +751,7 @@ export type DisassociateFeedError =
  * Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
  */
 export const disassociateFeed: API.OperationMethod<
-  DisassociateFeedRequest,
+  DisassociateFeedRequest & RegionInput,
   DisassociateFeedResponse,
   DisassociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -768,7 +784,7 @@ export type ExportDictionaryEntriesError =
  * Exports the entries from the specified dictionary.
  */
 export const exportDictionaryEntries: API.OperationMethod<
-  ExportDictionaryEntriesRequest,
+  ExportDictionaryEntriesRequest & RegionInput,
   ExportDictionaryEntriesResponse,
   ExportDictionaryEntriesError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +816,7 @@ export type GetDictionaryError =
  * Retrieves information about the specified dictionary.
  */
 export const getDictionary: API.OperationMethod<
-  GetDictionaryRequest,
+  GetDictionaryRequest & RegionInput,
   GetDictionaryResponse,
   GetDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +847,7 @@ export type GetFeedError =
  * Retrieves information about the specified feed.
  */
 export const getFeed: API.OperationMethod<
-  GetFeedRequest,
+  GetFeedRequest & RegionInput,
   GetFeedResponse,
   GetFeedError,
   Credentials | HttpClient.HttpClient
@@ -862,7 +878,7 @@ export type GetFeedPolicyError =
  * Retrieves the resource-based policy attached to the specified feed.
  */
 export const getFeedPolicy: API.OperationMethod<
-  GetFeedPolicyRequest,
+  GetFeedPolicyRequest & RegionInput,
   GetFeedPolicyResponse,
   GetFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +912,7 @@ export type GetFixtureError =
  * Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
  */
 export const getFixture: API.OperationMethod<
-  GetFixtureRequest,
+  GetFixtureRequest & RegionInput,
   GetFixtureResponse,
   GetFixtureError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +945,7 @@ export type ListDictionariesError =
  * Lists the dictionaries in your account.
  */
 export const listDictionaries: API.PaginatedOperationMethod<
-  ListDictionariesRequest,
+  ListDictionariesRequest & RegionInput,
   ListDictionariesResponse,
   ListDictionariesError,
   Credentials | HttpClient.HttpClient,
@@ -967,7 +983,7 @@ export type ListFeedsError =
  * Displays a list of feeds that belong to this AWS account.
  */
 export const listFeeds: API.PaginatedOperationMethod<
-  ListFeedsRequest,
+  ListFeedsRequest & RegionInput,
   ListFeedsResponse,
   ListFeedsError,
   Credentials | HttpClient.HttpClient,
@@ -1006,7 +1022,7 @@ export type ListTagsForResourceError =
  * List all tags that are on an Elemental Inference resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1039,7 +1055,7 @@ export type PutFeedPolicyError =
  * Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed.
  */
 export const putFeedPolicy: API.OperationMethod<
-  PutFeedPolicyRequest,
+  PutFeedPolicyRequest & RegionInput,
   PutFeedPolicyResponse,
   PutFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1089,7 @@ export type SearchFixturesError =
  * Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
  */
 export const searchFixtures: API.PaginatedOperationMethod<
-  SearchFixturesRequest,
+  SearchFixturesRequest & RegionInput,
   SearchFixturesResponse,
   SearchFixturesError,
   Credentials | HttpClient.HttpClient,
@@ -1114,7 +1130,7 @@ export type TagResourceError =
  * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1148,7 +1164,7 @@ export type UntagResourceError =
  * Deletes specified tags from the specified resource in the current region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1182,7 +1198,7 @@ export type UpdateDictionaryError =
  * Updates the specified dictionary.
  */
 export const updateDictionary: API.OperationMethod<
-  UpdateDictionaryRequest,
+  UpdateDictionaryRequest & RegionInput,
   UpdateDictionaryResponse,
   UpdateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -1223,7 +1239,7 @@ export type UpdateFeedError =
  * If you want to patch the array of outputs to make selective additions, use AssociateFeed.
  */
 export const updateFeed: API.OperationMethod<
-  UpdateFeedRequest,
+  UpdateFeedRequest & RegionInput,
   UpdateFeedResponse,
   UpdateFeedError,
   Credentials | HttpClient.HttpClient

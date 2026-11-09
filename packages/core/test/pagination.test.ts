@@ -1,7 +1,13 @@
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import { extractItems, nextLink, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
+import {
+  extractItems,
+  nextLink,
+  paginateCursor,
+  paginateKeyset,
+  type PaginatedTrait,
+} from "../src/pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -197,5 +203,69 @@ describe("nextLink", () => {
   test("is undefined without a next link", () => {
     expect(nextLink('<https://x.test/a?page=1>; rel="first"')).toBeUndefined();
     expect(nextLink(undefined)).toBeUndefined();
+  });
+});
+
+describe("keyset pagination", () => {
+  const keyset: PaginatedTrait = {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "createdAt",
+    items: "dicts",
+    pageSize: "pagination.maxObjects",
+  };
+  // Newest first, as Modal lists objects.
+  const all = [50, 40, 30, 20, 10].map((createdAt) => ({ name: `d${createdAt}`, createdAt }));
+
+  const list =
+    (requests: unknown[]) =>
+    (input: {
+      environmentName: string;
+      pagination?: { maxObjects?: number; createdBefore?: number };
+    }) =>
+      Effect.sync(() => {
+        requests.push(input);
+        const before = input.pagination?.createdBefore ?? Infinity;
+        const max = input.pagination?.maxObjects ?? 100;
+        return { dicts: all.filter((d) => d.createdAt < before).slice(0, max) };
+      });
+
+  test("starts each page after the last item's key, in the nested input member", async () => {
+    const requests: unknown[] = [];
+    const names = await Effect.runPromise(
+      Stream.runCollect(
+        extractItems(
+          paginateKeyset(
+            list(requests),
+            { environmentName: "main", pagination: { maxObjects: 2 } },
+            keyset,
+          ),
+          "dicts",
+        ),
+      ),
+    );
+    expect(Array.from(names as Iterable<{ name: string }>).map((d) => d.name)).toEqual([
+      "d50",
+      "d40",
+      "d30",
+      "d20",
+      "d10",
+    ]);
+    expect(requests).toEqual([
+      { environmentName: "main", pagination: { maxObjects: 2 } },
+      { environmentName: "main", pagination: { maxObjects: 2, createdBefore: 40 } },
+      { environmentName: "main", pagination: { maxObjects: 2, createdBefore: 20 } },
+    ]);
+  });
+
+  test("without a page size, ends on an empty page", async () => {
+    const requests: unknown[] = [];
+    await Effect.runPromise(
+      Stream.runDrain(paginateKeyset(list(requests), { environmentName: "main" }, keyset)),
+    );
+    expect(requests).toEqual([
+      { environmentName: "main" },
+      { environmentName: "main", pagination: { createdBefore: 10 } },
+    ]);
   });
 });

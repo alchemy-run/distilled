@@ -42,9 +42,9 @@ export interface DeleteManufacturingDataServiceRequest {
 }
 export interface DeleteManufacturingDataServiceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetManufacturingDataServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -61,17 +61,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetManufacturingDataServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -87,69 +87,69 @@ export type ProvisioningState =
 /** The properties related to Aks Resource */
 export interface AksProfile {
   /** Resource Id of AKS Resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties related to Storage Resource */
 export interface StorageProfile {
   /** Resource Id of Storage Resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties related to Database Resource */
 export interface DatabaseProfile {
   /** Resource Id of Cosmos Resource */
-  cosmosId?: string;
+  cosmosId?: string | undefined;
 }
 /** The properties related to Azure Data Explorer (Adx) Resource */
 export interface AdxProfile {
   /** Resource Id of Adx Resource */
-  id?: string;
+  id?: string | undefined;
   /** Uri of Adx Resource */
-  uri?: string;
+  uri?: string | undefined;
   /** Data Ingestion Uri of Adx Resource */
-  dataIngestionUri?: string;
+  dataIngestionUri?: string | undefined;
 }
 /** The properties related to Azure Redis Cache Resource */
 export interface RedisProfile {
   /** Resource Id of Azure Redis Cache Resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties related to Monitoring Resource */
 export interface MonitoringProfile {
   /** Resource Id of Application Insights Resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties related to EventHub Resource */
 export interface EventHubProfile {
   /** Resource Id of Adx Instance */
-  adxInstanceId?: string;
+  adxInstanceId?: string | undefined;
   /** Host Name */
-  hostName?: string;
+  hostName?: string | undefined;
 }
 /** The properties related to Azure Function App Resource */
 export interface FunctionAppProfile {
   /** Resource Id of Azure Function App Resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties related to OpenAI Resource */
 export interface OpenAIProfile {
   /** Resource Id of OpenAI Resource */
-  id?: string;
+  id?: string | undefined;
   /** GPT Model Name */
-  gptModelName?: string;
+  gptModelName?: string | undefined;
   /** GPT Model Version */
-  gptModelVersion?: string;
+  gptModelVersion?: string | undefined;
   /** GPT Model Capacity */
-  gptModelCapacity?: number;
+  gptModelCapacity?: number | undefined;
   /** GPT Model SKU Name */
-  gptModelSkuName?: string;
+  gptModelSkuName?: string | undefined;
   /** Embedding Model Name */
-  embeddingModelName?: string;
+  embeddingModelName?: string | undefined;
   /** Embedding Model Version */
-  embeddingModelVersion?: string;
+  embeddingModelVersion?: string | undefined;
   /** Embedding Model SKU Name */
-  embeddingModelSkuName?: string;
+  embeddingModelSkuName?: string | undefined;
   /** Embedding Model Capacity */
-  embeddingModelCapacity?: number;
+  embeddingModelCapacity?: number | undefined;
 }
 /** Configuration of the managed resource group associated with the resource. */
 export interface ManagedResourceGroupConfiguration {
@@ -193,7 +193,7 @@ export interface UserManagedOpenAIProfile {
   /** Embedding Model Deployment Name */
   embeddingModelDeploymentName: string;
   /** Embedding Model Type */
-  embeddingModelType?: string;
+  embeddingModelType?: string | undefined;
 }
 /** The properties related to Deny Assignment Exclusions */
 export interface DenyAssignmentExclusion {
@@ -211,53 +211,53 @@ export type RedundancyState = "Zonal" | "None";
 /** Details of the ManufacturingPlatform MdsResource. */
 export interface MdsResourceProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Mds Resource Version. */
-  version?: string;
+  version?: string | undefined;
   /** Enable Copilot. */
-  enableCopilot?: boolean;
+  enableCopilot?: boolean | undefined;
   /** Enable Diagnostic Settings. */
-  enableDiagnosticSettings?: boolean;
+  enableDiagnosticSettings?: boolean | undefined;
   /** AAD Application Id. */
   aadApplicationId: string;
   /** AKS Admin Group Id. */
-  aksAdminGroupId?: string;
+  aksAdminGroupId?: string | undefined;
   /** Service Url */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** Profile of AKS Created. */
-  aksProfile?: AksProfile;
+  aksProfile?: AksProfile | undefined;
   /** Profile of Storage Created. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Profile of Database Created. */
-  databaseProfile?: DatabaseProfile;
+  databaseProfile?: DatabaseProfile | undefined;
   /** Profile of Adx Created. */
-  adxProfile?: AdxProfile;
+  adxProfile?: AdxProfile | undefined;
   /** Profile of Azure Redis Created. */
-  redisProfile?: RedisProfile;
+  redisProfile?: RedisProfile | undefined;
   /** Profile of Monitoring Resource Created. */
-  monitoringProfile?: MonitoringProfile;
+  monitoringProfile?: MonitoringProfile | undefined;
   /** Profile of EventHub Resource. */
-  eventHubProfile?: EventHubProfile;
+  eventHubProfile?: EventHubProfile | undefined;
   /** Profile of Function App Resource. */
-  functionAppProfile?: FunctionAppProfile;
+  functionAppProfile?: FunctionAppProfile | undefined;
   /** Profile of OpenAI Resource. */
-  openAIProfile?: OpenAIProfile;
+  openAIProfile?: OpenAIProfile | undefined;
   /** Configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** Managed On Behalf Of Configuration. */
-  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration | undefined;
   /** Profile of CMK Settings. */
-  cmkProfile?: CmkProfile;
+  cmkProfile?: CmkProfile | undefined;
   /** Profile of Fabric resources. */
-  fabricProfile?: FabricProfile;
+  fabricProfile?: FabricProfile | undefined;
   /** Profile of User Managed OpenAI Resource. */
-  userManagedOpenAIProfile?: UserManagedOpenAIProfile;
+  userManagedOpenAIProfile?: UserManagedOpenAIProfile | undefined;
   /** Deny Assignments exclusion list. */
-  denyAssignmentExclusions?: MdsResourcePropertiesDenyAssignmentExclusionsList;
+  denyAssignmentExclusions?: MdsResourcePropertiesDenyAssignmentExclusionsList | undefined;
   /** State of the resource */
-  resourceState?: ResourceState;
+  resourceState?: ResourceState | undefined;
   /** Zone redundancy state for resources */
-  redundancyState?: RedundancyState;
+  redundancyState?: RedundancyState | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -268,20 +268,20 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetManufacturingDataServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -289,33 +289,33 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface GetManufacturingDataServiceResponseSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface GetManufacturingDataServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManufacturingDataServiceResponseTagsMap;
+  tags?: GetManufacturingDataServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourceProperties;
+  properties?: MdsResourceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetManufacturingDataServiceResponseIdentity;
+  identity?: GetManufacturingDataServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: GetManufacturingDataServiceResponseSku;
+  sku?: GetManufacturingDataServiceResponseSku | undefined;
 }
 export interface ListManufacturingDataServiceAvailableVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -358,23 +358,23 @@ export type MdsResourceSku = GetManufacturingDataServiceResponseSku;
 /** A ManufacturingPlatformProviderHub resource */
 export interface MdsResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MdsResourceTagsMap;
+  tags?: MdsResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourceProperties;
+  properties?: MdsResourceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetManufacturingDataServiceResponseIdentity;
+  identity?: GetManufacturingDataServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: GetManufacturingDataServiceResponseSku;
+  sku?: GetManufacturingDataServiceResponseSku | undefined;
 }
 /** The MdsResource items on this page */
 export type MdsResourceListResultValueList = Array<MdsResource>;
@@ -383,7 +383,7 @@ export interface MdsResourceListResult {
   /** The MdsResource items on this page */
   value: MdsResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManufacturingDataServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -393,13 +393,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -408,23 +408,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManufacturingDataServicesCreateOrUpdateRequestTagsMap = {
@@ -433,21 +433,21 @@ export type ManufacturingDataServicesCreateOrUpdateRequestTagsMap = {
 /** The properties related to OpenAI Resource */
 export interface OpenAIProfileInput {
   /** GPT Model Name */
-  gptModelName?: string;
+  gptModelName?: string | undefined;
   /** GPT Model Version */
-  gptModelVersion?: string;
+  gptModelVersion?: string | undefined;
   /** GPT Model Capacity */
-  gptModelCapacity?: number;
+  gptModelCapacity?: number | undefined;
   /** GPT Model SKU Name */
-  gptModelSkuName?: string;
+  gptModelSkuName?: string | undefined;
   /** Embedding Model Name */
-  embeddingModelName?: string;
+  embeddingModelName?: string | undefined;
   /** Embedding Model Version */
-  embeddingModelVersion?: string;
+  embeddingModelVersion?: string | undefined;
   /** Embedding Model SKU Name */
-  embeddingModelSkuName?: string;
+  embeddingModelSkuName?: string | undefined;
   /** Embedding Model Capacity */
-  embeddingModelCapacity?: number;
+  embeddingModelCapacity?: number | undefined;
 }
 /** The properties related to User Managed OpenAI Resource */
 export interface UserManagedOpenAIProfileInput {
@@ -463,29 +463,29 @@ export type MdsResourcePropertiesInputDenyAssignmentExclusionsList = Array<DenyA
 /** Details of the ManufacturingPlatform MdsResource. */
 export interface MdsResourcePropertiesInput {
   /** Mds Resource Version. */
-  version?: string;
+  version?: string | undefined;
   /** Enable Copilot. */
-  enableCopilot?: boolean;
+  enableCopilot?: boolean | undefined;
   /** Enable Diagnostic Settings. */
-  enableDiagnosticSettings?: boolean;
+  enableDiagnosticSettings?: boolean | undefined;
   /** AAD Application Id. */
   aadApplicationId: string;
   /** AKS Admin Group Id. */
-  aksAdminGroupId?: string;
+  aksAdminGroupId?: string | undefined;
   /** Profile of OpenAI Resource. */
-  openAIProfile?: OpenAIProfileInput;
+  openAIProfile?: OpenAIProfileInput | undefined;
   /** Profile of CMK Settings. */
-  cmkProfile?: CmkProfile;
+  cmkProfile?: CmkProfile | undefined;
   /** Profile of Fabric resources. */
-  fabricProfile?: FabricProfile;
+  fabricProfile?: FabricProfile | undefined;
   /** Profile of User Managed OpenAI Resource. */
-  userManagedOpenAIProfile?: UserManagedOpenAIProfileInput;
+  userManagedOpenAIProfile?: UserManagedOpenAIProfileInput | undefined;
   /** Deny Assignments exclusion list. */
-  denyAssignmentExclusions?: MdsResourcePropertiesInputDenyAssignmentExclusionsList;
+  denyAssignmentExclusions?: MdsResourcePropertiesInputDenyAssignmentExclusionsList | undefined;
   /** State of the resource */
-  resourceState?: ResourceState | (string & {});
+  resourceState?: ResourceState | (string & {}) | undefined;
   /** Zone redundancy state for resources */
-  redundancyState?: RedundancyState | (string & {});
+  redundancyState?: RedundancyState | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -496,19 +496,19 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManufacturingDataServicesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** The resource model definition representing SKU */
 export interface ManufacturingDataServicesCreateOrUpdateRequestSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface ManufacturingDataServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -518,15 +518,15 @@ export interface ManufacturingDataServicesCreateOrUpdateRequest {
   /** Name. */
   mdsResourceName: string;
   /** Resource tags. */
-  tags?: ManufacturingDataServicesCreateOrUpdateRequestTagsMap;
+  tags?: ManufacturingDataServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourcePropertiesInput;
+  properties?: MdsResourcePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ManufacturingDataServicesCreateOrUpdateRequestIdentity;
+  identity?: ManufacturingDataServicesCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: ManufacturingDataServicesCreateOrUpdateRequestSku;
+  sku?: ManufacturingDataServicesCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type ManufacturingDataServicesCreateOrUpdateResponseTagsMap = {
@@ -540,27 +540,27 @@ export type ManufacturingDataServicesCreateOrUpdateResponseSku =
   GetManufacturingDataServiceResponseSku;
 export interface ManufacturingDataServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManufacturingDataServicesCreateOrUpdateResponseTagsMap;
+  tags?: ManufacturingDataServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourceProperties;
+  properties?: MdsResourceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetManufacturingDataServiceResponseIdentity;
+  identity?: GetManufacturingDataServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: GetManufacturingDataServiceResponseSku;
+  sku?: GetManufacturingDataServiceResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType =
@@ -577,9 +577,14 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUser
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
+    | (string & {})
+    | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap
+    | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type AzureResourceManagerCommonTypesSkuUpdateTier =
@@ -590,35 +595,35 @@ export type AzureResourceManagerCommonTypesSkuUpdateTier =
 /** The resource model definition representing SKU */
 export interface AzureResourceManagerCommonTypesSkuUpdate {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  name?: string;
+  name?: string | undefined;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: AzureResourceManagerCommonTypesSkuUpdateTier | (string & {});
+  tier?: AzureResourceManagerCommonTypesSkuUpdateTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateManufacturingDataServiceRequestTagsMap = { [key: string]: string | undefined };
 /** The properties related to Fabric */
 export interface FabricProfileUpdate {
   /** Azure Key Vault Uri */
-  keyUri?: string;
+  keyUri?: string | undefined;
   /** URI of One Lake */
-  oneLakeUri?: string;
+  oneLakeUri?: string | undefined;
   /** One Lake Path */
-  oneLakePath?: string;
+  oneLakePath?: string | undefined;
 }
 /** The properties related to User Managed OpenAI Resource */
 export interface UserManagedOpenAIProfileUpdate {
   /** Resource Id of OpenAI Resource */
-  id?: string;
+  id?: string | undefined;
   /** GPT Model Deployment Name */
-  gptModelDeploymentName?: string;
+  gptModelDeploymentName?: string | undefined;
   /** Embedding Model Deployment Name */
-  embeddingModelDeploymentName?: string;
+  embeddingModelDeploymentName?: string | undefined;
 }
 /** Deny Assignments exclusion list. */
 export type MdsResourceUpdatePropertiesInputDenyAssignmentExclusionsList =
@@ -626,21 +631,23 @@ export type MdsResourceUpdatePropertiesInputDenyAssignmentExclusionsList =
 /** The updatable properties of the MdsResource. */
 export interface MdsResourceUpdatePropertiesInput {
   /** Mds Resource Version. */
-  version?: string;
+  version?: string | undefined;
   /** Enable Copilot. */
-  enableCopilot?: boolean;
+  enableCopilot?: boolean | undefined;
   /** Enable Diagnostic Settings. */
-  enableDiagnosticSettings?: boolean;
+  enableDiagnosticSettings?: boolean | undefined;
   /** Profile of OpenAI Resource. */
-  openAIProfile?: OpenAIProfileInput;
+  openAIProfile?: OpenAIProfileInput | undefined;
   /** Profile of Fabric resources. */
-  fabricProfile?: FabricProfileUpdate;
+  fabricProfile?: FabricProfileUpdate | undefined;
   /** Profile of User Managed OpenAI Resource. */
-  userManagedOpenAIProfile?: UserManagedOpenAIProfileUpdate;
+  userManagedOpenAIProfile?: UserManagedOpenAIProfileUpdate | undefined;
   /** Deny Assignments exclusion list. */
-  denyAssignmentExclusions?: MdsResourceUpdatePropertiesInputDenyAssignmentExclusionsList;
+  denyAssignmentExclusions?:
+    | MdsResourceUpdatePropertiesInputDenyAssignmentExclusionsList
+    | undefined;
   /** State of the resource */
-  resourceState?: ResourceState | (string & {});
+  resourceState?: ResourceState | (string & {}) | undefined;
 }
 export interface UpdateManufacturingDataServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,13 +657,13 @@ export interface UpdateManufacturingDataServiceRequest {
   /** Name. */
   mdsResourceName: string;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
-  sku?: AzureResourceManagerCommonTypesSkuUpdate;
+  sku?: AzureResourceManagerCommonTypesSkuUpdate | undefined;
   /** Resource tags. */
-  tags?: UpdateManufacturingDataServiceRequestTagsMap;
+  tags?: UpdateManufacturingDataServiceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourceUpdatePropertiesInput;
+  properties?: MdsResourceUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateManufacturingDataServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -667,27 +674,27 @@ export type UpdateManufacturingDataServiceResponseIdentity =
 export type UpdateManufacturingDataServiceResponseSku = GetManufacturingDataServiceResponseSku;
 export interface UpdateManufacturingDataServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManufacturingDataServiceResponseTagsMap;
+  tags?: UpdateManufacturingDataServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MdsResourceProperties;
+  properties?: MdsResourceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetManufacturingDataServiceResponseIdentity;
+  identity?: GetManufacturingDataServiceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: GetManufacturingDataServiceResponseSku;
+  sku?: GetManufacturingDataServiceResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteManufacturingDataServiceError = AzureOpError;
 /** Delete a MdsResource */

@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -99,22 +99,22 @@ export interface CancelProjectsPatchJobsRequest {
   /** Required. Name of the patch in the form `projects/*\/patchJobs/*` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type PatchRolloutModeEnum = "MODE_UNSPECIFIED" | "ZONE_BY_ZONE" | "CONCURRENT_ZONES";
 /** Message encapsulating a value that can be either absolute ("fixed") or relative ("percent") to a value. */
 export interface FixedOrPercent {
   /** Specifies the relative value defined as a percentage, which will be multiplied by a reference value. */
-  percent?: number;
+  percent?: number | undefined;
   /** Specifies a fixed value. */
-  fixed?: number;
+  fixed?: number | undefined;
 }
 /** Patch rollout configuration specifications. Contains details on the concurrency control when applying patch(es) to all targeted VMs. */
 export interface PatchRollout {
   /** Mode of the patch rollout. */
-  mode?: PatchRolloutModeEnum | (string & {});
+  mode?: PatchRolloutModeEnum | (string & {}) | undefined;
   /** The maximum number (or percentage) of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up. During patching, a VM is considered disrupted from the time the agent is notified to begin until patching has completed. This disruption time includes the time to complete reboot and any post-patch steps. A VM contributes to the disruption budget if its patching operation fails either when applying the patches, running pre or post patch steps, or if it fails to respond with a success notification before timing out. VMs that are not running or do not have an active agent do not count toward this disruption budget. For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone. For example, if the disruption budget has a fixed value of `10`, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops. */
-  disruptionBudget?: FixedOrPercent;
+  disruptionBudget?: FixedOrPercent | undefined;
 }
 export type PatchJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -131,56 +131,56 @@ export type StringMap = { [key: string]: string | undefined };
 /** Targets a group of VM instances by using their [assigned labels](https://cloud.google.com/compute/docs/labeling-resources). Labels are key-value pairs. A `GroupLabel` is a combination of labels that is used to target VMs for a patch job. For example, a patch job can target VMs that have the following `GroupLabel`: `{"env":"test", "app":"web"}`. This means that the patch job is applied to VMs that have both the labels `env=test` and `app=web`. */
 export interface PatchInstanceFilterGroupLabel {
   /** Compute Engine instance labels that must be present for a VM instance to be targeted by this filter. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type PatchInstanceFilterGroupLabelList = Array<PatchInstanceFilterGroupLabel>;
 /** A filter to target VM instances for patching. The targeted VMs must meet all criteria specified. So if both labels and zones are specified, the patch job targets only VMs with those labels and in those zones. */
 export interface PatchInstanceFilter {
   /** Target all VM instances in the project. If true, no other criteria is permitted. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Targets any of the VM instances specified. Instances are specified by their URI in the form `zones/[ZONE]/instances/[INSTANCE_NAME]`, `projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]`, or `https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]` */
-  instances?: StringList;
+  instances?: StringList | undefined;
   /** Targets VM instances matching ANY of these GroupLabels. This allows targeting of disparate groups of VM instances. */
-  groupLabels?: PatchInstanceFilterGroupLabelList;
+  groupLabels?: PatchInstanceFilterGroupLabelList | undefined;
   /** Targets VMs whose name starts with one of these prefixes. Similar to labels, this is another way to group VMs when targeting configs, for example prefix="prod-". */
-  instanceNamePrefixes?: StringList;
+  instanceNamePrefixes?: StringList | undefined;
   /** Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone. */
-  zones?: StringList;
+  zones?: StringList | undefined;
 }
 /** A summary of the current patch state across all instances that this patch job affects. Contains counts of instances in different states. These states map to `InstancePatchState`. List patch job instance details to see the specific states of each instance. */
 export interface PatchJobInstanceDetailsSummary {
   /** Number of instances that do not appear to be running the agent. Check to ensure that the agent is installed, running, and able to communicate with the service. */
-  noAgentDetectedInstanceCount?: string;
+  noAgentDetectedInstanceCount?: string | undefined;
   /** Number of instances that exceeded the time out while applying the patch. */
-  timedOutInstanceCount?: string;
+  timedOutInstanceCount?: string | undefined;
   /** Number of instances that require reboot. */
-  succeededRebootRequiredInstanceCount?: string;
+  succeededRebootRequiredInstanceCount?: string | undefined;
   /** Number of instances that are applying patches. */
-  applyingPatchesInstanceCount?: string;
+  applyingPatchesInstanceCount?: string | undefined;
   /** Number of instances that have started. */
-  startedInstanceCount?: string;
+  startedInstanceCount?: string | undefined;
   /** Number of instances notified about patch job. */
-  notifiedInstanceCount?: string;
+  notifiedInstanceCount?: string | undefined;
   /** Number of instances that failed. */
-  failedInstanceCount?: string;
+  failedInstanceCount?: string | undefined;
   /** Number of instances that have completed successfully. */
-  succeededInstanceCount?: string;
+  succeededInstanceCount?: string | undefined;
   /** Number of instances that have acked and will start shortly. */
-  ackedInstanceCount?: string;
+  ackedInstanceCount?: string | undefined;
   /** Number of instances that are inactive. */
-  inactiveInstanceCount?: string;
+  inactiveInstanceCount?: string | undefined;
   /** Number of instances that were skipped during patching. */
-  skippedInstanceCount?: string;
+  skippedInstanceCount?: string | undefined;
   /** Number of instances pending patch job. */
-  pendingInstanceCount?: string;
+  pendingInstanceCount?: string | undefined;
   /** Number of instances that are running the pre-patch step. */
-  prePatchStepInstanceCount?: string;
+  prePatchStepInstanceCount?: string | undefined;
   /** Number of instances that are running the post-patch step. */
-  postPatchStepInstanceCount?: string;
+  postPatchStepInstanceCount?: string | undefined;
   /** Number of instances rebooting. */
-  rebootingInstanceCount?: string;
+  rebootingInstanceCount?: string | undefined;
   /** Number of instances that are downloading patches. */
-  downloadingPatchesInstanceCount?: string;
+  downloadingPatchesInstanceCount?: string | undefined;
 }
 export type ExecStepConfigInterpreterEnum =
   | "INTERPRETER_UNSPECIFIED"
@@ -191,29 +191,29 @@ export type IntegerList = Array<number>;
 /** Cloud Storage object representation. */
 export interface GcsObject {
   /** Required. Name of the Cloud Storage object. */
-  object?: string;
+  object?: string | undefined;
   /** Required. Bucket of the Cloud Storage object. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Required. Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change. */
-  generationNumber?: string;
+  generationNumber?: string | undefined;
 }
 /** Common configurations for an ExecStep. */
 export interface ExecStepConfig {
   /** An absolute path to the executable on the VM. */
-  localPath?: string;
+  localPath?: string | undefined;
   /** The script interpreter to use to run the script. If no interpreter is specified the script will be executed directly, which will likely only succeed for scripts with [shebang lines] (https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
-  interpreter?: ExecStepConfigInterpreterEnum | (string & {});
+  interpreter?: ExecStepConfigInterpreterEnum | (string & {}) | undefined;
   /** Defaults to [0]. A list of possible return values that the execution can return to indicate a success. */
-  allowedSuccessCodes?: IntegerList;
+  allowedSuccessCodes?: IntegerList | undefined;
   /** A Cloud Storage object containing the executable. */
-  gcsObject?: GcsObject;
+  gcsObject?: GcsObject | undefined;
 }
 /** A step that runs an executable for a PatchJob. */
 export interface ExecStep {
   /** The ExecStepConfig for all Windows VMs targeted by the PatchJob. */
-  windowsExecStepConfig?: ExecStepConfig;
+  windowsExecStepConfig?: ExecStepConfig | undefined;
   /** The ExecStepConfig for all Linux VMs targeted by the PatchJob. */
-  linuxExecStepConfig?: ExecStepConfig;
+  linuxExecStepConfig?: ExecStepConfig | undefined;
 }
 /** Googet patching is performed by running `googet update`. */
 export type GooSettings = CancelOperationRequest;
@@ -225,23 +225,23 @@ export type PatchConfigRebootConfigEnum =
 /** Yum patching is performed by executing `yum update`. Additional options can be set to control how this is executed. Note that not all settings are supported on all platforms. */
 export interface YumSettings {
   /** Adds the `--security` flag to `yum update`. Not supported on all platforms. */
-  security?: boolean;
+  security?: boolean | undefined;
   /** List of packages to exclude from update. These packages are excluded by using the yum `--exclude` flag. */
-  excludes?: StringList;
+  excludes?: StringList | undefined;
   /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field must not be specified with any other patch configuration fields. */
-  exclusivePackages?: StringList;
+  exclusivePackages?: StringList | undefined;
   /** Will cause patch to run `yum update-minimal` instead. */
-  minimal?: boolean;
+  minimal?: boolean | undefined;
 }
 export type AptSettingsTypeEnum = "TYPE_UNSPECIFIED" | "DIST" | "UPGRADE";
 /** Apt patching is completed by executing `apt-get update && apt-get upgrade`. Additional options can be set to control how this is executed. */
 export interface AptSettings {
   /** List of packages to exclude from update. These packages will be excluded */
-  excludes?: StringList;
+  excludes?: StringList | undefined;
   /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field cannot be specified with any other patch configuration fields. */
-  exclusivePackages?: StringList;
+  exclusivePackages?: StringList | undefined;
   /** By changing the type to DIST, the patching is performed using `apt-get dist-upgrade` instead. */
-  type?: AptSettingsTypeEnum | (string & {});
+  type?: AptSettingsTypeEnum | (string & {}) | undefined;
 }
 export type WindowsUpdateSettingsClassificationsItemEnum =
   | "CLASSIFICATION_UNSPECIFIED"
@@ -260,82 +260,82 @@ export type WindowsUpdateSettingsClassificationsItemEnumList = Array<
 /** Windows patching is performed using the Windows Update Agent. */
 export interface WindowsUpdateSettings {
   /** An exclusive list of kbs to be updated. These are the only patches that will be updated. This field must not be used with other patch configurations. */
-  exclusivePatches?: StringList;
+  exclusivePatches?: StringList | undefined;
   /** List of KBs to exclude from update. */
-  excludes?: StringList;
+  excludes?: StringList | undefined;
   /** Only apply updates of these windows update classifications. If empty, all updates are applied. */
-  classifications?: WindowsUpdateSettingsClassificationsItemEnumList;
+  classifications?: WindowsUpdateSettingsClassificationsItemEnumList | undefined;
 }
 /** Zypper patching is performed by running `zypper patch`. See also https://en.opensuse.org/SDB:Zypper_manual. */
 export interface ZypperSettings {
   /** An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command. This field must not be used with any other patch configuration fields. */
-  exclusivePatches?: StringList;
+  exclusivePatches?: StringList | undefined;
   /** Adds the `--with-update` flag, to `zypper patch`. */
-  withUpdate?: boolean;
+  withUpdate?: boolean | undefined;
   /** Install only patches with these categories. Common categories include security, recommended, and feature. */
-  categories?: StringList;
+  categories?: StringList | undefined;
   /** Install only patches with these severities. Common severities include critical, important, moderate, and low. */
-  severities?: StringList;
+  severities?: StringList | undefined;
   /** Adds the `--with-optional` flag to `zypper patch`. */
-  withOptional?: boolean;
+  withOptional?: boolean | undefined;
   /** List of patches to exclude from update. */
-  excludes?: StringList;
+  excludes?: StringList | undefined;
 }
 /** Patch configuration specifications. Contains details on how to apply the patch(es) to a VM instance. */
 export interface PatchConfig {
   /** The `ExecStep` to run before the patch update. */
-  preStep?: ExecStep;
+  preStep?: ExecStep | undefined;
   /** Goo update settings. Use this setting to override the default `goo` patch rules. */
-  goo?: CancelOperationRequest;
+  goo?: CancelOperationRequest | undefined;
   /** Post-patch reboot settings. */
-  rebootConfig?: PatchConfigRebootConfigEnum | (string & {});
+  rebootConfig?: PatchConfigRebootConfigEnum | (string & {}) | undefined;
   /** Yum update settings. Use this setting to override the default `yum` patch rules. */
-  yum?: YumSettings;
+  yum?: YumSettings | undefined;
   /** Apt update settings. Use this setting to override the default `apt` patch rules. */
-  apt?: AptSettings;
+  apt?: AptSettings | undefined;
   /** Allows the patch job to run on Managed instance groups (MIGs). */
-  migInstancesAllowed?: boolean;
+  migInstancesAllowed?: boolean | undefined;
   /** Optional. Enables enhanced reporting for the patch job: 1. The patch job skips instances that cannot be patched and reports them as `SKIPPED`. An instance cannot be patched for two reasons: 1. The instance runs Container-Optimized OS (COS), which cannot be patched. 2. The instance is part of a managed instance group (MIG), and patching MIG instances is disabled in the patch job's configuration (PatchConfig.migInstancesAllowed is `false`). 2. The patch job is reported as `SUCCEEDED` if it completes without errors, even if some instances are `SKIPPED`. 3. The patch job is reported as `COMPLETED_WITH_INACTIVE_VMS` if it completes without errors, but does not patch instances that are `INACTIVE`. */
-  skipUnpatchableVms?: boolean;
+  skipUnpatchableVms?: boolean | undefined;
   /** Windows update settings. Use this override the default windows patch rules. */
-  windowsUpdate?: WindowsUpdateSettings;
+  windowsUpdate?: WindowsUpdateSettings | undefined;
   /** Zypper update settings. Use this setting to override the default `zypper` patch rules. */
-  zypper?: ZypperSettings;
+  zypper?: ZypperSettings | undefined;
   /** The `ExecStep` to run after the patch update. */
-  postStep?: ExecStep;
+  postStep?: ExecStep | undefined;
 }
 /** A high level representation of a patch job that is either in progress or has completed. Instance details are not included in the job. To paginate through instance details, use `ListPatchJobInstanceDetails`. For more information about patch jobs, see [Creating patch jobs](https://cloud.google.com/compute/docs/os-patch-management/create-patch-job). */
 export interface PatchJob {
   /** Description of the patch job. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Duration of the patch job. After the duration ends, the patch job times out. */
-  duration?: string;
+  duration?: string | undefined;
   /** Rollout strategy being applied. */
-  rollout?: PatchRollout;
+  rollout?: PatchRollout | undefined;
   /** The current state of the PatchJob. */
-  state?: PatchJobStateEnum;
+  state?: PatchJobStateEnum | undefined;
   /** Display name for this patch job. This is not a unique identifier. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Unique identifier for this patch job in the form `projects/*\/patchJobs/*` */
-  name?: string;
+  name?: string | undefined;
   /** Reflects the overall progress of the patch job in the range of 0.0 being no progress to 100.0 being complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Instances to patch. */
-  instanceFilter?: PatchInstanceFilter;
+  instanceFilter?: PatchInstanceFilter | undefined;
   /** Time this patch job was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Summary of instance details. */
-  instanceDetailsSummary?: PatchJobInstanceDetailsSummary;
+  instanceDetailsSummary?: PatchJobInstanceDetailsSummary | undefined;
   /** If this patch job is a dry run, the agent reports that it has finished without running any updates on the VM instance. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** If this patch job failed, this message provides information about the failure. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Output only. Name of the patch deployment that created this patch job. */
-  patchDeployment?: string;
+  patchDeployment?: string | undefined;
   /** Last time this patch job was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Patch configuration being applied. */
-  patchConfig?: PatchConfig;
+  patchConfig?: PatchConfig | undefined;
 }
 export type OSPolicyModeEnum = "MODE_UNSPECIFIED" | "VALIDATION" | "ENFORCEMENT";
 export type OSPolicyResourceExecResourceExecInterpreterEnum =
@@ -346,49 +346,49 @@ export type OSPolicyResourceExecResourceExecInterpreterEnum =
 /** Specifies a file available via some URI. */
 export interface OSPolicyResourceFileRemote {
   /** Required. URI from which to fetch the object. It should contain both the protocol and path following the format `{protocol}://{location}`. */
-  uri?: string;
+  uri?: string | undefined;
   /** SHA256 checksum of the remote file. */
-  sha256Checksum?: string;
+  sha256Checksum?: string | undefined;
 }
 /** Specifies a file available as a Cloud Storage Object. */
 export interface OSPolicyResourceFileGcs {
   /** Required. Bucket of the Cloud Storage object. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Generation number of the Cloud Storage object. */
-  generation?: string;
+  generation?: string | undefined;
   /** Required. Name of the Cloud Storage object. */
-  object?: string;
+  object?: string | undefined;
 }
 /** A remote or local file. */
 export interface OSPolicyResourceFile {
   /** A generic remote file. */
-  remote?: OSPolicyResourceFileRemote;
+  remote?: OSPolicyResourceFileRemote | undefined;
   /** Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified. */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** A local path within the VM to use. */
-  localPath?: string;
+  localPath?: string | undefined;
   /** A Cloud Storage object. */
-  gcs?: OSPolicyResourceFileGcs;
+  gcs?: OSPolicyResourceFileGcs | undefined;
 }
 /** A file or script to execute. */
 export interface OSPolicyResourceExecResourceExec {
   /** An inline script. The size of the script is limited to 32KiB. */
-  script?: string;
+  script?: string | undefined;
   /** Optional arguments to pass to the source during execution. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Required. The script interpreter to use. */
-  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {});
+  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {}) | undefined;
   /** Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 500K bytes. */
-  outputFilePath?: string;
+  outputFilePath?: string | undefined;
   /** A remote or local file. */
-  file?: OSPolicyResourceFile;
+  file?: OSPolicyResourceFile | undefined;
 }
 /** A resource that allows executing scripts on the VM. The `ExecResource` has 2 stages: `validate` and `enforce` and both stages accept a script as an argument to execute. When the `ExecResource` is applied by the agent, it first executes the script in the `validate` stage. The `validate` stage can signal that the `ExecResource` is already in the desired state by returning an exit code of `100`. If the `ExecResource` is not in the desired state, it should return an exit code of `101`. Any other exit code returned by this stage is considered an error. If the `ExecResource` is not in the desired state based on the exit code from the `validate` stage, the agent proceeds to execute the script from the `enforce` stage. If the `ExecResource` is already in the desired state, the `enforce` stage will not be run. Similar to `validate` stage, the `enforce` stage should return an exit code of `100` to indicate that the resource in now in its desired state. Any other exit code is considered an error. NOTE: An exit code of `100` was chosen over `0` (and `101` vs `1`) to have an explicit indicator of `in desired state`, `not in desired state` and errors. Because, for example, Powershell will always return an exit code of `0` unless an `exit` statement is provided in the script. So, for reasons of consistency and being explicit, exit codes `100` and `101` were chosen. */
 export interface OSPolicyResourceExecResource {
   /** Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate. */
-  validate?: OSPolicyResourceExecResourceExec;
+  validate?: OSPolicyResourceExecResourceExec | undefined;
   /** What to run to bring this resource into the desired state. An exit code of 100 indicates "success", any other exit code indicates a failure running enforce. */
-  enforce?: OSPolicyResourceExecResourceExec;
+  enforce?: OSPolicyResourceExecResourceExec | undefined;
 }
 export type OSPolicyResourcePackageResourceDesiredStateEnum =
   | "DESIRED_STATE_UNSPECIFIED"
@@ -397,53 +397,53 @@ export type OSPolicyResourcePackageResourceDesiredStateEnum =
 /** A package managed by APT. - install: `apt-get update && apt-get -y install [name]` - remove: `apt-get -y remove [name]` */
 export interface OSPolicyResourcePackageResourceAPT {
   /** Required. Package name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A deb package file. dpkg packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceDeb {
   /** Required. A deb package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
   /** Whether dependencies should also be installed. - install when false: `dpkg -i package` - install when true: `apt-get update && apt-get -y install package.deb` */
-  pullDeps?: boolean;
+  pullDeps?: boolean | undefined;
 }
 /** A package managed by YUM. - install: `yum -y install package` - remove: `yum -y remove package` */
 export type OSPolicyResourcePackageResourceYUM = OSPolicyResourcePackageResourceAPT;
 /** An RPM package file. RPM packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceRPM {
   /** Required. An rpm package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
   /** Whether dependencies should also be installed. - install when false: `rpm --upgrade --replacepkgs package.rpm` - install when true: `yum -y install package.rpm` or `zypper -y install package.rpm` */
-  pullDeps?: boolean;
+  pullDeps?: boolean | undefined;
 }
 /** A package managed by GooGet. - install: `googet -noconfirm install package` - remove: `googet -noconfirm remove package` */
 export type OSPolicyResourcePackageResourceGooGet = OSPolicyResourcePackageResourceAPT;
 /** An MSI package. MSI packages only support INSTALLED state. */
 export interface OSPolicyResourcePackageResourceMSI {
   /** Required. The MSI package. */
-  source?: OSPolicyResourceFile;
+  source?: OSPolicyResourceFile | undefined;
   /** Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of `ACTION=INSTALL REBOOT=ReallySuppress`. */
-  properties?: StringList;
+  properties?: StringList | undefined;
 }
 /** A package managed by Zypper. - install: `zypper -y install package` - remove: `zypper -y rm package` */
 export type OSPolicyResourcePackageResourceZypper = OSPolicyResourcePackageResourceAPT;
 /** A resource that manages a system package. */
 export interface OSPolicyResourcePackageResource {
   /** Required. The desired state the agent should maintain for this package. */
-  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {});
+  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {}) | undefined;
   /** A package managed by Apt. */
-  apt?: OSPolicyResourcePackageResourceAPT;
+  apt?: OSPolicyResourcePackageResourceAPT | undefined;
   /** A deb package file. */
-  deb?: OSPolicyResourcePackageResourceDeb;
+  deb?: OSPolicyResourcePackageResourceDeb | undefined;
   /** A package managed by YUM. */
-  yum?: OSPolicyResourcePackageResourceAPT;
+  yum?: OSPolicyResourcePackageResourceAPT | undefined;
   /** An rpm package file. */
-  rpm?: OSPolicyResourcePackageResourceRPM;
+  rpm?: OSPolicyResourcePackageResourceRPM | undefined;
   /** A package managed by GooGet. */
-  googet?: OSPolicyResourcePackageResourceAPT;
+  googet?: OSPolicyResourcePackageResourceAPT | undefined;
   /** An MSI package. */
-  msi?: OSPolicyResourcePackageResourceMSI;
+  msi?: OSPolicyResourcePackageResourceMSI | undefined;
   /** A package managed by Zypper. */
-  zypper?: OSPolicyResourcePackageResourceAPT;
+  zypper?: OSPolicyResourcePackageResourceAPT | undefined;
 }
 export type OSPolicyResourceFileResourceStateEnum =
   | "DESIRED_STATE_UNSPECIFIED"
@@ -453,15 +453,15 @@ export type OSPolicyResourceFileResourceStateEnum =
 /** A resource that manages the state of a file. */
 export interface OSPolicyResourceFileResource {
   /** A remote or local source. */
-  file?: OSPolicyResourceFile;
+  file?: OSPolicyResourceFile | undefined;
   /** Required. Desired state of the file. */
-  state?: OSPolicyResourceFileResourceStateEnum | (string & {});
+  state?: OSPolicyResourceFileResourceStateEnum | (string & {}) | undefined;
   /** Required. The absolute path of the file within the VM. */
-  path?: string;
+  path?: string | undefined;
   /** A file with this content. The size of the content is limited to 32KiB. */
-  content?: string;
+  content?: string | undefined;
   /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
-  permissions?: string;
+  permissions?: string | undefined;
 }
 export type OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum =
   | "ARCHIVE_TYPE_UNSPECIFIED"
@@ -470,98 +470,101 @@ export type OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum =
 /** Represents a single apt package repository. These will be added to a repo file that will be managed at `/etc/apt/sources.list.d/google_osconfig.list`. */
 export interface OSPolicyResourceRepositoryResourceAptRepository {
   /** Required. List of components for this repository. Must contain at least one item. */
-  components?: StringList;
+  components?: StringList | undefined;
   /** Required. Distribution of this repository. */
-  distribution?: string;
+  distribution?: string | undefined;
   /** Required. URI for this repository. */
-  uri?: string;
+  uri?: string | undefined;
   /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg`. */
-  gpgKey?: string;
+  gpgKey?: string | undefined;
   /** Required. Type of archive files in this repository. */
-  archiveType?: OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum | (string & {});
+  archiveType?:
+    | OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** Represents a Goo package repository. These are added to a repo file that is managed at `C:/ProgramData/GooGet/repos/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceGooRepository {
   /** Required. The url of the repository. */
-  url?: string;
+  url?: string | undefined;
   /** Required. The name of the repository. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Represents a single yum package repository. These are added to a repo file that is managed at `/etc/yum.repos.d/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceYumRepository {
   /** The display name of the repository. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. A one word, unique name for this repository. This is the `repo id` in the yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for resource conflicts. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The location of the repository directory. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** URIs of GPG keys. */
-  gpgKeys?: StringList;
+  gpgKeys?: StringList | undefined;
 }
 /** Represents a single zypper package repository. These are added to a repo file that is managed at `/etc/zypp/repos.d/google_osconfig.repo`. */
 export interface OSPolicyResourceRepositoryResourceZypperRepository {
   /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The location of the repository directory. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** URIs of GPG keys. */
-  gpgKeys?: StringList;
+  gpgKeys?: StringList | undefined;
   /** The display name of the repository. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A resource that manages a package repository. */
 export interface OSPolicyResourceRepositoryResource {
   /** An Apt Repository. */
-  apt?: OSPolicyResourceRepositoryResourceAptRepository;
+  apt?: OSPolicyResourceRepositoryResourceAptRepository | undefined;
   /** A Goo Repository. */
-  goo?: OSPolicyResourceRepositoryResourceGooRepository;
+  goo?: OSPolicyResourceRepositoryResourceGooRepository | undefined;
   /** A Yum Repository. */
-  yum?: OSPolicyResourceRepositoryResourceYumRepository;
+  yum?: OSPolicyResourceRepositoryResourceYumRepository | undefined;
   /** A Zypper Repository. */
-  zypper?: OSPolicyResourceRepositoryResourceZypperRepository;
+  zypper?: OSPolicyResourceRepositoryResourceZypperRepository | undefined;
 }
 /** An OS policy resource is used to define the desired state configuration and provides a specific functionality like installing/removing packages, executing a script etc. The system ensures that resources are always in their desired state by taking necessary actions if they have drifted from their desired state. */
 export interface OSPolicyResource {
   /** Exec resource */
-  exec?: OSPolicyResourceExecResource;
+  exec?: OSPolicyResourceExecResource | undefined;
   /** Package resource */
-  pkg?: OSPolicyResourcePackageResource;
+  pkg?: OSPolicyResourcePackageResource | undefined;
   /** File resource */
-  file?: OSPolicyResourceFileResource;
+  file?: OSPolicyResourceFileResource | undefined;
   /** Required. The id of the resource with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the OS policy. */
-  id?: string;
+  id?: string | undefined;
   /** Package repository resource */
-  repository?: OSPolicyResourceRepositoryResource;
+  repository?: OSPolicyResourceRepositoryResource | undefined;
 }
 export type OSPolicyResourceList = Array<OSPolicyResource>;
 /** Filtering criteria to select VMs based on inventory details. */
 export interface OSPolicyInventoryFilter {
   /** Required. The OS short name */
-  osShortName?: string;
+  osShortName?: string | undefined;
   /** The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` An empty string matches all OS versions. */
-  osVersion?: string;
+  osVersion?: string | undefined;
 }
 export type OSPolicyInventoryFilterList = Array<OSPolicyInventoryFilter>;
 /** Resource groups provide a mechanism to group OS policy resources. Resource groups enable OS policy authors to create a single OS policy to be applied to VMs running different operating Systems. When the OS policy is applied to a target VM, the appropriate resource group within the OS policy is selected based on the `OSFilter` specified within the resource group. */
 export interface OSPolicyResourceGroup {
   /** Required. List of resources configured for this resource group. The resources are executed in the exact order specified here. */
-  resources?: OSPolicyResourceList;
+  resources?: OSPolicyResourceList | undefined;
   /** List of inventory filters for the resource group. The resources in this resource group are applied to the target VM if it satisfies at least one of the following inventory filters. For example, to apply this resource group to VMs running either `RHEL` or `CentOS` operating systems, specify 2 items for the list with following values: inventory_filters[0].os_short_name='rhel' and inventory_filters[1].os_short_name='centos' If the list is empty, this resource group will be applied to the target VM unconditionally. */
-  inventoryFilters?: OSPolicyInventoryFilterList;
+  inventoryFilters?: OSPolicyInventoryFilterList | undefined;
 }
 export type OSPolicyResourceGroupList = Array<OSPolicyResourceGroup>;
 /** An OS policy defines the desired state configuration for a VM. */
 export interface OSPolicy {
   /** Required. Policy mode */
-  mode?: OSPolicyModeEnum | (string & {});
+  mode?: OSPolicyModeEnum | (string & {}) | undefined;
   /** This flag determines the OS policy compliance status when none of the resource groups within the policy are applicable for a VM. Set this value to `true` if the policy needs to be reported as compliant even if the policy has nothing to validate or enforce. */
-  allowNoResourceGroupMatch?: boolean;
+  allowNoResourceGroupMatch?: boolean | undefined;
   /** Required. List of resource groups for the policy. For a particular VM, resource groups are evaluated in the order specified and the first resource group that is applicable is selected and the rest are ignored. If none of the resource groups are applicable for a VM, the VM is considered to be non-compliant w.r.t this policy. This behavior can be toggled by the flag `allow_no_resource_group_match` */
-  resourceGroups?: OSPolicyResourceGroupList;
+  resourceGroups?: OSPolicyResourceGroupList | undefined;
   /** Required. The id of the OS policy with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the assignment. */
-  id?: string;
+  id?: string | undefined;
   /** Policy description. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
 }
 export type OSPolicyList = Array<OSPolicy>;
 export type OSPolicyAssignmentRolloutStateEnum =
@@ -573,7 +576,7 @@ export type OSPolicyAssignmentRolloutStateEnum =
 /** Message representing label set. * A label is a key value pair set for a VM. * A LabelSet is a set of labels. * Labels within a LabelSet are ANDed. In other words, a LabelSet is applicable for a VM only if it matches all the labels in the LabelSet. * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will only be applicable for those VMs with both labels present. */
 export interface OSPolicyAssignmentLabelSet {
   /** Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type OSPolicyAssignmentLabelSetList = Array<OSPolicyAssignmentLabelSet>;
 /** VM inventory details. */
@@ -582,83 +585,83 @@ export type OSPolicyAssignmentInstanceFilterInventoryList = Array<OSPolicyInvent
 /** Filters to select target VMs for an assignment. If more than one filter criteria is specified below, a VM will be selected if and only if it satisfies all of them. */
 export interface OSPolicyAssignmentInstanceFilter {
   /** List of label sets used for VM inclusion. If the list has more than one `LabelSet`, the VM is included if any of the label sets are applicable for the VM. */
-  inclusionLabels?: OSPolicyAssignmentLabelSetList;
+  inclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
   /** List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM. */
-  exclusionLabels?: OSPolicyAssignmentLabelSetList;
+  exclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
   /** Target all VMs in the project. If true, no other criteria is permitted. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** List of inventories to select VMs. A VM is selected if its inventory data matches at least one of the following inventories. */
-  inventories?: OSPolicyAssignmentInstanceFilterInventoryList;
+  inventories?: OSPolicyAssignmentInstanceFilterInventoryList | undefined;
 }
 /** Message to configure the rollout at the zonal level for the OS policy assignment. */
 export interface OSPolicyAssignmentRollout {
   /** Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment. */
-  disruptionBudget?: FixedOrPercent;
+  disruptionBudget?: FixedOrPercent | undefined;
   /** Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the `disruption_budget` at least until this duration of time has passed after configuration changes are applied. */
-  minWaitDuration?: string;
+  minWaitDuration?: string | undefined;
 }
 /** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information about the OS policy resource definitions and examples, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
 export interface OSPolicyAssignment {
   /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string;
+  revisionCreateTime?: string | undefined;
   /** Required. List of OS policies to be applied to the VMs. */
-  osPolicies?: OSPolicyList;
+  osPolicies?: OSPolicyList | undefined;
   /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. OS policy assignment rollout state */
-  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {});
+  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {}) | undefined;
   /** Output only. Server generated unique id for the OS policy assignment resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
-  baseline?: boolean;
+  baseline?: boolean | undefined;
   /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. Indicates that this revision deletes the OS policy assignment. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** OS policy assignment description. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Filter to select VMs. */
-  instanceFilter?: OSPolicyAssignmentInstanceFilter;
+  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
   /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
-  rollout?: OSPolicyAssignmentRollout;
+  rollout?: OSPolicyAssignmentRollout | undefined;
   /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The parent resource name in the form: projects/{project}/locations/{location}. Note: Specify the zone of your VMs as the location. */
   parent: string;
   /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  osPolicyAssignmentId?: string;
+  osPolicyAssignmentId?: string | undefined;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: OSPolicyAssignment;
+  body?: OSPolicyAssignment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type PatchDeploymentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED";
 export type WeekDayOfMonthDayOfWeekEnum =
@@ -673,18 +676,18 @@ export type WeekDayOfMonthDayOfWeekEnum =
 /** Represents one week day in a month. An example is "the 4th Sunday". */
 export interface WeekDayOfMonth {
   /** Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month. */
-  weekOrdinal?: number;
+  weekOrdinal?: number | undefined;
   /** Required. A day of the week. */
-  dayOfWeek?: WeekDayOfMonthDayOfWeekEnum | (string & {});
+  dayOfWeek?: WeekDayOfMonthDayOfWeekEnum | (string & {}) | undefined;
   /** Optional. Represents the number of days before or after the given week day of month that the patch deployment is scheduled for. For example if `week_ordinal` and `day_of_week` values point to the second Tuesday of the month and the `day_offset` value is set to `3`, patch deployment takes place three days after the second Tuesday of the month. If this value is negative, for example -5, patches are deployed five days before the second Tuesday of the month. Allowed values are in range [-30, 30]. */
-  dayOffset?: number;
+  dayOffset?: number | undefined;
 }
 /** Represents a monthly schedule. An example of a valid monthly schedule is "on the third Tuesday of the month" or "on the 15th of the month". */
 export interface MonthlySchedule {
   /** Required. Week day in a month. */
-  weekDayOfMonth?: WeekDayOfMonth;
+  weekDayOfMonth?: WeekDayOfMonth | undefined;
   /** Required. One day of the month. 1-31 indicates the 1st to the 31st day. -1 indicates the last day of the month. Months without the target day will be skipped. For example, a schedule to run "every month on the 31st" will not run in February, April, June, etc. */
-  monthDay?: number;
+  monthDay?: number | undefined;
 }
 export type WeeklyScheduleDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -698,14 +701,14 @@ export type WeeklyScheduleDayOfWeekEnum =
 /** Represents a weekly schedule. */
 export interface WeeklySchedule {
   /** Required. Day of the week. */
-  dayOfWeek?: WeeklyScheduleDayOfWeekEnum | (string & {});
+  dayOfWeek?: WeeklyScheduleDayOfWeekEnum | (string & {}) | undefined;
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
 }
 export type RecurringScheduleFrequencyEnum =
   | "FREQUENCY_UNSPECIFIED"
@@ -715,78 +718,78 @@ export type RecurringScheduleFrequencyEnum =
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 /** Sets the time for recurring patch deployments. */
 export interface RecurringSchedule {
   /** Required. Schedule with monthly executions. */
-  monthly?: MonthlySchedule;
+  monthly?: MonthlySchedule | undefined;
   /** Optional. The time that the recurring schedule becomes effective. Defaults to `create_time` of the patch deployment. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Required. Schedule with weekly executions. */
-  weekly?: WeeklySchedule;
+  weekly?: WeeklySchedule | undefined;
   /** Required. Defines the time zone that `time_of_day` is relative to. The rules for daylight saving time are determined by the chosen time zone. */
-  timeZone?: TimeZone;
+  timeZone?: TimeZone | undefined;
   /** Required. The frequency unit of this recurring schedule. */
-  frequency?: RecurringScheduleFrequencyEnum | (string & {});
+  frequency?: RecurringScheduleFrequencyEnum | (string & {}) | undefined;
   /** Output only. The time the next patch job is scheduled to run. */
-  nextExecuteTime?: string;
+  nextExecuteTime?: string | undefined;
   /** Required. Time of the day to run a recurring deployment. */
-  timeOfDay?: TimeOfDay;
+  timeOfDay?: TimeOfDay | undefined;
   /** Output only. The time the last patch job ran successfully. */
-  lastExecuteTime?: string;
+  lastExecuteTime?: string | undefined;
   /** Optional. The end time at which a recurring patch deployment schedule is no longer active. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Sets the time for a one time patch deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
 export interface OneTimeSchedule {
   /** Required. The desired patch job execution time. */
-  executeTime?: string;
+  executeTime?: string | undefined;
 }
 /** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
 export interface PatchDeployment {
   /** Optional. Rollout strategy of the patch job. */
-  rollout?: PatchRollout;
+  rollout?: PatchRollout | undefined;
   /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Current state of the patch deployment. */
-  state?: PatchDeploymentStateEnum | (string & {});
+  state?: PatchDeploymentStateEnum | (string & {}) | undefined;
   /** Required. Schedule recurring executions. */
-  recurringSchedule?: RecurringSchedule;
+  recurringSchedule?: RecurringSchedule | undefined;
   /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Schedule a one-time execution. */
-  oneTimeSchedule?: OneTimeSchedule;
+  oneTimeSchedule?: OneTimeSchedule | undefined;
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Duration of the patch. After the duration ends, the patch times out. */
-  duration?: string;
+  duration?: string | undefined;
   /** Optional. Patch configuration that is applied. */
-  patchConfig?: PatchConfig;
+  patchConfig?: PatchConfig | undefined;
   /** Required. VM instances to patch. */
-  instanceFilter?: PatchInstanceFilter;
+  instanceFilter?: PatchInstanceFilter | undefined;
   /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  lastExecuteTime?: string;
+  lastExecuteTime?: string | undefined;
   /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsPatchDeploymentsRequest {
   /** Required. The project to apply this patch deployment to in the form `projects/*`. */
   parent: string;
   /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  patchDeploymentId?: string;
+  patchDeploymentId?: string | undefined;
   /** Request body */
-  body?: PatchDeployment;
+  body?: PatchDeployment | undefined;
 }
 export interface DeleteProjectsLocationsOsPolicyAssignmentsRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the OS policy assignment to be deleted */
   name: string;
 }
@@ -797,25 +800,25 @@ export interface DeleteProjectsPatchDeploymentsRequest {
 /** A request message to initiate patching across Compute Engine instances. */
 export interface ExecutePatchJobRequest {
   /** Required. Instances to patch, either explicitly or filtered by some criteria such as zone or labels. */
-  instanceFilter?: PatchInstanceFilter;
+  instanceFilter?: PatchInstanceFilter | undefined;
   /** Rollout strategy of the patch job. */
-  rollout?: PatchRollout;
+  rollout?: PatchRollout | undefined;
   /** Patch configuration being applied. If omitted, instances are patched using the default configurations. */
-  patchConfig?: PatchConfig;
+  patchConfig?: PatchConfig | undefined;
   /** Display name for this patch job. This does not have to be unique. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Duration of the patch job. After the duration ends, the patch job times out. */
-  duration?: string;
+  duration?: string | undefined;
   /** If this patch is a dry-run only, instances are contacted but will do nothing. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Description of the patch job. Length of the description is limited to 1024 characters. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ExecuteProjectsPatchJobsRequest {
   /** Required. The project in which to run this patch in the form `projects/*` */
   parent: string;
   /** Request body */
-  body?: ExecutePatchJobRequest;
+  body?: ExecutePatchJobRequest | undefined;
 }
 export interface GetProjectFeatureSettingsProjectsLocationsGlobalRequest {
   /** Required. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
@@ -828,9 +831,12 @@ export type ProjectFeatureSettingsPatchAndConfigFeatureSetEnum =
 /** ProjectFeatureSettings represents the VM Manager feature settings in a project. For more information, see Enable full VM Manager functionality. */
 export interface ProjectFeatureSettings {
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
-  name?: string;
+  name?: string | undefined;
   /** Set PatchAndConfigFeatureSet for the project. */
-  patchAndConfigFeatureSet?: ProjectFeatureSettingsPatchAndConfigFeatureSetEnum | (string & {});
+  patchAndConfigFeatureSet?:
+    | ProjectFeatureSettingsPatchAndConfigFeatureSetEnum
+    | (string & {})
+    | undefined;
 }
 export type GetProjectsLocationsInstancesInventoriesViewEnum =
   | "INVENTORY_VIEW_UNSPECIFIED"
@@ -840,161 +846,161 @@ export interface GetProjectsLocationsInstancesInventoriesRequest {
   /** Required. API resource name for inventory resource. Format: `projects/{project}/locations/{location}/instances/{instance}/inventory` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either Compute Engine `instance-id` or `instance-name` can be provided. */
   name: string;
   /** Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
-  view?: GetProjectsLocationsInstancesInventoriesViewEnum | (string & {});
+  view?: GetProjectsLocationsInstancesInventoriesViewEnum | (string & {}) | undefined;
 }
 /** Operating system information for the VM. */
 export interface InventoryOsInfo {
   /** The current version of the OS Config agent running on the VM. */
-  osconfigAgentVersion?: string;
+  osconfigAgentVersion?: string | undefined;
   /** The operating system short name. For example, 'windows' or 'debian'. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** The operating system long name. For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019 Datacenter'. */
-  longName?: string;
+  longName?: string | undefined;
   /** The system architecture of the operating system. */
-  architecture?: string;
+  architecture?: string | undefined;
   /** The kernel version of the operating system. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** The version of the operating system. */
-  version?: string;
+  version?: string | undefined;
   /** The VM hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The kernel release of the operating system. */
-  kernelRelease?: string;
+  kernelRelease?: string | undefined;
 }
 export type InventoryItemOriginTypeEnum = "ORIGIN_TYPE_UNSPECIFIED" | "INVENTORY_REPORT";
 /** Information related to a Quick Fix Engineering package. Fields are taken from Windows QuickFixEngineering Interface and match the source names: https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering */
 export interface InventoryWindowsQuickFixEngineeringPackage {
   /** Date that the QFE update was installed. Mapped from installed_on field. */
-  installTime?: string;
+  installTime?: string | undefined;
   /** Unique identifier associated with a particular QFE update. */
-  hotFixId?: string;
+  hotFixId?: string | undefined;
   /** A textual description of the QFE update. */
-  description?: string;
+  description?: string | undefined;
   /** A short textual description of the QFE update. */
-  caption?: string;
+  caption?: string | undefined;
 }
 /** Information related to the a standard versioned package. This includes package info for APT, Yum, Zypper, and Googet package managers. */
 export interface InventoryVersionedPackage {
   /** The version of the package. */
-  version?: string;
+  version?: string | undefined;
   /** The name of the package. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** The system architecture this package is intended for. */
-  architecture?: string;
+  architecture?: string | undefined;
 }
 /** Categories specified by the Windows Update. */
 export interface InventoryWindowsUpdatePackageWindowsUpdateCategory {
   /** The name of the windows update category. */
-  name?: string;
+  name?: string | undefined;
   /** The identifier of the windows update category. */
-  id?: string;
+  id?: string | undefined;
 }
 export type InventoryWindowsUpdatePackageWindowsUpdateCategoryList =
   Array<InventoryWindowsUpdatePackageWindowsUpdateCategory>;
 /** Details related to a Windows Update package. Field data and names are taken from Windows Update API IUpdate Interface: https://docs.microsoft.com/en-us/windows/win32/api/_wua/ Descriptive fields like title, and description are localized based on the locale of the VM being updated. */
 export interface InventoryWindowsUpdatePackage {
   /** A hyperlink to the language-specific support information for the update. */
-  supportUrl?: string;
+  supportUrl?: string | undefined;
   /** The localized description of the update package. */
-  description?: string;
+  description?: string | undefined;
   /** Gets the identifier of an update package. Stays the same across revisions. */
-  updateId?: string;
+  updateId?: string | undefined;
   /** A collection of URLs that provide more information about the update package. */
-  moreInfoUrls?: StringList;
+  moreInfoUrls?: StringList | undefined;
   /** The localized title of the update package. */
-  title?: string;
+  title?: string | undefined;
   /** A collection of Microsoft Knowledge Base article IDs that are associated with the update package. */
-  kbArticleIds?: StringList;
+  kbArticleIds?: StringList | undefined;
   /** The categories that are associated with this update package. */
-  categories?: InventoryWindowsUpdatePackageWindowsUpdateCategoryList;
+  categories?: InventoryWindowsUpdatePackageWindowsUpdateCategoryList | undefined;
   /** The revision number of this update package. */
-  revisionNumber?: number;
+  revisionNumber?: number | undefined;
   /** The last published date of the update, in (UTC) date and time. */
-  lastDeploymentChangeTime?: string;
+  lastDeploymentChangeTime?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Osconfig_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
 }
 /** Contains information about a Windows application that is retrieved from the Windows Registry. For more information about these fields, see: https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key */
 export interface InventoryWindowsApplication {
   /** The name of the manufacturer for the product or application. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The internet address for technical support. */
-  helpLink?: string;
+  helpLink?: string | undefined;
   /** The last time this product received service. The value of this property is replaced each time a patch is applied or removed from the product or the command-line option is used to repair the product. */
-  installDate?: Osconfig_Date;
+  installDate?: Osconfig_Date | undefined;
   /** The version of the product or application in string format. */
-  displayVersion?: string;
+  displayVersion?: string | undefined;
   /** The name of the application or product. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Details related to a Zypper Patch. */
 export interface InventoryZypperPatch {
   /** The category of the patch. */
-  category?: string;
+  category?: string | undefined;
   /** The name of the patch. */
-  patchName?: string;
+  patchName?: string | undefined;
   /** The severity specified for this patch */
-  severity?: string;
+  severity?: string | undefined;
   /** Any summary information provided about this patch. */
-  summary?: string;
+  summary?: string | undefined;
 }
 /** Software package information of the operating system. */
 export interface InventorySoftwarePackage {
   /** Details of a Windows Quick Fix engineering package. See https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering for info in Windows Quick Fix Engineering. */
-  qfePackage?: InventoryWindowsQuickFixEngineeringPackage;
+  qfePackage?: InventoryWindowsQuickFixEngineeringPackage | undefined;
   /** Details of a Googet package. For details about the googet package manager, see https://github.com/google/googet. */
-  googetPackage?: InventoryVersionedPackage;
+  googetPackage?: InventoryVersionedPackage | undefined;
   /** Details of an APT package. For details about the apt package manager, see https://wiki.debian.org/Apt. */
-  aptPackage?: InventoryVersionedPackage;
+  aptPackage?: InventoryVersionedPackage | undefined;
   /** Yum package info. For details about the yum package manager, see https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum. */
-  yumPackage?: InventoryVersionedPackage;
+  yumPackage?: InventoryVersionedPackage | undefined;
   /** Details of a Windows Update package. See https://docs.microsoft.com/en-us/windows/win32/api/_wua/ for information about Windows Update. */
-  wuaPackage?: InventoryWindowsUpdatePackage;
+  wuaPackage?: InventoryWindowsUpdatePackage | undefined;
   /** Details of Windows Application. */
-  windowsApplication?: InventoryWindowsApplication;
+  windowsApplication?: InventoryWindowsApplication | undefined;
   /** Details of a Zypper patch. For details about the Zypper package manager, see https://en.opensuse.org/SDB:Zypper_manual. */
-  zypperPatch?: InventoryZypperPatch;
+  zypperPatch?: InventoryZypperPatch | undefined;
   /** Details of a Zypper package. For details about the Zypper package manager, see https://en.opensuse.org/SDB:Zypper_manual. */
-  zypperPackage?: InventoryVersionedPackage;
+  zypperPackage?: InventoryVersionedPackage | undefined;
   /** Details of a COS package. */
-  cosPackage?: InventoryVersionedPackage;
+  cosPackage?: InventoryVersionedPackage | undefined;
 }
 export type InventoryItemTypeEnum = "TYPE_UNSPECIFIED" | "INSTALLED_PACKAGE" | "AVAILABLE_PACKAGE";
 /** A single piece of inventory on a VM. */
 export interface InventoryItem {
   /** The origin of this inventory item. */
-  originType?: InventoryItemOriginTypeEnum;
+  originType?: InventoryItemOriginTypeEnum | undefined;
   /** When this inventory item was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Software package available to be installed on the VM instance. */
-  availablePackage?: InventorySoftwarePackage;
+  availablePackage?: InventorySoftwarePackage | undefined;
   /** When this inventory item was first detected. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Software package present on the VM instance. */
-  installedPackage?: InventorySoftwarePackage;
+  installedPackage?: InventorySoftwarePackage | undefined;
   /** Identifier for this item, unique across items for this VM. */
-  id?: string;
+  id?: string | undefined;
   /** The specific type of inventory, correlating to its specific details. */
-  type?: InventoryItemTypeEnum;
+  type?: InventoryItemTypeEnum | undefined;
 }
 export type InventoryItemMap = { [key: string]: InventoryItem | undefined };
 /** This API resource represents the available inventory data for a Compute Engine virtual machine (VM) instance at a given point in time. You can use this API resource to determine the inventory data of your VM. For more information, see [Information provided by OS inventory management](https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected). */
 export interface Inventory {
   /** Base level operating system information for the VM. */
-  osInfo?: InventoryOsInfo;
+  osInfo?: InventoryOsInfo | undefined;
   /** Output only. Timestamp of the last reported inventory for the VM. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Inventory items related to the VM keyed by an opaque unique identifier for each inventory item. The identifier is unique to each distinct and addressable inventory item and will change, when there is a new package version. */
-  items?: InventoryItemMap;
+  items?: InventoryItemMap | undefined;
   /** Output only. The `Inventory` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest {
   /** Required. API resource name for OS policy assignment report. Format: `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance_id}`, either Compute Engine `instance-id` or `instance-name` can be provided. For `{assignment_id}`, the OSPolicyAssignment id must be provided. */
@@ -1013,9 +1019,11 @@ export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance
 /** Step performed by the OS Config agent for configuring an `OSPolicy` resource to its desired state. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep {
   /** Configuration step type. */
-  type?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepTypeEnum;
+  type?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepTypeEnum
+    | undefined;
   /** An error message recorded during the execution of this step. Only populated if errors were encountered during this step execution. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList =
   Array<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep>;
@@ -1026,50 +1034,58 @@ export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance
 /** ExecResource specific output. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput {
   /** Output from enforcement phase output file (if run). Output size is limited to 100K bytes. */
-  enforcementOutput?: string;
+  enforcementOutput?: string | undefined;
 }
 /** Compliance data for an OS policy resource. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance {
   /** Ordered list of configuration completed by the agent for the OS policy resource. */
-  configSteps?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList;
+  configSteps?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList
+    | undefined;
   /** A reason for the resource to be in the given compliance state. This field is always populated when `compliance_state` is `UNKNOWN`. The following values are supported when `compliance_state == UNKNOWN` * `execution-errors`: Errors were encountered by the agent while executing the resource and the compliance state couldn't be determined. * `execution-skipped-by-agent`: Resource execution was skipped by the agent because errors were encountered while executing prior resources in the OS policy. * `os-policy-execution-attempt-failed`: The execution of the OS policy containing this resource failed and the compliance state couldn't be determined. * `os-policy-execution-pending`: OS policy that owns this resource was assigned to the given VM, but was not executed yet. */
-  complianceStateReason?: string;
+  complianceStateReason?: string | undefined;
   /** The ID of the OS policy resource. */
-  osPolicyResourceId?: string;
+  osPolicyResourceId?: string | undefined;
   /** The compliance state of the resource. */
-  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum;
+  complianceState?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum
+    | undefined;
   /** ExecResource specific output. */
-  execResourceOutput?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput;
+  execResourceOutput?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput
+    | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList =
   Array<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance>;
 /** Compliance data for an OS policy */
 export interface OSPolicyAssignmentReportOSPolicyCompliance {
   /** The reason for the OS policy to be in an unknown compliance state. This field is always populated when `compliance_state` is `UNKNOWN`. If populated, the field can contain one of the following values: * `vm-not-running`: The VM was not running. * `os-policies-not-supported-by-agent`: The version of the OS Config agent running on the VM does not support running OS policies. * `no-agent-detected`: The OS Config agent is not detected for the VM. * `resource-execution-errors`: The OS Config agent encountered errors while executing one or more resources in the policy. See `os_policy_resource_compliances` for details. * `task-timeout`: The task sent to the agent to apply the policy timed out. * `unexpected-agent-state`: The OS Config agent did not report the final status of the task that attempted to apply the policy. Instead, the agent unexpectedly started working on a different task. This mostly happens when the agent or VM unexpectedly restarts while applying OS policies. * `internal-service-errors`: Internal service errors were encountered while attempting to apply the policy. * `os-policy-execution-pending`: OS policy was assigned to the given VM, but was not executed yet. Typically this is a transient condition that will go away after the next policy execution cycle. */
-  complianceStateReason?: string;
+  complianceStateReason?: string | undefined;
   /** The OS policy id */
-  osPolicyId?: string;
+  osPolicyId?: string | undefined;
   /** The compliance state of the OS policy. */
-  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceComplianceStateEnum;
+  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceComplianceStateEnum | undefined;
   /** Compliance data for each resource within the policy that is applied to the VM. */
-  osPolicyResourceCompliances?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList;
+  osPolicyResourceCompliances?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList
+    | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceList =
   Array<OSPolicyAssignmentReportOSPolicyCompliance>;
 /** A report of the OS policy assignment status for a given instance. */
 export interface OSPolicyAssignmentReport {
   /** Reference to the `OSPolicyAssignment` API resource that the `OSPolicy` belongs to. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
-  osPolicyAssignment?: string;
+  osPolicyAssignment?: string | undefined;
   /** The `OSPolicyAssignmentReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report` */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the last attempted run to apply the OS policies associated with this assignment on the VM. This ID is logged by the OS Config agent while applying the OS policies associated with this assignment on the VM. NOTE: If the service is unable to successfully connect to the agent for this run, then this id will not be available in the agent logs. */
-  lastRunId?: string;
+  lastRunId?: string | undefined;
   /** The Compute Engine VM instance name. */
-  instance?: string;
+  instance?: string | undefined;
   /** Timestamp for when the report was last generated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Compliance data for each `OSPolicy` that is applied to the VM. */
-  osPolicyCompliances?: OSPolicyAssignmentReportOSPolicyComplianceList;
+  osPolicyCompliances?: OSPolicyAssignmentReportOSPolicyComplianceList | undefined;
 }
 export interface GetProjectsLocationsInstancesVulnerabilityReportsRequest {
   /** Required. API resource name for vulnerability resource. Format: `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either Compute Engine `instance-id` or `instance-name` can be provided. */
@@ -1086,9 +1102,9 @@ export type VulnerabilityReportHighestUpgradableCveSeverityEnum =
 /** A reference for this vulnerability. */
 export interface VulnerabilityReportVulnerabilityDetailsReference {
   /** The url of the reference. */
-  url?: string;
+  url?: string | undefined;
   /** The source of the reference e.g. NVD. */
-  source?: string;
+  source?: string | undefined;
 }
 export type VulnerabilityReportVulnerabilityDetailsReferenceList =
   Array<VulnerabilityReportVulnerabilityDetailsReference>;
@@ -1130,81 +1146,81 @@ export type CVSSv3AttackComplexityEnum =
 /** Common Vulnerability Scoring System version 3. For details, see https://www.first.org/cvss/specification-document */
 export interface CVSSv3 {
   /** The Impact sub-score equation is derived from the Base Impact metrics. */
-  impactScore?: number;
+  impactScore?: number | undefined;
   /** The Scope metric captures whether a vulnerability in one vulnerable component impacts resources in components beyond its security scope. */
-  scope?: CVSSv3ScopeEnum;
+  scope?: CVSSv3ScopeEnum | undefined;
   /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
-  privilegesRequired?: CVSSv3PrivilegesRequiredEnum;
+  privilegesRequired?: CVSSv3PrivilegesRequiredEnum | undefined;
   /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
-  availabilityImpact?: CVSSv3AvailabilityImpactEnum;
+  availabilityImpact?: CVSSv3AvailabilityImpactEnum | undefined;
   /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
-  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum;
+  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum | undefined;
   /** The Exploitability sub-score equation is derived from the Base Exploitability metrics. https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics */
-  exploitabilityScore?: number;
+  exploitabilityScore?: number | undefined;
   /** The base score is a function of the base metric scores. https://www.first.org/cvss/specification-document#Base-Metrics */
-  baseScore?: number;
+  baseScore?: number | undefined;
   /** This metric measures the impact to integrity of a successfully exploited vulnerability. */
-  integrityImpact?: CVSSv3IntegrityImpactEnum;
+  integrityImpact?: CVSSv3IntegrityImpactEnum | undefined;
   /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
-  userInteraction?: CVSSv3UserInteractionEnum;
+  userInteraction?: CVSSv3UserInteractionEnum | undefined;
   /** This metric reflects the context by which vulnerability exploitation is possible. */
-  attackVector?: CVSSv3AttackVectorEnum;
+  attackVector?: CVSSv3AttackVectorEnum | undefined;
   /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
-  attackComplexity?: CVSSv3AttackComplexityEnum;
+  attackComplexity?: CVSSv3AttackComplexityEnum | undefined;
 }
 /** Contains metadata information for the vulnerability. This information is collected from the upstream feed of the operating system. */
 export interface VulnerabilityReportVulnerabilityDetails {
   /** Corresponds to the references attached to the `VulnerabilityDetails`. */
-  references?: VulnerabilityReportVulnerabilityDetailsReferenceList;
+  references?: VulnerabilityReportVulnerabilityDetailsReferenceList | undefined;
   /** The note or description describing the vulnerability from the distro. */
-  description?: string;
+  description?: string | undefined;
   /** The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of 0 - 10 where 0 indicates low severity and 10 indicates high severity. */
-  cvssV2Score?: number;
+  cvssV2Score?: number | undefined;
   /** Assigned severity/impact ranking from the distro. */
-  severity?: string;
+  severity?: string | undefined;
   /** The CVE of the vulnerability. CVE cannot be empty and the combination of should be unique across vulnerabilities for a VM. */
-  cve?: string;
+  cve?: string | undefined;
   /** The full description of the CVSSv3 for this vulnerability from NVD. */
-  cvssV3?: CVSSv3;
+  cvssV3?: CVSSv3 | undefined;
 }
 /** OS inventory item that is affected by a vulnerability or fixed as a result of a vulnerability. */
 export interface VulnerabilityReportVulnerabilityItem {
   /** Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM. This field displays the inventory items affected by this vulnerability. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. For some operating systems, this field might be empty. */
-  installedInventoryItemId?: string;
+  installedInventoryItemId?: string | undefined;
   /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
-  availableInventoryItemId?: string;
+  availableInventoryItemId?: string | undefined;
   /** The recommended [CPE URI](https://cpe.mitre.org/specification/) update that contains a fix for this vulnerability. */
-  fixedCpeUri?: string;
+  fixedCpeUri?: string | undefined;
   /** The upstream OS patch, packages or KB that fixes the vulnerability. */
-  upstreamFix?: string;
+  upstreamFix?: string | undefined;
 }
 export type VulnerabilityReportVulnerabilityItemList = Array<VulnerabilityReportVulnerabilityItem>;
 /** A vulnerability affecting the VM instance. */
 export interface VulnerabilityReportVulnerability {
   /** The timestamp for when the vulnerability was first detected. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The timestamp for when the vulnerability was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Contains metadata as per the upstream feed of the operating system and NVD. */
-  details?: VulnerabilityReportVulnerabilityDetails;
+  details?: VulnerabilityReportVulnerabilityDetails | undefined;
   /** Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM. This field displays the inventory items affected by this vulnerability. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. For some distros, this field may be empty. */
-  installedInventoryItemIds?: StringList;
+  installedInventoryItemIds?: StringList | undefined;
   /** List of items affected by the vulnerability. */
-  items?: VulnerabilityReportVulnerabilityItemList;
+  items?: VulnerabilityReportVulnerabilityItemList | undefined;
   /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
-  availableInventoryItemIds?: StringList;
+  availableInventoryItemIds?: StringList | undefined;
 }
 export type VulnerabilityReportVulnerabilityList = Array<VulnerabilityReportVulnerability>;
 /** This API resource represents the vulnerability report for a specified Compute Engine virtual machine (VM) instance at a given point in time. For more information, see [Vulnerability reports](https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports). */
 export interface VulnerabilityReport {
   /** Output only. Highest level of severity among all the upgradable vulnerabilities with CVEs attached. */
-  highestUpgradableCveSeverity?: VulnerabilityReportHighestUpgradableCveSeverityEnum;
+  highestUpgradableCveSeverity?: VulnerabilityReportHighestUpgradableCveSeverityEnum | undefined;
   /** Output only. The timestamp for when the last vulnerability report was generated for the VM. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. List of vulnerabilities affecting the VM. */
-  vulnerabilities?: VulnerabilityReportVulnerabilityList;
+  vulnerabilities?: VulnerabilityReportVulnerabilityList | undefined;
   /** Output only. The `vulnerabilityReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The resource name of OS policy assignment. Format: `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}` */
@@ -1228,81 +1244,81 @@ export type ListProjectsLocationsInstancesInventoriesViewEnum =
   | "FULL";
 export interface ListProjectsLocationsInstancesInventoriesRequest {
   /** The maximum number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
-  view?: ListProjectsLocationsInstancesInventoriesViewEnum | (string & {});
+  view?: ListProjectsLocationsInstancesInventoriesViewEnum | (string & {}) | undefined;
   /** If provided, this field specifies the criteria that must be met by a `Inventory` API resource to be included in the response. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/-` For `{project}`, either `project-number` or `project-id` can be provided. */
   parent: string;
   /** A pagination token returned from a previous call to `ListInventories` that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InventoryList = Array<Inventory>;
 /** A response message for listing inventory data for all VMs in a specified location. */
 export interface ListInventoriesResponse {
   /** List of inventory objects. */
-  inventories?: InventoryList;
+  inventories?: InventoryList | undefined;
   /** The pagination token to retrieve the next page of inventory objects. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest {
   /** If provided, this field specifies the criteria that must be met by the `OSPolicyAssignmentReport` API resource that is included in the response. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to the `ListOSPolicyAssignmentReports` method that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either `instance-name`, `instance-id`, or `-` can be provided. If '-' is provided, the response will include OSPolicyAssignmentReports for all instances in the project/location. For `{assignment}`, either `assignment-id` or `-` can be provided. If '-' is provided, the response will include OSPolicyAssignmentReports for all OSPolicyAssignments in the project/location. Either {instance} or {assignment} must be `-`. For example: `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports` returns all reports for the instance `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports` returns all the reports for the given assignment across all instances. `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports` returns all the reports for all assignments across all instances. */
   parent: string;
   /** The maximum number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OSPolicyAssignmentReportList = Array<OSPolicyAssignmentReport>;
 /** A response message for listing OS Policy assignment reports including the page of results and page token. */
 export interface ListOSPolicyAssignmentReportsResponse {
   /** The pagination token to retrieve the next page of OS policy assignment report objects. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of OS policy assignment reports. */
-  osPolicyAssignmentReports?: OSPolicyAssignmentReportList;
+  osPolicyAssignmentReports?: OSPolicyAssignmentReportList | undefined;
 }
 export interface ListProjectsLocationsInstancesVulnerabilityReportsRequest {
   /** The maximum number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/-` For `{project}`, either `project-number` or `project-id` can be provided. */
   parent: string;
   /** This field supports filtering by the severity level for the vulnerability. For a list of severity levels, see [Severity levels for vulnerabilities](https://cloud.google.com/container-analysis/docs/container-scanning-overview#severity_levels_for_vulnerabilities). The filter field follows the rules described in the [AIP-160](https://google.aip.dev/160) guidelines as follows: + **Filter for a specific severity type**: you can list reports that contain vulnerabilities that are classified as medium by specifying `vulnerabilities.details.severity:MEDIUM`. + **Filter for a range of severities** : you can list reports that have vulnerabilities that are classified as critical or high by specifying `vulnerabilities.details.severity:HIGH OR vulnerabilities.details.severity:CRITICAL` */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to `ListVulnerabilityReports` that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type VulnerabilityReportList = Array<VulnerabilityReport>;
 /** A response message for listing vulnerability reports for all VM instances in the specified location. */
 export interface ListVulnerabilityReportsResponse {
   /** List of vulnerabilityReport objects. */
-  vulnerabilityReports?: VulnerabilityReportList;
+  vulnerabilityReports?: VulnerabilityReportList | undefined;
   /** The pagination token to retrieve the next page of vulnerabilityReports object. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The parent resource name. */
   parent: string;
   /** The maximum number of assignments to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to `ListOSPolicyAssignments` that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OSPolicyAssignmentList = Array<OSPolicyAssignment>;
 /** A response message for listing all assignments under given parent. */
 export interface ListOSPolicyAssignmentsResponse {
   /** The list of assignments */
-  osPolicyAssignments?: OSPolicyAssignmentList;
+  osPolicyAssignments?: OSPolicyAssignmentList | undefined;
   /** The pagination token to retrieve the next page of OS policy assignments. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsPatchDeploymentsRequest {
   /** Optional. The maximum number of patch deployments to return. Default is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A pagination token returned from a previous call to ListPatchDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the parent in the form `projects/*`. */
   parent: string;
 }
@@ -1310,35 +1326,35 @@ export type PatchDeploymentList = Array<PatchDeployment>;
 /** A response message for listing patch deployments. */
 export interface ListPatchDeploymentsResponse {
   /** The list of patch deployments. */
-  patchDeployments?: PatchDeploymentList;
+  patchDeployments?: PatchDeploymentList | undefined;
   /** A pagination token that can be used to get the next page of patch deployments. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsPatchJobsRequest {
   /** Required. In the form of `projects/*` */
   parent: string;
   /** If provided, this field specifies the criteria that must be met by patch jobs to be included in the response. Currently, filtering is only available on the patch_deployment field. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of instance status to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PatchJobList = Array<PatchJob>;
 /** A response message for listing patch jobs. */
 export interface ListPatchJobsResponse {
   /** A pagination token that can be used to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of patch jobs. */
-  patchJobs?: PatchJobList;
+  patchJobs?: PatchJobList | undefined;
 }
 export interface ListProjectsPatchJobsInstanceDetailsRequest {
   /** The maximum number of instance details records to return. Default is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter expression that filters results listed in the response. This field supports filtering results by instance zone, name, state, or `failure_reason`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent for the instances are in the form of `projects/*\/patchJobs/*`. */
   parent: string;
 }
@@ -1363,58 +1379,58 @@ export type PatchJobInstanceDetailsStateEnum =
 /** Patch details for a VM instance. For more information about reviewing VM instance details, see [Listing all VM instance details for a specific patch job](https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details). */
 export interface PatchJobInstanceDetails {
   /** The number of times the agent that the agent attempts to apply the patch. */
-  attemptCount?: string;
+  attemptCount?: string | undefined;
   /** If the patch fails, this field provides the reason. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** Current state of instance patch. */
-  state?: PatchJobInstanceDetailsStateEnum;
+  state?: PatchJobInstanceDetailsStateEnum | undefined;
   /** The unique identifier for the instance. This identifier is defined by the server. */
-  instanceSystemId?: string;
+  instanceSystemId?: string | undefined;
   /** The instance name in the form `projects/*\/zones/*\/instances/*` */
-  name?: string;
+  name?: string | undefined;
 }
 export type PatchJobInstanceDetailsList = Array<PatchJobInstanceDetails>;
 /** A response message for listing the instances details for a patch job. */
 export interface ListPatchJobInstanceDetailsResponse {
   /** A list of instance status. */
-  patchJobInstanceDetails?: PatchJobInstanceDetailsList;
+  patchJobInstanceDetails?: PatchJobInstanceDetailsList | undefined;
   /** A pagination token that can be used to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The name of the OS policy assignment to list revisions for. */
   name: string;
   /** The maximum number of revisions to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to `ListOSPolicyAssignmentRevisions` that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A response message for listing all revisions for a OS policy assignment. */
 export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The OS policy assignment revisions */
-  osPolicyAssignments?: OSPolicyAssignmentList;
+  osPolicyAssignments?: OSPolicyAssignmentList | undefined;
   /** The pagination token to retrieve the next page of OS policy assignment revisions. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask that controls which fields of the assignment should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: OSPolicyAssignment;
+  body?: OSPolicyAssignment | undefined;
 }
 export interface PatchProjectsPatchDeploymentsRequest {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: PatchDeployment;
+  body?: PatchDeployment | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelOperationRequest;
@@ -1422,7 +1438,7 @@ export interface PauseProjectsPatchDeploymentsRequest {
   /** Required. The resource name of the patch deployment in the form `projects/*\/patchDeployments/*`. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A request message for resuming a patch deployment. */
 export type ResumePatchDeploymentRequest = CancelOperationRequest;
@@ -1430,15 +1446,15 @@ export interface ResumeProjectsPatchDeploymentsRequest {
   /** Required. The resource name of the patch deployment in the form `projects/*\/patchDeployments/*`. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest {
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name: string;
   /** Optional. Field mask that controls which fields of the ProjectFeatureSettings should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: ProjectFeatureSettings;
+  body?: ProjectFeatureSettings | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound

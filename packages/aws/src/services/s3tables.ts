@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -151,10 +152,10 @@ export interface CreateNamespaceResponse {
 export type TableName = string;
 export type OpenTableFormat = "ICEBERG" | (string & {});
 export interface SchemaField {
-  id?: number;
+  id?: number | undefined;
   name: string;
   type: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type SchemaFieldList = SchemaField[];
 export interface IcebergSchema {
@@ -166,26 +167,26 @@ export interface SchemaV2Field {
   name: string;
   type: any;
   required: boolean;
-  doc?: string;
+  doc?: string | undefined;
 }
 export type SchemaV2FieldList = SchemaV2Field[];
 export type IntegerList = number[];
 export interface IcebergSchemaV2 {
   type: SchemaV2FieldType;
   fields: SchemaV2Field[];
-  schemaId?: number;
-  identifierFieldIds?: number[];
+  schemaId?: number | undefined;
+  identifierFieldIds?: number[] | undefined;
 }
 export interface IcebergPartitionField {
   sourceId: number;
   transform: string;
   name: string;
-  fieldId?: number;
+  fieldId?: number | undefined;
 }
 export type IcebergPartitionFieldList = IcebergPartitionField[];
 export interface IcebergPartitionSpec {
   fields: IcebergPartitionField[];
-  specId?: number;
+  specId?: number | undefined;
 }
 export type IcebergSortDirection = "asc" | "desc" | (string & {});
 export type IcebergNullOrder = "nulls-first" | "nulls-last" | (string & {});
@@ -202,17 +203,17 @@ export interface IcebergSortOrder {
 }
 export type TableProperties = { [key: string]: string | undefined };
 export interface IcebergMetadata {
-  schema?: IcebergSchema;
-  schemaV2?: IcebergSchemaV2;
-  partitionSpec?: IcebergPartitionSpec;
-  writeOrder?: IcebergSortOrder;
-  properties?: { [key: string]: string | undefined };
+  schema?: IcebergSchema | undefined;
+  schemaV2?: IcebergSchemaV2 | undefined;
+  partitionSpec?: IcebergPartitionSpec | undefined;
+  writeOrder?: IcebergSortOrder | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export type TableMetadata = { iceberg: IcebergMetadata };
 export type SSEAlgorithm = "AES256" | "aws:kms" | (string & {});
 export interface EncryptionConfiguration {
   sseAlgorithm: SSEAlgorithm;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export type StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | (string & {});
 export interface StorageClassConfiguration {
@@ -226,10 +227,10 @@ export interface CreateTableRequest {
   namespace: string;
   name: string;
   format: OpenTableFormat;
-  metadata?: TableMetadata;
-  encryptionConfiguration?: EncryptionConfiguration;
-  storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string | undefined };
+  metadata?: TableMetadata | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  storageClassConfiguration?: StorageClassConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TableARN = string;
 export type VersionToken = string;
@@ -240,9 +241,9 @@ export interface CreateTableResponse {
 export type TableBucketName = string;
 export interface CreateTableBucketRequest {
   name: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string | undefined };
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  storageClassConfiguration?: StorageClassConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTableBucketResponse {
   arn: string;
@@ -256,7 +257,7 @@ export interface DeleteTableRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
 }
 export interface DeleteTableResponse {}
 export interface DeleteTableBucketRequest {
@@ -277,7 +278,7 @@ export interface DeleteTableBucketPolicyRequest {
 export interface DeleteTableBucketPolicyResponse {}
 export interface DeleteTableBucketReplicationRequest {
   tableBucketARN: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
 }
 export interface DeleteTableBucketReplicationResponse {}
 export interface DeleteTablePolicyRequest {
@@ -303,14 +304,14 @@ export interface GetNamespaceResponse {
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export interface GetTableRequest {
-  tableBucketARN?: string;
-  namespace?: string;
-  name?: string;
-  tableArn?: string;
+  tableBucketARN?: string | undefined;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  tableArn?: string | undefined;
 }
 export type TableType = "customer" | "aws" | (string & {});
 export type MetadataLocation = string;
@@ -319,26 +320,26 @@ export interface ReplicationInformation {
   sourceTableARN: string;
 }
 export interface ManagedTableInformation {
-  replicationInformation?: ReplicationInformation;
+  replicationInformation?: ReplicationInformation | undefined;
 }
 export interface GetTableResponse {
   name: string;
   type: TableType;
   tableARN: string;
   namespace: string[];
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   versionToken: string;
-  metadataLocation?: string;
+  metadataLocation?: string | undefined;
   warehouseLocation: string;
   createdAt: Date;
   createdBy: string;
-  managedByService?: string;
+  managedByService?: string | undefined;
   modifiedAt: Date;
-  modifiedBy?: string;
+  modifiedBy?: string | undefined;
   ownerAccountId: string;
   format: OpenTableFormat;
-  tableBucketId?: string;
-  managedTableInformation?: ManagedTableInformation;
+  tableBucketId?: string | undefined;
+  managedTableInformation?: ManagedTableInformation | undefined;
 }
 export interface GetTableBucketRequest {
   tableBucketARN: string;
@@ -349,8 +350,8 @@ export interface GetTableBucketResponse {
   name: string;
   ownerAccountId: string;
   createdAt: Date;
-  tableBucketId?: string;
-  type?: TableBucketType;
+  tableBucketId?: string | undefined;
+  type?: TableBucketType | undefined;
 }
 export interface GetTableBucketEncryptionRequest {
   tableBucketARN: string;
@@ -365,18 +366,18 @@ export type TableBucketMaintenanceType = "icebergUnreferencedFileRemoval" | (str
 export type MaintenanceStatus = "enabled" | "disabled" | (string & {});
 export type PositiveInteger = number;
 export interface IcebergUnreferencedFileRemovalSettings {
-  unreferencedDays?: number;
-  nonCurrentDays?: number;
+  unreferencedDays?: number | undefined;
+  nonCurrentDays?: number | undefined;
 }
 export type TableBucketMaintenanceSettings = {
   icebergUnreferencedFileRemoval: IcebergUnreferencedFileRemovalSettings;
 };
 export interface TableBucketMaintenanceConfigurationValue {
-  status?: MaintenanceStatus;
-  settings?: TableBucketMaintenanceSettings;
+  status?: MaintenanceStatus | undefined;
+  settings?: TableBucketMaintenanceSettings | undefined;
 }
 export type TableBucketMaintenanceConfiguration = {
-  [key in TableBucketMaintenanceType]?: TableBucketMaintenanceConfigurationValue;
+  [key in TableBucketMaintenanceType]?: TableBucketMaintenanceConfigurationValue | undefined;
 };
 export interface GetTableBucketMaintenanceConfigurationResponse {
   tableBucketARN: string;
@@ -387,7 +388,7 @@ export interface GetTableBucketMetricsConfigurationRequest {
 }
 export interface GetTableBucketMetricsConfigurationResponse {
   tableBucketARN: string;
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetTableBucketPolicyRequest {
   tableBucketARN: string;
@@ -441,22 +442,22 @@ export type TableMaintenanceType =
   | (string & {});
 export type IcebergCompactionStrategy = "auto" | "binpack" | "sort" | "z-order" | (string & {});
 export interface IcebergCompactionSettings {
-  targetFileSizeMB?: number;
-  strategy?: IcebergCompactionStrategy;
+  targetFileSizeMB?: number | undefined;
+  strategy?: IcebergCompactionStrategy | undefined;
 }
 export interface IcebergSnapshotManagementSettings {
-  minSnapshotsToKeep?: number;
-  maxSnapshotAgeHours?: number;
+  minSnapshotsToKeep?: number | undefined;
+  maxSnapshotAgeHours?: number | undefined;
 }
 export type TableMaintenanceSettings =
-  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: never }
-  | { icebergCompaction?: never; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
+  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: undefined }
+  | { icebergCompaction?: undefined; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
 export interface TableMaintenanceConfigurationValue {
-  status?: MaintenanceStatus;
-  settings?: TableMaintenanceSettings;
+  status?: MaintenanceStatus | undefined;
+  settings?: TableMaintenanceSettings | undefined;
 }
 export type TableMaintenanceConfiguration = {
-  [key in TableMaintenanceType]?: TableMaintenanceConfigurationValue;
+  [key in TableMaintenanceType]?: TableMaintenanceConfigurationValue | undefined;
 };
 export interface GetTableMaintenanceConfigurationResponse {
   tableARN: string;
@@ -475,11 +476,11 @@ export type TableMaintenanceJobType =
 export type JobStatus = "Not_Yet_Run" | "Successful" | "Failed" | "Disabled" | (string & {});
 export interface TableMaintenanceJobStatusValue {
   status: JobStatus;
-  lastRunTimestamp?: Date;
-  failureMessage?: string;
+  lastRunTimestamp?: Date | undefined;
+  failureMessage?: string | undefined;
 }
 export type TableMaintenanceJobStatus = {
-  [key in TableMaintenanceJobType]?: TableMaintenanceJobStatusValue;
+  [key in TableMaintenanceJobType]?: TableMaintenanceJobStatusValue | undefined;
 };
 export interface GetTableMaintenanceJobStatusResponse {
   tableARN: string;
@@ -492,7 +493,7 @@ export interface GetTableMetadataLocationRequest {
 }
 export interface GetTableMetadataLocationResponse {
   versionToken: string;
-  metadataLocation?: string;
+  metadataLocation?: string | undefined;
   warehouseLocation: string;
 }
 export interface GetTablePolicyRequest {
@@ -508,11 +509,11 @@ export interface GetTableRecordExpirationConfigurationRequest {
 }
 export type TableRecordExpirationStatus = "enabled" | "disabled" | (string & {});
 export interface TableRecordExpirationSettings {
-  days?: number;
+  days?: number | undefined;
 }
 export interface TableRecordExpirationConfigurationValue {
-  status?: TableRecordExpirationStatus;
-  settings?: TableRecordExpirationSettings;
+  status?: TableRecordExpirationStatus | undefined;
+  settings?: TableRecordExpirationSettings | undefined;
 }
 export interface GetTableRecordExpirationConfigurationResponse {
   configuration: TableRecordExpirationConfigurationValue;
@@ -527,15 +528,15 @@ export type TableRecordExpirationJobStatus =
   | "Disabled"
   | (string & {});
 export interface TableRecordExpirationJobMetrics {
-  deletedDataFiles?: number;
-  deletedRecords?: number;
-  removedFilesSize?: number;
+  deletedDataFiles?: number | undefined;
+  deletedRecords?: number | undefined;
+  removedFilesSize?: number | undefined;
 }
 export interface GetTableRecordExpirationJobStatusResponse {
   status: TableRecordExpirationJobStatus;
-  lastRunTimestamp?: Date;
-  failureMessage?: string;
-  metrics?: TableRecordExpirationJobMetrics;
+  lastRunTimestamp?: Date | undefined;
+  failureMessage?: string | undefined;
+  metrics?: TableRecordExpirationJobMetrics | undefined;
 }
 export interface GetTableReplicationRequest {
   tableArn: string;
@@ -563,9 +564,9 @@ export interface LastSuccessfulReplicatedUpdate {
 export interface ReplicationDestinationStatusModel {
   replicationStatus: ReplicationStatus;
   destinationTableBucketArn: string;
-  destinationTableArn?: string;
-  lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate;
-  failureMessage?: string;
+  destinationTableArn?: string | undefined;
+  lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate | undefined;
+  failureMessage?: string | undefined;
 }
 export type ReplicationDestinationStatuses = ReplicationDestinationStatusModel[];
 export interface GetTableReplicationStatusResponse {
@@ -584,50 +585,50 @@ export type NextToken = string;
 export type ListNamespacesLimit = number;
 export interface ListNamespacesRequest {
   tableBucketARN: string;
-  prefix?: string;
-  continuationToken?: string;
-  maxNamespaces?: number;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxNamespaces?: number | undefined;
 }
 export interface NamespaceSummary {
   namespace: string[];
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export type NamespaceSummaryList = NamespaceSummary[];
 export interface ListNamespacesResponse {
   namespaces: NamespaceSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ListTableBucketsLimit = number;
 export interface ListTableBucketsRequest {
-  prefix?: string;
-  continuationToken?: string;
-  maxBuckets?: number;
-  type?: TableBucketType;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxBuckets?: number | undefined;
+  type?: TableBucketType | undefined;
 }
 export interface TableBucketSummary {
   arn: string;
   name: string;
   ownerAccountId: string;
   createdAt: Date;
-  tableBucketId?: string;
-  type?: TableBucketType;
+  tableBucketId?: string | undefined;
+  type?: TableBucketType | undefined;
 }
 export type TableBucketSummaryList = TableBucketSummary[];
 export interface ListTableBucketsResponse {
   tableBuckets: TableBucketSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ListTablesLimit = number;
 export interface ListTablesRequest {
   tableBucketARN: string;
-  namespace?: string;
-  prefix?: string;
-  continuationToken?: string;
-  maxTables?: number;
+  namespace?: string | undefined;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxTables?: number | undefined;
 }
 export interface TableSummary {
   namespace: string[];
@@ -636,21 +637,21 @@ export interface TableSummary {
   tableARN: string;
   createdAt: Date;
   modifiedAt: Date;
-  managedByService?: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  managedByService?: string | undefined;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export type TableSummaryList = TableSummary[];
 export interface ListTablesResponse {
   tables: TableSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutTableBucketEncryptionRequest {
   tableBucketARN: string;
@@ -674,7 +675,7 @@ export interface PutTableBucketPolicyRequest {
 export interface PutTableBucketPolicyResponse {}
 export interface PutTableBucketReplicationRequest {
   tableBucketARN: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
   configuration: TableBucketReplicationConfiguration;
 }
 export interface PutTableBucketReplicationResponse {
@@ -708,7 +709,7 @@ export interface PutTableRecordExpirationConfigurationRequest {
 export interface PutTableRecordExpirationConfigurationResponse {}
 export interface PutTableReplicationRequest {
   tableArn: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
   configuration: TableReplicationConfiguration;
 }
 export interface PutTableReplicationResponse {
@@ -719,9 +720,9 @@ export interface RenameTableRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  newNamespaceName?: string;
-  newName?: string;
-  versionToken?: string;
+  newNamespaceName?: string | undefined;
+  newName?: string | undefined;
+  versionToken?: string | undefined;
 }
 export interface RenameTableResponse {}
 export interface TagResourceRequest {
@@ -766,7 +767,7 @@ export type CreateNamespaceError =
  * You must have the `s3tables:CreateNamespace` permission to use this operation.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type CreateTableError =
  * Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -858,7 +859,7 @@ export type CreateTableBucketError =
  * - To create a table bucket with tags, you must have the `s3tables:TagResource` permission in addition to `s3tables:CreateTableBucket` permission.
  */
 export const createTableBucket: API.OperationMethod<
-  CreateTableBucketRequest,
+  CreateTableBucketRequest & RegionInput,
   CreateTableBucketResponse,
   CreateTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -896,7 +897,7 @@ export type DeleteNamespaceError =
  * You must have the `s3tables:DeleteNamespace` permission to use this operation.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -934,7 +935,7 @@ export type DeleteTableError =
  * You must have the `s3tables:DeleteTable` permission to use this operation.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +973,7 @@ export type DeleteTableBucketError =
  * You must have the `s3tables:DeleteTableBucket` permission to use this operation.
  */
 export const deleteTableBucket: API.OperationMethod<
-  DeleteTableBucketRequest,
+  DeleteTableBucketRequest & RegionInput,
   DeleteTableBucketResponse,
   DeleteTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -1010,7 +1011,7 @@ export type DeleteTableBucketEncryptionError =
  * You must have the `s3tables:DeleteTableBucketEncryption` permission to use this operation.
  */
 export const deleteTableBucketEncryption: API.OperationMethod<
-  DeleteTableBucketEncryptionRequest,
+  DeleteTableBucketEncryptionRequest & RegionInput,
   DeleteTableBucketEncryptionResponse,
   DeleteTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type DeleteTableBucketMetricsConfigurationError =
  * You must have the `s3tables:DeleteTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
-  DeleteTableBucketMetricsConfigurationRequest,
+  DeleteTableBucketMetricsConfigurationRequest & RegionInput,
   DeleteTableBucketMetricsConfigurationResponse,
   DeleteTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1086,7 +1087,7 @@ export type DeleteTableBucketPolicyError =
  * You must have the `s3tables:DeleteTableBucketPolicy` permission to use this operation.
  */
 export const deleteTableBucketPolicy: API.OperationMethod<
-  DeleteTableBucketPolicyRequest,
+  DeleteTableBucketPolicyRequest & RegionInput,
   DeleteTableBucketPolicyResponse,
   DeleteTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type DeleteTableBucketReplicationError =
  * You must have the `s3tables:DeleteTableBucketReplication` permission to use this operation.
  */
 export const deleteTableBucketReplication: API.OperationMethod<
-  DeleteTableBucketReplicationRequest,
+  DeleteTableBucketReplicationRequest & RegionInput,
   DeleteTableBucketReplicationResponse,
   DeleteTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type DeleteTablePolicyError =
  * You must have the `s3tables:DeleteTablePolicy` permission to use this operation.
  */
 export const deleteTablePolicy: API.OperationMethod<
-  DeleteTablePolicyRequest,
+  DeleteTablePolicyRequest & RegionInput,
   DeleteTablePolicyResponse,
   DeleteTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1203,7 +1204,7 @@ export type DeleteTableReplicationError =
  * You must have the `s3tables:DeleteTableReplication` permission to use this operation.
  */
 export const deleteTableReplication: API.OperationMethod<
-  DeleteTableReplicationRequest,
+  DeleteTableReplicationRequest & RegionInput,
   DeleteTableReplicationResponse,
   DeleteTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1243,7 +1244,7 @@ export type GetNamespaceError =
  * You must have the `s3tables:GetNamespace` permission to use this operation.
  */
 export const getNamespace: API.OperationMethod<
-  GetNamespaceRequest,
+  GetNamespaceRequest & RegionInput,
   GetNamespaceResponse,
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1283,7 +1284,7 @@ export type GetTableError =
  * You must have the `s3tables:GetTable` permission to use this operation.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -1323,7 +1324,7 @@ export type GetTableBucketError =
  * You must have the `s3tables:GetTableBucket` permission to use this operation.
  */
 export const getTableBucket: API.OperationMethod<
-  GetTableBucketRequest,
+  GetTableBucketRequest & RegionInput,
   GetTableBucketResponse,
   GetTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -1362,7 +1363,7 @@ export type GetTableBucketEncryptionError =
  * You must have the `s3tables:GetTableBucketEncryption` permission to use this operation.
  */
 export const getTableBucketEncryption: API.OperationMethod<
-  GetTableBucketEncryptionRequest,
+  GetTableBucketEncryptionRequest & RegionInput,
   GetTableBucketEncryptionResponse,
   GetTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1400,7 +1401,7 @@ export type GetTableBucketMaintenanceConfigurationError =
  * You must have the `s3tables:GetTableBucketMaintenanceConfiguration` permission to use this operation.
  */
 export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
-  GetTableBucketMaintenanceConfigurationRequest,
+  GetTableBucketMaintenanceConfigurationRequest & RegionInput,
   GetTableBucketMaintenanceConfigurationResponse,
   GetTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type GetTableBucketMetricsConfigurationError =
  * You must have the `s3tables:GetTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const getTableBucketMetricsConfiguration: API.OperationMethod<
-  GetTableBucketMetricsConfigurationRequest,
+  GetTableBucketMetricsConfigurationRequest & RegionInput,
   GetTableBucketMetricsConfigurationResponse,
   GetTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1476,7 +1477,7 @@ export type GetTableBucketPolicyError =
  * You must have the `s3tables:GetTableBucketPolicy` permission to use this operation.
  */
 export const getTableBucketPolicy: API.OperationMethod<
-  GetTableBucketPolicyRequest,
+  GetTableBucketPolicyRequest & RegionInput,
   GetTableBucketPolicyResponse,
   GetTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1515,7 +1516,7 @@ export type GetTableBucketReplicationError =
  * You must have the `s3tables:GetTableBucketReplication` permission to use this operation.
  */
 export const getTableBucketReplication: API.OperationMethod<
-  GetTableBucketReplicationRequest,
+  GetTableBucketReplicationRequest & RegionInput,
   GetTableBucketReplicationResponse,
   GetTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1554,7 +1555,7 @@ export type GetTableBucketStorageClassError =
  * You must have the `s3tables:GetTableBucketStorageClass` permission to use this operation.
  */
 export const getTableBucketStorageClass: API.OperationMethod<
-  GetTableBucketStorageClassRequest,
+  GetTableBucketStorageClassRequest & RegionInput,
   GetTableBucketStorageClassResponse,
   GetTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -1592,7 +1593,7 @@ export type GetTableEncryptionError =
  * You must have the `s3tables:GetTableEncryption` permission to use this operation.
  */
 export const getTableEncryption: API.OperationMethod<
-  GetTableEncryptionRequest,
+  GetTableEncryptionRequest & RegionInput,
   GetTableEncryptionResponse,
   GetTableEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1632,7 +1633,7 @@ export type GetTableMaintenanceConfigurationError =
  * - You must have the `s3tables:GetTableData` permission to use set the compaction strategy to `sort` or `zorder`.
  */
 export const getTableMaintenanceConfiguration: API.OperationMethod<
-  GetTableMaintenanceConfigurationRequest,
+  GetTableMaintenanceConfigurationRequest & RegionInput,
   GetTableMaintenanceConfigurationResponse,
   GetTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type GetTableMaintenanceJobStatusError =
  * You must have the `s3tables:GetTableMaintenanceJobStatus` permission to use this operation.
  */
 export const getTableMaintenanceJobStatus: API.OperationMethod<
-  GetTableMaintenanceJobStatusRequest,
+  GetTableMaintenanceJobStatusRequest & RegionInput,
   GetTableMaintenanceJobStatusResponse,
   GetTableMaintenanceJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1708,7 +1709,7 @@ export type GetTableMetadataLocationError =
  * You must have the `s3tables:GetTableMetadataLocation` permission to use this operation.
  */
 export const getTableMetadataLocation: API.OperationMethod<
-  GetTableMetadataLocationRequest,
+  GetTableMetadataLocationRequest & RegionInput,
   GetTableMetadataLocationResponse,
   GetTableMetadataLocationError,
   Credentials | HttpClient.HttpClient
@@ -1746,7 +1747,7 @@ export type GetTablePolicyError =
  * You must have the `s3tables:GetTablePolicy` permission to use this operation.
  */
 export const getTablePolicy: API.OperationMethod<
-  GetTablePolicyRequest,
+  GetTablePolicyRequest & RegionInput,
   GetTablePolicyResponse,
   GetTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1784,7 +1785,7 @@ export type GetTableRecordExpirationConfigurationError =
  * You must have the `s3tables:GetTableRecordExpirationConfiguration` permission to use this operation.
  */
 export const getTableRecordExpirationConfiguration: API.OperationMethod<
-  GetTableRecordExpirationConfigurationRequest,
+  GetTableRecordExpirationConfigurationRequest & RegionInput,
   GetTableRecordExpirationConfigurationResponse,
   GetTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1822,7 +1823,7 @@ export type GetTableRecordExpirationJobStatusError =
  * You must have the `s3tables:GetTableRecordExpirationJobStatus` permission to use this operation.
  */
 export const getTableRecordExpirationJobStatus: API.OperationMethod<
-  GetTableRecordExpirationJobStatusRequest,
+  GetTableRecordExpirationJobStatusRequest & RegionInput,
   GetTableRecordExpirationJobStatusResponse,
   GetTableRecordExpirationJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type GetTableReplicationError =
  * You must have the `s3tables:GetTableReplication` permission to use this operation.
  */
 export const getTableReplication: API.OperationMethod<
-  GetTableReplicationRequest,
+  GetTableReplicationRequest & RegionInput,
   GetTableReplicationResponse,
   GetTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1900,7 +1901,7 @@ export type GetTableReplicationStatusError =
  * You must have the `s3tables:GetTableReplicationStatus` permission to use this operation.
  */
 export const getTableReplicationStatus: API.OperationMethod<
-  GetTableReplicationStatusRequest,
+  GetTableReplicationStatusRequest & RegionInput,
   GetTableReplicationStatusResponse,
   GetTableReplicationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1938,7 +1939,7 @@ export type GetTableStorageClassError =
  * You must have the `s3tables:GetTableStorageClass` permission to use this operation.
  */
 export const getTableStorageClass: API.OperationMethod<
-  GetTableStorageClassRequest,
+  GetTableStorageClassRequest & RegionInput,
   GetTableStorageClassResponse,
   GetTableStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type ListNamespacesError =
  * You must have the `s3tables:ListNamespaces` permission to use this operation.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -2024,7 +2025,7 @@ export type ListTableBucketsError =
  * You must have the `s3tables:ListTableBuckets` permission to use this operation.
  */
 export const listTableBuckets: API.PaginatedOperationMethod<
-  ListTableBucketsRequest,
+  ListTableBucketsRequest & RegionInput,
   ListTableBucketsResponse,
   ListTableBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -2070,7 +2071,7 @@ export type ListTablesError =
  * You must have the `s3tables:ListTables` permission to use this operation.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -2117,7 +2118,7 @@ export type ListTagsForResourceError =
  * For tables and table buckets, you must have the `s3tables:ListTagsForResource` permission to use this operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2157,7 +2158,7 @@ export type PutTableBucketEncryptionError =
  * If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the *Amazon Simple Storage Service User Guide*.
  */
 export const putTableBucketEncryption: API.OperationMethod<
-  PutTableBucketEncryptionRequest,
+  PutTableBucketEncryptionRequest & RegionInput,
   PutTableBucketEncryptionResponse,
   PutTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type PutTableBucketMaintenanceConfigurationError =
  * You must have the `s3tables:PutTableBucketMaintenanceConfiguration` permission to use this operation.
  */
 export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
-  PutTableBucketMaintenanceConfigurationRequest,
+  PutTableBucketMaintenanceConfigurationRequest & RegionInput,
   PutTableBucketMaintenanceConfigurationResponse,
   PutTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2233,7 +2234,7 @@ export type PutTableBucketMetricsConfigurationError =
  * You must have the `s3tables:PutTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const putTableBucketMetricsConfiguration: API.OperationMethod<
-  PutTableBucketMetricsConfigurationRequest,
+  PutTableBucketMetricsConfigurationRequest & RegionInput,
   PutTableBucketMetricsConfigurationResponse,
   PutTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type PutTableBucketPolicyError =
  * You must have the `s3tables:PutTableBucketPolicy` permission to use this operation.
  */
 export const putTableBucketPolicy: API.OperationMethod<
-  PutTableBucketPolicyRequest,
+  PutTableBucketPolicyRequest & RegionInput,
   PutTableBucketPolicyResponse,
   PutTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2326,7 +2327,7 @@ export type PutTableBucketReplicationError =
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
 export const putTableBucketReplication: API.OperationMethod<
-  PutTableBucketReplicationRequest,
+  PutTableBucketReplicationRequest & RegionInput,
   PutTableBucketReplicationResponse,
   PutTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2365,7 +2366,7 @@ export type PutTableBucketStorageClassError =
  * You must have the `s3tables:PutTableBucketStorageClass` permission to use this operation.
  */
 export const putTableBucketStorageClass: API.OperationMethod<
-  PutTableBucketStorageClassRequest,
+  PutTableBucketStorageClassRequest & RegionInput,
   PutTableBucketStorageClassResponse,
   PutTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -2403,7 +2404,7 @@ export type PutTableMaintenanceConfigurationError =
  * You must have the `s3tables:PutTableMaintenanceConfiguration` permission to use this operation.
  */
 export const putTableMaintenanceConfiguration: API.OperationMethod<
-  PutTableMaintenanceConfigurationRequest,
+  PutTableMaintenanceConfigurationRequest & RegionInput,
   PutTableMaintenanceConfigurationResponse,
   PutTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2441,7 +2442,7 @@ export type PutTablePolicyError =
  * You must have the `s3tables:PutTablePolicy` permission to use this operation.
  */
 export const putTablePolicy: API.OperationMethod<
-  PutTablePolicyRequest,
+  PutTablePolicyRequest & RegionInput,
   PutTablePolicyResponse,
   PutTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2479,7 +2480,7 @@ export type PutTableRecordExpirationConfigurationError =
  * You must have the `s3tables:PutTableRecordExpirationConfiguration` permission to use this operation.
  */
 export const putTableRecordExpirationConfiguration: API.OperationMethod<
-  PutTableRecordExpirationConfigurationRequest,
+  PutTableRecordExpirationConfigurationRequest & RegionInput,
   PutTableRecordExpirationConfigurationResponse,
   PutTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2532,7 +2533,7 @@ export type PutTableReplicationError =
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
 export const putTableReplication: API.OperationMethod<
-  PutTableReplicationRequest,
+  PutTableReplicationRequest & RegionInput,
   PutTableReplicationResponse,
   PutTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2571,7 +2572,7 @@ export type RenameTableError =
  * You must have the `s3tables:RenameTable` permission to use this operation.
  */
 export const renameTable: API.OperationMethod<
-  RenameTableRequest,
+  RenameTableRequest & RegionInput,
   RenameTableResponse,
   RenameTableError,
   Credentials | HttpClient.HttpClient
@@ -2611,7 +2612,7 @@ export type TagResourceError =
  * For tables and table buckets, you must have the `s3tables:TagResource` permission to use this operation.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2651,7 +2652,7 @@ export type UntagResourceError =
  * For tables and table buckets, you must have the `s3tables:UntagResource` permission to use this operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type UpdateTableMetadataLocationError =
  * You must have the `s3tables:UpdateTableMetadataLocation` permission to use this operation.
  */
 export const updateTableMetadataLocation: API.OperationMethod<
-  UpdateTableMetadataLocationRequest,
+  UpdateTableMetadataLocationRequest & RegionInput,
   UpdateTableMetadataLocationResponse,
   UpdateTableMetadataLocationError,
   Credentials | HttpClient.HttpClient

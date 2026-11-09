@@ -1,5 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -46,7 +47,12 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
-import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
+import {
+  loadHandler,
+  serializeFailure,
+  type LazyHandler,
+  type ProtocolHandler,
+} from "./client/protocol.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
@@ -74,10 +80,10 @@ import { invalidHostLabel } from "./util/serialize-input.ts";
 /**
  * Context (requirements) shared by every generated AWS operation.
  *
- * `Region` is deliberately absent: it is an override read with
- * `Effect.serviceOption` (see `region.ts`), falling back to the region the
- * credentials carry, so callers who already configured a region for their
- * credentials don't have to state it again.
+ * `Region` is deliberately absent: it is an optional override (see
+ * `region.ts`), falling back to the region the credentials carry, so callers
+ * who already configured a region for their credentials don't have to state
+ * it again.
  */
 export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
 
@@ -105,6 +111,11 @@ interface Prepared {
    * Effect Stream and a web ReadableStream.
    */
   readonly textBody: boolean;
+  /**
+   * The input's `region` is the call's region ({@link Region.RegionInput}).
+   * False when the operation models a `region` member of its own.
+   */
+  readonly regionInput: boolean;
 }
 
 // Keyed by the operation config object, which API.make memoizes per
@@ -153,6 +164,7 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
     textBody: getPropertySignatures(op.output.ast).every(
       (prop) => !hasHttpPayload(prop) && !isStreamingType(prop.type),
     ),
+    regionInput: !getPropertySignatures(inputAst).some((prop) => prop.name === "region"),
   };
   preparedOps.set(config, prepared);
   return prepared;
@@ -167,6 +179,7 @@ type Fiber = Parameters<typeof SigV4.signSync>[1];
  */
 const withAwsContext = (
   context: Context.Context<any>,
+  callRegion: string | undefined,
   f: (
     credentials: Credentials.ResolvedCredentials,
     region: string,
@@ -174,15 +187,16 @@ const withAwsContext = (
   ) => Effect.Effect<any, any, any>,
 ): Effect.Effect<any, any, any> =>
   API.withValue(Context.get(context, Credentials.Credentials), (credentials) => {
-    // The region the credentials authenticated against, unless this scope
-    // provides a `Region` override. `Region` is optional -- it isn't in any
-    // operation's requirements.
+    // The call's own `region`, else this scope's `Region` override, else
+    // the region the credentials authenticated against. `Region` is
+    // optional -- it isn't in any operation's requirements.
     const withRegion = (region: string) => {
       const endpoint = Context.getOrUndefined(context, Endpoint.Endpoint);
       return endpoint === undefined
         ? f(credentials, region, undefined)
         : API.withValue(endpoint, (custom) => f(credentials, region, custom));
     };
+    if (callRegion !== undefined) return withRegion(callRegion);
     const regionOverride = Context.getOrUndefined(context, Region.Region);
     return regionOverride === undefined
       ? withRegion(credentials.region)
@@ -489,7 +503,10 @@ interface Plan {
 const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   if (prepared.plan !== undefined) return Effect.succeed(prepared.plan);
   const handler = prepared.handler;
-  if (handler === undefined) return Effect.die(new Error("No protocol found on input schema"));
+  if (handler === undefined)
+    return Effect.fail(
+      new SdkError({ message: "No protocol found on input schema" }),
+    ) as Effect.Effect<never>;
   return Effect.map(loadHandler(handler), (protocol) => {
     const decodeSuccess = makeSuccessDecoder(prepared.op, {
       service: prepared.serviceSdkId,
@@ -524,8 +541,11 @@ const encodeWith = <A>(
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
+  const callRegion = prepared.regionInput
+    ? (input as Partial<Region.RegionInput> | undefined)?.region
+    : undefined;
   const sendSigned = (request: Request) =>
-    withAwsContext(context, (credentials, region, custom) => {
+    withAwsContext(context, callRegion, (credentials, region, custom) => {
       Telemetry.annotate(context, "cloud.region", region);
       if (!traceDebug) {
         return thenSend(
@@ -559,7 +579,7 @@ const encodeWith = <A>(
             const r = plan.build(input);
             return Effect.isEffect(r) ? r : Effect.succeed(r);
           } catch (e) {
-            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+            return serializeFailure(prepared.operationName, e);
           }
         }),
       ),
@@ -570,7 +590,7 @@ const encodeWith = <A>(
   try {
     request = plan.build(input);
   } catch (e) {
-    return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+    return serializeFailure(prepared.operationName, e);
   }
   return Effect.isEffect(request) ? Effect.flatMap(request, sendSigned) : sendSigned(request);
 };

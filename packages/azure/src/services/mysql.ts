@@ -40,7 +40,7 @@ export type AdvancedThreatProtectionState = "Enabled" | "Disabled";
 /** Properties of an Advanced Threat Protection setting. */
 export interface AdvancedThreatProtectionPropertiesInput {
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
-  state?: AdvancedThreatProtectionState | (string & {});
+  state?: AdvancedThreatProtectionState | (string & {}) | undefined;
 }
 export interface AdvancedThreatProtectionSettingsUpdatePutRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -54,7 +54,7 @@ export interface AdvancedThreatProtectionSettingsUpdatePutRequest {
     | AdvancedThreatProtectionSettingsUpdatePutRequestAdvancedThreatProtectionName
     | (string & {});
   /** Resource properties. */
-  properties?: AdvancedThreatProtectionPropertiesInput;
+  properties?: AdvancedThreatProtectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -63,17 +63,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The current provisioning state. */
 export type AdvancedThreatProtectionProvisioningState =
@@ -84,27 +84,27 @@ export type AdvancedThreatProtectionProvisioningState =
 /** Properties of an Advanced Threat Protection setting. */
 export interface AdvancedThreatProtectionProperties {
   /** Specifies the UTC creation time of the policy. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
-  state?: AdvancedThreatProtectionState;
+  state?: AdvancedThreatProtectionState | undefined;
   /** Provisioning state of the Threat Protection. */
-  provisioningState?: AdvancedThreatProtectionProvisioningState;
+  provisioningState?: AdvancedThreatProtectionProvisioningState | undefined;
 }
 export interface AdvancedThreatProtectionSettingsUpdatePutResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AdvancedThreatProtectionProperties;
+  properties?: AdvancedThreatProtectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AzureADAdministratorsCreateOrUpdateRequestAdministratorName = "ActiveDirectory";
 /** Type of the sever administrator. */
@@ -112,15 +112,15 @@ export type AdministratorType = "ActiveDirectory";
 /** The properties of an administrator. */
 export interface AdministratorProperties {
   /** Type of the sever administrator. */
-  administratorType?: AdministratorType | (string & {});
+  administratorType?: AdministratorType | (string & {}) | undefined;
   /** Login name of the server administrator. */
-  login?: string;
+  login?: string | undefined;
   /** SID (object ID) of the server administrator. */
-  sid?: string;
+  sid?: string | undefined;
   /** Tenant ID of the administrator. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The resource id of the identity used for AAD Authentication. */
-  identityResourceId?: string;
+  identityResourceId?: string | undefined;
 }
 export interface AzureADAdministratorsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -132,34 +132,34 @@ export interface AzureADAdministratorsCreateOrUpdateRequest {
   /** The name of the Azure AD Administrator. */
   administratorName: AzureADAdministratorsCreateOrUpdateRequestAdministratorName | (string & {});
   /** The properties of an administrator. */
-  properties?: AdministratorProperties;
+  properties?: AdministratorProperties | undefined;
 }
 export interface AzureADAdministratorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an administrator. */
-  properties?: AdministratorProperties;
+  properties?: AdministratorProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Source of the configuration. */
 export type ConfigurationSource = "system-default" | "user-override";
 /** The properties of a configuration. */
 export interface ConfigurationPropertiesInput {
   /** Value of the configuration. */
-  value?: string;
+  value?: string | undefined;
   /** Current value of the configuration. */
-  currentValue?: string;
+  currentValue?: string | undefined;
   /** Source of the configuration. */
-  source?: ConfigurationSource | (string & {});
+  source?: ConfigurationSource | (string & {}) | undefined;
 }
 export interface ConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -171,7 +171,7 @@ export interface ConfigurationsCreateOrUpdateRequest {
   /** The name of the server configuration. */
   configurationName: string;
   /** The properties of a configuration. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** If is the configuration read only. */
 export type IsReadOnly = "True" | "False";
@@ -182,43 +182,43 @@ export type IsDynamicConfig = "True" | "False";
 /** The properties of a configuration. */
 export interface ConfigurationProperties {
   /** Value of the configuration. */
-  value?: string;
+  value?: string | undefined;
   /** Current value of the configuration. */
-  currentValue?: string;
+  currentValue?: string | undefined;
   /** Description of the configuration. */
-  description?: string;
+  description?: string | undefined;
   /** The link used to get the document from community or Azure site. */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
   /** Default value of the configuration. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Data type of the configuration. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Allowed values of the configuration. */
-  allowedValues?: string;
+  allowedValues?: string | undefined;
   /** Source of the configuration. */
-  source?: ConfigurationSource;
+  source?: ConfigurationSource | undefined;
   /** If is the configuration read only. */
-  isReadOnly?: IsReadOnly;
+  isReadOnly?: IsReadOnly | undefined;
   /** If is the configuration pending restart or not. */
-  isConfigPendingRestart?: IsConfigPendingRestart;
+  isConfigPendingRestart?: IsConfigPendingRestart | undefined;
   /** If is the configuration dynamic. */
-  isDynamicConfig?: IsDynamicConfig;
+  isDynamicConfig?: IsDynamicConfig | undefined;
 }
 export interface ConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Backup Format for the current backup. (CollatedFormat is INTERNAL - DO NOT USE) */
 export type BackupFormat = "CollatedFormat" | "Raw";
@@ -227,7 +227,7 @@ export interface BackupSettings {
   /** The name of the backup. */
   backupName: string;
   /** Backup Format for the current backup. (CollatedFormat is INTERNAL - DO NOT USE) */
-  backupFormat?: BackupFormat | (string & {});
+  backupFormat?: BackupFormat | (string & {}) | undefined;
 }
 /** Details about the target where the backup content will be stored. */
 export interface BackupStoreDetails {
@@ -249,35 +249,35 @@ export interface CreateBackupAndExportRequest {
 /** BackupAndExport Response Properties */
 export interface BackupAndExportResponseProperties {
   /** Size of datasource in bytes */
-  datasourceSizeInBytes?: number;
+  datasourceSizeInBytes?: number | undefined;
   /** Data transferred in bytes */
-  dataTransferredInBytes?: number;
+  dataTransferredInBytes?: number | undefined;
   /** Metadata related to backup to be stored for restoring resource in key-value pairs. */
-  backupMetadata?: string;
+  backupMetadata?: string | undefined;
 }
 /** The error details. */
 export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type CreateBackupAndExportResponseErrorDetailsList = Array<ErrorDetail>;
@@ -286,15 +286,15 @@ export type CreateBackupAndExportResponseErrorAdditionalInfoList = Array<ErrorAd
 /** The error detail. */
 export interface CreateBackupAndExportResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: CreateBackupAndExportResponseErrorDetailsList;
+  details?: CreateBackupAndExportResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: CreateBackupAndExportResponseErrorAdditionalInfoList;
+  additionalInfo?: CreateBackupAndExportResponseErrorAdditionalInfoList | undefined;
 }
 /** The operation status */
 export type OperationStatus =
@@ -306,29 +306,29 @@ export type OperationStatus =
   | "Canceled";
 export interface CreateBackupAndExportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
   name: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BackupAndExportResponseProperties;
+  properties?: BackupAndExportResponseProperties | undefined;
   /** The error detail. */
-  error?: CreateBackupAndExportResponseError;
+  error?: CreateBackupAndExportResponseError | undefined;
   /** The operation status */
-  status?: OperationStatus;
+  status?: OperationStatus | undefined;
   /** Start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Operation progress (0-100). */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BackupType = "FULL";
 /** The current provisioning state. */
@@ -336,14 +336,14 @@ export type ProvisioningState = "Succeeded" | "Creating" | "Deleting" | "Failed"
 /** The properties of a server backup. */
 export interface ServerBackupPropertiesV2 {
   /** Backup name */
-  backupNameV2?: string;
-  backupType?: BackupType | (string & {});
+  backupNameV2?: string | undefined;
+  backupType?: BackupType | (string & {}) | undefined;
   /** Backup completed time (ISO8601 format). */
-  completedTime?: string;
+  completedTime?: string | undefined;
   /** Backup source */
-  source?: string;
+  source?: string | undefined;
   /** The provisioning state of backup resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface CreateLongRunningBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -355,23 +355,23 @@ export interface CreateLongRunningBackupRequest {
   /** The name of the backup. */
   backupName: string;
   /** The properties of a server backup. */
-  properties?: ServerBackupPropertiesV2;
+  properties?: ServerBackupPropertiesV2 | undefined;
 }
 export interface CreateLongRunningBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupPropertiesV2;
+  properties?: ServerBackupPropertiesV2 | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type CreateServerRequestTagsMap = { [key: string]: string | undefined };
@@ -386,15 +386,15 @@ export type DataEncryptionType = "AzureKeyVault" | "SystemManaged";
 /** The date encryption for cmk. */
 export interface DataEncryption {
   /** Primary user identity resource id */
-  primaryUserAssignedIdentityId?: string;
+  primaryUserAssignedIdentityId?: string | undefined;
   /** Primary key uri */
-  primaryKeyURI?: string;
+  primaryKeyURI?: string | undefined;
   /** Geo backup user identity resource id as identity can't cross region, need identity in same region as geo backup */
-  geoBackupUserAssignedIdentityId?: string;
+  geoBackupUserAssignedIdentityId?: string | undefined;
   /** Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup */
-  geoBackupKeyURI?: string;
+  geoBackupKeyURI?: string | undefined;
   /** The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk. */
-  type?: DataEncryptionType | (string & {});
+  type?: DataEncryptionType | (string & {}) | undefined;
 }
 /** Enable Storage Auto Grow or not. */
 export type StorageInputAutoGrow = "Enabled" | "Disabled";
@@ -407,28 +407,28 @@ export type StorageInputStorageRedundancy = "LocalRedundancy" | "ZoneRedundancy"
 /** Storage Profile properties of a server */
 export interface StorageInput {
   /** Max storage size allowed for a server. */
-  storageSizeGB?: number;
+  storageSizeGB?: number | undefined;
   /** Storage IOPS for a server. */
-  iops?: number;
+  iops?: number | undefined;
   /** Enable Storage Auto Grow or not. */
-  autoGrow?: StorageInputAutoGrow | (string & {});
+  autoGrow?: StorageInputAutoGrow | (string & {}) | undefined;
   /** Enable Log On Disk or not. */
-  logOnDisk?: StorageInputLogOnDisk | (string & {});
+  logOnDisk?: StorageInputLogOnDisk | (string & {}) | undefined;
   /** Enable IO Auto Scaling or not. */
-  autoIoScaling?: StorageInputAutoIoScaling | (string & {});
+  autoIoScaling?: StorageInputAutoIoScaling | (string & {}) | undefined;
   /** The redundant type of the server storage. The parameter is used for server creation. */
-  storageRedundancy?: StorageInputStorageRedundancy | (string & {});
+  storageRedundancy?: StorageInputStorageRedundancy | (string & {}) | undefined;
 }
 /** Whether or not geo redundant backup is enabled. */
 export type BackupInputGeoRedundantBackup = "Enabled" | "Disabled";
 /** Storage Profile properties of a server */
 export interface BackupInput {
   /** Backup retention days for the server. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Backup interval hours for the server. */
-  backupIntervalHours?: number;
+  backupIntervalHours?: number | undefined;
   /** Whether or not geo redundant backup is enabled. */
-  geoRedundantBackup?: BackupInputGeoRedundantBackup | (string & {});
+  geoRedundantBackup?: BackupInputGeoRedundantBackup | (string & {}) | undefined;
 }
 /** High availability mode for a server. */
 export type HighAvailabilityMode = "Disabled" | "ZoneRedundant" | "SameZone";
@@ -442,94 +442,94 @@ export type HighAvailabilityState =
 /** High availability properties of a server */
 export interface HighAvailability {
   /** High availability mode for a server. */
-  mode?: HighAvailabilityMode | (string & {});
+  mode?: HighAvailabilityMode | (string & {}) | undefined;
   /** The state of server high availability. */
-  state?: HighAvailabilityState | (string & {});
+  state?: HighAvailabilityState | (string & {}) | undefined;
   /** Availability zone of the standby server. */
-  standbyAvailabilityZone?: string;
+  standbyAvailabilityZone?: string | undefined;
 }
 /** Enum to indicate whether value is 'Enabled' or 'Disabled' */
 export type EnableStatusEnum = "Enabled" | "Disabled";
 /** Network related properties of a server */
 export interface Network {
   /** Whether or not public network access is allowed for this server. Value is 'Disabled' when server has VNet integration. */
-  publicNetworkAccess?: EnableStatusEnum | (string & {});
+  publicNetworkAccess?: EnableStatusEnum | (string & {}) | undefined;
   /** Delegated subnet resource id used to setup vnet for a server. */
-  delegatedSubnetResourceId?: string;
+  delegatedSubnetResourceId?: string | undefined;
   /** Private DNS zone resource id. */
-  privateDnsZoneResourceId?: string;
+  privateDnsZoneResourceId?: string | undefined;
 }
 /** Enum to indicate the patch strategy of a server */
 export type PatchStrategy = "Regular" | "VirtualCanary";
 /** Maintenance policy of a server. */
 export interface MaintenancePolicy {
   /** The patch strategy of this server */
-  patchStrategy?: PatchStrategy | (string & {});
+  patchStrategy?: PatchStrategy | (string & {}) | undefined;
 }
 /** The batch of maintenance when enabled the custom managed maintenance window of a server. */
 export type BatchOfMaintenance = "Default" | "Batch1" | "Batch2";
 /** Maintenance window of a server. */
 export interface MaintenanceWindow {
   /** indicates whether custom window is enabled or disabled */
-  customWindow?: string;
+  customWindow?: string | undefined;
   /** start hour for maintenance window */
-  startHour?: number;
+  startHour?: number | undefined;
   /** start minute for maintenance window */
-  startMinute?: number;
+  startMinute?: number | undefined;
   /** day of week for maintenance window */
-  dayOfWeek?: number;
+  dayOfWeek?: number | undefined;
   /** The batch of maintenance when enabled the custom managed maintenance window of a server. */
-  batchOfMaintenance?: BatchOfMaintenance | (string & {});
+  batchOfMaintenance?: BatchOfMaintenance | (string & {}) | undefined;
 }
 /** Storage type of import source. */
 export type ImportSourceStorageType = "AzureBlob";
 /** Import source related properties. */
 export interface ImportSourceProperties {
   /** Storage type of import source. */
-  storageType?: ImportSourceStorageType | (string & {});
+  storageType?: ImportSourceStorageType | (string & {}) | undefined;
   /** Uri of the import source storage. */
-  storageUrl?: string;
+  storageUrl?: string | undefined;
   /** Sas token for accessing source storage. Read and list permissions are required for sas token. */
-  sasToken?: string;
+  sasToken?: string | undefined;
   /** Relative path of data directory in storage. */
-  dataDirPath?: string;
+  dataDirPath?: string | undefined;
 }
 /** The properties of a server. */
 export interface ServerPropertiesInput {
   /** The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation). */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** The password of the administrator login (required for server creation). */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Major version of MySQL. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7 */
-  version?: ServerVersion | (string & {});
+  version?: ServerVersion | (string & {}) | undefined;
   /** availability Zone information of the server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The mode to create a new MySQL server. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** The source MySQL server id. */
-  sourceServerResourceId?: string;
+  sourceServerResourceId?: string | undefined;
   /** Restore point creation time (ISO8601 format), specifying the time to restore from. */
-  restorePointInTime?: string;
+  restorePointInTime?: string | undefined;
   /** The replication role. */
-  replicationRole?: ReplicationRole | (string & {});
+  replicationRole?: ReplicationRole | (string & {}) | undefined;
   /** The Data Encryption for CMK. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** The server database port. Can only be specified when the server is being created. */
-  databasePort?: number;
+  databasePort?: number | undefined;
   /** Storage related properties of a server. */
-  storage?: StorageInput;
+  storage?: StorageInput | undefined;
   /** Backup related properties of a server. */
-  backup?: BackupInput;
+  backup?: BackupInput | undefined;
   /** High availability related properties of a server. */
-  highAvailability?: HighAvailability;
+  highAvailability?: HighAvailability | undefined;
   /** Network related properties of a server. */
-  network?: Network;
+  network?: Network | undefined;
   /** Maintenance policy of a server. */
-  maintenancePolicy?: MaintenancePolicy;
+  maintenancePolicy?: MaintenancePolicy | undefined;
   /** Maintenance window of a server. Known issue: cannot be set during server creation or updated with other properties during server update; must be updated separately. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Source properties for import from storage. */
-  importSourceProperties?: ImportSourceProperties;
+  importSourceProperties?: ImportSourceProperties | undefined;
 }
 /** Type of managed service identity. */
 export type ManagedServiceIdentityType = "UserAssigned";
@@ -542,9 +542,9 @@ export type MySQLServerIdentityInputUserAssignedIdentitiesMap = {
 /** Properties to configure Identity for Bring your Own Keys */
 export interface MySQLServerIdentityInput {
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType | (string & {});
+  type?: ManagedServiceIdentityType | (string & {}) | undefined;
   /** Metadata of user assigned identity. */
-  userAssignedIdentities?: MySQLServerIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: MySQLServerIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** The tier of the particular SKU, e.g. GeneralPurpose. */
 export type ServerSkuTier = "Burstable" | "GeneralPurpose" | "MemoryOptimized";
@@ -563,15 +563,15 @@ export interface CreateServerRequest {
   /** The name of the server. */
   serverName: string;
   /** Resource tags. */
-  tags?: CreateServerRequestTagsMap;
+  tags?: CreateServerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerPropertiesInput;
+  properties?: ServerPropertiesInput | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentityInput;
+  identity?: MySQLServerIdentityInput | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
 }
 /** Resource tags. */
 export type CreateServerResponseTagsMap = { [key: string]: string | undefined };
@@ -595,50 +595,50 @@ export type StorageStorageRedundancy = "LocalRedundancy" | "ZoneRedundancy";
 /** Storage Profile properties of a server */
 export interface Storage {
   /** Max storage size allowed for a server. */
-  storageSizeGB?: number;
+  storageSizeGB?: number | undefined;
   /** Storage IOPS for a server. */
-  iops?: number;
+  iops?: number | undefined;
   /** Enable Storage Auto Grow or not. */
-  autoGrow?: StorageAutoGrow;
+  autoGrow?: StorageAutoGrow | undefined;
   /** Enable Log On Disk or not. */
-  logOnDisk?: StorageLogOnDisk;
+  logOnDisk?: StorageLogOnDisk | undefined;
   /** The sku name of the server storage. */
-  storageSku?: string;
+  storageSku?: string | undefined;
   /** Enable IO Auto Scaling or not. */
-  autoIoScaling?: StorageAutoIoScaling;
+  autoIoScaling?: StorageAutoIoScaling | undefined;
   /** The redundant type of the server storage. The parameter is used for server creation. */
-  storageRedundancy?: StorageStorageRedundancy;
+  storageRedundancy?: StorageStorageRedundancy | undefined;
 }
 /** Whether or not geo redundant backup is enabled. */
 export type BackupGeoRedundantBackup = "Enabled" | "Disabled";
 /** Storage Profile properties of a server */
 export interface Backup {
   /** Backup retention days for the server. */
-  backupRetentionDays?: number;
+  backupRetentionDays?: number | undefined;
   /** Backup interval hours for the server. */
-  backupIntervalHours?: number;
+  backupIntervalHours?: number | undefined;
   /** Whether or not geo redundant backup is enabled. */
-  geoRedundantBackup?: BackupGeoRedundantBackup;
+  geoRedundantBackup?: BackupGeoRedundantBackup | undefined;
   /** Earliest restore point creation time (ISO8601 format) */
-  earliestRestoreDate?: string;
+  earliestRestoreDate?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -649,26 +649,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface ServerPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** PrivateEndpointConnections related properties of a server. */
 export type ServerPropertiesPrivateEndpointConnectionsList =
@@ -676,56 +676,56 @@ export type ServerPropertiesPrivateEndpointConnectionsList =
 /** The properties of a server. */
 export interface ServerProperties {
   /** The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation). */
-  administratorLogin?: string;
+  administratorLogin?: string | undefined;
   /** The password of the administrator login (required for server creation). */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Major version of MySQL. 8.0.21 stands for MySQL 8.0, 5.7.44 stands for MySQL 5.7 */
-  version?: ServerVersion;
+  version?: ServerVersion | undefined;
   /** Major version and actual engine version */
-  fullVersion?: string;
+  fullVersion?: string | undefined;
   /** availability Zone information of the server. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The mode to create a new MySQL server. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** The source MySQL server id. */
-  sourceServerResourceId?: string;
+  sourceServerResourceId?: string | undefined;
   /** Restore point creation time (ISO8601 format), specifying the time to restore from. */
-  restorePointInTime?: string;
+  restorePointInTime?: string | undefined;
   /** The replication role. */
-  replicationRole?: ReplicationRole;
+  replicationRole?: ReplicationRole | undefined;
   /** The maximum number of replicas that a primary server can have. */
-  replicaCapacity?: number;
+  replicaCapacity?: number | undefined;
   /** The Data Encryption for CMK. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** The state of a server. */
-  state?: ServerState;
+  state?: ServerState | undefined;
   /** The fully qualified domain name of a server. */
-  fullyQualifiedDomainName?: string;
+  fullyQualifiedDomainName?: string | undefined;
   /** The server database port. Can only be specified when the server is being created. */
-  databasePort?: number;
+  databasePort?: number | undefined;
   /** Storage related properties of a server. */
-  storage?: Storage;
+  storage?: Storage | undefined;
   /** Backup related properties of a server. */
-  backup?: Backup;
+  backup?: Backup | undefined;
   /** High availability related properties of a server. */
-  highAvailability?: HighAvailability;
+  highAvailability?: HighAvailability | undefined;
   /** Network related properties of a server. */
-  network?: Network;
+  network?: Network | undefined;
   /** PrivateEndpointConnections related properties of a server. */
-  privateEndpointConnections?: ServerPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ServerPropertiesPrivateEndpointConnectionsList | undefined;
   /** Maintenance policy of a server. */
-  maintenancePolicy?: MaintenancePolicy;
+  maintenancePolicy?: MaintenancePolicy | undefined;
   /** Maintenance window of a server. Known issue: cannot be set during server creation or updated with other properties during server update; must be updated separately. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Source properties for import from storage. */
-  importSourceProperties?: ImportSourceProperties;
+  importSourceProperties?: ImportSourceProperties | undefined;
 }
 /** Metadata of user assigned identity. */
 export interface UserAssignedIdentity {
   /** Principal Id of user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client Id of user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Metadata of user assigned identity. */
 export type MySQLServerIdentityUserAssignedIdentitiesMap = {
@@ -734,44 +734,44 @@ export type MySQLServerIdentityUserAssignedIdentitiesMap = {
 /** Properties to configure Identity for Bring your Own Keys */
 export interface MySQLServerIdentity {
   /** ObjectId from the KeyVault */
-  principalId?: string;
+  principalId?: string | undefined;
   /** TenantId from the KeyVault */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType;
+  type?: ManagedServiceIdentityType | undefined;
   /** Metadata of user assigned identity. */
-  userAssignedIdentities?: MySQLServerIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: MySQLServerIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateServerResponseTagsMap;
+  tags?: CreateServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of a database. */
 export interface DatabaseProperties {
   /** The charset of the database. */
-  charset?: string;
+  charset?: string | undefined;
   /** The collation of the database. */
-  collation?: string;
+  collation?: string | undefined;
 }
 export interface DatabasesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -783,23 +783,23 @@ export interface DatabasesCreateOrUpdateRequest {
   /** The name of the database. */
   databaseName: string;
   /** The properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 export interface DatabasesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteAzureADAdministratorRequestAdministratorName = "ActiveDirectory";
 export interface DeleteAzureADAdministratorRequest {
@@ -814,9 +814,9 @@ export interface DeleteAzureADAdministratorRequest {
 }
 export interface DeleteAzureADAdministratorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -830,9 +830,9 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -846,9 +846,9 @@ export interface DeleteFirewallRuleRequest {
 }
 export interface DeleteFirewallRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -862,9 +862,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -876,9 +876,9 @@ export interface DeleteServerRequest {
 }
 export interface DeleteServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServerKeyRequest {
   /** The ID of the target subscription. */
@@ -899,33 +899,33 @@ export interface DetachServerVNetRequest {
   /** The name of the server. */
   serverName: string;
   /** Whether or not public network access is allowed for this server. Value is 'Disabled' when server has VNet integration. */
-  publicNetworkAccess?: EnableStatusEnum | (string & {});
+  publicNetworkAccess?: EnableStatusEnum | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type DetachServerVNetResponseTagsMap = { [key: string]: string | undefined };
 export interface DetachServerVNetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DetachServerVNetResponseTagsMap;
+  tags?: DetachServerVNetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface ExecuteCheckNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -935,16 +935,16 @@ export interface ExecuteCheckNameAvailabilityRequest {
   /** Resource name to verify. */
   name: string;
   /** Resource type used for verification. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Represents a resource name availability. */
 export interface NameAvailability {
   /** Error Message. */
-  message?: string;
+  message?: string | undefined;
   /** Indicates whether the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Reason for name being unavailable. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface ExecuteCheckNameAvailabilityWithoutLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -952,7 +952,7 @@ export interface ExecuteCheckNameAvailabilityWithoutLocationRequest {
   /** Resource name to verify. */
   name: string;
   /** Resource type used for verification. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ExecuteCheckVirtualNetworkSubnetUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -960,31 +960,31 @@ export interface ExecuteCheckVirtualNetworkSubnetUsageRequest {
   /** The name of the location. */
   locationName: string;
   /** Virtual network resource id. */
-  virtualNetworkResourceId?: string;
+  virtualNetworkResourceId?: string | undefined;
 }
 /** Delegated subnet usage data. */
 export interface DelegatedSubnetUsage {
   /** name of the subnet */
-  subnetName?: string;
+  subnetName?: string | undefined;
   /** Number of used delegated subnets */
-  usage?: number;
+  usage?: number | undefined;
 }
 /** A list of delegated subnet usage */
 export type VirtualNetworkSubnetUsageResultDelegatedSubnetsUsageList = Array<DelegatedSubnetUsage>;
 /** Virtual network subnet usage data. */
 export interface VirtualNetworkSubnetUsageResult {
   /** The location name. */
-  location?: string;
+  location?: string | undefined;
   /** The subscription id. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** A list of delegated subnet usage */
-  delegatedSubnetsUsage?: VirtualNetworkSubnetUsageResultDelegatedSubnetsUsageList;
+  delegatedSubnetsUsage?: VirtualNetworkSubnetUsageResultDelegatedSubnetsUsageList | undefined;
 }
 export interface ExecuteGetPrivateDnsZoneSuffixRequest {}
 /** The response of get private dns zone suffix. */
 export interface GetPrivateDnsZoneSuffixResponse {
   /** Represents the private DNS zone suffix. */
-  privateDnsZoneSuffix?: string;
+  privateDnsZoneSuffix?: string | undefined;
 }
 /** The properties of a server firewall rule. */
 export interface FirewallRuleProperties {
@@ -1007,19 +1007,19 @@ export interface FirewallRulesCreateOrUpdateRequest {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type GetAdvancedThreatProtectionSettingsRequestAdvancedThreatProtectionName = "Default";
 export interface GetAdvancedThreatProtectionSettingsRequest {
@@ -1036,15 +1036,15 @@ export interface GetAdvancedThreatProtectionSettingsRequest {
 }
 export interface GetAdvancedThreatProtectionSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AdvancedThreatProtectionProperties;
+  properties?: AdvancedThreatProtectionProperties | undefined;
 }
 export type GetAzureADAdministratorRequestAdministratorName = "ActiveDirectory";
 export interface GetAzureADAdministratorRequest {
@@ -1059,15 +1059,15 @@ export interface GetAzureADAdministratorRequest {
 }
 export interface GetAzureADAdministratorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an administrator. */
-  properties?: AdministratorProperties;
+  properties?: AdministratorProperties | undefined;
 }
 export interface GetBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1082,23 +1082,23 @@ export interface GetBackupRequest {
 /** The properties of a server backup. */
 export interface ServerBackupProperties {
   /** Backup type. */
-  backupType?: string;
+  backupType?: string | undefined;
   /** Backup completed time (ISO8601 format). */
-  completedTime?: string;
+  completedTime?: string | undefined;
   /** Backup source */
-  source?: string;
+  source?: string | undefined;
 }
 export interface GetBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupProperties;
+  properties?: ServerBackupProperties | undefined;
 }
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1112,15 +1112,15 @@ export interface GetConfigurationRequest {
 }
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface GetDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1134,15 +1134,15 @@ export interface GetDatabaseRequest {
 }
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1156,13 +1156,13 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
 }
@@ -1179,19 +1179,19 @@ export type CapabilityPropertiesV2SupportedGeoBackupRegionsList = Array<string>;
 /** storage edition capability */
 export interface StorageEditionCapability {
   /** storage edition name */
-  name?: string;
+  name?: string | undefined;
   /** The minimal supported storage size. */
-  minStorageSize?: number;
+  minStorageSize?: number | undefined;
   /** The maximum supported storage size. */
-  maxStorageSize?: number;
+  maxStorageSize?: number | undefined;
   /** Minimal backup retention days */
-  minBackupRetentionDays?: number;
+  minBackupRetentionDays?: number | undefined;
   /** Maximum backup retention days */
-  maxBackupRetentionDays?: number;
+  maxBackupRetentionDays?: number | undefined;
   /** Minimal backup interval hours */
-  minBackupIntervalHours?: number;
+  minBackupIntervalHours?: number | undefined;
   /** Maximum backup interval hours */
-  maxBackupIntervalHours?: number;
+  maxBackupIntervalHours?: number | undefined;
 }
 /** A list of supported storage editions */
 export type ServerEditionCapabilityV2SupportedStorageEditionsList = Array<StorageEditionCapability>;
@@ -1202,32 +1202,32 @@ export type SkuCapabilityV2SupportedHAModeList = Array<string>;
 /** Sku capability */
 export interface SkuCapabilityV2 {
   /** vCore name */
-  name?: string;
+  name?: string | undefined;
   /** supported vCores */
-  vCores?: number;
+  vCores?: number | undefined;
   /** supported IOPS */
-  supportedIops?: number;
+  supportedIops?: number | undefined;
   /** supported memory per vCore in MB */
-  supportedMemoryPerVCoreMB?: number;
+  supportedMemoryPerVCoreMB?: number | undefined;
   /** Supported zones */
-  supportedZones?: SkuCapabilityV2SupportedZonesList;
+  supportedZones?: SkuCapabilityV2SupportedZonesList | undefined;
   /** Supported high availability mode */
-  supportedHAMode?: SkuCapabilityV2SupportedHAModeList;
+  supportedHAMode?: SkuCapabilityV2SupportedHAModeList | undefined;
 }
 /** A list of supported Skus */
 export type ServerEditionCapabilityV2SupportedSkusList = Array<SkuCapabilityV2>;
 /** Server edition capabilities. */
 export interface ServerEditionCapabilityV2 {
   /** Server edition name */
-  name?: string;
+  name?: string | undefined;
   /** Default Sku name */
-  defaultSku?: string;
+  defaultSku?: string | undefined;
   /** Default storage size */
-  defaultStorageSize?: number;
+  defaultStorageSize?: number | undefined;
   /** A list of supported storage editions */
-  supportedStorageEditions?: ServerEditionCapabilityV2SupportedStorageEditionsList;
+  supportedStorageEditions?: ServerEditionCapabilityV2SupportedStorageEditionsList | undefined;
   /** A list of supported Skus */
-  supportedSkus?: ServerEditionCapabilityV2SupportedSkusList;
+  supportedSkus?: ServerEditionCapabilityV2SupportedSkusList | undefined;
 }
 /** A list of supported flexible server editions. */
 export type CapabilityPropertiesV2SupportedFlexibleServerEditionsList =
@@ -1235,41 +1235,43 @@ export type CapabilityPropertiesV2SupportedFlexibleServerEditionsList =
 /** Server version capabilities. */
 export interface ServerVersionCapabilityV2 {
   /** server version */
-  name?: string;
+  name?: string | undefined;
 }
 /** A list of supported server versions. */
 export type CapabilityPropertiesV2SupportedServerVersionsList = Array<ServerVersionCapabilityV2>;
 /** Server version capabilities. */
 export interface FeatureProperty {
   /** feature name */
-  featureName?: string;
+  featureName?: string | undefined;
   /** feature value */
-  featureValue?: string;
+  featureValue?: string | undefined;
 }
 /** A list of supported features. */
 export type CapabilityPropertiesV2SupportedFeaturesList = Array<FeatureProperty>;
 /** Location capability. */
 export interface CapabilityPropertiesV2 {
   /** supported geo backup regions */
-  supportedGeoBackupRegions?: CapabilityPropertiesV2SupportedGeoBackupRegionsList;
+  supportedGeoBackupRegions?: CapabilityPropertiesV2SupportedGeoBackupRegionsList | undefined;
   /** A list of supported flexible server editions. */
-  supportedFlexibleServerEditions?: CapabilityPropertiesV2SupportedFlexibleServerEditionsList;
+  supportedFlexibleServerEditions?:
+    | CapabilityPropertiesV2SupportedFlexibleServerEditionsList
+    | undefined;
   /** A list of supported server versions. */
-  supportedServerVersions?: CapabilityPropertiesV2SupportedServerVersionsList;
+  supportedServerVersions?: CapabilityPropertiesV2SupportedServerVersionsList | undefined;
   /** A list of supported features. */
-  supportedFeatures?: CapabilityPropertiesV2SupportedFeaturesList;
+  supportedFeatures?: CapabilityPropertiesV2SupportedFeaturesList | undefined;
 }
 export interface GetLocationBasedCapabilitySetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a location capability set. */
-  properties?: CapabilityPropertiesV2;
+  properties?: CapabilityPropertiesV2 | undefined;
 }
 export interface GetLongRunningBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1283,15 +1285,15 @@ export interface GetLongRunningBackupRequest {
 }
 export interface GetLongRunningBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupPropertiesV2;
+  properties?: ServerBackupPropertiesV2 | undefined;
 }
 export interface GetOperationProgressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1306,23 +1308,23 @@ export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationProgressResponseOperationsList = Array<OperationStatusResult>;
@@ -1335,25 +1337,25 @@ export interface OperationProgressResponseType {
 }
 export interface GetOperationProgressResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationProgressResponseOperationsList;
+  operations?: GetOperationProgressResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The response properties specific to the operation */
-  properties?: OperationProgressResponseType;
+  properties?: OperationProgressResponseType | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1369,25 +1371,25 @@ export type GetOperationResultResponseOperationsList = Array<OperationStatusResu
 export type GetOperationResultResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface GetOperationResultResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationResultResponseOperationsList;
+  operations?: GetOperationResultResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The extended properties of Operation Results */
-  properties?: GetOperationResultResponsePropertiesMap;
+  properties?: GetOperationResultResponsePropertiesMap | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1401,15 +1403,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1428,23 +1430,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1458,23 +1460,23 @@ export interface GetServerRequest {
 export type GetServerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServerResponseTagsMap;
+  tags?: GetServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
 }
 export interface GetServerKeyRequest {
   /** The ID of the target subscription. */
@@ -1493,21 +1495,21 @@ export interface ServerKeyProperties {
   /** The key type like 'AzureKeyVault'. */
   serverKeyType: ServerKeyPropertiesServerKeyType;
   /** The URI of the key. */
-  uri?: string;
+  uri?: string | undefined;
   /** The key creation date. */
-  creationDate?: string;
+  creationDate?: string | undefined;
 }
 export interface GetServerKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector used to protect the key. */
-  kind?: string;
+  kind?: string | undefined;
   /** Properties of the ServerKey Resource. */
-  properties?: ServerKeyProperties;
+  properties?: ServerKeyProperties | undefined;
 }
 export interface ListAdvancedThreatProtectionSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1520,24 +1522,24 @@ export interface ListAdvancedThreatProtectionSettingsRequest {
 /** A server's Advanced Threat Protection. */
 export interface AdvancedThreatProtection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AdvancedThreatProtectionProperties;
+  properties?: AdvancedThreatProtectionProperties | undefined;
 }
 /** The AdvancedThreatProtection items on this page */
 export type AdvancedThreatProtectionListResultValueList = Array<AdvancedThreatProtection>;
 /** The response of a AdvancedThreatProtection list operation. */
 export interface AdvancedThreatProtectionListResult {
   /** The AdvancedThreatProtection items on this page */
-  value?: AdvancedThreatProtectionListResultValueList;
+  value?: AdvancedThreatProtectionListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureADAdministratorByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1550,24 +1552,24 @@ export interface ListAzureADAdministratorByServerRequest {
 /** Represents a Administrator. */
 export interface AzureADAdministrator {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of an administrator. */
-  properties?: AdministratorProperties;
+  properties?: AdministratorProperties | undefined;
 }
 /** The list of azure ad administrator of a server. */
 export type AdministratorListResultValueList = Array<AzureADAdministrator>;
 /** A List of azure ad administrators. */
 export interface AdministratorListResult {
   /** The list of azure ad administrator of a server. */
-  value?: AdministratorListResultValueList;
+  value?: AdministratorListResultValueList | undefined;
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBackupByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1580,24 +1582,24 @@ export interface ListBackupByServerRequest {
 /** Server backup properties */
 export interface ServerBackup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupProperties;
+  properties?: ServerBackupProperties | undefined;
 }
 /** The ServerBackup items on this page */
 export type ServerBackupListResultValueList = Array<ServerBackup>;
 /** The response of a ServerBackup list operation. */
 export interface ServerBackupListResult {
   /** The ServerBackup items on this page */
-  value?: ServerBackupListResultValueList;
+  value?: ServerBackupListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1607,35 +1609,35 @@ export interface ListConfigurationByServerRequest {
   /** The name of the server. */
   serverName: string;
   /** The tags of the server configuration. */
-  tags?: string;
+  tags?: string | undefined;
   /** The keyword of the server configuration. */
-  keyword?: string;
+  keyword?: string | undefined;
   /** The page of the server configuration. */
-  page?: number;
+  page?: number | undefined;
   /** The pageSize of the server configuration. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Represents a Configuration. */
 export interface Configuration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The Configuration items on this page */
 export type ConfigurationListResultValueList = Array<Configuration>;
 /** The response of a Configuration list operation. */
 export interface ConfigurationListResult {
   /** The Configuration items on this page */
-  value?: ConfigurationListResultValueList;
+  value?: ConfigurationListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1648,24 +1650,24 @@ export interface ListDatabaseByServerRequest {
 /** Represents a Database. */
 export interface Database {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a database. */
-  properties?: DatabaseProperties;
+  properties?: DatabaseProperties | undefined;
 }
 /** The Database items on this page */
 export type DatabaseListResultValueList = Array<Database>;
 /** The response of a Database list operation. */
 export interface DatabaseListResult {
   /** The Database items on this page */
-  value?: DatabaseListResultValueList;
+  value?: DatabaseListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRuleByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1678,13 +1680,13 @@ export interface ListFirewallRuleByServerRequest {
 /** Represents a server firewall rule. */
 export interface FirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
 }
@@ -1693,9 +1695,9 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** The response of a FirewallRule list operation. */
 export interface FirewallRuleListResult {
   /** The FirewallRule items on this page */
-  value?: FirewallRuleListResultValueList;
+  value?: FirewallRuleListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationBasedCapabilitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1712,33 +1714,33 @@ export type ServerEditionCapabilitySupportedStorageEditionsList = Array<StorageE
 /** Sku capability */
 export interface SkuCapability {
   /** vCore name */
-  name?: string;
+  name?: string | undefined;
   /** supported vCores */
-  vCores?: number;
+  vCores?: number | undefined;
   /** supported IOPS */
-  supportedIops?: number;
+  supportedIops?: number | undefined;
   /** supported memory per vCore in MB */
-  supportedMemoryPerVCoreMB?: number;
+  supportedMemoryPerVCoreMB?: number | undefined;
 }
 /** A list of supported Skus */
 export type ServerVersionCapabilitySupportedSkusList = Array<SkuCapability>;
 /** Server version capabilities. */
 export interface ServerVersionCapability {
   /** server version */
-  name?: string;
+  name?: string | undefined;
   /** A list of supported Skus */
-  supportedSkus?: ServerVersionCapabilitySupportedSkusList;
+  supportedSkus?: ServerVersionCapabilitySupportedSkusList | undefined;
 }
 /** A list of supported server versions. */
 export type ServerEditionCapabilitySupportedServerVersionsList = Array<ServerVersionCapability>;
 /** Server edition capabilities. */
 export interface ServerEditionCapability {
   /** Server edition name */
-  name?: string;
+  name?: string | undefined;
   /** A list of supported storage editions */
-  supportedStorageEditions?: ServerEditionCapabilitySupportedStorageEditionsList;
+  supportedStorageEditions?: ServerEditionCapabilitySupportedStorageEditionsList | undefined;
   /** A list of supported server versions. */
-  supportedServerVersions?: ServerEditionCapabilitySupportedServerVersionsList;
+  supportedServerVersions?: ServerEditionCapabilitySupportedServerVersionsList | undefined;
 }
 /** A list of supported flexible server editions. */
 export type CapabilityPropertiesSupportedFlexibleServerEditionsList =
@@ -1746,22 +1748,24 @@ export type CapabilityPropertiesSupportedFlexibleServerEditionsList =
 /** Location capabilities. */
 export interface CapabilityProperties {
   /** zone name */
-  zone?: string;
+  zone?: string | undefined;
   /** Supported high availability mode */
-  supportedHAMode?: CapabilityPropertiesSupportedHAModeList;
+  supportedHAMode?: CapabilityPropertiesSupportedHAModeList | undefined;
   /** supported geo backup regions */
-  supportedGeoBackupRegions?: CapabilityPropertiesSupportedGeoBackupRegionsList;
+  supportedGeoBackupRegions?: CapabilityPropertiesSupportedGeoBackupRegionsList | undefined;
   /** A list of supported flexible server editions. */
-  supportedFlexibleServerEditions?: CapabilityPropertiesSupportedFlexibleServerEditionsList;
+  supportedFlexibleServerEditions?:
+    | CapabilityPropertiesSupportedFlexibleServerEditionsList
+    | undefined;
 }
 /** The CapabilityProperties items on this page */
 export type CapabilitiesListResultValueList = Array<CapabilityProperties>;
 /** location capability */
 export interface CapabilitiesListResult {
   /** The CapabilityProperties items on this page */
-  value?: CapabilitiesListResultValueList;
+  value?: CapabilitiesListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationBasedCapabilitySetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1772,24 +1776,24 @@ export interface ListLocationBasedCapabilitySetRequest {
 /** Represents a location capability set. */
 export interface Capability {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a location capability set. */
-  properties?: CapabilityPropertiesV2;
+  properties?: CapabilityPropertiesV2 | undefined;
 }
 /** The CapabilitySetsList items on this page */
 export type CapabilitySetsListValueList = Array<Capability>;
 /** location capability set */
 export interface CapabilitySetsList {
   /** The CapabilitySetsList items on this page */
-  value?: CapabilitySetsListValueList;
+  value?: CapabilitySetsListValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLogFileByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1802,37 +1806,37 @@ export interface ListLogFileByServerRequest {
 /** The properties of a logFile. */
 export interface LogFileProperties {
   /** The size in kb of the logFile. */
-  sizeInKB?: number;
+  sizeInKB?: number | undefined;
   /** Creation timestamp of the log file. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Type of the log file. */
-  type?: string;
+  type?: string | undefined;
   /** Last modified timestamp of the log file. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The url to download the log file from. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Represents a logFile. */
 export interface LogFile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a logFile. */
-  properties?: LogFileProperties;
+  properties?: LogFileProperties | undefined;
 }
 /** The LogFile items on this page */
 export type LogFileListResultValueList = Array<LogFile>;
 /** The response of a LogFile list operation. */
 export interface LogFileListResult {
   /** The LogFile items on this page */
-  value?: LogFileListResultValueList;
+  value?: LogFileListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLongRunningBackupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1845,24 +1849,24 @@ export interface ListLongRunningBackupsRequest {
 /** Server backup properties */
 export interface ServerBackupV2 {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupPropertiesV2;
+  properties?: ServerBackupPropertiesV2 | undefined;
 }
 /** The ServerBackupV2 items on this page */
 export type ServerBackupV2ListResultValueList = Array<ServerBackupV2>;
 /** The response of a ServerBackupV2 list operation. */
 export interface ServerBackupV2ListResult {
   /** The ServerBackupV2 items on this page */
-  value?: ServerBackupV2ListResultValueList;
+  value?: ServerBackupV2ListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMaintenancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1891,38 +1895,38 @@ export type MaintenanceProvisioningState = "Succeeded" | "Creating" | "Deleting"
 /** The properties of a maintenance resource. */
 export interface MaintenanceProperties {
   /** A string defines maintenance type. */
-  maintenanceType?: MaintenanceType;
+  maintenanceType?: MaintenanceType | undefined;
   /** A string describes the maintenance status */
-  maintenanceState?: MaintenanceState;
+  maintenanceState?: MaintenanceState | undefined;
   /** The start time for a maintenance. */
-  maintenanceStartTime?: string;
+  maintenanceStartTime?: string | undefined;
   /** The end time for a maintenance. */
-  maintenanceEndTime?: string;
+  maintenanceEndTime?: string | undefined;
   /** The start time for a maintenance execution. */
-  maintenanceExecutionStartTime?: string;
+  maintenanceExecutionStartTime?: string | undefined;
   /** The end time for a maintenance execution. */
-  maintenanceExecutionEndTime?: string;
+  maintenanceExecutionEndTime?: string | undefined;
   /** The min time the maintenance can be rescheduled. */
-  maintenanceAvailableScheduleMinTime?: string;
+  maintenanceAvailableScheduleMinTime?: string | undefined;
   /** The max time the maintenance can be rescheduled. */
-  maintenanceAvailableScheduleMaxTime?: string;
+  maintenanceAvailableScheduleMaxTime?: string | undefined;
   /** The maintenance title. */
-  maintenanceTitle?: string;
+  maintenanceTitle?: string | undefined;
   /** The maintenance description. */
-  maintenanceDescription?: string;
+  maintenanceDescription?: string | undefined;
   /** Provisioning state of the Maintenance. */
-  provisioningState?: MaintenanceProvisioningState;
+  provisioningState?: MaintenanceProvisioningState | undefined;
 }
 /** Represents a maintenance. */
 export interface Maintenance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a maintenance */
   properties: MaintenanceProperties;
 }
@@ -1931,21 +1935,21 @@ export type MaintenanceListResultValueList = Array<Maintenance>;
 /** The response of a Maintenance list operation. */
 export interface MaintenanceListResult {
   /** The Maintenance items on this page */
-  value?: MaintenanceListResultValueList;
+  value?: MaintenanceListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type Origin = "user" | "system" | "user,system";
@@ -1954,22 +1958,22 @@ export type OperationPropertiesMap = { [key: string]: unknown | undefined };
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: Origin;
+  origin?: Origin | undefined;
   /** Additional descriptions for the operation. */
-  properties?: OperationPropertiesMap;
+  properties?: OperationPropertiesMap | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
 /** The static parameters for a resource group based resource */
 export interface OperationListResult {
   /** The Operation items on this page */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1990,7 +1994,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2003,21 +2007,21 @@ export interface ListPrivateLinkResourceByServerRequest {
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByServerResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByServerResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByServerResponseValueList;
+  value?: ListPrivateLinkResourceByServerResponseValueList | undefined;
 }
 export interface ListReplicasByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2032,32 +2036,32 @@ export type ServerTagsMap = { [key: string]: string | undefined };
 /** Represents a server. */
 export interface Server {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServerTagsMap;
+  tags?: ServerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
 }
 /** The Server items on this page */
 export type ServerListResultValueList = Array<Server>;
 /** The response of a Server list operation. */
 export interface ServerListResult {
   /** The Server items on this page */
-  value?: ServerListResultValueList;
+  value?: ServerListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2076,24 +2080,24 @@ export interface ListServerKeysRequest {
 /** A MySQL Server key. */
 export interface ServerKey {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector used to protect the key. */
-  kind?: string;
+  kind?: string | undefined;
   /** Properties of the ServerKey Resource. */
-  properties?: ServerKeyProperties;
+  properties?: ServerKeyProperties | undefined;
 }
 /** A list of MySQL Server keys. */
 export type ServerKeyListResultValueList = Array<ServerKey>;
 /** A list of MySQL Server keys. */
 export interface ServerKeyListResult {
   /** A list of MySQL Server keys. */
-  value?: ServerKeyListResultValueList;
+  value?: ServerKeyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2104,7 +2108,7 @@ export type PrivateEndpointInput = UserAssignedIdentityInput;
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -2118,23 +2122,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PutBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2148,15 +2152,15 @@ export interface PutBackupRequest {
 }
 export interface PutBackupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a server backup. */
-  properties?: ServerBackupProperties;
+  properties?: ServerBackupProperties | undefined;
 }
 export interface ReadMaintenanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2170,13 +2174,13 @@ export interface ReadMaintenanceRequest {
 }
 export interface ReadMaintenanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a maintenance */
   properties: MaintenanceProperties;
 }
@@ -2188,13 +2192,13 @@ export interface ResetServerGtidRequest {
   /** The name of the server. */
   serverName: string;
   /** The Gtid set of server. */
-  gtidSet?: string;
+  gtidSet?: string | undefined;
 }
 export interface ResetServerGtidResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface RestartServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2204,15 +2208,15 @@ export interface RestartServerRequest {
   /** The name of the server. */
   serverName: string;
   /** Whether or not failover to standby server when restarting a server with high availability enabled. */
-  restartWithFailover?: EnableStatusEnum | (string & {});
+  restartWithFailover?: EnableStatusEnum | (string & {}) | undefined;
   /** The maximum allowed failover time in seconds. */
-  maxFailoverSeconds?: number;
+  maxFailoverSeconds?: number | undefined;
 }
 export interface RestartServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The key type like 'AzureKeyVault'. */
 export type ServerKeyPropertiesInputServerKeyType = "AzureKeyVault";
@@ -2221,7 +2225,7 @@ export interface ServerKeyPropertiesInput {
   /** The key type like 'AzureKeyVault'. */
   serverKeyType: ServerKeyPropertiesInputServerKeyType | (string & {});
   /** The URI of the key. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface ServerKeysCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2233,19 +2237,19 @@ export interface ServerKeysCreateOrUpdateRequest {
   /** The name of the MySQL Server key to be operated on (updated or created). */
   keyName: string;
   /** Properties of the ServerKey Resource. */
-  properties?: ServerKeyPropertiesInput;
+  properties?: ServerKeyPropertiesInput | undefined;
 }
 export interface ServerKeysCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector used to protect the key. */
-  kind?: string;
+  kind?: string | undefined;
   /** Properties of the ServerKey Resource. */
-  properties?: ServerKeyProperties;
+  properties?: ServerKeyProperties | undefined;
 }
 export interface ServersFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2257,9 +2261,9 @@ export interface ServersFailoverRequest {
 }
 export interface ServersFailoverResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ServersMigrationCutoverMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2273,32 +2277,32 @@ export interface ServersMigrationCutoverMigrationRequest {
 export type ServersMigrationCutoverMigrationResponseTagsMap = { [key: string]: string | undefined };
 export interface ServersMigrationCutoverMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServersMigrationCutoverMigrationResponseTagsMap;
+  tags?: ServersMigrationCutoverMigrationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The properties that can be updated for a server. */
 export interface ServersUpgradeRequestProperties {
   /** Represents an server storage profile. */
-  targetServerVersion?: string;
+  targetServerVersion?: string | undefined;
 }
 export interface ServersUpgradeRequest {
   /** The ID of the target subscription. */
@@ -2308,7 +2312,7 @@ export interface ServersUpgradeRequest {
   /** The name of the server. */
   serverName: string;
   /** The properties that can be updated for a server. */
-  properties?: ServersUpgradeRequestProperties;
+  properties?: ServersUpgradeRequestProperties | undefined;
 }
 export interface ServersUpgradeResponse {}
 export interface StartServerRequest {
@@ -2321,9 +2325,9 @@ export interface StartServerRequest {
 }
 export interface StartServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface StopServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2335,9 +2339,9 @@ export interface StopServerRequest {
 }
 export interface StopServerResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export type UpdateAdvancedThreatProtectionSettingsRequestAdvancedThreatProtectionName = "Default";
 /** Properties of Advanced Threat Protection that can be updated. */
@@ -2357,23 +2361,23 @@ export interface UpdateAdvancedThreatProtectionSettingsRequest {
     | UpdateAdvancedThreatProtectionSettingsRequestAdvancedThreatProtectionName
     | (string & {});
   /** Resource update properties. */
-  properties?: AdvancedThreatProtectionUpdateProperties;
+  properties?: AdvancedThreatProtectionUpdateProperties | undefined;
 }
 export interface UpdateAdvancedThreatProtectionSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AdvancedThreatProtectionProperties;
+  properties?: AdvancedThreatProtectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2385,37 +2389,37 @@ export interface UpdateConfigurationRequest {
   /** The name of the server configuration. */
   configurationName: string;
   /** The properties of a configuration. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface UpdateConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a configuration. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties can be updated for a configuration. */
 export interface ConfigurationForBatchUpdateProperties {
   /** Value of the configuration. */
-  value?: string;
+  value?: string | undefined;
   /** Source of the configuration. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Represents a Configuration. */
 export interface ConfigurationForBatchUpdate {
   /** Name of the configuration. */
-  name?: string;
+  name?: string | undefined;
   /** The properties can be updated for a configuration. */
-  properties?: ConfigurationForBatchUpdateProperties;
+  properties?: ConfigurationForBatchUpdateProperties | undefined;
 }
 /** The list of server configurations. */
 export type UpdateConfigurationBatchRequestValueList = Array<ConfigurationForBatchUpdate>;
@@ -2429,25 +2433,25 @@ export interface UpdateConfigurationBatchRequest {
   /** The name of the server. */
   serverName: string;
   /** The list of server configurations. */
-  value?: UpdateConfigurationBatchRequestValueList;
+  value?: UpdateConfigurationBatchRequestValueList | undefined;
   /** Whether to reset all server parameters to default. */
-  resetAllToDefault?: ResetAllToDefault | (string & {});
+  resetAllToDefault?: ResetAllToDefault | (string & {}) | undefined;
 }
 /** The response of a Configuration list operation. */
 export interface UpdateConfigurationBatchResponse {
   /** The Configuration items on this page */
-  value?: ConfigurationListResultValueList;
+  value?: ConfigurationListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of a maintenance update parameter. */
 export interface MaintenancePropertiesForUpdate {
   /** The start time for a maintenance. */
-  maintenanceStartTime?: string;
+  maintenanceStartTime?: string | undefined;
 }
 export interface UpdateMaintenanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2459,46 +2463,46 @@ export interface UpdateMaintenanceRequest {
   /** The name of the maintenance. */
   maintenanceName: string;
   /** The properties of a maintenance update parameter */
-  properties?: MaintenancePropertiesForUpdate;
+  properties?: MaintenancePropertiesForUpdate | undefined;
 }
 export interface UpdateMaintenanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a maintenance */
   properties: MaintenanceProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties that can be updated for a server. */
 export interface ServerPropertiesForUpdateInput {
   /** The password of the administrator login. */
-  administratorLoginPassword?: string | Redacted.Redacted<string>;
+  administratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Server version. */
-  version?: ServerVersion | (string & {});
+  version?: ServerVersion | (string & {}) | undefined;
   /** Storage related properties of a server. */
-  storage?: StorageInput;
+  storage?: StorageInput | undefined;
   /** Backup related properties of a server. */
-  backup?: BackupInput;
+  backup?: BackupInput | undefined;
   /** High availability related properties of a server. */
-  highAvailability?: HighAvailability;
+  highAvailability?: HighAvailability | undefined;
   /** Maintenance policy of a server. */
-  maintenancePolicy?: MaintenancePolicy;
+  maintenancePolicy?: MaintenancePolicy | undefined;
   /** Maintenance window of a server. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** The replication role of the server. */
-  replicationRole?: ReplicationRole | (string & {});
+  replicationRole?: ReplicationRole | (string & {}) | undefined;
   /** The Data Encryption for CMK. */
-  dataEncryption?: DataEncryption;
+  dataEncryption?: DataEncryption | undefined;
   /** Network related properties of a server */
-  network?: Network;
+  network?: Network | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateServerRequestTagsMap = { [key: string]: string | undefined };
@@ -2510,39 +2514,39 @@ export interface UpdateServerRequest {
   /** The name of the server. */
   serverName: string;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentityInput;
+  identity?: MySQLServerIdentityInput | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
   /** The properties that can be updated for a server. */
-  properties?: ServerPropertiesForUpdateInput;
+  properties?: ServerPropertiesForUpdateInput | undefined;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateServerRequestTagsMap;
+  tags?: UpdateServerRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateServerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServerResponseTagsMap;
+  tags?: UpdateServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the server. */
-  properties?: ServerProperties;
+  properties?: ServerProperties | undefined;
   /** The cmk identity for the server. */
-  identity?: MySQLServerIdentity;
+  identity?: MySQLServerIdentity | undefined;
   /** The SKU (pricing tier) of the server. */
-  sku?: MySQLServerSku;
+  sku?: MySQLServerSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateBackupAndExportBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2555,12 +2559,12 @@ export interface ValidateBackupAndExportBackupRequest {
 /** ValidateBackup Response Properties */
 export interface ValidateBackupResponseProperties {
   /** Estimated no of storage containers required for resource data to be backed up. */
-  numberOfContainers?: number;
+  numberOfContainers?: number | undefined;
 }
 /** Represents ValidateBackup API Response */
 export interface ValidateBackupResponse {
   /** The response properties of a pre backup operation. */
-  properties?: ValidateBackupResponseProperties;
+  properties?: ValidateBackupResponseProperties | undefined;
 }
 export interface ValidateServerEstimateHighAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2570,16 +2574,16 @@ export interface ValidateServerEstimateHighAvailabilityRequest {
   /** The name of the server. */
   serverName: string;
   /** Expected Availability zone of the standby server. */
-  expectedStandbyAvailabilityZone?: string;
+  expectedStandbyAvailabilityZone?: string | undefined;
 }
 /** High availability validation properties of a server */
 export interface HighAvailabilityValidationEstimation {
   /** Estimated seconds of downtime for the deployment. */
-  estimatedDowntime?: number;
+  estimatedDowntime?: number | undefined;
   /** Scheduled Availability zone of the standby server. */
-  scheduledStandbyAvailabilityZone?: string;
+  scheduledStandbyAvailabilityZone?: string | undefined;
   /** Expected Availability zone of the standby server. */
-  expectedStandbyAvailabilityZone?: string;
+  expectedStandbyAvailabilityZone?: string | undefined;
 }
 export type AdvancedThreatProtectionSettingsUpdatePutError = AzureOpError;
 /** Updates a server's Advanced Threat Protection state. */

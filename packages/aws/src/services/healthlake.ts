@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -187,26 +188,26 @@ export interface SampleDataSource {
 export type CreateDataTransformationProfileSource =
   | {
       StarterProfile: StarterProfileSource;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
+      StarterProfile?: undefined;
       ExistingVersionedProfileId: ExistingVersionedProfileSource;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
       ProfileMapping: ProfileMappingSource;
-      SampleData?: never;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
       SampleData: SampleDataSource;
     };
 export type KmsKeyId = string;
@@ -219,11 +220,11 @@ export type ClientToken = string;
 export interface CreateDataTransformationProfileRequest {
   SourceFormat: SourceFormat;
   Source: CreateDataTransformationProfileSource;
-  KmsKeyId?: string;
-  ProfileDescription?: string;
+  KmsKeyId?: string | undefined;
+  ProfileDescription?: string | undefined;
   ProfileName: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type ProfileIdString = string;
 export type ProfileVersion = number;
@@ -242,7 +243,7 @@ export type CmkType = "CUSTOMER_MANAGED_KMS_KEY" | "AWS_OWNED_KMS_KEY" | (string
 export type EncryptionKeyID = string;
 export interface KmsEncryptionConfig {
   CmkType: CmkType;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface SseConfiguration {
   KmsEncryptionConfig: KmsEncryptionConfig;
@@ -269,9 +270,9 @@ export type ConfigurationMetadata = string;
 export type LambdaArn = string;
 export interface IdentityProviderConfiguration {
   AuthorizationStrategy: AuthorizationStrategy;
-  FineGrainedAuthorizationEnabled?: boolean;
-  Metadata?: string;
-  IdpLambdaArn?: string;
+  FineGrainedAuthorizationEnabled?: boolean | undefined;
+  Metadata?: string | undefined;
+  IdpLambdaArn?: string | undefined;
 }
 export type AnalyticsStatus =
   | "ENABLED"
@@ -282,38 +283,38 @@ export type AnalyticsStatus =
   | "PAUSED"
   | (string & {});
 export interface AnalyticsConfiguration {
-  Status?: AnalyticsStatus;
+  Status?: AnalyticsStatus | undefined;
 }
 export type NlpStatus = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | (string & {});
 export interface NlpConfiguration {
-  Status?: NlpStatus;
+  Status?: NlpStatus | undefined;
 }
 export type HealthLakeString = string;
 export type DefaultProfiles = string[];
 export interface ProfileConfiguration {
-  DefaultProfiles?: string[];
+  DefaultProfiles?: string[] | undefined;
 }
 export type BackupStatus = "ENABLED" | "DISABLED" | (string & {});
 export type BackupType = "CONTINUOUS" | (string & {});
 export type BackupRetentionPeriodInDays = number;
 export interface BackupConfiguration {
-  Status?: BackupStatus;
-  BackupType?: BackupType;
-  RetentionPeriodInDays?: number;
-  BackupTagsEnabled?: boolean;
+  Status?: BackupStatus | undefined;
+  BackupType?: BackupType | undefined;
+  RetentionPeriodInDays?: number | undefined;
+  BackupTagsEnabled?: boolean | undefined;
 }
 export interface CreateFHIRDatastoreRequest {
-  DatastoreName?: string;
+  DatastoreName?: string | undefined;
   DatastoreTypeVersion: FHIRVersion;
-  SseConfiguration?: SseConfiguration;
-  PreloadDataConfig?: PreloadDataConfig;
-  ClientToken?: string;
-  Tags?: Tag[];
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  BackupConfiguration?: BackupConfiguration;
+  SseConfiguration?: SseConfiguration | undefined;
+  PreloadDataConfig?: PreloadDataConfig | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  BackupConfiguration?: BackupConfiguration | undefined;
 }
 export type DatastoreId = string;
 export type DatastoreArn = string;
@@ -338,7 +339,7 @@ export interface DeleteDataTransformationProfileRequest {
 }
 export interface DeleteDataTransformationProfileResponse {
   ProfileId: string;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   DeletionTime: Date;
 }
 export interface DeleteFHIRDatastoreRequest {
@@ -365,7 +366,7 @@ export type TransformationJobStatus =
 export type DataTransformationS3Uri = string;
 export interface TransformationInputDataConfig {
   S3Uri: string;
-  SourceFormat?: SourceFormat;
+  SourceFormat?: SourceFormat | undefined;
 }
 export interface DataTransformationS3Configuration {
   S3Uri: string;
@@ -390,15 +391,15 @@ export interface TransformationJobProperties {
   OutputDataConfig: TransformationOutputDataConfig;
   DataAccessRoleArn: string;
   SubmitTime: Date;
-  JobName?: string;
-  ProfileId?: string;
-  ProfileName?: string;
-  ProfileVersion?: number;
-  EndTime?: Date;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
-  Message?: string;
-  JobProgressReport?: TransformationJobProgressReport;
+  JobName?: string | undefined;
+  ProfileId?: string | undefined;
+  ProfileName?: string | undefined;
+  ProfileVersion?: number | undefined;
+  EndTime?: Date | undefined;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
+  Message?: string | undefined;
+  JobProgressReport?: TransformationJobProgressReport | undefined;
 }
 export interface DescribeDataTransformationJobResponse {
   TransformationJobProperties: TransformationJobProperties;
@@ -410,32 +411,32 @@ export type HealthLakeTimestamp = Date;
 export type ErrorMessage = string;
 export type ErrorCategory = "RETRYABLE_ERROR" | "NON_RETRYABLE_ERROR" | (string & {});
 export interface ErrorCause {
-  ErrorMessage?: string;
-  ErrorCategory?: ErrorCategory;
+  ErrorMessage?: string | undefined;
+  ErrorCategory?: ErrorCategory | undefined;
 }
 export interface DatastoreBackupStatus {
-  Configuration?: BackupConfiguration;
-  BackupEnabledAt?: Date;
-  EarliestRestorePoint?: Date;
-  LatestRestorePoint?: Date;
-  ScheduledPermanentDeletionTime?: Date;
+  Configuration?: BackupConfiguration | undefined;
+  BackupEnabledAt?: Date | undefined;
+  EarliestRestorePoint?: Date | undefined;
+  LatestRestorePoint?: Date | undefined;
+  ScheduledPermanentDeletionTime?: Date | undefined;
 }
 export interface DatastoreProperties {
   DatastoreId: string;
   DatastoreArn: string;
-  DatastoreName?: string;
+  DatastoreName?: string | undefined;
   DatastoreStatus: DatastoreStatus;
-  CreatedAt?: Date;
+  CreatedAt?: Date | undefined;
   DatastoreTypeVersion: FHIRVersion;
   DatastoreEndpoint: string;
-  SseConfiguration?: SseConfiguration;
-  PreloadDataConfig?: PreloadDataConfig;
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  ErrorCause?: ErrorCause;
-  NlpConfiguration?: NlpConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  BackupStatusInfo?: DatastoreBackupStatus;
+  SseConfiguration?: SseConfiguration | undefined;
+  PreloadDataConfig?: PreloadDataConfig | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  ErrorCause?: ErrorCause | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  BackupStatusInfo?: DatastoreBackupStatus | undefined;
 }
 export interface DescribeFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
@@ -468,14 +469,14 @@ export type IamRoleArn = string;
 export type Message = string;
 export interface ExportJobProperties {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   JobStatus: JobStatus;
   SubmitTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   DatastoreId: string;
   OutputDataConfig: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  Message?: string;
+  DataAccessRoleArn?: string | undefined;
+  Message?: string | undefined;
 }
 export interface DescribeFHIRExportJobResponse {
   ExportJobProperties: ExportJobProperties;
@@ -486,45 +487,45 @@ export interface DescribeFHIRImportJobRequest {
 }
 export type InputDataConfig = { S3Uri: string };
 export interface JobProgressReport {
-  TotalNumberOfScannedFiles?: number;
-  TotalSizeOfScannedFilesInMB?: number;
-  TotalNumberOfImportedFiles?: number;
-  TotalNumberOfResourcesScanned?: number;
-  TotalNumberOfResourcesImported?: number;
-  TotalNumberOfResourcesWithCustomerError?: number;
-  TotalNumberOfFilesReadWithCustomerError?: number;
-  TotalNumberOfScannedNonFhirFiles?: number;
-  TotalSizeOfScannedNonFhirFilesInMB?: number;
-  TotalNumberOfImportedNonFhirFiles?: number;
-  TotalNumberOfNonFhirResourcesScanned?: number;
-  TotalNumberOfNonFhirResourcesImported?: number;
-  TotalNumberOfNonFhirResourcesWithCustomerError?: number;
-  TotalNumberOfNonFhirFilesReadWithCustomerError?: number;
-  Throughput?: number;
-  TotalFilesConverted?: number;
-  TotalResourcesGenerated?: number;
+  TotalNumberOfScannedFiles?: number | undefined;
+  TotalSizeOfScannedFilesInMB?: number | undefined;
+  TotalNumberOfImportedFiles?: number | undefined;
+  TotalNumberOfResourcesScanned?: number | undefined;
+  TotalNumberOfResourcesImported?: number | undefined;
+  TotalNumberOfResourcesWithCustomerError?: number | undefined;
+  TotalNumberOfFilesReadWithCustomerError?: number | undefined;
+  TotalNumberOfScannedNonFhirFiles?: number | undefined;
+  TotalSizeOfScannedNonFhirFilesInMB?: number | undefined;
+  TotalNumberOfImportedNonFhirFiles?: number | undefined;
+  TotalNumberOfNonFhirResourcesScanned?: number | undefined;
+  TotalNumberOfNonFhirResourcesImported?: number | undefined;
+  TotalNumberOfNonFhirResourcesWithCustomerError?: number | undefined;
+  TotalNumberOfNonFhirFilesReadWithCustomerError?: number | undefined;
+  Throughput?: number | undefined;
+  TotalFilesConverted?: number | undefined;
+  TotalResourcesGenerated?: number | undefined;
 }
 export type ValidationLevel = "strict" | "structure-only" | "minimal" | (string & {});
 export interface ImportJobProperties {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   JobStatus: JobStatus;
   SubmitTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   DatastoreId: string;
   InputDataConfig: InputDataConfig;
-  JobOutputDataConfig?: OutputDataConfig;
-  JobProgressReport?: JobProgressReport;
-  DataAccessRoleArn?: string;
-  Message?: string;
-  ValidationLevel?: ValidationLevel;
+  JobOutputDataConfig?: OutputDataConfig | undefined;
+  JobProgressReport?: JobProgressReport | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Message?: string | undefined;
+  ValidationLevel?: ValidationLevel | undefined;
 }
 export interface DescribeFHIRImportJobResponse {
   ImportJobProperties: ImportJobProperties;
 }
 export interface GetDataTransformationProfileRequest {
   ProfileId: string;
-  ProfileVersion?: number;
+  ProfileVersion?: number | undefined;
 }
 export type ProfileMappingKey = string;
 export type ProfileMappingValue = string;
@@ -536,141 +537,141 @@ export interface GetDataTransformationProfileResponse {
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
   ProfileMapping: { [key: string]: string | undefined };
-  ProfileName?: string;
-  ProfileDescription?: string;
-  ChangeDescription?: string;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  ChangeDescription?: string | undefined;
   LastUpdatedAt: Date;
 }
 export type MaxResults = number;
 export type DataTransformationNextToken = string;
 export interface ListDataTransformationJobsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  JobStatus?: TransformationJobStatus;
-  JobName?: string;
-  SubmittedAfter?: Date;
-  SubmittedBefore?: Date;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  JobStatus?: TransformationJobStatus | undefined;
+  JobName?: string | undefined;
+  SubmittedAfter?: Date | undefined;
+  SubmittedBefore?: Date | undefined;
 }
 export interface TransformationJobSummary {
   JobId: string;
   JobStatus: TransformationJobStatus;
   SubmitTime: Date;
-  JobName?: string;
-  EndTime?: Date;
-  SourceFormat?: SourceFormat;
+  JobName?: string | undefined;
+  EndTime?: Date | undefined;
+  SourceFormat?: SourceFormat | undefined;
 }
 export type TransformationJobSummaryList = TransformationJobSummary[];
 export interface ListDataTransformationJobsResponse {
   Items: TransformationJobSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDataTransformationProfilesRequest {
   SourceFormat: SourceFormat;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataTransformationProfileSummary {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
-  ProfileDescription?: string;
-  LastUpdatedAt?: Date;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type DataTransformationProfileSummaryList = DataTransformationProfileSummary[];
 export interface ListDataTransformationProfilesResponse {
   Items: DataTransformationProfileSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDataTransformationProfileVersionsRequest {
   ProfileId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataTransformationProfileVersionSummary {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
-  ChangeDescription?: string;
-  LastUpdatedAt?: Date;
+  ProfileName?: string | undefined;
+  ChangeDescription?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type DataTransformationProfileVersionSummaryList = DataTransformationProfileVersionSummary[];
 export interface ListDataTransformationProfileVersionsResponse {
   Items: DataTransformationProfileVersionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DatastoreFilter {
-  DatastoreName?: string;
-  DatastoreStatus?: DatastoreStatus;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
+  DatastoreName?: string | undefined;
+  DatastoreStatus?: DatastoreStatus | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResultsInteger = number;
 export interface ListFHIRDatastoresRequest {
-  Filter?: DatastoreFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DatastoreFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatastorePropertiesList = DatastoreProperties[];
 export interface ListFHIRDatastoresResponse {
   DatastorePropertiesList: DatastoreProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFHIRExportJobsRequest {
   DatastoreId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBefore?: Date;
-  SubmittedAfter?: Date;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBefore?: Date | undefined;
+  SubmittedAfter?: Date | undefined;
 }
 export type ExportJobPropertiesList = ExportJobProperties[];
 export interface ListFHIRExportJobsResponse {
   ExportJobPropertiesList: ExportJobProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFHIRImportJobsRequest {
   DatastoreId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBefore?: Date;
-  SubmittedAfter?: Date;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBefore?: Date | undefined;
+  SubmittedAfter?: Date | undefined;
 }
 export type ImportJobPropertiesList = ImportJobProperties[];
 export interface ListFHIRImportJobsResponse {
   ImportJobPropertiesList: ImportJobProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PublishDataTransformationProfileRequest {
   ProfileId: string;
   SourceFormat: SourceFormat;
-  FromExistingVersion?: number;
-  ChangeDescription?: string;
+  FromExistingVersion?: number | undefined;
+  ChangeDescription?: string | undefined;
 }
 export interface PublishDataTransformationProfileResponse {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   LastUpdatedAt: Date;
 }
 export interface ContinuousBackupRestoreConfiguration {
-  RestorePointTime?: Date;
+  RestorePointTime?: Date | undefined;
 }
 export type RestoreConfiguration = {
   ContinuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration;
@@ -678,14 +679,14 @@ export type RestoreConfiguration = {
 export interface RestoreFHIRDatastoreRequest {
   SourceDatastoreId: string;
   RestoreConfiguration: RestoreConfiguration;
-  DatastoreName?: string;
-  SseConfiguration?: SseConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
+  DatastoreName?: string | undefined;
+  SseConfiguration?: SseConfiguration | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
 }
 export interface RestoreFHIRDatastoreResponse {
   DatastoreId: string;
@@ -698,45 +699,45 @@ export interface StartDataTransformationJobRequest {
   OutputDataConfig: TransformationOutputDataConfig;
   DataAccessRoleArn: string;
   ClientToken: string;
-  JobName?: string;
+  JobName?: string | undefined;
   ProfileId: string;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
 }
 export interface StartDataTransformationJobResponse {
   JobId: string;
   JobStatus: TransformationJobStatus;
 }
 export interface StartFHIRExportJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   OutputDataConfig: OutputDataConfig;
   DatastoreId: string;
   DataAccessRoleArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartFHIRExportJobResponse {
   JobId: string;
   JobStatus: JobStatus;
-  DatastoreId?: string;
+  DatastoreId?: string | undefined;
 }
 export type DefaultEnabledBoolean = boolean;
 export interface StartFHIRImportJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   InputDataConfig: InputDataConfig;
   JobOutputDataConfig: OutputDataConfig;
   DatastoreId: string;
   DataAccessRoleArn: string;
-  ClientToken?: string;
-  ValidationLevel?: ValidationLevel;
-  ProfileId?: string;
-  InputFormat?: string;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
+  ClientToken?: string | undefined;
+  ValidationLevel?: ValidationLevel | undefined;
+  ProfileId?: string | undefined;
+  InputFormat?: string | undefined;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
 }
 export interface StartFHIRImportJobResponse {
   JobId: string;
   JobStatus: JobStatus;
-  DatastoreId?: string;
+  DatastoreId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -752,23 +753,23 @@ export interface UntagResourceResponse {}
 export interface UpdateDataTransformationProfileRequest {
   ProfileId: string;
   ProfileMapping: { [key: string]: string | undefined };
-  ChangeDescription?: string;
+  ChangeDescription?: string | undefined;
 }
 export interface UpdateDataTransformationProfileResponse {
   ProfileId: string;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   LastUpdatedAt: Date;
 }
 export interface UpdateFHIRDatastoreRequest {
   DatastoreId: string;
-  DatastoreName?: string;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  BackupConfiguration?: BackupConfiguration;
+  DatastoreName?: string | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  BackupConfiguration?: BackupConfiguration | undefined;
 }
 export interface UpdateFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
@@ -784,7 +785,7 @@ export interface UpdateProfileWithAgentRequest {
   ProfileId: string;
   SourceFormat: SourceFormat;
   InputMessage: AgentInputMessage;
-  ConversationId?: string;
+  ConversationId?: string | undefined;
 }
 export type AgentOutputMessageType =
   | "INITIAL_GREETING"
@@ -800,7 +801,7 @@ export type DataTransformationChatOptionsList = (string | redacted.Redacted<stri
 export interface AgentOutputMessage {
   Body: string | redacted.Redacted<string>;
   Type: AgentOutputMessageType;
-  OptionsList?: (string | redacted.Redacted<string>)[];
+  OptionsList?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface UpdateProfileWithAgentResponse {
   AgentResponse: AgentOutputMessage;
@@ -819,7 +820,7 @@ export type CreateDataTransformationProfileError =
  * Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
  */
 export const createDataTransformationProfile: API.OperationMethod<
-  CreateDataTransformationProfileRequest,
+  CreateDataTransformationProfileRequest & RegionInput,
   CreateDataTransformationProfileResponse,
   CreateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type CreateFHIRDatastoreError =
  * Create a FHIR-enabled data store.
  */
 export const createFHIRDatastore: API.OperationMethod<
-  CreateFHIRDatastoreRequest,
+  CreateFHIRDatastoreRequest & RegionInput,
   CreateFHIRDatastoreResponse,
   CreateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -887,7 +888,7 @@ export type DeleteDataTransformationProfileError =
  * Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
  */
 export const deleteDataTransformationProfile: API.OperationMethod<
-  DeleteDataTransformationProfileRequest,
+  DeleteDataTransformationProfileRequest & RegionInput,
   DeleteDataTransformationProfileResponse,
   DeleteDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -924,7 +925,7 @@ export type DeleteFHIRDatastoreError =
  * Delete a FHIR-enabled data store.
  */
 export const deleteFHIRDatastore: API.OperationMethod<
-  DeleteFHIRDatastoreRequest,
+  DeleteFHIRDatastoreRequest & RegionInput,
   DeleteFHIRDatastoreResponse,
   DeleteFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type DescribeDataTransformationJobError =
  * Describes a data transformation job, including its current status, configuration, and progress information.
  */
 export const describeDataTransformationJob: API.OperationMethod<
-  DescribeDataTransformationJobRequest,
+  DescribeDataTransformationJobRequest & RegionInput,
   DescribeDataTransformationJobResponse,
   DescribeDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -992,7 +993,7 @@ export type DescribeFHIRDatastoreError =
  * Get properties for a FHIR-enabled data store.
  */
 export const describeFHIRDatastore: API.OperationMethod<
-  DescribeFHIRDatastoreRequest,
+  DescribeFHIRDatastoreRequest & RegionInput,
   DescribeFHIRDatastoreResponse,
   DescribeFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type DescribeFHIRExportJobError =
  * Get FHIR export job properties.
  */
 export const describeFHIRExportJob: API.OperationMethod<
-  DescribeFHIRExportJobRequest,
+  DescribeFHIRExportJobRequest & RegionInput,
   DescribeFHIRExportJobResponse,
   DescribeFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1052,7 +1053,7 @@ export type DescribeFHIRImportJobError =
  * Get the import job properties to learn more about the job or job progress.
  */
 export const describeFHIRImportJob: API.OperationMethod<
-  DescribeFHIRImportJobRequest,
+  DescribeFHIRImportJobRequest & RegionInput,
   DescribeFHIRImportJobResponse,
   DescribeFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1083,7 +1084,7 @@ export type GetDataTransformationProfileError =
  * Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
  */
 export const getDataTransformationProfile: API.OperationMethod<
-  GetDataTransformationProfileRequest,
+  GetDataTransformationProfileRequest & RegionInput,
   GetDataTransformationProfileResponse,
   GetDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1118,7 +1119,7 @@ export type ListDataTransformationJobsError =
  * Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationJobs: API.PaginatedOperationMethod<
-  ListDataTransformationJobsRequest,
+  ListDataTransformationJobsRequest & RegionInput,
   ListDataTransformationJobsResponse,
   ListDataTransformationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type ListDataTransformationProfilesError =
  * Lists all data transformation profiles in your account, returning the latest version summary for each. Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfiles: API.PaginatedOperationMethod<
-  ListDataTransformationProfilesRequest,
+  ListDataTransformationProfilesRequest & RegionInput,
   ListDataTransformationProfilesResponse,
   ListDataTransformationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1201,7 +1202,7 @@ export type ListDataTransformationProfileVersionsError =
  * Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfileVersions: API.PaginatedOperationMethod<
-  ListDataTransformationProfileVersionsRequest,
+  ListDataTransformationProfileVersionsRequest & RegionInput,
   ListDataTransformationProfileVersionsResponse,
   ListDataTransformationProfileVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1242,7 +1243,7 @@ export type ListFHIRDatastoresError =
  * List all FHIR-enabled data stores in a user's account, regardless of data store status.
  */
 export const listFHIRDatastores: API.PaginatedOperationMethod<
-  ListFHIRDatastoresRequest,
+  ListFHIRDatastoresRequest & RegionInput,
   ListFHIRDatastoresResponse,
   ListFHIRDatastoresError,
   Credentials | HttpClient.HttpClient,
@@ -1274,7 +1275,7 @@ export type ListFHIRExportJobsError =
  * Lists all FHIR export jobs associated with an account and their statuses.
  */
 export const listFHIRExportJobs: API.PaginatedOperationMethod<
-  ListFHIRExportJobsRequest,
+  ListFHIRExportJobsRequest & RegionInput,
   ListFHIRExportJobsResponse,
   ListFHIRExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1312,7 +1313,7 @@ export type ListFHIRImportJobsError =
  * List all FHIR import jobs associated with an account and their statuses.
  */
 export const listFHIRImportJobs: API.PaginatedOperationMethod<
-  ListFHIRImportJobsRequest,
+  ListFHIRImportJobsRequest & RegionInput,
   ListFHIRImportJobsResponse,
   ListFHIRImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1347,7 +1348,7 @@ export type ListTagsForResourceError =
  * Returns a list of all existing tags associated with a data store.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type PublishDataTransformationProfileError =
  * Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
  */
 export const publishDataTransformationProfile: API.OperationMethod<
-  PublishDataTransformationProfileRequest,
+  PublishDataTransformationProfileRequest & RegionInput,
   PublishDataTransformationProfileResponse,
   PublishDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1412,7 +1413,7 @@ export type RestoreFHIRDatastoreError =
  * Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
  */
 export const restoreFHIRDatastore: API.OperationMethod<
-  RestoreFHIRDatastoreRequest,
+  RestoreFHIRDatastoreRequest & RegionInput,
   RestoreFHIRDatastoreResponse,
   RestoreFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1445,7 +1446,7 @@ export type StartDataTransformationJobError =
  * Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
  */
 export const startDataTransformationJob: API.OperationMethod<
-  StartDataTransformationJobRequest,
+  StartDataTransformationJobRequest & RegionInput,
   StartDataTransformationJobResponse,
   StartDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -1482,7 +1483,7 @@ export type StartFHIRExportJobError =
  * Start a FHIR export job.
  */
 export const startFHIRExportJob: API.OperationMethod<
-  StartFHIRExportJobRequest,
+  StartFHIRExportJobRequest & RegionInput,
   StartFHIRExportJobResponse,
   StartFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1516,7 +1517,7 @@ export type StartFHIRImportJobError =
  * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the `InputDataConfig` object and stores processing results in the `JobOutputDataConfig` object.
  */
 export const startFHIRImportJob: API.OperationMethod<
-  StartFHIRImportJobRequest,
+  StartFHIRImportJobRequest & RegionInput,
   StartFHIRImportJobResponse,
   StartFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1543,7 +1544,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Add a user-specifed key and value tag to a data store.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Remove a user-specifed key and value tag from a data store.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1590,7 @@ export type UpdateDataTransformationProfileError =
  * Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
  */
 export const updateDataTransformationProfile: API.OperationMethod<
-  UpdateDataTransformationProfileRequest,
+  UpdateDataTransformationProfileRequest & RegionInput,
   UpdateDataTransformationProfileResponse,
   UpdateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1627,7 @@ export type UpdateFHIRDatastoreError =
  * Update the properties of a FHIR-enabled data store.
  */
 export const updateFHIRDatastore: API.OperationMethod<
-  UpdateFHIRDatastoreRequest,
+  UpdateFHIRDatastoreRequest & RegionInput,
   UpdateFHIRDatastoreResponse,
   UpdateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1664,7 +1665,7 @@ export type UpdateProfileWithAgentError =
  * Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
  */
 export const updateProfileWithAgent: API.OperationMethod<
-  UpdateProfileWithAgentRequest,
+  UpdateProfileWithAgentRequest & RegionInput,
   UpdateProfileWithAgentResponse,
   UpdateProfileWithAgentError,
   Credentials | HttpClient.HttpClient

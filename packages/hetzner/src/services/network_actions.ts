@@ -80,11 +80,11 @@ export interface AddNetworkSubnetRequest {
   /** Type of subnet. */
   type: AddNetworkSubnetRequestType | (string & {});
   /** IP range of the subnet. Uses CIDR notation. Must be a subnet of the parent [Networks](#tag/networks) `ip_range`. Must not overlap with any other subnets or with any destinations in routes. Minimum network size is /30. We highly recommend that you pick a larger subnet with a /24 netmask. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` it belongs to. */
   network_zone: string;
   /** ID of the robot vSwitch. Must be supplied if the subnet is of type `vswitch`. */
-  vswitch_id?: number;
+  vswitch_id?: number | undefined;
 }
 /** Status of the Action. */
 export type AddNetworkSubnetResponseActionStatus = "running" | "success" | "error";
@@ -156,7 +156,7 @@ export interface ChangeNetworkProtectionRequest {
   /** ID of the Network. */
   id: number;
   /** Delete protection setting. If true, prevents the [Network](#tag/networks) from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeNetworkProtectionResponseActionStatus = "running" | "success" | "error";
@@ -324,13 +324,13 @@ export interface ListNetworkActionsRequest {
   /** ID of the Network. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworkActionsRequestSortList;
+  sort?: ListNetworkActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListNetworkActionsRequestStatusList;
+  status?: ListNetworkActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListNetworkActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -410,15 +410,15 @@ export type ListNetworksActionsRequestStatusList = Array<
 >;
 export interface ListNetworksActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListNetworksActionsRequestIdList;
+  id?: ListNetworksActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworksActionsRequestSortList;
+  sort?: ListNetworksActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListNetworksActionsRequestStatusList;
+  status?: ListNetworksActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListNetworksActionsResponseActionsItemStatus = "running" | "success" | "error";

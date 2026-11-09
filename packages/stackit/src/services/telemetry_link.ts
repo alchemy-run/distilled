@@ -60,7 +60,7 @@ export interface CreateFolderBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateFolderBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
 }
@@ -77,7 +77,7 @@ export interface BackflushJobResponse {
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** A auto generated unique id which identifies the resource. */
@@ -94,7 +94,7 @@ export interface CreateOrganizationBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateOrganizationBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
 }
@@ -107,11 +107,11 @@ export interface CreateOrUpdateFolderTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
 }
@@ -126,11 +126,11 @@ export type TelemetryLinkResponseStatus =
   | "deleting";
 export interface TelemetryLinkResponse {
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
@@ -153,11 +153,11 @@ export interface CreateOrUpdateOrganizationTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
 }
@@ -170,11 +170,11 @@ export interface CreateOrUpdateProjectTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
 }
@@ -185,7 +185,7 @@ export interface CreateProjectBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateProjectBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
 }
@@ -268,15 +268,15 @@ export interface ListFolderBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListFolderBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListBackflushJobsResponseBackflushJobsList = Array<BackflushJobResponse>;
 export interface ListBackflushJobsResponse {
   backflushJobs: ListBackflushJobsResponseBackflushJobsList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListOrganizationBackflushJobsRequestRegionId = "eu01" | "eu02";
 export interface ListOrganizationBackflushJobsRequest {
@@ -285,9 +285,9 @@ export interface ListOrganizationBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListOrganizationBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListProjectBackflushJobsRequestRegionId = "eu01" | "eu02";
 export interface ListProjectBackflushJobsRequest {
@@ -296,9 +296,9 @@ export interface ListProjectBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListProjectBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type PartialUpdateFolderTelemetryLinkRequestRegionId = "eu01" | "eu02";
 export interface PartialUpdateFolderTelemetryLinkRequest {
@@ -307,15 +307,15 @@ export interface PartialUpdateFolderTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateFolderTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
 }
 export type PartialUpdateOrganizationTelemetryLinkRequestRegionId = "eu01" | "eu02";
 export interface PartialUpdateOrganizationTelemetryLinkRequest {
@@ -324,15 +324,15 @@ export interface PartialUpdateOrganizationTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateOrganizationTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
 }
 export type PartialUpdateProjectTelemetryLinkRequestRegionId = "eu01" | "eu02";
 export interface PartialUpdateProjectTelemetryLinkRequest {
@@ -341,15 +341,15 @@ export interface PartialUpdateProjectTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateProjectTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
 }
 export type CreateFolderBackflushJobError = BadRequest | Conflict | StackitOpError;
 /** Creates a new Backflush Job for the folder. */

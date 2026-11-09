@@ -55,11 +55,11 @@ export class UnprocessableEntity
 export interface IngestToDatasetRequest {
   dataset_id: string;
   /** The name of the field to use as the timestamp. If not specified, the timestamp will be the time the event was received by Axiom. */
-  timestamp_field?: string;
+  timestamp_field?: string | undefined;
   /** The date-time format of the timestamp field. The reference time is `Mon Jan 2 15:04:05 -0700 MST 2006`, as specified in https://pkg.go.dev/time/?tab=doc#Parse */
-  timestamp_format?: string;
+  timestamp_format?: string | undefined;
   /** The delimiter to use when parsing CSV data. If not specified, the default delimiter is `,`. */
-  csv_delimiter?: string;
+  csv_delimiter?: string | undefined;
   body: string;
 }
 export interface IngestFailure {
@@ -70,7 +70,7 @@ export type IngestStatusFailuresList = Array<IngestFailure>;
 export interface IngestStatus {
   blocksCreated: number;
   failed: number;
-  failures?: IngestStatusFailuresList;
+  failures?: IngestStatusFailuresList | undefined;
   ingested: number;
   processedBytes: number;
   walLength: number;
@@ -102,7 +102,14 @@ function __c0(j: number): any {
           timestamp_format: S.optional(S.String.pipe(T.Query("timestamp-format"))),
           csv_delimiter: S.optional(S.String.pipe(T.Query("csv-delimiter"))),
           body: S.String.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/datasets/{dataset_id}/ingest", code: 200 })),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/ingest/{dataset_id}",
+            code: 200,
+            bodyMediaType: "application/json",
+          }),
+        ),
       ).annotate({ identifier: "IngestToDatasetRequest" });
     case 1:
       return S.suspend(() =>

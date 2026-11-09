@@ -60,18 +60,18 @@ export type CreateDashboardTemplateRequestAvailabilityContextsList = Array<strin
 export interface CreateDashboardTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  template_name?: string | null;
-  dashboard_description?: string | null;
-  dashboard_filters?: unknown;
-  tags?: CreateDashboardTemplateRequestTagsList | null;
-  tiles?: unknown;
-  variables?: unknown;
-  deleted?: boolean | null;
-  image_url?: string | null;
-  scope?: CreateDashboardTemplateRequestScope | null;
-  availability_contexts?: CreateDashboardTemplateRequestAvailabilityContextsList | null;
+  template_name?: string | null | undefined;
+  dashboard_description?: string | null | undefined;
+  dashboard_filters?: unknown | undefined;
+  tags?: CreateDashboardTemplateRequestTagsList | null | undefined;
+  tiles?: unknown | undefined;
+  variables?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  image_url?: string | null | undefined;
+  scope?: CreateDashboardTemplateRequestScope | null | undefined;
+  availability_contexts?: CreateDashboardTemplateRequestAvailabilityContextsList | null | undefined;
   /** Manually curated; used to highlight templates in the UI. */
-  is_featured?: boolean;
+  is_featured?: boolean | undefined;
 }
 export type DashboardTemplateTagsList = Array<string>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
@@ -88,15 +88,15 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type DashboardTemplateScope = DashboardTemplateScopeEnum | BlankEnum;
 export type DashboardTemplateAvailabilityContextsList = Array<string>;
@@ -111,30 +111,30 @@ export interface NonPortableReferences {
   warehouse_tables: NonPortableReferencesWarehouseTablesList;
 }
 export interface DashboardTemplate {
-  id?: string;
-  template_name?: string | null;
-  dashboard_description?: string | null;
-  dashboard_filters?: unknown;
-  tags?: DashboardTemplateTagsList | null;
-  tiles?: unknown;
-  variables?: unknown;
-  deleted?: boolean | null;
-  created_at?: string | null;
-  created_by?: UserBasic | null;
-  image_url?: string | null;
-  team_id?: number | null;
-  scope?: DashboardTemplateScope | null;
-  availability_contexts?: DashboardTemplateAvailabilityContextsList | null;
+  id?: string | undefined;
+  template_name?: string | null | undefined;
+  dashboard_description?: string | null | undefined;
+  dashboard_filters?: unknown | undefined;
+  tags?: DashboardTemplateTagsList | null | undefined;
+  tiles?: unknown | undefined;
+  variables?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  created_at?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  image_url?: string | null | undefined;
+  team_id?: number | null | undefined;
+  scope?: DashboardTemplateScope | null | undefined;
+  availability_contexts?: DashboardTemplateAvailabilityContextsList | null | undefined;
   /** Manually curated; used to highlight templates in the UI. */
-  is_featured?: boolean;
+  is_featured?: boolean | undefined;
   /** Read-only. Project-specific references (actions, cohorts, data warehouse tables) embedded in this template's tiles that may not resolve when it is used in another project. Events and properties are matched by name and are portable, so they are not reported here. */
-  non_portable_references?: NonPortableReferences;
+  non_portable_references?: NonPortableReferences | undefined;
 }
 export interface DashboardTemplatesCopyBetweenProjectsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** UUID of a team-scoped template in the same organization. Global and feature-flag templates cannot be copied with this endpoint. */
-  source_template_id?: string;
+  source_template_id?: string | undefined;
 }
 export interface DashboardTemplatesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -163,24 +163,24 @@ export interface ListDashboardTemplatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Omit for all templates. When set, filter by featured flag; parsed with str_to_bool (same as other API query booleans). */
-  is_featured?: boolean;
+  is_featured?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional. When not using `search`, results are sorted with featured templates first (`is_featured=true`), then by `template_name` (case-insensitive A-Z; `-template_name` for Z-A) or by `created_at` (`-created_at` for newest first). When `search` is set, order is featured first, then relevance rank, then case-insensitive name for ties. */
-  ordering?: ListDashboardTemplatesRequestOrdering | (string & {});
+  ordering?: ListDashboardTemplatesRequestOrdering | (string & {}) | undefined;
   /** Optional. `global`: official templates only. `team`: this project's saved templates only (`scope=team` rows for the current project). `organization`: templates shared across all projects in this organization. `feature_flag`: feature-flag dashboard templates only. Omit for official, organization, and this project's templates (default dashboard template picker behavior). */
-  scope?: ListDashboardTemplatesRequestScope | (string & {});
+  scope?: ListDashboardTemplatesRequestScope | (string & {}) | undefined;
   /** Optional. Full-text search across template name, tags, and description, ranked by relevance. Use it to find templates for a topic (e.g. `retention`, `revenue`, `product analytics`). */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedDashboardTemplateListResultsList = Array<DashboardTemplate>;
 export interface PaginatedDashboardTemplateList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedDashboardTemplateListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedDashboardTemplateListResultsList | undefined;
 }
 export type UpdateDashboardTemplateRequestTagsList = Array<string>;
 export type UpdateDashboardTemplateRequestScope = DashboardTemplateScopeEnum | BlankEnum;
@@ -190,18 +190,18 @@ export interface UpdateDashboardTemplateRequest {
   project_id: string;
   /** A UUID string identifying this dashboard template. */
   id: string;
-  template_name?: string | null;
-  dashboard_description?: string | null;
-  dashboard_filters?: unknown;
-  tags?: UpdateDashboardTemplateRequestTagsList | null;
-  tiles?: unknown;
-  variables?: unknown;
-  deleted?: boolean | null;
-  image_url?: string | null;
-  scope?: UpdateDashboardTemplateRequestScope | null;
-  availability_contexts?: UpdateDashboardTemplateRequestAvailabilityContextsList | null;
+  template_name?: string | null | undefined;
+  dashboard_description?: string | null | undefined;
+  dashboard_filters?: unknown | undefined;
+  tags?: UpdateDashboardTemplateRequestTagsList | null | undefined;
+  tiles?: unknown | undefined;
+  variables?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  image_url?: string | null | undefined;
+  scope?: UpdateDashboardTemplateRequestScope | null | undefined;
+  availability_contexts?: UpdateDashboardTemplateRequestAvailabilityContextsList | null | undefined;
   /** Manually curated; used to highlight templates in the UI. */
-  is_featured?: boolean;
+  is_featured?: boolean | undefined;
 }
 export type UpdateDashboardTemplatesPartialRequestTagsList = Array<string>;
 export type UpdateDashboardTemplatesPartialRequestScope = DashboardTemplateScopeEnum | BlankEnum;
@@ -211,18 +211,21 @@ export interface UpdateDashboardTemplatesPartialRequest {
   project_id: string;
   /** A UUID string identifying this dashboard template. */
   id: string;
-  template_name?: string | null;
-  dashboard_description?: string | null;
-  dashboard_filters?: unknown;
-  tags?: UpdateDashboardTemplatesPartialRequestTagsList | null;
-  tiles?: unknown;
-  variables?: unknown;
-  deleted?: boolean | null;
-  image_url?: string | null;
-  scope?: UpdateDashboardTemplatesPartialRequestScope | null;
-  availability_contexts?: UpdateDashboardTemplatesPartialRequestAvailabilityContextsList | null;
+  template_name?: string | null | undefined;
+  dashboard_description?: string | null | undefined;
+  dashboard_filters?: unknown | undefined;
+  tags?: UpdateDashboardTemplatesPartialRequestTagsList | null | undefined;
+  tiles?: unknown | undefined;
+  variables?: unknown | undefined;
+  deleted?: boolean | null | undefined;
+  image_url?: string | null | undefined;
+  scope?: UpdateDashboardTemplatesPartialRequestScope | null | undefined;
+  availability_contexts?:
+    | UpdateDashboardTemplatesPartialRequestAvailabilityContextsList
+    | null
+    | undefined;
   /** Manually curated; used to highlight templates in the UI. */
-  is_featured?: boolean;
+  is_featured?: boolean | undefined;
 }
 export type CreateDashboardTemplateError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createDashboardTemplate: API.OperationMethod<

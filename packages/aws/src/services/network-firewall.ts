@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -172,57 +173,57 @@ export interface AvailabilityZoneMapping {
 }
 export type AvailabilityZoneMappings = AvailabilityZoneMapping[];
 export interface AssociateAvailabilityZonesRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
 export interface AssociateAvailabilityZonesResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface AssociateFirewallPolicyRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   FirewallPolicyArn: string;
 }
 export interface AssociateFirewallPolicyResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  FirewallPolicyArn?: string;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
+  UpdateToken?: string | undefined;
 }
 export type CollectionMember_String = string;
 export type IPAddressType = "DUALSTACK" | "IPV4" | "IPV6" | (string & {});
 export interface SubnetMapping {
   SubnetId: string;
-  IPAddressType?: IPAddressType;
+  IPAddressType?: IPAddressType | undefined;
 }
 export type SubnetMappings = SubnetMapping[];
 export interface AssociateSubnetsRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetMappings: SubnetMapping[];
 }
 export interface AssociateSubnetsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetMappings?: SubnetMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export type InsertPosition = number;
 export interface ProxyRuleGroupAttachment {
-  ProxyRuleGroupName?: string;
-  InsertPosition?: number;
+  ProxyRuleGroupName?: string | undefined;
+  InsertPosition?: number | undefined;
 }
 export type ProxyRuleGroupAttachmentList = ProxyRuleGroupAttachment[];
 export interface AttachRuleGroupsToProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   RuleGroups: ProxyRuleGroupAttachment[];
   UpdateToken: string;
 }
@@ -232,17 +233,17 @@ export type DeleteTime = Date;
 export type ProxyConfigRuleGroupType = string;
 export type ProxyConfigRuleGroupPriority = number;
 export interface ProxyConfigRuleGroup {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  Type?: string;
-  Priority?: number;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  Type?: string | undefined;
+  Priority?: number | undefined;
 }
 export type ProxyConfigRuleGroupSet = ProxyConfigRuleGroup[];
 export type ProxyRulePhaseAction = "ALLOW" | "DENY" | "ALERT" | (string & {});
 export interface ProxyConfigDefaultRulePhaseActionsRequest {
-  PreDNS?: ProxyRulePhaseAction;
-  PreREQUEST?: ProxyRulePhaseAction;
-  PostRESPONSE?: ProxyRulePhaseAction;
+  PreDNS?: ProxyRulePhaseAction | undefined;
+  PreREQUEST?: ProxyRulePhaseAction | undefined;
+  PostRESPONSE?: ProxyRulePhaseAction | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -252,18 +253,18 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ProxyConfiguration {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  Description?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  RuleGroups?: ProxyConfigRuleGroup[];
-  DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: Tag[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  Description?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  RuleGroups?: ProxyConfigRuleGroup[] | undefined;
+  DefaultRulePhaseActions?: ProxyConfigDefaultRulePhaseActionsRequest | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AttachRuleGroupsToProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
 export type ContainerMonitoringType = "ECS" | "EKS" | (string & {});
 export type ContainerAttributeKey = string;
@@ -275,15 +276,15 @@ export interface ContainerAttribute {
 export type ContainerAttributes = ContainerAttribute[];
 export interface ContainerMonitoringConfiguration {
   ClusterArn: string;
-  AttributeFilters?: ContainerAttribute[];
+  AttributeFilters?: ContainerAttribute[] | undefined;
 }
 export type ContainerMonitoringConfigurations = ContainerMonitoringConfiguration[];
 export interface CreateContainerAssociationRequest {
   ContainerAssociationName: string;
-  Description?: string;
+  Description?: string | undefined;
   Type: ContainerMonitoringType;
   ContainerMonitoringConfigurations: ContainerMonitoringConfiguration[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ContainerAssociationStatus =
   | "ACTIVE"
@@ -292,20 +293,20 @@ export type ContainerAssociationStatus =
   | "UPDATING"
   | (string & {});
 export interface CreateContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export type VpcId = string;
 export type KeyId = string;
 export type EncryptionType = "CUSTOMER_KMS" | "AWS_OWNED_KMS_KEY" | (string & {});
 export interface EncryptionConfiguration {
-  KeyId?: string;
+  KeyId?: string | undefined;
   Type: EncryptionType;
 }
 export type EnabledAnalysisType = "TLS_SNI" | "HTTP_HOST" | (string & {});
@@ -319,8 +320,8 @@ export type NatGatewayMappingsList = NatGatewayMapping[];
 export type NatGatewayPort = number;
 export type ListenerPropertyType = "HTTP" | "HTTPS" | (string & {});
 export interface ListenerProperty {
-  Port?: number;
-  Type?: ListenerPropertyType;
+  Port?: number | undefined;
+  Type?: ListenerPropertyType | undefined;
 }
 export type ListenerProperties = ListenerProperty[];
 export interface ProxySettings {
@@ -333,49 +334,49 @@ export interface VpcEndpoint {
 export interface CreateFirewallRequest {
   FirewallName: string;
   FirewallPolicyArn: string;
-  VpcId?: string;
-  SubnetMappings?: SubnetMapping[];
-  DeleteProtection?: boolean;
-  SubnetChangeProtection?: boolean;
-  FirewallPolicyChangeProtection?: boolean;
-  Description?: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  TransitGatewayId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  AvailabilityZoneChangeProtection?: boolean;
-  NatGatewayMappings?: NatGatewayMapping[];
-  ProxySettings?: ProxySettings;
-  NoSourcePreservation?: boolean;
-  VpcEndpoint?: VpcEndpoint;
+  VpcId?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  DeleteProtection?: boolean | undefined;
+  SubnetChangeProtection?: boolean | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  TransitGatewayId?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
+  NatGatewayMappings?: NatGatewayMapping[] | undefined;
+  ProxySettings?: ProxySettings | undefined;
+  NoSourcePreservation?: boolean | undefined;
+  VpcEndpoint?: VpcEndpoint | undefined;
 }
 export type ResourceId = string;
 export type NumberOfAssociations = number;
 export type AWSAccountId = string;
 export interface Firewall {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
   FirewallPolicyArn: string;
   VpcId: string;
   SubnetMappings: SubnetMapping[];
-  DeleteProtection?: boolean;
-  SubnetChangeProtection?: boolean;
-  FirewallPolicyChangeProtection?: boolean;
-  Description?: string;
+  DeleteProtection?: boolean | undefined;
+  SubnetChangeProtection?: boolean | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
+  Description?: string | undefined;
   FirewallId: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
-  NumberOfAssociations?: number;
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  TransitGatewayId?: string;
-  TransitGatewayOwnerAccountId?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  AvailabilityZoneChangeProtection?: boolean;
-  NatGatewayMappings?: NatGatewayMapping[];
-  ProxySettings?: ProxySettings;
-  NoSourcePreservation?: boolean;
-  VpcEndpoint?: VpcEndpoint;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  NumberOfAssociations?: number | undefined;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  TransitGatewayId?: string | undefined;
+  TransitGatewayOwnerAccountId?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
+  NatGatewayMappings?: NatGatewayMapping[] | undefined;
+  ProxySettings?: ProxySettings | undefined;
+  NoSourcePreservation?: boolean | undefined;
+  VpcEndpoint?: VpcEndpoint | undefined;
 }
 export type FirewallStatusValue = "PROVISIONING" | "DELETING" | "READY" | "FAILED" | (string & {});
 export type ConfigurationSyncState = "PENDING" | "IN_SYNC" | "CAPACITY_CONSTRAINED" | (string & {});
@@ -393,11 +394,11 @@ export type AttachmentStatus =
 export type StatusMessage = string;
 export type DnsName = string;
 export interface Attachment {
-  SubnetId?: string;
-  EndpointId?: string;
-  Status?: AttachmentStatus;
-  StatusMessage?: string;
-  DnsName?: string;
+  SubnetId?: string | undefined;
+  EndpointId?: string | undefined;
+  Status?: AttachmentStatus | undefined;
+  StatusMessage?: string | undefined;
+  DnsName?: string | undefined;
 }
 export type PerObjectSyncStatus =
   | "PENDING"
@@ -407,8 +408,8 @@ export type PerObjectSyncStatus =
   | "DEPRECATED"
   | (string & {});
 export interface PerObjectStatus {
-  SyncStatus?: PerObjectSyncStatus;
-  UpdateToken?: string;
+  SyncStatus?: PerObjectSyncStatus | undefined;
+  UpdateToken?: string | undefined;
 }
 export type SyncStateConfig = { [key: string]: PerObjectStatus | undefined };
 export type NatGatewayAttachmentStatus =
@@ -422,47 +423,47 @@ export type StatusReason = string;
 export interface NatGatewayAttachment {
   NatGatewayId: string;
   Status: NatGatewayAttachmentStatus;
-  StatusMessage?: string;
-  DnsName?: string;
+  StatusMessage?: string | undefined;
+  DnsName?: string | undefined;
 }
 export type NatGatewayAttachmentsList = NatGatewayAttachment[];
 export interface SyncState {
-  Attachment?: Attachment;
-  Config?: { [key: string]: PerObjectStatus | undefined };
-  NatGatewayAttachments?: NatGatewayAttachment[];
+  Attachment?: Attachment | undefined;
+  Config?: { [key: string]: PerObjectStatus | undefined } | undefined;
+  NatGatewayAttachments?: NatGatewayAttachment[] | undefined;
 }
 export type SyncStates = { [key: string]: SyncState | undefined };
 export type CIDRCount = number;
 export type IPSetArn = string;
 export interface IPSetMetadata {
-  ResolvedCIDRCount?: number;
+  ResolvedCIDRCount?: number | undefined;
 }
 export type IPSetMetadataMap = { [key: string]: IPSetMetadata | undefined };
 export interface CIDRSummary {
-  AvailableCIDRCount?: number;
-  UtilizedCIDRCount?: number;
-  IPSetReferences?: { [key: string]: IPSetMetadata | undefined };
+  AvailableCIDRCount?: number | undefined;
+  UtilizedCIDRCount?: number | undefined;
+  IPSetReferences?: { [key: string]: IPSetMetadata | undefined } | undefined;
 }
 export interface CapacityUsageSummary {
-  CIDRs?: CIDRSummary;
+  CIDRs?: CIDRSummary | undefined;
 }
 export type AttachmentId = string;
 export type TransitGatewayAttachmentSyncStateMessage = string;
 export interface TransitGatewayAttachmentSyncState {
-  AttachmentId?: string;
-  TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus;
-  StatusMessage?: string;
+  AttachmentId?: string | undefined;
+  TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface FirewallStatus {
   Status: FirewallStatusValue;
   ConfigurationSyncStateSummary: ConfigurationSyncState;
-  SyncStates?: { [key: string]: SyncState | undefined };
-  CapacityUsageSummary?: CapacityUsageSummary;
-  TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState;
+  SyncStates?: { [key: string]: SyncState | undefined } | undefined;
+  CapacityUsageSummary?: CapacityUsageSummary | undefined;
+  TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState | undefined;
 }
 export interface CreateFirewallResponse {
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
 export type Priority = number;
 export interface StatelessRuleGroupReference {
@@ -481,7 +482,7 @@ export interface PublishMetricAction {
   Dimensions: Dimension[];
 }
 export interface ActionDefinition {
-  PublishMetricAction?: PublishMetricAction;
+  PublishMetricAction?: PublishMetricAction | undefined;
 }
 export interface CustomAction {
   ActionName: string;
@@ -490,14 +491,14 @@ export interface CustomAction {
 export type CustomActions = CustomAction[];
 export type OverrideAction = "DROP_TO_ALERT" | (string & {});
 export interface StatefulRuleGroupOverride {
-  Action?: OverrideAction;
+  Action?: OverrideAction | undefined;
 }
 export type DeepThreatInspection = boolean;
 export interface StatefulRuleGroupReference {
   ResourceArn: string;
-  Priority?: number;
-  Override?: StatefulRuleGroupOverride;
-  DeepThreatInspection?: boolean;
+  Priority?: number | undefined;
+  Override?: StatefulRuleGroupOverride | undefined;
+  DeepThreatInspection?: boolean | undefined;
 }
 export type StatefulRuleGroupReferences = StatefulRuleGroupReference[];
 export type StatefulActions = string[];
@@ -505,12 +506,12 @@ export type RuleOrder = "DEFAULT_ACTION_ORDER" | "STRICT_ORDER" | (string & {});
 export type StreamExceptionPolicy = "DROP" | "CONTINUE" | "REJECT" | (string & {});
 export type TcpIdleTimeoutRangeBound = number;
 export interface FlowTimeouts {
-  TcpIdleTimeoutSeconds?: number;
+  TcpIdleTimeoutSeconds?: number | undefined;
 }
 export interface StatefulEngineOptions {
-  RuleOrder?: RuleOrder;
-  StreamExceptionPolicy?: StreamExceptionPolicy;
-  FlowTimeouts?: FlowTimeouts;
+  RuleOrder?: RuleOrder | undefined;
+  StreamExceptionPolicy?: StreamExceptionPolicy | undefined;
+  FlowTimeouts?: FlowTimeouts | undefined;
 }
 export type RuleVariableName = string;
 export type VariableDefinition = string;
@@ -520,28 +521,28 @@ export interface IPSet {
 }
 export type IPSets = { [key: string]: IPSet | undefined };
 export interface PolicyVariables {
-  RuleVariables?: { [key: string]: IPSet | undefined };
+  RuleVariables?: { [key: string]: IPSet | undefined } | undefined;
 }
 export type EnableTLSSessionHolding = boolean;
 export interface FirewallPolicy {
-  StatelessRuleGroupReferences?: StatelessRuleGroupReference[];
+  StatelessRuleGroupReferences?: StatelessRuleGroupReference[] | undefined;
   StatelessDefaultActions: string[];
   StatelessFragmentDefaultActions: string[];
-  StatelessCustomActions?: CustomAction[];
-  StatefulRuleGroupReferences?: StatefulRuleGroupReference[];
-  StatefulDefaultActions?: string[];
-  StatefulEngineOptions?: StatefulEngineOptions;
-  TLSInspectionConfigurationArn?: string;
-  PolicyVariables?: PolicyVariables;
-  EnableTLSSessionHolding?: boolean;
+  StatelessCustomActions?: CustomAction[] | undefined;
+  StatefulRuleGroupReferences?: StatefulRuleGroupReference[] | undefined;
+  StatefulDefaultActions?: string[] | undefined;
+  StatefulEngineOptions?: StatefulEngineOptions | undefined;
+  TLSInspectionConfigurationArn?: string | undefined;
+  PolicyVariables?: PolicyVariables | undefined;
+  EnableTLSSessionHolding?: boolean | undefined;
 }
 export interface CreateFirewallPolicyRequest {
   FirewallPolicyName: string;
   FirewallPolicy: FirewallPolicy;
-  Description?: string;
-  Tags?: Tag[];
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type ResourceStatus = "ACTIVE" | "DELETING" | "ERROR" | (string & {});
 export type RuleCapacity = number;
@@ -550,15 +551,15 @@ export interface FirewallPolicyResponse {
   FirewallPolicyName: string;
   FirewallPolicyArn: string;
   FirewallPolicyId: string;
-  Description?: string;
-  FirewallPolicyStatus?: ResourceStatus;
-  Tags?: Tag[];
-  ConsumedStatelessRuleCapacity?: number;
-  ConsumedStatefulRuleCapacity?: number;
-  ConsumedStatefulDomainCapacity?: number;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LastModifiedTime?: Date;
+  Description?: string | undefined;
+  FirewallPolicyStatus?: ResourceStatus | undefined;
+  Tags?: Tag[] | undefined;
+  ConsumedStatelessRuleCapacity?: number | undefined;
+  ConsumedStatefulRuleCapacity?: number | undefined;
+  ConsumedStatefulDomainCapacity?: number | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface CreateFirewallPolicyResponse {
   UpdateToken: string;
@@ -571,17 +572,17 @@ export interface ListenerPropertyRequest {
 export type ListenerPropertiesRequest = ListenerPropertyRequest[];
 export type TlsInterceptMode = "ENABLED" | "DISABLED" | (string & {});
 export interface TlsInterceptPropertiesRequest {
-  PcaArn?: string;
-  TlsInterceptMode?: TlsInterceptMode;
+  PcaArn?: string | undefined;
+  TlsInterceptMode?: TlsInterceptMode | undefined;
 }
 export interface CreateProxyRequest {
   ProxyName: string;
   NatGatewayId: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  ListenerProperties?: ListenerPropertyRequest[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  ListenerProperties?: ListenerPropertyRequest[] | undefined;
   TlsInterceptProperties: TlsInterceptPropertiesRequest;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type UpdateTime = Date;
 export type FailureCode = string;
@@ -596,122 +597,122 @@ export type ProxyState =
   | (string & {});
 export type ProxyModifyState = "MODIFYING" | "COMPLETED" | "FAILED" | (string & {});
 export interface TlsInterceptProperties {
-  PcaArn?: string;
-  TlsInterceptMode?: TlsInterceptMode;
+  PcaArn?: string | undefined;
+  TlsInterceptMode?: TlsInterceptMode | undefined;
 }
 export interface Proxy {
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  UpdateTime?: Date;
-  FailureCode?: string;
-  FailureMessage?: string;
-  ProxyState?: ProxyState;
-  ProxyModifyState?: ProxyModifyState;
-  NatGatewayId?: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  ProxyName?: string;
-  ProxyArn?: string;
-  ListenerProperties?: ListenerProperty[];
-  TlsInterceptProperties?: TlsInterceptProperties;
-  Tags?: Tag[];
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
+  ProxyState?: ProxyState | undefined;
+  ProxyModifyState?: ProxyModifyState | undefined;
+  NatGatewayId?: string | undefined;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ListenerProperties?: ListenerProperty[] | undefined;
+  TlsInterceptProperties?: TlsInterceptProperties | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProxyResponse {
-  Proxy?: Proxy;
-  UpdateToken?: string;
+  Proxy?: Proxy | undefined;
+  UpdateToken?: string | undefined;
 }
 export type ResourceNameList = string[];
 export type ResourceArnList = string[];
 export interface CreateProxyConfigurationRequest {
   ProxyConfigurationName: string;
-  Description?: string;
-  RuleGroupNames?: string[];
-  RuleGroupArns?: string[];
+  Description?: string | undefined;
+  RuleGroupNames?: string[] | undefined;
+  RuleGroupArns?: string[] | undefined;
   DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
 export type ConditionOperator = string;
 export type ConditionKey = string;
 export type ProxyConditionValue = string;
 export type ProxyConditionValueList = string[];
 export interface ProxyRuleCondition {
-  ConditionOperator?: string;
-  ConditionKey?: string;
-  ConditionValues?: string[];
+  ConditionOperator?: string | undefined;
+  ConditionKey?: string | undefined;
+  ConditionValues?: string[] | undefined;
 }
 export type ProxyRuleConditionList = ProxyRuleCondition[];
 export interface ProxyRule {
-  ProxyRuleName?: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  Conditions?: ProxyRuleCondition[];
+  ProxyRuleName?: string | undefined;
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  Conditions?: ProxyRuleCondition[] | undefined;
 }
 export type ProxyRuleList = ProxyRule[];
 export interface ProxyRulesByRequestPhase {
-  PreDNS?: ProxyRule[];
-  PreREQUEST?: ProxyRule[];
-  PostRESPONSE?: ProxyRule[];
+  PreDNS?: ProxyRule[] | undefined;
+  PreREQUEST?: ProxyRule[] | undefined;
+  PostRESPONSE?: ProxyRule[] | undefined;
 }
 export interface CreateProxyRuleGroupRequest {
   ProxyRuleGroupName: string;
-  Description?: string;
-  Rules?: ProxyRulesByRequestPhase;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Rules?: ProxyRulesByRequestPhase | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ProxyRuleGroup {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  Rules?: ProxyRulesByRequestPhase;
-  Description?: string;
-  Tags?: Tag[];
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  Rules?: ProxyRulesByRequestPhase | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProxyRuleGroupResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface CreateProxyRule {
-  ProxyRuleName?: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  Conditions?: ProxyRuleCondition[];
-  InsertPosition?: number;
+  ProxyRuleName?: string | undefined;
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  Conditions?: ProxyRuleCondition[] | undefined;
+  InsertPosition?: number | undefined;
 }
 export type CreateProxyRuleList = CreateProxyRule[];
 export interface CreateProxyRulesByRequestPhase {
-  PreDNS?: CreateProxyRule[];
-  PreREQUEST?: CreateProxyRule[];
-  PostRESPONSE?: CreateProxyRule[];
+  PreDNS?: CreateProxyRule[] | undefined;
+  PreREQUEST?: CreateProxyRule[] | undefined;
+  PostRESPONSE?: CreateProxyRule[] | undefined;
 }
 export interface CreateProxyRulesRequest {
-  ProxyRuleGroupArn?: string;
-  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string | undefined;
+  ProxyRuleGroupName?: string | undefined;
   Rules: CreateProxyRulesByRequestPhase;
 }
 export interface CreateProxyRulesResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface PortSet {
-  Definition?: string[];
+  Definition?: string[] | undefined;
 }
 export type PortSets = { [key: string]: PortSet | undefined };
 export interface RuleVariables {
-  IPSets?: { [key: string]: IPSet | undefined };
-  PortSets?: { [key: string]: PortSet | undefined };
+  IPSets?: { [key: string]: IPSet | undefined } | undefined;
+  PortSets?: { [key: string]: PortSet | undefined } | undefined;
 }
 export type IPSetReferenceName = string;
 export interface IPSetReference {
-  ReferenceArn?: string;
+  ReferenceArn?: string | undefined;
 }
 export type IPSetReferenceMap = { [key: string]: IPSetReference | undefined };
 export interface ReferenceSets {
-  IPSetReferences?: { [key: string]: IPSetReference | undefined };
+  IPSetReferences?: { [key: string]: IPSetReference | undefined } | undefined;
 }
 export type RulesString = string;
 export type RuleTargets = string[];
@@ -769,7 +770,7 @@ export type Setting = string;
 export type Settings = string[];
 export interface RuleOption {
   Keyword: string;
-  Settings?: string[];
+  Settings?: string[] | undefined;
 }
 export type RuleOptions = RuleOption[];
 export interface StatefulRule {
@@ -795,16 +796,16 @@ export type TCPFlag = "FIN" | "SYN" | "RST" | "PSH" | "ACK" | "URG" | "ECE" | "C
 export type Flags = TCPFlag[];
 export interface TCPFlagField {
   Flags: TCPFlag[];
-  Masks?: TCPFlag[];
+  Masks?: TCPFlag[] | undefined;
 }
 export type TCPFlags = TCPFlagField[];
 export interface MatchAttributes {
-  Sources?: Address[];
-  Destinations?: Address[];
-  SourcePorts?: PortRange[];
-  DestinationPorts?: PortRange[];
-  Protocols?: number[];
-  TCPFlags?: TCPFlagField[];
+  Sources?: Address[] | undefined;
+  Destinations?: Address[] | undefined;
+  SourcePorts?: PortRange[] | undefined;
+  DestinationPorts?: PortRange[] | undefined;
+  Protocols?: number[] | undefined;
+  TCPFlags?: TCPFlagField[] | undefined;
 }
 export interface RuleDefinition {
   MatchAttributes: MatchAttributes;
@@ -817,46 +818,46 @@ export interface StatelessRule {
 export type StatelessRules = StatelessRule[];
 export interface StatelessRulesAndCustomActions {
   StatelessRules: StatelessRule[];
-  CustomActions?: CustomAction[];
+  CustomActions?: CustomAction[] | undefined;
 }
 export interface RulesSource {
-  RulesString?: string;
-  RulesSourceList?: RulesSourceList;
-  StatefulRules?: StatefulRule[];
-  StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions;
+  RulesString?: string | undefined;
+  RulesSourceList?: RulesSourceList | undefined;
+  StatefulRules?: StatefulRule[] | undefined;
+  StatelessRulesAndCustomActions?: StatelessRulesAndCustomActions | undefined;
 }
 export interface StatefulRuleOptions {
-  RuleOrder?: RuleOrder;
+  RuleOrder?: RuleOrder | undefined;
 }
 export interface RuleGroup {
-  RuleVariables?: RuleVariables;
-  ReferenceSets?: ReferenceSets;
+  RuleVariables?: RuleVariables | undefined;
+  ReferenceSets?: ReferenceSets | undefined;
   RulesSource: RulesSource;
-  StatefulRuleOptions?: StatefulRuleOptions;
+  StatefulRuleOptions?: StatefulRuleOptions | undefined;
 }
 export type RuleGroupType = "STATELESS" | "STATEFUL" | "STATEFUL_DOMAIN" | (string & {});
 export interface SourceMetadata {
-  SourceArn?: string;
-  SourceUpdateToken?: string;
+  SourceArn?: string | undefined;
+  SourceUpdateToken?: string | undefined;
 }
 export type SummaryRuleOption = "SID" | "MSG" | "METADATA" | (string & {});
 export type SummaryRuleOptions = SummaryRuleOption[];
 export interface SummaryConfiguration {
-  RuleOptions?: SummaryRuleOption[];
+  RuleOptions?: SummaryRuleOption[] | undefined;
 }
 export interface CreateRuleGroupRequest {
   RuleGroupName: string;
-  RuleGroup?: RuleGroup;
-  Rules?: string;
+  RuleGroup?: RuleGroup | undefined;
+  Rules?: string | undefined;
   Type: RuleGroupType;
-  Description?: string;
+  Description?: string | undefined;
   Capacity: number;
-  Tags?: Tag[];
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  AnalyzeRuleGroup?: boolean;
-  SummaryConfiguration?: SummaryConfiguration;
+  Tags?: Tag[] | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
 export type RuleIdList = string[];
 export type IdentifiedType =
@@ -864,86 +865,86 @@ export type IdentifiedType =
   | "STATELESS_RULE_CONTAINS_TCP_FLAGS"
   | (string & {});
 export interface AnalysisResult {
-  IdentifiedRuleIds?: string[];
-  IdentifiedType?: IdentifiedType;
-  AnalysisDetail?: string;
+  IdentifiedRuleIds?: string[] | undefined;
+  IdentifiedType?: IdentifiedType | undefined;
+  AnalysisDetail?: string | undefined;
 }
 export type AnalysisResultList = AnalysisResult[];
 export interface RuleGroupResponse {
   RuleGroupArn: string;
   RuleGroupName: string;
   RuleGroupId: string;
-  Description?: string;
-  Type?: RuleGroupType;
-  Capacity?: number;
-  RuleGroupStatus?: ResourceStatus;
-  Tags?: Tag[];
-  ConsumedCapacity?: number;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  SnsTopic?: string;
-  LastModifiedTime?: Date;
-  AnalysisResults?: AnalysisResult[];
-  SummaryConfiguration?: SummaryConfiguration;
+  Description?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Capacity?: number | undefined;
+  RuleGroupStatus?: ResourceStatus | undefined;
+  Tags?: Tag[] | undefined;
+  ConsumedCapacity?: number | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  SnsTopic?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  AnalysisResults?: AnalysisResult[] | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
 export interface CreateRuleGroupResponse {
   UpdateToken: string;
   RuleGroupResponse: RuleGroupResponse;
 }
 export interface ServerCertificate {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type ServerCertificates = ServerCertificate[];
 export interface ServerCertificateScope {
-  Sources?: Address[];
-  Destinations?: Address[];
-  SourcePorts?: PortRange[];
-  DestinationPorts?: PortRange[];
-  Protocols?: number[];
+  Sources?: Address[] | undefined;
+  Destinations?: Address[] | undefined;
+  SourcePorts?: PortRange[] | undefined;
+  DestinationPorts?: PortRange[] | undefined;
+  Protocols?: number[] | undefined;
 }
 export type ServerCertificateScopes = ServerCertificateScope[];
 export type RevocationCheckAction = "PASS" | "DROP" | "REJECT" | (string & {});
 export interface CheckCertificateRevocationStatusActions {
-  RevokedStatusAction?: RevocationCheckAction;
-  UnknownStatusAction?: RevocationCheckAction;
+  RevokedStatusAction?: RevocationCheckAction | undefined;
+  UnknownStatusAction?: RevocationCheckAction | undefined;
 }
 export interface ServerCertificateConfiguration {
-  ServerCertificates?: ServerCertificate[];
-  Scopes?: ServerCertificateScope[];
-  CertificateAuthorityArn?: string;
-  CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions;
+  ServerCertificates?: ServerCertificate[] | undefined;
+  Scopes?: ServerCertificateScope[] | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  CheckCertificateRevocationStatus?: CheckCertificateRevocationStatusActions | undefined;
 }
 export type ServerCertificateConfigurations = ServerCertificateConfiguration[];
 export interface TLSInspectionConfiguration {
-  ServerCertificateConfigurations?: ServerCertificateConfiguration[];
+  ServerCertificateConfigurations?: ServerCertificateConfiguration[] | undefined;
 }
 export interface CreateTLSInspectionConfigurationRequest {
   TLSInspectionConfigurationName: string;
   TLSInspectionConfiguration: TLSInspectionConfiguration;
-  Description?: string;
-  Tags?: Tag[];
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface TlsCertificateData {
-  CertificateArn?: string;
-  CertificateSerial?: string;
-  Status?: string;
-  StatusMessage?: string;
+  CertificateArn?: string | undefined;
+  CertificateSerial?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type Certificates = TlsCertificateData[];
 export interface TLSInspectionConfigurationResponse {
   TLSInspectionConfigurationArn: string;
   TLSInspectionConfigurationName: string;
   TLSInspectionConfigurationId: string;
-  TLSInspectionConfigurationStatus?: ResourceStatus;
-  Description?: string;
-  Tags?: Tag[];
-  LastModifiedTime?: Date;
-  NumberOfAssociations?: number;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  Certificates?: TlsCertificateData[];
-  CertificateAuthority?: TlsCertificateData;
+  TLSInspectionConfigurationStatus?: ResourceStatus | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  NumberOfAssociations?: number | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Certificates?: TlsCertificateData[] | undefined;
+  CertificateAuthority?: TlsCertificateData | undefined;
 }
 export interface CreateTLSInspectionConfigurationResponse {
   UpdateToken: string;
@@ -953,50 +954,50 @@ export interface CreateVpcEndpointAssociationRequest {
   FirewallArn: string;
   VpcId: string;
   SubnetMapping: SubnetMapping;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface VpcEndpointAssociation {
-  VpcEndpointAssociationId?: string;
+  VpcEndpointAssociationId?: string | undefined;
   VpcEndpointAssociationArn: string;
   FirewallArn: string;
   VpcId: string;
   SubnetMapping: SubnetMapping;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AZSyncState {
-  Attachment?: Attachment;
+  Attachment?: Attachment | undefined;
 }
 export type AssociationSyncState = { [key: string]: AZSyncState | undefined };
 export interface VpcEndpointAssociationStatus {
   Status: FirewallStatusValue;
-  AssociationSyncState?: { [key: string]: AZSyncState | undefined };
+  AssociationSyncState?: { [key: string]: AZSyncState | undefined } | undefined;
 }
 export interface CreateVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
 export interface DeleteContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
 }
 export interface DeleteContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Status?: ContainerAssociationStatus;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Status?: ContainerAssociationStatus | undefined;
 }
 export interface DeleteFirewallRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
 }
 export interface DeleteFirewallResponse {
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
 export interface DeleteFirewallPolicyRequest {
-  FirewallPolicyName?: string;
-  FirewallPolicyArn?: string;
+  FirewallPolicyName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
 }
 export interface DeleteFirewallPolicyResponse {
   FirewallPolicyResponse: FirewallPolicyResponse;
@@ -1010,53 +1011,53 @@ export interface DeleteNetworkFirewallTransitGatewayAttachmentResponse {
 }
 export interface DeleteProxyRequest {
   NatGatewayId: string;
-  ProxyName?: string;
-  ProxyArn?: string;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
 export interface DeleteProxyResponse {
-  NatGatewayId?: string;
-  ProxyName?: string;
-  ProxyArn?: string;
+  NatGatewayId?: string | undefined;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
 export interface DeleteProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
 export interface DeleteProxyConfigurationResponse {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
 export interface DeleteProxyRuleGroupRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
 export interface DeleteProxyRuleGroupResponse {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
 export interface DeleteProxyRulesRequest {
-  ProxyRuleGroupArn?: string;
-  ProxyRuleGroupName?: string;
+  ProxyRuleGroupArn?: string | undefined;
+  ProxyRuleGroupName?: string | undefined;
   Rules: string[];
 }
 export interface DeleteProxyRulesResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
 }
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteRuleGroupRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
 export interface DeleteRuleGroupResponse {
   RuleGroupResponse: RuleGroupResponse;
 }
 export interface DeleteTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
 }
 export interface DeleteTLSInspectionConfigurationResponse {
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
@@ -1065,66 +1066,66 @@ export interface DeleteVpcEndpointAssociationRequest {
   VpcEndpointAssociationArn: string;
 }
 export interface DeleteVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
 export interface DescribeContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
 }
 export type ContainerAssociationLastUpdatedTime = Date;
 export interface DescribeContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  ResolvedCidrCount?: number;
-  LastUpdatedTime?: Date;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  ResolvedCidrCount?: number | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DescribeFirewallRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
 }
 export interface DescribeFirewallResponse {
-  UpdateToken?: string;
-  Firewall?: Firewall;
-  FirewallStatus?: FirewallStatus;
+  UpdateToken?: string | undefined;
+  Firewall?: Firewall | undefined;
+  FirewallStatus?: FirewallStatus | undefined;
 }
 export interface DescribeFirewallMetadataRequest {
-  FirewallArn?: string;
+  FirewallArn?: string | undefined;
 }
 export interface AvailabilityZoneMetadata {
-  IPAddressType?: IPAddressType;
+  IPAddressType?: IPAddressType | undefined;
 }
 export type SupportedAvailabilityZones = { [key: string]: AvailabilityZoneMetadata | undefined };
 export interface DescribeFirewallMetadataResponse {
-  FirewallArn?: string;
-  FirewallPolicyArn?: string;
-  Description?: string;
-  Status?: FirewallStatusValue;
-  SupportedAvailabilityZones?: { [key: string]: AvailabilityZoneMetadata | undefined };
-  TransitGatewayAttachmentId?: string;
+  FirewallArn?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: FirewallStatusValue | undefined;
+  SupportedAvailabilityZones?: { [key: string]: AvailabilityZoneMetadata | undefined } | undefined;
+  TransitGatewayAttachmentId?: string | undefined;
 }
 export interface DescribeFirewallPolicyRequest {
-  FirewallPolicyName?: string;
-  FirewallPolicyArn?: string;
+  FirewallPolicyName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
 }
 export interface DescribeFirewallPolicyResponse {
   UpdateToken: string;
   FirewallPolicyResponse: FirewallPolicyResponse;
-  FirewallPolicy?: FirewallPolicy;
+  FirewallPolicy?: FirewallPolicy | undefined;
 }
 export type VpcEndpointId = string;
 export type FlowOperationId = string;
 export interface DescribeFlowOperationRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
   FlowOperationId: string;
 }
 export type FlowOperationType = "FLOW_FLUSH" | "FLOW_CAPTURE" | (string & {});
@@ -1139,32 +1140,32 @@ export type Age = number;
 export type ProtocolString = string;
 export type ProtocolStrings = string[];
 export interface FlowFilter {
-  SourceAddress?: Address;
-  DestinationAddress?: Address;
-  SourcePort?: string;
-  DestinationPort?: string;
-  Protocols?: string[];
+  SourceAddress?: Address | undefined;
+  DestinationAddress?: Address | undefined;
+  SourcePort?: string | undefined;
+  DestinationPort?: string | undefined;
+  Protocols?: string[] | undefined;
 }
 export type FlowFilters = FlowFilter[];
 export interface FlowOperation {
-  MinimumFlowAgeInSeconds?: number;
-  FlowFilters?: FlowFilter[];
+  MinimumFlowAgeInSeconds?: number | undefined;
+  FlowFilters?: FlowFilter[] | undefined;
 }
 export interface DescribeFlowOperationResponse {
-  FirewallArn?: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationId?: string;
-  FlowOperationType?: FlowOperationType;
-  FlowOperationStatus?: FlowOperationStatus;
-  StatusMessage?: string;
-  FlowRequestTimestamp?: Date;
-  FlowOperation?: FlowOperation;
+  FirewallArn?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  FlowOperation?: FlowOperation | undefined;
 }
 export interface DescribeLoggingConfigurationRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
 }
 export type LogType = "ALERT" | "FLOW" | "TLS" | (string & {});
 export type LogDestinationType = "S3" | "CloudWatchLogs" | "KinesisDataFirehose" | (string & {});
@@ -1182,86 +1183,86 @@ export interface LoggingConfiguration {
 }
 export type EnableMonitoringDashboard = boolean;
 export interface DescribeLoggingConfigurationResponse {
-  FirewallArn?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
 export interface DescribeProxyRequest {
-  ProxyName?: string;
-  ProxyArn?: string;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
 }
 export type VpcEndpointServiceName = string;
 export type PrivateDNSName = string;
 export interface DescribeProxyResource {
-  ProxyName?: string;
-  ProxyArn?: string;
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  NatGatewayId?: string;
-  ProxyState?: ProxyState;
-  ProxyModifyState?: ProxyModifyState;
-  ListenerProperties?: ListenerProperty[];
-  TlsInterceptProperties?: TlsInterceptProperties;
-  VpcEndpointServiceName?: string;
-  PrivateDNSName?: string;
-  CreateTime?: Date;
-  DeleteTime?: Date;
-  UpdateTime?: Date;
-  FailureCode?: string;
-  FailureMessage?: string;
-  Tags?: Tag[];
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  NatGatewayId?: string | undefined;
+  ProxyState?: ProxyState | undefined;
+  ProxyModifyState?: ProxyModifyState | undefined;
+  ListenerProperties?: ListenerProperty[] | undefined;
+  TlsInterceptProperties?: TlsInterceptProperties | undefined;
+  VpcEndpointServiceName?: string | undefined;
+  PrivateDNSName?: string | undefined;
+  CreateTime?: Date | undefined;
+  DeleteTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeProxyResponse {
-  Proxy?: DescribeProxyResource;
-  UpdateToken?: string;
+  Proxy?: DescribeProxyResource | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DescribeProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
 }
 export interface DescribeProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DescribeProxyRuleRequest {
   ProxyRuleName: string;
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
 export interface DescribeProxyRuleResponse {
-  ProxyRule?: ProxyRule;
-  UpdateToken?: string;
+  ProxyRule?: ProxyRule | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DescribeProxyRuleGroupRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
 }
 export interface DescribeProxyRuleGroupResponse {
-  ProxyRuleGroup?: ProxyRuleGroup;
-  UpdateToken?: string;
+  ProxyRuleGroup?: ProxyRuleGroup | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DescribeResourcePolicyRequest {
   ResourceArn: string;
 }
 export type PolicyString = string;
 export interface DescribeResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface DescribeRuleGroupRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
-  AnalyzeRuleGroup?: boolean;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
 }
 export interface DescribeRuleGroupResponse {
   UpdateToken: string;
-  RuleGroup?: RuleGroup;
+  RuleGroup?: RuleGroup | undefined;
   RuleGroupResponse: RuleGroupResponse;
 }
 export interface DescribeRuleGroupMetadataRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
 export type VendorName = string;
 export type ProductId = string;
@@ -1269,95 +1270,95 @@ export type ListingName = string;
 export interface DescribeRuleGroupMetadataResponse {
   RuleGroupArn: string;
   RuleGroupName: string;
-  Description?: string;
-  Type?: RuleGroupType;
-  Capacity?: number;
-  StatefulRuleOptions?: StatefulRuleOptions;
-  LastModifiedTime?: Date;
-  VendorName?: string;
-  ProductId?: string;
-  ListingName?: string;
+  Description?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Capacity?: number | undefined;
+  StatefulRuleOptions?: StatefulRuleOptions | undefined;
+  LastModifiedTime?: Date | undefined;
+  VendorName?: string | undefined;
+  ProductId?: string | undefined;
+  ListingName?: string | undefined;
 }
 export interface DescribeRuleGroupSummaryRequest {
-  RuleGroupName?: string;
-  RuleGroupArn?: string;
-  Type?: RuleGroupType;
+  RuleGroupName?: string | undefined;
+  RuleGroupArn?: string | undefined;
+  Type?: RuleGroupType | undefined;
 }
 export interface RuleSummary {
-  SID?: string;
-  Msg?: string;
-  Metadata?: string;
+  SID?: string | undefined;
+  Msg?: string | undefined;
+  Metadata?: string | undefined;
 }
 export type RuleSummaries = RuleSummary[];
 export interface Summary {
-  RuleSummaries?: RuleSummary[];
+  RuleSummaries?: RuleSummary[] | undefined;
 }
 export interface DescribeRuleGroupSummaryResponse {
   RuleGroupName: string;
-  Description?: string;
-  Summary?: Summary;
+  Description?: string | undefined;
+  Summary?: Summary | undefined;
 }
 export interface DescribeTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
 }
 export interface DescribeTLSInspectionConfigurationResponse {
   UpdateToken: string;
-  TLSInspectionConfiguration?: TLSInspectionConfiguration;
+  TLSInspectionConfiguration?: TLSInspectionConfiguration | undefined;
   TLSInspectionConfigurationResponse: TLSInspectionConfigurationResponse;
 }
 export interface DescribeVpcEndpointAssociationRequest {
   VpcEndpointAssociationArn: string;
 }
 export interface DescribeVpcEndpointAssociationResponse {
-  VpcEndpointAssociation?: VpcEndpointAssociation;
-  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus;
+  VpcEndpointAssociation?: VpcEndpointAssociation | undefined;
+  VpcEndpointAssociationStatus?: VpcEndpointAssociationStatus | undefined;
 }
 export interface DetachRuleGroupsFromProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
-  RuleGroupNames?: string[];
-  RuleGroupArns?: string[];
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
+  RuleGroupNames?: string[] | undefined;
+  RuleGroupArns?: string[] | undefined;
   UpdateToken: string;
 }
 export interface DetachRuleGroupsFromProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface DisassociateAvailabilityZonesRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneMappings: AvailabilityZoneMapping[];
 }
 export interface DisassociateAvailabilityZonesResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneMappings?: AvailabilityZoneMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export type AzSubnets = string[];
 export interface DisassociateSubnetsRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetIds: string[];
 }
 export interface DisassociateSubnetsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetMappings?: SubnetMapping[];
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetMappings?: SubnetMapping[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export type AnalysisReportId = string;
 export type AnalysisReportNextToken = string;
 export type PaginationMaxResults = number;
 export interface GetAnalysisReportResultsRequest {
-  FirewallName?: string;
+  FirewallName?: string | undefined;
   AnalysisReportId: string;
-  FirewallArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FirewallArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Status = string;
 export type StartTime = Date;
@@ -1368,181 +1369,181 @@ export type LastAccessed = Date;
 export type Domain = string;
 export type Count = number;
 export interface Hits {
-  Count?: number;
+  Count?: number | undefined;
 }
 export interface UniqueSources {
-  Count?: number;
+  Count?: number | undefined;
 }
 export interface AnalysisTypeReportResult {
-  Protocol?: string;
-  FirstAccessed?: Date;
-  LastAccessed?: Date;
-  Domain?: string;
-  Hits?: Hits;
-  UniqueSources?: UniqueSources;
+  Protocol?: string | undefined;
+  FirstAccessed?: Date | undefined;
+  LastAccessed?: Date | undefined;
+  Domain?: string | undefined;
+  Hits?: Hits | undefined;
+  UniqueSources?: UniqueSources | undefined;
 }
 export type AnalysisReportResults = AnalysisTypeReportResult[];
 export interface GetAnalysisReportResultsResponse {
-  Status?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  ReportTime?: Date;
-  AnalysisType?: EnabledAnalysisType;
-  NextToken?: string;
-  AnalysisReportResults?: AnalysisTypeReportResult[];
+  Status?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ReportTime?: Date | undefined;
+  AnalysisType?: EnabledAnalysisType | undefined;
+  NextToken?: string | undefined;
+  AnalysisReportResults?: AnalysisTypeReportResult[] | undefined;
 }
 export type PaginationToken = string;
 export interface ListAnalysisReportsRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AnalysisReport {
-  AnalysisReportId?: string;
-  AnalysisType?: EnabledAnalysisType;
-  ReportTime?: Date;
-  Status?: string;
+  AnalysisReportId?: string | undefined;
+  AnalysisType?: EnabledAnalysisType | undefined;
+  ReportTime?: Date | undefined;
+  Status?: string | undefined;
 }
 export type AnalysisReports = AnalysisReport[];
 export interface ListAnalysisReportsResponse {
-  AnalysisReports?: AnalysisReport[];
-  NextToken?: string;
+  AnalysisReports?: AnalysisReport[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContainerAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ContainerAssociationSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type ContainerAssociations = ContainerAssociationSummary[];
 export interface ListContainerAssociationsResponse {
-  ContainerAssociations?: ContainerAssociationSummary[];
-  NextToken?: string;
+  ContainerAssociations?: ContainerAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFirewallPoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FirewallPolicyMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type FirewallPolicies = FirewallPolicyMetadata[];
 export interface ListFirewallPoliciesResponse {
-  NextToken?: string;
-  FirewallPolicies?: FirewallPolicyMetadata[];
+  NextToken?: string | undefined;
+  FirewallPolicies?: FirewallPolicyMetadata[] | undefined;
 }
 export type VpcIds = string[];
 export interface ListFirewallsRequest {
-  NextToken?: string;
-  VpcIds?: string[];
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  VpcIds?: string[] | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FirewallMetadata {
-  FirewallName?: string;
-  FirewallArn?: string;
-  TransitGatewayAttachmentId?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
+  TransitGatewayAttachmentId?: string | undefined;
 }
 export type Firewalls = FirewallMetadata[];
 export interface ListFirewallsResponse {
-  NextToken?: string;
-  Firewalls?: FirewallMetadata[];
+  NextToken?: string | undefined;
+  Firewalls?: FirewallMetadata[] | undefined;
 }
 export interface ListFlowOperationResultsRequest {
   FirewallArn: string;
   FlowOperationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AvailabilityZone?: string;
-  VpcEndpointId?: string;
-  VpcEndpointAssociationArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
 }
 export type PacketCount = number;
 export type ByteCount = number;
 export interface Flow {
-  SourceAddress?: Address;
-  DestinationAddress?: Address;
-  SourcePort?: string;
-  DestinationPort?: string;
-  Protocol?: string;
-  Age?: number;
-  PacketCount?: number;
-  ByteCount?: number;
+  SourceAddress?: Address | undefined;
+  DestinationAddress?: Address | undefined;
+  SourcePort?: string | undefined;
+  DestinationPort?: string | undefined;
+  Protocol?: string | undefined;
+  Age?: number | undefined;
+  PacketCount?: number | undefined;
+  ByteCount?: number | undefined;
 }
 export type Flows = Flow[];
 export interface ListFlowOperationResultsResponse {
-  FirewallArn?: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
-  StatusMessage?: string;
-  FlowRequestTimestamp?: Date;
-  Flows?: Flow[];
-  NextToken?: string;
+  FirewallArn?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  Flows?: Flow[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFlowOperationsRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  FlowOperationType?: FlowOperationType;
-  NextToken?: string;
-  MaxResults?: number;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FlowOperationMetadata {
-  FlowOperationId?: string;
-  FlowOperationType?: FlowOperationType;
-  FlowRequestTimestamp?: Date;
-  FlowOperationStatus?: FlowOperationStatus;
+  FlowOperationId?: string | undefined;
+  FlowOperationType?: FlowOperationType | undefined;
+  FlowRequestTimestamp?: Date | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
 export type FlowOperations = FlowOperationMetadata[];
 export interface ListFlowOperationsResponse {
-  FlowOperations?: FlowOperationMetadata[];
-  NextToken?: string;
+  FlowOperations?: FlowOperationMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProxiesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProxyMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type Proxies = ProxyMetadata[];
 export interface ListProxiesResponse {
-  Proxies?: ProxyMetadata[];
-  NextToken?: string;
+  Proxies?: ProxyMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProxyConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProxyConfigurationMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ProxyConfigurations = ProxyConfigurationMetadata[];
 export interface ListProxyConfigurationsResponse {
-  ProxyConfigurations?: ProxyConfigurationMetadata[];
-  NextToken?: string;
+  ProxyConfigurations?: ProxyConfigurationMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProxyRuleGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProxyRuleGroupMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ProxyRuleGroups = ProxyRuleGroupMetadata[];
 export interface ListProxyRuleGroupsResponse {
-  ProxyRuleGroups?: ProxyRuleGroupMetadata[];
-  NextToken?: string;
+  ProxyRuleGroups?: ProxyRuleGroupMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceManagedStatus = "MANAGED" | "ACCOUNT" | (string & {});
 export type ResourceManagedType =
@@ -1553,58 +1554,58 @@ export type ResourceManagedType =
   | (string & {});
 export type SubscriptionStatus = "NOT_SUBSCRIBED" | "SUBSCRIBED" | (string & {});
 export interface ListRuleGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Scope?: ResourceManagedStatus;
-  ManagedType?: ResourceManagedType;
-  SubscriptionStatus?: SubscriptionStatus;
-  Type?: RuleGroupType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Scope?: ResourceManagedStatus | undefined;
+  ManagedType?: ResourceManagedType | undefined;
+  SubscriptionStatus?: SubscriptionStatus | undefined;
+  Type?: RuleGroupType | undefined;
 }
 export interface RuleGroupMetadata {
-  Name?: string;
-  Arn?: string;
-  VendorName?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  VendorName?: string | undefined;
 }
 export type RuleGroups = RuleGroupMetadata[];
 export interface ListRuleGroupsResponse {
-  NextToken?: string;
-  RuleGroups?: RuleGroupMetadata[];
+  NextToken?: string | undefined;
+  RuleGroups?: RuleGroupMetadata[] | undefined;
 }
 export type TagsPaginationMaxResults = number;
 export interface ListTagsForResourceRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  NextToken?: string;
-  Tags?: Tag[];
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListTLSInspectionConfigurationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TLSInspectionConfigurationMetadata {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type TLSInspectionConfigurations = TLSInspectionConfigurationMetadata[];
 export interface ListTLSInspectionConfigurationsResponse {
-  NextToken?: string;
-  TLSInspectionConfigurations?: TLSInspectionConfigurationMetadata[];
+  NextToken?: string | undefined;
+  TLSInspectionConfigurations?: TLSInspectionConfigurationMetadata[] | undefined;
 }
 export interface ListVpcEndpointAssociationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  FirewallArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FirewallArn?: string | undefined;
 }
 export interface VpcEndpointAssociationMetadata {
-  VpcEndpointAssociationArn?: string;
+  VpcEndpointAssociationArn?: string | undefined;
 }
 export type VpcEndpointAssociations = VpcEndpointAssociationMetadata[];
 export interface ListVpcEndpointAssociationsResponse {
-  NextToken?: string;
-  VpcEndpointAssociations?: VpcEndpointAssociationMetadata[];
+  NextToken?: string | undefined;
+  VpcEndpointAssociations?: VpcEndpointAssociationMetadata[] | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
@@ -1619,8 +1620,8 @@ export interface RejectNetworkFirewallTransitGatewayAttachmentResponse {
   TransitGatewayAttachmentStatus: TransitGatewayAttachmentStatus;
 }
 export interface StartAnalysisReportRequest {
-  FirewallName?: string;
-  FirewallArn?: string;
+  FirewallName?: string | undefined;
+  FirewallArn?: string | undefined;
   AnalysisType: EnabledAnalysisType;
 }
 export interface StartAnalysisReportResponse {
@@ -1628,29 +1629,29 @@ export interface StartAnalysisReportResponse {
 }
 export interface StartFlowCaptureRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  MinimumFlowAgeInSeconds?: number;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  MinimumFlowAgeInSeconds?: number | undefined;
   FlowFilters: FlowFilter[];
 }
 export interface StartFlowCaptureResponse {
-  FirewallArn?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
+  FirewallArn?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
 export interface StartFlowFlushRequest {
   FirewallArn: string;
-  AvailabilityZone?: string;
-  VpcEndpointAssociationArn?: string;
-  VpcEndpointId?: string;
-  MinimumFlowAgeInSeconds?: number;
+  AvailabilityZone?: string | undefined;
+  VpcEndpointAssociationArn?: string | undefined;
+  VpcEndpointId?: string | undefined;
+  MinimumFlowAgeInSeconds?: number | undefined;
   FlowFilters: FlowFilter[];
 }
 export interface StartFlowFlushResponse {
-  FirewallArn?: string;
-  FlowOperationId?: string;
-  FlowOperationStatus?: FlowOperationStatus;
+  FirewallArn?: string | undefined;
+  FlowOperationId?: string | undefined;
+  FlowOperationStatus?: FlowOperationStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1664,248 +1665,248 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAvailabilityZoneChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   AvailabilityZoneChangeProtection: boolean;
 }
 export interface UpdateAvailabilityZoneChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  AvailabilityZoneChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  AvailabilityZoneChangeProtection?: boolean | undefined;
 }
 export interface UpdateContainerAssociationRequest {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
   Type: ContainerMonitoringType;
   ContainerMonitoringConfigurations: ContainerMonitoringConfiguration[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   UpdateToken: string;
 }
 export interface UpdateContainerAssociationResponse {
-  ContainerAssociationName?: string;
-  ContainerAssociationArn?: string;
-  Description?: string;
-  Type?: ContainerMonitoringType;
-  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[];
-  Status?: ContainerAssociationStatus;
-  Tags?: Tag[];
-  UpdateToken?: string;
+  ContainerAssociationName?: string | undefined;
+  ContainerAssociationArn?: string | undefined;
+  Description?: string | undefined;
+  Type?: ContainerMonitoringType | undefined;
+  ContainerMonitoringConfigurations?: ContainerMonitoringConfiguration[] | undefined;
+  Status?: ContainerAssociationStatus | undefined;
+  Tags?: Tag[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallAnalysisSettingsRequest {
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallAnalysisSettingsResponse {
-  EnabledAnalysisTypes?: EnabledAnalysisType[];
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
+  EnabledAnalysisTypes?: EnabledAnalysisType[] | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallDeleteProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   DeleteProtection: boolean;
 }
 export interface UpdateFirewallDeleteProtectionResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  DeleteProtection?: boolean;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  DeleteProtection?: boolean | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallDescriptionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  Description?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateFirewallDescriptionResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  Description?: string;
-  UpdateToken?: string;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  Description?: string | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallEncryptionConfigurationRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateFirewallEncryptionConfigurationResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateFirewallPolicyRequest {
   UpdateToken: string;
-  FirewallPolicyArn?: string;
-  FirewallPolicyName?: string;
+  FirewallPolicyArn?: string | undefined;
+  FirewallPolicyName?: string | undefined;
   FirewallPolicy: FirewallPolicy;
-  Description?: string;
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateFirewallPolicyResponse {
   UpdateToken: string;
   FirewallPolicyResponse: FirewallPolicyResponse;
 }
 export interface UpdateFirewallPolicyChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   FirewallPolicyChangeProtection: boolean;
 }
 export interface UpdateFirewallPolicyChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  FirewallPolicyChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
 }
 export interface UpdateLoggingConfigurationRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
 export interface UpdateLoggingConfigurationResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EnableMonitoringDashboard?: boolean;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EnableMonitoringDashboard?: boolean | undefined;
 }
 export interface UpdateProxyRequest {
   NatGatewayId: string;
-  ProxyName?: string;
-  ProxyArn?: string;
-  ListenerPropertiesToAdd?: ListenerPropertyRequest[];
-  ListenerPropertiesToRemove?: ListenerPropertyRequest[];
-  TlsInterceptProperties?: TlsInterceptPropertiesRequest;
+  ProxyName?: string | undefined;
+  ProxyArn?: string | undefined;
+  ListenerPropertiesToAdd?: ListenerPropertyRequest[] | undefined;
+  ListenerPropertiesToRemove?: ListenerPropertyRequest[] | undefined;
+  TlsInterceptProperties?: TlsInterceptPropertiesRequest | undefined;
   UpdateToken: string;
 }
 export interface UpdateProxyResponse {
-  Proxy?: Proxy;
-  UpdateToken?: string;
+  Proxy?: Proxy | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateProxyConfigurationRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   DefaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest;
   UpdateToken: string;
 }
 export interface UpdateProxyConfigurationResponse {
-  ProxyConfiguration?: ProxyConfiguration;
-  UpdateToken?: string;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateProxyRuleRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
   ProxyRuleName: string;
-  Description?: string;
-  Action?: ProxyRulePhaseAction;
-  AddConditions?: ProxyRuleCondition[];
-  RemoveConditions?: ProxyRuleCondition[];
+  Description?: string | undefined;
+  Action?: ProxyRulePhaseAction | undefined;
+  AddConditions?: ProxyRuleCondition[] | undefined;
+  RemoveConditions?: ProxyRuleCondition[] | undefined;
   UpdateToken: string;
 }
 export interface UpdateProxyRuleResponse {
-  ProxyRule?: ProxyRule;
-  RemovedConditions?: ProxyRuleCondition[];
-  UpdateToken?: string;
+  ProxyRule?: ProxyRule | undefined;
+  RemovedConditions?: ProxyRuleCondition[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface ProxyRuleGroupPriority {
-  ProxyRuleGroupName?: string;
-  NewPosition?: number;
+  ProxyRuleGroupName?: string | undefined;
+  NewPosition?: number | undefined;
 }
 export type ProxyRuleGroupPriorityList = ProxyRuleGroupPriority[];
 export interface UpdateProxyRuleGroupPrioritiesRequest {
-  ProxyConfigurationName?: string;
-  ProxyConfigurationArn?: string;
+  ProxyConfigurationName?: string | undefined;
+  ProxyConfigurationArn?: string | undefined;
   RuleGroups: ProxyRuleGroupPriority[];
   UpdateToken: string;
 }
 export type ProxyRuleGroupPriorityResultPriority = number;
 export interface ProxyRuleGroupPriorityResult {
-  ProxyRuleGroupName?: string;
-  Priority?: number;
+  ProxyRuleGroupName?: string | undefined;
+  Priority?: number | undefined;
 }
 export type ProxyRuleGroupPriorityResultList = ProxyRuleGroupPriorityResult[];
 export interface UpdateProxyRuleGroupPrioritiesResponse {
-  ProxyRuleGroups?: ProxyRuleGroupPriorityResult[];
-  UpdateToken?: string;
+  ProxyRuleGroups?: ProxyRuleGroupPriorityResult[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export type RuleGroupRequestPhase = "PRE_DNS" | "PRE_REQ" | "POST_RES" | (string & {});
 export interface ProxyRulePriority {
-  ProxyRuleName?: string;
-  NewPosition?: number;
+  ProxyRuleName?: string | undefined;
+  NewPosition?: number | undefined;
 }
 export type ProxyRulePriorityList = ProxyRulePriority[];
 export interface UpdateProxyRulePrioritiesRequest {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
   RuleGroupRequestPhase: RuleGroupRequestPhase;
   Rules: ProxyRulePriority[];
   UpdateToken: string;
 }
 export interface UpdateProxyRulePrioritiesResponse {
-  ProxyRuleGroupName?: string;
-  ProxyRuleGroupArn?: string;
-  RuleGroupRequestPhase?: RuleGroupRequestPhase;
-  Rules?: ProxyRulePriority[];
-  UpdateToken?: string;
+  ProxyRuleGroupName?: string | undefined;
+  ProxyRuleGroupArn?: string | undefined;
+  RuleGroupRequestPhase?: RuleGroupRequestPhase | undefined;
+  Rules?: ProxyRulePriority[] | undefined;
+  UpdateToken?: string | undefined;
 }
 export interface UpdateProxySettingsRequest {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  ProxySettings?: ProxySettings;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  ProxySettings?: ProxySettings | undefined;
 }
 export interface UpdateProxySettingsResponse {
-  FirewallArn?: string;
-  FirewallName?: string;
-  UpdateToken?: string;
-  ProxySettings?: ProxySettings;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  UpdateToken?: string | undefined;
+  ProxySettings?: ProxySettings | undefined;
 }
 export interface UpdateRuleGroupRequest {
   UpdateToken: string;
-  RuleGroupArn?: string;
-  RuleGroupName?: string;
-  RuleGroup?: RuleGroup;
-  Rules?: string;
-  Type?: RuleGroupType;
-  Description?: string;
-  DryRun?: boolean;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  SourceMetadata?: SourceMetadata;
-  AnalyzeRuleGroup?: boolean;
-  SummaryConfiguration?: SummaryConfiguration;
+  RuleGroupArn?: string | undefined;
+  RuleGroupName?: string | undefined;
+  RuleGroup?: RuleGroup | undefined;
+  Rules?: string | undefined;
+  Type?: RuleGroupType | undefined;
+  Description?: string | undefined;
+  DryRun?: boolean | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  SourceMetadata?: SourceMetadata | undefined;
+  AnalyzeRuleGroup?: boolean | undefined;
+  SummaryConfiguration?: SummaryConfiguration | undefined;
 }
 export interface UpdateRuleGroupResponse {
   UpdateToken: string;
   RuleGroupResponse: RuleGroupResponse;
 }
 export interface UpdateSubnetChangeProtectionRequest {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
   SubnetChangeProtection: boolean;
 }
 export interface UpdateSubnetChangeProtectionResponse {
-  UpdateToken?: string;
-  FirewallArn?: string;
-  FirewallName?: string;
-  SubnetChangeProtection?: boolean;
+  UpdateToken?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallName?: string | undefined;
+  SubnetChangeProtection?: boolean | undefined;
 }
 export interface UpdateTLSInspectionConfigurationRequest {
-  TLSInspectionConfigurationArn?: string;
-  TLSInspectionConfigurationName?: string;
+  TLSInspectionConfigurationArn?: string | undefined;
+  TLSInspectionConfigurationName?: string | undefined;
   TLSInspectionConfiguration: TLSInspectionConfiguration;
-  Description?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Description?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
   UpdateToken: string;
 }
 export interface UpdateTLSInspectionConfigurationResponse {
@@ -1929,7 +1930,7 @@ export type AcceptNetworkFirewallTransitGatewayAttachmentError =
  * It can take several minutes for the attachment acceptance to complete and the firewall to become available.
  */
 export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  AcceptNetworkFirewallTransitGatewayAttachmentRequest,
+  AcceptNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   AcceptNetworkFirewallTransitGatewayAttachmentResponse,
   AcceptNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -1968,7 +1969,7 @@ export type AssociateAvailabilityZonesError =
  * After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
  */
 export const associateAvailabilityZones: API.OperationMethod<
-  AssociateAvailabilityZonesRequest,
+  AssociateAvailabilityZonesRequest & RegionInput,
   AssociateAvailabilityZonesResponse,
   AssociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
@@ -2008,7 +2009,7 @@ export type AssociateFirewallPolicyError =
  * firewalls.
  */
 export const associateFirewallPolicy: API.OperationMethod<
-  AssociateFirewallPolicyRequest,
+  AssociateFirewallPolicyRequest & RegionInput,
   AssociateFirewallPolicyResponse,
   AssociateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2049,7 +2050,7 @@ export type AssociateSubnetsError =
  * zone through the firewall endpoint.
  */
 export const associateSubnets: API.OperationMethod<
-  AssociateSubnetsRequest,
+  AssociateSubnetsRequest & RegionInput,
   AssociateSubnetsResponse,
   AssociateSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -2084,7 +2085,7 @@ export type AttachRuleGroupsToProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
-  AttachRuleGroupsToProxyConfigurationRequest,
+  AttachRuleGroupsToProxyConfigurationRequest & RegionInput,
   AttachRuleGroupsToProxyConfigurationResponse,
   AttachRuleGroupsToProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type CreateContainerAssociationError =
  * Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
  */
 export const createContainerAssociation: API.OperationMethod<
-  CreateContainerAssociationRequest,
+  CreateContainerAssociationRequest & RegionInput,
   CreateContainerAssociationResponse,
   CreateContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2162,7 +2163,7 @@ export type CreateFirewallError =
  * To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
  */
 export const createFirewall: API.OperationMethod<
-  CreateFirewallRequest,
+  CreateFirewallRequest & RegionInput,
   CreateFirewallResponse,
   CreateFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2199,7 +2200,7 @@ export type CreateFirewallPolicyError =
  * multiple firewalls.
  */
 export const createFirewallPolicy: API.OperationMethod<
-  CreateFirewallPolicyRequest,
+  CreateFirewallPolicyRequest & RegionInput,
   CreateFirewallPolicyResponse,
   CreateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2238,7 +2239,7 @@ export type CreateProxyError =
  * To retrieve information about proxies, use ListProxies and DescribeProxy.
  */
 export const createProxy: API.OperationMethod<
-  CreateProxyRequest,
+  CreateProxyRequest & RegionInput,
   CreateProxyResponse,
   CreateProxyError,
   Credentials | HttpClient.HttpClient
@@ -2277,7 +2278,7 @@ export type CreateProxyConfigurationError =
  * To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
  */
 export const createProxyConfiguration: API.OperationMethod<
-  CreateProxyConfigurationRequest,
+  CreateProxyConfigurationRequest & RegionInput,
   CreateProxyConfigurationResponse,
   CreateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type CreateProxyRuleGroupError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRuleGroup: API.OperationMethod<
-  CreateProxyRuleGroupRequest,
+  CreateProxyRuleGroupRequest & RegionInput,
   CreateProxyRuleGroupResponse,
   CreateProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2349,7 +2350,7 @@ export type CreateProxyRulesError =
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
 export const createProxyRules: API.OperationMethod<
-  CreateProxyRulesRequest,
+  CreateProxyRulesRequest & RegionInput,
   CreateProxyRulesResponse,
   CreateProxyRulesError,
   Credentials | HttpClient.HttpClient
@@ -2379,7 +2380,7 @@ export type CreateRuleGroupError =
  * `RuleGroup` or `Rules`.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type CreateTLSInspectionConfigurationError =
  * inspection configurations in the *Network Firewall Developer Guide*.
  */
 export const createTLSInspectionConfiguration: API.OperationMethod<
-  CreateTLSInspectionConfigurationRequest,
+  CreateTLSInspectionConfigurationRequest & RegionInput,
   CreateTLSInspectionConfigurationResponse,
   CreateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type CreateVpcEndpointAssociationError =
  * Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the `Firewall` itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
  */
 export const createVpcEndpointAssociation: API.OperationMethod<
-  CreateVpcEndpointAssociationRequest,
+  CreateVpcEndpointAssociationRequest & RegionInput,
   CreateVpcEndpointAssociationResponse,
   CreateVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2490,7 +2491,7 @@ export type DeleteContainerAssociationError =
  * container association while a rule group references it.
  */
 export const deleteContainerAssociation: API.OperationMethod<
-  DeleteContainerAssociationRequest,
+  DeleteContainerAssociationRequest & RegionInput,
   DeleteContainerAssociationResponse,
   DeleteContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type DeleteFirewallError =
  * then delete the firewall by calling DeleteFirewall.
  */
 export const deleteFirewall: API.OperationMethod<
-  DeleteFirewallRequest,
+  DeleteFirewallRequest & RegionInput,
   DeleteFirewallResponse,
   DeleteFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2569,7 +2570,7 @@ export type DeleteFirewallPolicyError =
  * Deletes the specified FirewallPolicy.
  */
 export const deleteFirewallPolicy: API.OperationMethod<
-  DeleteFirewallPolicyRequest,
+  DeleteFirewallPolicyRequest & RegionInput,
   DeleteFirewallPolicyResponse,
   DeleteFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2605,7 +2606,7 @@ export type DeleteNetworkFirewallTransitGatewayAttachmentError =
  * After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
  */
 export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  DeleteNetworkFirewallTransitGatewayAttachmentRequest,
+  DeleteNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   DeleteNetworkFirewallTransitGatewayAttachmentResponse,
   DeleteNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -2646,7 +2647,7 @@ export type DeleteProxyError =
  * Detaches a Proxy configuration from a NAT Gateway.
  */
 export const deleteProxy: API.OperationMethod<
-  DeleteProxyRequest,
+  DeleteProxyRequest & RegionInput,
   DeleteProxyResponse,
   DeleteProxyError,
   Credentials | HttpClient.HttpClient
@@ -2677,7 +2678,7 @@ export type DeleteProxyConfigurationError =
  * Deletes the specified ProxyConfiguration.
  */
 export const deleteProxyConfiguration: API.OperationMethod<
-  DeleteProxyConfigurationRequest,
+  DeleteProxyConfigurationRequest & RegionInput,
   DeleteProxyConfigurationResponse,
   DeleteProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2707,7 +2708,7 @@ export type DeleteProxyRuleGroupError =
  * Deletes the specified ProxyRuleGroup.
  */
 export const deleteProxyRuleGroup: API.OperationMethod<
-  DeleteProxyRuleGroupRequest,
+  DeleteProxyRuleGroupRequest & RegionInput,
   DeleteProxyRuleGroupResponse,
   DeleteProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2737,7 +2738,7 @@ export type DeleteProxyRulesError =
  * Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
  */
 export const deleteProxyRules: API.OperationMethod<
-  DeleteProxyRulesRequest,
+  DeleteProxyRulesRequest & RegionInput,
   DeleteProxyRulesResponse,
   DeleteProxyRulesError,
   Credentials | HttpClient.HttpClient
@@ -2768,7 +2769,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy that you created in a PutResourcePolicy request.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2801,7 +2802,7 @@ export type DeleteRuleGroupError =
  * Deletes the specified RuleGroup.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2834,7 +2835,7 @@ export type DeleteTLSInspectionConfigurationError =
  * Deletes the specified TLSInspectionConfiguration.
  */
 export const deleteTLSInspectionConfiguration: API.OperationMethod<
-  DeleteTLSInspectionConfigurationRequest,
+  DeleteTLSInspectionConfigurationRequest & RegionInput,
   DeleteTLSInspectionConfigurationResponse,
   DeleteTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2873,7 +2874,7 @@ export type DeleteVpcEndpointAssociationError =
  * you can remove the endpoint association safely.
  */
 export const deleteVpcEndpointAssociation: API.OperationMethod<
-  DeleteVpcEndpointAssociationRequest,
+  DeleteVpcEndpointAssociationRequest & RegionInput,
   DeleteVpcEndpointAssociationResponse,
   DeleteVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2904,7 +2905,7 @@ export type DescribeContainerAssociationError =
  * Retrieves the configuration and status of a container association.
  */
 export const describeContainerAssociation: API.OperationMethod<
-  DescribeContainerAssociationRequest,
+  DescribeContainerAssociationRequest & RegionInput,
   DescribeContainerAssociationResponse,
   DescribeContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2934,7 +2935,7 @@ export type DescribeFirewallError =
  * Returns the data objects for the specified firewall.
  */
 export const describeFirewall: API.OperationMethod<
-  DescribeFirewallRequest,
+  DescribeFirewallRequest & RegionInput,
   DescribeFirewallResponse,
   DescribeFirewallError,
   Credentials | HttpClient.HttpClient
@@ -2965,7 +2966,7 @@ export type DescribeFirewallMetadataError =
  * currently in use.
  */
 export const describeFirewallMetadata: API.OperationMethod<
-  DescribeFirewallMetadataRequest,
+  DescribeFirewallMetadataRequest & RegionInput,
   DescribeFirewallMetadataResponse,
   DescribeFirewallMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2995,7 +2996,7 @@ export type DescribeFirewallPolicyError =
  * Returns the data objects for the specified firewall policy.
  */
 export const describeFirewallPolicy: API.OperationMethod<
-  DescribeFirewallPolicyRequest,
+  DescribeFirewallPolicyRequest & RegionInput,
   DescribeFirewallPolicyResponse,
   DescribeFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3026,7 @@ export type DescribeFlowOperationError =
  * Returns key information about a specific flow operation.
  */
 export const describeFlowOperation: API.OperationMethod<
-  DescribeFlowOperationRequest,
+  DescribeFlowOperationRequest & RegionInput,
   DescribeFlowOperationResponse,
   DescribeFlowOperationError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type DescribeLoggingConfigurationError =
  * Returns the logging configuration for the specified firewall.
  */
 export const describeLoggingConfiguration: API.OperationMethod<
-  DescribeLoggingConfigurationRequest,
+  DescribeLoggingConfigurationRequest & RegionInput,
   DescribeLoggingConfigurationResponse,
   DescribeLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3085,7 +3086,7 @@ export type DescribeProxyError =
  * Returns the data objects for the specified proxy.
  */
 export const describeProxy: API.OperationMethod<
-  DescribeProxyRequest,
+  DescribeProxyRequest & RegionInput,
   DescribeProxyResponse,
   DescribeProxyError,
   Credentials | HttpClient.HttpClient
@@ -3115,7 +3116,7 @@ export type DescribeProxyConfigurationError =
  * Returns the data objects for the specified proxy configuration.
  */
 export const describeProxyConfiguration: API.OperationMethod<
-  DescribeProxyConfigurationRequest,
+  DescribeProxyConfigurationRequest & RegionInput,
   DescribeProxyConfigurationResponse,
   DescribeProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3145,7 +3146,7 @@ export type DescribeProxyRuleError =
  * Returns the data objects for the specified proxy configuration for the specified proxy rule group.
  */
 export const describeProxyRule: API.OperationMethod<
-  DescribeProxyRuleRequest,
+  DescribeProxyRuleRequest & RegionInput,
   DescribeProxyRuleResponse,
   DescribeProxyRuleError,
   Credentials | HttpClient.HttpClient
@@ -3175,7 +3176,7 @@ export type DescribeProxyRuleGroupError =
  * Returns the data objects for the specified proxy rule group.
  */
 export const describeProxyRuleGroup: API.OperationMethod<
-  DescribeProxyRuleGroupRequest,
+  DescribeProxyRuleGroupRequest & RegionInput,
   DescribeProxyRuleGroupResponse,
   DescribeProxyRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3205,7 +3206,7 @@ export type DescribeResourcePolicyError =
  * Retrieves a resource policy that you created in a PutResourcePolicy request.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3235,7 +3236,7 @@ export type DescribeRuleGroupError =
  * Returns the data objects for the specified rule group.
  */
 export const describeRuleGroup: API.OperationMethod<
-  DescribeRuleGroupRequest,
+  DescribeRuleGroupRequest & RegionInput,
   DescribeRuleGroupResponse,
   DescribeRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3268,7 @@ export type DescribeRuleGroupMetadataError =
  * You can retrieve all objects for a rule group by calling DescribeRuleGroup.
  */
 export const describeRuleGroupMetadata: API.OperationMethod<
-  DescribeRuleGroupMetadataRequest,
+  DescribeRuleGroupMetadataRequest & RegionInput,
   DescribeRuleGroupMetadataResponse,
   DescribeRuleGroupMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3301,7 +3302,7 @@ export type DescribeRuleGroupSummaryError =
  * To modify how threat information appears in summaries, use the `SummaryConfiguration` parameter in UpdateRuleGroup.
  */
 export const describeRuleGroupSummary: API.OperationMethod<
-  DescribeRuleGroupSummaryRequest,
+  DescribeRuleGroupSummaryRequest & RegionInput,
   DescribeRuleGroupSummaryResponse,
   DescribeRuleGroupSummaryError,
   Credentials | HttpClient.HttpClient
@@ -3331,7 +3332,7 @@ export type DescribeTLSInspectionConfigurationError =
  * Returns the data objects for the specified TLS inspection configuration.
  */
 export const describeTLSInspectionConfiguration: API.OperationMethod<
-  DescribeTLSInspectionConfigurationRequest,
+  DescribeTLSInspectionConfigurationRequest & RegionInput,
   DescribeTLSInspectionConfigurationResponse,
   DescribeTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3361,7 +3362,7 @@ export type DescribeVpcEndpointAssociationError =
  * Returns the data object for the specified VPC endpoint association.
  */
 export const describeVpcEndpointAssociation: API.OperationMethod<
-  DescribeVpcEndpointAssociationRequest,
+  DescribeVpcEndpointAssociationRequest & RegionInput,
   DescribeVpcEndpointAssociationResponse,
   DescribeVpcEndpointAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type DetachRuleGroupsFromProxyConfigurationError =
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
 export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
-  DetachRuleGroupsFromProxyConfigurationRequest,
+  DetachRuleGroupsFromProxyConfigurationRequest & RegionInput,
   DetachRuleGroupsFromProxyConfigurationResponse,
   DetachRuleGroupsFromProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3429,7 +3430,7 @@ export type DisassociateAvailabilityZonesError =
  * To verify the status of your Availability Zone changes, use DescribeFirewall.
  */
 export const disassociateAvailabilityZones: API.OperationMethod<
-  DisassociateAvailabilityZonesRequest,
+  DisassociateAvailabilityZonesRequest & RegionInput,
   DisassociateAvailabilityZonesResponse,
   DisassociateAvailabilityZonesError,
   Credentials | HttpClient.HttpClient
@@ -3465,7 +3466,7 @@ export type DisassociateSubnetsError =
  * were providing.
  */
 export const disassociateSubnets: API.OperationMethod<
-  DisassociateSubnetsRequest,
+  DisassociateSubnetsRequest & RegionInput,
   DisassociateSubnetsResponse,
   DisassociateSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type GetAnalysisReportResultsError =
  * For more information, see AnalysisTypeReportResult.
  */
 export const getAnalysisReportResults: API.PaginatedOperationMethod<
-  GetAnalysisReportResultsRequest,
+  GetAnalysisReportResultsRequest & RegionInput,
   GetAnalysisReportResultsResponse,
   GetAnalysisReportResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3536,7 +3537,7 @@ export type ListAnalysisReportsError =
  * Returns a list of all traffic analysis reports generated within the last 30 days.
  */
 export const listAnalysisReports: API.PaginatedOperationMethod<
-  ListAnalysisReportsRequest,
+  ListAnalysisReportsRequest & RegionInput,
   ListAnalysisReportsResponse,
   ListAnalysisReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3573,7 +3574,7 @@ export type ListContainerAssociationsError =
  * parameter in subsequent requests to retrieve additional results.
  */
 export const listContainerAssociations: API.PaginatedOperationMethod<
-  ListContainerAssociationsRequest,
+  ListContainerAssociationsRequest & RegionInput,
   ListContainerAssociationsResponse,
   ListContainerAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3606,7 +3607,7 @@ export type ListFirewallPoliciesError =
  * return the full list.
  */
 export const listFirewallPolicies: API.PaginatedOperationMethod<
-  ListFirewallPoliciesRequest,
+  ListFirewallPoliciesRequest & RegionInput,
   ListFirewallPoliciesResponse,
   ListFirewallPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3641,7 +3642,7 @@ export type ListFirewallsError =
  * might not return the full list.
  */
 export const listFirewalls: API.PaginatedOperationMethod<
-  ListFirewallsRequest,
+  ListFirewallsRequest & RegionInput,
   ListFirewallsResponse,
   ListFirewallsError,
   Credentials | HttpClient.HttpClient,
@@ -3678,7 +3679,7 @@ export type ListFlowOperationResultsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperationResults: API.PaginatedOperationMethod<
-  ListFlowOperationResultsRequest,
+  ListFlowOperationResultsRequest & RegionInput,
   ListFlowOperationResultsResponse,
   ListFlowOperationResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3721,7 +3722,7 @@ export type ListFlowOperationsError =
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
 export const listFlowOperations: API.PaginatedOperationMethod<
-  ListFlowOperationsRequest,
+  ListFlowOperationsRequest & RegionInput,
   ListFlowOperationsResponse,
   ListFlowOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -3759,7 +3760,7 @@ export type ListProxiesError =
  * return the full list.
  */
 export const listProxies: API.PaginatedOperationMethod<
-  ListProxiesRequest,
+  ListProxiesRequest & RegionInput,
   ListProxiesResponse,
   ListProxiesError,
   Credentials | HttpClient.HttpClient,
@@ -3793,7 +3794,7 @@ export type ListProxyConfigurationsError =
  * return the full list.
  */
 export const listProxyConfigurations: API.PaginatedOperationMethod<
-  ListProxyConfigurationsRequest,
+  ListProxyConfigurationsRequest & RegionInput,
   ListProxyConfigurationsResponse,
   ListProxyConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3832,7 +3833,7 @@ export type ListProxyRuleGroupsError =
  * return the full list.
  */
 export const listProxyRuleGroups: API.PaginatedOperationMethod<
-  ListProxyRuleGroupsRequest,
+  ListProxyRuleGroupsRequest & RegionInput,
   ListProxyRuleGroupsResponse,
   ListProxyRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3870,7 +3871,7 @@ export type ListRuleGroupsError =
  * full list.
  */
 export const listRuleGroups: API.PaginatedOperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3909,7 +3910,7 @@ export type ListTagsForResourceError =
  * policies, and rule groups.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3945,7 +3946,7 @@ export type ListTLSInspectionConfigurationsError =
  * Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
  */
 export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
-  ListTLSInspectionConfigurationsRequest,
+  ListTLSInspectionConfigurationsRequest & RegionInput,
   ListTLSInspectionConfigurationsResponse,
   ListTLSInspectionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3980,7 +3981,7 @@ export type ListVpcEndpointAssociationsError =
  * might not return the full list.
  */
 export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
-  ListVpcEndpointAssociationsRequest,
+  ListVpcEndpointAssociationsRequest & RegionInput,
   ListVpcEndpointAssociationsResponse,
   ListVpcEndpointAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4026,7 +4027,7 @@ export type PutResourcePolicyError =
  * For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4063,7 +4064,7 @@ export type RejectNetworkFirewallTransitGatewayAttachmentError =
  * Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
  */
 export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
-  RejectNetworkFirewallTransitGatewayAttachmentRequest,
+  RejectNetworkFirewallTransitGatewayAttachmentRequest & RegionInput,
   RejectNetworkFirewallTransitGatewayAttachmentResponse,
   RejectNetworkFirewallTransitGatewayAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -4103,7 +4104,7 @@ export type StartAnalysisReportError =
  * For information on the contents of a traffic analysis report, see AnalysisReport.
  */
 export const startAnalysisReport: API.OperationMethod<
-  StartAnalysisReportRequest,
+  StartAnalysisReportRequest & RegionInput,
   StartAnalysisReportResponse,
   StartAnalysisReportError,
   Credentials | HttpClient.HttpClient
@@ -4141,7 +4142,7 @@ export type StartFlowCaptureError =
  * Instead, we recommend you define more specific criteria with `FlowFilters`, like narrow IP ranges, ports, or protocols.
  */
 export const startFlowCapture: API.OperationMethod<
-  StartFlowCaptureRequest,
+  StartFlowCaptureRequest & RegionInput,
   StartFlowCaptureResponse,
   StartFlowCaptureError,
   Credentials | HttpClient.HttpClient
@@ -4177,7 +4178,7 @@ export type StartFlowFlushError =
  * before you perform a flush operation.
  */
 export const startFlowFlush: API.OperationMethod<
-  StartFlowFlushRequest,
+  StartFlowFlushRequest & RegionInput,
   StartFlowFlushResponse,
   StartFlowFlushError,
   Credentials | HttpClient.HttpClient
@@ -4213,7 +4214,7 @@ export type TagResourceError =
  * policies, and rule groups.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4250,7 +4251,7 @@ export type UntagResourceError =
  * firewalls, firewall policies, and rule groups.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4284,7 +4285,7 @@ export type UpdateAvailabilityZoneChangeProtectionError =
  * When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
  */
 export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
-  UpdateAvailabilityZoneChangeProtectionRequest,
+  UpdateAvailabilityZoneChangeProtectionRequest & RegionInput,
   UpdateAvailabilityZoneChangeProtectionResponse,
   UpdateAvailabilityZoneChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4318,7 +4319,7 @@ export type UpdateContainerAssociationError =
  * type after creation. Provide an update token to enable optimistic concurrency control.
  */
 export const updateContainerAssociation: API.OperationMethod<
-  UpdateContainerAssociationRequest,
+  UpdateContainerAssociationRequest & RegionInput,
   UpdateContainerAssociationResponse,
   UpdateContainerAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4350,7 +4351,7 @@ export type UpdateFirewallAnalysisSettingsError =
  * Enables specific types of firewall analysis on a specific firewall you define.
  */
 export const updateFirewallAnalysisSettings: API.OperationMethod<
-  UpdateFirewallAnalysisSettingsRequest,
+  UpdateFirewallAnalysisSettingsRequest & RegionInput,
   UpdateFirewallAnalysisSettingsResponse,
   UpdateFirewallAnalysisSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4386,7 +4387,7 @@ export type UpdateFirewallDeleteProtectionError =
  * that's in use.
  */
 export const updateFirewallDeleteProtection: API.OperationMethod<
-  UpdateFirewallDeleteProtectionRequest,
+  UpdateFirewallDeleteProtectionRequest & RegionInput,
   UpdateFirewallDeleteProtectionResponse,
   UpdateFirewallDeleteProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4420,7 +4421,7 @@ export type UpdateFirewallDescriptionError =
  * identify the firewall when you're working with it.
  */
 export const updateFirewallDescription: API.OperationMethod<
-  UpdateFirewallDescriptionRequest,
+  UpdateFirewallDescriptionRequest & RegionInput,
   UpdateFirewallDescriptionResponse,
   UpdateFirewallDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -4453,7 +4454,7 @@ export type UpdateFirewallEncryptionConfigurationError =
  * A complex type that contains settings for encryption of your firewall resources.
  */
 export const updateFirewallEncryptionConfiguration: API.OperationMethod<
-  UpdateFirewallEncryptionConfigurationRequest,
+  UpdateFirewallEncryptionConfigurationRequest & RegionInput,
   UpdateFirewallEncryptionConfigurationResponse,
   UpdateFirewallEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4486,7 +4487,7 @@ export type UpdateFirewallPolicyError =
  * Updates the properties of the specified firewall policy.
  */
 export const updateFirewallPolicy: API.OperationMethod<
-  UpdateFirewallPolicyRequest,
+  UpdateFirewallPolicyRequest & RegionInput,
   UpdateFirewallPolicyResponse,
   UpdateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4521,7 +4522,7 @@ export type UpdateFirewallPolicyChangeProtectionError =
  * from changes. This setting helps protect against accidentally changing a firewall that's in use.
  */
 export const updateFirewallPolicyChangeProtection: API.OperationMethod<
-  UpdateFirewallPolicyChangeProtectionRequest,
+  UpdateFirewallPolicyChangeProtectionRequest & RegionInput,
   UpdateFirewallPolicyChangeProtectionResponse,
   UpdateFirewallPolicyChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4578,7 +4579,7 @@ export type UpdateLoggingConfigurationError =
  * to this update operation.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4611,7 +4612,7 @@ export type UpdateProxyError =
  * Updates the properties of the specified proxy.
  */
 export const updateProxy: API.OperationMethod<
-  UpdateProxyRequest,
+  UpdateProxyRequest & RegionInput,
   UpdateProxyResponse,
   UpdateProxyError,
   Credentials | HttpClient.HttpClient
@@ -4642,7 +4643,7 @@ export type UpdateProxyConfigurationError =
  * Updates the properties of the specified proxy configuration.
  */
 export const updateProxyConfiguration: API.OperationMethod<
-  UpdateProxyConfigurationRequest,
+  UpdateProxyConfigurationRequest & RegionInput,
   UpdateProxyConfigurationResponse,
   UpdateProxyConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4672,7 +4673,7 @@ export type UpdateProxyRuleError =
  * Updates the properties of the specified proxy rule.
  */
 export const updateProxyRule: API.OperationMethod<
-  UpdateProxyRuleRequest,
+  UpdateProxyRuleRequest & RegionInput,
   UpdateProxyRuleResponse,
   UpdateProxyRuleError,
   Credentials | HttpClient.HttpClient
@@ -4702,7 +4703,7 @@ export type UpdateProxyRuleGroupPrioritiesError =
  * Updates proxy rule group priorities within a proxy configuration.
  */
 export const updateProxyRuleGroupPriorities: API.OperationMethod<
-  UpdateProxyRuleGroupPrioritiesRequest,
+  UpdateProxyRuleGroupPrioritiesRequest & RegionInput,
   UpdateProxyRuleGroupPrioritiesResponse,
   UpdateProxyRuleGroupPrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -4732,7 +4733,7 @@ export type UpdateProxyRulePrioritiesError =
  * Updates proxy rule priorities within a proxy rule group.
  */
 export const updateProxyRulePriorities: API.OperationMethod<
-  UpdateProxyRulePrioritiesRequest,
+  UpdateProxyRulePrioritiesRequest & RegionInput,
   UpdateProxyRulePrioritiesResponse,
   UpdateProxyRulePrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -4765,7 +4766,7 @@ export type UpdateProxySettingsError =
  * Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with `NoSourcePreservation` set to `TRUE`. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
  */
 export const updateProxySettings: API.OperationMethod<
-  UpdateProxySettingsRequest,
+  UpdateProxySettingsRequest & RegionInput,
   UpdateProxySettingsResponse,
   UpdateProxySettingsError,
   Credentials | HttpClient.HttpClient
@@ -4805,7 +4806,7 @@ export type UpdateRuleGroupError =
  * the updated object to this call.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4838,7 +4839,7 @@ export type UpdateSubnetChangeProtectionError =
  *
  */
 export const updateSubnetChangeProtection: API.OperationMethod<
-  UpdateSubnetChangeProtectionRequest,
+  UpdateSubnetChangeProtectionRequest & RegionInput,
   UpdateSubnetChangeProtectionResponse,
   UpdateSubnetChangeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4877,7 +4878,7 @@ export type UpdateTLSInspectionConfigurationError =
  * the updated object to this call.
  */
 export const updateTLSInspectionConfiguration: API.OperationMethod<
-  UpdateTLSInspectionConfigurationRequest,
+  UpdateTLSInspectionConfigurationRequest & RegionInput,
   UpdateTLSInspectionConfigurationResponse,
   UpdateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient

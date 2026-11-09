@@ -39,19 +39,19 @@ export interface CheckMongoClusterNameAvailabilityRequest {
   /** The name of the Azure region. */
   location: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckMongoClusterNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckMongoClusterNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckMongoClusterNameAvailabilityResponseReason;
+  reason?: CheckMongoClusterNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -60,16 +60,16 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface CreatePrivateEndpointConnectionRequestProperties {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -83,7 +83,7 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Properties of the private endpoint connection. */
-  properties?: CreatePrivateEndpointConnectionRequestProperties;
+  properties?: CreatePrivateEndpointConnectionRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -92,24 +92,24 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type CreatePrivateEndpointConnectionResponsePropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -120,29 +120,29 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface CreatePrivateEndpointConnectionResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: CreatePrivateEndpointConnectionResponsePropertiesGroupIdsList;
+  groupIds?: CreatePrivateEndpointConnectionResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: CreatePrivateEndpointConnectionResponseProperties;
+  properties?: CreatePrivateEndpointConnectionResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -156,9 +156,9 @@ export interface DeleteFirewallRuleRequest {
 }
 export interface DeleteFirewallRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -170,9 +170,9 @@ export interface DeleteMongoClusterRequest {
 }
 export interface DeleteMongoClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -186,9 +186,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -202,9 +202,9 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties of a mongo cluster firewall rule. */
 export interface FirewallRulePropertiesInput {
@@ -223,7 +223,7 @@ export interface FirewallRulesCreateOrUpdateRequest {
   /** The name of the mongo cluster firewall rule. */
   firewallRuleName: string;
   /** The resource-specific properties for this resource. */
-  properties?: FirewallRulePropertiesInput;
+  properties?: FirewallRulePropertiesInput | undefined;
 }
 /** The provisioning state of the last accepted operation. */
 export type ProvisioningState =
@@ -236,7 +236,7 @@ export type ProvisioningState =
 /** The properties of a mongo cluster firewall rule. */
 export interface FirewallRuleProperties {
   /** The provisioning state of the firewall rule. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
   startIpAddress: string;
   /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
@@ -244,19 +244,19 @@ export interface FirewallRuleProperties {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -270,15 +270,15 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface GetMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -295,9 +295,9 @@ export type CreateMode = "Default" | "PointInTimeRestore" | "GeoReplica" | "Repl
 /** Parameters used for restore operations */
 export interface MongoClusterRestoreParameters {
   /** UTC point in time to restore a mongo cluster */
-  pointInTimeUTC?: string;
+  pointInTimeUTC?: string | undefined;
   /** Resource ID to locate the source cluster to restore */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
 }
 /** Parameters used for replica operations. */
 export interface MongoClusterReplicaParameters {
@@ -309,9 +309,9 @@ export interface MongoClusterReplicaParameters {
 /** The local administrator login properties. */
 export interface AdministratorProperties {
   /** The administrator user name. */
-  userName?: string;
+  userName?: string | undefined;
   /** The administrator password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The status of the Mongo cluster resource. */
 export type MongoClusterStatus =
@@ -329,64 +329,64 @@ export type HighAvailabilityMode = "Disabled" | "SameZone" | "ZoneRedundantPrefe
 /** The high availability properties of the cluster. */
 export interface HighAvailabilityProperties {
   /** The target high availability mode requested for the cluster. */
-  targetMode?: HighAvailabilityMode | (string & {});
+  targetMode?: HighAvailabilityMode | (string & {}) | undefined;
 }
 /** The type of storage that a mongo cluster can be provisioned with. */
 export type StorageType = "PremiumSSD" | "PremiumSSDv2";
 /** The storage properties of the cluster. This includes the data storage size and scaling applied to servers in the cluster. */
 export interface StorageProperties {
   /** The size of the data disk assigned to each server. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** The type of storage to provision the cluster servers with. */
-  type?: StorageType | (string & {});
+  type?: StorageType | (string & {}) | undefined;
 }
 /** The sharding properties of the cluster. This includes the shard count and scaling options for the cluster. */
 export interface ShardingProperties {
   /** Number of shards to provision on the cluster. */
-  shardCount?: number;
+  shardCount?: number | undefined;
 }
 /** The compute properties of the cluster. This includes the virtual-cores/memory and scaling options applied to servers in the cluster. */
 export interface ComputeProperties {
   /** The compute tier to assign to the cluster, where each tier maps to a virtual-core and memory size. Example values: 'M30', 'M40'. */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The backup properties of the cluster. This includes the earliest restore time and retention settings. */
 export interface BackupProperties {
   /** Earliest restore timestamp in UTC ISO8601 format. */
-  earliestRestoreTime?: string;
+  earliestRestoreTime?: string | undefined;
 }
 /** The mode to apply to the Mongo Data API. */
 export type DataApiMode = "Enabled" | "Disabled";
 /** Data API properties. */
 export interface DataApiProperties {
   /** The mode to indicate whether the Mongo Data API is enabled for a cluster. */
-  mode?: DataApiMode | (string & {});
+  mode?: DataApiMode | (string & {}) | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface MongoClusterPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type MongoClusterPropertiesPrivateEndpointConnectionsList =
@@ -408,11 +408,11 @@ export type ReplicationState =
 /** Replica properties of the mongo cluster. */
 export interface ReplicationProperties {
   /** The resource id the source cluster for the replica cluster. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** The replication role of the cluster */
-  role?: ReplicationRole;
+  role?: ReplicationRole | undefined;
   /** The replication link state of the replica cluster. */
-  replicationState?: ReplicationState;
+  replicationState?: ReplicationState | undefined;
 }
 /** The authentication modes supporting on the Mongo cluster. */
 export type AuthenticationMode = "NativeAuth" | "MicrosoftEntraID";
@@ -421,77 +421,77 @@ export type AuthConfigPropertiesAllowedModesList = Array<AuthenticationMode | (s
 /** The authentication configuration for the Mongo cluster. */
 export interface AuthConfigProperties {
   /** Allowed authentication modes for data access on the cluster. */
-  allowedModes?: AuthConfigPropertiesAllowedModesList;
+  allowedModes?: AuthConfigPropertiesAllowedModesList | undefined;
 }
 /** The type of identity for key encryption key. */
 export type KeyEncryptionKeyIdentityType = "UserAssignedIdentity";
 /** The identity used for key encryption key. */
 export interface KeyEncryptionKeyIdentity {
   /** The type of identity. Only 'UserAssignedIdentity' is supported. */
-  identityType?: KeyEncryptionKeyIdentityType | (string & {});
+  identityType?: KeyEncryptionKeyIdentityType | (string & {}) | undefined;
   /** The user assigned identity resource id. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** Customer managed key encryption settings. */
 export interface CustomerManagedKeyEncryptionProperties {
   /** The identity used to access the key encryption key. */
-  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity | undefined;
   /** The URI of the key vault key used for encryption. */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** The encryption configuration for the mongo cluster. */
 export interface EncryptionProperties {
   /** Customer managed key encryption settings. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties | undefined;
 }
 /** The network bypass mode for the Mongo cluster. */
 export type NetworkBypassMode = "None" | "AzureCosmosDB";
 /** The properties of a mongo cluster. */
 export interface MongoClusterProperties {
   /** The mode to create a mongo cluster. */
-  createMode?: CreateMode;
+  createMode?: CreateMode | undefined;
   /** The parameters to create a point-in-time restore mongo cluster. */
-  restoreParameters?: MongoClusterRestoreParameters;
+  restoreParameters?: MongoClusterRestoreParameters | undefined;
   /** The parameters to create a replica mongo cluster. */
-  replicaParameters?: MongoClusterReplicaParameters;
+  replicaParameters?: MongoClusterReplicaParameters | undefined;
   /** The local administrator properties for the mongo cluster. */
-  administrator?: AdministratorProperties;
+  administrator?: AdministratorProperties | undefined;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** The default mongo connection string for the cluster. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The provisioning state of the mongo cluster. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status of the mongo cluster. */
-  clusterStatus?: MongoClusterStatus;
+  clusterStatus?: MongoClusterStatus | undefined;
   /** Whether or not public endpoint access is allowed for this mongo cluster. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The high availability properties of the mongo cluster. */
-  highAvailability?: HighAvailabilityProperties;
+  highAvailability?: HighAvailabilityProperties | undefined;
   /** The storage properties of the mongo cluster. */
-  storage?: StorageProperties;
+  storage?: StorageProperties | undefined;
   /** The sharding properties of the mongo cluster. */
-  sharding?: ShardingProperties;
+  sharding?: ShardingProperties | undefined;
   /** The compute properties of the mongo cluster. */
-  compute?: ComputeProperties;
+  compute?: ComputeProperties | undefined;
   /** The backup properties of the mongo cluster. */
-  backup?: BackupProperties;
+  backup?: BackupProperties | undefined;
   /** The Data API properties of the mongo cluster. */
-  dataApi?: DataApiProperties;
+  dataApi?: DataApiProperties | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: MongoClusterPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: MongoClusterPropertiesPrivateEndpointConnectionsList | undefined;
   /** List of private endpoint connections. */
-  previewFeatures?: MongoClusterPropertiesPreviewFeaturesList;
+  previewFeatures?: MongoClusterPropertiesPreviewFeaturesList | undefined;
   /** The replication properties for the mongo cluster */
-  replica?: ReplicationProperties;
+  replica?: ReplicationProperties | undefined;
   /** The infrastructure version the cluster is provisioned on. */
-  infrastructureVersion?: string;
+  infrastructureVersion?: string | undefined;
   /** The authentication configuration for the cluster. */
-  authConfig?: AuthConfigProperties;
+  authConfig?: AuthConfigProperties | undefined;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
-  networkBypassMode?: NetworkBypassMode;
+  networkBypassMode?: NetworkBypassMode | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -502,38 +502,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetMongoClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetMongoClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMongoClusterResponseTagsMap;
+  tags?: GetMongoClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
+  properties?: MongoClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMongoClusterResponseIdentity;
+  identity?: GetMongoClusterResponseIdentity | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -550,25 +550,25 @@ export type GetPrivateEndpointConnectionResponsePropertiesGroupIdsList = Array<s
 /** Properties of the private endpoint connection. */
 export interface GetPrivateEndpointConnectionResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: GetPrivateEndpointConnectionResponsePropertiesGroupIdsList;
+  groupIds?: GetPrivateEndpointConnectionResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: GetPrivateEndpointConnectionResponseProperties;
+  properties?: GetPrivateEndpointConnectionResponseProperties | undefined;
 }
 export interface GetUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -592,7 +592,7 @@ export interface IdentityProvider {
   /** The type of identity provider that the user belongs to. */
   type: IdentityProviderType | (string & {});
   /** MicrosoftEntraID: the Entra identity properties for the user. */
-  properties?: EntraIdentityProviderProperties;
+  properties?: EntraIdentityProviderProperties | undefined;
 }
 /** Built-in database role that can be assigned to a user. */
 export type UserRole = "root";
@@ -608,23 +608,23 @@ export type UserPropertiesRolesList = Array<DatabaseRole>;
 /** Definition of Mongo user resource on a cluster. */
 export interface UserProperties {
   /** The provisioning state of the user. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The user's identity provider definition. */
-  identityProvider?: IdentityProvider;
+  identityProvider?: IdentityProvider | undefined;
   /** Database roles that are assigned to the user. */
-  roles?: UserPropertiesRolesList;
+  roles?: UserPropertiesRolesList | undefined;
 }
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UserProperties;
+  properties?: UserProperties | undefined;
 }
 export interface ListFirewallRuleByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -637,15 +637,15 @@ export interface ListFirewallRuleByMongoClusterRequest {
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 /** The FirewallRule items on this page */
 export type FirewallRuleListResultValueList = Array<FirewallRule>;
@@ -654,7 +654,7 @@ export interface FirewallRuleListResult {
   /** The FirewallRule items on this page */
   value: FirewallRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMongoClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -669,21 +669,21 @@ export type MongoClusterIdentity = GetMongoClusterResponseIdentity;
 /** Represents a mongo cluster resource. */
 export interface MongoCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MongoClusterTagsMap;
+  tags?: MongoClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
+  properties?: MongoClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMongoClusterResponseIdentity;
+  identity?: GetMongoClusterResponseIdentity | undefined;
 }
 /** The MongoCluster items on this page */
 export type MongoClusterListResultValueList = Array<MongoCluster>;
@@ -692,7 +692,7 @@ export interface MongoClusterListResult {
   /** The MongoCluster items on this page */
   value: MongoClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMongoClusterConnectionStringsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -705,18 +705,18 @@ export interface ListMongoClusterConnectionStringsRequest {
 /** Connection string for the mongo cluster */
 export interface ConnectionString {
   /** Value of the connection string */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Description of the connection string */
-  description?: string;
+  description?: string | undefined;
   /** Name of the connection string. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array that contains the connection strings for a mongo cluster. */
 export type ListConnectionStringsResultConnectionStringsList = Array<ConnectionString>;
 /** The connection strings for the given mongo cluster. */
 export interface ListConnectionStringsResult {
   /** An array that contains the connection strings for a mongo cluster. */
-  connectionStrings?: ListConnectionStringsResultConnectionStringsList;
+  connectionStrings?: ListConnectionStringsResultConnectionStringsList | undefined;
 }
 export interface ListMongoClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -726,13 +726,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -741,23 +741,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -772,26 +772,26 @@ export type PrivateEndpointConnectionResourcePropertiesGroupIdsList = Array<stri
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionResourceProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionResourcePropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionResourcePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface PrivateEndpointConnectionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionResourceProperties;
+  properties?: PrivateEndpointConnectionResourceProperties | undefined;
 }
 /** The PrivateEndpointConnectionResource items on this page */
 export type PrivateEndpointConnectionResourceListResultValueList =
@@ -801,7 +801,7 @@ export interface PrivateEndpointConnectionResourceListResult {
   /** The PrivateEndpointConnectionResource items on this page */
   value: PrivateEndpointConnectionResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -818,24 +818,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -844,7 +844,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReplicasByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -857,15 +857,15 @@ export interface ListReplicasByParentRequest {
 /** Represents a mongo cluster replica. */
 export interface Replica {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
+  properties?: MongoClusterProperties | undefined;
 }
 /** The Replica items on this page */
 export type ReplicaListResultValueList = Array<Replica>;
@@ -874,7 +874,7 @@ export interface ReplicaListResult {
   /** The Replica items on this page */
   value: ReplicaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -887,15 +887,15 @@ export interface ListUserByMongoClusterRequest {
 /** Represents a Mongo cluster user. */
 export interface User {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UserProperties;
+  properties?: UserProperties | undefined;
 }
 /** The User items on this page */
 export type UserListResultValueList = Array<User>;
@@ -904,7 +904,7 @@ export interface UserListResult {
   /** The User items on this page */
   value: UserListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MongoClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -915,37 +915,37 @@ export type MongoClusterPropertiesInputPreviewFeaturesList = Array<PreviewFeatur
 /** The properties of a mongo cluster. */
 export interface MongoClusterPropertiesInput {
   /** The mode to create a mongo cluster. */
-  createMode?: CreateMode | (string & {});
+  createMode?: CreateMode | (string & {}) | undefined;
   /** The parameters to create a point-in-time restore mongo cluster. */
-  restoreParameters?: MongoClusterRestoreParameters;
+  restoreParameters?: MongoClusterRestoreParameters | undefined;
   /** The parameters to create a replica mongo cluster. */
-  replicaParameters?: MongoClusterReplicaParameters;
+  replicaParameters?: MongoClusterReplicaParameters | undefined;
   /** The local administrator properties for the mongo cluster. */
-  administrator?: AdministratorProperties;
+  administrator?: AdministratorProperties | undefined;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Whether or not public endpoint access is allowed for this mongo cluster. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The high availability properties of the mongo cluster. */
-  highAvailability?: HighAvailabilityProperties;
+  highAvailability?: HighAvailabilityProperties | undefined;
   /** The storage properties of the mongo cluster. */
-  storage?: StorageProperties;
+  storage?: StorageProperties | undefined;
   /** The sharding properties of the mongo cluster. */
-  sharding?: ShardingProperties;
+  sharding?: ShardingProperties | undefined;
   /** The compute properties of the mongo cluster. */
-  compute?: ComputeProperties;
+  compute?: ComputeProperties | undefined;
   /** The backup properties of the mongo cluster. */
-  backup?: PrivateEndpointInput;
+  backup?: PrivateEndpointInput | undefined;
   /** The Data API properties of the mongo cluster. */
-  dataApi?: DataApiProperties;
+  dataApi?: DataApiProperties | undefined;
   /** List of private endpoint connections. */
-  previewFeatures?: MongoClusterPropertiesInputPreviewFeaturesList;
+  previewFeatures?: MongoClusterPropertiesInputPreviewFeaturesList | undefined;
   /** The authentication configuration for the cluster. */
-  authConfig?: AuthConfigProperties;
+  authConfig?: AuthConfigProperties | undefined;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
-  networkBypassMode?: NetworkBypassMode | (string & {});
+  networkBypassMode?: NetworkBypassMode | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = PrivateEndpointInput;
@@ -956,7 +956,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MongoClustersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface MongoClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -966,13 +966,13 @@ export interface MongoClustersCreateOrUpdateRequest {
   /** The name of the mongo cluster. */
   mongoClusterName: string;
   /** Resource tags. */
-  tags?: MongoClustersCreateOrUpdateRequestTagsMap;
+  tags?: MongoClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterPropertiesInput;
+  properties?: MongoClusterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MongoClustersCreateOrUpdateRequestIdentity;
+  identity?: MongoClustersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type MongoClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -980,23 +980,23 @@ export type MongoClustersCreateOrUpdateResponseTagsMap = { [key: string]: string
 export type MongoClustersCreateOrUpdateResponseIdentity = GetMongoClusterResponseIdentity;
 export interface MongoClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MongoClustersCreateOrUpdateResponseTagsMap;
+  tags?: MongoClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
+  properties?: MongoClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMongoClusterResponseIdentity;
+  identity?: GetMongoClusterResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The option to apply to a promote operation. */
 export type PromoteOption = "Forced";
@@ -1012,13 +1012,13 @@ export interface PromoteMongoClusterRequest {
   /** The promote option to apply to the operation. */
   promoteOption: PromoteOption | (string & {});
   /** The mode to apply to the promote operation. Value is optional and default value is 'Switchover'. */
-  mode?: PromoteMode | (string & {});
+  mode?: PromoteMode | (string & {}) | undefined;
 }
 export interface PromoteMongoClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateMongoClusterRequestIdentity = MongoClustersCreateOrUpdateRequestIdentity;
@@ -1031,31 +1031,31 @@ export type MongoClusterUpdatePropertiesInputPreviewFeaturesList = Array<
 /** The updatable properties of the MongoCluster. */
 export interface MongoClusterUpdatePropertiesInput {
   /** The local administrator properties for the mongo cluster. */
-  administrator?: AdministratorProperties;
+  administrator?: AdministratorProperties | undefined;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Whether or not public endpoint access is allowed for this mongo cluster. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The high availability properties of the mongo cluster. */
-  highAvailability?: HighAvailabilityProperties;
+  highAvailability?: HighAvailabilityProperties | undefined;
   /** The storage properties of the mongo cluster. */
-  storage?: StorageProperties;
+  storage?: StorageProperties | undefined;
   /** The sharding properties of the mongo cluster. */
-  sharding?: ShardingProperties;
+  sharding?: ShardingProperties | undefined;
   /** The compute properties of the mongo cluster. */
-  compute?: ComputeProperties;
+  compute?: ComputeProperties | undefined;
   /** The backup properties of the mongo cluster. */
-  backup?: PrivateEndpointInput;
+  backup?: PrivateEndpointInput | undefined;
   /** The Data API properties of the mongo cluster. */
-  dataApi?: DataApiProperties;
+  dataApi?: DataApiProperties | undefined;
   /** List of private endpoint connections. */
-  previewFeatures?: MongoClusterUpdatePropertiesInputPreviewFeaturesList;
+  previewFeatures?: MongoClusterUpdatePropertiesInputPreviewFeaturesList | undefined;
   /** The authentication configuration for the cluster. */
-  authConfig?: AuthConfigProperties;
+  authConfig?: AuthConfigProperties | undefined;
   /** The encryption configuration for the cluster. Depends on identity being configured. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** The network bypass mode for the cluster. Setting to 'AzureCosmosDB' allows Azure Cosmos DB service to bypass network restrictions. */
-  networkBypassMode?: NetworkBypassMode | (string & {});
+  networkBypassMode?: NetworkBypassMode | (string & {}) | undefined;
 }
 export interface UpdateMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1065,11 +1065,11 @@ export interface UpdateMongoClusterRequest {
   /** The name of the mongo cluster. */
   mongoClusterName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MongoClustersCreateOrUpdateRequestIdentity;
+  identity?: MongoClustersCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateMongoClusterRequestTagsMap;
+  tags?: UpdateMongoClusterRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterUpdatePropertiesInput;
+  properties?: MongoClusterUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateMongoClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -1077,34 +1077,34 @@ export type UpdateMongoClusterResponseTagsMap = { [key: string]: string | undefi
 export type UpdateMongoClusterResponseIdentity = GetMongoClusterResponseIdentity;
 export interface UpdateMongoClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMongoClusterResponseTagsMap;
+  tags?: UpdateMongoClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
+  properties?: MongoClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMongoClusterResponseIdentity;
+  identity?: GetMongoClusterResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Database roles that are assigned to the user. */
 export type UserPropertiesInputRolesList = Array<DatabaseRole>;
 /** Definition of Mongo user resource on a cluster. */
 export interface UserPropertiesInput {
   /** The user's identity provider definition. */
-  identityProvider?: IdentityProvider;
+  identityProvider?: IdentityProvider | undefined;
   /** Database roles that are assigned to the user. */
-  roles?: UserPropertiesInputRolesList;
+  roles?: UserPropertiesInputRolesList | undefined;
 }
 export interface UsersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1116,21 +1116,21 @@ export interface UsersCreateOrUpdateRequest {
   /** The name of the mongo cluster user. */
   userName: string;
   /** The resource-specific properties for this resource. */
-  properties?: UserPropertiesInput;
+  properties?: UserPropertiesInput | undefined;
 }
 export interface UsersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UserProperties;
+  properties?: UserProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckMongoClusterNameAvailabilityError = AzureOpError;
 /** Check if mongo cluster name is available for use. */

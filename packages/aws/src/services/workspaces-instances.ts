@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -190,13 +191,13 @@ export type ResourceTypeEnum =
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface TagSpecification {
-  ResourceType?: ResourceTypeEnum;
-  Tags?: Tag[];
+  ResourceType?: ResourceTypeEnum | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TagSpecifications = TagSpecification[];
 export type VolumeTypeEnum =
@@ -210,33 +211,33 @@ export type VolumeTypeEnum =
   | (string & {});
 export interface CreateVolumeRequest {
   AvailabilityZone: string;
-  ClientToken?: string | redacted.Redacted<string>;
-  Encrypted?: boolean;
-  Iops?: number;
-  KmsKeyId?: string | redacted.Redacted<string>;
-  SizeInGB?: number;
-  SnapshotId?: string;
-  TagSpecifications?: TagSpecification[];
-  Throughput?: number;
-  VolumeType?: VolumeTypeEnum;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+  Encrypted?: boolean | undefined;
+  Iops?: number | undefined;
+  KmsKeyId?: string | redacted.Redacted<string> | undefined;
+  SizeInGB?: number | undefined;
+  SnapshotId?: string | undefined;
+  TagSpecifications?: TagSpecification[] | undefined;
+  Throughput?: number | undefined;
+  VolumeType?: VolumeTypeEnum | undefined;
 }
 export interface CreateVolumeResponse {
-  VolumeId?: string;
+  VolumeId?: string | undefined;
 }
 export interface EbsBlockDevice {
-  VolumeType?: VolumeTypeEnum;
-  Encrypted?: boolean;
-  KmsKeyId?: string | redacted.Redacted<string>;
-  Iops?: number;
-  Throughput?: number;
-  VolumeSize?: number;
+  VolumeType?: VolumeTypeEnum | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | redacted.Redacted<string> | undefined;
+  Iops?: number | undefined;
+  Throughput?: number | undefined;
+  VolumeSize?: number | undefined;
 }
 export type VirtualName = string;
 export interface BlockDeviceMappingRequest {
-  DeviceName?: string;
-  Ebs?: EbsBlockDevice;
-  NoDevice?: string;
-  VirtualName?: string;
+  DeviceName?: string | undefined;
+  Ebs?: EbsBlockDevice | undefined;
+  NoDevice?: string | undefined;
+  VirtualName?: string | undefined;
 }
 export type BlockDeviceMappings = BlockDeviceMappingRequest[];
 export type CapacityReservationPreferenceEnum =
@@ -247,64 +248,64 @@ export type CapacityReservationPreferenceEnum =
 export type String128 = string;
 export type ARN = string;
 export interface CapacityReservationTarget {
-  CapacityReservationId?: string;
-  CapacityReservationResourceGroupArn?: string;
+  CapacityReservationId?: string | undefined;
+  CapacityReservationResourceGroupArn?: string | undefined;
 }
 export interface CapacityReservationSpecification {
-  CapacityReservationPreference?: CapacityReservationPreferenceEnum;
-  CapacityReservationTarget?: CapacityReservationTarget;
+  CapacityReservationPreference?: CapacityReservationPreferenceEnum | undefined;
+  CapacityReservationTarget?: CapacityReservationTarget | undefined;
 }
 export type AmdSevSnpEnum = "enabled" | "disabled" | (string & {});
 export type NestedVirtualizationEnum = "enabled" | "disabled" | (string & {});
 export interface CpuOptionsRequest {
-  AmdSevSnp?: AmdSevSnpEnum;
-  CoreCount?: number;
-  ThreadsPerCore?: number;
-  NestedVirtualization?: NestedVirtualizationEnum;
+  AmdSevSnp?: AmdSevSnpEnum | undefined;
+  CoreCount?: number | undefined;
+  ThreadsPerCore?: number | undefined;
+  NestedVirtualization?: NestedVirtualizationEnum | undefined;
 }
 export type CpuCreditsEnum = "standard" | "unlimited" | (string & {});
 export interface CreditSpecificationRequest {
-  CpuCredits?: CpuCreditsEnum;
+  CpuCredits?: CpuCreditsEnum | undefined;
 }
 export interface EnclaveOptionsRequest {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface HibernationOptionsRequest {
-  Configured?: boolean;
+  Configured?: boolean | undefined;
 }
 export interface IamInstanceProfileSpecification {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type ImageId = string;
 export type MarketTypeEnum = "spot" | "capacity-block" | (string & {});
 export type InstanceInterruptionBehaviorEnum = "hibernate" | "stop" | (string & {});
 export type SpotInstanceTypeEnum = "one-time" | "persistent" | (string & {});
 export interface SpotMarketOptions {
-  BlockDurationMinutes?: number;
-  InstanceInterruptionBehavior?: InstanceInterruptionBehaviorEnum;
-  MaxPrice?: string;
-  SpotInstanceType?: SpotInstanceTypeEnum;
-  ValidUntilUtc?: Date;
+  BlockDurationMinutes?: number | undefined;
+  InstanceInterruptionBehavior?: InstanceInterruptionBehaviorEnum | undefined;
+  MaxPrice?: string | undefined;
+  SpotInstanceType?: SpotInstanceTypeEnum | undefined;
+  ValidUntilUtc?: Date | undefined;
 }
 export interface InstanceMarketOptionsRequest {
-  MarketType?: MarketTypeEnum;
-  SpotOptions?: SpotMarketOptions;
+  MarketType?: MarketTypeEnum | undefined;
+  SpotOptions?: SpotMarketOptions | undefined;
 }
 export type InstanceType = string;
 export type Ipv6Address = string | redacted.Redacted<string>;
 export interface InstanceIpv6Address {
-  Ipv6Address?: string | redacted.Redacted<string>;
-  IsPrimaryIpv6?: boolean;
+  Ipv6Address?: string | redacted.Redacted<string> | undefined;
+  IsPrimaryIpv6?: boolean | undefined;
 }
 export type Ipv6Addresses = InstanceIpv6Address[];
 export interface LicenseConfigurationRequest {
-  LicenseConfigurationArn?: string;
+  LicenseConfigurationArn?: string | undefined;
 }
 export type LicenseSpecifications = LicenseConfigurationRequest[];
 export type AutoRecoveryEnum = "disabled" | "default" | (string & {});
 export interface InstanceMaintenanceOptionsRequest {
-  AutoRecovery?: AutoRecoveryEnum;
+  AutoRecovery?: AutoRecoveryEnum | undefined;
 }
 export type HttpEndpointEnum = "enabled" | "disabled" | (string & {});
 export type HttpProtocolIpv6Enum = "enabled" | "disabled" | (string & {});
@@ -312,146 +313,146 @@ export type HttpPutResponseHopLimit = number;
 export type HttpTokensEnum = "optional" | "required" | (string & {});
 export type InstanceMetadataTagsEnum = "enabled" | "disabled" | (string & {});
 export interface InstanceMetadataOptionsRequest {
-  HttpEndpoint?: HttpEndpointEnum;
-  HttpProtocolIpv6?: HttpProtocolIpv6Enum;
-  HttpPutResponseHopLimit?: number;
-  HttpTokens?: HttpTokensEnum;
-  InstanceMetadataTags?: InstanceMetadataTagsEnum;
+  HttpEndpoint?: HttpEndpointEnum | undefined;
+  HttpProtocolIpv6?: HttpProtocolIpv6Enum | undefined;
+  HttpPutResponseHopLimit?: number | undefined;
+  HttpTokens?: HttpTokensEnum | undefined;
+  InstanceMetadataTags?: InstanceMetadataTagsEnum | undefined;
 }
 export interface RunInstancesMonitoringEnabled {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface ConnectionTrackingSpecificationRequest {
-  TcpEstablishedTimeout?: number;
-  UdpStreamTimeout?: number;
-  UdpTimeout?: number;
+  TcpEstablishedTimeout?: number | undefined;
+  UdpStreamTimeout?: number | undefined;
+  UdpTimeout?: number | undefined;
 }
 export type Description = string;
 export interface EnaSrdUdpSpecificationRequest {
-  EnaSrdUdpEnabled?: boolean;
+  EnaSrdUdpEnabled?: boolean | undefined;
 }
 export interface EnaSrdSpecificationRequest {
-  EnaSrdEnabled?: boolean;
-  EnaSrdUdpSpecification?: EnaSrdUdpSpecificationRequest;
+  EnaSrdEnabled?: boolean | undefined;
+  EnaSrdUdpSpecification?: EnaSrdUdpSpecificationRequest | undefined;
 }
 export type InterfaceTypeEnum = "interface" | "efa" | "efa-only" | (string & {});
 export type Ipv4Prefix = string;
 export interface Ipv4PrefixSpecificationRequest {
-  Ipv4Prefix?: string;
+  Ipv4Prefix?: string | undefined;
 }
 export type Ipv4Prefixes = Ipv4PrefixSpecificationRequest[];
 export type Ipv6Prefix = string;
 export interface Ipv6PrefixSpecificationRequest {
-  Ipv6Prefix?: string;
+  Ipv6Prefix?: string | undefined;
 }
 export type Ipv6Prefixes = Ipv6PrefixSpecificationRequest[];
 export type NetworkInterfaceId = string;
 export type Ipv4Address = string | redacted.Redacted<string>;
 export interface PrivateIpAddressSpecification {
-  Primary?: boolean;
-  PrivateIpAddress?: string | redacted.Redacted<string>;
+  Primary?: boolean | undefined;
+  PrivateIpAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type PrivateIpAddresses = PrivateIpAddressSpecification[];
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export type SubnetId = string;
 export interface InstanceNetworkInterfaceSpecification {
-  AssociateCarrierIpAddress?: boolean;
-  AssociatePublicIpAddress?: boolean;
-  ConnectionTrackingSpecification?: ConnectionTrackingSpecificationRequest;
-  Description?: string;
-  DeviceIndex?: number;
-  EnaSrdSpecification?: EnaSrdSpecificationRequest;
-  InterfaceType?: InterfaceTypeEnum;
-  Ipv4Prefixes?: Ipv4PrefixSpecificationRequest[];
-  Ipv4PrefixCount?: number;
-  Ipv6AddressCount?: number;
-  Ipv6Addresses?: InstanceIpv6Address[];
-  Ipv6Prefixes?: Ipv6PrefixSpecificationRequest[];
-  Ipv6PrefixCount?: number;
-  NetworkCardIndex?: number;
-  NetworkInterfaceId?: string;
-  PrimaryIpv6?: boolean;
-  PrivateIpAddress?: string | redacted.Redacted<string>;
-  PrivateIpAddresses?: PrivateIpAddressSpecification[];
-  SecondaryPrivateIpAddressCount?: number;
-  Groups?: string[];
-  SubnetId?: string;
+  AssociateCarrierIpAddress?: boolean | undefined;
+  AssociatePublicIpAddress?: boolean | undefined;
+  ConnectionTrackingSpecification?: ConnectionTrackingSpecificationRequest | undefined;
+  Description?: string | undefined;
+  DeviceIndex?: number | undefined;
+  EnaSrdSpecification?: EnaSrdSpecificationRequest | undefined;
+  InterfaceType?: InterfaceTypeEnum | undefined;
+  Ipv4Prefixes?: Ipv4PrefixSpecificationRequest[] | undefined;
+  Ipv4PrefixCount?: number | undefined;
+  Ipv6AddressCount?: number | undefined;
+  Ipv6Addresses?: InstanceIpv6Address[] | undefined;
+  Ipv6Prefixes?: Ipv6PrefixSpecificationRequest[] | undefined;
+  Ipv6PrefixCount?: number | undefined;
+  NetworkCardIndex?: number | undefined;
+  NetworkInterfaceId?: string | undefined;
+  PrimaryIpv6?: boolean | undefined;
+  PrivateIpAddress?: string | redacted.Redacted<string> | undefined;
+  PrivateIpAddresses?: PrivateIpAddressSpecification[] | undefined;
+  SecondaryPrivateIpAddressCount?: number | undefined;
+  Groups?: string[] | undefined;
+  SubnetId?: string | undefined;
 }
 export type NetworkInterfaces = InstanceNetworkInterfaceSpecification[];
 export type BandwidthWeightingEnum = "default" | "vpc-1" | "ebs-1" | (string & {});
 export interface InstanceNetworkPerformanceOptionsRequest {
-  BandwidthWeighting?: BandwidthWeightingEnum;
+  BandwidthWeighting?: BandwidthWeightingEnum | undefined;
 }
 export type AvailabilityZone = string;
 export type PlacementGroupId = string;
 export type HostId = string;
 export type TenancyEnum = "default" | "dedicated" | "host" | (string & {});
 export interface Placement {
-  Affinity?: string;
-  AvailabilityZone?: string;
-  GroupId?: string;
-  GroupName?: string;
-  HostId?: string;
-  HostResourceGroupArn?: string;
-  PartitionNumber?: number;
-  Tenancy?: TenancyEnum;
+  Affinity?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
+  HostId?: string | undefined;
+  HostResourceGroupArn?: string | undefined;
+  PartitionNumber?: number | undefined;
+  Tenancy?: TenancyEnum | undefined;
 }
 export type HostnameTypeEnum = "ip-name" | "resource-name" | (string & {});
 export interface PrivateDnsNameOptionsRequest {
-  HostnameType?: HostnameTypeEnum;
-  EnableResourceNameDnsARecord?: boolean;
-  EnableResourceNameDnsAAAARecord?: boolean;
+  HostnameType?: HostnameTypeEnum | undefined;
+  EnableResourceNameDnsARecord?: boolean | undefined;
+  EnableResourceNameDnsAAAARecord?: boolean | undefined;
 }
 export type SecurityGroupName = string;
 export type SecurityGroupNames = string[];
 export type UserData = string | redacted.Redacted<string>;
 export interface ManagedInstanceRequest {
-  BlockDeviceMappings?: BlockDeviceMappingRequest[];
-  CapacityReservationSpecification?: CapacityReservationSpecification;
-  CpuOptions?: CpuOptionsRequest;
-  CreditSpecification?: CreditSpecificationRequest;
-  DisableApiStop?: boolean;
-  EbsOptimized?: boolean;
-  EnablePrimaryIpv6?: boolean;
-  EnclaveOptions?: EnclaveOptionsRequest;
-  HibernationOptions?: HibernationOptionsRequest;
-  IamInstanceProfile?: IamInstanceProfileSpecification;
-  ImageId?: string;
-  InstanceMarketOptions?: InstanceMarketOptionsRequest;
-  InstanceType?: string;
-  Ipv6Addresses?: InstanceIpv6Address[];
-  Ipv6AddressCount?: number;
-  KernelId?: string;
-  KeyName?: string;
-  LicenseSpecifications?: LicenseConfigurationRequest[];
-  MaintenanceOptions?: InstanceMaintenanceOptionsRequest;
-  MetadataOptions?: InstanceMetadataOptionsRequest;
-  Monitoring?: RunInstancesMonitoringEnabled;
-  NetworkInterfaces?: InstanceNetworkInterfaceSpecification[];
-  NetworkPerformanceOptions?: InstanceNetworkPerformanceOptionsRequest;
-  Placement?: Placement;
-  PrivateDnsNameOptions?: PrivateDnsNameOptionsRequest;
-  PrivateIpAddress?: string | redacted.Redacted<string>;
-  RamdiskId?: string;
-  SecurityGroupIds?: string[];
-  SecurityGroups?: string[];
-  SubnetId?: string;
-  TagSpecifications?: TagSpecification[];
-  UserData?: string | redacted.Redacted<string>;
+  BlockDeviceMappings?: BlockDeviceMappingRequest[] | undefined;
+  CapacityReservationSpecification?: CapacityReservationSpecification | undefined;
+  CpuOptions?: CpuOptionsRequest | undefined;
+  CreditSpecification?: CreditSpecificationRequest | undefined;
+  DisableApiStop?: boolean | undefined;
+  EbsOptimized?: boolean | undefined;
+  EnablePrimaryIpv6?: boolean | undefined;
+  EnclaveOptions?: EnclaveOptionsRequest | undefined;
+  HibernationOptions?: HibernationOptionsRequest | undefined;
+  IamInstanceProfile?: IamInstanceProfileSpecification | undefined;
+  ImageId?: string | undefined;
+  InstanceMarketOptions?: InstanceMarketOptionsRequest | undefined;
+  InstanceType?: string | undefined;
+  Ipv6Addresses?: InstanceIpv6Address[] | undefined;
+  Ipv6AddressCount?: number | undefined;
+  KernelId?: string | undefined;
+  KeyName?: string | undefined;
+  LicenseSpecifications?: LicenseConfigurationRequest[] | undefined;
+  MaintenanceOptions?: InstanceMaintenanceOptionsRequest | undefined;
+  MetadataOptions?: InstanceMetadataOptionsRequest | undefined;
+  Monitoring?: RunInstancesMonitoringEnabled | undefined;
+  NetworkInterfaces?: InstanceNetworkInterfaceSpecification[] | undefined;
+  NetworkPerformanceOptions?: InstanceNetworkPerformanceOptionsRequest | undefined;
+  Placement?: Placement | undefined;
+  PrivateDnsNameOptions?: PrivateDnsNameOptionsRequest | undefined;
+  PrivateIpAddress?: string | redacted.Redacted<string> | undefined;
+  RamdiskId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  SubnetId?: string | undefined;
+  TagSpecifications?: TagSpecification[] | undefined;
+  UserData?: string | redacted.Redacted<string> | undefined;
 }
 export type BillingMode = "MONTHLY" | "HOURLY" | (string & {});
 export interface BillingConfiguration {
   BillingMode: BillingMode;
 }
 export interface CreateWorkspaceInstanceRequest {
-  ClientToken?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
   ManagedInstance: ManagedInstanceRequest;
-  BillingConfiguration?: BillingConfiguration;
+  BillingConfiguration?: BillingConfiguration | undefined;
 }
 export interface CreateWorkspaceInstanceResponse {
-  WorkspaceInstanceId?: string;
+  WorkspaceInstanceId?: string | undefined;
 }
 export interface DeleteVolumeRequest {
   VolumeId: string;
@@ -465,22 +466,22 @@ export type DisassociateModeEnum = "FORCE" | "NO_FORCE" | (string & {});
 export interface DisassociateVolumeRequest {
   WorkspaceInstanceId: string;
   VolumeId: string;
-  Device?: string;
-  DisassociateMode?: DisassociateModeEnum;
+  Device?: string | undefined;
+  DisassociateMode?: DisassociateModeEnum | undefined;
 }
 export interface DisassociateVolumeResponse {}
 export interface GetWorkspaceInstanceRequest {
   WorkspaceInstanceId: string;
 }
 export interface WorkspaceInstanceError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type WorkspaceInstanceErrors = WorkspaceInstanceError[];
 export interface EC2InstanceError {
-  EC2ErrorCode?: string;
-  EC2ExceptionType?: string;
-  EC2ErrorMessage?: string;
+  EC2ErrorCode?: string | undefined;
+  EC2ExceptionType?: string | undefined;
+  EC2ErrorMessage?: string | undefined;
 }
 export type EC2InstanceErrors = EC2InstanceError[];
 export type ProvisionStateEnum =
@@ -492,15 +493,15 @@ export type ProvisionStateEnum =
   | "ERROR_DEALLOCATING"
   | (string & {});
 export interface EC2ManagedInstance {
-  InstanceId?: string;
+  InstanceId?: string | undefined;
 }
 export interface GetWorkspaceInstanceResponse {
-  WorkspaceInstanceErrors?: WorkspaceInstanceError[];
-  EC2InstanceErrors?: EC2InstanceError[];
-  ProvisionState?: ProvisionStateEnum;
-  WorkspaceInstanceId?: string;
-  EC2ManagedInstance?: EC2ManagedInstance;
-  BillingConfiguration?: BillingConfiguration;
+  WorkspaceInstanceErrors?: WorkspaceInstanceError[] | undefined;
+  EC2InstanceErrors?: EC2InstanceError[] | undefined;
+  ProvisionState?: ProvisionStateEnum | undefined;
+  WorkspaceInstanceId?: string | undefined;
+  EC2ManagedInstance?: EC2ManagedInstance | undefined;
+  BillingConfiguration?: BillingConfiguration | undefined;
 }
 export type ListInstanceTypesMaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
@@ -520,61 +521,61 @@ export interface InstanceConfigurationFilter {
   Tenancy: InstanceConfigurationTenancyEnum;
 }
 export interface ListInstanceTypesRequest {
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
-  InstanceConfigurationFilter?: InstanceConfigurationFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  InstanceConfigurationFilter?: InstanceConfigurationFilter | undefined;
 }
 export interface SupportedInstanceConfiguration {
-  BillingMode?: BillingMode;
-  PlatformType?: PlatformTypeEnum;
-  Tenancy?: InstanceConfigurationTenancyEnum;
+  BillingMode?: BillingMode | undefined;
+  PlatformType?: PlatformTypeEnum | undefined;
+  Tenancy?: InstanceConfigurationTenancyEnum | undefined;
 }
 export type SupportedInstanceConfigurations = SupportedInstanceConfiguration[];
 export interface InstanceTypeInfo {
-  InstanceType?: string;
-  SupportedInstanceConfigurations?: SupportedInstanceConfiguration[];
+  InstanceType?: string | undefined;
+  SupportedInstanceConfigurations?: SupportedInstanceConfiguration[] | undefined;
 }
 export type InstanceTypes = InstanceTypeInfo[];
 export interface ListInstanceTypesResponse {
   InstanceTypes: InstanceTypeInfo[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MaxResults = number;
 export interface ListRegionsRequest {
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type RegionName = string;
 export interface Region {
-  RegionName?: string;
+  RegionName?: string | undefined;
 }
 const Region = /*@__PURE__*/ __L.at(__c14, 0) as any as S.Schema<Region>;
 export type RegionList = Region[];
 export interface ListRegionsResponse {
   Regions: Region[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListTagsForResourceRequest {
   WorkspaceInstanceId: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ProvisionStates = ProvisionStateEnum[];
 export interface ListWorkspaceInstancesRequest {
-  ProvisionStates?: ProvisionStateEnum[];
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  ProvisionStates?: ProvisionStateEnum[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface WorkspaceInstance {
-  ProvisionState?: ProvisionStateEnum;
-  WorkspaceInstanceId?: string;
-  EC2ManagedInstance?: EC2ManagedInstance;
+  ProvisionState?: ProvisionStateEnum | undefined;
+  WorkspaceInstanceId?: string | undefined;
+  EC2ManagedInstance?: EC2ManagedInstance | undefined;
 }
 export type WorkspaceInstances = WorkspaceInstance[];
 export interface ListWorkspaceInstancesResponse {
   WorkspaceInstances: WorkspaceInstance[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface TagResourceRequest {
   WorkspaceInstanceId: string;
@@ -613,7 +614,7 @@ export type AssociateVolumeError =
  * Attaches a volume to a WorkSpace Instance.
  */
 export const associateVolume: API.OperationMethod<
-  AssociateVolumeRequest,
+  AssociateVolumeRequest & RegionInput,
   AssociateVolumeResponse,
   AssociateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -647,7 +648,7 @@ export type CreateVolumeError =
  * Creates a new volume for WorkSpace Instances.
  */
 export const createVolume: API.OperationMethod<
-  CreateVolumeRequest,
+  CreateVolumeRequest & RegionInput,
   CreateVolumeResponse,
   CreateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -681,7 +682,7 @@ export type CreateWorkspaceInstanceError =
  * Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
  */
 export const createWorkspaceInstance: API.OperationMethod<
-  CreateWorkspaceInstanceRequest,
+  CreateWorkspaceInstanceRequest & RegionInput,
   CreateWorkspaceInstanceResponse,
   CreateWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -715,7 +716,7 @@ export type DeleteVolumeError =
  * Deletes a specified volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -751,7 +752,7 @@ export type DeleteWorkspaceInstanceError =
  * Usage of this API will result in deletion of the resource in question.
  */
 export const deleteWorkspaceInstance: API.OperationMethod<
-  DeleteWorkspaceInstanceRequest,
+  DeleteWorkspaceInstanceRequest & RegionInput,
   DeleteWorkspaceInstanceResponse,
   DeleteWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -785,7 +786,7 @@ export type DisassociateVolumeError =
  * Detaches a volume from a WorkSpace Instance.
  */
 export const disassociateVolume: API.OperationMethod<
-  DisassociateVolumeRequest,
+  DisassociateVolumeRequest & RegionInput,
   DisassociateVolumeResponse,
   DisassociateVolumeError,
   Credentials | HttpClient.HttpClient
@@ -818,7 +819,7 @@ export type GetWorkspaceInstanceError =
  * Retrieves detailed information about a specific WorkSpace Instance.
  */
 export const getWorkspaceInstance: API.OperationMethod<
-  GetWorkspaceInstanceRequest,
+  GetWorkspaceInstanceRequest & RegionInput,
   GetWorkspaceInstanceResponse,
   GetWorkspaceInstanceError,
   Credentials | HttpClient.HttpClient
@@ -849,7 +850,7 @@ export type ListInstanceTypesError =
  * Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
  */
 export const listInstanceTypes: API.PaginatedOperationMethod<
-  ListInstanceTypesRequest,
+  ListInstanceTypesRequest & RegionInput,
   ListInstanceTypesResponse,
   ListInstanceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -886,7 +887,7 @@ export type ListRegionsError =
  * Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
  */
 export const listRegions: API.PaginatedOperationMethod<
-  ListRegionsRequest,
+  ListRegionsRequest & RegionInput,
   ListRegionsResponse,
   ListRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -924,7 +925,7 @@ export type ListTagsForResourceError =
  * Retrieves tags for a WorkSpace Instance.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -955,7 +956,7 @@ export type ListWorkspaceInstancesError =
  * Retrieves a collection of WorkSpaces Instances based on specified filters.
  */
 export const listWorkspaceInstances: API.PaginatedOperationMethod<
-  ListWorkspaceInstancesRequest,
+  ListWorkspaceInstancesRequest & RegionInput,
   ListWorkspaceInstancesResponse,
   ListWorkspaceInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -993,7 +994,7 @@ export type TagResourceError =
  * Adds tags to a WorkSpace Instance.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1025,7 +1026,7 @@ export type UntagResourceError =
  * Removes tags from a WorkSpace Instance.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

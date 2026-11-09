@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -151,7 +152,7 @@ export interface CopyBlueprintStageRequest {
   blueprintArn: string;
   sourceStage: BlueprintStage;
   targetStage: BlueprintStage;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CopyBlueprintStageResponse {}
 export type BlueprintName = string | redacted.Redacted<string>;
@@ -163,7 +164,7 @@ export type EncryptionContextValue = string;
 export type KmsEncryptionContext = { [key: string]: string | undefined };
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -175,18 +176,18 @@ export type TagList = Tag[];
 export interface CreateBlueprintRequest {
   blueprintName: string | redacted.Redacted<string>;
   type: Type;
-  blueprintStage?: BlueprintStage;
+  blueprintStage?: BlueprintStage | undefined;
   schema: string | redacted.Redacted<string>;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type BlueprintVersion = string;
 export type S3Uri = string;
 export type S3ObjectVersion = string;
 export interface S3Object {
   s3Uri: string;
-  version?: string;
+  version?: string | undefined;
 }
 export interface BlueprintOptimizationSample {
   assetS3Object: S3Object;
@@ -200,19 +201,19 @@ export interface Blueprint {
   creationTime: Date;
   lastModifiedTime: Date;
   blueprintName: string | redacted.Redacted<string>;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
-  optimizationSamples?: BlueprintOptimizationSample[];
-  optimizationTime?: Date;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  optimizationSamples?: BlueprintOptimizationSample[] | undefined;
+  optimizationTime?: Date | undefined;
 }
 export interface CreateBlueprintResponse {
   blueprint: Blueprint;
 }
 export interface CreateBlueprintVersionRequest {
   blueprintArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateBlueprintVersionResponse {
   blueprint: Blueprint;
@@ -221,16 +222,16 @@ export type DataAutomationLibraryName = string | redacted.Redacted<string>;
 export type DataAutomationLibraryDescription = string | redacted.Redacted<string>;
 export interface CreateDataAutomationLibraryRequest {
   libraryName: string | redacted.Redacted<string>;
-  libraryDescription?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DataAutomationLibraryArn = string;
 export type DataAutomationLibraryStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface CreateDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export type DataAutomationProjectName = string | redacted.Redacted<string>;
 export type DataAutomationProjectDescription = string | redacted.Redacted<string>;
@@ -245,7 +246,7 @@ export type DocumentExtractionGranularityType =
   | (string & {});
 export type DocumentExtractionGranularityTypes = DocumentExtractionGranularityType[];
 export interface DocumentExtractionGranularity {
-  types?: DocumentExtractionGranularityType[];
+  types?: DocumentExtractionGranularityType[] | undefined;
 }
 export type State = "ENABLED" | "DISABLED" | (string & {});
 export interface DocumentBoundingBox {
@@ -266,7 +267,7 @@ export type DocumentOutputTextFormatType =
   | (string & {});
 export type DocumentOutputTextFormatTypes = DocumentOutputTextFormatType[];
 export interface DocumentOutputTextFormat {
-  types?: DocumentOutputTextFormatType[];
+  types?: DocumentOutputTextFormatType[] | undefined;
 }
 export interface DocumentOutputAdditionalFileFormat {
   state: State;
@@ -276,9 +277,9 @@ export interface DocumentOutputFormat {
   additionalFileFormat: DocumentOutputAdditionalFileFormat;
 }
 export interface DocumentStandardOutputConfiguration {
-  extraction?: DocumentStandardExtraction;
-  generativeField?: DocumentStandardGenerativeField;
-  outputFormat?: DocumentOutputFormat;
+  extraction?: DocumentStandardExtraction | undefined;
+  generativeField?: DocumentStandardGenerativeField | undefined;
+  outputFormat?: DocumentOutputFormat | undefined;
 }
 export type ImageExtractionCategoryType =
   | "CONTENT_MODERATION"
@@ -288,7 +289,7 @@ export type ImageExtractionCategoryType =
 export type ImageExtractionCategoryTypes = ImageExtractionCategoryType[];
 export interface ImageExtractionCategory {
   state: State;
-  types?: ImageExtractionCategoryType[];
+  types?: ImageExtractionCategoryType[] | undefined;
 }
 export interface ImageBoundingBox {
   state: State;
@@ -301,11 +302,11 @@ export type ImageStandardGenerativeFieldType = "IMAGE_SUMMARY" | "IAB" | (string
 export type ImageStandardGenerativeFieldTypes = ImageStandardGenerativeFieldType[];
 export interface ImageStandardGenerativeField {
   state: State;
-  types?: ImageStandardGenerativeFieldType[];
+  types?: ImageStandardGenerativeFieldType[] | undefined;
 }
 export interface ImageStandardOutputConfiguration {
-  extraction?: ImageStandardExtraction;
-  generativeField?: ImageStandardGenerativeField;
+  extraction?: ImageStandardExtraction | undefined;
+  generativeField?: ImageStandardGenerativeField | undefined;
 }
 export type VideoExtractionCategoryType =
   | "CONTENT_MODERATION"
@@ -316,7 +317,7 @@ export type VideoExtractionCategoryType =
 export type VideoExtractionCategoryTypes = VideoExtractionCategoryType[];
 export interface VideoExtractionCategory {
   state: State;
-  types?: VideoExtractionCategoryType[];
+  types?: VideoExtractionCategoryType[] | undefined;
 }
 export interface VideoBoundingBox {
   state: State;
@@ -333,11 +334,11 @@ export type VideoStandardGenerativeFieldType =
 export type VideoStandardGenerativeFieldTypes = VideoStandardGenerativeFieldType[];
 export interface VideoStandardGenerativeField {
   state: State;
-  types?: VideoStandardGenerativeFieldType[];
+  types?: VideoStandardGenerativeFieldType[] | undefined;
 }
 export interface VideoStandardOutputConfiguration {
-  extraction?: VideoStandardExtraction;
-  generativeField?: VideoStandardGenerativeField;
+  extraction?: VideoStandardExtraction | undefined;
+  generativeField?: VideoStandardGenerativeField | undefined;
 }
 export type AudioExtractionCategoryType =
   | "AUDIO_CONTENT_MODERATION"
@@ -352,16 +353,16 @@ export interface ChannelLabelingConfiguration {
   state: State;
 }
 export interface TranscriptConfiguration {
-  speakerLabeling?: SpeakerLabelingConfiguration;
-  channelLabeling?: ChannelLabelingConfiguration;
+  speakerLabeling?: SpeakerLabelingConfiguration | undefined;
+  channelLabeling?: ChannelLabelingConfiguration | undefined;
 }
 export interface AudioExtractionCategoryTypeConfiguration {
-  transcript?: TranscriptConfiguration;
+  transcript?: TranscriptConfiguration | undefined;
 }
 export interface AudioExtractionCategory {
   state: State;
-  types?: AudioExtractionCategoryType[];
-  typeConfiguration?: AudioExtractionCategoryTypeConfiguration;
+  types?: AudioExtractionCategoryType[] | undefined;
+  typeConfiguration?: AudioExtractionCategoryTypeConfiguration | undefined;
 }
 export interface AudioStandardExtraction {
   category: AudioExtractionCategory;
@@ -374,37 +375,37 @@ export type AudioStandardGenerativeFieldType =
 export type AudioStandardGenerativeFieldTypes = AudioStandardGenerativeFieldType[];
 export interface AudioStandardGenerativeField {
   state: State;
-  types?: AudioStandardGenerativeFieldType[];
+  types?: AudioStandardGenerativeFieldType[] | undefined;
 }
 export interface AudioStandardOutputConfiguration {
-  extraction?: AudioStandardExtraction;
-  generativeField?: AudioStandardGenerativeField;
+  extraction?: AudioStandardExtraction | undefined;
+  generativeField?: AudioStandardGenerativeField | undefined;
 }
 export interface StandardOutputConfiguration {
-  document?: DocumentStandardOutputConfiguration;
-  image?: ImageStandardOutputConfiguration;
-  video?: VideoStandardOutputConfiguration;
-  audio?: AudioStandardOutputConfiguration;
+  document?: DocumentStandardOutputConfiguration | undefined;
+  image?: ImageStandardOutputConfiguration | undefined;
+  video?: VideoStandardOutputConfiguration | undefined;
+  audio?: AudioStandardOutputConfiguration | undefined;
 }
 export interface BlueprintItem {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export type BlueprintItems = BlueprintItem[];
 export type FallbackBlueprintItems = BlueprintItem[];
 export interface DocumentCustomOutputConfiguration {
-  fallbackBlueprints?: BlueprintItem[];
+  fallbackBlueprints?: BlueprintItem[] | undefined;
 }
 export interface CustomOutputConfiguration {
-  blueprints?: BlueprintItem[];
-  document?: DocumentCustomOutputConfiguration;
+  blueprints?: BlueprintItem[] | undefined;
+  document?: DocumentCustomOutputConfiguration | undefined;
 }
 export interface SplitterConfiguration {
-  state?: State;
+  state?: State | undefined;
 }
 export interface ModalityProcessingConfiguration {
-  state?: State;
+  state?: State | undefined;
 }
 export type SensitiveDataDetectionMode = "DETECTION" | "DETECTION_AND_REDACTION" | (string & {});
 export type SensitiveDataDetectionScopeType = "STANDARD" | "CUSTOM" | (string & {});
@@ -446,26 +447,26 @@ export type PIIEntityType =
 export type PIIEntityTypes = PIIEntityType[];
 export type PIIRedactionMaskMode = "PII" | "ENTITY_TYPE" | (string & {});
 export interface PIIEntitiesConfiguration {
-  piiEntityTypes?: PIIEntityType[];
-  redactionMaskMode?: PIIRedactionMaskMode;
+  piiEntityTypes?: PIIEntityType[] | undefined;
+  redactionMaskMode?: PIIRedactionMaskMode | undefined;
 }
 export interface SensitiveDataConfiguration {
   detectionMode: SensitiveDataDetectionMode;
-  detectionScope?: SensitiveDataDetectionScopeType[];
-  piiEntitiesConfiguration?: PIIEntitiesConfiguration;
+  detectionScope?: SensitiveDataDetectionScopeType[] | undefined;
+  piiEntitiesConfiguration?: PIIEntitiesConfiguration | undefined;
 }
 export interface DocumentOverrideConfiguration {
-  splitter?: SplitterConfiguration;
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  splitter?: SplitterConfiguration | undefined;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export interface ImageOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export interface VideoOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export type Language =
   | "EN"
@@ -483,79 +484,79 @@ export type Language =
 export type AudioInputLanguages = Language[];
 export type AudioGenerativeOutputLanguage = "DEFAULT" | "EN" | (string & {});
 export interface AudioLanguageConfiguration {
-  inputLanguages?: Language[];
-  generativeOutputLanguage?: AudioGenerativeOutputLanguage;
-  identifyMultipleLanguages?: boolean;
+  inputLanguages?: Language[] | undefined;
+  generativeOutputLanguage?: AudioGenerativeOutputLanguage | undefined;
+  identifyMultipleLanguages?: boolean | undefined;
 }
 export interface AudioOverrideConfiguration {
-  modalityProcessing?: ModalityProcessingConfiguration;
-  languageConfiguration?: AudioLanguageConfiguration;
-  sensitiveDataConfiguration?: SensitiveDataConfiguration;
+  modalityProcessing?: ModalityProcessingConfiguration | undefined;
+  languageConfiguration?: AudioLanguageConfiguration | undefined;
+  sensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
 }
 export type DesiredModality = "IMAGE" | "DOCUMENT" | "AUDIO" | "VIDEO" | (string & {});
 export interface ModalityRoutingConfiguration {
-  jpeg?: DesiredModality;
-  png?: DesiredModality;
-  mp4?: DesiredModality;
-  mov?: DesiredModality;
+  jpeg?: DesiredModality | undefined;
+  png?: DesiredModality | undefined;
+  mp4?: DesiredModality | undefined;
+  mov?: DesiredModality | undefined;
 }
 export interface OverrideConfiguration {
-  document?: DocumentOverrideConfiguration;
-  image?: ImageOverrideConfiguration;
-  video?: VideoOverrideConfiguration;
-  audio?: AudioOverrideConfiguration;
-  modalityRouting?: ModalityRoutingConfiguration;
+  document?: DocumentOverrideConfiguration | undefined;
+  image?: ImageOverrideConfiguration | undefined;
+  video?: VideoOverrideConfiguration | undefined;
+  audio?: AudioOverrideConfiguration | undefined;
+  modalityRouting?: ModalityRoutingConfiguration | undefined;
 }
 export interface DataAutomationLibraryItem {
   libraryArn: string;
 }
 export type DataAutomationLibraryItems = DataAutomationLibraryItem[];
 export interface DataAutomationLibraryConfiguration {
-  libraries?: DataAutomationLibraryItem[];
+  libraries?: DataAutomationLibraryItem[] | undefined;
 }
 export interface CreateDataAutomationProjectRequest {
   projectName: string | redacted.Redacted<string>;
-  projectDescription?: string | redacted.Redacted<string>;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
   standardOutputConfiguration: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
-  clientToken?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
+  clientToken?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DataAutomationProjectArn = string;
 export type DataAutomationProjectStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface CreateDataAutomationProjectResponse {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  status?: DataAutomationProjectStatus;
+  projectStage?: DataAutomationProjectStage | undefined;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export interface DeleteBlueprintRequest {
   blueprintArn: string;
-  blueprintVersion?: string;
+  blueprintVersion?: string | undefined;
 }
 export interface DeleteBlueprintResponse {}
 export interface DeleteDataAutomationLibraryRequest {
   libraryArn: string;
 }
 export interface DeleteDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export interface DeleteDataAutomationProjectRequest {
   projectArn: string;
 }
 export interface DeleteDataAutomationProjectResponse {
   projectArn: string;
-  status?: DataAutomationProjectStatus;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export interface GetBlueprintRequest {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export interface GetBlueprintResponse {
   blueprint: Blueprint;
@@ -575,10 +576,10 @@ export interface BlueprintOptimizationOutputConfiguration {
   s3Object: S3Object;
 }
 export interface GetBlueprintOptimizationStatusResponse {
-  status?: BlueprintOptimizationJobStatus;
-  errorType?: string;
-  errorMessage?: string;
-  outputConfiguration?: BlueprintOptimizationOutputConfiguration;
+  status?: BlueprintOptimizationJobStatus | undefined;
+  errorType?: string | undefined;
+  errorMessage?: string | undefined;
+  outputConfiguration?: BlueprintOptimizationOutputConfiguration | undefined;
 }
 export interface GetDataAutomationLibraryRequest {
   libraryArn: string;
@@ -587,21 +588,21 @@ export type EntityType = "VOCABULARY" | (string & {});
 export type EntityMetadata = string;
 export interface EntityTypeInfo {
   entityType: EntityType;
-  entityMetadata?: string;
+  entityMetadata?: string | undefined;
 }
 export type EntityTypeInfoList = EntityTypeInfo[];
 export interface DataAutomationLibrary {
   libraryArn: string;
   creationTime: Date;
   libraryName: string | redacted.Redacted<string>;
-  libraryDescription?: string | redacted.Redacted<string>;
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
   status: DataAutomationLibraryStatus;
-  entityTypes?: EntityTypeInfo[];
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  entityTypes?: EntityTypeInfo[] | undefined;
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataAutomationLibraryResponse {
-  library?: DataAutomationLibrary;
+  library?: DataAutomationLibrary | undefined;
 }
 export type EntityId = string;
 export interface GetDataAutomationLibraryEntityRequest {
@@ -614,19 +615,19 @@ export type PhraseText = string | redacted.Redacted<string>;
 export type PhraseDisplayAsText = string | redacted.Redacted<string>;
 export interface Phrase {
   text: string | redacted.Redacted<string>;
-  displayAsText?: string | redacted.Redacted<string>;
+  displayAsText?: string | redacted.Redacted<string> | undefined;
 }
 export type PhraseList = Phrase[];
 export interface VocabularyEntity {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
-  language?: Language;
-  phrases?: Phrase[];
-  lastModifiedTime?: Date;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  language?: Language | undefined;
+  phrases?: Phrase[] | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type EntityDetails = { vocabulary: VocabularyEntity };
 export interface GetDataAutomationLibraryEntityResponse {
-  entity?: EntityDetails;
+  entity?: EntityDetails | undefined;
 }
 export type DataAutomationLibraryIngestionJobArn = string;
 export interface GetDataAutomationLibraryIngestionJobRequest {
@@ -650,39 +651,39 @@ export interface DataAutomationLibraryIngestionJob {
   operationType: LibraryIngestionJobOperationType;
   jobStatus: LibraryIngestionJobStatus;
   outputConfiguration: OutputConfiguration;
-  completionTime?: Date;
-  errorMessage?: string;
-  errorType?: string;
+  completionTime?: Date | undefined;
+  errorMessage?: string | undefined;
+  errorType?: string | undefined;
 }
 export interface GetDataAutomationLibraryIngestionJobResponse {
-  job?: DataAutomationLibraryIngestionJob;
+  job?: DataAutomationLibraryIngestionJob | undefined;
 }
 export interface GetDataAutomationProjectRequest {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
+  projectStage?: DataAutomationProjectStage | undefined;
 }
 export interface DataAutomationProject {
   projectArn: string;
   creationTime: Date;
   lastModifiedTime: Date;
   projectName: string | redacted.Redacted<string>;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectDescription?: string | redacted.Redacted<string>;
-  standardOutputConfiguration?: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
+  standardOutputConfiguration?: StandardOutputConfiguration | undefined;
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
   status: DataAutomationProjectStatus;
-  kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string | undefined };
+  kmsKeyId?: string | undefined;
+  kmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataAutomationProjectResponse {
   project: DataAutomationProject;
 }
 export interface BlueprintOptimizationObject {
   blueprintArn: string;
-  stage?: BlueprintStage;
+  stage?: BlueprintStage | undefined;
 }
 export type DataAutomationProfileArn = string;
 export interface InvokeBlueprintOptimizationAsyncRequest {
@@ -690,15 +691,15 @@ export interface InvokeBlueprintOptimizationAsyncRequest {
   samples: BlueprintOptimizationSample[];
   outputConfiguration: BlueprintOptimizationOutputConfiguration;
   dataAutomationProfileArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface InvokeBlueprintOptimizationAsyncResponse {
   invocationArn: string;
 }
 export interface VocabularyEntityInfo {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   language: Language;
   phrases: Phrase[];
 }
@@ -709,11 +710,11 @@ export interface DeleteEntitiesInfo {
   entityIds: string[];
 }
 export type InlinePayload =
-  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: never }
-  | { upsertEntitiesInfo?: never; deleteEntitiesInfo: DeleteEntitiesInfo };
+  | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: undefined }
+  | { upsertEntitiesInfo?: undefined; deleteEntitiesInfo: DeleteEntitiesInfo };
 export interface InputConfiguration {
-  s3Object?: S3Object;
-  inlinePayload?: InlinePayload;
+  s3Object?: S3Object | undefined;
+  inlinePayload?: InlinePayload | undefined;
 }
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
@@ -723,16 +724,16 @@ export interface NotificationConfiguration {
 }
 export interface InvokeDataAutomationLibraryIngestionJobRequest {
   libraryArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   inputConfiguration: InputConfiguration;
   entityType: EntityType;
   operationType: LibraryIngestionJobOperationType;
   outputConfiguration: OutputConfiguration;
-  notificationConfiguration?: NotificationConfiguration;
-  tags?: Tag[];
+  notificationConfiguration?: NotificationConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface InvokeDataAutomationLibraryIngestionJobResponse {
-  jobArn?: string;
+  jobArn?: string | undefined;
 }
 export type ResourceOwner = "SERVICE" | "ACCOUNT" | (string & {});
 export type BlueprintStageFilter = "DEVELOPMENT" | "LIVE" | "ALL" | (string & {});
@@ -740,67 +741,67 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface DataAutomationProjectFilter {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
+  projectStage?: DataAutomationProjectStage | undefined;
 }
 export interface ListBlueprintsRequest {
-  blueprintArn?: string;
-  resourceOwner?: ResourceOwner;
-  blueprintStageFilter?: BlueprintStageFilter;
-  maxResults?: number;
-  nextToken?: string;
-  projectFilter?: DataAutomationProjectFilter;
+  blueprintArn?: string | undefined;
+  resourceOwner?: ResourceOwner | undefined;
+  blueprintStageFilter?: BlueprintStageFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectFilter?: DataAutomationProjectFilter | undefined;
 }
 export interface BlueprintSummary {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
-  blueprintName?: string | redacted.Redacted<string>;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
+  blueprintName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
-  lastModifiedTime?: Date;
+  lastModifiedTime?: Date | undefined;
 }
 export type Blueprints = BlueprintSummary[];
 export interface ListBlueprintsResponse {
   blueprints: BlueprintSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibrariesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  projectFilter?: DataAutomationProjectFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectFilter?: DataAutomationProjectFilter | undefined;
 }
 export interface DataAutomationLibrarySummary {
   libraryArn: string;
-  libraryName?: string | redacted.Redacted<string>;
+  libraryName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
 }
 export type DataAutomationLibrarySummaries = DataAutomationLibrarySummary[];
 export interface ListDataAutomationLibrariesResponse {
-  libraries?: DataAutomationLibrarySummary[];
-  nextToken?: string;
+  libraries?: DataAutomationLibrarySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibraryEntitiesRequest {
   libraryArn: string;
   entityType: EntityType;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface VocabularyEntitySummary {
-  entityId?: string;
-  description?: string | redacted.Redacted<string>;
-  language?: Language;
-  numOfPhrases?: number;
-  lastModifiedTime?: Date;
+  entityId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  language?: Language | undefined;
+  numOfPhrases?: number | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type DataAutomationLibraryEntitySummary = { vocabulary: VocabularyEntitySummary };
 export type DataAutomationLibraryEntitySummaries = DataAutomationLibraryEntitySummary[];
 export interface ListDataAutomationLibraryEntitiesResponse {
-  entities?: DataAutomationLibraryEntitySummary[];
-  nextToken?: string;
+  entities?: DataAutomationLibraryEntitySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataAutomationLibraryIngestionJobsRequest {
   libraryArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataAutomationLibraryIngestionJobSummary {
   jobArn: string;
@@ -808,48 +809,48 @@ export interface DataAutomationLibraryIngestionJobSummary {
   entityType: EntityType;
   operationType: LibraryIngestionJobOperationType;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type DataAutomationLibraryIngestionJobSummaries = DataAutomationLibraryIngestionJobSummary[];
 export interface ListDataAutomationLibraryIngestionJobsResponse {
-  jobs?: DataAutomationLibraryIngestionJobSummary[];
-  nextToken?: string;
+  jobs?: DataAutomationLibraryIngestionJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DataAutomationProjectStageFilter = "DEVELOPMENT" | "LIVE" | "ALL" | (string & {});
 export interface BlueprintFilter {
   blueprintArn: string;
-  blueprintVersion?: string;
-  blueprintStage?: BlueprintStage;
+  blueprintVersion?: string | undefined;
+  blueprintStage?: BlueprintStage | undefined;
 }
 export interface DataAutomationLibraryFilter {
   libraryArn: string;
 }
 export interface ListDataAutomationProjectsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  projectStageFilter?: DataAutomationProjectStageFilter;
-  blueprintFilter?: BlueprintFilter;
-  resourceOwner?: ResourceOwner;
-  libraryFilter?: DataAutomationLibraryFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  projectStageFilter?: DataAutomationProjectStageFilter | undefined;
+  blueprintFilter?: BlueprintFilter | undefined;
+  resourceOwner?: ResourceOwner | undefined;
+  libraryFilter?: DataAutomationLibraryFilter | undefined;
 }
 export interface DataAutomationProjectSummary {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectType?: DataAutomationProjectType;
-  projectName?: string | redacted.Redacted<string>;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectType?: DataAutomationProjectType | undefined;
+  projectName?: string | redacted.Redacted<string> | undefined;
   creationTime: Date;
 }
 export type DataAutomationProjectSummaries = DataAutomationProjectSummary[];
 export interface ListDataAutomationProjectsResponse {
   projects: DataAutomationProjectSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   resourceARN: string;
@@ -865,35 +866,35 @@ export interface UntagResourceResponse {}
 export interface UpdateBlueprintRequest {
   blueprintArn: string;
   schema: string | redacted.Redacted<string>;
-  blueprintStage?: BlueprintStage;
-  encryptionConfiguration?: EncryptionConfiguration;
+  blueprintStage?: BlueprintStage | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateBlueprintResponse {
   blueprint: Blueprint;
 }
 export interface UpdateDataAutomationLibraryRequest {
   libraryArn: string;
-  libraryDescription?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  libraryDescription?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDataAutomationLibraryResponse {
-  libraryArn?: string;
-  status?: DataAutomationLibraryStatus;
+  libraryArn?: string | undefined;
+  status?: DataAutomationLibraryStatus | undefined;
 }
 export interface UpdateDataAutomationProjectRequest {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  projectDescription?: string | redacted.Redacted<string>;
+  projectStage?: DataAutomationProjectStage | undefined;
+  projectDescription?: string | redacted.Redacted<string> | undefined;
   standardOutputConfiguration: StandardOutputConfiguration;
-  customOutputConfiguration?: CustomOutputConfiguration;
-  overrideConfiguration?: OverrideConfiguration;
-  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration;
-  encryptionConfiguration?: EncryptionConfiguration;
+  customOutputConfiguration?: CustomOutputConfiguration | undefined;
+  overrideConfiguration?: OverrideConfiguration | undefined;
+  dataAutomationLibraryConfiguration?: DataAutomationLibraryConfiguration | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateDataAutomationProjectResponse {
   projectArn: string;
-  projectStage?: DataAutomationProjectStage;
-  status?: DataAutomationProjectStatus;
+  projectStage?: DataAutomationProjectStage | undefined;
+  status?: DataAutomationProjectStatus | undefined;
 }
 export type NonBlankString = string;
 export interface ValidationExceptionField {
@@ -912,7 +913,7 @@ export type CopyBlueprintStageError =
  * Copies a Blueprint from one stage to another
  */
 export const copyBlueprintStage: API.OperationMethod<
-  CopyBlueprintStageRequest,
+  CopyBlueprintStageRequest & RegionInput,
   CopyBlueprintStageResponse,
   CopyBlueprintStageError,
   Credentials | HttpClient.HttpClient
@@ -945,7 +946,7 @@ export type CreateBlueprintError =
  * Creates an Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprint: API.OperationMethod<
-  CreateBlueprintRequest,
+  CreateBlueprintRequest & RegionInput,
   CreateBlueprintResponse,
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type CreateBlueprintVersionError =
  * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
  */
 export const createBlueprintVersion: API.OperationMethod<
-  CreateBlueprintVersionRequest,
+  CreateBlueprintVersionRequest & RegionInput,
   CreateBlueprintVersionResponse,
   CreateBlueprintVersionError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type CreateDataAutomationLibraryError =
  * Creates an Amazon Bedrock Data Automation Library
  */
 export const createDataAutomationLibrary: API.OperationMethod<
-  CreateDataAutomationLibraryRequest,
+  CreateDataAutomationLibraryRequest & RegionInput,
   CreateDataAutomationLibraryResponse,
   CreateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1047,7 +1048,7 @@ export type CreateDataAutomationProjectError =
  * Creates an Amazon Bedrock Data Automation Project
  */
 export const createDataAutomationProject: API.OperationMethod<
-  CreateDataAutomationProjectRequest,
+  CreateDataAutomationProjectRequest & RegionInput,
   CreateDataAutomationProjectResponse,
   CreateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type DeleteBlueprintError =
  * Deletes an existing Amazon Bedrock Data Automation Blueprint
  */
 export const deleteBlueprint: API.OperationMethod<
-  DeleteBlueprintRequest,
+  DeleteBlueprintRequest & RegionInput,
   DeleteBlueprintResponse,
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1113,7 +1114,7 @@ export type DeleteDataAutomationLibraryError =
  * Deletes an existing Amazon Bedrock Data Automation Library
  */
 export const deleteDataAutomationLibrary: API.OperationMethod<
-  DeleteDataAutomationLibraryRequest,
+  DeleteDataAutomationLibraryRequest & RegionInput,
   DeleteDataAutomationLibraryResponse,
   DeleteDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1146,7 +1147,7 @@ export type DeleteDataAutomationProjectError =
  * Deletes an existing Amazon Bedrock Data Automation Project
  */
 export const deleteDataAutomationProject: API.OperationMethod<
-  DeleteDataAutomationProjectRequest,
+  DeleteDataAutomationProjectRequest & RegionInput,
   DeleteDataAutomationProjectResponse,
   DeleteDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1179,7 @@ export type GetBlueprintError =
  * Gets an existing Amazon Bedrock Data Automation Blueprint
  */
 export const getBlueprint: API.OperationMethod<
-  GetBlueprintRequest,
+  GetBlueprintRequest & RegionInput,
   GetBlueprintResponse,
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1210,7 +1211,7 @@ export type GetBlueprintOptimizationStatusError =
  * API used to get blueprint optimization status.
  */
 export const getBlueprintOptimizationStatus: API.OperationMethod<
-  GetBlueprintOptimizationStatusRequest,
+  GetBlueprintOptimizationStatusRequest & RegionInput,
   GetBlueprintOptimizationStatusResponse,
   GetBlueprintOptimizationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1242,7 +1243,7 @@ export type GetDataAutomationLibraryError =
  * Gets an existing Amazon Bedrock Data Automation Library
  */
 export const getDataAutomationLibrary: API.OperationMethod<
-  GetDataAutomationLibraryRequest,
+  GetDataAutomationLibraryRequest & RegionInput,
   GetDataAutomationLibraryResponse,
   GetDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetDataAutomationLibraryEntityError =
  * Gets an existing entity based on entity type from the library
  */
 export const getDataAutomationLibraryEntity: API.OperationMethod<
-  GetDataAutomationLibraryEntityRequest,
+  GetDataAutomationLibraryEntityRequest & RegionInput,
   GetDataAutomationLibraryEntityResponse,
   GetDataAutomationLibraryEntityError,
   Credentials | HttpClient.HttpClient
@@ -1306,7 +1307,7 @@ export type GetDataAutomationLibraryIngestionJobError =
  * API used to get status of data automation library ingestion job
  */
 export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
-  GetDataAutomationLibraryIngestionJobRequest,
+  GetDataAutomationLibraryIngestionJobRequest & RegionInput,
   GetDataAutomationLibraryIngestionJobResponse,
   GetDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type GetDataAutomationProjectError =
  * Gets an existing Amazon Bedrock Data Automation Project
  */
 export const getDataAutomationProject: API.OperationMethod<
-  GetDataAutomationProjectRequest,
+  GetDataAutomationProjectRequest & RegionInput,
   GetDataAutomationProjectResponse,
   GetDataAutomationProjectError,
   Credentials | HttpClient.HttpClient
@@ -1371,7 +1372,7 @@ export type InvokeBlueprintOptimizationAsyncError =
  * Invoke an async job to perform Blueprint Optimization
  */
 export const invokeBlueprintOptimizationAsync: API.OperationMethod<
-  InvokeBlueprintOptimizationAsyncRequest,
+  InvokeBlueprintOptimizationAsyncRequest & RegionInput,
   InvokeBlueprintOptimizationAsyncResponse,
   InvokeBlueprintOptimizationAsyncError,
   Credentials | HttpClient.HttpClient
@@ -1406,7 +1407,7 @@ export type InvokeDataAutomationLibraryIngestionJobError =
  * Async API: Invoke data automation library ingestion job
  */
 export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
-  InvokeDataAutomationLibraryIngestionJobRequest,
+  InvokeDataAutomationLibraryIngestionJobRequest & RegionInput,
   InvokeDataAutomationLibraryIngestionJobResponse,
   InvokeDataAutomationLibraryIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -1440,7 +1441,7 @@ export type ListBlueprintsError =
  * Lists all existing Amazon Bedrock Data Automation Blueprints
  */
 export const listBlueprints: API.PaginatedOperationMethod<
-  ListBlueprintsRequest,
+  ListBlueprintsRequest & RegionInput,
   ListBlueprintsResponse,
   ListBlueprintsError,
   Credentials | HttpClient.HttpClient,
@@ -1478,7 +1479,7 @@ export type ListDataAutomationLibrariesError =
  * Lists all existing Amazon Bedrock Data Automation Libraries
  */
 export const listDataAutomationLibraries: API.PaginatedOperationMethod<
-  ListDataAutomationLibrariesRequest,
+  ListDataAutomationLibrariesRequest & RegionInput,
   ListDataAutomationLibrariesResponse,
   ListDataAutomationLibrariesError,
   Credentials | HttpClient.HttpClient,
@@ -1516,7 +1517,7 @@ export type ListDataAutomationLibraryEntitiesError =
  * Lists all stored entities in the library
  */
 export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryEntitiesRequest,
+  ListDataAutomationLibraryEntitiesRequest & RegionInput,
   ListDataAutomationLibraryEntitiesResponse,
   ListDataAutomationLibraryEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1555,7 +1556,7 @@ export type ListDataAutomationLibraryIngestionJobsError =
  * Lists all data automation library ingestion jobs
  */
 export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMethod<
-  ListDataAutomationLibraryIngestionJobsRequest,
+  ListDataAutomationLibraryIngestionJobsRequest & RegionInput,
   ListDataAutomationLibraryIngestionJobsResponse,
   ListDataAutomationLibraryIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1594,7 +1595,7 @@ export type ListDataAutomationProjectsError =
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
 export const listDataAutomationProjects: API.PaginatedOperationMethod<
-  ListDataAutomationProjectsRequest,
+  ListDataAutomationProjectsRequest & RegionInput,
   ListDataAutomationProjectsResponse,
   ListDataAutomationProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1633,7 +1634,7 @@ export type ListTagsForResourceError =
  * List tags for an Amazon Bedrock Data Automation resource
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type TagResourceError =
  * Tag an Amazon Bedrock Data Automation resource
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1699,7 +1700,7 @@ export type UntagResourceError =
  * Untag an Amazon Bedrock Data Automation resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1732,7 +1733,7 @@ export type UpdateBlueprintError =
  * Updates an existing Amazon Bedrock Data Automation Blueprint
  */
 export const updateBlueprint: API.OperationMethod<
-  UpdateBlueprintRequest,
+  UpdateBlueprintRequest & RegionInput,
   UpdateBlueprintResponse,
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -1766,7 +1767,7 @@ export type UpdateDataAutomationLibraryError =
  * Updates an existing Amazon Bedrock Data Automation Library
  */
 export const updateDataAutomationLibrary: API.OperationMethod<
-  UpdateDataAutomationLibraryRequest,
+  UpdateDataAutomationLibraryRequest & RegionInput,
   UpdateDataAutomationLibraryResponse,
   UpdateDataAutomationLibraryError,
   Credentials | HttpClient.HttpClient
@@ -1801,7 +1802,7 @@ export type UpdateDataAutomationProjectError =
  * Updates an existing Amazon Bedrock Data Automation Project
  */
 export const updateDataAutomationProject: API.OperationMethod<
-  UpdateDataAutomationProjectRequest,
+  UpdateDataAutomationProjectRequest & RegionInput,
   UpdateDataAutomationProjectResponse,
   UpdateDataAutomationProjectError,
   Credentials | HttpClient.HttpClient

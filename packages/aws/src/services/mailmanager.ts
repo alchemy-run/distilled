@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -140,9 +141,9 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface CreateAddonInstanceRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AddonSubscriptionId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AddonInstanceId = string;
 export interface CreateAddonInstanceResponse {
@@ -150,18 +151,18 @@ export interface CreateAddonInstanceResponse {
 }
 export type AddonName = string;
 export interface CreateAddonSubscriptionRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AddonName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateAddonSubscriptionResponse {
   AddonSubscriptionId: string;
 }
 export type AddressListName = string;
 export interface CreateAddressListRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AddressListName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AddressListId = string;
 export interface CreateAddressListResponse {
@@ -173,7 +174,7 @@ export interface ImportDataFormat {
   ImportDataType: ImportDataType;
 }
 export interface CreateAddressListImportJobRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AddressListId: string;
   Name: string;
   ImportDataFormat: ImportDataFormat;
@@ -206,11 +207,11 @@ export type RetentionPeriod =
 export type ArchiveRetention = { RetentionPeriod: RetentionPeriod };
 export type KmsKeyArn = string;
 export interface CreateArchiveRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ArchiveName: string;
-  Retention?: ArchiveRetention;
-  KmsKeyArn?: string;
-  Tags?: Tag[];
+  Retention?: ArchiveRetention | undefined;
+  KmsKeyArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ArchiveIdString = string;
 export interface CreateArchiveResponse {
@@ -226,20 +227,20 @@ export type CAContent = string | redacted.Redacted<string>;
 export type CrlContent = string | redacted.Redacted<string>;
 export interface TrustStore {
   CAContent: string | redacted.Redacted<string>;
-  CrlContent?: string | redacted.Redacted<string>;
-  KmsKeyArn?: string;
+  CrlContent?: string | redacted.Redacted<string> | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface TlsAuthConfiguration {
-  TrustStore?: TrustStore;
+  TrustStore?: TrustStore | undefined;
 }
 export type IngressPointConfiguration =
   | {
       SmtpPassword: string | redacted.Redacted<string>;
-      SecretArn?: never;
-      TlsAuthConfiguration?: never;
+      SecretArn?: undefined;
+      TlsAuthConfiguration?: undefined;
     }
-  | { SmtpPassword?: never; SecretArn: string; TlsAuthConfiguration?: never }
-  | { SmtpPassword?: never; SecretArn?: never; TlsAuthConfiguration: TlsAuthConfiguration };
+  | { SmtpPassword?: undefined; SecretArn: string; TlsAuthConfiguration?: undefined }
+  | { SmtpPassword?: undefined; SecretArn?: undefined; TlsAuthConfiguration: TlsAuthConfiguration };
 export type IpType = "IPV4" | "DUAL_STACK" | (string & {});
 export interface PublicNetworkConfiguration {
   IpType: IpType;
@@ -249,22 +250,25 @@ export interface PrivateNetworkConfiguration {
   VpcEndpointId: string;
 }
 export type NetworkConfiguration =
-  | { PublicNetworkConfiguration: PublicNetworkConfiguration; PrivateNetworkConfiguration?: never }
   | {
-      PublicNetworkConfiguration?: never;
+      PublicNetworkConfiguration: PublicNetworkConfiguration;
+      PrivateNetworkConfiguration?: undefined;
+    }
+  | {
+      PublicNetworkConfiguration?: undefined;
       PrivateNetworkConfiguration: PrivateNetworkConfiguration;
     };
 export type TlsPolicy = "REQUIRED" | "OPTIONAL" | "FIPS" | (string & {});
 export interface CreateIngressPointRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   IngressPointName: string;
   Type: IngressPointType;
   RuleSetId: string;
   TrafficPolicyId: string;
-  IngressPointConfiguration?: IngressPointConfiguration;
-  NetworkConfiguration?: NetworkConfiguration;
-  TlsPolicy?: TlsPolicy;
-  Tags?: Tag[];
+  IngressPointConfiguration?: IngressPointConfiguration | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  TlsPolicy?: TlsPolicy | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type IngressPointId = string;
 export interface CreateIngressPointResponse {
@@ -275,15 +279,15 @@ export type RelayServerName = string;
 export type RelayServerPort = number;
 export interface NoAuthentication {}
 export type RelayAuthentication =
-  | { SecretArn: string; NoAuthentication?: never }
-  | { SecretArn?: never; NoAuthentication: NoAuthentication };
+  | { SecretArn: string; NoAuthentication?: undefined }
+  | { SecretArn?: undefined; NoAuthentication: NoAuthentication };
 export interface CreateRelayRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   RelayName: string;
   ServerName: string;
   ServerPort: number;
   Authentication: RelayAuthentication;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type RelayId = string;
 export interface CreateRelayResponse {
@@ -317,9 +321,9 @@ export interface RuleIsInAddressList {
   AddressLists: string[];
 }
 export type RuleBooleanToEvaluate =
-  | { Attribute: RuleBooleanEmailAttribute; Analysis?: never; IsInAddressList?: never }
-  | { Attribute?: never; Analysis: Analysis; IsInAddressList?: never }
-  | { Attribute?: never; Analysis?: never; IsInAddressList: RuleIsInAddressList };
+  | { Attribute: RuleBooleanEmailAttribute; Analysis?: undefined; IsInAddressList?: undefined }
+  | { Attribute?: undefined; Analysis: Analysis; IsInAddressList?: undefined }
+  | { Attribute?: undefined; Analysis?: undefined; IsInAddressList: RuleIsInAddressList };
 export type RuleBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
 export interface RuleBooleanExpression {
   Evaluate: RuleBooleanToEvaluate;
@@ -349,26 +353,26 @@ export type RuleClientCertificateAttribute =
 export type RuleStringToEvaluate =
   | {
       Attribute: RuleStringEmailAttribute;
-      MimeHeaderAttribute?: never;
-      Analysis?: never;
-      ClientCertificateAttribute?: never;
+      MimeHeaderAttribute?: undefined;
+      Analysis?: undefined;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
+      Attribute?: undefined;
       MimeHeaderAttribute: string;
-      Analysis?: never;
-      ClientCertificateAttribute?: never;
+      Analysis?: undefined;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
-      MimeHeaderAttribute?: never;
+      Attribute?: undefined;
+      MimeHeaderAttribute?: undefined;
       Analysis: Analysis;
-      ClientCertificateAttribute?: never;
+      ClientCertificateAttribute?: undefined;
     }
   | {
-      Attribute?: never;
-      MimeHeaderAttribute?: never;
-      Analysis?: never;
+      Attribute?: undefined;
+      MimeHeaderAttribute?: undefined;
+      Analysis?: undefined;
       ClientCertificateAttribute: RuleClientCertificateAttribute;
     };
 export type RuleStringOperator =
@@ -412,8 +416,8 @@ export interface RuleIpExpression {
 }
 export type RuleVerdictAttribute = "SPF" | "DKIM" | (string & {});
 export type RuleVerdictToEvaluate =
-  | { Attribute: RuleVerdictAttribute; Analysis?: never }
-  | { Attribute?: never; Analysis: Analysis };
+  | { Attribute: RuleVerdictAttribute; Analysis?: undefined }
+  | { Attribute?: undefined; Analysis: Analysis };
 export type RuleVerdictOperator = "EQUALS" | "NOT_EQUALS" | (string & {});
 export type RuleVerdict = "PASS" | "FAIL" | "GRAY" | "PROCESSING_FAILED" | (string & {});
 export type RuleVerdictValueList = RuleVerdict[];
@@ -432,50 +436,50 @@ export interface RuleDmarcExpression {
 export type RuleCondition =
   | {
       BooleanExpression: RuleBooleanExpression;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
+      BooleanExpression?: undefined;
       StringExpression: RuleStringExpression;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
       NumberExpression: RuleNumberExpression;
-      IpExpression?: never;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
       IpExpression: RuleIpExpression;
-      VerdictExpression?: never;
-      DmarcExpression?: never;
+      VerdictExpression?: undefined;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
       VerdictExpression: RuleVerdictExpression;
-      DmarcExpression?: never;
+      DmarcExpression?: undefined;
     }
   | {
-      BooleanExpression?: never;
-      StringExpression?: never;
-      NumberExpression?: never;
-      IpExpression?: never;
-      VerdictExpression?: never;
+      BooleanExpression?: undefined;
+      StringExpression?: undefined;
+      NumberExpression?: undefined;
+      IpExpression?: undefined;
+      VerdictExpression?: undefined;
       DmarcExpression: RuleDmarcExpression;
     };
 export type RuleConditions = RuleCondition[];
@@ -484,13 +488,13 @@ export type ActionFailurePolicy = "CONTINUE" | "DROP" | (string & {});
 export type IdOrArn = string;
 export type MailFrom = "REPLACE" | "PRESERVE" | (string & {});
 export interface RelayAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   Relay: string;
-  MailFrom?: MailFrom;
+  MailFrom?: MailFrom | undefined;
 }
 export type NameOrArn = string;
 export interface ArchiveAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   TargetArchive: string;
 }
 export type IamRoleArn = string;
@@ -498,14 +502,14 @@ export type S3Bucket = string;
 export type S3Prefix = string;
 export type KmsKeyId = string;
 export interface S3Action {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   RoleArn: string;
   S3Bucket: string;
-  S3Prefix?: string;
-  S3SseKmsKeyId?: string;
+  S3Prefix?: string | undefined;
+  S3SseKmsKeyId?: string | undefined;
 }
 export interface SendAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   RoleArn: string;
 }
 export type HeaderName = string;
@@ -517,17 +521,17 @@ export interface AddHeaderAction {
 export type EmailAddress = string | redacted.Redacted<string>;
 export type Recipients = (string | redacted.Redacted<string>)[];
 export interface ReplaceRecipientAction {
-  ReplaceWith?: (string | redacted.Redacted<string>)[];
+  ReplaceWith?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface DeliverToMailboxAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   MailboxArn: string;
   RoleArn: string;
 }
 export type QBusinessApplicationId = string;
 export type QBusinessIndexId = string;
 export interface DeliverToQBusinessAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   ApplicationId: string;
   IndexId: string;
   RoleArn: string;
@@ -536,217 +540,217 @@ export type SnsTopicArn = string;
 export type SnsNotificationEncoding = "UTF-8" | "BASE64" | (string & {});
 export type SnsNotificationPayloadType = "HEADERS" | "CONTENT" | (string & {});
 export interface SnsAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   TopicArn: string;
   RoleArn: string;
-  Encoding?: SnsNotificationEncoding;
-  PayloadType?: SnsNotificationPayloadType;
+  Encoding?: SnsNotificationEncoding | undefined;
+  PayloadType?: SnsNotificationPayloadType | undefined;
 }
 export type StatusCode = string;
 export type SmtpReplyCode = string;
 export type DiagnosticMessage = string | redacted.Redacted<string>;
 export type BounceMessage = string | redacted.Redacted<string>;
 export interface BounceAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   RoleArn: string;
   Sender: string | redacted.Redacted<string>;
   StatusCode: string;
   SmtpReplyCode: string;
   DiagnosticMessage: string | redacted.Redacted<string>;
-  Message?: string | redacted.Redacted<string>;
+  Message?: string | redacted.Redacted<string> | undefined;
 }
 export type LambdaFunctionArn = string;
 export type LambdaInvocationType = "EVENT" | "REQUEST_RESPONSE" | (string & {});
 export type LambdaRetryTimeMinutes = number;
 export interface InvokeLambdaAction {
-  ActionFailurePolicy?: ActionFailurePolicy;
+  ActionFailurePolicy?: ActionFailurePolicy | undefined;
   FunctionArn: string;
   InvocationType: LambdaInvocationType;
   RoleArn: string;
-  RetryTimeMinutes?: number;
+  RetryTimeMinutes?: number | undefined;
 }
 export type RuleAction =
   | {
       Drop: DropAction;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
+      Drop?: undefined;
       Relay: RelayAction;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
+      Drop?: undefined;
+      Relay?: undefined;
       Archive: ArchiveAction;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
       WriteToS3: S3Action;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
       Send: SendAction;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
       AddHeader: AddHeaderAction;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
       ReplaceRecipient: ReplaceRecipientAction;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
       DeliverToMailbox: DeliverToMailboxAction;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
       DeliverToQBusiness: DeliverToQBusinessAction;
-      PublishToSns?: never;
-      Bounce?: never;
-      InvokeLambda?: never;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
       PublishToSns: SnsAction;
-      Bounce?: never;
-      InvokeLambda?: never;
+      Bounce?: undefined;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
       Bounce: BounceAction;
-      InvokeLambda?: never;
+      InvokeLambda?: undefined;
     }
   | {
-      Drop?: never;
-      Relay?: never;
-      Archive?: never;
-      WriteToS3?: never;
-      Send?: never;
-      AddHeader?: never;
-      ReplaceRecipient?: never;
-      DeliverToMailbox?: never;
-      DeliverToQBusiness?: never;
-      PublishToSns?: never;
-      Bounce?: never;
+      Drop?: undefined;
+      Relay?: undefined;
+      Archive?: undefined;
+      WriteToS3?: undefined;
+      Send?: undefined;
+      AddHeader?: undefined;
+      ReplaceRecipient?: undefined;
+      DeliverToMailbox?: undefined;
+      DeliverToQBusiness?: undefined;
+      PublishToSns?: undefined;
+      Bounce?: undefined;
       InvokeLambda: InvokeLambdaAction;
     };
 export type RuleActions = RuleAction[];
 export interface Rule {
-  Name?: string;
-  Conditions?: RuleCondition[];
-  Unless?: RuleCondition[];
+  Name?: string | undefined;
+  Conditions?: RuleCondition[] | undefined;
+  Unless?: RuleCondition[] | undefined;
   Actions: RuleAction[];
 }
 export type Rules = Rule[];
 export interface CreateRuleSetRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   RuleSetName: string;
   Rules: Rule[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateRuleSetResponse {
   RuleSetId: string;
@@ -758,8 +762,8 @@ export interface IngressAnalysis {
   ResultField: string;
 }
 export type IngressStringToEvaluate =
-  | { Attribute: IngressStringEmailAttribute; Analysis?: never }
-  | { Attribute?: never; Analysis: IngressAnalysis };
+  | { Attribute: IngressStringEmailAttribute; Analysis?: undefined }
+  | { Attribute?: undefined; Analysis: IngressAnalysis };
 export type IngressStringOperator =
   | "EQUALS"
   | "NOT_EQUALS"
@@ -808,8 +812,8 @@ export interface IngressIsInAddressList {
   AddressLists: string[];
 }
 export type IngressBooleanToEvaluate =
-  | { Analysis: IngressAnalysis; IsInAddressList?: never }
-  | { Analysis?: never; IsInAddressList: IngressIsInAddressList };
+  | { Analysis: IngressAnalysis; IsInAddressList?: undefined }
+  | { Analysis?: undefined; IsInAddressList: IngressIsInAddressList };
 export type IngressBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
 export interface IngressBooleanExpression {
   Evaluate: IngressBooleanToEvaluate;
@@ -818,37 +822,37 @@ export interface IngressBooleanExpression {
 export type PolicyCondition =
   | {
       StringExpression: IngressStringExpression;
-      IpExpression?: never;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
+      StringExpression?: undefined;
       IpExpression: IngressIpv4Expression;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
       Ipv6Expression: IngressIpv6Expression;
-      TlsExpression?: never;
-      BooleanExpression?: never;
+      TlsExpression?: undefined;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
-      Ipv6Expression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
       TlsExpression: IngressTlsProtocolExpression;
-      BooleanExpression?: never;
+      BooleanExpression?: undefined;
     }
   | {
-      StringExpression?: never;
-      IpExpression?: never;
-      Ipv6Expression?: never;
-      TlsExpression?: never;
+      StringExpression?: undefined;
+      IpExpression?: undefined;
+      Ipv6Expression?: undefined;
+      TlsExpression?: undefined;
       BooleanExpression: IngressBooleanExpression;
     };
 export type PolicyConditions = PolicyCondition[];
@@ -860,12 +864,12 @@ export interface PolicyStatement {
 export type PolicyStatementList = PolicyStatement[];
 export type MaxMessageSizeBytes = number;
 export interface CreateTrafficPolicyRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   TrafficPolicyName: string;
   PolicyStatements: PolicyStatement[];
   DefaultAction: AcceptAction;
-  MaxMessageSizeBytes?: number;
-  Tags?: Tag[];
+  MaxMessageSizeBytes?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateTrafficPolicyResponse {
   TrafficPolicyId: string;
@@ -913,19 +917,19 @@ export interface GetAddonInstanceRequest {
 }
 export type AddonInstanceArn = string;
 export interface GetAddonInstanceResponse {
-  AddonSubscriptionId?: string;
-  AddonName?: string;
-  AddonInstanceArn?: string;
-  CreatedTimestamp?: Date;
+  AddonSubscriptionId?: string | undefined;
+  AddonName?: string | undefined;
+  AddonInstanceArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface GetAddonSubscriptionRequest {
   AddonSubscriptionId: string;
 }
 export type AddonSubscriptionArn = string;
 export interface GetAddonSubscriptionResponse {
-  AddonName?: string;
-  AddonSubscriptionArn?: string;
-  CreatedTimestamp?: Date;
+  AddonName?: string | undefined;
+  AddonSubscriptionArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export interface GetAddressListRequest {
   AddressListId: string;
@@ -954,14 +958,14 @@ export interface GetAddressListImportJobResponse {
   Name: string;
   Status: ImportJobStatus;
   PreSignedUrl: string | redacted.Redacted<string>;
-  ImportedItemsCount?: number;
-  FailedItemsCount?: number;
+  ImportedItemsCount?: number | undefined;
+  FailedItemsCount?: number | undefined;
   ImportDataFormat: ImportDataFormat;
   AddressListId: string;
   CreatedTimestamp: Date;
-  StartTimestamp?: Date;
-  CompletedTimestamp?: Date;
-  Error?: string;
+  StartTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
+  Error?: string | undefined;
 }
 export interface GetArchiveRequest {
   ArchiveId: string;
@@ -974,9 +978,9 @@ export interface GetArchiveResponse {
   ArchiveArn: string;
   ArchiveState: ArchiveState;
   Retention: ArchiveRetention;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  KmsKeyArn?: string;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type ExportId = string;
 export interface GetArchiveExportRequest {
@@ -1008,17 +1012,17 @@ export interface ArchiveBooleanExpression {
   Operator: ArchiveBooleanOperator;
 }
 export type ArchiveFilterCondition =
-  | { StringExpression: ArchiveStringExpression; BooleanExpression?: never }
-  | { StringExpression?: never; BooleanExpression: ArchiveBooleanExpression };
+  | { StringExpression: ArchiveStringExpression; BooleanExpression?: undefined }
+  | { StringExpression?: undefined; BooleanExpression: ArchiveBooleanExpression };
 export type ArchiveFilterConditions = ArchiveFilterCondition[];
 export interface ArchiveFilters {
-  Include?: ArchiveFilterCondition[];
-  Unless?: ArchiveFilterCondition[];
+  Include?: ArchiveFilterCondition[] | undefined;
+  Unless?: ArchiveFilterCondition[] | undefined;
 }
 export type ExportMaxResults = number;
 export type S3Location = string;
 export interface S3ExportDestinationConfiguration {
-  S3Location?: string;
+  S3Location?: string | undefined;
 }
 export type ExportDestinationConfiguration = { S3: S3ExportDestinationConfiguration };
 export type ExportState =
@@ -1030,19 +1034,19 @@ export type ExportState =
   | "CANCELLED"
   | (string & {});
 export interface ExportStatus {
-  SubmissionTimestamp?: Date;
-  CompletionTimestamp?: Date;
-  State?: ExportState;
-  ErrorMessage?: string;
+  SubmissionTimestamp?: Date | undefined;
+  CompletionTimestamp?: Date | undefined;
+  State?: ExportState | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetArchiveExportResponse {
-  ArchiveId?: string;
-  Filters?: ArchiveFilters;
-  FromTimestamp?: Date;
-  ToTimestamp?: Date;
-  MaxResults?: number;
-  ExportDestinationConfiguration?: ExportDestinationConfiguration;
-  Status?: ExportStatus;
+  ArchiveId?: string | undefined;
+  Filters?: ArchiveFilters | undefined;
+  FromTimestamp?: Date | undefined;
+  ToTimestamp?: Date | undefined;
+  MaxResults?: number | undefined;
+  ExportDestinationConfiguration?: ExportDestinationConfiguration | undefined;
+  Status?: ExportStatus | undefined;
 }
 export type ArchivedMessageId = string;
 export interface GetArchiveMessageRequest {
@@ -1051,40 +1055,40 @@ export interface GetArchiveMessageRequest {
 export type S3PresignedURL = string;
 export type SenderIpAddress = string | redacted.Redacted<string>;
 export interface Metadata {
-  Timestamp?: Date;
-  IngressPointId?: string;
-  TrafficPolicyId?: string;
-  RuleSetId?: string;
-  SenderHostname?: string;
-  SenderIpAddress?: string | redacted.Redacted<string>;
-  TlsCipherSuite?: string;
-  TlsProtocol?: string;
-  SendingMethod?: string;
-  SourceIdentity?: string;
-  SendingPool?: string;
-  ConfigurationSet?: string;
-  SourceArn?: string;
+  Timestamp?: Date | undefined;
+  IngressPointId?: string | undefined;
+  TrafficPolicyId?: string | undefined;
+  RuleSetId?: string | undefined;
+  SenderHostname?: string | undefined;
+  SenderIpAddress?: string | redacted.Redacted<string> | undefined;
+  TlsCipherSuite?: string | undefined;
+  TlsProtocol?: string | undefined;
+  SendingMethod?: string | undefined;
+  SourceIdentity?: string | undefined;
+  SendingPool?: string | undefined;
+  ConfigurationSet?: string | undefined;
+  SourceArn?: string | undefined;
 }
 export interface Envelope {
-  Helo?: string;
-  From?: string;
-  To?: string[];
+  Helo?: string | undefined;
+  From?: string | undefined;
+  To?: string[] | undefined;
 }
 export interface GetArchiveMessageResponse {
-  MessageDownloadLink?: string;
-  Metadata?: Metadata;
-  Envelope?: Envelope;
+  MessageDownloadLink?: string | undefined;
+  Metadata?: Metadata | undefined;
+  Envelope?: Envelope | undefined;
 }
 export interface GetArchiveMessageContentRequest {
   ArchivedMessageId: string;
 }
 export interface MessageBody {
-  Text?: string;
-  Html?: string;
-  MessageMalformed?: boolean;
+  Text?: string | undefined;
+  Html?: string | undefined;
+  MessageMalformed?: boolean | undefined;
 }
 export interface GetArchiveMessageContentResponse {
-  Body?: MessageBody;
+  Body?: MessageBody | undefined;
 }
 export type SearchId = string;
 export interface GetArchiveSearchRequest {
@@ -1099,52 +1103,52 @@ export type SearchState =
   | "CANCELLED"
   | (string & {});
 export interface SearchStatus {
-  SubmissionTimestamp?: Date;
-  CompletionTimestamp?: Date;
-  State?: SearchState;
-  ErrorMessage?: string;
+  SubmissionTimestamp?: Date | undefined;
+  CompletionTimestamp?: Date | undefined;
+  State?: SearchState | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetArchiveSearchResponse {
-  ArchiveId?: string;
-  Filters?: ArchiveFilters;
-  FromTimestamp?: Date;
-  ToTimestamp?: Date;
-  MaxResults?: number;
-  Status?: SearchStatus;
+  ArchiveId?: string | undefined;
+  Filters?: ArchiveFilters | undefined;
+  FromTimestamp?: Date | undefined;
+  ToTimestamp?: Date | undefined;
+  MaxResults?: number | undefined;
+  Status?: SearchStatus | undefined;
 }
 export interface GetArchiveSearchResultsRequest {
   SearchId: string;
 }
 export type EmailReceivedHeadersList = string[];
 export interface Row {
-  ArchivedMessageId?: string;
-  ReceivedTimestamp?: Date;
-  Date?: string;
-  To?: string;
-  From?: string;
-  Cc?: string;
-  Subject?: string;
-  MessageId?: string;
-  HasAttachments?: boolean;
-  ReceivedHeaders?: string[];
-  InReplyTo?: string;
-  XMailer?: string;
-  XOriginalMailer?: string;
-  XPriority?: string;
-  IngressPointId?: string;
-  SenderHostname?: string;
-  SenderIpAddress?: string | redacted.Redacted<string>;
-  Envelope?: Envelope;
-  SourceArn?: string;
+  ArchivedMessageId?: string | undefined;
+  ReceivedTimestamp?: Date | undefined;
+  Date?: string | undefined;
+  To?: string | undefined;
+  From?: string | undefined;
+  Cc?: string | undefined;
+  Subject?: string | undefined;
+  MessageId?: string | undefined;
+  HasAttachments?: boolean | undefined;
+  ReceivedHeaders?: string[] | undefined;
+  InReplyTo?: string | undefined;
+  XMailer?: string | undefined;
+  XOriginalMailer?: string | undefined;
+  XPriority?: string | undefined;
+  IngressPointId?: string | undefined;
+  SenderHostname?: string | undefined;
+  SenderIpAddress?: string | redacted.Redacted<string> | undefined;
+  Envelope?: Envelope | undefined;
+  SourceArn?: string | undefined;
 }
 export type RowsList = Row[];
 export interface GetArchiveSearchResultsResponse {
-  Rows?: Row[];
+  Rows?: Row[] | undefined;
 }
 export type TrustStoreResponseOption = "EXCLUDE" | "INCLUDE" | (string & {});
 export interface GetIngressPointRequest {
   IngressPointId: string;
-  IncludeTrustStoreContents?: TrustStoreResponseOption;
+  IncludeTrustStoreContents?: TrustStoreResponseOption | undefined;
 }
 export type IngressPointArn = string;
 export type IngressPointStatus =
@@ -1158,29 +1162,29 @@ export type IngressPointStatus =
   | (string & {});
 export type IngressPointARecord = string;
 export interface IngressPointPasswordConfiguration {
-  SmtpPasswordVersion?: string;
-  PreviousSmtpPasswordVersion?: string;
-  PreviousSmtpPasswordExpiryTimestamp?: Date;
+  SmtpPasswordVersion?: string | undefined;
+  PreviousSmtpPasswordVersion?: string | undefined;
+  PreviousSmtpPasswordExpiryTimestamp?: Date | undefined;
 }
 export interface IngressPointAuthConfiguration {
-  IngressPointPasswordConfiguration?: IngressPointPasswordConfiguration;
-  SecretArn?: string;
-  TlsAuthConfiguration?: TlsAuthConfiguration;
+  IngressPointPasswordConfiguration?: IngressPointPasswordConfiguration | undefined;
+  SecretArn?: string | undefined;
+  TlsAuthConfiguration?: TlsAuthConfiguration | undefined;
 }
 export interface GetIngressPointResponse {
   IngressPointId: string;
   IngressPointName: string;
-  IngressPointArn?: string;
-  Status?: IngressPointStatus;
-  Type?: IngressPointType;
-  ARecord?: string;
-  RuleSetId?: string;
-  TrafficPolicyId?: string;
-  IngressPointAuthConfiguration?: IngressPointAuthConfiguration;
-  NetworkConfiguration?: NetworkConfiguration;
-  TlsPolicy?: TlsPolicy;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  IngressPointArn?: string | undefined;
+  Status?: IngressPointStatus | undefined;
+  Type?: IngressPointType | undefined;
+  ARecord?: string | undefined;
+  RuleSetId?: string | undefined;
+  TrafficPolicyId?: string | undefined;
+  IngressPointAuthConfiguration?: IngressPointAuthConfiguration | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  TlsPolicy?: TlsPolicy | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export interface GetMemberOfAddressListRequest {
   AddressListId: string;
@@ -1196,13 +1200,13 @@ export interface GetRelayRequest {
 export type RelayArn = string;
 export interface GetRelayResponse {
   RelayId: string;
-  RelayArn?: string;
-  RelayName?: string;
-  ServerName?: string;
-  ServerPort?: number;
-  Authentication?: RelayAuthentication;
-  CreatedTimestamp?: Date;
-  LastModifiedTimestamp?: Date;
+  RelayArn?: string | undefined;
+  RelayName?: string | undefined;
+  ServerName?: string | undefined;
+  ServerPort?: number | undefined;
+  Authentication?: RelayAuthentication | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastModifiedTimestamp?: Date | undefined;
 }
 export interface GetRuleSetRequest {
   RuleSetId: string;
@@ -1223,73 +1227,73 @@ export type TrafficPolicyArn = string;
 export interface GetTrafficPolicyResponse {
   TrafficPolicyName: string;
   TrafficPolicyId: string;
-  TrafficPolicyArn?: string;
-  PolicyStatements?: PolicyStatement[];
-  MaxMessageSizeBytes?: number;
-  DefaultAction?: AcceptAction;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  TrafficPolicyArn?: string | undefined;
+  PolicyStatements?: PolicyStatement[] | undefined;
+  MaxMessageSizeBytes?: number | undefined;
+  DefaultAction?: AcceptAction | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type PaginationToken = string;
 export type PageSize = number;
 export interface ListAddonInstancesRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface AddonInstance {
-  AddonInstanceId?: string;
-  AddonSubscriptionId?: string;
-  AddonName?: string;
-  AddonInstanceArn?: string;
-  CreatedTimestamp?: Date;
+  AddonInstanceId?: string | undefined;
+  AddonSubscriptionId?: string | undefined;
+  AddonName?: string | undefined;
+  AddonInstanceArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type AddonInstances = AddonInstance[];
 export interface ListAddonInstancesResponse {
-  AddonInstances?: AddonInstance[];
-  NextToken?: string;
+  AddonInstances?: AddonInstance[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAddonSubscriptionsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface AddonSubscription {
-  AddonSubscriptionId?: string;
-  AddonName?: string;
-  AddonSubscriptionArn?: string;
-  CreatedTimestamp?: Date;
+  AddonSubscriptionId?: string | undefined;
+  AddonName?: string | undefined;
+  AddonSubscriptionArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type AddonSubscriptions = AddonSubscription[];
 export interface ListAddonSubscriptionsResponse {
-  AddonSubscriptions?: AddonSubscription[];
-  NextToken?: string;
+  AddonSubscriptions?: AddonSubscription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAddressListImportJobsRequest {
   AddressListId: string;
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ImportJob {
   JobId: string;
   Name: string;
   Status: ImportJobStatus;
   PreSignedUrl: string | redacted.Redacted<string>;
-  ImportedItemsCount?: number;
-  FailedItemsCount?: number;
+  ImportedItemsCount?: number | undefined;
+  FailedItemsCount?: number | undefined;
   ImportDataFormat: ImportDataFormat;
   AddressListId: string;
   CreatedTimestamp: Date;
-  StartTimestamp?: Date;
-  CompletedTimestamp?: Date;
-  Error?: string;
+  StartTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
+  Error?: string | undefined;
 }
 export type ImportJobs = ImportJob[];
 export interface ListAddressListImportJobsResponse {
   ImportJobs: ImportJob[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListAddressListsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface AddressList {
   AddressListId: string;
@@ -1301,77 +1305,77 @@ export interface AddressList {
 export type AddressLists = AddressList[];
 export interface ListAddressListsResponse {
   AddressLists: AddressList[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListArchiveExportsRequest {
   ArchiveId: string;
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ExportSummary {
-  ExportId?: string;
-  Status?: ExportStatus;
+  ExportId?: string | undefined;
+  Status?: ExportStatus | undefined;
 }
 export type ExportSummaryList = ExportSummary[];
 export interface ListArchiveExportsResponse {
-  Exports?: ExportSummary[];
-  NextToken?: string;
+  Exports?: ExportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListArchivesRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface Archive {
   ArchiveId: string;
-  ArchiveName?: string;
-  ArchiveState?: ArchiveState;
-  LastUpdatedTimestamp?: Date;
+  ArchiveName?: string | undefined;
+  ArchiveState?: ArchiveState | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type ArchivesList = Archive[];
 export interface ListArchivesResponse {
   Archives: Archive[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListArchiveSearchesRequest {
   ArchiveId: string;
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface SearchSummary {
-  SearchId?: string;
-  Status?: SearchStatus;
+  SearchId?: string | undefined;
+  Status?: SearchStatus | undefined;
 }
 export type SearchSummaryList = SearchSummary[];
 export interface ListArchiveSearchesResponse {
-  Searches?: SearchSummary[];
-  NextToken?: string;
+  Searches?: SearchSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIngressPointsRequest {
-  PageSize?: number;
-  NextToken?: string;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface IngressPoint {
   IngressPointName: string;
   IngressPointId: string;
   Status: IngressPointStatus;
   Type: IngressPointType;
-  ARecord?: string;
+  ARecord?: string | undefined;
 }
 export type IngressPointsList = IngressPoint[];
 export interface ListIngressPointsResponse {
-  IngressPoints?: IngressPoint[];
-  NextToken?: string;
+  IngressPoints?: IngressPoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AddressPrefix = string | redacted.Redacted<string>;
 export interface AddressFilter {
-  AddressPrefix?: string | redacted.Redacted<string>;
+  AddressPrefix?: string | redacted.Redacted<string> | undefined;
 }
 export type AddressPageSize = number;
 export interface ListMembersOfAddressListRequest {
   AddressListId: string;
-  Filter?: AddressFilter;
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: AddressFilter | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface SavedAddress {
   Address: string | redacted.Redacted<string>;
@@ -1380,35 +1384,35 @@ export interface SavedAddress {
 export type SavedAddresses = SavedAddress[];
 export interface ListMembersOfAddressListResponse {
   Addresses: SavedAddress[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRelaysRequest {
-  PageSize?: number;
-  NextToken?: string;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Relay {
-  RelayId?: string;
-  RelayName?: string;
-  LastModifiedTimestamp?: Date;
+  RelayId?: string | undefined;
+  RelayName?: string | undefined;
+  LastModifiedTimestamp?: Date | undefined;
 }
 export type Relays = Relay[];
 export interface ListRelaysResponse {
   Relays: Relay[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRuleSetsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface RuleSet {
-  RuleSetId?: string;
-  RuleSetName?: string;
-  LastModificationDate?: Date;
+  RuleSetId?: string | undefined;
+  RuleSetName?: string | undefined;
+  LastModificationDate?: Date | undefined;
 }
 export type RuleSets = RuleSet[];
 export interface ListRuleSetsResponse {
   RuleSets: RuleSet[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -1418,8 +1422,8 @@ export interface ListTagsForResourceResponse {
   Tags: Tag[];
 }
 export interface ListTrafficPoliciesRequest {
-  PageSize?: number;
-  NextToken?: string;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TrafficPolicy {
   TrafficPolicyName: string;
@@ -1428,8 +1432,8 @@ export interface TrafficPolicy {
 }
 export type TrafficPolicyList = TrafficPolicy[];
 export interface ListTrafficPoliciesResponse {
-  TrafficPolicies?: TrafficPolicy[];
-  NextToken?: string;
+  TrafficPolicies?: TrafficPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RegisterMemberToAddressListRequest {
   AddressListId: string;
@@ -1442,25 +1446,25 @@ export interface StartAddressListImportJobRequest {
 export interface StartAddressListImportJobResponse {}
 export interface StartArchiveExportRequest {
   ArchiveId: string;
-  Filters?: ArchiveFilters;
+  Filters?: ArchiveFilters | undefined;
   FromTimestamp: Date;
   ToTimestamp: Date;
-  MaxResults?: number;
+  MaxResults?: number | undefined;
   ExportDestinationConfiguration: ExportDestinationConfiguration;
-  IncludeMetadata?: boolean;
+  IncludeMetadata?: boolean | undefined;
 }
 export interface StartArchiveExportResponse {
-  ExportId?: string;
+  ExportId?: string | undefined;
 }
 export interface StartArchiveSearchRequest {
   ArchiveId: string;
-  Filters?: ArchiveFilters;
+  Filters?: ArchiveFilters | undefined;
   FromTimestamp: Date;
   ToTimestamp: Date;
   MaxResults: number;
 }
 export interface StartArchiveSearchResponse {
-  SearchId?: string;
+  SearchId?: string | undefined;
 }
 export interface StopAddressListImportJobRequest {
   JobId: string;
@@ -1487,41 +1491,41 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateArchiveRequest {
   ArchiveId: string;
-  ArchiveName?: string;
-  Retention?: ArchiveRetention;
+  ArchiveName?: string | undefined;
+  Retention?: ArchiveRetention | undefined;
 }
 export interface UpdateArchiveResponse {}
 export type IngressPointStatusToUpdate = "ACTIVE" | "CLOSED" | (string & {});
 export interface UpdateIngressPointRequest {
   IngressPointId: string;
-  IngressPointName?: string;
-  StatusToUpdate?: IngressPointStatusToUpdate;
-  RuleSetId?: string;
-  TrafficPolicyId?: string;
-  IngressPointConfiguration?: IngressPointConfiguration;
-  TlsPolicy?: TlsPolicy;
+  IngressPointName?: string | undefined;
+  StatusToUpdate?: IngressPointStatusToUpdate | undefined;
+  RuleSetId?: string | undefined;
+  TrafficPolicyId?: string | undefined;
+  IngressPointConfiguration?: IngressPointConfiguration | undefined;
+  TlsPolicy?: TlsPolicy | undefined;
 }
 export interface UpdateIngressPointResponse {}
 export interface UpdateRelayRequest {
   RelayId: string;
-  RelayName?: string;
-  ServerName?: string;
-  ServerPort?: number;
-  Authentication?: RelayAuthentication;
+  RelayName?: string | undefined;
+  ServerName?: string | undefined;
+  ServerPort?: number | undefined;
+  Authentication?: RelayAuthentication | undefined;
 }
 export interface UpdateRelayResponse {}
 export interface UpdateRuleSetRequest {
   RuleSetId: string;
-  RuleSetName?: string;
-  Rules?: Rule[];
+  RuleSetName?: string | undefined;
+  Rules?: Rule[] | undefined;
 }
 export interface UpdateRuleSetResponse {}
 export interface UpdateTrafficPolicyRequest {
   TrafficPolicyId: string;
-  TrafficPolicyName?: string;
-  PolicyStatements?: PolicyStatement[];
-  DefaultAction?: AcceptAction;
-  MaxMessageSizeBytes?: number;
+  TrafficPolicyName?: string | undefined;
+  PolicyStatements?: PolicyStatement[] | undefined;
+  DefaultAction?: AcceptAction | undefined;
+  MaxMessageSizeBytes?: number | undefined;
 }
 export interface UpdateTrafficPolicyResponse {}
 export type CreateAddonInstanceError =
@@ -1534,7 +1538,7 @@ export type CreateAddonInstanceError =
  * Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
  */
 export const createAddonInstance: API.OperationMethod<
-  CreateAddonInstanceRequest,
+  CreateAddonInstanceRequest & RegionInput,
   CreateAddonInstanceResponse,
   CreateAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1568,7 @@ export type CreateAddonSubscriptionError =
  * Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
  */
 export const createAddonSubscription: API.OperationMethod<
-  CreateAddonSubscriptionRequest,
+  CreateAddonSubscriptionRequest & RegionInput,
   CreateAddonSubscriptionResponse,
   CreateAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1595,7 +1599,7 @@ export type CreateAddressListError =
  * Creates a new address list.
  */
 export const createAddressList: API.OperationMethod<
-  CreateAddressListRequest,
+  CreateAddressListRequest & RegionInput,
   CreateAddressListResponse,
   CreateAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1630,7 @@ export type CreateAddressListImportJobError =
  * Creates an import job for an address list.
  */
 export const createAddressListImportJob: API.OperationMethod<
-  CreateAddressListImportJobRequest,
+  CreateAddressListImportJobRequest & RegionInput,
   CreateAddressListImportJobResponse,
   CreateAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1657,7 +1661,7 @@ export type CreateArchiveError =
  * Creates a new email archive resource for storing and retaining emails.
  */
 export const createArchive: API.OperationMethod<
-  CreateArchiveRequest,
+  CreateArchiveRequest & RegionInput,
   CreateArchiveResponse,
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1687,7 +1691,7 @@ export type CreateIngressPointError =
  * Provision a new ingress endpoint resource.
  */
 export const createIngressPoint: API.OperationMethod<
-  CreateIngressPointRequest,
+  CreateIngressPointRequest & RegionInput,
   CreateIngressPointResponse,
   CreateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1715,7 @@ export type CreateRelayError =
  * Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
  */
 export const createRelay: API.OperationMethod<
-  CreateRelayRequest,
+  CreateRelayRequest & RegionInput,
   CreateRelayResponse,
   CreateRelayError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1739,7 @@ export type CreateRuleSetError =
  * Provision a new rule set.
  */
 export const createRuleSet: API.OperationMethod<
-  CreateRuleSetRequest,
+  CreateRuleSetRequest & RegionInput,
   CreateRuleSetResponse,
   CreateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1759,7 +1763,7 @@ export type CreateTrafficPolicyError =
  * Provision a new traffic policy resource.
  */
 export const createTrafficPolicy: API.OperationMethod<
-  CreateTrafficPolicyRequest,
+  CreateTrafficPolicyRequest & RegionInput,
   CreateTrafficPolicyResponse,
   CreateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1783,7 @@ export type DeleteAddonInstanceError = ConflictException | ValidationException |
  * Deletes an Add On instance.
  */
 export const deleteAddonInstance: API.OperationMethod<
-  DeleteAddonInstanceRequest,
+  DeleteAddonInstanceRequest & RegionInput,
   DeleteAddonInstanceResponse,
   DeleteAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1799,7 +1803,7 @@ export type DeleteAddonSubscriptionError = ConflictException | ValidationExcepti
  * Deletes an Add On subscription.
  */
 export const deleteAddonSubscription: API.OperationMethod<
-  DeleteAddonSubscriptionRequest,
+  DeleteAddonSubscriptionRequest & RegionInput,
   DeleteAddonSubscriptionResponse,
   DeleteAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1824,7 +1828,7 @@ export type DeleteAddressListError =
  * Deletes an address list.
  */
 export const deleteAddressList: API.OperationMethod<
-  DeleteAddressListRequest,
+  DeleteAddressListRequest & RegionInput,
   DeleteAddressListResponse,
   DeleteAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1849,7 +1853,7 @@ export type DeleteArchiveError =
  * Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveRequest,
+  DeleteArchiveRequest & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1873,7 +1877,7 @@ export type DeleteIngressPointError =
  * Delete an ingress endpoint resource.
  */
 export const deleteIngressPoint: API.OperationMethod<
-  DeleteIngressPointRequest,
+  DeleteIngressPointRequest & RegionInput,
   DeleteIngressPointResponse,
   DeleteIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -1897,7 +1901,7 @@ export type DeleteRelayError =
  * Deletes an existing relay resource.
  */
 export const deleteRelay: API.OperationMethod<
-  DeleteRelayRequest,
+  DeleteRelayRequest & RegionInput,
   DeleteRelayResponse,
   DeleteRelayError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1921,7 @@ export type DeleteRuleSetError = ConflictException | ValidationException | Commo
  * Delete a rule set.
  */
 export const deleteRuleSet: API.OperationMethod<
-  DeleteRuleSetRequest,
+  DeleteRuleSetRequest & RegionInput,
   DeleteRuleSetResponse,
   DeleteRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1945,7 @@ export type DeleteTrafficPolicyError =
  * Delete a traffic policy resource.
  */
 export const deleteTrafficPolicy: API.OperationMethod<
-  DeleteTrafficPolicyRequest,
+  DeleteTrafficPolicyRequest & RegionInput,
   DeleteTrafficPolicyResponse,
   DeleteTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1967,7 +1971,7 @@ export type DeregisterMemberFromAddressListError =
  * Removes a member from an address list.
  */
 export const deregisterMemberFromAddressList: API.OperationMethod<
-  DeregisterMemberFromAddressListRequest,
+  DeregisterMemberFromAddressListRequest & RegionInput,
   DeregisterMemberFromAddressListResponse,
   DeregisterMemberFromAddressListError,
   Credentials | HttpClient.HttpClient
@@ -1993,7 +1997,7 @@ export type GetAddonInstanceError = ResourceNotFoundException | ValidationExcept
  * Gets detailed information about an Add On instance.
  */
 export const getAddonInstance: API.OperationMethod<
-  GetAddonInstanceRequest,
+  GetAddonInstanceRequest & RegionInput,
   GetAddonInstanceResponse,
   GetAddonInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2016,7 +2020,7 @@ export type GetAddonSubscriptionError =
  * Gets detailed information about an Add On subscription.
  */
 export const getAddonSubscription: API.OperationMethod<
-  GetAddonSubscriptionRequest,
+  GetAddonSubscriptionRequest & RegionInput,
   GetAddonSubscriptionResponse,
   GetAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2045,7 @@ export type GetAddressListError =
  * Fetch attributes of an address list.
  */
 export const getAddressList: API.OperationMethod<
-  GetAddressListRequest,
+  GetAddressListRequest & RegionInput,
   GetAddressListResponse,
   GetAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2071,7 +2075,7 @@ export type GetAddressListImportJobError =
  * Fetch attributes of an import job.
  */
 export const getAddressListImportJob: API.OperationMethod<
-  GetAddressListImportJobRequest,
+  GetAddressListImportJobRequest & RegionInput,
   GetAddressListImportJobResponse,
   GetAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2101,7 +2105,7 @@ export type GetArchiveError =
  * Retrieves the full details and current state of a specified email archive.
  */
 export const getArchive: API.OperationMethod<
-  GetArchiveRequest,
+  GetArchiveRequest & RegionInput,
   GetArchiveResponse,
   GetArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2134,7 @@ export type GetArchiveExportError =
  * Retrieves the details and current status of a specific email archive export job.
  */
 export const getArchiveExport: API.OperationMethod<
-  GetArchiveExportRequest,
+  GetArchiveExportRequest & RegionInput,
   GetArchiveExportResponse,
   GetArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2158,7 @@ export type GetArchiveMessageError =
  * Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
  */
 export const getArchiveMessage: API.OperationMethod<
-  GetArchiveMessageRequest,
+  GetArchiveMessageRequest & RegionInput,
   GetArchiveMessageResponse,
   GetArchiveMessageError,
   Credentials | HttpClient.HttpClient
@@ -2178,7 +2182,7 @@ export type GetArchiveMessageContentError =
  * Returns the textual content of a specific email message stored in the archive. Attachments are not included.
  */
 export const getArchiveMessageContent: API.OperationMethod<
-  GetArchiveMessageContentRequest,
+  GetArchiveMessageContentRequest & RegionInput,
   GetArchiveMessageContentResponse,
   GetArchiveMessageContentError,
   Credentials | HttpClient.HttpClient
@@ -2202,7 +2206,7 @@ export type GetArchiveSearchError =
  * Retrieves the details and current status of a specific email archive search job.
  */
 export const getArchiveSearch: API.OperationMethod<
-  GetArchiveSearchRequest,
+  GetArchiveSearchRequest & RegionInput,
   GetArchiveSearchResponse,
   GetArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2227,7 +2231,7 @@ export type GetArchiveSearchResultsError =
  * Returns the results of a completed email archive search job.
  */
 export const getArchiveSearchResults: API.OperationMethod<
-  GetArchiveSearchResultsRequest,
+  GetArchiveSearchResultsRequest & RegionInput,
   GetArchiveSearchResultsResponse,
   GetArchiveSearchResultsError,
   Credentials | HttpClient.HttpClient
@@ -2247,7 +2251,7 @@ export type GetIngressPointError = ResourceNotFoundException | ValidationExcepti
  * Fetch ingress endpoint resource attributes.
  */
 export const getIngressPoint: API.OperationMethod<
-  GetIngressPointRequest,
+  GetIngressPointRequest & RegionInput,
   GetIngressPointResponse,
   GetIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -2272,7 +2276,7 @@ export type GetMemberOfAddressListError =
  * Fetch attributes of a member in an address list.
  */
 export const getMemberOfAddressList: API.OperationMethod<
-  GetMemberOfAddressListRequest,
+  GetMemberOfAddressListRequest & RegionInput,
   GetMemberOfAddressListResponse,
   GetMemberOfAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2297,7 +2301,7 @@ export type GetRelayError = ResourceNotFoundException | ValidationException | Co
  * Fetch the relay resource and it's attributes.
  */
 export const getRelay: API.OperationMethod<
-  GetRelayRequest,
+  GetRelayRequest & RegionInput,
   GetRelayResponse,
   GetRelayError,
   Credentials | HttpClient.HttpClient
@@ -2317,7 +2321,7 @@ export type GetRuleSetError = ResourceNotFoundException | ValidationException | 
  * Fetch attributes of a rule set.
  */
 export const getRuleSet: API.OperationMethod<
-  GetRuleSetRequest,
+  GetRuleSetRequest & RegionInput,
   GetRuleSetResponse,
   GetRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -2337,7 +2341,7 @@ export type GetTrafficPolicyError = ResourceNotFoundException | ValidationExcept
  * Fetch attributes of a traffic policy resource.
  */
 export const getTrafficPolicy: API.OperationMethod<
-  GetTrafficPolicyRequest,
+  GetTrafficPolicyRequest & RegionInput,
   GetTrafficPolicyResponse,
   GetTrafficPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2357,7 +2361,7 @@ export type ListAddonInstancesError = ValidationException | CommonErrors;
  * Lists all Add On instances in your account.
  */
 export const listAddonInstances: API.PaginatedOperationMethod<
-  ListAddonInstancesRequest,
+  ListAddonInstancesRequest & RegionInput,
   ListAddonInstancesResponse,
   ListAddonInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2384,7 +2388,7 @@ export type ListAddonSubscriptionsError = ValidationException | CommonErrors;
  * Lists all Add On subscriptions in your account.
  */
 export const listAddonSubscriptions: API.PaginatedOperationMethod<
-  ListAddonSubscriptionsRequest,
+  ListAddonSubscriptionsRequest & RegionInput,
   ListAddonSubscriptionsResponse,
   ListAddonSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2416,7 +2420,7 @@ export type ListAddressListImportJobsError =
  * Lists jobs for an address list.
  */
 export const listAddressListImportJobs: API.PaginatedOperationMethod<
-  ListAddressListImportJobsRequest,
+  ListAddressListImportJobsRequest & RegionInput,
   ListAddressListImportJobsResponse,
   ListAddressListImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2452,7 +2456,7 @@ export type ListAddressListsError =
  * Lists address lists for this account.
  */
 export const listAddressLists: API.PaginatedOperationMethod<
-  ListAddressListsRequest,
+  ListAddressListsRequest & RegionInput,
   ListAddressListsResponse,
   ListAddressListsError,
   Credentials | HttpClient.HttpClient,
@@ -2484,7 +2488,7 @@ export type ListArchiveExportsError =
  * Returns a list of email archive export jobs.
  */
 export const listArchiveExports: API.PaginatedOperationMethod<
-  ListArchiveExportsRequest,
+  ListArchiveExportsRequest & RegionInput,
   ListArchiveExportsResponse,
   ListArchiveExportsError,
   Credentials | HttpClient.HttpClient,
@@ -2520,7 +2524,7 @@ export type ListArchivesError =
  * Returns a list of all email archives in your account.
  */
 export const listArchives: API.PaginatedOperationMethod<
-  ListArchivesRequest,
+  ListArchivesRequest & RegionInput,
   ListArchivesResponse,
   ListArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2552,7 +2556,7 @@ export type ListArchiveSearchesError =
  * Returns a list of email archive search jobs.
  */
 export const listArchiveSearches: API.PaginatedOperationMethod<
-  ListArchiveSearchesRequest,
+  ListArchiveSearchesRequest & RegionInput,
   ListArchiveSearchesResponse,
   ListArchiveSearchesError,
   Credentials | HttpClient.HttpClient,
@@ -2584,7 +2588,7 @@ export type ListIngressPointsError = ValidationException | CommonErrors;
  * List all ingress endpoint resources.
  */
 export const listIngressPoints: API.PaginatedOperationMethod<
-  ListIngressPointsRequest,
+  ListIngressPointsRequest & RegionInput,
   ListIngressPointsResponse,
   ListIngressPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2616,7 +2620,7 @@ export type ListMembersOfAddressListError =
  * Lists members of an address list.
  */
 export const listMembersOfAddressList: API.PaginatedOperationMethod<
-  ListMembersOfAddressListRequest,
+  ListMembersOfAddressListRequest & RegionInput,
   ListMembersOfAddressListResponse,
   ListMembersOfAddressListError,
   Credentials | HttpClient.HttpClient,
@@ -2648,7 +2652,7 @@ export type ListRelaysError = ValidationException | CommonErrors;
  * Lists all the existing relay resources.
  */
 export const listRelays: API.PaginatedOperationMethod<
-  ListRelaysRequest,
+  ListRelaysRequest & RegionInput,
   ListRelaysResponse,
   ListRelaysError,
   Credentials | HttpClient.HttpClient,
@@ -2675,7 +2679,7 @@ export type ListRuleSetsError = ValidationException | CommonErrors;
  * List rule sets for this account.
  */
 export const listRuleSets: API.PaginatedOperationMethod<
-  ListRuleSetsRequest,
+  ListRuleSetsRequest & RegionInput,
   ListRuleSetsResponse,
   ListRuleSetsError,
   Credentials | HttpClient.HttpClient,
@@ -2705,7 +2709,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags (keys and values) assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2729,7 @@ export type ListTrafficPoliciesError = ValidationException | CommonErrors;
  * List traffic policy resources.
  */
 export const listTrafficPolicies: API.PaginatedOperationMethod<
-  ListTrafficPoliciesRequest,
+  ListTrafficPoliciesRequest & RegionInput,
   ListTrafficPoliciesResponse,
   ListTrafficPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -2759,7 +2763,7 @@ export type RegisterMemberToAddressListError =
  * Adds a member to an address list.
  */
 export const registerMemberToAddressList: API.OperationMethod<
-  RegisterMemberToAddressListRequest,
+  RegisterMemberToAddressListRequest & RegionInput,
   RegisterMemberToAddressListResponse,
   RegisterMemberToAddressListError,
   Credentials | HttpClient.HttpClient
@@ -2793,7 +2797,7 @@ export type StartAddressListImportJobError =
  * Starts an import job for an address list.
  */
 export const startAddressListImportJob: API.OperationMethod<
-  StartAddressListImportJobRequest,
+  StartAddressListImportJobRequest & RegionInput,
   StartAddressListImportJobResponse,
   StartAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2826,7 +2830,7 @@ export type StartArchiveExportError =
  * Initiates an export of emails from the specified archive.
  */
 export const startArchiveExport: API.OperationMethod<
-  StartArchiveExportRequest,
+  StartArchiveExportRequest & RegionInput,
   StartArchiveExportResponse,
   StartArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2859,7 +2863,7 @@ export type StartArchiveSearchError =
  * Initiates a search across emails in the specified archive.
  */
 export const startArchiveSearch: API.OperationMethod<
-  StartArchiveSearchRequest,
+  StartArchiveSearchRequest & RegionInput,
   StartArchiveSearchResponse,
   StartArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2896,7 @@ export type StopAddressListImportJobError =
  * Stops an ongoing import job for an address list.
  */
 export const stopAddressListImportJob: API.OperationMethod<
-  StopAddressListImportJobRequest,
+  StopAddressListImportJobRequest & RegionInput,
   StopAddressListImportJobResponse,
   StopAddressListImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2926,7 @@ export type StopArchiveExportError =
  * Stops an in-progress export of emails from an archive.
  */
 export const stopArchiveExport: API.OperationMethod<
-  StopArchiveExportRequest,
+  StopArchiveExportRequest & RegionInput,
   StopArchiveExportResponse,
   StopArchiveExportError,
   Credentials | HttpClient.HttpClient
@@ -2946,7 +2950,7 @@ export type StopArchiveSearchError =
  * Stops an in-progress archive search job.
  */
 export const stopArchiveSearch: API.OperationMethod<
-  StopArchiveSearchRequest,
+  StopArchiveSearchRequest & RegionInput,
   StopArchiveSearchResponse,
   StopArchiveSearchError,
   Credentials | HttpClient.HttpClient
@@ -2971,7 +2975,7 @@ export type TagResourceError =
  * Adds one or more tags (keys and values) to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3000,7 +3004,7 @@ export type UntagResourceError =
  * Remove one or more tags (keys and values) from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3027,7 +3031,7 @@ export type UpdateArchiveError =
  * Updates the attributes of an existing email archive.
  */
 export const updateArchive: API.OperationMethod<
-  UpdateArchiveRequest,
+  UpdateArchiveRequest & RegionInput,
   UpdateArchiveResponse,
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3058,7 +3062,7 @@ export type UpdateIngressPointError =
  * Update attributes of a provisioned ingress endpoint resource.
  */
 export const updateIngressPoint: API.OperationMethod<
-  UpdateIngressPointRequest,
+  UpdateIngressPointRequest & RegionInput,
   UpdateIngressPointResponse,
   UpdateIngressPointError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3086,7 @@ export type UpdateRelayError =
  * Updates the attributes of an existing relay resource.
  */
 export const updateRelay: API.OperationMethod<
-  UpdateRelayRequest,
+  UpdateRelayRequest & RegionInput,
   UpdateRelayResponse,
   UpdateRelayError,
   Credentials | HttpClient.HttpClient
@@ -3106,7 +3110,7 @@ export type UpdateRuleSetError =
  * Update attributes of an already provisioned rule set.
  */
 export const updateRuleSet: API.OperationMethod<
-  UpdateRuleSetRequest,
+  UpdateRuleSetRequest & RegionInput,
   UpdateRuleSetResponse,
   UpdateRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3134,7 @@ export type UpdateTrafficPolicyError =
  * Update attributes of an already provisioned traffic policy resource.
  */
 export const updateTrafficPolicy: API.OperationMethod<
-  UpdateTrafficPolicyRequest,
+  UpdateTrafficPolicyRequest & RegionInput,
   UpdateTrafficPolicyResponse,
   UpdateTrafficPolicyError,
   Credentials | HttpClient.HttpClient

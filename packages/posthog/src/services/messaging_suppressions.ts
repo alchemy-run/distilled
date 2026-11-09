@@ -26,10 +26,10 @@ const TELEMETRY = {
 export interface GetMessagingSuppressionsSuppressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  page?: number;
-  page_size?: number;
+  page?: number | undefined;
+  page_size?: number | undefined;
   /** Case-insensitive substring match on the recipient email address. */
-  search?: string;
+  search?: string | undefined;
 }
 /** * `BOUNCE` - Bounce * `MANUAL` - Manual * `COMPLAINT` - Complaint */
 export type SuppressionSourceEnum = "BOUNCE" | "MANUAL" | "COMPLAINT";
