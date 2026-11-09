@@ -1,0 +1,101 @@
+{
+  "description": "What each parametermanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#CreateProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.create"],
+        "roles": ["roles/parametermanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#DeleteProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.delete"],
+        "roles": ["roles/parametermanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#DeleteProjectsLocationsTemplatesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.update"],
+        "roles": ["roles/parametermanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#GetProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.get"],
+        "roles": ["roles/parametermanager.templateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#GetProjectsLocationsTemplatesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.get"],
+        "roles": ["roles/parametermanager.templateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#ListProjectsLocationsParameters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.parameters.list"],
+        "roles": ["roles/parametermanager.parameterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#ListProjectsLocationsParametersVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.parameters.get"],
+        "roles": ["roles/parametermanager.parameterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#ListProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.list"],
+        "roles": ["roles/parametermanager.templateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#ListProjectsLocationsTemplatesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.get"],
+        "roles": ["roles/parametermanager.templateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#PatchProjectsLocationsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.update"],
+        "roles": ["roles/parametermanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#PatchProjectsLocationsTemplatesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.update"],
+        "roles": ["roles/parametermanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parametermanager_v1#RenderProjectsLocationsTemplatesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parametermanager.templates.update"],
+        "roles": ["roles/parametermanager.templateAccessor"]
+      }
+    }
+  ]
+}

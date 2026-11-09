@@ -1,0 +1,237 @@
+{
+  "description": "What each clouddeploy_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#AbandonProjectsLocationsDeliveryPipelinesReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.releases.abandon"],
+        "roles": ["roles/clouddeploy.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#AdvanceProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.advance"],
+        "roles": ["roles/clouddeploy.releaser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ApproveProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.approve"],
+        "roles": ["roles/clouddeploy.approver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#CancelProjectsLocationsDeliveryPipelinesAutomationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.automationRuns.cancel"],
+        "roles": ["roles/clouddeploy.operator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#CancelProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.cancel"],
+        "roles": ["roles/clouddeploy.releaser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#CreateProjectsLocationsDeliveryPipelinesReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.releases.create"],
+        "roles": ["roles/clouddeploy.releaser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#CreateProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.create"],
+        "roles": ["roles/clouddeploy.releaser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsCustomTargetTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.customTargetTypes.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.deliveryPipelines.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelinesAutomationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.automationRuns.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelinesAutomations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.automations.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelinesReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.releases.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.jobRuns.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsDeployPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.deployPolicies.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#GetProjectsLocationsTargets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.targets.get"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.ignoreJob"],
+        "roles": ["roles/clouddeploy.operator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsCustomTargetTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.customTargetTypes.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.deliveryPipelines.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelinesAutomationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.automationRuns.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelinesAutomations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.automations.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelinesReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.releases.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.jobRuns.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsDeployPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.deployPolicies.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#ListProjectsLocationsTargets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.targets.list"],
+        "roles": ["roles/clouddeploy.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#RetryJobProjectsLocationsDeliveryPipelinesReleasesRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.rollouts.retryJob"],
+        "roles": ["roles/clouddeploy.operator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#RollbackTargetProjectsLocationsDeliveryPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.deliveryPipelines.update"],
+        "roles": ["roles/clouddeploy.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.clouddeploy_v1#TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clouddeploy.jobRuns.terminate"],
+        "roles": ["roles/clouddeploy.operator"]
+      }
+    }
+  ]
+}

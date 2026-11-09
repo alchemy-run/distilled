@@ -1,0 +1,221 @@
+{
+  "description": "What each toolresults_v1beta3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#AccessibilityClustersProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#CreateProjectsHistories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.histories.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#CreateProjectsHistoriesExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#CreateProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#CreateProjectsHistoriesExecutionsStepsPerfMetricsSummary/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.update"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#CreateProjectsHistoriesExecutionsStepsPerfSampleSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetPerfMetricsSummaryProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.histories.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutionsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutionsStepsPerfSampleSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetProjectsHistoriesExecutionsStepsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#GetSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.settings.get"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#InitializeSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.settings.create"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.histories.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.executions.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsStepsPerfSampleSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsStepsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#ListProjectsHistoriesExecutionsStepsThumbnails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.list"],
+        "roles": ["roles/cloudtestservice.testViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.toolresults_v1beta3#PublishXunitXmlFilesProjectsHistoriesExecutionsSteps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtoolresults.steps.update"],
+        "roles": ["roles/cloudtestservice.testAdmin"]
+      }
+    }
+  ]
+}

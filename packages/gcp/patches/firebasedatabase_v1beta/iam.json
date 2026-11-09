@@ -1,0 +1,61 @@
+{
+  "description": "What each firebasedatabase_v1beta operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#CreateProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.create"],
+        "roles": ["roles/firebasedatabase.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.delete"],
+        "roles": ["roles/firebasedatabase.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#DisableProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.disable"],
+        "roles": ["roles/firebasedatabase.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.get"],
+        "roles": ["roles/firebasedatabase.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.list"],
+        "roles": ["roles/firebasedatabase.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#ReenableProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.reenable"],
+        "roles": ["roles/firebasedatabase.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedatabase_v1beta#UndeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedatabase.instances.undelete"],
+        "roles": ["roles/firebasedatabase.admin"]
+      }
+    }
+  ]
+}

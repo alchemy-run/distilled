@@ -1,0 +1,141 @@
+{
+  "description": "What each analyticshub_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ApproveProjectsLocationsDataExchangesQueryTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.queryTemplates.approve"],
+        "roles": ["roles/analyticshub.publisher"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#DeleteProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.subscriptions.delete"],
+        "roles": ["roles/analyticshub.subscriptionOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#GetProjectsLocationsDataExchanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.dataExchanges.get"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#GetProjectsLocationsDataExchangesListings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.listings.get"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#GetProjectsLocationsDataExchangesQueryTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.queryTemplates.get"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#GetProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.subscriptions.get"],
+        "roles": ["roles/analyticshub.subscriptionOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListProjectsLocationsDataExchanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.dataExchanges.list"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListProjectsLocationsDataExchangesListings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.listings.list"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListProjectsLocationsDataExchangesQueryTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.queryTemplates.list"],
+        "roles": ["roles/analyticshub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.subscriptions.list"],
+        "roles": ["roles/analyticshub.subscriptionOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListSubscriptionsProjectsLocationsDataExchanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.dataExchanges.viewSubscriptions"],
+        "roles": ["roles/analyticshub.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#ListSubscriptionsProjectsLocationsDataExchangesListings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.listings.viewSubscriptions"],
+        "roles": ["roles/analyticshub.listingAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#RefreshProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.subscriptions.update"],
+        "roles": ["roles/analyticshub.subscriptionOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#RevokeProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.subscriptions.update"],
+        "roles": ["roles/analyticshub.subscriptionOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#SubmitProjectsLocationsDataExchangesQueryTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.queryTemplates.update"],
+        "roles": ["roles/analyticshub.publisher"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#SubscribeProjectsLocationsDataExchanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.dataExchanges.subscribe"],
+        "roles": ["roles/analyticshub.subscriber", "roles/bigquery.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#SubscribeProjectsLocationsDataExchangesListings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["analyticshub.listings.subscribe"],
+        "roles": ["roles/analyticshub.subscriber"]
+      }
+    }
+  ]
+}

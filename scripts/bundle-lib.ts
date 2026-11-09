@@ -103,6 +103,8 @@ const CORE_GROUPS: Record<string, string[]> = {
 };
 const SDK_GROUP = "sdk";
 const VIRTUAL = "distilled-bundle:";
+/** A static value import or re-export: anything but `import type` / `export type`. */
+const RUNTIME_IMPORT = /^(?:import(?!\s+type\b)[^;]*?["'];|export(?!\s+type\b)[^;]*? from ["'])/m;
 const CORE_VIRTUAL = "\0distilled-core:";
 /** A grouped core module, in a service's build: aliases re-exported by the SDK group chunk. */
 const CORE_REF = "\0distilled-core-ref:";
@@ -820,12 +822,16 @@ const buildPackage = async (
       }
       const own = groupOf.get(m);
       const deps = graph.get(m);
-      // Services are not in the parsed graph (too big to parse twice); they import the SDK group.
+      // Services are not in the parsed graph (too big to parse twice); they
+      // import the SDK group, unless they import nothing at runtime (a meta
+      // module is data with only type imports, and must load no SDK code).
       const needs = deps
         ? new Set(
             deps.static.map((d) => groupOf.get(d)).filter((g): g is string => !!g && g !== own),
           )
-        : new Set(groupNames.filter((g) => g !== own));
+        : RUNTIME_IMPORT.test(code)
+          ? new Set(groupNames.filter((g) => g !== own))
+          : new Set<string>();
       // A grouped module that is also imported lazily is an entry of its own;
       // it must reach the whole group too, or the group splits.
       if (own && dynamicTargets.has(m)) needs.add(own);

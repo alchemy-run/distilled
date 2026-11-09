@@ -1,0 +1,741 @@
+{
+  "description": "What each dialogflow_v3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#BatchDeleteProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.update"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#BatchRunProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.update"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#CalculateCoverageProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.calculateCoverage"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#CompareVersionsProjectsLocationsAgentsFlowsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.update"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#CreateProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.create"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#DeployFlowProjectsLocationsAgentsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#DetectIntentProjectsLocationsAgentsEnvironmentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.sessions.detectIntent"],
+        "roles": ["roles/dialogflow.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#DetectIntentProjectsLocationsAgentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.sessions.detectIntent"],
+        "roles": ["roles/dialogflow.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.export"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgentsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.update"],
+        "roles": ["roles/dialogflow.entityTypeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.update"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgentsIntents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.intents.update"],
+        "roles": ["roles/dialogflow.intentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgentsPlaybooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.playbooks.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ExportProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.export"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#FulfillIntentProjectsLocationsAgentsEnvironmentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#FulfillIntentProjectsLocationsAgentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetGenerativeSettingsProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsChangelogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.changelogs.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsEnvironmentsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.deployments.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsEnvironmentsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.experiments.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsEnvironmentsSessionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsFlowsPages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.pages.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsFlowsTransitionRouteGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.transitionRouteGroups.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsFlowsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsGenerators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.generators.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsIntents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.intents.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsPlaybooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.playbooks.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsPlaybooksExamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.examples.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsPlaybooksVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsSessionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsTestCasesResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.tools.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsToolsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsTransitionRouteGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.transitionRouteGroups.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsAgentsWebhooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.webhooks.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetProjectsLocationsSecuritySettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.securitySettings.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetValidationResultProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#GetValidationResultProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ImportProjectsLocationsAgentsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.update"],
+        "roles": ["roles/dialogflow.entityTypeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ImportProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.update"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ImportProjectsLocationsAgentsIntents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.intents.update"],
+        "roles": ["roles/dialogflow.intentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ImportProjectsLocationsAgentsPlaybooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.playbooks.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ImportProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.import"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsChangelogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.changelogs.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEnvironmentsContinuousTestResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEnvironmentsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.deployments.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEnvironmentsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.experiments.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsFlowsPages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.pages.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsFlowsTransitionRouteGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.transitionRouteGroups.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsFlowsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsGenerators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.generators.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsIntents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.intents.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsPlaybooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.playbooks.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsPlaybooksExamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.examples.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsPlaybooksVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsSessionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.entityTypes.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsTestCasesResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.tools.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsToolsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsTransitionRouteGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.transitionRouteGroups.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsAgentsWebhooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.webhooks.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ListProjectsLocationsSecuritySettings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.securitySettings.list"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#LoadProjectsLocationsAgentsFlowsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.load"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#LookupEnvironmentHistoryProjectsLocationsAgentsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.get"],
+        "roles": ["roles/dialogflow.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#MatchIntentProjectsLocationsAgentsEnvironmentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#MatchIntentProjectsLocationsAgentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#PatchProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.update"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#RestoreProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.restore"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#RestoreProjectsLocationsAgentsPlaybooksVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.update"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#RestoreProjectsLocationsAgentsToolsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.versions.update"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#RunContinuousTestProjectsLocationsAgentsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.runContinuousTest"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#RunProjectsLocationsAgentsTestCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.testcases.run"],
+        "roles": ["roles/dialogflow.testCaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.environments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ServerStreamingDetectIntentProjectsLocationsAgentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#StartProjectsLocationsAgentsEnvironmentsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.experiments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#StopProjectsLocationsAgentsEnvironmentsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.experiments.update"],
+        "roles": ["roles/dialogflow.environmentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#SubmitAnswerFeedbackProjectsLocationsAgentsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#TrainProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.train"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#UpdateGenerativeSettingsProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.update"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ValidateProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.agents.validate"],
+        "roles": ["roles/dialogflow.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dialogflow_v3#ValidateProjectsLocationsAgentsFlows/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dialogflow.flows.validate"],
+        "roles": ["roles/dialogflow.flowEditor"]
+      }
+    }
+  ]
+}

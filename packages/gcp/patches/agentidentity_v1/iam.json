@@ -1,0 +1,109 @@
+{
+  "description": "What each agentidentity_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#DeleteProjectsLocationsAuthProvidersAuthorizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authorizations.delete"],
+        "roles": ["roles/agentidentity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#DisableProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.update"],
+        "roles": ["roles/agentidentity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#EnableProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.update"],
+        "roles": ["roles/agentidentity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAccessSummaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.accessSummaries.get"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.get"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#GetProjectsLocationsAuthProvidersAuthorizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authorizations.get"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAccessSummaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.accessSummaries.list"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.list"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#ListProjectsLocationsAuthProvidersAuthorizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authorizations.list"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#QueryProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.get"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#QueryWorkloadsProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.queryWorkloads"],
+        "roles": ["roles/agentidentity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#RevokeAuthorizationProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.update"],
+        "roles": ["roles/agentidentity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentidentity_v1#UndeleteProjectsLocationsAuthProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentidentity.authProviders.undelete"],
+        "roles": ["roles/agentidentity.editor"]
+      }
+    }
+  ]
+}

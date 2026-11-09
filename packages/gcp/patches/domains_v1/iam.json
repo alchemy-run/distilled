@@ -1,0 +1,125 @@
+{
+  "description": "What each domains_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ConfigureContactSettingsProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ConfigureDnsSettingsProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ConfigureManagementSettingsProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#DeleteProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.delete"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ExportProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#GetProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.get"],
+        "roles": ["roles/domains.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ImportProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#InitiatePushTransferProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ListProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.list"],
+        "roles": ["roles/domains.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#PatchProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#RegisterProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#RenewDomainProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#ResetAuthorizationCodeProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#SearchDomainsProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.get"],
+        "roles": ["roles/domains.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.domains_v1#TransferProjectsLocationsRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["domains.registrations.update"],
+        "roles": ["roles/domains.editor"]
+      }
+    }
+  ]
+}

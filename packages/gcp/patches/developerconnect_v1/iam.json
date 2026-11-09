@@ -1,0 +1,205 @@
+{
+  "description": "What each developerconnect_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#DeleteProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.users.delete"],
+        "roles": ["roles/developerconnect.oauthAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#DeleteSelfProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.users.deleteSelf"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FetchAccessTokenProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.users.fetchAccessToken"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FetchGitHubInstallationsProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.fetchGitHubInstallations"],
+        "roles": ["roles/developerconnect.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FetchLinkableGitRepositoriesProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.fetchLinkableGitRepositories"],
+        "roles": ["roles/developerconnect.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FetchSelfProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.get"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FetchUserRepositoriesProjectsLocationsAccountConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.fetchUserRepositories"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#FinishOAuthFlowProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.update"],
+        "roles": ["roles/developerconnect.oauthAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#GetProjectsLocationsAccountConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.get"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#GetProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.get"],
+        "roles": ["roles/developerconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#GetProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.gitRepositoryLinks.get"],
+        "roles": ["roles/developerconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#GetProjectsLocationsInsightsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.insightsConfigs.get"],
+        "roles": ["roles/developerconnect.insightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#GetProjectsLocationsInsightsConfigsDeploymentEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.deploymentEvents.get"],
+        "roles": ["roles/developerconnect.insightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsAccountConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.list"],
+        "roles": ["roles/developerconnect.oauthUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.users.list"],
+        "roles": ["roles/developerconnect.oauthAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.list"],
+        "roles": ["roles/developerconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.gitRepositoryLinks.list"],
+        "roles": ["roles/developerconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsInsightsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.insightsConfigs.list"],
+        "roles": ["roles/developerconnect.insightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ListProjectsLocationsInsightsConfigsDeploymentEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.deploymentEvents.list"],
+        "roles": ["roles/developerconnect.insightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.update"],
+        "roles": ["roles/developerconnect.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.update"],
+        "roles": ["roles/developerconnect.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ProcessGitHubEnterpriseWebhookProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.update"],
+        "roles": ["roles/developerconnect.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.update"],
+        "roles": ["roles/developerconnect.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.connections.update"],
+        "roles": ["roles/developerconnect.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.developerconnect_v1#StartOAuthFlowProjectsLocationsAccountConnectorsUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["developerconnect.accountConnectors.update"],
+        "roles": ["roles/developerconnect.oauthAdmin"]
+      }
+    }
+  ]
+}

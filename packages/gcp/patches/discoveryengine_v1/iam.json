@@ -1,0 +1,1181 @@
+{
+  "description": "What each discoveryengine_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#AnswerProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.answer"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#AnswerProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.answer"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#AnswerProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.answer"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.targetSites.batchCreate"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.branches.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#BatchGetDocumentsMetadataProjectsLocationsDataStoresBranches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.branches.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#BatchUpdateUserLicensesProjectsLocationsUserStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userStores.batchUpdateUserLicenses"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.siteSearchEngines.batchVerifyTargetSites"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CancelProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.update"],
+        "roles": ["roles/discoveryengine.agentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CheckProjectsLocationsGroundingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.groundingConfigs.check"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CollectProjectsLocationsCollectionsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CollectProjectsLocationsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CollectProjectsLocationsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.create"],
+        "roles": ["roles/discoveryengine.agentspaceRestrictedUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CompleteQueryProjectsLocationsCollectionsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.completeQuery"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CompleteQueryProjectsLocationsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.completeQuery"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CompleteQueryProjectsLocationsDataStoresCompletionConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.completionConfigs.completeQuery"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ConverseProjectsLocationsCollectionsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.converse"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ConverseProjectsLocationsCollectionsEnginesConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.converse"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ConverseProjectsLocationsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.converse"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sitemaps.create"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsDataStoresSiteSearchEngineSitemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sitemaps.create"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsLicenseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.licenseConfigs.create"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#DeleteProjectsLocationsCmekConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.cmekConfigs.delete"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#DeleteProjectsLocationsCollections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.collections.delete"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.update"],
+        "roles": ["roles/discoveryengine.agentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.siteSearchEngines.disableAdvancedSiteSearch"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.siteSearchEngines.enableAdvancedSiteSearch"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.siteSearchEngines.fetchDomainVerificationStatus"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sitemaps.fetch"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#FetchProjectsLocationsDataStoresSiteSearchEngineSitemaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sitemaps.fetch"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetDataConnectorProjectsLocationsCollections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.collections.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCmekConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.cmekConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.schemas.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresSessionsAnswers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.answers.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.targetSites.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsDataStoresWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.engines.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesAssistants/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.assistants.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesSessionsAnswers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.answers.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsCollectionsEnginesWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.schemas.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresSessionsAnswers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.answers.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresSiteSearchEngineTargetSites/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.targetSites.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsDataStoresWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsIdentityMappingStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.identityMappingStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsLicenseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.licenseConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetProjectsLocationsUserStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#GetSiteSearchEngineProjectsLocationsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportIdentityMappingsProjectsLocationsIdentityMappingStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.identityMappingStores.importIdentityMappings"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsCollectionsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsCollectionsDataStoresCompletionSuggestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.completionSuggestions.import"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.suggestionDenyListEntries.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsCollectionsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsDataStoresCompletionSuggestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.completionSuggestions.import"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsDataStoresSuggestionDenyListEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.suggestionDenyListEntries.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ImportProjectsLocationsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.import"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListIdentityMappingsProjectsLocationsIdentityMappingStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.identityMappingStores.listIdentityMappings"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCmekConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.cmekConfigs.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresCustomModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.schemas.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.targetSites.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.engines.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesAssistants/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.assistants.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsCollectionsEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.controls.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.conversations.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.schemas.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.sessions.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsDataStoresSiteSearchEngineTargetSites/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.targetSites.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsIdentityMappingStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.identityMappingStores.list"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsLicenseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.licenseConfigs.list"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsUserStoresLicenseConfigsUsageStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ListProjectsLocationsUserStoresUserLicenses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userStores.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#McpProjectsLocationsCollectionsDataConnector/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataConnectors.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsCmekConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.cmekConfigs.update"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsCollectionsDataStoresWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsCollectionsEnginesWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsDataStoresWidgetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.widgetConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsLicenseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.licenseConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PatchProjectsLocationsUserStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userStores.update"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#ProvisionProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.projects.provision"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeIdentityMappingsProjectsLocationsIdentityMappingStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.identityMappingStores.purgeIdentityMappings"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsCollectionsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.completionSuggestions.purge"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.suggestionDenyListEntries.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsCollectionsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsDataStoresBranchesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.documents.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsDataStoresCompletionSuggestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.completionSuggestions.purge"],
+        "roles": ["roles/discoveryengine.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsDataStoresSuggestionDenyListEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.suggestionDenyListEntries.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#PurgeProjectsLocationsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.purge"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#RankProjectsLocationsRankingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.rankingConfigs.rank"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#RecommendProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.recommend"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#RecommendProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.recommend"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#RecommendProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.recommend"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#RecrawlUrisProjectsLocationsDataStoresSiteSearchEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.siteSearchEngines.recrawlUris"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchLiteProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchLiteProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchLiteProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.get"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.search"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.search"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SearchProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.search"],
+        "roles": ["roles/discoveryengine.agentspaceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Message/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.update"],
+        "roles": ["roles/discoveryengine.agentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#StreamAnswerProjectsLocationsCollectionsEnginesServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#StreamAnswerProjectsLocationsDataStoresServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.servingConfigs.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#StreamAssistProjectsLocationsCollectionsEnginesAssistants/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.assistants.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#StreamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Message/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.update"],
+        "roles": ["roles/discoveryengine.agentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.agents.update"],
+        "roles": ["roles/discoveryengine.agentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#TrainCustomModelProjectsLocationsCollectionsDataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.trainCustomModel"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#UpdateDataConnectorProjectsLocationsCollections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataConnectors.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#WriteProjectsLocationsCollectionsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#WriteProjectsLocationsDataStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.dataStores.update"],
+        "roles": ["roles/discoveryengine.agentspaceEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#WriteProjectsLocationsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["discoveryengine.userEvents.create"],
+        "roles": ["roles/discoveryengine.agentspaceRestrictedUser"]
+      }
+    }
+  ]
+}

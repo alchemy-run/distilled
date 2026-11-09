@@ -1,0 +1,317 @@
+{
+  "description": "What each datacatalog_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.create"],
+        "roles": ["roles/datacatalog.entryGroupCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.create"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntriesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.update"],
+        "roles": ["roles/datacatalog.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsTagTemplatesFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.update"],
+        "roles": ["roles/datacatalog.tagTemplateOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.delete"],
+        "roles": ["roles/datacatalog.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.delete"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntriesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.update"],
+        "roles": ["roles/datacatalog.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsTagTemplatesFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.update"],
+        "roles": ["roles/datacatalog.tagTemplateOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ExportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.get"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.get"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTagTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.get"],
+        "roles": ["roles/datacatalog.tagTemplateViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.list"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.list"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntriesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.get"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.get"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.list"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#LookupEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.get"],
+        "roles": ["roles/datacatalog.entryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryContactsProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryOverviewProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.update"],
+        "roles": ["roles/datacatalog.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntriesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entryGroups.update"],
+        "roles": ["roles/datacatalog.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsTagTemplatesFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.update"],
+        "roles": ["roles/datacatalog.tagTemplateOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ReconcileProjectsLocationsEntryGroupsEntriesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#RenameProjectsLocationsTagTemplatesFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.update"],
+        "roles": ["roles/datacatalog.tagTemplateOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#RenameProjectsLocationsTagTemplatesFieldsEnumValues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.tagTemplates.update"],
+        "roles": ["roles/datacatalog.tagTemplateOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ReplaceProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#SearchCatalog/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.catalogs.searchAll"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#StarProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#UnstarProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.entries.update"],
+        "roles": ["roles/datacatalog.glossaryOwner"]
+      }
+    }
+  ]
+}

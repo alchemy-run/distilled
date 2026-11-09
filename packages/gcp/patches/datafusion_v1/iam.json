@@ -1,0 +1,61 @@
+{
+  "description": "What each datafusion_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#CreateProjectsLocationsInstancesDnsPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.update"],
+        "roles": ["roles/datafusion.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#DeleteProjectsLocationsInstancesDnsPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.update"],
+        "roles": ["roles/datafusion.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.get"],
+        "roles": ["roles/datafusion.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.list"],
+        "roles": ["roles/datafusion.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#ListProjectsLocationsInstancesDnsPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.get"],
+        "roles": ["roles/datafusion.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#ListProjectsLocationsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.list"],
+        "roles": ["roles/datafusion.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datafusion_v1#RestartProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datafusion.instances.restart"],
+        "roles": ["roles/datafusion.admin"]
+      }
+    }
+  ]
+}

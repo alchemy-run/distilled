@@ -1,0 +1,117 @@
+{
+  "description": "What each containeranalysis_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#BatchCreateProjectsLocationsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.update"],
+        "roles": ["roles/containeranalysis.notes.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#BatchCreateProjectsLocationsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.update"],
+        "roles": ["roles/containeranalysis.occurrences.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#BatchCreateProjectsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.update"],
+        "roles": ["roles/containeranalysis.notes.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#BatchCreateProjectsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.update"],
+        "roles": ["roles/containeranalysis.occurrences.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#GetNotesProjectsLocationsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.get"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#GetNotesProjectsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.get"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#GetVulnerabilitySummaryProjectsLocationsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.get"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#GetVulnerabilitySummaryProjectsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.get"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsLocationsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.list"],
+        "roles": ["roles/containeranalysis.notes.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsLocationsNotesOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.listOccurrences"],
+        "roles": ["roles/containeranalysis.notes.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsLocationsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.list"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsNotes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.list"],
+        "roles": ["roles/containeranalysis.notes.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsNotesOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.notes.listOccurrences"],
+        "roles": ["roles/containeranalysis.notes.occurrences.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.containeranalysis_v1#ListProjectsOccurrences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["containeranalysis.occurrences.list"],
+        "roles": ["roles/containeranalysis.occurrences.viewer"]
+      }
+    }
+  ]
+}
