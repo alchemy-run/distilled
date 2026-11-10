@@ -703,7 +703,7 @@ export const getStoreSecret: API.OperationMethod<
 }));
 
 export type ListStoresError = InvalidAccountId | CloudflareOpError;
-/** Lists all the stores in an account. */
+/** Lists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately. */
 export const listStores: API.PaginatedOperationMethod<
   ListStoresRequest,
   ListStoresResponse,

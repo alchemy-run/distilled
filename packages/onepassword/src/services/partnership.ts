@@ -80,7 +80,7 @@ export interface Account {
   customer_account_uid?: string | undefined;
   /** The current type of the 1Password account - 'I' for Individual, or 'F' for family. */
   account_type?: string | undefined;
-  /** The activation token is a coupon code to link a new or existing 1Password account to a partnership promotion. For example, it can be used for 1Password account creation at https://start.{{1password_domain}}/partnership/redeem?t={{account_type}}&c={{activation_token}} during end-user signup. */
+  /** The activation token is a coupon code to link a new or existing 1Password account to a partnership promotion. For example, it can be used for 1Password account creation at `https://start.{{1password_domain}}/partnership/redeem?t={{account_type}}&c={{activation_token}}` during end-user signup. */
   activation_token?: string | undefined;
   /** The 1Password domain for which the account was provisioned for. For testing domains, it can be one of 'b5test.com', 'b5test.ca', or 'b5test.eu'. For production, it can be one of '1password.com', '1password.ca', or '1password.eu'. */
   domain?: string | undefined;

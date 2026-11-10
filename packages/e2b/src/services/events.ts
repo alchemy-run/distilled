@@ -27,11 +27,11 @@ const TELEMETRY = {
 export type ListSandboxEventsRequestTypesList = Array<string>;
 export interface ListSandboxEventsRequest {
   sandboxID: string;
-  offset?: number;
-  limit?: number;
-  orderAsc?: boolean;
+  offset?: number | undefined;
+  limit?: number | undefined;
+  orderAsc?: boolean | undefined;
   /** Filter events to the provided event types */
-  types?: ListSandboxEventsRequestTypesList;
+  types?: ListSandboxEventsRequestTypesList | undefined;
 }
 /** Sandbox event */
 export interface SandboxEvent {
@@ -42,11 +42,11 @@ export interface SandboxEvent {
   /** Event name */
   type: string;
   /** Category of the event (e.g., 'lifecycle', 'process', etc.) */
-  eventCategory?: string;
+  eventCategory?: string | undefined;
   /** Label for the specific event type (e.g., 'sandbox_started', 'process_oom', etc.) */
-  eventLabel?: string;
+  eventLabel?: string | undefined;
   /** Optional JSON data associated with the event */
-  eventData?: unknown | null;
+  eventData?: unknown | null | undefined;
   /** Timestamp of the event */
   timestamp: string;
   /** Unique identifier for the sandbox */
@@ -64,11 +64,11 @@ export type ListSandboxEventsResponseBodyList = Array<SandboxEvent>;
 export type ListSandboxEventsResponse = ListSandboxEventsResponseBodyList;
 export type ListTeamSandboxEventsRequestTypesList = Array<string>;
 export interface ListTeamSandboxEventsRequest {
-  offset?: number;
-  limit?: number;
-  orderAsc?: boolean;
+  offset?: number | undefined;
+  limit?: number | undefined;
+  orderAsc?: boolean | undefined;
   /** Filter events to the provided event types */
-  types?: ListTeamSandboxEventsRequestTypesList;
+  types?: ListTeamSandboxEventsRequestTypesList | undefined;
 }
 export type ListTeamSandboxEventsResponseBodyList = Array<SandboxEvent>;
 export type ListTeamSandboxEventsResponse = ListTeamSandboxEventsResponseBodyList;

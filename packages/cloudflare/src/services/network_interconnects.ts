@@ -258,7 +258,7 @@ export interface ListInterconnectsRequest {
   limit?: number | undefined;
   /** If specified, only show interconnects located at the given site */
   site?: string | undefined;
-  /** If specified, only show interconnects of the given type */
+  /** Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`. */
   type?: string | undefined;
 }
 export type InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFacilityAddressList =
@@ -268,7 +268,6 @@ export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFa
   name: string;
 }
 export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBody {
-  account: string;
   facility: InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFacility;
   name: string;
   /** A Cloudflare site name. */
@@ -278,7 +277,6 @@ export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBody {
   type: string;
   virtualPortReservationId: string;
   ccrDeviceName?: string | null | undefined;
-  owner?: string | null | undefined;
 }
 export type InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed =
   | "50M"
@@ -294,12 +292,10 @@ export type InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed
   | "20G"
   | "50G";
 export interface InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBody {
-  account: string;
   name: string;
   region: string;
   type: string;
   virtualPortReservationId: string;
-  owner?: string | null | undefined;
   /** Bandwidth structure as visible through the customer-facing API. */
   speed?: InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed | null | undefined;
 }
@@ -582,7 +578,7 @@ export const listCnis: API.OperationMethod<
 }));
 
 export type ListInterconnectsError = CloudflareOpError;
-/** Lists all network interconnects configured for the account, including physical and virtual connections. */
+/** Lists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned. */
 export const listInterconnects: API.OperationMethod<
   ListInterconnectsRequest,
   ListInterconnectsResponse,
@@ -775,7 +771,6 @@ function __c5(j: number): any {
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
-            "account",
             "facility",
             "name",
             "site",
@@ -784,9 +779,8 @@ function __c5(j: number): any {
             "type",
             "virtualPortReservationId",
             "ccrDeviceName",
-            "owner",
           ],
-          ["account", "name", "region", "type", "virtualPortReservationId", "owner", "speed"],
+          ["name", "region", "type", "virtualPortReservationId", "speed"],
         ]),
       );
     case 2:

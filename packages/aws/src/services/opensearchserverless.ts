@@ -341,9 +341,23 @@ export interface BatchGetVpcEndpointResponse {
   vpcEndpointDetails?: VpcEndpointDetail[] | undefined;
   vpcEndpointErrorDetails?: VpcEndpointErrorDetail[] | undefined;
 }
+export type IngestionJobId = string;
+export type ClientToken = string;
+export interface CancelIngestionJobRequest {
+  collectionId: string;
+  ingestionJobId: string;
+  clientToken?: string | undefined;
+}
+export type IngestionJobName = string;
+export type IngestionJobStatus = string;
+export interface CancelIngestionJobResponse {
+  ingestionJobId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  status?: string | undefined;
+}
 export type AccessPolicyType = string;
 export type PolicyDocument = string;
-export type ClientToken = string;
 export interface CreateAccessPolicyRequest {
   type: string;
   name: string;
@@ -428,6 +442,119 @@ export interface CreateIndexRequest {
   indexSchema?: any | undefined;
 }
 export interface CreateIndexResponse {}
+export type IngestionIndexName = string;
+export type S3BucketNameOrArn = string;
+export type BucketOwnerAccountId = string;
+export interface IngestionJobS3Source {
+  bucket?: string | undefined;
+  bucketOwnerAccountId?: string | undefined;
+  keyPrefix?: string | undefined;
+}
+export interface IngestionJobSource {
+  s3: IngestionJobS3Source;
+}
+export interface CreateIngestionJobRequest {
+  collectionId: string;
+  ingestionJobName: string;
+  indexName: string;
+  failureIndexName?: string | undefined;
+  source: IngestionJobSource;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+}
+export type IngestionJobResourceArn = string;
+export type IngestionState = string;
+export interface S3Statistics {
+  objectsDiscovered?: number | undefined;
+  objectsIngested?: number | undefined;
+  objectsFailed?: number | undefined;
+}
+export interface IngestionStatistics {
+  s3?: S3Statistics | undefined;
+}
+export type IngestionFailureCode = string;
+export interface IngestionFailureReason {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type IngestionFailureReasons = IngestionFailureReason[];
+export type IngestionAlertCode = string;
+export interface IngestionAlert {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type IngestionAlerts = IngestionAlert[];
+export interface IngestionJobDetail {
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionJobSource | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
+}
+export interface CreateIngestionJobResponse {
+  ingestionJobDetail?: IngestionJobDetail | undefined;
+}
+export type IngestionStreamName = string;
+export type SqsArn = string;
+export type InitialScan = string;
+export interface StreamBucketConfig {
+  bucket: string;
+  bucketOwnerAccountId?: string | undefined;
+  initialScan?: string | undefined;
+}
+export type StreamBucketConfigs = StreamBucketConfig[];
+export interface IngestionStreamS3Source {
+  sqsArn: string;
+  buckets?: StreamBucketConfig[] | undefined;
+}
+export interface IngestionStreamSource {
+  s3: IngestionStreamS3Source;
+}
+export type RoleArn = string;
+export interface CreateIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamName: string;
+  indexName: string;
+  failureIndexName?: string | undefined;
+  source: IngestionStreamSource;
+  roleArn: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+}
+export type IngestionStreamId = string;
+export type IngestionStreamResourceArn = string;
+export type IngestionStreamStatus = string;
+export interface IngestionStreamDetail {
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionStreamSource | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
+}
+export interface CreateIngestionStreamResponse {
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
+}
 export interface CreateLifecyclePolicyRequest {
   type: string;
   name: string;
@@ -563,6 +690,17 @@ export interface DeleteIndexRequest {
   indexName: string;
 }
 export interface DeleteIndexResponse {}
+export interface DeleteIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamId: string;
+  clientToken?: string | undefined;
+}
+export interface DeleteIngestionStreamResponse {
+  ingestionStreamId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  status?: string | undefined;
+}
 export interface DeleteLifecyclePolicyRequest {
   type: string;
   name: string;
@@ -618,6 +756,20 @@ export interface GetIndexRequest {
 }
 export interface GetIndexResponse {
   indexSchema?: any | undefined;
+}
+export interface GetIngestionJobRequest {
+  collectionId: string;
+  ingestionJobId: string;
+}
+export interface GetIngestionJobResponse {
+  ingestionJobDetail?: IngestionJobDetail | undefined;
+}
+export interface GetIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamId: string;
+}
+export interface GetIngestionStreamResponse {
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
 }
 export interface GetPoliciesStatsRequest {}
 export interface AccessPolicyStats {
@@ -712,6 +864,44 @@ export interface CollectionSummary {
 export type CollectionSummaries = CollectionSummary[];
 export interface ListCollectionsResponse {
   collectionSummaries?: CollectionSummary[] | undefined;
+  nextToken?: string | undefined;
+}
+export interface ListIngestionJobsRequest {
+  collectionId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface IngestionJobSummary {
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
+export type IngestionJobSummaries = IngestionJobSummary[];
+export interface ListIngestionJobsResponse {
+  ingestionJobSummaries?: IngestionJobSummary[] | undefined;
+  nextToken?: string | undefined;
+}
+export interface ListIngestionStreamsRequest {
+  collectionId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface IngestionStreamSummary {
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
+export type IngestionStreamSummaries = IngestionStreamSummary[];
+export interface ListIngestionStreamsResponse {
+  ingestionStreamSummaries?: IngestionStreamSummary[] | undefined;
   nextToken?: string | undefined;
 }
 export type LifecycleResource = string;
@@ -830,6 +1020,7 @@ export interface UpdateCollectionRequest {
   description?: string | undefined;
   vectorOptions?: VectorOptions | undefined;
   deletionProtection?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
   clientToken?: string | undefined;
 }
 export interface UpdateCollectionDetail {
@@ -839,6 +1030,7 @@ export interface UpdateCollectionDetail {
   type?: string | undefined;
   description?: string | undefined;
   vectorOptions?: VectorOptions | undefined;
+  kmsKeyArn?: string | undefined;
   arn?: string | undefined;
   createdDate?: number | undefined;
   lastModifiedDate?: number | undefined;
@@ -939,8 +1131,8 @@ export const batchGetCollection: API.OperationMethod<
   BatchGetCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<BatchGetCollectionRequest>,
-  output: __S(404, __c50, 4) as any as S.Schema<BatchGetCollectionResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<BatchGetCollectionRequest>,
+  output: __S(500, __c62, 4) as any as S.Schema<BatchGetCollectionResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -962,8 +1154,8 @@ export const batchGetCollectionGroup: API.OperationMethod<
   BatchGetCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<BatchGetCollectionGroupRequest>,
-  output: __S(437, __c54, 5) as any as S.Schema<BatchGetCollectionGroupResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<BatchGetCollectionGroupRequest>,
+  output: __S(533, __c66, 5) as any as S.Schema<BatchGetCollectionGroupResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -985,8 +1177,8 @@ export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
   BatchGetEffectiveLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(458, __c57, 2) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>,
-  output: __S(463, __c57, 7) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>,
+  input: __S(554, __c69, 2) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>,
+  output: __S(559, __c69, 7) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1008,8 +1200,8 @@ export const batchGetLifecyclePolicy: API.OperationMethod<
   BatchGetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(466, __c58, 2) as any as S.Schema<BatchGetLifecyclePolicyRequest>,
-  output: __S(470, __c58, 6) as any as S.Schema<BatchGetLifecyclePolicyResponse>,
+  input: __S(562, __c70, 2) as any as S.Schema<BatchGetLifecyclePolicyRequest>,
+  output: __S(566, __c70, 6) as any as S.Schema<BatchGetLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1038,6 +1230,36 @@ export const batchGetVpcEndpoint: API.OperationMethod<
   span: "BatchGetVpcEndpoint",
 }));
 
+export type CancelIngestionJobError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels an in-progress ingestion job. Documents that were already indexed before the cancellation remain in the index.
+ */
+export const cancelIngestionJob: API.OperationMethod<
+  CancelIngestionJobRequest & RegionInput,
+  CancelIngestionJobResponse,
+  CancelIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<CancelIngestionJobRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CancelIngestionJobResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelIngestionJob",
+  telemetry: TELEMETRY,
+  span: "CancelIngestionJob",
+}));
+
 export type CreateAccessPolicyError =
   | ConflictException
   | InternalServerException
@@ -1053,8 +1275,8 @@ export const createAccessPolicy: API.OperationMethod<
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateAccessPolicyRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<CreateAccessPolicyResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CreateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1084,8 +1306,8 @@ export const createCollection: API.OperationMethod<
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<CreateCollectionRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<CreateCollectionResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<CreateCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1117,8 +1339,8 @@ export const createCollectionGroup: API.OperationMethod<
   CreateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateCollectionGroupRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<CreateCollectionGroupResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateCollectionGroupRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<CreateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1147,8 +1369,8 @@ export const createIndex: API.OperationMethod<
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateIndexRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<CreateIndexResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<CreateIndexResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1160,6 +1382,70 @@ export const createIndex: API.OperationMethod<
   operationName: "CreateIndex",
   telemetry: TELEMETRY,
   span: "CreateIndex",
+}));
+
+export type CreateIngestionJobError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an ingestion job that performs a one-time bulk ingestion of data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion job scans the source bucket, indexes the documents it finds, and then completes. To continuously ingest new data as it arrives, use `CreateIngestionStream` instead.
+ */
+export const createIngestionJob: API.OperationMethod<
+  CreateIngestionJobRequest & RegionInput,
+  CreateIngestionJobResponse,
+  CreateIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<CreateIngestionJobRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<CreateIngestionJobResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIngestionJob",
+  telemetry: TELEMETRY,
+  span: "CreateIngestionJob",
+}));
+
+export type CreateIngestionStreamError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an ingestion stream that continuously ingests data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion stream processes Amazon S3 event notifications delivered to an Amazon SQS queue and ingests new objects as they arrive. The stream continues to ingest data until you delete it. To perform a one-time bulk ingestion instead, use `CreateIngestionJob`.
+ */
+export const createIngestionStream: API.OperationMethod<
+  CreateIngestionStreamRequest & RegionInput,
+  CreateIngestionStreamResponse,
+  CreateIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<CreateIngestionStreamRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<CreateIngestionStreamResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIngestionStream",
+  telemetry: TELEMETRY,
+  span: "CreateIngestionStream",
 }));
 
 export type CreateLifecyclePolicyError =
@@ -1177,8 +1463,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1207,8 +1493,8 @@ export const createSecurityConfig: API.OperationMethod<
   CreateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<CreateSecurityConfigRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<CreateSecurityConfigResponse>,
+  input: __S(129, __c16, 1) as any as S.Schema<CreateSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<CreateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1237,8 +1523,8 @@ export const createSecurityPolicy: API.OperationMethod<
   CreateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<CreateSecurityPolicyResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<CreateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1267,8 +1553,8 @@ export const createVpcEndpoint: API.OperationMethod<
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CreateVpcEndpointRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<CreateVpcEndpointResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateVpcEndpointRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<CreateVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1297,8 +1583,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1327,8 +1613,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<DeleteCollectionResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<DeleteCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1357,8 +1643,8 @@ export const deleteCollectionGroup: API.OperationMethod<
   DeleteCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteCollectionGroupRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteCollectionGroupResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteCollectionGroupRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1386,14 +1672,44 @@ export const deleteIndex: API.OperationMethod<
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteIndexRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteIndexResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
   telemetry: TELEMETRY,
   span: "DeleteIndex",
+}));
+
+export type DeleteIngestionStreamError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an ingestion stream. Documents that were already indexed by the stream remain in the index.
+ */
+export const deleteIngestionStream: API.OperationMethod<
+  DeleteIngestionStreamRequest & RegionInput,
+  DeleteIngestionStreamResponse,
+  DeleteIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteIngestionStreamRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<DeleteIngestionStreamResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteIngestionStream",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestionStream",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -1411,8 +1727,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1441,8 +1757,8 @@ export const deleteSecurityConfig: API.OperationMethod<
   DeleteSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteSecurityConfigRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteSecurityConfigResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteSecurityConfigRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1471,8 +1787,8 @@ export const deleteSecurityPolicy: API.OperationMethod<
   DeleteSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1501,8 +1817,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DeleteVpcEndpointRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<DeleteVpcEndpointResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<DeleteVpcEndpointRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<DeleteVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1530,8 +1846,8 @@ export const getAccessPolicy: API.OperationMethod<
   GetAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetAccessPolicyRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<GetAccessPolicyResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<GetAccessPolicyResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1550,8 +1866,8 @@ export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetAccountSettingsRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<GetAccountSettingsResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetAccountSettingsRequest>,
+  output: __S(266, __c33, 2) as any as S.Schema<GetAccountSettingsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1574,14 +1890,62 @@ export const getIndex: API.OperationMethod<
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetIndexRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<GetIndexResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetIndexRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<GetIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
   telemetry: TELEMETRY,
   span: "GetIndex",
+}));
+
+export type GetIngestionJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about an ingestion job, including its configuration, status, and processing state.
+ */
+export const getIngestionJob: API.OperationMethod<
+  GetIngestionJobRequest & RegionInput,
+  GetIngestionJobResponse,
+  GetIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<GetIngestionJobRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<GetIngestionJobResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIngestionJob",
+  telemetry: TELEMETRY,
+  span: "GetIngestionJob",
+}));
+
+export type GetIngestionStreamError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about an ingestion stream, including its configuration, status, and processing state.
+ */
+export const getIngestionStream: API.OperationMethod<
+  GetIngestionStreamRequest & RegionInput,
+  GetIngestionStreamResponse,
+  GetIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c36, 0) as any as S.Schema<GetIngestionStreamRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<GetIngestionStreamResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIngestionStream",
+  telemetry: TELEMETRY,
+  span: "GetIngestionStream",
 }));
 
 export type GetPoliciesStatsError = InternalServerException | CommonErrors;
@@ -1594,8 +1958,8 @@ export const getPoliciesStats: API.OperationMethod<
   GetPoliciesStatsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetPoliciesStatsRequest>,
-  output: __S(221, __c27, 5) as any as S.Schema<GetPoliciesStatsResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetPoliciesStatsRequest>,
+  output: __S(301, __c37, 5) as any as S.Schema<GetPoliciesStatsResponse>,
   errors: [InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1618,8 +1982,8 @@ export const getSecurityConfig: API.OperationMethod<
   GetSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetSecurityConfigRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<GetSecurityConfigResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<GetSecurityConfigResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1642,8 +2006,8 @@ export const getSecurityPolicy: API.OperationMethod<
   GetSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetSecurityPolicyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<GetSecurityPolicyResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetSecurityPolicyResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1663,8 +2027,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListAccessPoliciesRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<ListAccessPoliciesResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<ListAccessPoliciesRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ListAccessPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1688,8 +2052,8 @@ export const listCollectionGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListCollectionGroupsRequest>,
-  output: __S(259, __c32, 3) as any as S.Schema<ListCollectionGroupsResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ListCollectionGroupsRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<ListCollectionGroupsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1712,8 +2076,8 @@ export const listCollections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(265, __c33, 1) as any as S.Schema<ListCollectionsRequest>,
-  output: __S(268, __c33, 4) as any as S.Schema<ListCollectionsResponse>,
+  input: __S(345, __c43, 1) as any as S.Schema<ListCollectionsRequest>,
+  output: __S(348, __c43, 4) as any as S.Schema<ListCollectionsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1721,6 +2085,66 @@ export const listCollections: API.PaginatedOperationMethod<
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
   telemetry: TELEMETRY,
   span: "ListCollections",
+})) as any;
+
+export type ListIngestionJobsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of ingestion jobs in a collection.
+ */
+export const listIngestionJobs: API.PaginatedOperationMethod<
+  ListIngestionJobsRequest & RegionInput,
+  ListIngestionJobsResponse,
+  ListIngestionJobsError,
+  Credentials | HttpClient.HttpClient,
+  IngestionJobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(352, __c44, 0) as any as S.Schema<ListIngestionJobsRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<ListIngestionJobsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIngestionJobs",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestionJobSummaries",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionJobs",
+})) as any;
+
+export type ListIngestionStreamsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of ingestion streams in a collection.
+ */
+export const listIngestionStreams: API.PaginatedOperationMethod<
+  ListIngestionStreamsRequest & RegionInput,
+  ListIngestionStreamsResponse,
+  ListIngestionStreamsError,
+  Credentials | HttpClient.HttpClient,
+  IngestionStreamSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(360, __c45, 0) as any as S.Schema<ListIngestionStreamsRequest>,
+  output: __S(363, __c45, 3) as any as S.Schema<ListIngestionStreamsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIngestionStreams",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestionStreamSummaries",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionStreams",
 })) as any;
 
 export type ListLifecyclePoliciesError =
@@ -1737,8 +2161,8 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListLifecyclePoliciesRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<ListLifecyclePoliciesResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<ListLifecyclePoliciesRequest>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListLifecyclePoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1759,8 +2183,8 @@ export const listSecurityConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListSecurityConfigsRequest>,
-  output: __S(283, __c35, 3) as any as S.Schema<ListSecurityConfigsResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<ListSecurityConfigsRequest>,
+  output: __S(379, __c47, 3) as any as S.Schema<ListSecurityConfigsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1784,8 +2208,8 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListSecurityPoliciesRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<ListSecurityPoliciesResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<ListSecurityPoliciesRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<ListSecurityPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1809,8 +2233,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(297, __c37, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(393, __c49, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1830,8 +2254,8 @@ export const listVpcEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(305, __c38, 1) as any as S.Schema<ListVpcEndpointsRequest>,
-  output: __S(307, __c38, 3) as any as S.Schema<ListVpcEndpointsResponse>,
+  input: __S(401, __c50, 1) as any as S.Schema<ListVpcEndpointsRequest>,
+  output: __S(403, __c50, 3) as any as S.Schema<ListVpcEndpointsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1857,8 +2281,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1888,8 +2312,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1918,8 +2342,8 @@ export const updateAccessPolicy: API.OperationMethod<
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<UpdateAccessPolicyRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<UpdateAccessPolicyResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<UpdateAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UpdateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1947,8 +2371,8 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<UpdateAccountSettingsRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<UpdateAccountSettingsResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<UpdateAccountSettingsRequest>,
+  output: __S(266, __c33, 2) as any as S.Schema<UpdateAccountSettingsResponse>,
   errors: [InternalServerException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1971,8 +2395,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(346, __c43, 2) as any as S.Schema<UpdateCollectionResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<UpdateCollectionResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1996,8 +2420,8 @@ export const updateCollectionGroup: API.OperationMethod<
   UpdateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UpdateCollectionGroupRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<UpdateCollectionGroupResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateCollectionGroupRequest>,
+  output: __S(450, __c56, 2) as any as S.Schema<UpdateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2025,8 +2449,8 @@ export const updateIndex: API.OperationMethod<
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateIndexRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<UpdateIndexResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<UpdateIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UpdateIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2051,8 +2475,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<UpdateLifecyclePolicyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<UpdateLifecyclePolicyResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<UpdateLifecyclePolicyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UpdateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2082,8 +2506,8 @@ export const updateSecurityConfig: API.OperationMethod<
   UpdateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(377, __c47, 1) as any as S.Schema<UpdateSecurityConfigRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<UpdateSecurityConfigResponse>,
+  input: __S(473, __c59, 1) as any as S.Schema<UpdateSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<UpdateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2113,8 +2537,8 @@ export const updateSecurityPolicy: API.OperationMethod<
   UpdateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UpdateSecurityPolicyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<UpdateSecurityPolicyResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<UpdateSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<UpdateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2143,8 +2567,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<UpdateVpcEndpointResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
+  output: __S(490, __c61, 2) as any as S.Schema<UpdateVpcEndpointResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2158,7 +2582,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ids: __S(424, __c53, 0) }).pipe(
+        S.Struct({ ids: __S(520, __c65, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetVpcEndpointRequest" });
@@ -2168,8 +2592,8 @@ function __c0(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           vpcId: S.optional(S.String),
-          subnetIds: S.optional(__S(424, __c53, 0)),
-          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          subnetIds: S.optional(__S(520, __c65, 0)),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
           status: S.optional(S.String),
           createdDate: S.optional(S.Number),
           failureCode: S.optional(S.String),
@@ -2202,6 +2626,27 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          collectionId: S.String,
+          ingestionJobId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CancelIngestionJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelIngestionJobResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           type: S.String,
           name: S.String,
           description: S.optional(S.String),
@@ -2211,36 +2656,32 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateAccessPolicyRequest" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ accessPolicyDetail: S.optional(__S(472, __c59, 0)) }),
-      ).annotate({ identifier: "CreateAccessPolicyResponse" });
-  }
-}
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ aWSOwnedKey: S.optional(S.Boolean), kmsKeyArn: S.optional(S.String) }),
-      ).annotate({ identifier: "EncryptionConfig" });
-    case 1:
+        S.Struct({ accessPolicyDetail: S.optional(__S(568, __c71, 0)) }),
+      ).annotate({ identifier: "CreateAccessPolicyResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           type: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(441, __c55, 1)),
+          tags: S.optional(__S(537, __c67, 1)),
           standbyReplicas: S.optional(S.String),
-          vectorOptions: S.optional(__S(408, __c51, 0)),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
           collectionGroupName: S.optional(S.String),
-          encryptionConfig: S.optional(__S(24, __c3, 0)),
+          encryptionConfig: S.optional(__S(40, __c5, 0)),
           deletionProtection: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCollectionRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -2252,19 +2693,27 @@ function __c3(j: number): any {
           kmsKeyArn: S.optional(S.String),
           standbyReplicas: S.optional(S.String),
           deletionProtection: S.optional(S.String),
-          vectorOptions: S.optional(__S(408, __c51, 0)),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
           createdDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
           collectionGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCollectionDetail" });
-    case 3:
+    case 2:
       return S.suspend(() =>
-        S.Struct({ createCollectionDetail: S.optional(__S(26, __c3, 2)) }),
+        S.Struct({ createCollectionDetail: S.optional(__S(33, __c4, 1)) }),
       ).annotate({ identifier: "CreateCollectionResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ aWSOwnedKey: S.optional(S.Boolean), kmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "EncryptionConfig" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2272,8 +2721,8 @@ function __c4(j: number): any {
           name: S.String,
           standbyReplicas: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(441, __c55, 1)),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
+          tags: S.optional(__S(537, __c67, 1)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
           generation: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2286,19 +2735,19 @@ function __c4(j: number): any {
           name: S.optional(S.String),
           standbyReplicas: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(441, __c55, 1)),
+          tags: S.optional(__S(537, __c67, 1)),
           createdDate: S.optional(S.Number),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
           generation: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCollectionGroupDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ createCollectionGroupDetail: S.optional(__S(33, __c4, 1)) }),
+        S.Struct({ createCollectionGroupDetail: S.optional(__S(49, __c6, 1)) }),
       ).annotate({ identifier: "CreateCollectionGroupResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2308,13 +2757,155 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateIndexRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateIndexResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionJobName: S.String,
+          indexName: S.String,
+          failureIndexName: S.optional(S.String),
+          source: __S(89, __c11, 1),
+          tags: S.optional(__S(537, __c67, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIngestionJobRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          objectsDiscovered: S.optional(S.Number),
+          objectsIngested: S.optional(S.Number),
+          objectsFailed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "S3Statistics" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(80, __c10, 0)) })).annotate({
+        identifier: "IngestionStatistics",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "IngestionFailureReason" });
+    case 3:
+      return S.Array(__S(82, __c10, 2));
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          bucketOwnerAccountId: S.optional(S.String),
+          keyPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestionJobS3Source" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: __S(88, __c11, 0) })).annotate({
+        identifier: "IngestionJobSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          arn: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          failureIndexName: S.optional(S.String),
+          source: S.optional(__S(89, __c11, 1)),
+          status: S.optional(S.String),
+          state: S.optional(S.String),
+          statistics: S.optional(__S(81, __c10, 1)),
+          revision: S.optional(S.Number),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          failureReasons: S.optional(__S(83, __c10, 3)),
+          activeAlerts: S.optional(__S(83, __c10, 3)),
+        }),
+      ).annotate({ identifier: "IngestionJobDetail" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ingestionJobDetail: S.optional(__S(90, __c11, 2)) }),
+      ).annotate({ identifier: "CreateIngestionJobResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionStreamName: S.String,
+          indexName: S.String,
+          failureIndexName: S.optional(S.String),
+          source: __S(107, __c13, 3),
+          roleArn: S.String,
+          tags: S.optional(__S(537, __c67, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIngestionStreamRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String,
+          bucketOwnerAccountId: S.optional(S.String),
+          initialScan: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamBucketConfig" });
+    case 1:
+      return S.Array(__S(104, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ sqsArn: S.String, buckets: S.optional(__S(105, __c13, 1)) }),
+      ).annotate({ identifier: "IngestionStreamS3Source" });
+    case 3:
+      return S.suspend(() => S.Struct({ s3: __S(106, __c13, 2) })).annotate({
+        identifier: "IngestionStreamSource",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          arn: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          failureIndexName: S.optional(S.String),
+          source: S.optional(__S(107, __c13, 3)),
+          roleArn: S.optional(S.String),
+          status: S.optional(S.String),
+          state: S.optional(S.String),
+          statistics: S.optional(__S(81, __c10, 1)),
+          revision: S.optional(S.Number),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          failureReasons: S.optional(__S(83, __c10, 3)),
+          activeAlerts: S.optional(__S(83, __c10, 3)),
+        }),
+      ).annotate({ identifier: "IngestionStreamDetail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ ingestionStreamDetail: S.optional(__S(108, __c13, 4)) }),
+      ).annotate({ identifier: "CreateIngestionStreamResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2328,15 +2919,15 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateLifecyclePolicyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ lifecyclePolicyDetail: S.optional(__S(472, __c59, 0)) }),
+        S.Struct({ lifecyclePolicyDetail: S.optional(__S(568, __c71, 0)) }),
       ).annotate({ identifier: "CreateLifecyclePolicyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2352,15 +2943,15 @@ function __c9(j: number): any {
           type: S.String,
           name: S.String,
           description: S.optional(S.String),
-          samlOptions: S.optional(__S(80, __c10, 0)),
-          iamIdentityCenterOptions: S.optional(__S(72, __c9, 0)),
-          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptions: S.optional(__S(128, __c16, 0)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateSecurityConfigRequest" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2394,20 +2985,20 @@ function __c10(j: number): any {
           type: S.optional(S.String),
           configVersion: S.optional(S.String),
           description: S.optional(S.String),
-          samlOptions: S.optional(__S(80, __c10, 0)),
-          iamIdentityCenterOptions: S.optional(__S(82, __c10, 2)),
-          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptions: S.optional(__S(138, __c17, 2)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
           createdDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SecurityConfigDetail" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ securityConfigDetail: S.optional(__S(83, __c10, 3)) }),
+        S.Struct({ securityConfigDetail: S.optional(__S(139, __c17, 3)) }),
       ).annotate({ identifier: "CreateSecurityConfigResponse" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2421,33 +3012,33 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateSecurityPolicyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ securityPolicyDetail: S.optional(__S(472, __c59, 0)) }),
+        S.Struct({ securityPolicyDetail: S.optional(__S(568, __c71, 0)) }),
       ).annotate({ identifier: "CreateSecurityPolicyResponse" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           vpcId: S.String,
-          subnetIds: __S(424, __c53, 0),
-          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          subnetIds: __S(520, __c65, 0),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateVpcEndpointRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ createVpcEndpointDetail: S.optional(__S(112, __c14, 0)) }),
+        S.Struct({ createVpcEndpointDetail: S.optional(__S(168, __c21, 0)) }),
       ).annotate({ identifier: "CreateVpcEndpointResponse" });
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2459,7 +3050,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateVpcEndpointDetail" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2471,7 +3062,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteAccessPolicyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2491,11 +3082,11 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteCollectionDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ deleteCollectionDetail: S.optional(__S(129, __c16, 1)) }),
+        S.Struct({ deleteCollectionDetail: S.optional(__S(185, __c23, 1)) }),
       ).annotate({ identifier: "DeleteCollectionResponse" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2506,7 +3097,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteCollectionGroupRequest" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2516,7 +3107,28 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteIndexRequest" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionStreamId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteIngestionStreamRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteIngestionStreamResponse" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2528,7 +3140,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteLifecyclePolicyRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2539,7 +3151,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteSecurityConfigRequest" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2551,7 +3163,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteSecurityPolicyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2562,11 +3174,11 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteVpcEndpointRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ deleteVpcEndpointDetail: S.optional(__S(112, __c14, 0)) }),
+        S.Struct({ deleteVpcEndpointDetail: S.optional(__S(168, __c21, 0)) }),
       ).annotate({ identifier: "DeleteVpcEndpointResponse" });
   }
 }
-function __c23(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2576,7 +3188,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetAccessPolicyRequest" });
   }
 }
-function __c24(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2586,7 +3198,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetAccountSettingsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2596,16 +3208,16 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "CapacityLimits" });
     case 1:
-      return S.suspend(() => S.Struct({ capacityLimits: S.optional(__S(200, __c25, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ capacityLimits: S.optional(__S(264, __c33, 0)) })).annotate(
         { identifier: "AccountSettingsDetail" },
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ accountSettingsDetail: S.optional(__S(201, __c25, 1)) }),
+        S.Struct({ accountSettingsDetail: S.optional(__S(265, __c33, 1)) }),
       ).annotate({ identifier: "GetAccountSettingsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2619,7 +3231,27 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ collectionId: S.String, ingestionJobId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIngestionJobRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ collectionId: S.String, ingestionStreamId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIngestionStreamRequest" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2649,16 +3281,16 @@ function __c27(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          AccessPolicyStats: S.optional(__S(217, __c27, 1)),
-          SecurityPolicyStats: S.optional(__S(218, __c27, 2)),
-          SecurityConfigStats: S.optional(__S(219, __c27, 3)),
-          LifecyclePolicyStats: S.optional(__S(220, __c27, 4)),
+          AccessPolicyStats: S.optional(__S(297, __c37, 1)),
+          SecurityPolicyStats: S.optional(__S(298, __c37, 2)),
+          SecurityConfigStats: S.optional(__S(299, __c37, 3)),
+          LifecyclePolicyStats: S.optional(__S(300, __c37, 4)),
           TotalPolicyCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPoliciesStatsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,7 +3300,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetSecurityConfigRequest" });
   }
 }
-function __c29(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2678,13 +3310,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetSecurityPolicyRequest" });
   }
 }
-function __c30(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          resource: S.optional(__S(424, __c53, 0)),
+          resource: S.optional(__S(520, __c65, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2692,13 +3324,13 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accessPolicySummaries: S.optional(__S(249, __c31, 1)),
+          accessPolicySummaries: S.optional(__S(329, __c41, 1)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccessPoliciesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2712,10 +3344,10 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "AccessPolicySummary" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(328, __c41, 0));
   }
 }
-function __c32(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2731,22 +3363,22 @@ function __c32(j: number): any {
           name: S.optional(S.String),
           numberOfCollections: S.optional(S.Number),
           createdDate: S.optional(S.Number),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
           generation: S.optional(S.String),
         }),
       ).annotate({ identifier: "CollectionGroupSummary" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          collectionGroupSummaries: S.optional(__S(258, __c32, 2)),
+          collectionGroupSummaries: S.optional(__S(338, __c42, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCollectionGroupsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2759,7 +3391,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          collectionFilters: S.optional(__S(264, __c33, 0)),
+          collectionFilters: S.optional(__S(344, __c43, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2776,23 +3408,89 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "CollectionSummary" });
     case 3:
-      return S.Array(__S(266, __c33, 2));
+      return S.Array(__S(346, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          collectionSummaries: S.optional(__S(267, __c33, 3)),
+          collectionSummaries: S.optional(__S(347, __c43, 3)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCollectionsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListIngestionJobsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          arn: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          status: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "IngestionJobSummary" });
+    case 2:
+      return S.Array(__S(353, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobSummaries: S.optional(__S(354, __c44, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListIngestionJobsResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListIngestionStreamsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          arn: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          status: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "IngestionStreamSummary" });
+    case 2:
+      return S.Array(__S(361, __c45, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamSummaries: S.optional(__S(362, __c45, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListIngestionStreamsResponse" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          resources: S.optional(__S(424, __c53, 0)),
+          resources: S.optional(__S(520, __c65, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2800,13 +3498,13 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lifecyclePolicySummaries: S.optional(__S(249, __c31, 1)),
+          lifecyclePolicySummaries: S.optional(__S(329, __c41, 1)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLifecyclePoliciesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2828,23 +3526,23 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SecurityConfigSummary" });
     case 2:
-      return S.Array(__S(281, __c35, 1));
+      return S.Array(__S(377, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          securityConfigSummaries: S.optional(__S(282, __c35, 2)),
+          securityConfigSummaries: S.optional(__S(378, __c47, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecurityConfigsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          resource: S.optional(__S(424, __c53, 0)),
+          resource: S.optional(__S(520, __c65, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2852,13 +3550,13 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          securityPolicySummaries: S.optional(__S(249, __c31, 1)),
+          securityPolicySummaries: S.optional(__S(329, __c41, 1)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecurityPoliciesResponse" });
   }
 }
-function __c37(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2867,12 +3565,12 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(441, __c55, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(537, __c67, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ status: S.optional(S.String) })).annotate({
@@ -2881,43 +3579,43 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vpcEndpointFilters: S.optional(__S(304, __c38, 0)),
+          vpcEndpointFilters: S.optional(__S(400, __c50, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListVpcEndpointsRequest" });
     case 2:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(168, __c21, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vpcEndpointSummaries: S.optional(__S(306, __c38, 2)),
+          vpcEndpointSummaries: S.optional(__S(402, __c50, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVpcEndpointsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(441, __c55, 1) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(537, __c67, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c40(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tagKeys: __S(424, __c53, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tagKeys: __S(520, __c65, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c41(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2932,25 +3630,26 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateAccessPolicyRequest" });
   }
 }
-function __c42(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ capacityLimits: S.optional(__S(200, __c25, 0)) }).pipe(
+        S.Struct({ capacityLimits: S.optional(__S(264, __c33, 0)) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateAccountSettingsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           description: S.optional(S.String),
-          vectorOptions: S.optional(__S(408, __c51, 0)),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
           deletionProtection: S.optional(S.String),
+          encryptionConfig: S.optional(__S(40, __c5, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateCollectionRequest" });
@@ -2962,7 +3661,8 @@ function __c43(j: number): any {
           status: S.optional(S.String),
           type: S.optional(S.String),
           description: S.optional(S.String),
-          vectorOptions: S.optional(__S(408, __c51, 0)),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          kmsKeyArn: S.optional(S.String),
           arn: S.optional(S.String),
           createdDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
@@ -2971,18 +3671,18 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateCollectionDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ updateCollectionDetail: S.optional(__S(345, __c43, 1)) }),
+        S.Struct({ updateCollectionDetail: S.optional(__S(441, __c55, 1)) }),
       ).annotate({ identifier: "UpdateCollectionResponse" });
   }
 }
-function __c44(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           description: S.optional(S.String),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateCollectionGroupRequest" });
@@ -2993,7 +3693,7 @@ function __c44(j: number): any {
           arn: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
           createdDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
           generation: S.optional(S.String),
@@ -3001,11 +3701,11 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateCollectionGroupDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ updateCollectionGroupDetail: S.optional(__S(353, __c44, 1)) }),
+        S.Struct({ updateCollectionGroupDetail: S.optional(__S(449, __c56, 1)) }),
       ).annotate({ identifier: "UpdateCollectionGroupResponse" });
   }
 }
-function __c45(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3015,7 +3715,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateIndexRequest" });
   }
 }
-function __c46(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3030,7 +3730,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateLifecyclePolicyRequest" });
   }
 }
-function __c47(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3042,15 +3742,15 @@ function __c47(j: number): any {
           id: S.String,
           configVersion: S.String,
           description: S.optional(S.String),
-          samlOptions: S.optional(__S(80, __c10, 0)),
-          iamIdentityCenterOptionsUpdates: S.optional(__S(376, __c47, 0)),
-          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptionsUpdates: S.optional(__S(472, __c59, 0)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateSecurityConfigRequest" });
   }
 }
-function __c48(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3065,16 +3765,16 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateSecurityPolicyRequest" });
   }
 }
-function __c49(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          addSubnetIds: S.optional(__S(424, __c53, 0)),
-          removeSubnetIds: S.optional(__S(424, __c53, 0)),
-          addSecurityGroupIds: S.optional(__S(424, __c53, 0)),
-          removeSecurityGroupIds: S.optional(__S(424, __c53, 0)),
+          addSubnetIds: S.optional(__S(520, __c65, 0)),
+          removeSubnetIds: S.optional(__S(520, __c65, 0)),
+          addSecurityGroupIds: S.optional(__S(520, __c65, 0)),
+          removeSecurityGroupIds: S.optional(__S(520, __c65, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateVpcEndpointRequest" });
@@ -3084,24 +3784,24 @@ function __c49(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          subnetIds: S.optional(__S(424, __c53, 0)),
-          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          subnetIds: S.optional(__S(520, __c65, 0)),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
           lastModifiedDate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateVpcEndpointDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ UpdateVpcEndpointDetail: S.optional(__S(393, __c49, 1)) }),
+        S.Struct({ UpdateVpcEndpointDetail: S.optional(__S(489, __c61, 1)) }),
       ).annotate({ identifier: "UpdateVpcEndpointResponse" });
   }
 }
-function __c50(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(424, __c53, 0)),
-          names: S.optional(__S(424, __c53, 0)),
+          ids: S.optional(__S(520, __c65, 0)),
+          names: S.optional(__S(520, __c65, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchGetCollectionRequest" });
     case 1:
@@ -3123,29 +3823,29 @@ function __c50(j: number): any {
           kmsKeyArn: S.optional(S.String),
           standbyReplicas: S.optional(S.String),
           deletionProtection: S.optional(S.String),
-          vectorOptions: S.optional(__S(408, __c51, 0)),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
           createdDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
           collectionEndpoint: S.optional(S.String),
           dashboardEndpoint: S.optional(S.String),
-          fipsEndpoints: S.optional(__S(401, __c50, 1)),
+          fipsEndpoints: S.optional(__S(497, __c62, 1)),
           failureCode: S.optional(S.String),
           failureMessage: S.optional(S.String),
           collectionGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CollectionDetail" });
     case 3:
-      return S.Array(__S(402, __c50, 2));
+      return S.Array(__S(498, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          collectionDetails: S.optional(__S(403, __c50, 3)),
-          collectionErrorDetails: S.optional(__S(417, __c52, 1)),
+          collectionDetails: S.optional(__S(499, __c62, 3)),
+          collectionErrorDetails: S.optional(__S(513, __c64, 1)),
         }),
       ).annotate({ identifier: "BatchGetCollectionResponse" });
   }
 }
-function __c51(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ServerlessVectorAcceleration: S.String })).annotate({
@@ -3153,7 +3853,7 @@ function __c51(j: number): any {
       });
   }
 }
-function __c52(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3165,22 +3865,22 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "CollectionErrorDetail" });
     case 1:
-      return S.Array(__S(416, __c52, 0));
+      return S.Array(__S(512, __c64, 0));
   }
 }
-function __c53(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c54(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(424, __c53, 0)),
-          names: S.optional(__S(424, __c53, 0)),
+          ids: S.optional(__S(520, __c65, 0)),
+          names: S.optional(__S(520, __c65, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchGetCollectionGroupRequest" });
     case 1:
@@ -3190,8 +3890,8 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          search: S.optional(__S(433, __c54, 1)),
-          indexing: S.optional(__S(433, __c54, 1)),
+          search: S.optional(__S(529, __c66, 1)),
+          indexing: S.optional(__S(529, __c66, 1)),
         }),
       ).annotate({ identifier: "CurrentCapacity" });
     case 3:
@@ -3202,36 +3902,36 @@ function __c54(j: number): any {
           name: S.optional(S.String),
           standbyReplicas: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(441, __c55, 1)),
+          tags: S.optional(__S(537, __c67, 1)),
           createdDate: S.optional(S.Number),
-          capacityLimits: S.optional(__S(448, __c56, 0)),
-          currentCapacity: S.optional(__S(434, __c54, 2)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          currentCapacity: S.optional(__S(530, __c66, 2)),
           numberOfCollections: S.optional(S.Number),
           generation: S.optional(S.String),
         }),
       ).annotate({ identifier: "CollectionGroupDetail" });
     case 4:
-      return S.Array(__S(435, __c54, 3));
+      return S.Array(__S(531, __c66, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          collectionGroupDetails: S.optional(__S(436, __c54, 4)),
-          collectionGroupErrorDetails: S.optional(__S(417, __c52, 1)),
+          collectionGroupDetails: S.optional(__S(532, __c66, 4)),
+          collectionGroupErrorDetails: S.optional(__S(513, __c64, 1)),
         }),
       ).annotate({ identifier: "BatchGetCollectionGroupResponse" });
   }
 }
-function __c55(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(440, __c55, 0));
+      return S.Array(__S(536, __c67, 0));
   }
 }
-function __c56(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3244,17 +3944,17 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CollectionGroupCapacityLimits" });
   }
 }
-function __c57(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, resource: S.String })).annotate({
         identifier: "LifecyclePolicyResourceIdentifier",
       });
     case 1:
-      return S.Array(__S(456, __c57, 0));
+      return S.Array(__S(552, __c69, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ resourceIdentifiers: __S(457, __c57, 1) }).pipe(
+        S.Struct({ resourceIdentifiers: __S(553, __c69, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyRequest" });
@@ -3270,7 +3970,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "EffectiveLifecyclePolicyDetail" });
     case 4:
-      return S.Array(__S(459, __c57, 3));
+      return S.Array(__S(555, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3281,32 +3981,32 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "EffectiveLifecyclePolicyErrorDetail" });
     case 6:
-      return S.Array(__S(461, __c57, 5));
+      return S.Array(__S(557, __c69, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          effectiveLifecyclePolicyDetails: S.optional(__S(460, __c57, 4)),
-          effectiveLifecyclePolicyErrorDetails: S.optional(__S(462, __c57, 6)),
+          effectiveLifecyclePolicyDetails: S.optional(__S(556, __c69, 4)),
+          effectiveLifecyclePolicyErrorDetails: S.optional(__S(558, __c69, 6)),
         }),
       ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyResponse" });
   }
 }
-function __c58(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, name: S.String })).annotate({
         identifier: "LifecyclePolicyIdentifier",
       });
     case 1:
-      return S.Array(__S(464, __c58, 0));
+      return S.Array(__S(560, __c70, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(465, __c58, 1) }).pipe(
+        S.Struct({ identifiers: __S(561, __c70, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetLifecyclePolicyRequest" });
     case 3:
-      return S.Array(__S(472, __c59, 0));
+      return S.Array(__S(568, __c71, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3317,17 +4017,17 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "LifecyclePolicyErrorDetail" });
     case 5:
-      return S.Array(__S(468, __c58, 4));
+      return S.Array(__S(564, __c70, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          lifecyclePolicyDetails: S.optional(__S(467, __c58, 3)),
-          lifecyclePolicyErrorDetails: S.optional(__S(469, __c58, 5)),
+          lifecyclePolicyDetails: S.optional(__S(563, __c70, 3)),
+          lifecyclePolicyErrorDetails: S.optional(__S(565, __c70, 5)),
         }),
       ).annotate({ identifier: "BatchGetLifecyclePolicyResponse" });
   }
 }
-function __c59(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

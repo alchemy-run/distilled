@@ -551,8 +551,13 @@ export type GetOrderResponseDomainsItem =
 export type GetOrderResponseDomainsList = Array<GetOrderResponseDomainsItem>;
 export type GetOrderResponseStatus = "draft" | "purchasing" | "completed" | "failed";
 export type GetOrderResponseErrorCase0Case0Code = "payment-failed";
+export type GetOrderResponseErrorCase0Case0DetailsReason = "authentication-required";
+export interface GetOrderResponseErrorCase0Case0Details {
+  reason: GetOrderResponseErrorCase0Case0DetailsReason;
+}
 export interface GetOrderResponseErrorCase0Case0 {
   code: GetOrderResponseErrorCase0Case0Code;
+  details?: GetOrderResponseErrorCase0Case0Details | undefined;
 }
 export type GetOrderResponseErrorCase0Case1Code = "tld-outage";
 export interface GetOrderResponseErrorCase0Case1DetailsTldsItem {

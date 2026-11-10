@@ -95,6 +95,16 @@ export interface BatchGetAmpUrlsRequest_ {
   /** Request body */
   body?: BatchGetAmpUrlsRequest | undefined;
 }
+/** AMP URL response for a requested URL. */
+export interface AmpUrl {
+  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
+  cdnAmpUrl?: string | undefined;
+  /** The AMP URL pointing to the publisher's web server. */
+  ampUrl?: string | undefined;
+  /** The original non-AMP URL. */
+  originalUrl?: string | undefined;
+}
+export type AmpUrlList = Array<AmpUrl>;
 export type AmpUrlErrorErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
   | "INPUT_URL_NOT_FOUND"
@@ -104,30 +114,20 @@ export type AmpUrlErrorErrorCodeEnum =
   | "URL_IS_INVALID_AMP";
 /** AMP URL Error resource for a requested URL that couldn't be found. */
 export interface AmpUrlError {
+  /** The error code of an API call. */
+  errorCode?: AmpUrlErrorErrorCodeEnum | undefined;
   /** An optional descriptive error message. */
   errorMessage?: string | undefined;
   /** The original non-AMP URL. */
   originalUrl?: string | undefined;
-  /** The error code of an API call. */
-  errorCode?: AmpUrlErrorErrorCodeEnum | undefined;
 }
 export type AmpUrlErrorList = Array<AmpUrlError>;
-/** AMP URL response for a requested URL. */
-export interface AmpUrl {
-  /** The AMP URL pointing to the publisher's web server. */
-  ampUrl?: string | undefined;
-  /** The original non-AMP URL. */
-  originalUrl?: string | undefined;
-  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
-  cdnAmpUrl?: string | undefined;
-}
-export type AmpUrlList = Array<AmpUrl>;
 /** Batch AMP URL response. */
 export interface BatchGetAmpUrlsResponse {
-  /** The errors for requested URLs that have no AMP URL. */
-  urlErrors?: AmpUrlErrorList | undefined;
   /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */
   ampUrls?: AmpUrlList | undefined;
+  /** The errors for requested URLs that have no AMP URL. */
+  urlErrors?: AmpUrlErrorList | undefined;
 }
 export type BatchGetAmpUrlsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Returns AMP URL(s) and equivalent [AMP Cache URL(s)](/amp/cache/overview#amp-cache-url-format). */
@@ -173,28 +173,28 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
+          cdnAmpUrl: S.optional(S.String),
+          ampUrl: S.optional(S.String),
           originalUrl: S.optional(S.String),
-          errorCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AmpUrlError" });
+      ).annotate({ identifier: "AmpUrl" });
     case 4:
       return S.Array(__S(3, __c0, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ampUrl: S.optional(S.String),
+          errorCode: S.optional(S.String),
+          errorMessage: S.optional(S.String),
           originalUrl: S.optional(S.String),
-          cdnAmpUrl: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AmpUrl" });
+      ).annotate({ identifier: "AmpUrlError" });
     case 6:
       return S.Array(__S(5, __c0, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          urlErrors: S.optional(__S(4, __c0, 4)),
-          ampUrls: S.optional(__S(6, __c0, 6)),
+          ampUrls: S.optional(__S(4, __c0, 4)),
+          urlErrors: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "BatchGetAmpUrlsResponse" });
   }

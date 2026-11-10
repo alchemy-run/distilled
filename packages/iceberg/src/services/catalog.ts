@@ -15,7 +15,6 @@ export type { IcebergOpError, IcebergOpContext };
 /** TS member name -> Iceberg wire name, for opaque union payloads. */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   added_rows: "added-rows",
-  avg_value_size_in_bytes: "avg-value-size-in-bytes",
   blob_metadata: "blob-metadata",
   case_sensitive: "case-sensitive",
   column_sizes: "column-sizes",
@@ -119,6 +118,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   table_changes: "table-changes",
   table_uuid: "table-uuid",
   timestamp_ms: "timestamp-ms",
+  total_bytes: "total-bytes",
   upper_bounds: "upper-bounds",
   use_snapshot_schema: "use-snapshot-schema",
   value_counts: "value-counts",
@@ -281,7 +281,8 @@ export class UnsupportedOperationException
 
 export type CancelPlanningRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CancelPlanningRequestXIcebergAccessDelegationList = Array<
   CancelPlanningRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -292,7 +293,7 @@ export interface CancelPlanningRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: CancelPlanningRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
   idempotencyKey?: string | undefined;
@@ -579,7 +580,8 @@ export interface CreateNamespaceResponse {
 }
 export type CreateTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CreateTableRequestXIcebergAccessDelegationList = Array<
   CreateTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -587,7 +589,7 @@ export type CreateTableRequestPropertiesMap = { [key: string]: string | undefine
 export interface CreateTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: CreateTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
   idempotencyKey?: string | undefined;
@@ -917,7 +919,8 @@ export interface DropViewRequest {
 export interface DropViewResponse {}
 export type FetchPlanningResultRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type FetchPlanningResultRequestXIcebergAccessDelegationList = Array<
   FetchPlanningResultRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -928,7 +931,7 @@ export interface FetchPlanningResultRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList | undefined;
 }
 export type FileFormat = "avro" | "orc" | "parquet" | "puffin";
@@ -937,8 +940,8 @@ export type PositionDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
 export type PositionDeleteFileSplitOffsetsList = Array<number>;
 export interface FieldStatistics {
-  /** Avg value size in memory (uncompressed) in bytes over non-null values to estimate memory consumption */
-  avg_value_size_in_bytes?: number | undefined;
+  /** Estimated uncompressed bytes in memory of non-null values. The estimate depends on the in-memory representation */
+  total_bytes?: number | undefined;
 }
 /** Container struct for per-field metrics structs */
 export type PositionDeleteFileContentStatsMap = { [key: string]: FieldStatistics | undefined };
@@ -1339,7 +1342,10 @@ export interface GetNamespaceResponse {
   properties?: GetNamespaceResponsePropertiesMap | null | undefined;
 }
 export type LoadTableRequestSnapshots = "all" | "refs";
-export type LoadTableRequestXIcebergAccessDelegationItem = "vended-credentials" | "remote-signing";
+export type LoadTableRequestXIcebergAccessDelegationItem =
+  | "vended-credentials"
+  | "remote-signing"
+  | "none";
 export type LoadTableRequestXIcebergAccessDelegationList = Array<
   LoadTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1352,7 +1358,7 @@ export interface LoadTableRequest {
   snapshots?: LoadTableRequestSnapshots | (string & {}) | undefined;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
   referenced_by?: string | undefined;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: LoadTableRequestXIcebergAccessDelegationList | undefined;
   /** An optional header that allows the server to return 304 (Not Modified) if the metadata is current. The content is the value of the ETag received in a CreateTableResponse, LoadTableResponse or CommitTableResponse. */
   ifNoneMatch?: string | undefined;
@@ -1372,7 +1378,8 @@ export interface NamespaceExistsRequest {
 export interface NamespaceExistsResponse {}
 export type PlanTableScanRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type PlanTableScanRequestXIcebergAccessDelegationList = Array<
   PlanTableScanRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1385,7 +1392,7 @@ export interface PlanTableScanRequest {
   namespace: string;
   /** A table name */
   table: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: PlanTableScanRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
   idempotencyKey?: string | undefined;
@@ -1439,14 +1446,15 @@ export type PlanTableScanResult =
 export type PlanTableScanResponse = PlanTableScanResult;
 export type RegisterTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type RegisterTableRequestXIcebergAccessDelegationList = Array<
   RegisterTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
 export interface RegisterTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
   xIcebergAccessDelegation?: RegisterTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
   idempotencyKey?: string | undefined;
@@ -2903,7 +2911,7 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          avg_value_size_in_bytes: S.optional(S.Number.pipe(T.Body("avg-value-size-in-bytes"))),
+          total_bytes: S.optional(S.Number.pipe(T.Body("total-bytes"))),
         }),
       ).annotate({ identifier: "FieldStatistics" });
     case 2:

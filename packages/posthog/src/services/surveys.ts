@@ -119,14 +119,14 @@ export interface FeatureFlagFilterPropertyDateSchema {
   /** Date value in ISO format or relative date expression. */
   value?: string | undefined;
 }
-/** * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-export type FeatureFlagFilterPropertySemverSchemaOperatorEnum =
+/** * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+export type SemverOperatorEnum =
+  | "semver_eq"
+  | "semver_neq"
   | "semver_gt"
   | "semver_gte"
   | "semver_lt"
   | "semver_lte"
-  | "semver_eq"
-  | "semver_neq"
   | "semver_tilde"
   | "semver_caret"
   | "semver_wildcard";
@@ -139,8 +139,8 @@ export interface FeatureFlagFilterPropertySemverSchema {
   cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
   group_type_index?: number | null | undefined;
-  /** Semantic version comparison operator. * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-  operator?: FeatureFlagFilterPropertySemverSchemaOperatorEnum | (string & {}) | undefined;
+  /** Semantic version comparison operator. * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+  operator?: SemverOperatorEnum | (string & {}) | undefined;
   /** Semantic version string. */
   value?: string | undefined;
 }
@@ -181,6 +181,10 @@ export interface FeatureFlagFilterPropertyCohortInSchema {
   operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | (string & {}) | undefined;
   /** Cohort comparison value (single or list, depending on usage). */
   value?: unknown | undefined;
+  /** Set to true in responses when the cohort is deleted or does not exist. The flag cannot evaluate this condition. Ignored on write. */
+  cohort_deleted?: boolean | undefined;
+  /** Set to true in responses when no cohort with this id exists in the project, so it cannot be restored. `cohort_deleted` is also true. Absent for a soft-deleted cohort. Ignored on write. */
+  cohort_missing?: boolean | undefined;
 }
 /** * `flag` - flag */
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
@@ -256,44 +260,38 @@ export interface FeatureFlagFiltersSchema {
 export type SurveyOpenQuestionSchemaTypeEnum = "open";
 /** * `html` - html * `text` - text */
 export type DescriptionContentTypeEnum = "html" | "text";
-export interface SurveyOpenQuestionSchema {
-  /** Stable question identifier (UUID). When editing an existing question, send back its current id so its responses (keyed by $survey_response_<id>) stay attached; omit it for new questions and the server generates one. */
-  id?: string | undefined;
-  type?: SurveyOpenQuestionSchemaTypeEnum | (string & {}) | undefined;
-  /** Question text shown to respondents. */
+/** Translated choices. Must have the same length as the question choices. Choice questions only. */
+export type SurveyQuestionTranslationSchemaChoicesList = Array<string>;
+export interface SurveyQuestionTranslationSchema {
+  /** Translated question text. */
   question?: string | undefined;
-  /** Optional helper text. */
+  /** Translated helper text. */
   description?: string | undefined;
-  /** Format for the description field. * `text` - text * `html` - html */
-  descriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
-  /** Whether respondents may skip this question. */
-  optional?: boolean | undefined;
-  /** Custom button label. */
+  /** Translated button label. */
   buttonText?: string | undefined;
-}
-/** * `link` - link */
-export type SurveyLinkQuestionSchemaTypeEnum = "link";
-export interface SurveyLinkQuestionSchema {
-  /** Stable question identifier (UUID). When editing an existing question, send back its current id so its responses (keyed by $survey_response_<id>) stay attached; omit it for new questions and the server generates one. */
-  id?: string | undefined;
-  type?: SurveyLinkQuestionSchemaTypeEnum | (string & {}) | undefined;
-  /** Question text shown to respondents. */
-  question?: string | undefined;
-  /** Optional helper text. */
-  description?: string | undefined;
-  /** Format for the description field. * `text` - text * `html` - html */
-  descriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
-  /** Whether respondents may skip this question. */
-  optional?: boolean | undefined;
-  /** Custom button label. */
-  buttonText?: string | undefined;
-  /** HTTPS or mailto URL for link questions. */
+  /** Translated lowest rating label. Rating questions only. */
+  lowerBoundLabel?: string | undefined;
+  /** Translated highest rating label. Rating questions only. */
+  upperBoundLabel?: string | undefined;
+  /** Translated choices. Must have the same length as the question choices. Choice questions only. */
+  choices?: SurveyQuestionTranslationSchemaChoicesList | undefined;
+  /** Translated URL. Link questions only. */
   link?: string | undefined;
 }
-/** * `rating` - rating */
-export type SurveyRatingQuestionSchemaTypeEnum = "rating";
-/** * `number` - number * `emoji` - emoji */
-export type SurveyRatingQuestionSchemaDisplayEnum = "number" | "emoji";
+/** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+export type SurveyOpenQuestionSchemaTranslationsMap = {
+  [key: string]: SurveyQuestionTranslationSchema | undefined;
+};
+/** * `min_length` - min_length * `max_length` - max_length * `email` - email */
+export type SurveyQuestionValidationRuleTypeEnum = "min_length" | "max_length" | "email";
+export interface SurveyQuestionValidationRule {
+  /** Validation rule type for open-text questions. * `min_length` - min_length * `max_length` - max_length * `email` - email */
+  type: SurveyQuestionValidationRuleTypeEnum | (string & {});
+  /** Rule value for min_length or max_length validations. */
+  value?: number | null | undefined;
+}
+/** Validation rules for the response text, for example a minimum length. */
+export type SurveyOpenQuestionSchemaValidationList = Array<SurveyQuestionValidationRule>;
 /** * `next_question` - next_question */
 export type SurveyNextQuestionBranchingTypeEnum = "next_question";
 export interface SurveyNextQuestionBranching {
@@ -335,6 +333,60 @@ export type SurveyBranchingSchema =
   | SurveyEndBranching
   | SurveySpecificQuestionBranching
   | SurveyResponseBasedBranching;
+export interface SurveyOpenQuestionSchema {
+  /** Stable question identifier (UUID). When editing an existing question, send back its current id so its responses (keyed by $survey_response_<id>) stay attached; omit it for new questions and the server generates one. */
+  id?: string | undefined;
+  type?: SurveyOpenQuestionSchemaTypeEnum | (string & {}) | undefined;
+  /** Question text shown to respondents. */
+  question?: string | undefined;
+  /** Optional helper text. */
+  description?: string | undefined;
+  /** Format for the description field. * `text` - text * `html` - html */
+  descriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
+  /** Whether respondents may skip this question. */
+  optional?: boolean | undefined;
+  /** Custom button label. */
+  buttonText?: string | undefined;
+  /** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+  translations?: SurveyOpenQuestionSchemaTranslationsMap | undefined;
+  /** Validation rules for the response text, for example a minimum length. */
+  validation?: SurveyOpenQuestionSchemaValidationList | null | undefined;
+  branching?: SurveyBranchingSchema | null | undefined;
+}
+/** * `link` - link */
+export type SurveyLinkQuestionSchemaTypeEnum = "link";
+/** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+export type SurveyLinkQuestionSchemaTranslationsMap = {
+  [key: string]: SurveyQuestionTranslationSchema | undefined;
+};
+export interface SurveyLinkQuestionSchema {
+  /** Stable question identifier (UUID). When editing an existing question, send back its current id so its responses (keyed by $survey_response_<id>) stay attached; omit it for new questions and the server generates one. */
+  id?: string | undefined;
+  type?: SurveyLinkQuestionSchemaTypeEnum | (string & {}) | undefined;
+  /** Question text shown to respondents. */
+  question?: string | undefined;
+  /** Optional helper text. */
+  description?: string | undefined;
+  /** Format for the description field. * `text` - text * `html` - html */
+  descriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
+  /** Whether respondents may skip this question. */
+  optional?: boolean | undefined;
+  /** Custom button label. */
+  buttonText?: string | undefined;
+  /** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+  translations?: SurveyLinkQuestionSchemaTranslationsMap | undefined;
+  /** HTTPS or mailto URL for link questions. */
+  link?: string | undefined;
+  branching?: SurveyBranchingSchema | null | undefined;
+}
+/** * `rating` - rating */
+export type SurveyRatingQuestionSchemaTypeEnum = "rating";
+/** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+export type SurveyRatingQuestionSchemaTranslationsMap = {
+  [key: string]: SurveyQuestionTranslationSchema | undefined;
+};
+/** * `number` - number * `emoji` - emoji */
+export type SurveyRatingQuestionSchemaDisplayEnum = "number" | "emoji";
 export interface SurveyRatingQuestionSchema {
   /** Stable question identifier (UUID). When editing an existing question, send back its current id so its responses (keyed by $survey_response_<id>) stay attached; omit it for new questions and the server generates one. */
   id?: string | undefined;
@@ -349,6 +401,8 @@ export interface SurveyRatingQuestionSchema {
   optional?: boolean | undefined;
   /** Custom button label. */
   buttonText?: string | undefined;
+  /** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+  translations?: SurveyRatingQuestionSchemaTranslationsMap | undefined;
   /** Display format: 'number' shows numeric scale, 'emoji' shows emoji scale. * `number` - number * `emoji` - emoji */
   display?: SurveyRatingQuestionSchemaDisplayEnum | (string & {}) | undefined;
   /** Rating scale can be one of 3, 5, or 7 */
@@ -357,10 +411,16 @@ export interface SurveyRatingQuestionSchema {
   lowerBoundLabel?: string | undefined;
   /** Label for the highest rating (e.g., 'Excellent') */
   upperBoundLabel?: string | undefined;
+  /** Whether a rating question with a scale of 10 shows NPS scoring. A missing value counts as true. */
+  isNpsQuestion?: boolean | undefined;
   branching?: SurveyBranchingSchema | null | undefined;
 }
 /** * `single_choice` - single_choice */
 export type SurveySingleChoiceQuestionSchemaTypeEnum = "single_choice";
+/** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+export type SurveySingleChoiceQuestionSchemaTranslationsMap = {
+  [key: string]: SurveyQuestionTranslationSchema | undefined;
+};
 /** Array of choice options. Choice indices (0, 1, 2, ...) are used for branching logic. */
 export type SurveySingleChoiceQuestionSchemaChoicesList = Array<string>;
 export interface SurveySingleChoiceQuestionSchema {
@@ -377,6 +437,8 @@ export interface SurveySingleChoiceQuestionSchema {
   optional?: boolean | undefined;
   /** Custom button label. */
   buttonText?: string | undefined;
+  /** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+  translations?: SurveySingleChoiceQuestionSchemaTranslationsMap | undefined;
   /** Array of choice options. Choice indices (0, 1, 2, ...) are used for branching logic. */
   choices?: SurveySingleChoiceQuestionSchemaChoicesList | undefined;
   /** Whether to randomize the order of choices for each respondent. */
@@ -387,6 +449,10 @@ export interface SurveySingleChoiceQuestionSchema {
 }
 /** * `multiple_choice` - multiple_choice */
 export type SurveyMultipleChoiceQuestionSchemaTypeEnum = "multiple_choice";
+/** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+export type SurveyMultipleChoiceQuestionSchemaTranslationsMap = {
+  [key: string]: SurveyQuestionTranslationSchema | undefined;
+};
 /** Array of choice options. Multiple selections allowed. No branching logic supported. */
 export type SurveyMultipleChoiceQuestionSchemaChoicesList = Array<string>;
 export interface SurveyMultipleChoiceQuestionSchema {
@@ -403,6 +469,8 @@ export interface SurveyMultipleChoiceQuestionSchema {
   optional?: boolean | undefined;
   /** Custom button label. */
   buttonText?: string | undefined;
+  /** Inline translations keyed by language code (for example 'es' or 'pt-BR'). Send back the current value when editing other question fields, or the translations are lost. */
+  translations?: SurveyMultipleChoiceQuestionSchemaTranslationsMap | undefined;
   /** Array of choice options. Multiple selections allowed. No branching logic supported. */
   choices?: SurveyMultipleChoiceQuestionSchemaChoicesList | undefined;
   /** Whether to randomize the order of choices for each respondent. */
@@ -457,8 +525,22 @@ export interface SurveyConditionsSchema {
   /** The variant of the feature flag linked to this survey. */
   linkedFlagVariant?: string | undefined;
 }
+/** * `top_left` - top_left * `top_center` - top_center * `top_right` - top_right * `middle_left` - middle_left * `middle_center` - middle_center * `middle_right` - middle_right * `left` - left * `center` - center * `right` - right * `next_to_trigger` - next_to_trigger */
+export type SurveyPositionEnum =
+  | "top_left"
+  | "top_center"
+  | "top_right"
+  | "middle_left"
+  | "middle_center"
+  | "middle_right"
+  | "left"
+  | "center"
+  | "right"
+  | "next_to_trigger";
 /** * `button` - button * `tab` - tab * `selector` - selector */
 export type WidgetTypeEnum = "button" | "tab" | "selector";
+/** * `top` - top * `left` - left * `right` - right * `bottom` - bottom */
+export type SurveyTabPositionEnum = "top" | "left" | "right" | "bottom";
 export interface SurveyAppearanceSchema {
   backgroundColor?: string | undefined;
   submitButtonColor?: string | undefined;
@@ -469,6 +551,12 @@ export interface SurveyAppearanceSchema {
   ratingButtonColor?: string | undefined;
   ratingButtonActiveColor?: string | undefined;
   ratingButtonHoverColor?: string | undefined;
+  /** Color of secondary text, such as question descriptions. */
+  textSubtleColor?: string | undefined;
+  /** Background color of open text inputs and rating buttons. */
+  inputBackground?: string | undefined;
+  /** Text color of open text inputs and rating buttons. Calculated from inputBackground when not set. */
+  inputTextColor?: string | undefined;
   whiteLabel?: boolean | undefined;
   autoDisappear?: boolean | undefined;
   displayThankYouMessage?: boolean | undefined;
@@ -476,10 +564,23 @@ export interface SurveyAppearanceSchema {
   thankYouMessageDescription?: string | undefined;
   thankYouMessageDescriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
   thankYouMessageCloseButtonText?: string | undefined;
+  /** Whether to show an intro screen before the first question. The intro screen shows only when introScreenHeader or introScreenDescription is set. */
+  displayIntroScreen?: boolean | undefined;
+  /** Heading of the intro screen. */
+  introScreenHeader?: string | undefined;
+  /** Body text of the intro screen. */
+  introScreenDescription?: string | undefined;
+  /** Content type of introScreenDescription. * `text` - text * `html` - html */
+  introScreenDescriptionContentType?: DescriptionContentTypeEnum | (string & {}) | undefined;
+  /** Label of the button that closes the intro screen and starts the survey. */
+  introScreenButtonText?: string | undefined;
   borderColor?: string | undefined;
   placeholder?: string | undefined;
+  /** Where a popover survey appears on the page. Defaults to 'right'. * `top_left` - top_left * `top_center` - top_center * `top_right` - top_right * `middle_left` - middle_left * `middle_center` - middle_center * `middle_right` - middle_right * `left` - left * `center` - center * `right` - right * `next_to_trigger` - next_to_trigger */
+  position?: SurveyPositionEnum | (string & {}) | undefined;
   shuffleQuestions?: boolean | undefined;
-  surveyPopupDelaySeconds?: number | undefined;
+  /** Seconds to wait before a popover survey appears. Null shows it without a delay. */
+  surveyPopupDelaySeconds?: number | null | undefined;
   /** Whether to show a 'Back' button on web surveys after the first question, letting respondents return to a previously visited question. Defaults to false. */
   allowGoBack?: boolean | undefined;
   /** Optional override for the back button label. Defaults to 'Back'. */
@@ -488,11 +589,17 @@ export interface SurveyAppearanceSchema {
   widgetSelector?: string | undefined;
   widgetLabel?: string | undefined;
   widgetColor?: string | undefined;
+  /** Which edge of the page holds the tab of a widget survey with widgetType 'tab'. * `top` - top * `left` - left * `right` - right * `bottom` - bottom */
+  tabPosition?: SurveyTabPositionEnum | (string & {}) | undefined;
   fontFamily?: string | undefined;
   maxWidth?: string | undefined;
   zIndex?: string | undefined;
   disabledButtonOpacity?: string | undefined;
   boxPadding?: string | undefined;
+  /** CSS box-shadow value of the survey box. */
+  boxShadow?: string | undefined;
+  /** CSS border-radius value of the survey box. */
+  borderRadius?: string | undefined;
 }
 export type CreateSurveyRequestIterationStartDatesList = Array<string | null>;
 /** * `day` - day * `week` - week * `month` - month */
@@ -510,7 +617,7 @@ export interface CreateSurveyRequest {
   description?: string | undefined;
   /** Survey type. * `popover` - popover * `widget` - widget * `external_survey` - external survey * `api` - api */
   type?: SurveyTypeEnum | (string & {}) | undefined;
-  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat based on iteration_count and iteration_frequency_days settings, 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
+  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat every iteration_frequency_days, either iteration_count times or until stopped (repeat_until_stopped), 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
   schedule?: SurveyScheduleEnum | (string & {}) | null | undefined;
   /** The feature flag linked to this survey. */
   linked_flag_id?: number | null | undefined;
@@ -535,10 +642,12 @@ export interface CreateSurveyRequest {
   archived?: boolean | undefined;
   /** The maximum number of responses before automatically stopping the survey. */
   responses_limit?: number | null | undefined;
-  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. */
+  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. Setting it turns repeat_until_stopped off; sending repeat_until_stopped=true clears it. */
   iteration_count?: number | null | undefined;
   /** For a recurring schedule, this field specifies the interval in days between each survey instance shown to the user, used alongside iteration_count for precise scheduling. */
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?: CreateSurveyRequestIterationStartDatesList | null | undefined;
   current_iteration?: number | null | undefined;
   current_iteration_start_date?: string | null | undefined;
@@ -634,6 +743,8 @@ export interface SurveySerializerCreateUpdateOnlyOutput {
   responses_limit?: number | null | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?:
     | SurveySerializerCreateUpdateOnlyOutputIterationStartDatesList
     | null
@@ -696,6 +807,8 @@ export interface CreateSurveysSummaryHeadlineRequest {
   responses_limit?: number | null | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?:
     | CreateSurveysSummaryHeadlineRequestIterationStartDatesList
     | null
@@ -756,6 +869,8 @@ export interface Survey {
   feature_flag_keys?: SurveyFeatureFlagKeysList | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?: SurveyIterationStartDatesList | null | undefined;
   current_iteration?: number | null | undefined;
   current_iteration_start_date?: string | null | undefined;
@@ -780,8 +895,61 @@ export interface GetSurveysActivityRequest {
   project_id: string;
   /** A UUID string identifying this survey. */
   id: string;
+  /** Number of items per page */
+  limit?: number | undefined;
+  /** Page number */
+  page?: number | undefined;
 }
-export interface GetSurveysActivityResponse {}
+export interface Change {
+  type: string;
+  action: string;
+  field: string;
+  before: unknown;
+  after: unknown;
+}
+export type DetailChangesList = Array<Change>;
+export interface Merge {
+  type: string;
+  source: unknown;
+  target: unknown;
+}
+export interface Trigger {
+  job_type: string;
+  job_id: string;
+  payload: unknown;
+}
+export interface Detail {
+  id: string;
+  changes?: DetailChangesList | undefined;
+  merge?: Merge | undefined;
+  trigger?: Trigger | undefined;
+  name: string;
+  short_id: string;
+  type: string;
+}
+export interface ActivityLogEntry {
+  id: string;
+  user: unknown | null;
+  activity: string;
+  scope: string;
+  item_id: string;
+  detail?: Detail | undefined;
+  created_at: string;
+  /** Whether the activity was performed by the system rather than a user. */
+  is_system: boolean;
+  /** Whether the acting user was being impersonated by PostHog staff. */
+  was_impersonated: boolean;
+  /** API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither. */
+  client: string | null;
+}
+export type ActivityLogPaginatedResponseResultsList = Array<ActivityLogEntry>;
+/** Response shape for paginated activity log endpoints. */
+export interface ActivityLogPaginatedResponse {
+  results: ActivityLogPaginatedResponseResultsList;
+  next: string | null;
+  previous: string | null;
+  total_count: number;
+}
 export interface GetSurveysAllActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -797,9 +965,9 @@ export interface GetSurveysArchivedResponseUuidResponse {}
 export interface GetSurveysGlobalStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z) */
+  /** Optional start date: an ISO 8601 timestamp (e.g. 2024-01-01T00:00:00Z) or a relative date such as -7d, -24h or -1m */
   date_from?: string | undefined;
-  /** Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z) */
+  /** Optional end date: an ISO 8601 timestamp (e.g. 2024-01-31T23:59:59Z) or a relative date such as -1d */
   date_to?: string | undefined;
 }
 /** Event counts keyed by event name (survey shown, survey dismissed, survey sent). */
@@ -822,9 +990,9 @@ export interface GetSurveysStatRequest {
   project_id: string;
   /** A UUID string identifying this survey. */
   id: string;
-  /** Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z) */
+  /** Optional start date: an ISO 8601 timestamp (e.g. 2024-01-01T00:00:00Z) or a relative date such as -7d, -24h or -1m */
   date_from?: string | undefined;
-  /** Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z) */
+  /** Optional end date: an ISO 8601 timestamp (e.g. 2024-01-31T23:59:59Z) or a relative date such as -1d */
   date_to?: string | undefined;
   /** When true, also return per-question response counts and answer distributions. Adds one extra HogQL query per question, so leave off unless you need the breakdown. */
   include_per_question_stats?: boolean | undefined;
@@ -862,6 +1030,8 @@ export interface ListSurveysRequest {
   ids?: ListSurveysRequestIdsList | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
+  /** Filter surveys by the ID of the feature flag they are linked to. */
+  linked_flag_id?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
   /** Match against survey `name` and `description`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram -- typos, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`. */
@@ -948,7 +1118,12 @@ export interface SurveyResponseRow {
 }
 /** Survey response rows for the requested page. */
 export type SurveyResponsesListResultsList = Array<SurveyResponseRow>;
+/** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
 export interface SurveyResponsesList {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page and on lists that page forward only. */
+  previous: string | null;
   /** Survey response rows for the requested page. */
   results: SurveyResponsesListResultsList;
   /** True if more rows exist beyond the current page -- fetch the next page with offset + limit. */
@@ -999,6 +1174,8 @@ export interface SurveysDuplicateToProjectsCreateRequest {
   responses_limit?: number | null | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?:
     | SurveysDuplicateToProjectsCreateRequestIterationStartDatesList
     | null
@@ -1049,6 +1226,14 @@ export interface GeneratedSurveyRootTranslation {
   thankYouMessageDescription?: string | undefined;
   /** Translated thank-you close button text. */
   thankYouMessageCloseButtonText?: string | undefined;
+  /** Translated intro screen header. */
+  introScreenHeader?: string | undefined;
+  /** Translated intro screen description. */
+  introScreenDescription?: string | undefined;
+  /** Translated intro screen button text. */
+  introScreenButtonText?: string | undefined;
+  /** Translated back button text. */
+  backButtonText?: string | undefined;
 }
 /** Survey-level translation patch keyed by language. */
 export type GenerateSurveyTranslationsResponseTranslationsMap = {
@@ -1154,6 +1339,8 @@ export interface SurveysResponsesArchiveCreateRequest {
   responses_limit?: number | null | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?:
     | SurveysResponsesArchiveCreateRequestIterationStartDatesList
     | null
@@ -1206,6 +1393,8 @@ export interface SurveysResponsesUnarchiveCreateRequest {
   responses_limit?: number | null | undefined;
   iteration_count?: number | null | undefined;
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?:
     | SurveysResponsesUnarchiveCreateRequestIterationStartDatesList
     | null
@@ -1246,7 +1435,7 @@ export interface UpdateSurveyRequest {
   description?: string | undefined;
   /** Survey type. * `popover` - popover * `widget` - widget * `external_survey` - external survey * `api` - api */
   type?: SurveyTypeEnum | (string & {}) | undefined;
-  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat based on iteration_count and iteration_frequency_days settings, 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
+  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat every iteration_frequency_days, either iteration_count times or until stopped (repeat_until_stopped), 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
   schedule?: SurveyScheduleEnum | (string & {}) | null | undefined;
   /** The feature flag linked to this survey. */
   linked_flag_id?: number | null | undefined;
@@ -1271,10 +1460,12 @@ export interface UpdateSurveyRequest {
   archived?: boolean | undefined;
   /** The maximum number of responses before automatically stopping the survey. */
   responses_limit?: number | null | undefined;
-  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. */
+  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. Setting it turns repeat_until_stopped off; sending repeat_until_stopped=true clears it. */
   iteration_count?: number | null | undefined;
   /** For a recurring schedule, this field specifies the interval in days between each survey instance shown to the user, used alongside iteration_count for precise scheduling. */
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?: UpdateSurveyRequestIterationStartDatesList | null | undefined;
   current_iteration?: number | null | undefined;
   current_iteration_start_date?: string | null | undefined;
@@ -1312,7 +1503,7 @@ export interface UpdateSurveysPartialRequest {
   description?: string | undefined;
   /** Survey type. * `popover` - popover * `widget` - widget * `external_survey` - external survey * `api` - api */
   type?: SurveyTypeEnum | (string & {}) | undefined;
-  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat based on iteration_count and iteration_frequency_days settings, 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
+  /** Survey scheduling behavior: 'once' = show once per user (default), 'recurring' = repeat every iteration_frequency_days, either iteration_count times or until stopped (repeat_until_stopped), 'always' = show every time conditions are met (mainly for widget surveys) * `once` - once * `recurring` - recurring * `always` - always */
   schedule?: SurveyScheduleEnum | (string & {}) | null | undefined;
   /** The feature flag linked to this survey. */
   linked_flag_id?: number | null | undefined;
@@ -1337,10 +1528,12 @@ export interface UpdateSurveysPartialRequest {
   archived?: boolean | undefined;
   /** The maximum number of responses before automatically stopping the survey. */
   responses_limit?: number | null | undefined;
-  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. */
+  /** For a recurring schedule, this field specifies the number of times the survey should be shown to the user. Use 1 for 'once every X days', higher numbers for multiple repetitions. Works together with iteration_frequency_days to determine the overall survey schedule. Setting it turns repeat_until_stopped off; sending repeat_until_stopped=true clears it. */
   iteration_count?: number | null | undefined;
   /** For a recurring schedule, this field specifies the interval in days between each survey instance shown to the user, used alongside iteration_count for precise scheduling. */
   iteration_frequency_days?: number | null | undefined;
+  /** For a recurring schedule, keep repeating every iteration_frequency_days until the survey is stopped. When true, iteration_count is ignored and the survey never closes on its own after a final repeat. */
+  repeat_until_stopped?: boolean | null | undefined;
   iteration_start_dates?: UpdateSurveysPartialRequestIterationStartDatesList | null | undefined;
   current_iteration?: number | null | undefined;
   current_iteration_start_date?: string | null | undefined;
@@ -1437,12 +1630,12 @@ export type GetSurveysActivityError = Forbidden | NotFound | PosthogOpError;
 /** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const getSurveysActivity: API.OperationMethod<
   GetSurveysActivityRequest,
-  GetSurveysActivityResponse,
+  ActivityLogPaginatedResponse,
   GetSurveysActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetSurveysActivityRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSurveysActivityResponse>,
+  output: __S(424, __c26, 8) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1485,7 +1678,7 @@ export const getSurveysArchivedResponseUuid: API.OperationMethod<
 }));
 
 export type GetSurveysGlobalStatError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Get aggregated response statistics across all surveys. Args: date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z) date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z) Returns: Aggregated statistics across all surveys including total counts and rates */
+/** Get aggregated response statistics across all surveys. Args: date_from: Optional ISO timestamp (e.g. 2024-01-01T00:00:00Z) or relative date (e.g. -7d) for start date date_to: Optional ISO timestamp (e.g. 2024-01-31T23:59:59Z) or relative date for end date Returns: Aggregated statistics across all surveys including total counts and rates */
 export const getSurveysGlobalStat: API.OperationMethod<
   GetSurveysGlobalStatRequest,
   SurveyGlobalStatsResponse,
@@ -1519,7 +1712,7 @@ export const getSurveysResponsesCount: API.OperationMethod<
 }));
 
 export type GetSurveysStatError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Get survey response statistics for a specific survey. Args: date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z) date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z) exclude_archived: Optional boolean to exclude archived responses (default: false, includes archived) include_per_question_stats: Optional boolean to include per-question response counts and distributions Returns: Survey statistics including event counts, unique respondents, and conversion rates */
+/** Get survey response statistics for a specific survey. Args: date_from: Optional ISO timestamp (e.g. 2024-01-01T00:00:00Z) or relative date (e.g. -7d) for start date date_to: Optional ISO timestamp (e.g. 2024-01-31T23:59:59Z) or relative date for end date exclude_archived: Optional boolean to exclude archived responses (default: false, includes archived) include_per_question_stats: Optional boolean to include per-question response counts and distributions Returns: Survey statistics including event counts, unique respondents, and conversion rates */
 export const getSurveysStat: API.OperationMethod<
   GetSurveysStatRequest,
   SurveyStatsResponse,
@@ -1608,7 +1801,7 @@ export type SurveysDuplicateToProjectsCreateError =
   | Forbidden
   | NotFound
   | PosthogOpError;
-/** Duplicate a survey to multiple projects in a single transaction. Accepts a list of target team IDs and creates a copy of the survey in each project. Uses an all-or-nothing approach - if any duplication fails, all changes are rolled back. */
+/** Duplicate a survey to multiple projects in a single transaction. Accepts a list of target team IDs and creates a copy of the survey in each project. Every target project must be in the source project's organization, and the caller needs survey editor access in each one. Uses an all-or-nothing approach - if any duplication fails, all changes are rolled back. */
 export const surveysDuplicateToProjectsCreate: API.OperationMethod<
   SurveysDuplicateToProjectsCreateRequest,
   SurveysDuplicateToProjectsCreateResponse,
@@ -1828,6 +2021,7 @@ function __c3(j: number): any {
           created_by: S.optional(S.Number.pipe(T.Query())),
           ids: S.optional(__S(304, __c19, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          linked_flag_id: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
@@ -1911,6 +2105,8 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
           results: __S(69, __c4, 5),
           has_more: S.Boolean,
           limit: S.Number,
@@ -1974,6 +2170,7 @@ function __c7(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2024,6 +2221,10 @@ function __c8(j: number): any {
           thankYouMessageHeader: S.optional(S.String),
           thankYouMessageDescription: S.optional(S.String),
           thankYouMessageCloseButtonText: S.optional(S.String),
+          introScreenHeader: S.optional(S.String),
+          introScreenDescription: S.optional(S.String),
+          introScreenButtonText: S.optional(S.String),
+          backButtonText: S.optional(S.String),
         }),
       ).annotate({ identifier: "GeneratedSurveyRootTranslation" });
     case 2:
@@ -2139,6 +2340,7 @@ function __c11(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2189,6 +2391,7 @@ function __c12(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2238,6 +2441,7 @@ function __c13(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2283,6 +2487,7 @@ function __c14(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2327,6 +2532,7 @@ function __c15(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2433,6 +2639,9 @@ function __c16(j: number): any {
           ratingButtonColor: S.optional(S.String),
           ratingButtonActiveColor: S.optional(S.String),
           ratingButtonHoverColor: S.optional(S.String),
+          textSubtleColor: S.optional(S.String),
+          inputBackground: S.optional(S.String),
+          inputTextColor: S.optional(S.String),
           whiteLabel: S.optional(S.Boolean),
           autoDisappear: S.optional(S.Boolean),
           displayThankYouMessage: S.optional(S.Boolean),
@@ -2440,21 +2649,30 @@ function __c16(j: number): any {
           thankYouMessageDescription: S.optional(S.String),
           thankYouMessageDescriptionContentType: S.optional(S.String),
           thankYouMessageCloseButtonText: S.optional(S.String),
+          displayIntroScreen: S.optional(S.Boolean),
+          introScreenHeader: S.optional(S.String),
+          introScreenDescription: S.optional(S.String),
+          introScreenDescriptionContentType: S.optional(S.String),
+          introScreenButtonText: S.optional(S.String),
           borderColor: S.optional(S.String),
           placeholder: S.optional(S.String),
+          position: S.optional(S.String),
           shuffleQuestions: S.optional(S.Boolean),
-          surveyPopupDelaySeconds: S.optional(S.Number),
+          surveyPopupDelaySeconds: S.optional(S.NullOr(S.Number)),
           allowGoBack: S.optional(S.Boolean),
           backButtonText: S.optional(S.String),
           widgetType: S.optional(S.String),
           widgetSelector: S.optional(S.String),
           widgetLabel: S.optional(S.String),
           widgetColor: S.optional(S.String),
+          tabPosition: S.optional(S.String),
           fontFamily: S.optional(S.String),
           maxWidth: S.optional(S.String),
           zIndex: S.optional(S.String),
           disabledButtonOpacity: S.optional(S.String),
           boxPadding: S.optional(S.String),
+          boxShadow: S.optional(S.String),
+          borderRadius: S.optional(S.String),
         }),
       ).annotate({ identifier: "SurveyAppearanceSchema" });
     case 15:
@@ -2479,6 +2697,7 @@ function __c16(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2602,6 +2821,7 @@ function __c23(j: number): any {
           responses_limit: S.optional(S.NullOr(S.Number)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2670,6 +2890,7 @@ function __c25(j: number): any {
           feature_flag_keys: S.optional(__S(401, __c25, 1)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
           iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
@@ -2696,6 +2917,8 @@ function __c26(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2704,6 +2927,72 @@ function __c26(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetSurveysActivityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          action: S.String,
+          field: S.String,
+          before: S.Unknown,
+          after: S.Unknown,
+        }),
+      ).annotate({ identifier: "Change" });
+    case 2:
+      return S.Array(__S(417, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          source: S.Unknown,
+          target: S.Unknown,
+        }),
+      ).annotate({ identifier: "Merge" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          job_type: S.String,
+          job_id: S.String,
+          payload: S.Unknown,
+        }),
+      ).annotate({ identifier: "Trigger" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          changes: S.optional(__S(418, __c26, 2)),
+          merge: S.optional(__S(419, __c26, 3)),
+          trigger: S.optional(__S(420, __c26, 4)),
+          name: S.String,
+          short_id: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Detail" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          user: S.NullOr(S.Unknown),
+          activity: S.String,
+          scope: S.String,
+          item_id: S.String,
+          detail: S.optional(__S(421, __c26, 5)),
+          created_at: S.String,
+          is_system: S.Boolean,
+          was_impersonated: S.Boolean,
+          client: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ActivityLogEntry" });
+    case 7:
+      return S.Array(__S(422, __c26, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(423, __c26, 7),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          total_count: S.Number,
+        }),
+      ).annotate({ identifier: "ActivityLogPaginatedResponse" });
   }
 }
 function __c27(j: number): any {

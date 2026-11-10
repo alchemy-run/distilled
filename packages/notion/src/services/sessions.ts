@@ -149,6 +149,7 @@ export interface GetSessionResponse {
   chat_user_emails?: GetSessionResponseChatUserEmailsList | null | undefined;
   tool_types?: GetSessionResponseToolTypesList | null | undefined;
   tool_call_count?: number | null | undefined;
+  /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
   credits_used?: number | null | undefined;
   runs_completed?: number | null | undefined;
   message_count?: number | null | undefined;
@@ -1533,6 +1534,7 @@ export interface QuerySessionsResponseResultsItem {
   chat_user_emails?: QuerySessionsResponseResultsItemChatUserEmailsList | null | undefined;
   tool_types?: QuerySessionsResponseResultsItemToolTypesList | null | undefined;
   tool_call_count?: number | null | undefined;
+  /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
   credits_used?: number | null | undefined;
   runs_completed?: number | null | undefined;
   message_count?: number | null | undefined;
@@ -1552,13 +1554,6 @@ export interface QuerySessionsResponse {
   /** Pass this cursor as start_cursor when has_more is true, even when results is empty. */
   next_cursor: string | null;
 }
-/** One of: `notion_ai`, `33333333-3333-3333-3333-333333333333` */
-export type UpdateSessionRequestBodyCase0AgentIdCase1 =
-  | "notion_ai"
-  | "33333333-3333-3333-3333-333333333333";
-export type UpdateSessionRequestBodyCase0AgentId =
-  | string
-  | UpdateSessionRequestBodyCase0AgentIdCase1;
 export interface UpdateSessionRequestBodyCase0AttachmentsItemFileUpload {
   id: string;
 }
@@ -1573,7 +1568,9 @@ export type UpdateSessionRequestBodyCase0AttachmentsList =
 export type UpdateSessionRequestBodyCase0MetadataMap = { [key: string]: string | undefined };
 export interface UpdateSessionRequestBodyCase0 {
   message: string;
-  agent_id?: UpdateSessionRequestBodyCase0AgentId | undefined;
+  /** The agent to start a session with: a custom agent ID, or `notion_ai` for the personal agent with a personal access token. Required when `session_id` is omitted. */
+  agent_id?: string | undefined;
+  /** An existing session to send this message to. Omit it to start a new session. */
   session_id?: string | undefined;
   attachments?: UpdateSessionRequestBodyCase0AttachmentsList | undefined;
   metadata?: UpdateSessionRequestBodyCase0MetadataMap | undefined;

@@ -51,7 +51,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
 export type CreateSubscriptionRequestDashboardExportInsightsList = Array<number>;
 /** * `since_last_sent` - Since last report * `last_n_days` - Last N days * `days_ago_range` - Between X and Y days ago */
 export type SubscriptionAIWindowModeEnum = "since_last_sent" | "last_n_days" | "days_ago_range";
@@ -97,7 +97,7 @@ export type CreateSubscriptionRequestByweekdayList = Array<
 >;
 /** Typed view over the Subscription.delivery_config JSON blob. */
 export interface DeliveryConfig {
-  /** Slack insight and dashboard subscriptions only: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Defaults to false. The request is rejected when target_type is not 'slack', when the subscription sets prompt instead of insight or dashboard, or when the Slack integration does not hold the files:write permission. Omit it unless the user asks for one combined message. */
+  /** Slack subscriptions only. Insight and dashboard subscriptions: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Prompt subscriptions: when true, post the chart images in the main message with the summary; when false, post them in the first thread reply. Defaults to false. The request is rejected when target_type is not 'slack', or when an insight or dashboard subscription's Slack integration does not hold the files:write permission. Omit it unless the user asks for all images or charts in the main message. */
   post_all_insights_in_main_message?: boolean | undefined;
   /** Prompt subscriptions only: include generated chart images. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
   include_images?: boolean | undefined;
@@ -115,7 +115,7 @@ export interface CreateSubscriptionRequest {
   dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
   insight?: number | null | undefined;
-  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
   dashboard_export_insights?: CreateSubscriptionRequestDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
   prompt?: string | null | undefined;
@@ -162,7 +162,7 @@ export interface CreateSubscriptionRequest {
 }
 /** * `insight` - Insight * `dashboard` - Dashboard * `ai_prompt` - AI prompt */
 export type SubscriptionResourceTypeEnum = "insight" | "dashboard" | "ai_prompt";
-/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
 export type SubscriptionOutputDashboardExportInsightsList = Array<number>;
 export interface SubscriptionDashboardContext {
   /** Dashboard ID used to open the context dashboard. */
@@ -229,7 +229,7 @@ export interface SubscriptionOutput {
   insight?: number | null | undefined;
   insight_short_id?: string | null | undefined;
   resource_name?: string | null | undefined;
-  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
   dashboard_export_insights?: SubscriptionOutputDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
   prompt?: string | null | undefined;
@@ -278,6 +278,11 @@ export interface SubscriptionOutput {
   summary_prompt_guide?: string | undefined;
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig | undefined;
+}
+export interface CreateSubscriptionsTakeOwnershipRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
 }
 export interface CreateSubscriptionsTestDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -435,9 +440,43 @@ export interface ListSubscriptionsDeliveriesRequest {
 }
 export type PaginatedSubscriptionDeliveryListResultsList = Array<SubscriptionDelivery>;
 export interface PaginatedSubscriptionDeliveryList {
+  count: number;
   next?: string | null | undefined;
   previous?: string | null | undefined;
   results?: PaginatedSubscriptionDeliveryListResultsList | undefined;
+}
+export interface ListSubscriptionsSummariesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The pagination cursor value. */
+  cursor?: string | undefined;
+  /** Dashboard ID. Returns summaries from the subscriptions on this dashboard. Set either dashboard or insight. */
+  dashboard?: number | undefined;
+  /** Insight ID. Returns summaries from the subscriptions on this insight. Set either insight or dashboard. */
+  insight?: number | undefined;
+}
+export interface SubscriptionSummary {
+  /** ID of the delivery that included this summary. */
+  id: string;
+  /** ID of the subscription that generated this summary. */
+  subscription: number;
+  /** Title of the subscription that generated this summary. Null when the subscription has no title. */
+  subscription_title: string | null;
+  /** Channel the summary was sent to: email, slack, or teams. */
+  target_type: string;
+  /** AI-generated summary text included in the delivery. */
+  change_summary: string | null;
+  /** Start of the period this summary covers: the time of the previous completed delivery of the same subscription. Null for the first delivery, which has no earlier data to compare with. */
+  period_start: string | null;
+  /** When the delivery started. This is also the end of the covered period. */
+  created_at: string;
+}
+export type PaginatedSubscriptionSummaryListResultsList = Array<SubscriptionSummary>;
+export interface PaginatedSubscriptionSummaryList {
+  count: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results: PaginatedSubscriptionSummaryListResultsList;
 }
 export interface SubscriptionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -446,7 +485,7 @@ export interface SubscriptionsDestroyRequest {
   id: number;
 }
 export interface SubscriptionsDestroyResponse {}
-/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
 export type UpdateSubscriptionRequestDashboardExportInsightsList = Array<number>;
 export type UpdateSubscriptionRequestContextsItemCase0 = CreateSubscriptionRequestContextsItemCase0;
 export type UpdateSubscriptionRequestContextsItemCase1 = CreateSubscriptionRequestContextsItemCase1;
@@ -477,7 +516,7 @@ export interface UpdateSubscriptionRequest {
   dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
   insight?: number | null | undefined;
-  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
   dashboard_export_insights?: UpdateSubscriptionRequestDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
   prompt?: string | null | undefined;
@@ -522,7 +561,7 @@ export interface UpdateSubscriptionRequest {
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
   delivery_config?: DeliveryConfig | undefined;
 }
-/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+/** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
 export type UpdateSubscriptionsPartialRequestDashboardExportInsightsList = Array<number>;
 export type UpdateSubscriptionsPartialRequestContextsItemCase0 =
   CreateSubscriptionRequestContextsItemCase0;
@@ -556,7 +595,7 @@ export interface UpdateSubscriptionsPartialRequest {
   dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
   insight?: number | null | undefined;
-  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10. */
+  /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
   dashboard_export_insights?:
     | UpdateSubscriptionsPartialRequestDashboardExportInsightsList
     | undefined;
@@ -610,13 +649,30 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<CreateSubscriptionRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<SubscriptionOutput>,
+  input: __S(41, __c5, 1) as any as S.Schema<CreateSubscriptionRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<SubscriptionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSubscription",
+}));
+
+export type CreateSubscriptionsTakeOwnershipError = PosthogOpError;
+/** Make the requesting user the owner of this subscription and enable it. Deliveries run with the owner's access, so this is how a subscription continues after its owner left. */
+export const createSubscriptionsTakeOwnership: API.OperationMethod<
+  CreateSubscriptionsTakeOwnershipRequest,
+  SubscriptionOutput,
+  CreateSubscriptionsTakeOwnershipError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<CreateSubscriptionsTakeOwnershipRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<SubscriptionOutput>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionsTakeOwnership",
 }));
 
 export type CreateSubscriptionsTestDeliveryError = Forbidden | NotFound | PosthogOpError;
@@ -626,8 +682,8 @@ export const createSubscriptionsTestDelivery: API.OperationMethod<
   CreateSubscriptionsTestDeliveryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateSubscriptionsTestDeliveryRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<CreateSubscriptionsTestDeliveryResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateSubscriptionsTestDeliveryRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<CreateSubscriptionsTestDeliveryResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -642,8 +698,8 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<SubscriptionOutput>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<SubscriptionOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -659,8 +715,8 @@ export const getSubscriptionsDelivery: API.OperationMethod<
   GetSubscriptionsDeliveryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetSubscriptionsDeliveryRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<SubscriptionDelivery>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetSubscriptionsDeliveryRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<SubscriptionDelivery>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -675,8 +731,8 @@ export const getSubscriptionsSummaryQuota: API.OperationMethod<
   GetSubscriptionsSummaryQuotaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetSubscriptionsSummaryQuotaRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetSubscriptionsSummaryQuotaResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetSubscriptionsSummaryQuotaRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetSubscriptionsSummaryQuotaResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -691,8 +747,8 @@ export const listSubscriptions: API.OperationMethod<
   ListSubscriptionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListSubscriptionsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<PaginatedSubscriptionListOutput>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListSubscriptionsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<PaginatedSubscriptionListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -708,13 +764,30 @@ export const listSubscriptionsDeliveries: API.OperationMethod<
   ListSubscriptionsDeliveriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListSubscriptionsDeliveriesRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<PaginatedSubscriptionDeliveryList>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListSubscriptionsDeliveriesRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<PaginatedSubscriptionDeliveryList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionsDeliveries",
+}));
+
+export type ListSubscriptionsSummariesError = PosthogOpError;
+/** List AI summaries for an insight or dashboard Completed deliveries that include an AI summary, across every active subscription on one insight or dashboard, newest first. Requires viewer access to the insight or dashboard. */
+export const listSubscriptionsSummaries: API.OperationMethod<
+  ListSubscriptionsSummariesRequest,
+  PaginatedSubscriptionSummaryList,
+  ListSubscriptionsSummariesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<ListSubscriptionsSummariesRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<PaginatedSubscriptionSummaryList>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionsSummaries",
 }));
 
 export type SubscriptionsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -725,8 +798,8 @@ export const subscriptionsDestroy: API.OperationMethod<
   SubscriptionsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SubscriptionsDestroyRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<SubscriptionsDestroyResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<SubscriptionsDestroyRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<SubscriptionsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -741,8 +814,8 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<SubscriptionOutput>,
+  input: __S(25, __c3, 1) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<SubscriptionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -757,8 +830,8 @@ export const updateSubscriptionsPartial: API.OperationMethod<
   UpdateSubscriptionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<UpdateSubscriptionsPartialRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<SubscriptionOutput>,
+  input: __S(33, __c4, 1) as any as S.Schema<UpdateSubscriptionsPartialRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<SubscriptionOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -768,6 +841,78 @@ export const updateSubscriptionsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          subscription_id: S.Number.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/subscriptions/{subscription_id}/deliveries/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSubscriptionsDeliveriesRequest" });
+    case 1:
+      return S.Array(__S(108, __c13, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedSubscriptionDeliveryList" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          dashboard: S.optional(S.Number.pipe(T.Query())),
+          insight: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/subscriptions/summaries/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSubscriptionsSummariesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          subscription: S.Number,
+          subscription_title: S.NullOr(S.String),
+          target_type: S.String,
+          change_summary: S.NullOr(S.String),
+          period_start: S.NullOr(S.String),
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "SubscriptionSummary" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(10, __c1, 2),
+        }),
+      ).annotate({ identifier: "PaginatedSubscriptionSummaryList" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,7 +929,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SubscriptionsDestroyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -795,15 +940,15 @@ function __c1(j: number): any {
           id: S.Number.pipe(T.Label()),
           dashboard: S.optional(S.NullOr(S.Number)),
           insight: S.optional(S.NullOr(S.Number)),
-          dashboard_export_insights: S.optional(__S(32, __c4, 0)),
+          dashboard_export_insights: S.optional(__S(48, __c6, 0)),
           prompt: S.optional(S.NullOr(S.String)),
-          ai_prompt_config: S.optional(__S(41, __c5, 1)),
-          contexts: S.optional(__S(8, __c1, 0)),
+          ai_prompt_config: S.optional(__S(57, __c7, 1)),
+          contexts: S.optional(__S(24, __c3, 0)),
           target_type: S.String,
           target_value: S.String,
           frequency: S.String,
           interval: S.Number,
-          byweekday: S.optional(S.NullOr(__S(42, __c5, 2))),
+          byweekday: S.optional(S.NullOr(__S(58, __c7, 2))),
           bysetpos: S.optional(S.NullOr(S.Number)),
           count: S.optional(S.NullOr(S.Number)),
           start_date: S.String,
@@ -816,7 +961,7 @@ function __c1(j: number): any {
           send_test_now: S.optional(S.Boolean),
           summary_enabled: S.optional(S.Boolean),
           summary_prompt_guide: S.optional(S.String),
-          delivery_config: S.optional(__S(43, __c5, 3)),
+          delivery_config: S.optional(__S(59, __c7, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -827,7 +972,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -838,15 +983,15 @@ function __c2(j: number): any {
           id: S.Number.pipe(T.Label()),
           dashboard: S.optional(S.NullOr(S.Number)),
           insight: S.optional(S.NullOr(S.Number)),
-          dashboard_export_insights: S.optional(__S(32, __c4, 0)),
+          dashboard_export_insights: S.optional(__S(48, __c6, 0)),
           prompt: S.optional(S.NullOr(S.String)),
-          ai_prompt_config: S.optional(__S(41, __c5, 1)),
-          contexts: S.optional(__S(16, __c2, 0)),
+          ai_prompt_config: S.optional(__S(57, __c7, 1)),
+          contexts: S.optional(__S(32, __c4, 0)),
           target_type: S.optional(S.String),
           target_value: S.optional(S.String),
           frequency: S.optional(S.String),
           interval: S.optional(S.Number),
-          byweekday: S.optional(S.NullOr(__S(42, __c5, 2))),
+          byweekday: S.optional(S.NullOr(__S(58, __c7, 2))),
           bysetpos: S.optional(S.NullOr(S.Number)),
           count: S.optional(S.NullOr(S.Number)),
           start_date: S.optional(S.String),
@@ -859,7 +1004,7 @@ function __c2(j: number): any {
           send_test_now: S.optional(S.Boolean),
           summary_enabled: S.optional(S.Boolean),
           summary_prompt_guide: S.optional(S.String),
-          delivery_config: S.optional(__S(43, __c5, 3)),
+          delivery_config: S.optional(__S(59, __c7, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -870,7 +1015,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionsPartialRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -880,15 +1025,15 @@ function __c3(j: number): any {
           project_id: S.String.pipe(T.Label()),
           dashboard: S.optional(S.NullOr(S.Number)),
           insight: S.optional(S.NullOr(S.Number)),
-          dashboard_export_insights: S.optional(__S(32, __c4, 0)),
+          dashboard_export_insights: S.optional(__S(48, __c6, 0)),
           prompt: S.optional(S.NullOr(S.String)),
-          ai_prompt_config: S.optional(__S(41, __c5, 1)),
-          contexts: S.optional(__S(24, __c3, 0)),
+          ai_prompt_config: S.optional(__S(57, __c7, 1)),
+          contexts: S.optional(__S(40, __c5, 0)),
           target_type: S.String,
           target_value: S.String,
           frequency: S.String,
           interval: S.Number,
-          byweekday: S.optional(S.NullOr(__S(42, __c5, 2))),
+          byweekday: S.optional(S.NullOr(__S(58, __c7, 2))),
           bysetpos: S.optional(S.NullOr(S.Number)),
           count: S.optional(S.NullOr(S.Number)),
           start_date: S.String,
@@ -901,20 +1046,20 @@ function __c3(j: number): any {
           send_test_now: S.optional(S.Boolean),
           summary_enabled: S.optional(S.Boolean),
           summary_prompt_guide: S.optional(S.String),
-          delivery_config: S.optional(__S(43, __c5, 3)),
+          delivery_config: S.optional(__S(59, __c7, 3)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/subscriptions/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateSubscriptionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -927,7 +1072,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          window: S.optional(__S(40, __c5, 0)),
+          window: S.optional(__S(56, __c7, 0)),
         }),
       ).annotate({ identifier: "AIPromptConfig" });
     case 2:
@@ -956,7 +1101,7 @@ function __c5(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(45, __c5, 5))),
+          hedgehog_config: S.optional(S.NullOr(__S(61, __c7, 5))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -969,22 +1114,22 @@ function __c5(j: number): any {
           insight: S.optional(S.NullOr(S.Number)),
           insight_short_id: S.optional(S.NullOr(S.String)),
           resource_name: S.optional(S.NullOr(S.String)),
-          dashboard_export_insights: S.optional(__S(32, __c4, 0)),
+          dashboard_export_insights: S.optional(__S(48, __c6, 0)),
           prompt: S.optional(S.NullOr(S.String)),
-          ai_prompt_config: S.optional(__S(41, __c5, 1)),
-          contexts: S.optional(__S(44, __c5, 4)),
+          ai_prompt_config: S.optional(__S(57, __c7, 1)),
+          contexts: S.optional(__S(60, __c7, 4)),
           ai_query_plan_status: S.optional(S.NullOr(S.String)),
           target_type: S.optional(S.String),
           target_value: S.optional(S.String),
           frequency: S.optional(S.String),
           interval: S.optional(S.Number),
-          byweekday: S.optional(S.NullOr(__S(42, __c5, 2))),
+          byweekday: S.optional(S.NullOr(__S(58, __c7, 2))),
           bysetpos: S.optional(S.NullOr(S.Number)),
           count: S.optional(S.NullOr(S.Number)),
           start_date: S.optional(S.String),
           until_date: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(46, __c5, 6))),
+          created_by: S.optional(S.NullOr(__S(62, __c7, 6))),
           deleted: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
           title: S.optional(S.NullOr(S.String)),
@@ -994,12 +1139,29 @@ function __c5(j: number): any {
           invite_message: S.optional(S.NullOr(S.String)),
           summary_enabled: S.optional(S.Boolean),
           summary_prompt_guide: S.optional(S.String),
-          delivery_config: S.optional(__S(43, __c5, 3)),
+          delivery_config: S.optional(__S(59, __c7, 3)),
         }),
       ).annotate({ identifier: "SubscriptionOutput" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/subscriptions/{id}/take_ownership/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSubscriptionsTakeOwnershipRequest" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1016,7 +1178,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionsTestDeliveryRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1024,7 +1186,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1041,7 +1203,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1059,7 +1221,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetSubscriptionsDeliveryRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1073,7 +1235,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "AIReportQueryDiagnostic" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(104, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1083,7 +1245,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "AIReportChart" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(106, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1095,7 +1257,7 @@ function __c10(j: number): any {
           scheduled_at: S.optional(S.NullOr(S.String)),
           target_type: S.optional(S.String),
           target_value: S.optional(S.String),
-          exported_asset_ids: S.optional(__S(32, __c4, 0)),
+          exported_asset_ids: S.optional(__S(48, __c6, 0)),
           content_snapshot: S.optional(S.Unknown),
           recipient_results: S.optional(S.Unknown),
           status: S.optional(S.String),
@@ -1105,15 +1267,15 @@ function __c10(j: number): any {
           finished_at: S.optional(S.NullOr(S.String)),
           change_summary: S.optional(S.NullOr(S.String)),
           ai_report: S.optional(S.NullOr(S.String)),
-          ai_report_diagnostics: S.optional(S.NullOr(__S(81, __c10, 1))),
-          ai_report_charts: S.optional(S.NullOr(__S(83, __c10, 3))),
+          ai_report_diagnostics: S.optional(S.NullOr(__S(105, __c13, 1))),
+          ai_report_charts: S.optional(S.NullOr(__S(107, __c13, 3))),
           ai_report_prompt: S.optional(S.NullOr(S.String)),
           ai_query_plan_status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SubscriptionDelivery" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1137,7 +1299,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetSubscriptionsSummaryQuotaResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1159,45 +1321,16 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(47, __c5, 7));
+      return S.Array(__S(63, __c7, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(97, __c12, 1)),
+          results: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "PaginatedSubscriptionListOutput" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          subscription_id: S.Number.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/subscriptions/{subscription_id}/deliveries/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSubscriptionsDeliveriesRequest" });
-    case 1:
-      return S.Array(__S(84, __c10, 4));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(105, __c13, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedSubscriptionDeliveryList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

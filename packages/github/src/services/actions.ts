@@ -951,6 +951,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -1348,7 +1349,7 @@ export interface DownloadStepLogsForWorkflowRunJobRequest {
   repo: string;
   /** The unique identifier of the job. */
   job_id: number;
-  /** The zero-based position number of the step in the job. */
+  /** The number assigned to the step, as shown in the `number` field of the workflow job's `steps` array. */
   step_number: number;
 }
 export interface DownloadStepLogsForWorkflowRunJobResponse {}
@@ -2331,9 +2332,9 @@ export interface GetRunnerVersionDeprecationForOrgRequest {
 export interface GetRunnerVersionDeprecationForOrgResponse {
   /** The runner version string. */
   runner_version: string;
-  /** The date after which this runner version can no longer register. Null if no schedule is set. */
+  /** The date after which this runner version can no longer register. Only set for runner versions below the minimum version required to register (currently 2.329.0); `null` for versions with no registration end date. */
   registration_deprecates_at?: string | null | undefined;
-  /** The date after which jobs will no longer be dispatched to runners on this version. */
+  /** The date after which jobs will no longer be dispatched to runners on this version. `null` when no newer runner release exists yet. */
   runtime_deprecates_at?: string | null | undefined;
 }
 export interface GetRunnerVersionDeprecationForRepoRequest {
@@ -2347,9 +2348,9 @@ export interface GetRunnerVersionDeprecationForRepoRequest {
 export interface GetRunnerVersionDeprecationForRepoResponse {
   /** The runner version string. */
   runner_version: string;
-  /** The date after which this runner version can no longer register. Null if no schedule is set. */
+  /** The date after which this runner version can no longer register. Only set for runner versions below the minimum version required to register (currently 2.329.0); `null` for versions with no registration end date. */
   registration_deprecates_at?: string | null | undefined;
-  /** The date after which jobs will no longer be dispatched to runners on this version. */
+  /** The date after which jobs will no longer be dispatched to runners on this version. `null` when no newer runner release exists yet. */
   runtime_deprecates_at?: string | null | undefined;
 }
 export interface GetSelfHostedRunnerForOrgRequest {
@@ -2682,6 +2683,7 @@ export interface MinimalRepository {
   updated_at?: string | null | undefined;
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
@@ -5167,7 +5169,7 @@ export const getActionsCacheList: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetActionsCacheRetentionLimitForEnterpriseError = GithubOpError;
-/** Get GitHub Actions cache retention limit for an enterprise Gets GitHub Actions cache retention limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache retention limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Get GitHub Actions cache retention limit for an enterprise Gets GitHub Actions cache retention limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache retention limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const getActionsCacheRetentionLimitForEnterprise: API.OperationMethod<
   GetActionsCacheRetentionLimitForEnterpriseRequest,
   ActionsCacheRetentionLimitForEnterprise,
@@ -5222,7 +5224,7 @@ export const getActionsCacheRetentionLimitForRepository: API.OperationMethod<
 }));
 
 export type GetActionsCacheStorageLimitForEnterpriseError = GithubOpError;
-/** Get GitHub Actions cache storage limit for an enterprise Gets GitHub Actions cache storage limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache storage limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Get GitHub Actions cache storage limit for an enterprise Gets GitHub Actions cache storage limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache storage limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const getActionsCacheStorageLimitForEnterprise: API.OperationMethod<
   GetActionsCacheStorageLimitForEnterpriseRequest,
   ActionsCacheStorageLimitForEnterprise,
@@ -7350,7 +7352,7 @@ export const runReRunJobForWorkflow: API.OperationMethod<
 }));
 
 export type SetActionsCacheRetentionLimitForEnterpriseError = GithubOpError;
-/** Set GitHub Actions cache retention limit for an enterprise Sets GitHub Actions cache retention limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache retention limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Set GitHub Actions cache retention limit for an enterprise Sets GitHub Actions cache retention limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache retention limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const setActionsCacheRetentionLimitForEnterprise: API.OperationMethod<
   SetActionsCacheRetentionLimitForEnterpriseRequest,
   SetActionsCacheRetentionLimitForEnterpriseResponse,
@@ -7417,7 +7419,7 @@ export const setActionsCacheRetentionLimitForRepository: API.OperationMethod<
 }));
 
 export type SetActionsCacheStorageLimitForEnterpriseError = GithubOpError;
-/** Set GitHub Actions cache storage limit for an enterprise Sets GitHub Actions cache storage limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache storage limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. */
+/** Set GitHub Actions cache storage limit for an enterprise Sets GitHub Actions cache storage limit for an enterprise. All organizations and repositories under this enterprise may not set a higher cache storage limit. OAuth tokens and personal access tokens (classic) need the `admin:enterprise` scope to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
 export const setActionsCacheStorageLimitForEnterprise: API.OperationMethod<
   SetActionsCacheStorageLimitForEnterpriseRequest,
   SetActionsCacheStorageLimitForEnterpriseResponse,

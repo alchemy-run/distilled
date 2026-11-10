@@ -61,7 +61,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). Can be set to null to delete the label. > Note: Additional naming restrictions may apply depending on your specific organization.* */
 export type Labels = { [key: string]: string | undefined };
 export interface Member {
   /** A valid role defined for the resource. */
@@ -69,15 +69,15 @@ export interface Member {
   /** Unique identifier of the user, service account or client. */
   subject: string;
 }
-/** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
+/** The initial members assigned to the folder. */
 export type CreateFolderRequestMembersList = Array<Member>;
 export interface CreateFolderRequest {
-  /** Identifier of the parent resource container - containerId as well as UUID identifier is supported. */
+  /** Identifier of the parent resource container */
   containerParentId: string;
   labels?: Labels | undefined;
-  /** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
+  /** The initial members assigned to the folder. */
   members?: CreateFolderRequestMembersList | undefined;
-  /** The name of the folder matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  /** Folder name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name: string;
 }
 /** Container type of parent container. */
@@ -114,8 +114,8 @@ export interface CreateProjectRequest {
   containerParentId: string;
   labels?: CreateProjectLabels | undefined;
   /** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
-  members: CreateProjectRequestMembersList;
-  /** Project name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  members?: CreateProjectRequestMembersList | undefined;
+  /** Project name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name: string;
 }
 /** Lifecycle state of the resource container. | LIFECYCLE STATE | DESCRIPTION | |----------|--------------------| | CREATING | The creation process has been triggered. The state remains until resource manager gets notified about successful process completion. | | ACTIVE | Resource container can be fully used. | | INACTIVE | Resource container usage has been disabled. | | DELETING | The deletion process has been triggered. The state remains until resource manager gets notified about successful process completion. Afterwards, the record will be deleted. | */
@@ -336,7 +336,7 @@ export interface ListProjectsResponse {
   limit: number;
   offset: number;
 }
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). Can be set to null to delete the label. > Note: Additional naming restrictions may apply depending on your specific organization.* */
 export type UpdateLabels = { [key: string]: string | null | undefined };
 export interface PartialUpdateFolderRequest {
   /** Folder identifier - containerId as well as UUID identifier is supported. */
@@ -344,14 +344,14 @@ export interface PartialUpdateFolderRequest {
   /** New parent identifier for the resource container - containerId as well as UUID identifier is supported. */
   containerParentId?: string | undefined;
   labels?: UpdateLabels | undefined;
-  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name?: string | undefined;
 }
 export interface PartialUpdateOrganizationRequest {
   /** Organization identifier - containerId as well as UUID identifier is supported. */
   id: string;
   labels?: UpdateLabels | undefined;
-  /** The new name of the organization matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  /** The new name of the organization matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name?: string | undefined;
 }
 export interface PartialUpdateProjectRequest {
@@ -360,7 +360,7 @@ export interface PartialUpdateProjectRequest {
   /** New parent identifier for the resource container - containerId as well as UUID identifier is supported. */
   containerParentId?: string | undefined;
   labels?: UpdateLabels | undefined;
-  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name?: string | undefined;
 }
 export type CreateFolderError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -1001,7 +1001,7 @@ function __c18(j: number): any {
         S.Struct({
           containerParentId: S.String,
           labels: S.optional(__S(64, __c16, 0)),
-          members: __S(61, __c15, 1),
+          members: S.optional(__S(61, __c15, 1)),
           name: S.String,
         }).pipe(
           T.Http({

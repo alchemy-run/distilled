@@ -322,6 +322,14 @@ export type BatchMeterUsageError =
   | TimestampOutOfBoundsException
   | CommonErrors;
 /**
+ * The Amazon Web Services Marketplace AI Metering Agent Skill (`aws-marketplace-metering`) helps an AI
+ * coding agent integrate your SaaS product's usage reporting with the
+ * `BatchMeterUsage` API. The skill is a curated package of instructions and
+ * reference material that guides your AI coding agent through building, deploying, and
+ * testing the metering integration. To get the skill on demand without checking it out
+ * locally, install the Amazon Web Services MCP Server in your coding agent; the agent then discovers and loads
+ * the skill at runtime. The skill source is also available on GitHub. For more information, see Get started with the Amazon Web Services Marketplace AI Metering Agent Skill on the Amazon Web Services Marketplace blog.
+ *
  * Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use `CustomerAWSAccountId` (instead of `CustomerIdentifier`), `LicenseArn` (instead of `ProductCode`) to support this feature. `BatchMeterUsage` does not support `CustomerIdentifier` for new integrations. Existing integrations continue to work. Review the new integration for Concurrent Agreements here. For additional implementation details, see BatchMeterUsage code example with LicenseArn in the *Amazon Web Services Marketplace Seller Guide*.
  *
  * To post metering records for customers, SaaS applications call

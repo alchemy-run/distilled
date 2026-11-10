@@ -85,10 +85,10 @@ export class NotFound
 
 /** Request message for DataprocMetastore.AlterMetadataResourceLocation. */
 export interface AlterMetadataResourceLocationRequest {
-  /** Required. The relative metadata resource name in the following format.databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id} */
-  resourceName?: string | undefined;
   /** Required. The new location URI for the metadata resource. */
   locationUri?: string | undefined;
+  /** Required. The relative metadata resource name in the following format.databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id} */
+  resourceName?: string | undefined;
 }
 export interface AlterLocationProjectsLocationsServicesRequest {
   /** Required. The relative resource name of the metastore service to mutate metadata, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
@@ -100,33 +100,33 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
   response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
   name?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Request message for DataprocMetastore.AlterTableProperties. */
 export interface AlterTablePropertiesRequest {
-  /** Required. The name of the table containing the properties you're altering in the following format.databases/{database_id}/tables/{table_id} */
-  tableName?: string | undefined;
   /** A field mask that specifies the metadata table properties that are overwritten by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask.For example, given the target properties: properties { a: 1 b: 2 } And an update properties: properties { a: 2 b: 3 c: 4 } then if the field mask is:paths: "properties.b", "properties.c"then the result will be: properties { a: 1 b: 3 c: 4 } */
   updateMask?: string | undefined;
+  /** Required. The name of the table containing the properties you're altering in the following format.databases/{database_id}/tables/{table_id} */
+  tableName?: string | undefined;
   /** A map that describes the desired values to mutate. If update_mask is empty, the properties will not update. Otherwise, the properties only alters the value whose associated paths exist in the update mask */
   properties?: StringMap | undefined;
 }
@@ -184,38 +184,73 @@ export interface BackendMetastore {
 export type BackendMetastoreMap = { [key: string]: BackendMetastore | undefined };
 /** Represents a federation of multiple backend metastores. */
 export interface Federation {
-  /** User-defined labels for the metastore federation. */
-  labels?: StringMap | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
-  /** Output only. The globally unique resource identifier of the metastore federation. */
-  uid?: string | undefined;
-  /** Immutable. The Apache Hive metastore version of the federation. All backend metastore versions must be compatible with the federation version. */
-  version?: string | undefined;
-  /** Output only. The federation endpoint. */
-  endpointUri?: string | undefined;
   /** Output only. The current state of the federation. */
   state?: FederationStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the metastore federation was created. */
-  createTime?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
+  tags?: StringMap | undefined;
+  /** Output only. The time when the metastore federation was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The globally unique resource identifier of the metastore federation. */
+  uid?: string | undefined;
   /** Output only. Additional information about the current state of the metastore federation, if available. */
   stateMessage?: string | undefined;
+  /** User-defined labels for the metastore federation. */
+  labels?: StringMap | undefined;
+  /** Output only. The federation endpoint. */
+  endpointUri?: string | undefined;
+  /** Output only. The time when the metastore federation was created. */
+  createTime?: string | undefined;
   /** A map from BackendMetastore rank to BackendMetastores from which the federation service serves metadata at query time. The map key represents the order in which BackendMetastores should be evaluated to resolve database names at query time and should be greater than or equal to zero. A BackendMetastore with a lower number will be evaluated before a BackendMetastore with a higher number. */
   backendMetastores?: BackendMetastoreMap | undefined;
   /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
   name?: string | undefined;
-  /** Output only. The time when the metastore federation was last updated. */
-  updateTime?: string | undefined;
+  /** Immutable. The Apache Hive metastore version of the federation. All backend metastore versions must be compatible with the federation version. */
+  version?: string | undefined;
 }
 export interface CreateProjectsLocationsFederationsRequest {
-  /** Required. The ID of the metastore federation, which is used as the final component of the metastore federation's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
-  federationId?: string | undefined;
   /** Required. The relative resource name of the location in which to create a federation service, in the following form:projects/{project_number}/locations/{location_id}. */
   parent: string;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
+  /** Required. The ID of the metastore federation, which is used as the final component of the metastore federation's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
+  federationId?: string | undefined;
   /** Request body */
   body?: Federation | undefined;
+}
+export type LatestBackupStateEnum = "STATE_UNSPECIFIED" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
+/** The details of the latest scheduled backup. */
+export interface LatestBackup {
+  /** Output only. The duration of the backup completion. */
+  duration?: string | undefined;
+  /** Output only. The current state of the backup. */
+  state?: LatestBackupStateEnum | (string & {}) | undefined;
+  /** Output only. The ID of an in-progress scheduled backup. Empty if no backup is in progress. */
+  backupId?: string | undefined;
+  /** Output only. The time when the backup was started. */
+  startTime?: string | undefined;
+}
+/** This specifies the configuration of scheduled backup. */
+export interface ScheduledBackup {
+  /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified, the default is UTC. */
+  timeZone?: string | undefined;
+  /** Optional. Defines whether the scheduled backup is enabled. The default value is false. */
+  enabled?: boolean | undefined;
+  /** Optional. A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing backup files will be stored below it. */
+  backupLocation?: string | undefined;
+  /** Output only. The details of the latest scheduled backup. */
+  latestBackup?: LatestBackup | undefined;
+  /** Output only. The time when the next backups execution is scheduled to start. */
+  nextScheduledTime?: string | undefined;
+  /** Optional. The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron The default is empty: scheduled backup is not enabled. Must be specified to enable scheduled backups. */
+  cronSchedule?: string | undefined;
+}
+export type StringList = Array<string>;
+/** Configuration for Dataproc Metastore to Lakehouse proxy routing.In a phased migration, namespaces are migrated from Dataproc Metastore to a Lakehouse Iceberg REST Catalog in batches. Between and after migration phases, the metastore service operates in PROXY state where requests for migrated namespaces are forwarded to the Lakehouse catalog while unmigrated namespaces continue to be served locally by DPMS. */
+export interface LakehouseProxyConfig {
+  /** Output only. The Lakehouse Iceberg REST Catalog where requests are being proxied to. Format: projects/{project_id_or_number}/catalogs/{catalog_id}. */
+  catalog?: string | undefined;
+  /** Output only. The list of namespaces currently proxied to the Lakehouse catalog. As each migration batch completes, newly migrated namespaces are added to this list. */
+  namespaces?: StringList | undefined;
 }
 export type MetadataExportDatabaseDumpTypeEnum = "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO";
 export type MetadataExportStateEnum =
@@ -226,16 +261,16 @@ export type MetadataExportStateEnum =
   | "CANCELLED";
 /** The details of a metadata export operation. */
 export interface MetadataExport {
-  /** Output only. The time when the export ended. */
-  endTime?: string | undefined;
   /** Output only. The type of the database dump. */
   databaseDumpType?: MetadataExportDatabaseDumpTypeEnum | (string & {}) | undefined;
+  /** Output only. The time when the export ended. */
+  endTime?: string | undefined;
   /** Output only. The current state of the export. */
   state?: MetadataExportStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the export started. */
-  startTime?: string | undefined;
   /** Output only. A Cloud Storage URI of a folder that metadata are exported to, in the form of gs:////, where is automatically generated. */
   destinationGcsUri?: string | undefined;
+  /** Output only. The time when the export started. */
+  startTime?: string | undefined;
 }
 export type MetadataExportList = Array<MetadataExport>;
 export type RestoreTypeEnum = "RESTORE_TYPE_UNSPECIFIED" | "FULL" | "METADATA_ONLY";
@@ -247,20 +282,20 @@ export type RestoreStateEnum =
   | "CANCELLED";
 /** The details of a metadata restore operation. */
 export interface Restore {
+  /** Output only. The time when the restore started. */
+  startTime?: string | undefined;
   /** Output only. The relative resource name of the metastore service backup to restore from, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}. */
   backup?: string | undefined;
-  /** Optional. A Cloud Storage URI specifying where the backup artifacts are stored, in the format gs:///. */
-  backupLocation?: string | undefined;
-  /** Output only. The restore details containing the revision of the service to be restored to, in format of JSON. */
-  details?: string | undefined;
   /** Output only. The type of restore. */
   type?: RestoreTypeEnum | (string & {}) | undefined;
   /** Output only. The time when the restore ended. */
   endTime?: string | undefined;
-  /** Output only. The time when the restore started. */
-  startTime?: string | undefined;
   /** Output only. The current state of the restore. */
   state?: RestoreStateEnum | (string & {}) | undefined;
+  /** Output only. The restore details containing the revision of the service to be restored to, in format of JSON. */
+  details?: string | undefined;
+  /** Optional. A Cloud Storage URI specifying where the backup artifacts are stored, in the format gs:///. */
+  backupLocation?: string | undefined;
 }
 export type RestoreList = Array<Restore>;
 /** The metadata management activities of the metastore service. */
@@ -286,15 +321,15 @@ export interface MaintenanceWindow {
   /** Optional. The day of week, when the window starts. */
   dayOfWeek?: MaintenanceWindowDayOfWeekEnum | (string & {}) | undefined;
 }
+export type ServiceTierEnum = "TIER_UNSPECIFIED" | "DEVELOPER" | "ENTERPRISE";
 /** Deprecated: Use a single region service instead. A gRPC client must install all root CA certificates to connect to a multi-regional Dataproc Metastore service and achieve failover. */
 export interface RootCACertificate {
-  /** Deprecated: Use a single region service instead. The certificate expiration time in timestamp format. */
-  expirationTime?: string | undefined;
   /** Deprecated: Use a single region service instead. The root CA certificate in PEM format. The maximum length is 65536 bytes. */
   certificate?: string | undefined;
+  /** Deprecated: Use a single region service instead. The certificate expiration time in timestamp format. */
+  expirationTime?: string | undefined;
 }
 export type RootCACertificateList = Array<RootCACertificate>;
-export type StringList = Array<string>;
 /** Deprecated: Use a single region service instead. Custom configuration used to specify regions that the metastore service runs in. Currently only supported in the us multi-region. */
 export interface CustomRegionConfig {
   /** Required. The list of read-write regions where the metastore service runs in. These regions should be part (or subset) of the multi-region. */
@@ -309,13 +344,123 @@ export interface MultiRegionConfig {
   /** Immutable. Deprecated: Use a single region service instead. */
   customRegionConfig?: CustomRegionConfig | undefined;
 }
-/** Configuration for Dataproc Metastore to Lakehouse proxy routing.In a phased migration, namespaces are migrated from Dataproc Metastore to a Lakehouse Iceberg REST Catalog in batches. Between and after migration phases, the metastore service operates in PROXY state where requests for migrated namespaces are forwarded to the Lakehouse catalog while unmigrated namespaces continue to be served locally by DPMS. */
-export interface LakehouseProxyConfig {
-  /** Output only. The Lakehouse Iceberg REST Catalog where requests are being proxied to. Format: projects/{project_id_or_number}/catalogs/{catalog_id}. */
-  catalog?: string | undefined;
-  /** Output only. The list of namespaces currently proxied to the Lakehouse catalog. As each migration batch completes, newly migrated namespaces are added to this list. */
-  namespaces?: StringList | undefined;
+export type ServiceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "SUSPENDING"
+  | "SUSPENDED"
+  | "UPDATING"
+  | "DELETING"
+  | "ERROR"
+  | "AUTOSCALING"
+  | "MIGRATING"
+  | "PROXY";
+export type ScalingConfigInstanceSizeEnum =
+  | "INSTANCE_SIZE_UNSPECIFIED"
+  | "EXTRA_SMALL"
+  | "SMALL"
+  | "MEDIUM"
+  | "LARGE"
+  | "EXTRA_LARGE";
+/** Represents the autoscaling limit configuration of a metastore service. */
+export interface LimitConfig {
+  /** Optional. The highest scaling factor that the service should be autoscaled to. */
+  maxScalingFactor?: number | undefined;
+  /** Optional. The lowest scaling factor that the service should be autoscaled to. */
+  minScalingFactor?: number | undefined;
 }
+/** Represents the autoscaling configuration of a metastore service. */
+export interface AutoscalingConfig {
+  /** Optional. Whether or not autoscaling is enabled for this service. */
+  autoscalingEnabled?: boolean | undefined;
+  /** Optional. The LimitConfig of the service. */
+  limitConfig?: LimitConfig | undefined;
+  /** Output only. The scaling factor of a service with autoscaling enabled. */
+  autoscalingFactor?: number | undefined;
+}
+/** Represents the scaling configuration of a metastore service. */
+export interface ScalingConfig {
+  /** An enum of readable instance sizes, with each instance size mapping to a float value (e.g. InstanceSize.EXTRA_SMALL = scaling_factor(0.1)) */
+  instanceSize?: ScalingConfigInstanceSizeEnum | (string & {}) | undefined;
+  /** Optional. The autoscaling configuration. */
+  autoscalingConfig?: AutoscalingConfig | undefined;
+  /** Scaling factor, increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0. */
+  scalingFactor?: number | undefined;
+}
+/** Contains information of the customer's network configurations. */
+export interface Consumer {
+  /** Output only. The URI of the endpoint used to access the metastore service. */
+  endpointUri?: string | undefined;
+  /** Immutable. The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint. It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network. There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:projects/{project_number}/regions/{region_id}/subnetworks/{subnetwork_id} */
+  subnetwork?: string | undefined;
+  /** Output only. The location of the endpoint URI. Format: projects/{project}/locations/{location}. */
+  endpointLocation?: string | undefined;
+}
+export type ConsumerList = Array<Consumer>;
+/** Network configuration for the Dataproc Metastore service. */
+export interface NetworkConfig {
+  /** Immutable. The consumer-side network configuration for the Dataproc Metastore instance. */
+  consumers?: ConsumerList | undefined;
+  /** Optional. Enables custom routes to be imported and exported for the Dataproc Metastore service's peered VPC network. */
+  customRoutesEnabled?: boolean | undefined;
+}
+/** Configuration information for the auxiliary service versions. */
+export interface AuxiliaryVersionConfig {
+  /** Optional. The Hive metastore version of the auxiliary service. It must be less than the primary Hive metastore service's version. */
+  version?: string | undefined;
+  /** Output only. The network configuration contains the endpoint URI(s) of the auxiliary Hive metastore service. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Optional. A mapping of Hive metastore configuration key-value pairs to apply to the auxiliary Hive metastore (configured in hive-site.xml) in addition to the primary version's overrides. If keys are present in both the auxiliary version's overrides and the primary version's overrides, the value from the auxiliary version's overrides takes precedence. */
+  configOverrides?: StringMap | undefined;
+}
+export type AuxiliaryVersionConfigMap = { [key: string]: AuxiliaryVersionConfig | undefined };
+export type HiveMetastoreConfigEndpointProtocolEnum =
+  | "ENDPOINT_PROTOCOL_UNSPECIFIED"
+  | "THRIFT"
+  | "GRPC";
+/** A securely stored value. */
+export interface Secret {
+  /** Optional. The relative resource name of a Secret Manager secret version, in the following form:projects/{project_number}/secrets/{secret_id}/versions/{version_id}. */
+  cloudSecret?: string | undefined;
+}
+/** Configuration information for a Kerberos principal. */
+export interface KerberosConfig {
+  /** Optional. A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC). */
+  keytab?: Secret | undefined;
+  /** Optional. A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form gs://{bucket_name}/path/to/krb5.conf, although the file does not need to be named krb5.conf explicitly. */
+  krb5ConfigGcsUri?: string | undefined;
+  /** Optional. A Kerberos principal that exists in the both the keytab the KDC to authenticate as. A typical principal is of the form primary/instance@REALM, but there is no exact format. */
+  principal?: string | undefined;
+}
+/** Specifies configuration information specific to running Hive metastore software as the metastore service. */
+export interface HiveMetastoreConfig {
+  /** Optional. A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml). The mappings override system defaults (some keys cannot be overridden). These overrides are also applied to auxiliary versions and can be further customized in the auxiliary version's AuxiliaryVersionConfig. */
+  configOverrides?: StringMap | undefined;
+  /** Optional. A mapping of Hive metastore version to the auxiliary version configuration. When specified, a secondary Hive metastore service is created along with the primary service. All auxiliary versions must be less than the service's primary version. The key is the auxiliary service name and it must match the regular expression a-z?. This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen. */
+  auxiliaryVersions?: AuxiliaryVersionConfigMap | undefined;
+  /** Immutable. The Hive metastore schema version. */
+  version?: string | undefined;
+  /** Optional. The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT. */
+  endpointProtocol?: HiveMetastoreConfigEndpointProtocolEnum | (string & {}) | undefined;
+  /** Optional. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. To disable Kerberos, use the UpdateService method and specify this field's path (hive_metastore_config.kerberos_config) in the request's update_mask while omitting this field from the request's service. */
+  kerberosConfig?: KerberosConfig | undefined;
+}
+export type ServiceDatabaseTypeEnum = "DATABASE_TYPE_UNSPECIFIED" | "MYSQL" | "SPANNER";
+/** Encryption settings for the service. */
+export interface EncryptionConfig {
+  /** Optional. The fully qualified customer provided Cloud KMS key name to use for customer data encryption, in the following format:projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}. */
+  kmsKey?: string | undefined;
+  /** Optional. The list of fully qualified customer provided Cloud KMS key names for the multi-regional service. Each key must be in the following format:projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}. */
+  kmsKeys?: StringList | undefined;
+}
+export type TelemetryConfigLogFormatEnum = "LOG_FORMAT_UNSPECIFIED" | "LEGACY" | "JSON";
+/** Telemetry Configuration for the Dataproc Metastore service. */
+export interface TelemetryConfig {
+  /** Optional. The output format of the Dataproc Metastore service's logs. */
+  logFormat?: TelemetryConfigLogFormatEnum | (string & {}) | undefined;
+}
+export type ServiceReleaseChannelEnum = "RELEASE_CHANNEL_UNSPECIFIED" | "CANARY" | "STABLE";
 /** Specifies how metastore metadata should be integrated with the Data Catalog service. */
 export interface DataCatalogConfig {
   /** Optional. Defines whether the metastore metadata should be synced to Data Catalog. The default value is to disable syncing metastore metadata to Data Catalog. */
@@ -339,215 +484,70 @@ export interface MetadataIntegration {
   /** Optional. The integration config for the Dataplex service. */
   dataplexConfig?: DataplexConfig | undefined;
 }
-export type TelemetryConfigLogFormatEnum = "LOG_FORMAT_UNSPECIFIED" | "LEGACY" | "JSON";
-/** Telemetry Configuration for the Dataproc Metastore service. */
-export interface TelemetryConfig {
-  /** Optional. The output format of the Dataproc Metastore service's logs. */
-  logFormat?: TelemetryConfigLogFormatEnum | (string & {}) | undefined;
-}
-export type LatestBackupStateEnum = "STATE_UNSPECIFIED" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
-/** The details of the latest scheduled backup. */
-export interface LatestBackup {
-  /** Output only. The ID of an in-progress scheduled backup. Empty if no backup is in progress. */
-  backupId?: string | undefined;
-  /** Output only. The duration of the backup completion. */
-  duration?: string | undefined;
-  /** Output only. The current state of the backup. */
-  state?: LatestBackupStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the backup was started. */
-  startTime?: string | undefined;
-}
-/** This specifies the configuration of scheduled backup. */
-export interface ScheduledBackup {
-  /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified, the default is UTC. */
-  timeZone?: string | undefined;
-  /** Optional. A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing backup files will be stored below it. */
-  backupLocation?: string | undefined;
-  /** Output only. The details of the latest scheduled backup. */
-  latestBackup?: LatestBackup | undefined;
-  /** Optional. Defines whether the scheduled backup is enabled. The default value is false. */
-  enabled?: boolean | undefined;
-  /** Output only. The time when the next backups execution is scheduled to start. */
-  nextScheduledTime?: string | undefined;
-  /** Optional. The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron The default is empty: scheduled backup is not enabled. Must be specified to enable scheduled backups. */
-  cronSchedule?: string | undefined;
-}
-export type ServiceTierEnum = "TIER_UNSPECIFIED" | "DEVELOPER" | "ENTERPRISE";
-/** Contains information of the customer's network configurations. */
-export interface Consumer {
-  /** Immutable. The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint. It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network. There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:projects/{project_number}/regions/{region_id}/subnetworks/{subnetwork_id} */
-  subnetwork?: string | undefined;
-  /** Output only. The URI of the endpoint used to access the metastore service. */
-  endpointUri?: string | undefined;
-  /** Output only. The location of the endpoint URI. Format: projects/{project}/locations/{location}. */
-  endpointLocation?: string | undefined;
-}
-export type ConsumerList = Array<Consumer>;
-/** Network configuration for the Dataproc Metastore service. */
-export interface NetworkConfig {
-  /** Optional. Enables custom routes to be imported and exported for the Dataproc Metastore service's peered VPC network. */
-  customRoutesEnabled?: boolean | undefined;
-  /** Immutable. The consumer-side network configuration for the Dataproc Metastore instance. */
-  consumers?: ConsumerList | undefined;
-}
-export type ServiceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "SUSPENDING"
-  | "SUSPENDED"
-  | "UPDATING"
-  | "DELETING"
-  | "ERROR"
-  | "AUTOSCALING"
-  | "MIGRATING"
-  | "PROXY";
-export type ServiceReleaseChannelEnum = "RELEASE_CHANNEL_UNSPECIFIED" | "CANARY" | "STABLE";
-/** Encryption settings for the service. */
-export interface EncryptionConfig {
-  /** Optional. The list of fully qualified customer provided Cloud KMS key names for the multi-regional service. Each key must be in the following format:projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}. */
-  kmsKeys?: StringList | undefined;
-  /** Optional. The fully qualified customer provided Cloud KMS key name to use for customer data encryption, in the following format:projects/{project_number}/locations/{location_id}/keyRings/{key_ring_id}/cryptoKeys/{crypto_key_id}. */
-  kmsKey?: string | undefined;
-}
-/** A securely stored value. */
-export interface Secret {
-  /** Optional. The relative resource name of a Secret Manager secret version, in the following form:projects/{project_number}/secrets/{secret_id}/versions/{version_id}. */
-  cloudSecret?: string | undefined;
-}
-/** Configuration information for a Kerberos principal. */
-export interface KerberosConfig {
-  /** Optional. A Kerberos principal that exists in the both the keytab the KDC to authenticate as. A typical principal is of the form primary/instance@REALM, but there is no exact format. */
-  principal?: string | undefined;
-  /** Optional. A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC). */
-  keytab?: Secret | undefined;
-  /** Optional. A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form gs://{bucket_name}/path/to/krb5.conf, although the file does not need to be named krb5.conf explicitly. */
-  krb5ConfigGcsUri?: string | undefined;
-}
-export type HiveMetastoreConfigEndpointProtocolEnum =
-  | "ENDPOINT_PROTOCOL_UNSPECIFIED"
-  | "THRIFT"
-  | "GRPC";
-/** Configuration information for the auxiliary service versions. */
-export interface AuxiliaryVersionConfig {
-  /** Output only. The network configuration contains the endpoint URI(s) of the auxiliary Hive metastore service. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Optional. A mapping of Hive metastore configuration key-value pairs to apply to the auxiliary Hive metastore (configured in hive-site.xml) in addition to the primary version's overrides. If keys are present in both the auxiliary version's overrides and the primary version's overrides, the value from the auxiliary version's overrides takes precedence. */
-  configOverrides?: StringMap | undefined;
-  /** Optional. The Hive metastore version of the auxiliary service. It must be less than the primary Hive metastore service's version. */
-  version?: string | undefined;
-}
-export type AuxiliaryVersionConfigMap = { [key: string]: AuxiliaryVersionConfig | undefined };
-/** Specifies configuration information specific to running Hive metastore software as the metastore service. */
-export interface HiveMetastoreConfig {
-  /** Optional. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. To disable Kerberos, use the UpdateService method and specify this field's path (hive_metastore_config.kerberos_config) in the request's update_mask while omitting this field from the request's service. */
-  kerberosConfig?: KerberosConfig | undefined;
-  /** Optional. The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT. */
-  endpointProtocol?: HiveMetastoreConfigEndpointProtocolEnum | (string & {}) | undefined;
-  /** Optional. A mapping of Hive metastore version to the auxiliary version configuration. When specified, a secondary Hive metastore service is created along with the primary service. All auxiliary versions must be less than the service's primary version. The key is the auxiliary service name and it must match the regular expression a-z?. This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen. */
-  auxiliaryVersions?: AuxiliaryVersionConfigMap | undefined;
-  /** Immutable. The Hive metastore schema version. */
-  version?: string | undefined;
-  /** Optional. A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml). The mappings override system defaults (some keys cannot be overridden). These overrides are also applied to auxiliary versions and can be further customized in the auxiliary version's AuxiliaryVersionConfig. */
-  configOverrides?: StringMap | undefined;
-}
-/** Represents the autoscaling limit configuration of a metastore service. */
-export interface LimitConfig {
-  /** Optional. The highest scaling factor that the service should be autoscaled to. */
-  maxScalingFactor?: number | undefined;
-  /** Optional. The lowest scaling factor that the service should be autoscaled to. */
-  minScalingFactor?: number | undefined;
-}
-/** Represents the autoscaling configuration of a metastore service. */
-export interface AutoscalingConfig {
-  /** Optional. Whether or not autoscaling is enabled for this service. */
-  autoscalingEnabled?: boolean | undefined;
-  /** Optional. The LimitConfig of the service. */
-  limitConfig?: LimitConfig | undefined;
-  /** Output only. The scaling factor of a service with autoscaling enabled. */
-  autoscalingFactor?: number | undefined;
-}
-export type ScalingConfigInstanceSizeEnum =
-  | "INSTANCE_SIZE_UNSPECIFIED"
-  | "EXTRA_SMALL"
-  | "SMALL"
-  | "MEDIUM"
-  | "LARGE"
-  | "EXTRA_LARGE";
-/** Represents the scaling configuration of a metastore service. */
-export interface ScalingConfig {
-  /** Scaling factor, increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0. */
-  scalingFactor?: number | undefined;
-  /** Optional. The autoscaling configuration. */
-  autoscalingConfig?: AutoscalingConfig | undefined;
-  /** An enum of readable instance sizes, with each instance size mapping to a float value (e.g. InstanceSize.EXTRA_SMALL = scaling_factor(0.1)) */
-  instanceSize?: ScalingConfigInstanceSizeEnum | (string & {}) | undefined;
-}
-export type ServiceDatabaseTypeEnum = "DATABASE_TYPE_UNSPECIFIED" | "MYSQL" | "SPANNER";
 /** A managed metastore service that serves metadata queries. */
 export interface Service {
-  /** Output only. The URI of the endpoint used to access the metastore service. */
-  endpointUri?: string | undefined;
-  /** Output only. The metadata management activities of the metastore service. */
-  metadataManagementActivity?: MetadataManagementActivity | undefined;
   /** Immutable. Identifier. The relative resource name of the metastore service, in the following format:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   name?: string | undefined;
-  /** Output only. The globally unique resource identifier of the metastore service. */
-  uid?: string | undefined;
-  /** Optional. Indicates if the dataproc metastore should be protected against accidental deletions. */
-  deletionProtection?: boolean | undefined;
-  /** Output only. A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored. */
-  artifactGcsUri?: string | undefined;
-  /** Optional. The one hour maintenance window of the metastore service. This specifies when the service can be restarted for maintenance purposes in UTC time. Maintenance window is not needed for services with the SPANNER database type. */
-  maintenanceWindow?: MaintenanceWindow | undefined;
-  /** Optional. Deprecated: Use a single region service instead. Specifies the multi-region configuration information for the Hive metastore service. */
-  multiRegionConfig?: MultiRegionConfig | undefined;
-  /** Output only. The time when the metastore service was created. */
-  createTime?: string | undefined;
-  /** Output only. The Lakehouse proxy routing configuration for the metastore service. */
-  lakehouseProxyConfig?: LakehouseProxyConfig | undefined;
-  /** Optional. The TCP port at which the metastore service is reached. Default: 9083. */
-  port?: number | undefined;
-  /** Output only. The time when the metastore service was last updated. */
-  updateTime?: string | undefined;
-  /** User-defined labels for the metastore service. */
-  labels?: StringMap | undefined;
-  /** Optional. The setting that defines how metastore metadata should be integrated with external services and systems. */
-  metadataIntegration?: MetadataIntegration | undefined;
-  /** Optional. The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON. */
-  telemetryConfig?: TelemetryConfig | undefined;
-  /** Optional. The configuration of scheduled backup for the metastore service. */
-  scheduledBackup?: ScheduledBackup | undefined;
-  /** Optional. The tier of the service. */
-  tier?: ServiceTierEnum | (string & {}) | undefined;
-  /** Optional. The configuration specifying the network settings for the Dataproc Metastore service. */
-  networkConfig?: NetworkConfig | undefined;
   /** Immutable. The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:projects/{project_number}/global/networks/{network_id}. */
   network?: string | undefined;
-  /** Output only. The current state of the metastore service. */
-  state?: ServiceStateEnum | (string & {}) | undefined;
-  /** Output only. Additional information about the current state of the metastore service, if available. */
-  stateMessage?: string | undefined;
+  /** Optional. The configuration of scheduled backup for the metastore service. */
+  scheduledBackup?: ScheduledBackup | undefined;
+  /** Output only. The Lakehouse proxy routing configuration for the metastore service. */
+  lakehouseProxyConfig?: LakehouseProxyConfig | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
   tags?: StringMap | undefined;
-  /** Immutable. The release channel of the service. If unspecified, defaults to STABLE. */
-  releaseChannel?: ServiceReleaseChannelEnum | (string & {}) | undefined;
-  /** Immutable. Information used to configure the Dataproc Metastore service to encrypt customer data at rest. Cannot be updated. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Configuration information specific to running Hive metastore software as the metastore service. */
-  hiveMetastoreConfig?: HiveMetastoreConfig | undefined;
+  /** Output only. The metadata management activities of the metastore service. */
+  metadataManagementActivity?: MetadataManagementActivity | undefined;
+  /** Optional. The one hour maintenance window of the metastore service. This specifies when the service can be restarted for maintenance purposes in UTC time. Maintenance window is not needed for services with the SPANNER database type. */
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  /** Optional. The tier of the service. */
+  tier?: ServiceTierEnum | (string & {}) | undefined;
+  /** Optional. Deprecated: Use a single region service instead. Specifies the multi-region configuration information for the Hive metastore service. */
+  multiRegionConfig?: MultiRegionConfig | undefined;
+  /** Output only. Additional information about the current state of the metastore service, if available. */
+  stateMessage?: string | undefined;
+  /** Output only. The globally unique resource identifier of the metastore service. */
+  uid?: string | undefined;
+  /** User-defined labels for the metastore service. */
+  labels?: StringMap | undefined;
+  /** Output only. The current state of the metastore service. */
+  state?: ServiceStateEnum | (string & {}) | undefined;
+  /** Output only. The URI of the endpoint used to access the metastore service. */
+  endpointUri?: string | undefined;
+  /** Output only. The time when the metastore service was created. */
+  createTime?: string | undefined;
   /** Optional. Scaling configuration of the metastore service. */
   scalingConfig?: ScalingConfig | undefined;
+  /** Optional. The configuration specifying the network settings for the Dataproc Metastore service. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Configuration information specific to running Hive metastore software as the metastore service. */
+  hiveMetastoreConfig?: HiveMetastoreConfig | undefined;
   /** Immutable. The database type that the Metastore service stores its data. */
   databaseType?: ServiceDatabaseTypeEnum | (string & {}) | undefined;
+  /** Output only. A Cloud Storage URI (starting with gs://) that specifies where artifacts related to the metastore service are stored. */
+  artifactGcsUri?: string | undefined;
+  /** Immutable. Information used to configure the Dataproc Metastore service to encrypt customer data at rest. Cannot be updated. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Optional. Indicates if the dataproc metastore should be protected against accidental deletions. */
+  deletionProtection?: boolean | undefined;
+  /** Optional. The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON. */
+  telemetryConfig?: TelemetryConfig | undefined;
+  /** Optional. The TCP port at which the metastore service is reached. Default: 9083. */
+  port?: number | undefined;
+  /** Immutable. The release channel of the service. If unspecified, defaults to STABLE. */
+  releaseChannel?: ServiceReleaseChannelEnum | (string & {}) | undefined;
+  /** Optional. The setting that defines how metastore metadata should be integrated with external services and systems. */
+  metadataIntegration?: MetadataIntegration | undefined;
+  /** Output only. The time when the metastore service was last updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesRequest {
+  /** Required. The relative resource name of the location in which to create a metastore service, in the following form:projects/{project_number}/locations/{location_id}. */
+  parent: string;
   /** Required. The ID of the metastore service, which is used as the final component of the metastore service's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   serviceId?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Required. The relative resource name of the location in which to create a metastore service, in the following form:projects/{project_number}/locations/{location_id}. */
-  parent: string;
   /** Request body */
   body?: Service | undefined;
 }
@@ -560,28 +560,28 @@ export type BackupStateEnum =
   | "RESTORING";
 /** The details of a backup resource. */
 export interface Backup {
-  /** Output only. The current state of the backup. */
-  state?: BackupStateEnum | (string & {}) | undefined;
   /** Output only. The revision of the service at the time of backup. */
   serviceRevision?: Service | undefined;
-  /** Optional. The description of the backup. */
-  description?: string | undefined;
   /** Output only. The time when the backup was started. */
   createTime?: string | undefined;
-  /** Output only. Services that are restoring from the backup. */
-  restoringServices?: StringList | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | (string & {}) | undefined;
+  /** Optional. The description of the backup. */
+  description?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the backup, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/backups/{backup_id} */
   name?: string | undefined;
   /** Output only. The time when the backup finished creating. */
   endTime?: string | undefined;
+  /** Output only. Services that are restoring from the backup. */
+  restoringServices?: StringList | undefined;
 }
 export interface CreateProjectsLocationsServicesBackupsRequest {
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Required. The ID of the backup, which is used as the final component of the backup's name.This value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
-  backupId?: string | undefined;
   /** Required. The relative resource name of the service in which to create a backup of the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   parent: string;
+  /** Required. The ID of the backup, which is used as the final component of the backup's name.This value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
+  backupId?: string | undefined;
   /** Request body */
   body?: Backup | undefined;
 }
@@ -591,61 +591,61 @@ export type MetadataImportStateEnum =
   | "SUCCEEDED"
   | "UPDATING"
   | "FAILED";
-export type DatabaseDumpTypeEnum = "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO";
 export type DatabaseDumpDatabaseTypeEnum = "DATABASE_TYPE_UNSPECIFIED" | "MYSQL";
+export type DatabaseDumpTypeEnum = "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO";
 /** A specification of the location of and metadata about a database dump from a relational database management system. */
 export interface DatabaseDump {
-  /** Optional. The type of the database dump. If unspecified, defaults to MYSQL. */
-  type?: DatabaseDumpTypeEnum | (string & {}) | undefined;
   /** The type of the database. */
   databaseType?: DatabaseDumpDatabaseTypeEnum | (string & {}) | undefined;
   /** Optional. The name of the source database. */
   sourceDatabase?: string | undefined;
   /** Optional. A Cloud Storage object or folder URI that specifies the source from which to import metadata. It must begin with gs://. */
   gcsUri?: string | undefined;
+  /** Optional. The type of the database dump. If unspecified, defaults to MYSQL. */
+  type?: DatabaseDumpTypeEnum | (string & {}) | undefined;
 }
 /** A metastore resource that imports metadata. */
 export interface MetadataImport {
-  /** Output only. The time when the metadata import was started. */
-  createTime?: string | undefined;
-  /** Optional. The description of the metadata import. */
-  description?: string | undefined;
-  /** Output only. The time when the metadata import was last updated. */
-  updateTime?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
   name?: string | undefined;
+  /** Output only. The time when the metadata import was started. */
+  createTime?: string | undefined;
   /** Output only. The current state of the metadata import. */
   state?: MetadataImportStateEnum | (string & {}) | undefined;
+  /** Output only. The time when the metadata import was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. The description of the metadata import. */
+  description?: string | undefined;
   /** Immutable. A database dump from a pre-existing metastore's database. */
   databaseDump?: DatabaseDump | undefined;
   /** Output only. The time when the metadata import finished. */
   endTime?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesMetadataImportsRequest {
+  /** Required. The relative resource name of the service in which to create a metastore import, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
+  parent: string;
   /** Required. The ID of the metadata import, which is used as the final component of the metadata import's name.This value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   metadataImportId?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Required. The relative resource name of the service in which to create a metastore import, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
-  parent: string;
   /** Request body */
   body?: MetadataImport | undefined;
 }
 export interface DeleteProjectsLocationsFederationsRequest {
-  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
-  requestId?: string | undefined;
   /** Required. The relative resource name of the metastore federation to delete, in the following form:projects/{project_number}/locations/{location_id}/federations/{federation_id}. */
   name: string;
+  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
 export interface DeleteProjectsLocationsServicesRequest {
-  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
-  requestId?: string | undefined;
   /** Required. The relative resource name of the metastore service to delete, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   name: string;
+  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsServicesBackupsRequest {
   /** Required. The relative resource name of the backup to delete, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/backups/{backup_id}. */
@@ -654,20 +654,20 @@ export interface DeleteProjectsLocationsServicesBackupsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsServicesMigrationExecutionsRequest {
-  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
-  requestId?: string | undefined;
   /** Required. The relative resource name of the migrationExecution to delete, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions/{migration_execution_id}. */
   name: string;
+  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
+  requestId?: string | undefined;
 }
 export type ExportMetadataRequestDatabaseDumpTypeEnum = "TYPE_UNSPECIFIED" | "MYSQL" | "AVRO";
 /** Request message for DataprocMetastore.ExportMetadata. */
 export interface ExportMetadataRequest {
-  /** A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing exported files will be created below it. */
-  destinationGcsFolder?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format). A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Optional. The type of the database dump. If unspecified, defaults to MYSQL. */
   databaseDumpType?: ExportMetadataRequestDatabaseDumpTypeEnum | (string & {}) | undefined;
+  /** A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing exported files will be created below it. */
+  destinationGcsFolder?: string | undefined;
 }
 export interface ExportMetadataProjectsLocationsServicesRequest {
   /** Required. The relative resource name of the metastore service to run export, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}. */
@@ -676,11 +676,32 @@ export interface ExportMetadataProjectsLocationsServicesRequest {
   body?: ExportMetadataRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsFederationsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+}
+/** Associates members, or principals, with a role. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
+  members?: StringList | undefined;
+  /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+}
+export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -696,43 +717,22 @@ export interface AuditLogConfig {
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs.If there are AuditConfigs for both allServices and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted.Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts jose@example.com from DATA_READ logging, and aliya@example.com from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, storage.googleapis.com, cloudsql.googleapis.com. allServices is a special value that covers all services. */
   service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-}
-/** Associates members, or principals, with a role. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
-  members?: StringList | undefined;
-  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-}
-export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources.A Policy is a collection of bindings. A binding binds one or more members, or principals, to a single role. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A role is a named list of permissions; each role can be an IAM predefined role or a user-created custom role.For some types of Google Cloud resources, a binding can also specify a condition, which is a logical expression that allows access to a resource only if the expression evaluates to true. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies).JSON example: { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } YAML example: bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the IAM documentation (https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
-  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
-  etag?: string | undefined;
   /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
   bindings?: BindingList | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList | undefined;
+  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -747,16 +747,16 @@ export interface GetIamPolicyProjectsLocationsServicesBackupsRequest {
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsServicesDatabasesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -764,12 +764,12 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** The canonical id for this location. For example: "us-east1". */
   locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
   name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
@@ -800,6 +800,121 @@ export interface GetProjectsLocationsServicesMigrationExecutionsRequest {
   name: string;
 }
 export type MigrationExecutionPhaseEnum = "PHASE_UNSPECIFIED" | "REPLICATION" | "CUTOVER";
+export type BackfillStatusStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED";
+export type DatabaseSummaryResultStatusEnum =
+  | "STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "SKIPPED";
+/** Aggregated summary of results for all tables in a database. */
+export interface TableSummary {
+  /** Output only. The total number of partitions successfully migrated at the target. */
+  partitionSuccessCount?: string | undefined;
+  /** Output only. Number of tables with a specific migration plan action. The key is the action name (e.g. CREATE, UPDATE, SKIP, etc.). */
+  planCounts?: StringMap | undefined;
+  /** Output only. The total number of partitions that failed to migrate at the target. */
+  partitionFailedCount?: string | undefined;
+  /** Output only. Number of tables with a specific migration result status. The key is the status name (e.g. SUCCEEDED, FAILED, SKIPPED, etc.). This is only set if the migration is not a dry run. */
+  resultCounts?: StringMap | undefined;
+  /** Output only. Partition migration summary across all Hive tables in the database.The total number of partitions discovered at the source. */
+  partitionDiscoveredCount?: string | undefined;
+}
+export type DatabaseSummaryPlanActionEnum =
+  | "ACTION_UNSPECIFIED"
+  | "CREATE"
+  | "UPDATE"
+  | "SKIP"
+  | "DEPENDENCY_FAILURE"
+  | "ERROR";
+/** Summary of results for a specific database in a catalog. */
+export interface DatabaseSummary {
+  /** Output only. The name of the database. */
+  database?: string | undefined;
+  /** Output only. The migration result status for the database. This is only set if the migration is not a dry run. */
+  resultStatus?: DatabaseSummaryResultStatusEnum | (string & {}) | undefined;
+  /** Output only. Aggregated summary of results for all tables in the database. */
+  tableSummary?: TableSummary | undefined;
+  /** Output only. The migration plan action for the database. */
+  planAction?: DatabaseSummaryPlanActionEnum | (string & {}) | undefined;
+}
+export type DatabaseSummaryList = Array<DatabaseSummary>;
+export type CatalogSummaryCatalogTypeEnum = "CATALOG_TYPE_UNSPECIFIED" | "HIVE" | "ICEBERG";
+/** Summary of results for a specific destination catalog. */
+export interface CatalogSummary {
+  /** Output only. The catalog resource name (format: projects/*\/catalogs/*). */
+  catalog?: string | undefined;
+  /** Output only. Summary of results for each database in the catalog. */
+  databaseSummaries?: DatabaseSummaryList | undefined;
+  /** Output only. The type of the catalog. */
+  catalogType?: CatalogSummaryCatalogTypeEnum | (string & {}) | undefined;
+}
+export type CatalogSummaryList = Array<CatalogSummary>;
+/** Summary of the migration results. */
+export interface MigrationSummary {
+  /** Output only. Whether the migration was a dry run. */
+  dryRun?: boolean | undefined;
+  /** Output only. The UTC time when the report was written. */
+  endTime?: string | undefined;
+  /** Output only. The UTC time when the source metadata read was initiated. */
+  createTime?: string | undefined;
+  /** Output only. Summary of results for each catalog involved in the migration. */
+  catalogSummaries?: CatalogSummaryList | undefined;
+  /** Output only. The Dataproc Metastore service name (format: projects/*\/locations/*\/services/*) on which the migration was executed. */
+  service?: string | undefined;
+}
+/** Backfill status for the migration execution. */
+export interface BackfillStatus {
+  /** Output only. The current state of the backfill (or dry run). */
+  state?: BackfillStatusStateEnum | (string & {}) | undefined;
+  /** Output only. The Cloud Storage path where the backfill or dry run report is written. Format: "gs://path-to-report". */
+  reportPath?: string | undefined;
+  /** Output only. Summary of the migration results. This is populated after the backfill or dry run is finished. */
+  migrationSummary?: MigrationSummary | undefined;
+}
+/** Configuration for migrating Hive metadata. */
+export interface HiveConfig {
+  /** Required. The list of databases to migrate to the Hive catalog. Use "*" to migrate all databases. Note: If Iceberg tables exist in these databases, they will only be migrated if iceberg_config is also specified. */
+  databases?: StringList | undefined;
+  /** Required. The target catalog for migrated databases and tables. Format: "projects/{project_id_or_number}/catalogs/{catalog_id}" */
+  catalog?: string | undefined;
+}
+export type BigLakeMetastoreMigrationConfigConflictPolicyEnum =
+  | "CONFLICT_POLICY_UNSPECIFIED"
+  | "SKIP"
+  | "OVERWRITE";
+export type BigLakeMetastoreMigrationConfigModeEnum =
+  | "MIGRATION_MODE_UNSPECIFIED"
+  | "BACKFILL"
+  | "INCREMENTAL_SYNC";
+/** Configuration for migrating Iceberg metadata. */
+export interface IcebergConfig {
+  /** Required. The target catalog for migrated Iceberg metadata. Format: "projects/{project_id_or_number}/catalogs/{catalog_id}" */
+  catalog?: string | undefined;
+  /** Required. The list of namespaces to migrate to the Iceberg REST catalog. Use "*" to migrate all namespaces. Note: If Hive tables exist in these namespaces, they will only be migrated if hive_config is also specified. */
+  namespaces?: StringList | undefined;
+}
+/** Defines the configuration required to migrate metadata from a Dataproc Metastore service to BigLake Metastore. */
+export interface BigLakeMetastoreMigrationConfig {
+  /** Output only. */
+  backfillStatus?: BackfillStatus | undefined;
+  /** Optional. If true, performs discovery of requested resources and analysis against the target catalog to come up with a plan for each resource (e.g. Create, Update, Skip, etc.). No metadata is actually migrated. */
+  dryRun?: boolean | undefined;
+  /** Optional. At least one of hive_config or iceberg_config must be provided, otherwise, a validation error will be thrown. If only one is provided, the service only migrates tables of that specific type. If both are provided, both Hive and Iceberg tables will be migrated.Configuration for migrating Hive tables to a BigLake Hive catalog. */
+  hiveConfig?: HiveConfig | undefined;
+  /** Optional. The policy to handle conflicts when migrating resources, defaults to SKIP if not specified. */
+  conflictPolicy?: BigLakeMetastoreMigrationConfigConflictPolicyEnum | (string & {}) | undefined;
+  /** Required. Defines the behavior of the migration execution. */
+  mode?: BigLakeMetastoreMigrationConfigModeEnum | (string & {}) | undefined;
+  /** Optional. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. */
+  icebergConfig?: IcebergConfig | undefined;
+  /** Optional. The Cloud Storage path where the backfill / dry run report should be written. If not provided, the report will be generated in the service's artifacts bucket. Format: "gs://path/to/folder" */
+  reportPath?: string | undefined;
+}
 export type MigrationExecutionStateEnum =
   | "STATE_UNSPECIFIED"
   | "STARTING"
@@ -811,149 +926,34 @@ export type MigrationExecutionStateEnum =
   | "CANCELLED"
   | "DELETING"
   | "ROLLED_BACK";
-/** Configuration for migrating Hive metadata. */
-export interface HiveConfig {
-  /** Required. The target catalog for migrated databases and tables. Format: "projects/{project_id_or_number}/catalogs/{catalog_id}" */
-  catalog?: string | undefined;
-  /** Required. The list of databases to migrate to the Hive catalog. Use "*" to migrate all databases. Note: If Iceberg tables exist in these databases, they will only be migrated if iceberg_config is also specified. */
-  databases?: StringList | undefined;
-}
-export type BigLakeMetastoreMigrationConfigModeEnum =
-  | "MIGRATION_MODE_UNSPECIFIED"
-  | "BACKFILL"
-  | "INCREMENTAL_SYNC";
-export type BigLakeMetastoreMigrationConfigConflictPolicyEnum =
-  | "CONFLICT_POLICY_UNSPECIFIED"
-  | "SKIP"
-  | "OVERWRITE";
-export type DatabaseSummaryResultStatusEnum =
-  | "STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "SKIPPED";
-/** Aggregated summary of results for all tables in a database. */
-export interface TableSummary {
-  /** Output only. The total number of partitions successfully migrated at the target. */
-  partitionSuccessCount?: string | undefined;
-  /** Output only. The total number of partitions that failed to migrate at the target. */
-  partitionFailedCount?: string | undefined;
-  /** Output only. Partition migration summary across all Hive tables in the database.The total number of partitions discovered at the source. */
-  partitionDiscoveredCount?: string | undefined;
-  /** Output only. Number of tables with a specific migration result status. The key is the status name (e.g. SUCCEEDED, FAILED, SKIPPED, etc.). This is only set if the migration is not a dry run. */
-  resultCounts?: StringMap | undefined;
-  /** Output only. Number of tables with a specific migration plan action. The key is the action name (e.g. CREATE, UPDATE, SKIP, etc.). */
-  planCounts?: StringMap | undefined;
-}
-export type DatabaseSummaryPlanActionEnum =
-  | "ACTION_UNSPECIFIED"
-  | "CREATE"
-  | "UPDATE"
-  | "SKIP"
-  | "DEPENDENCY_FAILURE"
-  | "ERROR";
-/** Summary of results for a specific database in a catalog. */
-export interface DatabaseSummary {
-  /** Output only. The migration result status for the database. This is only set if the migration is not a dry run. */
-  resultStatus?: DatabaseSummaryResultStatusEnum | (string & {}) | undefined;
-  /** Output only. Aggregated summary of results for all tables in the database. */
-  tableSummary?: TableSummary | undefined;
-  /** Output only. The name of the database. */
-  database?: string | undefined;
-  /** Output only. The migration plan action for the database. */
-  planAction?: DatabaseSummaryPlanActionEnum | (string & {}) | undefined;
-}
-export type DatabaseSummaryList = Array<DatabaseSummary>;
-export type CatalogSummaryCatalogTypeEnum = "CATALOG_TYPE_UNSPECIFIED" | "HIVE" | "ICEBERG";
-/** Summary of results for a specific destination catalog. */
-export interface CatalogSummary {
-  /** Output only. Summary of results for each database in the catalog. */
-  databaseSummaries?: DatabaseSummaryList | undefined;
-  /** Output only. The catalog resource name (format: projects/*\/catalogs/*). */
-  catalog?: string | undefined;
-  /** Output only. The type of the catalog. */
-  catalogType?: CatalogSummaryCatalogTypeEnum | (string & {}) | undefined;
-}
-export type CatalogSummaryList = Array<CatalogSummary>;
-/** Summary of the migration results. */
-export interface MigrationSummary {
-  /** Output only. Whether the migration was a dry run. */
-  dryRun?: boolean | undefined;
-  /** Output only. The UTC time when the source metadata read was initiated. */
-  createTime?: string | undefined;
-  /** Output only. The Dataproc Metastore service name (format: projects/*\/locations/*\/services/*) on which the migration was executed. */
-  service?: string | undefined;
-  /** Output only. Summary of results for each catalog involved in the migration. */
-  catalogSummaries?: CatalogSummaryList | undefined;
-  /** Output only. The UTC time when the report was written. */
-  endTime?: string | undefined;
-}
-export type BackfillStatusStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED";
-/** Backfill status for the migration execution. */
-export interface BackfillStatus {
-  /** Output only. Summary of the migration results. This is populated after the backfill or dry run is finished. */
-  migrationSummary?: MigrationSummary | undefined;
-  /** Output only. The current state of the backfill (or dry run). */
-  state?: BackfillStatusStateEnum | (string & {}) | undefined;
-  /** Output only. The Cloud Storage path where the backfill or dry run report is written. Format: "gs://path-to-report". */
-  reportPath?: string | undefined;
-}
-/** Configuration for migrating Iceberg metadata. */
-export interface IcebergConfig {
-  /** Required. The list of namespaces to migrate to the Iceberg REST catalog. Use "*" to migrate all namespaces. Note: If Hive tables exist in these namespaces, they will only be migrated if hive_config is also specified. */
-  namespaces?: StringList | undefined;
-  /** Required. The target catalog for migrated Iceberg metadata. Format: "projects/{project_id_or_number}/catalogs/{catalog_id}" */
-  catalog?: string | undefined;
-}
-/** Defines the configuration required to migrate metadata from a Dataproc Metastore service to BigLake Metastore. */
-export interface BigLakeMetastoreMigrationConfig {
-  /** Optional. At least one of hive_config or iceberg_config must be provided, otherwise, a validation error will be thrown. If only one is provided, the service only migrates tables of that specific type. If both are provided, both Hive and Iceberg tables will be migrated.Configuration for migrating Hive tables to a BigLake Hive catalog. */
-  hiveConfig?: HiveConfig | undefined;
-  /** Required. Defines the behavior of the migration execution. */
-  mode?: BigLakeMetastoreMigrationConfigModeEnum | (string & {}) | undefined;
-  /** Optional. The policy to handle conflicts when migrating resources, defaults to SKIP if not specified. */
-  conflictPolicy?: BigLakeMetastoreMigrationConfigConflictPolicyEnum | (string & {}) | undefined;
-  /** Optional. If true, performs discovery of requested resources and analysis against the target catalog to come up with a plan for each resource (e.g. Create, Update, Skip, etc.). No metadata is actually migrated. */
-  dryRun?: boolean | undefined;
-  /** Output only. */
-  backfillStatus?: BackfillStatus | undefined;
-  /** Optional. Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog. */
-  icebergConfig?: IcebergConfig | undefined;
-  /** Optional. The Cloud Storage path where the backfill / dry run report should be written. If not provided, the report will be generated in the service's artifacts bucket. Format: "gs://path/to/folder" */
-  reportPath?: string | undefined;
-}
 /** The details of a migration execution resource. */
 export interface MigrationExecution {
   /** Output only. Deprecated: Phase was designed for incoming migrations to Dataproc Metastore, not applicable when migrating away from it. The current phase of the migration execution. */
   phase?: MigrationExecutionPhaseEnum | (string & {}) | undefined;
-  /** Output only. The relative resource name of the migration execution, in the following form: projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions/{migration_execution_id} */
-  name?: string | undefined;
-  /** Output only. Additional information about the current state of the migration execution. */
-  stateMessage?: string | undefined;
-  /** Output only. The time when the migration execution finished. */
-  endTime?: string | undefined;
   /** Output only. The time when the migration execution was started. */
   createTime?: string | undefined;
-  /** Output only. The current state of the migration execution. */
-  state?: MigrationExecutionStateEnum | (string & {}) | undefined;
   /** Configuration information specific to migrating from Dataproc Metastore to BigLake Metastore. */
   biglakeMetastoreMigrationConfig?: BigLakeMetastoreMigrationConfig | undefined;
+  /** Output only. The time when the migration execution finished. */
+  endTime?: string | undefined;
+  /** Output only. Additional information about the current state of the migration execution. */
+  stateMessage?: string | undefined;
+  /** Output only. The relative resource name of the migration execution, in the following form: projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions/{migration_execution_id} */
+  name?: string | undefined;
+  /** Output only. The current state of the migration execution. */
+  state?: MigrationExecutionStateEnum | (string & {}) | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like "displayName=tokyo", and is documented in more detail in AIP-160 (https://google.aip.dev/160). */
   filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the next_page_token field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** A page token received from the next_page_token field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -964,16 +964,16 @@ export interface ListLocationsResponse {
   locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsFederationsRequest {
-  /** Required. The relative resource name of the location of metastore federations to list, in the following form: projects/{project_number}/locations/{location_id}. */
-  parent: string;
-  /** Optional. The maximum number of federations to return. The response may contain less than the maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
-  pageSize?: number | undefined;
-  /** Optional. The filter to apply to list results. */
-  filter?: string | undefined;
-  /** Optional. A page token, received from a previous ListFederationServices call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to ListFederationServices must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
   orderBy?: string | undefined;
+  /** Required. The relative resource name of the location of metastore federations to list, in the following form: projects/{project_number}/locations/{location_id}. */
+  parent: string;
+  /** Optional. The filter to apply to list results. */
+  filter?: string | undefined;
+  /** Optional. The maximum number of federations to return. The response may contain less than the maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous ListFederationServices call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to ListFederationServices must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type FederationList = Array<Federation>;
 /** Response message for ListFederations */
@@ -986,16 +986,16 @@ export interface ListFederationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -1008,90 +1008,90 @@ export interface ListOperationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesRequest {
+  /** Optional. The maximum number of services to return. The response may contain less than the maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. The filter to apply to list results. */
+  filter?: string | undefined;
   /** Required. The relative resource name of the location of metastore services to list, in the following form:projects/{project_number}/locations/{location_id}. */
   parent: string;
   /** Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to DataprocMetastore.ListServices must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of services to return. The response may contain less than the maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
-  pageSize?: number | undefined;
   /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
   orderBy?: string | undefined;
-  /** Optional. The filter to apply to list results. */
-  filter?: string | undefined;
 }
 export type ServiceList = Array<Service>;
 /** Response message for DataprocMetastore.ListServices. */
 export interface ListServicesResponse {
+  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The services in the specified location. */
   services?: ServiceList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesBackupsRequest {
-  /** Optional. The maximum number of backups to return. The response may contain less than the maximum number. If unspecified, no more than 500 backups are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
-  pageSize?: number | undefined;
-  /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
-  orderBy?: string | undefined;
-  /** Required. The relative resource name of the service whose backups to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/backups. */
-  parent: string;
   /** Optional. The filter to apply to list results. */
   filter?: string | undefined;
   /** Optional. A page token, received from a previous DataprocMetastore.ListBackups call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to DataprocMetastore.ListBackups must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
+  orderBy?: string | undefined;
+  /** Required. The relative resource name of the service whose backups to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/backups. */
+  parent: string;
+  /** Optional. The maximum number of backups to return. The response may contain less than the maximum number. If unspecified, no more than 500 backups are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
+  pageSize?: number | undefined;
 }
 export type BackupList = Array<Backup>;
 /** Response message for DataprocMetastore.ListBackups. */
 export interface ListBackupsResponse {
+  /** The backups of the specified service. */
+  backups?: BackupList | undefined;
   /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** The backups of the specified service. */
-  backups?: BackupList | undefined;
 }
 export interface ListProjectsLocationsServicesMetadataImportsRequest {
-  /** Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to DataprocMetastore.ListServices must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of imports to return. The response may contain less than the maximum number. If unspecified, no more than 500 imports are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
-  pageSize?: number | undefined;
-  /** Optional. The filter to apply to list results. */
-  filter?: string | undefined;
-  /** Required. The relative resource name of the service whose metadata imports to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports. */
-  parent: string;
   /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
   orderBy?: string | undefined;
+  /** Required. The relative resource name of the service whose metadata imports to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports. */
+  parent: string;
+  /** Optional. The maximum number of imports to return. The response may contain less than the maximum number. If unspecified, no more than 500 imports are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to DataprocMetastore.ListServices must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. The filter to apply to list results. */
+  filter?: string | undefined;
 }
 export type MetadataImportList = Array<MetadataImport>;
 /** Response message for DataprocMetastore.ListMetadataImports. */
 export interface ListMetadataImportsResponse {
-  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
   /** The imports in the specified service. */
   metadataImports?: MetadataImportList | undefined;
+  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesMigrationExecutionsRequest {
-  /** Required. The relative resource name of the service whose migration executions to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions. */
-  parent: string;
   /** Optional. A page token, received from a previous DataprocMetastore.ListMigrationExecutions call. Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating, other parameters provided to DataprocMetastore.ListMigrationExecutions must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The relative resource name of the service whose migration executions to list, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}/migrationExecutions. */
+  parent: string;
   /** Optional. The maximum number of migration executions to return. The response may contain less than the maximum number. If unspecified, no more than 500 migration executions are returned. The maximum value is 1000; values above 1000 are changed to 1000. */
   pageSize?: number | undefined;
-  /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
-  orderBy?: string | undefined;
   /** Optional. The filter to apply to list results. */
   filter?: string | undefined;
+  /** Optional. Specify the ordering of results as described in Sorting Order (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will be sorted in the default order. */
+  orderBy?: string | undefined;
 }
 export type MigrationExecutionList = Array<MigrationExecution>;
 /** Response message for DataprocMetastore.ListMigrationExecutions. */
 export interface ListMigrationExecutionsResponse {
-  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The migration executions on the specified service. */
   migrationExecutions?: MigrationExecutionList | undefined;
+  /** A token that can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
@@ -1099,10 +1099,10 @@ export interface ListMigrationExecutionsResponse {
 export interface MoveTableToDatabaseRequest {
   /** Required. The name of the database where the table resides. */
   dbName?: string | undefined;
-  /** Required. The name of the table to be moved. */
-  tableName?: string | undefined;
   /** Required. The name of the database where the table should be moved. */
   destinationDbName?: string | undefined;
+  /** Required. The name of the table to be moved. */
+  tableName?: string | undefined;
 }
 export interface MoveTableToDatabaseProjectsLocationsServicesRequest {
   /** Required. The relative resource name of the metastore service to mutate metadata, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
@@ -1111,30 +1111,30 @@ export interface MoveTableToDatabaseProjectsLocationsServicesRequest {
   body?: MoveTableToDatabaseRequest | undefined;
 }
 export interface PatchProjectsLocationsFederationsRequest {
-  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
-  requestId?: string | undefined;
-  /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
-  name: string;
   /** Required. A field mask used to specify the fields to be overwritten in the metastore federation resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
   updateMask?: string | undefined;
+  /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
+  name: string;
+  /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
+  requestId?: string | undefined;
   /** Request body */
   body?: Federation | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest {
-  /** Required. A field mask used to specify the fields to be overwritten in the metastore service resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
-  updateMask?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
+  /** Required. A field mask used to specify the fields to be overwritten in the metastore service resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
+  updateMask?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metastore service, in the following format:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   name: string;
   /** Request body */
   body?: Service | undefined;
 }
 export interface PatchProjectsLocationsServicesMetadataImportsRequest {
-  /** Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
-  name: string;
   /** Required. A field mask used to specify the fields to be overwritten in the metadata import resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
   updateMask?: string | undefined;
+  /** Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
+  name: string;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Request body */
@@ -1173,12 +1173,12 @@ export type RestoreServiceRequestRestoreTypeEnum =
   | "METADATA_ONLY";
 /** Request message for DataprocMetastore.RestoreService. */
 export interface RestoreServiceRequest {
+  /** Optional. The relative resource name of the metastore service backup to restore from, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}. Mutually exclusive with backup_location, and exactly one of the two must be set. */
+  backup?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format). A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Optional. The type of restore. If unspecified, defaults to METADATA_ONLY. */
   restoreType?: RestoreServiceRequestRestoreTypeEnum | (string & {}) | undefined;
-  /** Optional. The relative resource name of the metastore service backup to restore from, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}. Mutually exclusive with backup_location, and exactly one of the two must be set. */
-  backup?: string | undefined;
   /** Optional. A Cloud Storage URI specifying the location of the backup artifacts, namely - backup avro files under "avro/", backup_metastore.json and service.json, in the following form:gs://. Mutually exclusive with backup, and exactly one of the two must be set. */
   backupLocation?: string | undefined;
 }
@@ -1227,12 +1227,12 @@ export interface SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest {
 }
 /** Request message for DataprocMetastore.StartMigration. */
 export interface StartMigrationRequest {
-  /** Optional. The ID to use for the migration execution, which will become the final component of the migration execution's resource name. If not specified, a UUID will be generated.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and valid characters are a-z0-9-. */
-  migrationExecutionId?: string | undefined;
-  /** Required. The configuration details for the migration. */
-  migrationExecution?: MigrationExecution | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
+  /** Required. The configuration details for the migration. */
+  migrationExecution?: MigrationExecution | undefined;
+  /** Optional. The ID to use for the migration execution, which will become the final component of the migration execution's resource name. If not specified, a UUID will be generated.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and valid characters are a-z0-9-. */
+  migrationExecutionId?: string | undefined;
 }
 export interface StartMigrationProjectsLocationsServicesRequest {
   /** Required. The relative resource name of the metastore service to start migrating to, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
@@ -1293,8 +1293,8 @@ export const alterLocationProjectsLocationsServices: API.OperationMethod<
   AlterLocationProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c37, 1) as any as S.Schema<AlterLocationProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1217, __c38, 1) as any as S.Schema<AlterLocationProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1316,11 +1316,11 @@ export const alterTablePropertiesProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1633,
-    __c51,
+    1665,
+    __c52,
     1,
   ) as any as S.Schema<AlterTablePropertiesProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1341,8 +1341,8 @@ export const cancelMigrationProjectsLocationsServices: API.OperationMethod<
   CancelMigrationProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CancelMigrationProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CancelMigrationProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1363,8 +1363,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<Empty>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1385,8 +1385,8 @@ export const completeMigrationProjectsLocationsServices: API.OperationMethod<
   CompleteMigrationProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CompleteMigrationProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CompleteMigrationProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1407,8 +1407,8 @@ export const createProjectsLocationsFederations: API.OperationMethod<
   CreateProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateProjectsLocationsFederationsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(2080, __c65, 0) as any as S.Schema<CreateProjectsLocationsFederationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1430,7 +1430,7 @@ export const createProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1451,8 +1451,8 @@ export const createProjectsLocationsServicesBackups: API.OperationMethod<
   CreateProjectsLocationsServicesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateProjectsLocationsServicesBackupsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsLocationsServicesBackupsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1474,11 +1474,11 @@ export const createProjectsLocationsServicesMetadataImports: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c5,
+    192,
+    __c6,
     0,
   ) as any as S.Schema<CreateProjectsLocationsServicesMetadataImportsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1499,8 +1499,8 @@ export const deleteProjectsLocationsFederations: API.OperationMethod<
   DeleteProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteProjectsLocationsFederationsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteProjectsLocationsFederationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1521,8 +1521,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<Empty>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1543,8 +1543,8 @@ export const deleteProjectsLocationsServices: API.OperationMethod<
   DeleteProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1565,8 +1565,8 @@ export const deleteProjectsLocationsServicesBackups: API.OperationMethod<
   DeleteProjectsLocationsServicesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsLocationsServicesBackupsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectsLocationsServicesBackupsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1588,11 +1588,11 @@ export const deleteProjectsLocationsServicesMigrationExecutions: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsServicesMigrationExecutionsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1613,8 +1613,8 @@ export const exportMetadataProjectsLocationsServices: API.OperationMethod<
   ExportMetadataProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c12, 1) as any as S.Schema<ExportMetadataProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(417, __c13, 1) as any as S.Schema<ExportMetadataProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1630,8 +1630,8 @@ export const getIamPolicyProjectsLocationsFederations: API.OperationMethod<
   GetIamPolicyProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetIamPolicyProjectsLocationsFederationsRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetIamPolicyProjectsLocationsFederationsRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1647,8 +1647,8 @@ export const getIamPolicyProjectsLocationsServices: API.OperationMethod<
   GetIamPolicyProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetIamPolicyProjectsLocationsServicesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetIamPolicyProjectsLocationsServicesRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1664,8 +1664,8 @@ export const getIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<
   GetIamPolicyProjectsLocationsServicesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetIamPolicyProjectsLocationsServicesBackupsRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetIamPolicyProjectsLocationsServicesBackupsRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1682,11 +1682,11 @@ export const getIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c17,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsServicesDatabasesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1706,11 +1706,11 @@ export const getIamPolicyProjectsLocationsServicesDatabasesTables: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c18,
+    608,
+    __c19,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1726,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<Location>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1743,8 +1743,8 @@ export const getProjectsLocationsFederations: API.OperationMethod<
   GetProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetProjectsLocationsFederationsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<Federation>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetProjectsLocationsFederationsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<Federation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1760,8 +1760,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1777,8 +1777,8 @@ export const getProjectsLocationsServices: API.OperationMethod<
   GetProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetProjectsLocationsServicesRequest>,
-  output: __S(95, __c2, 31) as any as S.Schema<Service>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsServicesRequest>,
+  output: __S(126, __c3, 30) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1794,8 +1794,8 @@ export const getProjectsLocationsServicesBackups: API.OperationMethod<
   GetProjectsLocationsServicesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsServicesBackupsRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<Backup>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetProjectsLocationsServicesBackupsRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1811,8 +1811,8 @@ export const getProjectsLocationsServicesMetadataImports: API.OperationMethod<
   GetProjectsLocationsServicesMetadataImportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetProjectsLocationsServicesMetadataImportsRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<MetadataImport>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsServicesMetadataImportsRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<MetadataImport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1832,11 +1832,11 @@ export const getProjectsLocationsServicesMigrationExecutions: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<GetProjectsLocationsServicesMigrationExecutionsRequest>,
-  output: __S(874, __c27, 10) as any as S.Schema<MigrationExecution>,
+  output: __S(905, __c28, 9) as any as S.Schema<MigrationExecution>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1853,8 +1853,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1872,8 +1872,8 @@ export const listProjectsLocationsFederations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFederationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListProjectsLocationsFederationsRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<ListFederationsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListProjectsLocationsFederationsRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ListFederationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1891,8 +1891,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1910,8 +1910,8 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListProjectsLocationsServicesRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ListServicesResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListProjectsLocationsServicesRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<ListServicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1929,8 +1929,8 @@ export const listProjectsLocationsServicesBackups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListProjectsLocationsServicesBackupsRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListProjectsLocationsServicesBackupsRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1949,11 +1949,11 @@ export const listProjectsLocationsServicesMetadataImports: API.PaginatedOperatio
   ListMetadataImportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1056,
-    __c33,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<ListProjectsLocationsServicesMetadataImportsRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<ListMetadataImportsResponse>,
+  output: __S(1090, __c34, 2) as any as S.Schema<ListMetadataImportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1975,11 +1975,11 @@ export const listProjectsLocationsServicesMigrationExecutions: API.PaginatedOper
   ListMigrationExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1088,
-    __c34,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<ListProjectsLocationsServicesMigrationExecutionsRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<ListMigrationExecutionsResponse>,
+  output: __S(1122, __c35, 2) as any as S.Schema<ListMigrationExecutionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2002,11 +2002,11 @@ export const moveTableToDatabaseProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1121,
-    __c35,
+    1153,
+    __c36,
     1,
   ) as any as S.Schema<MoveTableToDatabaseProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2027,8 +2027,8 @@ export const patchProjectsLocationsFederations: API.OperationMethod<
   PatchProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<PatchProjectsLocationsFederationsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<PatchProjectsLocationsFederationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2049,8 +2049,8 @@ export const patchProjectsLocationsServices: API.OperationMethod<
   PatchProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<PatchProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1312, __c41, 0) as any as S.Schema<PatchProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2072,11 +2072,11 @@ export const patchProjectsLocationsServicesMetadataImports: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c41,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<PatchProjectsLocationsServicesMetadataImportsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2097,8 +2097,8 @@ export const queryMetadataProjectsLocationsServices: API.OperationMethod<
   QueryMetadataProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1345, __c42, 1) as any as S.Schema<QueryMetadataProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1377, __c43, 1) as any as S.Schema<QueryMetadataProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2119,8 +2119,8 @@ export const removeIamPolicyProjectsLocationsServices: API.OperationMethod<
   RemoveIamPolicyProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<RemoveIamPolicyProjectsLocationsServicesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<RemoveIamPolicyResponse>,
+  input: __S(1409, __c44, 1) as any as S.Schema<RemoveIamPolicyProjectsLocationsServicesRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<RemoveIamPolicyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2141,8 +2141,8 @@ export const restoreProjectsLocationsServices: API.OperationMethod<
   RestoreProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c44, 1) as any as S.Schema<RestoreProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1441, __c45, 1) as any as S.Schema<RestoreProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2163,8 +2163,8 @@ export const setIamPolicyProjectsLocationsFederations: API.OperationMethod<
   SetIamPolicyProjectsLocationsFederationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SetIamPolicyProjectsLocationsFederationsRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SetIamPolicyProjectsLocationsFederationsRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2185,8 +2185,8 @@ export const setIamPolicyProjectsLocationsServices: API.OperationMethod<
   SetIamPolicyProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SetIamPolicyProjectsLocationsServicesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SetIamPolicyProjectsLocationsServicesRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2208,11 +2208,11 @@ export const setIamPolicyProjectsLocationsServicesBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsServicesBackupsRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2234,11 +2234,11 @@ export const setIamPolicyProjectsLocationsServicesDatabases: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsServicesDatabasesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2260,11 +2260,11 @@ export const setIamPolicyProjectsLocationsServicesDatabasesTables: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<Policy>,
+  output: __S(487, __c15, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2285,8 +2285,8 @@ export const startMigrationProjectsLocationsServices: API.OperationMethod<
   StartMigrationProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c53, 1) as any as S.Schema<StartMigrationProjectsLocationsServicesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1729, __c54, 1) as any as S.Schema<StartMigrationProjectsLocationsServicesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2308,11 +2308,11 @@ export const testIamPermissionsProjectsLocationsFederations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsFederationsRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2333,8 +2333,8 @@ export const testIamPermissionsProjectsLocationsServices: API.OperationMethod<
   TestIamPermissionsProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2356,11 +2356,11 @@ export const testIamPermissionsProjectsLocationsServicesBackups: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesBackupsRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2382,11 +2382,11 @@ export const testIamPermissionsProjectsLocationsServicesDatabases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2408,11 +2408,11 @@ export const testIamPermissionsProjectsLocationsServicesDatabasesTables: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1888,
-    __c59,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2426,10 +2426,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           serviceId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(95, __c2, 31).pipe(T.HttpBody())),
+          body: S.optional(__S(126, __c3, 30).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2451,239 +2451,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          databaseDumpType: S.optional(S.String),
-          state: S.optional(S.String),
-          startTime: S.optional(S.String),
-          destinationGcsUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetadataExport" });
-    case 1:
-      return S.Array(__S(64, __c2, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          backup: S.optional(S.String),
-          backupLocation: S.optional(S.String),
-          details: S.optional(S.String),
-          type: S.optional(S.String),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Restore" });
-    case 3:
-      return S.Array(__S(66, __c2, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metadataExports: S.optional(__S(65, __c2, 1)),
-          restores: S.optional(__S(67, __c2, 3)),
-        }),
-      ).annotate({ identifier: "MetadataManagementActivity" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          hourOfDay: S.optional(S.Number),
-          dayOfWeek: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaintenanceWindow" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          expirationTime: S.optional(S.String),
-          certificate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RootCACertificate" });
-    case 7:
-      return S.Array(__S(70, __c2, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          readWriteRegions: S.optional(__S(32, __c1, 0)),
-          readOnlyRegions: S.optional(__S(32, __c1, 0)),
-        }),
-      ).annotate({ identifier: "CustomRegionConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          certificates: S.optional(__S(71, __c2, 7)),
-          customRegionConfig: S.optional(__S(72, __c2, 8)),
-        }),
-      ).annotate({ identifier: "MultiRegionConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
           catalog: S.optional(S.String),
           namespaces: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "LakehouseProxyConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DataCatalogConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Lake" });
-    case 13:
-      return S.Record(S.String, __S(76, __c2, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          lakeResources: S.optional(__S(77, __c2, 13)),
-        }),
-      ).annotate({ identifier: "DataplexConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          dataCatalogConfig: S.optional(__S(75, __c2, 11)),
-          dataplexConfig: S.optional(__S(78, __c2, 14)),
-        }),
-      ).annotate({ identifier: "MetadataIntegration" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          logFormat: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TelemetryConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          backupId: S.optional(S.String),
-          duration: S.optional(S.String),
-          state: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LatestBackup" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          timeZone: S.optional(S.String),
-          backupLocation: S.optional(S.String),
-          latestBackup: S.optional(__S(81, __c2, 17)),
-          enabled: S.optional(S.Boolean),
-          nextScheduledTime: S.optional(S.String),
-          cronSchedule: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScheduledBackup" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          subnetwork: S.optional(S.String),
-          endpointUri: S.optional(S.String),
-          endpointLocation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Consumer" });
-    case 20:
-      return S.Array(__S(83, __c2, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          customRoutesEnabled: S.optional(S.Boolean),
-          consumers: S.optional(__S(84, __c2, 20)),
-        }),
-      ).annotate({ identifier: "NetworkConfig" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeys: S.optional(__S(32, __c1, 0)),
-          kmsKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EncryptionConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          cloudSecret: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Secret" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          principal: S.optional(S.String),
-          keytab: S.optional(__S(87, __c2, 23)),
-          krb5ConfigGcsUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KerberosConfig" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          networkConfig: S.optional(__S(85, __c2, 21)),
-          configOverrides: S.optional(__S(1664, __c52, 0)),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuxiliaryVersionConfig" });
-    case 26:
-      return S.Record(S.String, __S(89, __c2, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          kerberosConfig: S.optional(__S(88, __c2, 24)),
-          endpointProtocol: S.optional(S.String),
-          auxiliaryVersions: S.optional(__S(90, __c2, 26)),
-          version: S.optional(S.String),
-          configOverrides: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "HiveMetastoreConfig" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          maxScalingFactor: S.optional(S.Number),
-          minScalingFactor: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "LimitConfig" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          autoscalingEnabled: S.optional(S.Boolean),
-          limitConfig: S.optional(__S(92, __c2, 28)),
-          autoscalingFactor: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AutoscalingConfig" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          scalingFactor: S.optional(S.Number),
-          autoscalingConfig: S.optional(__S(93, __c2, 29)),
-          instanceSize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScalingConfig" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          endpointUri: S.optional(S.String),
-          metadataManagementActivity: S.optional(__S(68, __c2, 4)),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          artifactGcsUri: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(69, __c2, 5)),
-          multiRegionConfig: S.optional(__S(73, __c2, 9)),
-          createTime: S.optional(S.String),
-          lakehouseProxyConfig: S.optional(__S(74, __c2, 10)),
-          port: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(1664, __c52, 0)),
-          metadataIntegration: S.optional(__S(79, __c2, 15)),
-          telemetryConfig: S.optional(__S(80, __c2, 16)),
-          scheduledBackup: S.optional(__S(82, __c2, 18)),
-          tier: S.optional(S.String),
-          networkConfig: S.optional(__S(85, __c2, 21)),
-          network: S.optional(S.String),
-          state: S.optional(S.String),
-          stateMessage: S.optional(S.String),
-          tags: S.optional(__S(1664, __c52, 0)),
-          releaseChannel: S.optional(S.String),
-          encryptionConfig: S.optional(__S(86, __c2, 22)),
-          hiveMetastoreConfig: S.optional(__S(91, __c2, 27)),
-          scalingConfig: S.optional(__S(94, __c2, 30)),
-          databaseType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Service" });
   }
 }
 function __c3(j: number): any {
@@ -2691,10 +2462,243 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          duration: S.optional(S.String),
+          state: S.optional(S.String),
+          backupId: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LatestBackup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          timeZone: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          backupLocation: S.optional(S.String),
+          latestBackup: S.optional(__S(96, __c3, 0)),
+          nextScheduledTime: S.optional(S.String),
+          cronSchedule: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledBackup" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          databaseDumpType: S.optional(S.String),
+          endTime: S.optional(S.String),
+          state: S.optional(S.String),
+          destinationGcsUri: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetadataExport" });
+    case 3:
+      return S.Array(__S(98, __c3, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          backup: S.optional(S.String),
+          type: S.optional(S.String),
+          endTime: S.optional(S.String),
+          state: S.optional(S.String),
+          details: S.optional(S.String),
+          backupLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Restore" });
+    case 5:
+      return S.Array(__S(100, __c3, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          metadataExports: S.optional(__S(99, __c3, 3)),
+          restores: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "MetadataManagementActivity" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          hourOfDay: S.optional(S.Number),
+          dayOfWeek: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceWindow" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          certificate: S.optional(S.String),
+          expirationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RootCACertificate" });
+    case 9:
+      return S.Array(__S(104, __c3, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          readWriteRegions: S.optional(__S(32, __c1, 0)),
+          readOnlyRegions: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "CustomRegionConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          certificates: S.optional(__S(105, __c3, 9)),
+          customRegionConfig: S.optional(__S(106, __c3, 10)),
+        }),
+      ).annotate({ identifier: "MultiRegionConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          maxScalingFactor: S.optional(S.Number),
+          minScalingFactor: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LimitConfig" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          autoscalingEnabled: S.optional(S.Boolean),
+          limitConfig: S.optional(__S(108, __c3, 12)),
+          autoscalingFactor: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoscalingConfig" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          instanceSize: S.optional(S.String),
+          autoscalingConfig: S.optional(__S(109, __c3, 13)),
+          scalingFactor: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ScalingConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          endpointUri: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          endpointLocation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Consumer" });
+    case 16:
+      return S.Array(__S(111, __c3, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          consumers: S.optional(__S(112, __c3, 16)),
+          customRoutesEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NetworkConfig" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          networkConfig: S.optional(__S(113, __c3, 17)),
+          configOverrides: S.optional(__S(1696, __c53, 0)),
+        }),
+      ).annotate({ identifier: "AuxiliaryVersionConfig" });
+    case 19:
+      return S.Record(S.String, __S(114, __c3, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          cloudSecret: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Secret" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          keytab: S.optional(__S(116, __c3, 20)),
+          krb5ConfigGcsUri: S.optional(S.String),
+          principal: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KerberosConfig" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          configOverrides: S.optional(__S(1696, __c53, 0)),
+          auxiliaryVersions: S.optional(__S(115, __c3, 19)),
+          version: S.optional(S.String),
+          endpointProtocol: S.optional(S.String),
+          kerberosConfig: S.optional(__S(117, __c3, 21)),
+        }),
+      ).annotate({ identifier: "HiveMetastoreConfig" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          kmsKey: S.optional(S.String),
+          kmsKeys: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "EncryptionConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          logFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TelemetryConfig" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataCatalogConfig" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Lake" });
+    case 27:
+      return S.Record(S.String, __S(122, __c3, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          lakeResources: S.optional(__S(123, __c3, 27)),
+        }),
+      ).annotate({ identifier: "DataplexConfig" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          dataCatalogConfig: S.optional(__S(121, __c3, 25)),
+          dataplexConfig: S.optional(__S(124, __c3, 28)),
+        }),
+      ).annotate({ identifier: "MetadataIntegration" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          scheduledBackup: S.optional(__S(97, __c3, 1)),
+          lakehouseProxyConfig: S.optional(__S(64, __c2, 0)),
+          tags: S.optional(__S(1696, __c53, 0)),
+          metadataManagementActivity: S.optional(__S(102, __c3, 6)),
+          maintenanceWindow: S.optional(__S(103, __c3, 7)),
+          tier: S.optional(S.String),
+          multiRegionConfig: S.optional(__S(107, __c3, 11)),
+          stateMessage: S.optional(S.String),
+          uid: S.optional(S.String),
+          labels: S.optional(__S(1696, __c53, 0)),
+          state: S.optional(S.String),
+          endpointUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          scalingConfig: S.optional(__S(110, __c3, 14)),
+          networkConfig: S.optional(__S(113, __c3, 17)),
+          hiveMetastoreConfig: S.optional(__S(118, __c3, 22)),
+          databaseType: S.optional(S.String),
+          artifactGcsUri: S.optional(S.String),
+          encryptionConfig: S.optional(__S(119, __c3, 23)),
+          deletionProtection: S.optional(S.Boolean),
+          telemetryConfig: S.optional(__S(120, __c3, 24)),
+          port: S.optional(S.Number),
+          releaseChannel: S.optional(S.String),
+          metadataIntegration: S.optional(__S(125, __c3, 29)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Service" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          backupId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
+          backupId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2705,31 +2709,31 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServicesBackupsRequest" });
   }
 }
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          serviceRevision: S.optional(__S(95, __c2, 31)),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          restoringServices: S.optional(__S(32, __c1, 0)),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backup" });
-  }
-}
 function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceRevision: S.optional(__S(126, __c3, 30)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          endTime: S.optional(S.String),
+          restoringServices: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "Backup" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
           metadataImportId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2740,38 +2744,38 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServicesMetadataImportsRequest" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          databaseType: S.optional(S.String),
-          sourceDatabase: S.optional(S.String),
-          gcsUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseDump" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          databaseDump: S.optional(__S(192, __c6, 0)),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetadataImport" });
-  }
-}
 function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
+          databaseType: S.optional(S.String),
+          sourceDatabase: S.optional(S.String),
+          gcsUri: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseDump" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          databaseDump: S.optional(__S(224, __c7, 0)),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetadataImport" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2782,7 +2786,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsFederationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2796,23 +2800,6 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://metastore.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsServicesRequest" });
   }
 }
 function __c10(j: number): any {
@@ -2829,7 +2816,7 @@ function __c10(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsServicesBackupsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsServicesRequest" });
   }
 }
 function __c11(j: number): any {
@@ -2837,8 +2824,25 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://metastore.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsServicesBackupsRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2849,21 +2853,21 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServicesMigrationExecutionsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationGcsFolder: S.optional(S.String),
           requestId: S.optional(S.String),
           databaseDumpType: S.optional(S.String),
+          destinationGcsFolder: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExportMetadataRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2874,13 +2878,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExportMetadataProjectsLocationsServicesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2891,57 +2895,57 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsFederationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
+          location: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(32, __c1, 0)),
+          role: S.optional(S.String),
+          condition: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "Binding" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
           exemptedMembers: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
-    case 1:
-      return S.Array(__S(448, __c14, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          auditLogConfigs: S.optional(__S(449, __c14, 1)),
-          service: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditConfig" });
-    case 3:
-      return S.Array(__S(450, __c14, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          location: S.optional(S.String),
-          title: S.optional(S.String),
-          expression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(32, __c1, 0)),
-          condition: S.optional(__S(452, __c14, 4)),
-          role: S.optional(S.String),
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(484, __c15, 4)),
         }),
-      ).annotate({ identifier: "Binding" });
+      ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(453, __c14, 5));
+      return S.Array(__S(485, __c15, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(451, __c14, 3)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(482, __c15, 2)),
+          auditConfigs: S.optional(__S(486, __c15, 6)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(454, __c14, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2958,7 +2962,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2975,23 +2979,6 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesBackupsRequest" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
-          resource: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta/{+resource}:getIamPolicy",
-            baseUrl: "https://metastore.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesDatabasesRequest" });
-  }
-}
 function __c18(j: number): any {
   switch (j) {
     case 0:
@@ -3006,10 +2993,27 @@ function __c18(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest" });
+      ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesDatabasesRequest" });
   }
 }
 function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta/{+resource}:getIamPolicy",
+            baseUrl: "https://metastore.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetIamPolicyProjectsLocationsServicesDatabasesTablesRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3025,34 +3029,18 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(1216, __c38, 0)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
 function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://metastore.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsFederationsRequest" });
+          metadata: S.optional(__S(1248, __c39, 0)),
+          displayName: S.optional(S.String),
+          locationId: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(1696, __c53, 0)),
+        }),
+      ).annotate({ identifier: "Location" });
   }
 }
 function __c22(j: number): any {
@@ -3068,7 +3056,7 @@ function __c22(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsFederationsRequest" });
   }
 }
 function __c23(j: number): any {
@@ -3084,7 +3072,7 @@ function __c23(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c24(j: number): any {
@@ -3100,7 +3088,7 @@ function __c24(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesBackupsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServicesRequest" });
   }
 }
 function __c25(j: number): any {
@@ -3116,7 +3104,7 @@ function __c25(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesMetadataImportsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServicesBackupsRequest" });
   }
 }
 function __c26(j: number): any {
@@ -3132,7 +3120,7 @@ function __c26(j: number): any {
             baseUrl: "https://metastore.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesMigrationExecutionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServicesMetadataImportsRequest" });
   }
 }
 function __c27(j: number): any {
@@ -3140,90 +3128,15 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          catalog: S.optional(S.String),
-          databases: S.optional(__S(32, __c1, 0)),
-        }),
-      ).annotate({ identifier: "HiveConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          partitionSuccessCount: S.optional(S.String),
-          partitionFailedCount: S.optional(S.String),
-          partitionDiscoveredCount: S.optional(S.String),
-          resultCounts: S.optional(__S(1664, __c52, 0)),
-          planCounts: S.optional(__S(1664, __c52, 0)),
-        }),
-      ).annotate({ identifier: "TableSummary" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          resultStatus: S.optional(S.String),
-          tableSummary: S.optional(__S(865, __c27, 1)),
-          database: S.optional(S.String),
-          planAction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseSummary" });
-    case 3:
-      return S.Array(__S(866, __c27, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          databaseSummaries: S.optional(__S(867, __c27, 3)),
-          catalog: S.optional(S.String),
-          catalogType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CatalogSummary" });
-    case 5:
-      return S.Array(__S(868, __c27, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          service: S.optional(S.String),
-          catalogSummaries: S.optional(__S(869, __c27, 5)),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MigrationSummary" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          migrationSummary: S.optional(__S(870, __c27, 6)),
-          state: S.optional(S.String),
-          reportPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackfillStatus" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          namespaces: S.optional(__S(32, __c1, 0)),
-          catalog: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IcebergConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          hiveConfig: S.optional(__S(864, __c27, 0)),
-          mode: S.optional(S.String),
-          conflictPolicy: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-          backfillStatus: S.optional(__S(871, __c27, 7)),
-          icebergConfig: S.optional(__S(872, __c27, 8)),
-          reportPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BigLakeMetastoreMigrationConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          phase: S.optional(S.String),
-          name: S.optional(S.String),
-          stateMessage: S.optional(S.String),
-          endTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          biglakeMetastoreMigrationConfig: S.optional(__S(873, __c27, 9)),
-        }),
-      ).annotate({ identifier: "MigrationExecution" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://metastore.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServicesMigrationExecutionsRequest" });
   }
 }
 function __c28(j: number): any {
@@ -3231,11 +3144,95 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          partitionSuccessCount: S.optional(S.String),
+          planCounts: S.optional(__S(1696, __c53, 0)),
+          partitionFailedCount: S.optional(S.String),
+          resultCounts: S.optional(__S(1696, __c53, 0)),
+          partitionDiscoveredCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableSummary" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          database: S.optional(S.String),
+          resultStatus: S.optional(S.String),
+          tableSummary: S.optional(__S(896, __c28, 0)),
+          planAction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseSummary" });
+    case 2:
+      return S.Array(__S(897, __c28, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.optional(S.String),
+          databaseSummaries: S.optional(__S(898, __c28, 2)),
+          catalogType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CatalogSummary" });
+    case 4:
+      return S.Array(__S(899, __c28, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          dryRun: S.optional(S.Boolean),
+          endTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          catalogSummaries: S.optional(__S(900, __c28, 4)),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationSummary" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          reportPath: S.optional(S.String),
+          migrationSummary: S.optional(__S(901, __c28, 5)),
+        }),
+      ).annotate({ identifier: "BackfillStatus" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          databases: S.optional(__S(32, __c1, 0)),
+          catalog: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HiveConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          backfillStatus: S.optional(__S(902, __c28, 6)),
+          dryRun: S.optional(S.Boolean),
+          hiveConfig: S.optional(__S(903, __c28, 7)),
+          conflictPolicy: S.optional(S.String),
+          mode: S.optional(S.String),
+          icebergConfig: S.optional(__S(64, __c2, 0)),
+          reportPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BigLakeMetastoreMigrationConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          phase: S.optional(S.String),
+          createTime: S.optional(S.String),
+          biglakeMetastoreMigrationConfig: S.optional(__S(904, __c28, 8)),
+          endTime: S.optional(S.String),
+          stateMessage: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationExecution" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3245,26 +3242,26 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(897, __c28, 1)),
+          locations: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3274,27 +3271,27 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsFederationsRequest" });
     case 1:
-      return S.Array(__S(2082, __c65, 2));
+      return S.Array(__S(2114, __c66, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          federations: S.optional(__S(929, __c29, 1)),
+          federations: S.optional(__S(961, __c30, 1)),
           unreachable: S.optional(__S(32, __c1, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFederationsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3304,27 +3301,27 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(961, __c30, 1)),
+          operations: S.optional(__S(993, __c31, 1)),
           unreachable: S.optional(__S(32, __c1, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3334,27 +3331,27 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServicesRequest" });
     case 1:
-      return S.Array(__S(95, __c2, 31));
+      return S.Array(__S(126, __c3, 30));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(993, __c31, 1)),
-          unreachable: S.optional(__S(32, __c1, 0)),
           nextPageToken: S.optional(S.String),
+          services: S.optional(__S(1025, __c32, 1)),
+          unreachable: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3364,27 +3361,27 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServicesBackupsRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          backups: S.optional(__S(1057, __c33, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(32, __c1, 0)),
-          backups: S.optional(__S(1025, __c32, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3394,27 +3391,27 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServicesMetadataImportsRequest" });
     case 1:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(225, __c7, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(32, __c1, 0)),
-          metadataImports: S.optional(__S(1057, __c33, 1)),
+          metadataImports: S.optional(__S(1089, __c34, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMetadataImportsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3424,32 +3421,32 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServicesMigrationExecutionsRequest" });
     case 1:
-      return S.Array(__S(874, __c27, 10));
+      return S.Array(__S(905, __c28, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          migrationExecutions: S.optional(__S(1121, __c35, 1)),
           nextPageToken: S.optional(S.String),
-          migrationExecutions: S.optional(__S(1089, __c34, 1)),
           unreachable: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListMigrationExecutionsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dbName: S.optional(S.String),
-          tableName: S.optional(S.String),
           destinationDbName: S.optional(S.String),
+          tableName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoveTableToDatabaseRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3460,15 +3457,15 @@ function __c35(j: number): any {
       ).annotate({ identifier: "MoveTableToDatabaseProjectsLocationsServicesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2082, __c65, 2).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(2114, __c66, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3479,20 +3476,20 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsFederationsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.optional(S.String),
           locationUri: S.optional(S.String),
+          resourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlterMetadataResourceLocationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3503,45 +3500,45 @@ function __c37(j: number): any {
       ).annotate({ identifier: "AlterLocationProjectsLocationsServicesRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1248, __c39, 0)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(__S(1281, __c40, 1)),
+          response: S.optional(__S(1248, __c39, 0)),
+          metadata: S.optional(__S(1248, __c39, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(1249, __c39, 1)),
-          response: S.optional(__S(1216, __c38, 0)),
-          metadata: S.optional(__S(1216, __c38, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(95, __c2, 31).pipe(T.HttpBody())),
+          body: S.optional(__S(126, __c3, 30).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3552,15 +3549,15 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServicesRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3571,7 +3568,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServicesMetadataImportsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3583,7 +3580,7 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3594,7 +3591,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "QueryMetadataProjectsLocationsServicesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3606,7 +3603,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3623,14 +3620,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "RemoveIamPolicyResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          backup: S.optional(S.String),
           requestId: S.optional(S.String),
           restoreType: S.optional(S.String),
-          backup: S.optional(S.String),
           backupLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestoreServiceRequest" });
@@ -3638,7 +3635,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3649,13 +3646,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsServicesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3666,24 +3663,24 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsFederationsRequest" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(455, __c14, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
 function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(487, __c15, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3694,13 +3691,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsServicesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3711,13 +3708,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsServicesBackupsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3728,13 +3725,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsServicesDatabasesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3745,21 +3742,21 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tableName: S.optional(S.String),
           updateMask: S.optional(S.String),
-          properties: S.optional(__S(1664, __c52, 0)),
+          tableName: S.optional(S.String),
+          properties: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "AlterTablePropertiesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3770,27 +3767,27 @@ function __c51(j: number): any {
       ).annotate({ identifier: "AlterTablePropertiesProjectsLocationsServicesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          migrationExecutionId: S.optional(S.String),
-          migrationExecution: S.optional(__S(874, __c27, 10)),
           requestId: S.optional(S.String),
+          migrationExecution: S.optional(__S(905, __c28, 9)),
+          migrationExecutionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartMigrationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3801,13 +3798,13 @@ function __c53(j: number): any {
       ).annotate({ identifier: "StartMigrationProjectsLocationsServicesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3818,7 +3815,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsFederationsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3828,13 +3825,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3845,13 +3842,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsServicesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3862,13 +3859,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsServicesBackupsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3879,13 +3876,13 @@ function __c58(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsServicesDatabasesRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3898,13 +3895,13 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3915,19 +3912,19 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CancelMigrationProjectsLocationsServicesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelMigrationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3938,13 +3935,13 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3955,15 +3952,15 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CompleteMigrationProjectsLocationsServicesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          federationId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2082, __c65, 2).pipe(T.HttpBody())),
+          federationId: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(2114, __c66, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3974,7 +3971,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsFederationsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3984,21 +3981,21 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "BackendMetastore" });
     case 1:
-      return S.Record(S.String, __S(2080, __c65, 0));
+      return S.Record(S.String, __S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1664, __c52, 0)),
-          tags: S.optional(__S(1664, __c52, 0)),
-          uid: S.optional(S.String),
-          version: S.optional(S.String),
-          endpointUri: S.optional(S.String),
           state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          stateMessage: S.optional(S.String),
-          backendMetastores: S.optional(__S(2081, __c65, 1)),
-          name: S.optional(S.String),
+          tags: S.optional(__S(1696, __c53, 0)),
           updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          stateMessage: S.optional(S.String),
+          labels: S.optional(__S(1696, __c53, 0)),
+          endpointUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          backendMetastores: S.optional(__S(2113, __c66, 1)),
+          name: S.optional(S.String),
+          version: S.optional(S.String),
         }),
       ).annotate({ identifier: "Federation" });
   }

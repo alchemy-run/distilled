@@ -24,19 +24,20 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export type AccountMetricSet = "active-basins" | "account-ops";
+/** Account-level metric sets. `estimated-billable-usage` returns estimated USD by billing dimension and as a `total` series. Supports hour (default) and day intervals, aggregating finalized hours. Daily points may be partial. */
+export type AccountMetricSet = "active-basins" | "account-ops" | "estimated-billable-usage";
 export type TimeseriesInterval = "minute" | "hour" | "day";
 export interface AccountMetricsRequest {
   /** Metric set to return. */
   set: AccountMetricSet | (string & {});
-  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. */
+  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. Time ranges may span at most 90 days. */
   start?: number | undefined;
   /** End timestamp as Unix epoch seconds, if applicable for the metric set. */
   end?: number | undefined;
   /** Interval to aggregate over for timeseries metric sets. */
   interval?: TimeseriesInterval | (string & {}) | undefined;
 }
-export type MetricUnit = "bytes" | "operations";
+export type MetricUnit = "bytes" | "operations" | "usd";
 export interface ScalarMetric {
   /** Metric name. */
   name: string;
@@ -116,7 +117,7 @@ export interface BasinMetricsRequest {
   basin: string;
   /** Metric set to return. */
   set: BasinMetricSet | (string & {});
-  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. */
+  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. Time ranges may span at most 90 days. */
   start?: number | undefined;
   /** End timestamp as Unix epoch seconds, if applicable for the metric set. */
   end?: number | undefined;
@@ -131,7 +132,7 @@ export interface StreamMetricsRequest {
   stream: string;
   /** Metric set to return. */
   set: StreamMetricSet | (string & {});
-  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. */
+  /** Start timestamp as Unix epoch seconds, if applicable for the metric set. Time ranges may span at most 90 days. */
   start?: number | undefined;
   /** End timestamp as Unix epoch seconds, if applicable for metric set. */
   end?: number | undefined;

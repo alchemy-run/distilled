@@ -1151,6 +1151,13 @@ export interface GetFunctionResponse {
   serverWarnings: WarningList;
   function?: FunctionData | undefined;
 }
+export interface GetFunctionBlobRequest {
+  blobId?: string | undefined;
+  functionId?: string | undefined;
+}
+export interface GetFunctionBlobResponse {
+  downloadUrl: string;
+}
 export interface GetFunctionInputsRequest {
   functionId?: string | undefined;
   /** average_call_time */
@@ -1267,8 +1274,8 @@ export const fetchFunctionCall: API.OperationMethod<
   FetchFunctionCallError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1282, __c40, 2) as any as S.Schema<FetchFunctionCallRequest>,
-  output: __S(1285, __c40, 5) as any as S.Schema<FetchFunctionCallResponse>,
+  input: __S(1314, __c41, 2) as any as S.Schema<FetchFunctionCallRequest>,
+  output: __S(1317, __c41, 5) as any as S.Schema<FetchFunctionCallResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1283,8 +1290,8 @@ export const functionBindParams: API.OperationMethod<
   FunctionBindParamsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<FunctionBindParamsRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<FunctionBindParamsResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<FunctionBindParamsRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<FunctionBindParamsResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1299,8 +1306,8 @@ export const functionCallCount: API.OperationMethod<
   FunctionCallCountError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<FunctionCallCountRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<FunctionCallCountResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<FunctionCallCountRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<FunctionCallCountResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1315,8 +1322,8 @@ export const functionCallFromId: API.OperationMethod<
   FunctionCallFromIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<FunctionCallFromIdRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<FunctionCallFromIdResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallFromIdRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<FunctionCallFromIdResponse>,
   errors: [FunctionCallNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1331,8 +1338,8 @@ export const functionCallGetDataIn: API.StreamingOperationMethod<
   FunctionCallGetDataInError,
   ModalOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInStream>,
+  input: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataInStream>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1354,8 @@ export const functionCallGetDataOut: API.StreamingOperationMethod<
   FunctionCallGetDataOutError,
   ModalOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
+  input: __S(1568, __c49, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1696,6 +1703,22 @@ export const getFunction: API.OperationMethod<
   span: "GetFunction",
 }));
 
+export type GetFunctionBlobError = ModalOpError;
+export const getFunctionBlob: API.OperationMethod<
+  GetFunctionBlobRequest,
+  GetFunctionBlobResponse,
+  GetFunctionBlobError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1152, __c36, 0) as any as S.Schema<GetFunctionBlobRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<GetFunctionBlobResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionBlob",
+}));
+
 export type GetFunctionInputsError = ModalOpError;
 export const getFunctionInputs: API.OperationMethod<
   GetFunctionInputsRequest,
@@ -1703,8 +1726,8 @@ export const getFunctionInputs: API.OperationMethod<
   GetFunctionInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetFunctionInputsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<GetFunctionInputsResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetFunctionInputsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<GetFunctionInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1719,8 +1742,8 @@ export const getFunctionOutputs: API.OperationMethod<
   GetFunctionOutputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetFunctionOutputsRequest>,
-  output: __S(1188, __c37, 4) as any as S.Schema<GetFunctionOutputsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetFunctionOutputsRequest>,
+  output: __S(1220, __c38, 4) as any as S.Schema<GetFunctionOutputsResponse>,
   errors: [FunctionCallNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1736,8 +1759,8 @@ export const invokeFunctionAsync: API.OperationMethod<
   InvokeFunctionAsyncError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1752,8 +1775,8 @@ export const listFunctionCall: API.OperationMethod<
   ListFunctionCallError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListFunctionCallRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<ListFunctionCallResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListFunctionCallRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<ListFunctionCallResponse>,
   errors: [FunctionNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1832,7 +1855,7 @@ function __c2(j: number): any {
         S.Struct({
           functionCallId: S.optional(S.String),
           attemptToken: S.optional(S.String),
-          dataChunks: S.optional(__S(1505, __c47, 1)),
+          dataChunks: S.optional(__S(1537, __c48, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2221,7 +2244,7 @@ function __c15(j: number): any {
         S.Struct({
           functionId: S.String,
           serializedParams: S.String,
-          functionOptions: S.optional(__S(1344, __c42, 0)),
+          functionOptions: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "FunctionVariantInfo" });
     case 3:
@@ -3047,6 +3070,25 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          blobId: S.optional(S.String),
+          functionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionBlobGet", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetFunctionBlobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          downloadUrl: S.String,
+        }),
+      ).annotate({ identifier: "GetFunctionBlobResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           functionId: S.optional(S.String),
           inputConcurrency: S.optional(S.Number),
           batchMaxSize: S.optional(S.Number),
@@ -3070,17 +3112,17 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionInputsItem" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputs: __S(1154, __c36, 2),
+          inputs: __S(1186, __c37, 2),
           rateLimitSleepDuration: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionInputsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3119,19 +3161,19 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionOutputsItem" });
     case 3:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1218, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idxs: __S(1185, __c37, 1),
-          outputs: __S(1187, __c37, 3),
+          idxs: __S(1217, __c38, 1),
+          outputs: __S(1219, __c38, 3),
           lastEntryId: S.String,
           numUnfinishedInputs: S.Number,
         }),
       ).annotate({ identifier: "GetFunctionOutputsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3156,7 +3198,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "InvokeFunctionAsyncResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3171,12 +3213,12 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          functionCalls: __S(1249, __c39, 1),
+          functionCalls: __S(1281, __c40, 1),
         }),
       ).annotate({ identifier: "ListFunctionCallResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3196,8 +3238,8 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
-          tail: S.optional(__S(1280, __c40, 0)),
-          range: S.optional(__S(1281, __c40, 1)),
+          tail: S.optional(__S(1312, __c41, 0)),
+          range: S.optional(__S(1313, __c41, 1)),
           allVariants: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallFetch", code: 200 }),
@@ -3217,23 +3259,23 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "FunctionCallInputInfo" });
     case 4:
-      return S.Array(__S(1283, __c40, 3));
+      return S.Array(__S(1315, __c41, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          functionCallInputs: __S(1284, __c40, 4),
+          functionCallInputs: __S(1316, __c41, 4),
         }),
       ).annotate({ identifier: "FetchFunctionCallResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
           serializedParams: S.optional(S.String),
-          functionOptions: S.optional(__S(1344, __c42, 0)),
+          functionOptions: S.optional(__S(1376, __c43, 0)),
           environmentName: S.optional(S.String),
           authSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -3253,7 +3295,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "FunctionBindParamsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3284,7 +3326,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "FunctionOptions" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3306,16 +3348,16 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "FunctionCallCountResponseInputBucket" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(1378, __c43, 2),
+          buckets: __S(1410, __c44, 2),
         }),
       ).annotate({ identifier: "FunctionCallCountResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,12 +3383,12 @@ function __c44(j: number): any {
         S.Struct({
           functionCallId: S.String,
           numInputs: S.Number,
-          metadata: S.optional(__S(1409, __c44, 1)),
+          metadata: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "FunctionCallFromIdResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3364,17 +3406,17 @@ function __c45(j: number): any {
       ).annotate({ identifier: "FunctionCallGetDataInRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1505, __c47, 1),
+          items: __S(1537, __c48, 1),
         }),
       ).annotate({ identifier: "FunctionCallGetDataInStream" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3386,10 +3428,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "DataChunk" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

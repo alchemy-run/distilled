@@ -374,6 +374,8 @@ export interface GetLinkedWhatsAppBusinessAccountInput {
 export type LinkedWhatsAppBusinessAccountArn = string;
 export type WhatsAppBusinessAccountLinkDate = Date;
 export type WhatsAppBusinessAccountMarketingMessagesOnboardingStatus = string;
+export type DirectSendEnforcementStatus = string;
+export type DirectSendEnforcementStatusExpiresAt = Date;
 export interface WhatsAppPhoneNumberSummary {
   arn: string;
   phoneNumber: string;
@@ -394,6 +396,8 @@ export interface LinkedWhatsAppBusinessAccount {
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
   marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
   datasetId?: string | undefined;
   phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
@@ -596,6 +600,8 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
   marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
   datasetId?: string | undefined;
 }
 export type LinkedWhatsAppBusinessAccountSummaryList = LinkedWhatsAppBusinessAccountSummary[];
@@ -654,6 +660,7 @@ export interface ListWhatsAppMessageTemplatesInput {
 }
 export type MetaTemplateStatus = string;
 export type MetaTemplateQualityScore = string;
+export type MetaTemplateSource = string;
 export interface TemplateSummary {
   templateName?: string | undefined;
   metaTemplateId?: string | undefined;
@@ -661,6 +668,8 @@ export interface TemplateSummary {
   templateQualityScore?: string | undefined;
   templateLanguage?: string | undefined;
   templateCategory?: string | undefined;
+  templateSource?: string | undefined;
+  correctCategory?: string | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListWhatsAppMessageTemplatesOutput {
@@ -2431,6 +2440,10 @@ function __c17(j: number): any {
           wabaName: S.String,
           eventDestinations: __S(817, __c51, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
           phoneNumbers: __S(784, __c49, 0),
         }),
@@ -2760,6 +2773,10 @@ function __c28(j: number): any {
           wabaName: S.String,
           eventDestinations: __S(817, __c51, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedWhatsAppBusinessAccountSummary" });
@@ -2885,6 +2902,8 @@ function __c32(j: number): any {
           templateQualityScore: S.optional(S.String),
           templateLanguage: S.optional(S.String),
           templateCategory: S.optional(S.String),
+          templateSource: S.optional(S.String),
+          correctCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSummary" });
     case 2:

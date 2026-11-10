@@ -388,6 +388,30 @@ export interface IotHubDefinitionDescription {
 }
 /** List of IoT hubs associated with this provisioning service. */
 export type IotDpsPropertiesDescriptionIotHubsList = Array<IotHubDefinitionDescription>;
+/** Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. */
+export type DeviceRegistryNamespaceAuthenticationType = "UserAssigned" | "SystemAssigned";
+/** The state of ADR linking for a provisioning service. */
+export type LinkingState = "NotLinked" | "InProgress" | "Succeeded" | "Orphaned";
+/** Description of the Device Registry namespace that is linked to the provisioning service. */
+export interface DeviceRegistryNamespaceDescription {
+  /** The ARM resource ID of the Device Registry namespace. */
+  resourceId: string;
+  /** Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. */
+  authenticationType: DeviceRegistryNamespaceAuthenticationType;
+  /** The selected user-assigned identity resource Id associated with Device Registry namespace. This is required when authenticationType is UserAssigned. */
+  selectedUserAssignedIdentityResourceId?: string | undefined;
+  /** Unique identifier of the linked Device Registry namespace. */
+  namespaceUuid?: string | undefined;
+  /** The data plane address of the linked Azure Device Registry namespace. */
+  dataAddress?: string | undefined;
+  /** Azure location of the linked Device Registry namespace. */
+  location?: string | undefined;
+  /** The linking state of this namespace. */
+  linkingState?: LinkingState | undefined;
+}
+/** The Device Registry namespaces linked to the provisioning service. */
+export type IotDpsPropertiesDescriptionDeviceRegistryNamespacesList =
+  Array<DeviceRegistryNamespaceDescription>;
 /** Allocation policy to be used by this provisioning service. */
 export type AllocationPolicy = "Hashed" | "GeoLatency" | "Static";
 /** Rights that this key has. */
@@ -428,6 +452,8 @@ export interface IotDpsPropertiesDescription {
   provisioningState?: string | undefined;
   /** List of IoT hubs associated with this provisioning service. */
   iotHubs?: IotDpsPropertiesDescriptionIotHubsList | undefined;
+  /** The Device Registry namespaces linked to the provisioning service. */
+  deviceRegistryNamespaces?: IotDpsPropertiesDescriptionDeviceRegistryNamespacesList | undefined;
   /** Allocation policy to be used by this provisioning service. */
   allocationPolicy?: AllocationPolicy | undefined;
   /** Service endpoint for provisioning service. */
@@ -1499,7 +1525,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest" });
@@ -1538,7 +1564,7 @@ function __c1(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteDpsCertificateRequest" });
@@ -1564,7 +1590,7 @@ function __c3(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources/{groupId}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotDpsResourcePrivateLinkResourcesRequest" });
@@ -1669,7 +1695,7 @@ function __c5(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "IotDpsResourceCreateOrUpdateRequest" });
@@ -1685,9 +1711,9 @@ function __c5(j: number): any {
           etag: S.optional(S.String),
           resourcegroup: S.optional(S.String),
           subscriptionid: S.optional(S.String),
-          properties: __S(533, __c33, 5),
-          sku: __S(534, __c33, 6),
-          identity: S.optional(__S(537, __c33, 9)),
+          properties: __S(535, __c33, 7),
+          sku: __S(536, __c33, 8),
+          identity: S.optional(__S(539, __c33, 11)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -1720,7 +1746,7 @@ function __c7(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest" });
@@ -1739,7 +1765,7 @@ function __c8(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListDpsCertificateRequest" });
@@ -1765,7 +1791,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourceByResourceGroupRequest" });
@@ -1795,7 +1821,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourceBySubscriptionRequest" });
@@ -1814,7 +1840,7 @@ function __c12(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourceKeysRequest" });
@@ -1841,7 +1867,7 @@ function __c13(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourceKeysForKeyNameRequest" });
@@ -1860,7 +1886,7 @@ function __c14(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourcePrivateEndpointConnectionsRequest" });
@@ -1883,7 +1909,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourcePrivateLinkResourcesRequest" });
@@ -1910,7 +1936,7 @@ function __c16(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIotDpsResourceRequest" });
@@ -1936,7 +1962,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotDpsResourceValidSkusRequest" });
@@ -1966,7 +1992,7 @@ function __c18(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Devices/operations",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2010,7 +2036,7 @@ function __c19(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateIotDpsResourceRequest" });
@@ -2026,9 +2052,9 @@ function __c19(j: number): any {
           etag: S.optional(S.String),
           resourcegroup: S.optional(S.String),
           subscriptionid: S.optional(S.String),
-          properties: __S(533, __c33, 5),
-          sku: __S(534, __c33, 6),
-          identity: S.optional(__S(537, __c33, 9)),
+          properties: __S(535, __c33, 7),
+          sku: __S(536, __c33, 8),
+          identity: S.optional(__S(539, __c33, 11)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateIotDpsResourceResponse" });
@@ -2059,7 +2085,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VerifyDpsCertificateCertificateRequest" });
@@ -2079,7 +2105,7 @@ function __c21(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIotDpsResourcePrivateEndpointConnectionRequest" });
@@ -2164,7 +2190,7 @@ function __c25(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DpsCertificateCreateOrUpdateRequest" });
@@ -2221,7 +2247,7 @@ function __c27(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GenerateDpsCertificateVerificationCodeRequest" });
@@ -2264,7 +2290,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetDpsCertificateRequest" });
@@ -2283,7 +2309,7 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotDpsResourceRequest" });
@@ -2347,12 +2373,27 @@ function __c33(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          resourceId: S.String,
+          authenticationType: S.String,
+          selectedUserAssignedIdentityResourceId: S.optional(S.String),
+          namespaceUuid: S.optional(S.String),
+          dataAddress: S.optional(S.String),
+          location: S.optional(S.String),
+          linkingState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceRegistryNamespaceDescription" });
+    case 6:
+      return S.Array(__S(533, __c33, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           state: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           ipFilterRules: S.optional(__S(530, __c33, 2)),
           privateEndpointConnections: S.optional(__S(512, __c32, 0)),
           provisioningState: S.optional(S.String),
           iotHubs: S.optional(__S(532, __c33, 4)),
+          deviceRegistryNamespaces: S.optional(__S(534, __c33, 6)),
           allocationPolicy: S.optional(S.String),
           serviceOperationsHostName: S.optional(S.String),
           deviceProvisioningHostName: S.optional(S.String),
@@ -2363,7 +2404,7 @@ function __c33(j: number): any {
           disableLocalAuth: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IotDpsPropertiesDescription" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -2371,22 +2412,22 @@ function __c33(j: number): any {
           capacity: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IotDpsSkuInfo" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
-    case 8:
-      return S.Record(S.String, __S(535, __c33, 7));
-    case 9:
+    case 10:
+      return S.Record(S.String, __S(537, __c33, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(S.NullOr(__S(536, __c33, 8))),
+          userAssignedIdentities: S.optional(S.NullOr(__S(538, __c33, 10))),
         }),
       ).annotate({ identifier: "GetIotDpsResourceResponseIdentity" });
   }
@@ -2405,9 +2446,9 @@ function __c34(j: number): any {
           etag: S.optional(S.String),
           resourcegroup: S.optional(S.String),
           subscriptionid: S.optional(S.String),
-          properties: __S(533, __c33, 5),
-          sku: __S(534, __c33, 6),
-          identity: S.optional(__S(537, __c33, 9)),
+          properties: __S(535, __c33, 7),
+          sku: __S(536, __c33, 8),
+          identity: S.optional(__S(539, __c33, 11)),
         }),
       ).annotate({ identifier: "GetIotDpsResourceResponse" });
   }
@@ -2441,7 +2482,7 @@ function __c36(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotDpsResourceOperationResultRequest" });
@@ -2476,7 +2517,7 @@ function __c37(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-08-31",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotDpsResourcePrivateEndpointConnectionRequest" });

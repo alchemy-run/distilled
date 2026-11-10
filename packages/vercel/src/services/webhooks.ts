@@ -138,6 +138,7 @@ export type CreateWebhookRequestEventsItem =
   | "marketplace.invoice.refunded"
   | "ai-gateway.balance-depleted"
   | "ai-gateway.auto-reload.limit-reached"
+  | "ai-gateway.budget.updated"
   | "observability.anomaly"
   | "observability.anomaly-error"
   | "observability.usage-anomaly"
@@ -182,6 +183,7 @@ export type CreateWebhookResponseAlertRuleIdsList = Array<string>;
 export type CreateWebhookResponseEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -335,6 +337,7 @@ export type GetWebhookResponseAlertRuleIdsList = Array<string>;
 export type GetWebhookResponseEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -478,6 +481,7 @@ export type GetWebhooksResponseBodyCase0ItemAlertRuleIdsList = Array<string>;
 export type GetWebhooksResponseBodyCase0ItemEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"
@@ -700,6 +704,7 @@ export type GetWebhooksResponseBodyCase1ItemAlertRuleIdsList = Array<string>;
 export type GetWebhooksResponseBodyCase1ItemEventsItem =
   | "ai-gateway.auto-reload.limit-reached"
   | "ai-gateway.balance-depleted"
+  | "ai-gateway.budget.updated"
   | "alerts.triggered"
   | "botid.anomaly"
   | "budget.reached"

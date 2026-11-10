@@ -184,10 +184,20 @@ export interface CreateAgentResponse {
   AgentArn?: string | undefined;
 }
 export type AzureBlobContainerUrl = string;
-export type AzureBlobAuthenticationType = "SAS" | "NONE" | (string & {});
+export type AzureBlobAuthenticationType = "SAS" | "NONE" | "OIDC" | (string & {});
 export type AzureBlobSasToken = string | redacted.Redacted<string>;
 export interface AzureBlobSasConfiguration {
   Token: string | redacted.Redacted<string>;
+}
+export type IamRoleArn = string;
+export type AzureGuidString = string;
+export interface AzureOidcConfig {
+  TenantId: string;
+  ClientId: string;
+}
+export interface AzureFederatedIdentityConfig {
+  AwsIamRole?: string | undefined;
+  AzureOidc?: AzureOidcConfig | undefined;
 }
 export type AzureBlobType = "BLOCK" | (string & {});
 export type AzureAccessTier = "HOT" | "COOL" | "ARCHIVE" | (string & {});
@@ -208,6 +218,7 @@ export interface CreateLocationAzureBlobRequest {
   ContainerUrl: string;
   AuthenticationType: AzureBlobAuthenticationType;
   SasConfiguration?: AzureBlobSasConfiguration | undefined;
+  FederatedIdentity?: AzureFederatedIdentityConfig | undefined;
   BlobType?: AzureBlobType | undefined;
   AccessTier?: AzureAccessTier | undefined;
   Subdirectory?: string | undefined;
@@ -228,7 +239,6 @@ export interface Ec2Config {
   SecurityGroupArns: string[];
 }
 export type EfsAccessPointArn = string;
-export type IamRoleArn = string;
 export type EfsInTransitEncryption = "NONE" | "TLS1_2" | (string & {});
 export interface CreateLocationEfsRequest {
   Subdirectory?: string | undefined;
@@ -394,6 +404,22 @@ export type S3Subdirectory = string;
 export type ObjectStorageBucketName = string;
 export type ObjectStorageAccessKey = string;
 export type ObjectStorageSecretKey = string | redacted.Redacted<string>;
+export type ProjectNameString = string;
+export type ProjectNumberString = string;
+export type GoogleIdentityFederationResourceString = string;
+export interface GoogleOidcConfig {
+  ProjectName: string;
+  ProjectNumber: string;
+  IdentityPoolName: string;
+  IdentityProviderName: string;
+}
+export interface ObjectStorageExternalIdentityConfig {
+  GoogleOidc?: GoogleOidcConfig | undefined;
+}
+export interface ObjectStorageFederatedIdentityConfig {
+  AwsIamRole?: string | undefined;
+  ExternalIdentity?: ObjectStorageExternalIdentityConfig | undefined;
+}
 export type ObjectStorageCertificate = Uint8Array;
 export interface CreateLocationObjectStorageRequest {
   ServerHostname: string;
@@ -403,6 +429,7 @@ export interface CreateLocationObjectStorageRequest {
   BucketName: string;
   AccessKey?: string | undefined;
   SecretKey?: string | redacted.Redacted<string> | undefined;
+  FederatedIdentity?: ObjectStorageFederatedIdentityConfig | undefined;
   AgentArns?: string[] | undefined;
   Tags?: TagListEntry[] | undefined;
   ServerCertificate?: Uint8Array | undefined;
@@ -626,6 +653,7 @@ export interface DescribeLocationAzureBlobResponse {
   LocationArn?: string | undefined;
   LocationUri?: string | undefined;
   AuthenticationType?: AzureBlobAuthenticationType | undefined;
+  FederatedIdentity?: AzureFederatedIdentityConfig | undefined;
   BlobType?: AzureBlobType | undefined;
   AccessTier?: AzureAccessTier | undefined;
   AgentArns?: string[] | undefined;
@@ -728,6 +756,7 @@ export interface DescribeLocationObjectStorageResponse {
   LocationArn?: string | undefined;
   LocationUri?: string | undefined;
   AccessKey?: string | undefined;
+  FederatedIdentity?: ObjectStorageFederatedIdentityConfig | undefined;
   ServerPort?: number | undefined;
   ServerProtocol?: ObjectStorageServerProtocol | undefined;
   AgentArns?: string[] | undefined;
@@ -1032,6 +1061,7 @@ export interface UpdateLocationAzureBlobRequest {
   Subdirectory?: string | undefined;
   AuthenticationType?: AzureBlobAuthenticationType | undefined;
   SasConfiguration?: AzureBlobSasConfiguration | undefined;
+  FederatedIdentity?: AzureFederatedIdentityConfig | undefined;
   BlobType?: AzureBlobType | undefined;
   AccessTier?: AzureAccessTier | undefined;
   AgentArns?: string[] | undefined;
@@ -1123,6 +1153,7 @@ export interface UpdateLocationObjectStorageRequest {
   ServerHostname?: string | undefined;
   AccessKey?: string | undefined;
   SecretKey?: string | redacted.Redacted<string> | undefined;
+  FederatedIdentity?: ObjectStorageFederatedIdentityConfig | undefined;
   AgentArns?: string[] | undefined;
   ServerCertificate?: Uint8Array | undefined;
   CmkSecretConfig?: CmkSecretConfig | undefined;
@@ -1188,8 +1219,8 @@ export const cancelTaskExecution: API.OperationMethod<
   CancelTaskExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<CancelTaskExecutionRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<CancelTaskExecutionResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<CancelTaskExecutionRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<CancelTaskExecutionResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1212,8 +1243,8 @@ export const createAgent: API.OperationMethod<
   CreateAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateAgentRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<CreateAgentResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateAgentRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<CreateAgentResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1240,8 +1271,8 @@ export const createLocationAzureBlob: API.OperationMethod<
   CreateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateLocationAzureBlobRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationAzureBlobResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CreateLocationAzureBlobRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationAzureBlobResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1271,8 +1302,8 @@ export const createLocationEfs: API.OperationMethod<
   CreateLocationEfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateLocationEfsRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationEfsResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<CreateLocationEfsRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationEfsResponse>,
   errors: [
     InternalException,
     InvalidRequestException,
@@ -1305,7 +1336,7 @@ export const createLocationFsxLustre: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateLocationFsxLustreRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationFsxLustreResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationFsxLustreResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1333,7 +1364,7 @@ export const createLocationFsxOntap: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreateLocationFsxOntapRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationFsxOntapResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationFsxOntapResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1365,7 +1396,7 @@ export const createLocationFsxOpenZfs: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CreateLocationFsxOpenZfsRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationFsxOpenZfsResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationFsxOpenZfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1394,7 +1425,7 @@ export const createLocationFsxWindows: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CreateLocationFsxWindowsRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationFsxWindowsResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationFsxWindowsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1420,7 +1451,7 @@ export const createLocationHdfs: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CreateLocationHdfsRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationHdfsResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationHdfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1446,7 +1477,7 @@ export const createLocationNfs: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<CreateLocationNfsRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationNfsResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationNfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1473,7 +1504,7 @@ export const createLocationObjectStorage: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<CreateLocationObjectStorageRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationObjectStorageResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationObjectStorageResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1509,8 +1540,8 @@ export const createLocationS3: API.OperationMethod<
   CreateLocationS3Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateLocationS3Request>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationS3Response>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateLocationS3Request>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationS3Response>,
   errors: [
     InternalException,
     InvalidRequestException,
@@ -1539,8 +1570,8 @@ export const createLocationSmb: API.OperationMethod<
   CreateLocationSmbError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateLocationSmbRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateLocationSmbResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateLocationSmbRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateLocationSmbResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1572,8 +1603,8 @@ export const createTask: API.OperationMethod<
   CreateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateTaskRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<CreateTaskResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateTaskRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<CreateTaskResponse>,
   errors: [InternalException, InvalidRequestException, LocationAccessTestFailed],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1597,8 +1628,8 @@ export const deleteAgent: API.OperationMethod<
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteAgentRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<DeleteAgentResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteAgentRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<DeleteAgentResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1621,8 +1652,8 @@ export const deleteLocation: API.OperationMethod<
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteLocationRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<DeleteLocationResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteLocationRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<DeleteLocationResponse>,
   errors: [InternalException, InvalidRequestException, LocationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1645,8 +1676,8 @@ export const deleteTask: API.OperationMethod<
   DeleteTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteTaskRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<DeleteTaskResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteTaskRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<DeleteTaskResponse>,
   errors: [InternalException, InvalidRequestException, TaskNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1666,8 +1697,8 @@ export const describeAgent: API.OperationMethod<
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DescribeAgentRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<DescribeAgentResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DescribeAgentRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<DescribeAgentResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1690,8 +1721,8 @@ export const describeLocationAzureBlob: API.OperationMethod<
   DescribeLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DescribeLocationAzureBlobRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<DescribeLocationAzureBlobResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DescribeLocationAzureBlobRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<DescribeLocationAzureBlobResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1714,8 +1745,8 @@ export const describeLocationEfs: API.OperationMethod<
   DescribeLocationEfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DescribeLocationEfsRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<DescribeLocationEfsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DescribeLocationEfsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<DescribeLocationEfsResponse>,
   errors: [InternalException, InvalidRequestException, LocationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1737,8 +1768,8 @@ export const describeLocationFsxLustre: API.OperationMethod<
   DescribeLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DescribeLocationFsxLustreRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<DescribeLocationFsxLustreResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DescribeLocationFsxLustreRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<DescribeLocationFsxLustreResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1763,8 +1794,8 @@ export const describeLocationFsxOntap: API.OperationMethod<
   DescribeLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DescribeLocationFsxOntapRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<DescribeLocationFsxOntapResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DescribeLocationFsxOntapRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<DescribeLocationFsxOntapResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1789,8 +1820,8 @@ export const describeLocationFsxOpenZfs: API.OperationMethod<
   DescribeLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DescribeLocationFsxOpenZfsRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<DescribeLocationFsxOpenZfsResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DescribeLocationFsxOpenZfsRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<DescribeLocationFsxOpenZfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1812,8 +1843,8 @@ export const describeLocationFsxWindows: API.OperationMethod<
   DescribeLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DescribeLocationFsxWindowsRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<DescribeLocationFsxWindowsResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<DescribeLocationFsxWindowsRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<DescribeLocationFsxWindowsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1833,8 +1864,8 @@ export const describeLocationHdfs: API.OperationMethod<
   DescribeLocationHdfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DescribeLocationHdfsRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<DescribeLocationHdfsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<DescribeLocationHdfsRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<DescribeLocationHdfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1854,8 +1885,8 @@ export const describeLocationNfs: API.OperationMethod<
   DescribeLocationNfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DescribeLocationNfsRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<DescribeLocationNfsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DescribeLocationNfsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<DescribeLocationNfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1878,8 +1909,8 @@ export const describeLocationObjectStorage: API.OperationMethod<
   DescribeLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DescribeLocationObjectStorageRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<DescribeLocationObjectStorageResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DescribeLocationObjectStorageRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<DescribeLocationObjectStorageResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1903,8 +1934,8 @@ export const describeLocationS3: API.OperationMethod<
   DescribeLocationS3Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DescribeLocationS3Request>,
-  output: __S(545, __c34, 1) as any as S.Schema<DescribeLocationS3Response>,
+  input: __S(560, __c35, 0) as any as S.Schema<DescribeLocationS3Request>,
+  output: __S(561, __c35, 1) as any as S.Schema<DescribeLocationS3Response>,
   errors: [InternalException, InvalidRequestException, LocationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1924,8 +1955,8 @@ export const describeLocationSmb: API.OperationMethod<
   DescribeLocationSmbError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DescribeLocationSmbRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<DescribeLocationSmbResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<DescribeLocationSmbRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<DescribeLocationSmbResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1949,8 +1980,8 @@ export const describeTask: API.OperationMethod<
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<DescribeTaskRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<DescribeTaskResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<DescribeTaskRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<DescribeTaskResponse>,
   errors: [InternalException, InvalidRequestException, TaskNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1975,8 +2006,8 @@ export const describeTaskExecution: API.OperationMethod<
   DescribeTaskExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DescribeTaskExecutionRequest>,
-  output: __S(598, __c37, 6) as any as S.Schema<DescribeTaskExecutionResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<DescribeTaskExecutionRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<DescribeTaskExecutionResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1992,13 +2023,6 @@ export type ListAgentsError = InternalException | InvalidRequestException | Comm
  * With pagination, you can reduce the number of agents returned in a response. If you get
  * a truncated list of agents in a response, the response contains a marker that you can specify
  * in your next request to fetch the next page of agents.
- *
- * `ListAgents` is eventually consistent. This means the result of running the
- * operation might not reflect that you just created or deleted an agent. For example, if you
- * create an agent with CreateAgent and then
- * immediately run `ListAgents`, that agent might not show up in the list right away.
- * In situations like this, you can always confirm whether an agent has been created (or deleted)
- * by using DescribeAgent.
  */
 export const listAgents: API.PaginatedOperationMethod<
   ListAgentsRequest & RegionInput,
@@ -2007,8 +2031,8 @@ export const listAgents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentListEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListAgentsRequest>,
-  output: __S(611, __c38, 3) as any as S.Schema<ListAgentsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListAgentsRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<ListAgentsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2038,8 +2062,8 @@ export const listLocations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LocationListEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListLocationsRequest>,
-  output: __S(627, __c39, 3) as any as S.Schema<ListLocationsResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListLocationsRequest>,
+  output: __S(643, __c40, 3) as any as S.Schema<ListLocationsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2065,8 +2089,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TagListEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2092,8 +2116,8 @@ export const listTaskExecutions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaskExecutionListEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListTaskExecutionsRequest>,
-  output: __S(675, __c42, 3) as any as S.Schema<ListTaskExecutionsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListTaskExecutionsRequest>,
+  output: __S(691, __c43, 3) as any as S.Schema<ListTaskExecutionsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2119,8 +2143,8 @@ export const listTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaskListEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<ListTasksResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<ListTasksResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2157,8 +2181,8 @@ export const startTaskExecution: API.OperationMethod<
   StartTaskExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<StartTaskExecutionRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<StartTaskExecutionResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<StartTaskExecutionRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<StartTaskExecutionResponse>,
   errors: [InternalException, InvalidRequestException, LocationAccessTestFailed],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2181,8 +2205,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2201,8 +2225,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2221,8 +2245,8 @@ export const updateAgent: API.OperationMethod<
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<UpdateAgentRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateAgentResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateAgentRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateAgentResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2247,8 +2271,8 @@ export const updateLocationAzureBlob: API.OperationMethod<
   UpdateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<UpdateLocationAzureBlobRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationAzureBlobResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<UpdateLocationAzureBlobRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationAzureBlobResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2271,8 +2295,8 @@ export const updateLocationEfs: API.OperationMethod<
   UpdateLocationEfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<UpdateLocationEfsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationEfsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<UpdateLocationEfsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationEfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2298,8 +2322,8 @@ export const updateLocationFsxLustre: API.OperationMethod<
   UpdateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<UpdateLocationFsxLustreRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationFsxLustreResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<UpdateLocationFsxLustreRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationFsxLustreResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2325,8 +2349,8 @@ export const updateLocationFsxOntap: API.OperationMethod<
   UpdateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(818, __c51, 2) as any as S.Schema<UpdateLocationFsxOntapRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationFsxOntapResponse>,
+  input: __S(834, __c52, 2) as any as S.Schema<UpdateLocationFsxOntapRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationFsxOntapResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2355,8 +2379,8 @@ export const updateLocationFsxOpenZfs: API.OperationMethod<
   UpdateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<UpdateLocationFsxOpenZfsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationFsxOpenZfsResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<UpdateLocationFsxOpenZfsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationFsxOpenZfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2382,8 +2406,8 @@ export const updateLocationFsxWindows: API.OperationMethod<
   UpdateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<UpdateLocationFsxWindowsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationFsxWindowsResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<UpdateLocationFsxWindowsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationFsxWindowsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2406,8 +2430,8 @@ export const updateLocationHdfs: API.OperationMethod<
   UpdateLocationHdfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<UpdateLocationHdfsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationHdfsResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<UpdateLocationHdfsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationHdfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2430,8 +2454,8 @@ export const updateLocationNfs: API.OperationMethod<
   UpdateLocationNfsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<UpdateLocationNfsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationNfsResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<UpdateLocationNfsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationNfsResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2457,8 +2481,8 @@ export const updateLocationObjectStorage: API.OperationMethod<
   UpdateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<UpdateLocationObjectStorageRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationObjectStorageResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<UpdateLocationObjectStorageRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationObjectStorageResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2485,8 +2509,8 @@ export const updateLocationS3: API.OperationMethod<
   UpdateLocationS3Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<UpdateLocationS3Request>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationS3Response>,
+  input: __S(928, __c58, 0) as any as S.Schema<UpdateLocationS3Request>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationS3Response>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2509,8 +2533,8 @@ export const updateLocationSmb: API.OperationMethod<
   UpdateLocationSmbError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<UpdateLocationSmbRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateLocationSmbResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<UpdateLocationSmbRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateLocationSmbResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2534,8 +2558,8 @@ export const updateTask: API.OperationMethod<
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateTaskResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateTaskResponse>,
   errors: [InternalException, InvalidRequestException, TaskNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2560,8 +2584,8 @@ export const updateTaskExecution: API.OperationMethod<
   UpdateTaskExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<UpdateTaskExecutionRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateTaskExecutionResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<UpdateTaskExecutionRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<UpdateTaskExecutionResponse>,
   errors: [InternalException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2577,9 +2601,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FsxFilesystemArn: S.String,
-          SecurityGroupArns: __S(1040, __c65, 0),
+          SecurityGroupArns: __S(1056, __c66, 0),
           Subdirectory: S.optional(S.String),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationFsxLustreRequest" });
   }
@@ -2590,10 +2614,10 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Protocol: __S(81, __c5, 1),
-          SecurityGroupArns: __S(1040, __c65, 0),
+          SecurityGroupArns: __S(1056, __c66, 0),
           StorageVirtualMachineArn: S.String,
           Subdirectory: S.optional(S.String),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationFsxOntapRequest" });
   }
@@ -2632,8 +2656,8 @@ function __c5(j: number): any {
           Password: S.optional(SensitiveString),
           User: S.String,
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "FsxProtocolSmb" });
     case 1:
@@ -2649,9 +2673,9 @@ function __c6(j: number): any {
         S.Struct({
           FsxFilesystemArn: S.String,
           Protocol: __S(81, __c5, 1),
-          SecurityGroupArns: __S(1040, __c65, 0),
+          SecurityGroupArns: __S(1056, __c66, 0),
           Subdirectory: S.optional(S.String),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationFsxOpenZfsRequest" });
   }
@@ -2663,13 +2687,13 @@ function __c7(j: number): any {
         S.Struct({
           Subdirectory: S.optional(S.String),
           FsxFilesystemArn: S.String,
-          SecurityGroupArns: __S(1040, __c65, 0),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          SecurityGroupArns: __S(1056, __c66, 0),
+          Tags: S.optional(__S(1041, __c65, 1)),
           User: S.String,
           Domain: S.optional(S.String),
           Password: S.optional(SensitiveString),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationFsxWindowsRequest" });
   }
@@ -2690,10 +2714,10 @@ function __c8(j: number): any {
           KerberosPrincipal: S.optional(S.String),
           KerberosKeytab: S.optional(T.Blob),
           KerberosKrb5Conf: S.optional(T.Blob),
-          AgentArns: __S(1040, __c65, 0),
-          Tags: S.optional(__S(1025, __c64, 1)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          AgentArns: __S(1056, __c66, 0),
+          Tags: S.optional(__S(1041, __c65, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationHdfsRequest" });
   }
@@ -2724,7 +2748,7 @@ function __c10(j: number): any {
           ServerHostname: S.String,
           OnPremConfig: __S(176, __c11, 0),
           MountOptions: S.optional(__S(32, __c2, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationNfsRequest" });
   }
@@ -2732,7 +2756,7 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ AgentArns: __S(1040, __c65, 0) })).annotate({
+      return S.suspend(() => S.Struct({ AgentArns: __S(1056, __c66, 0) })).annotate({
         identifier: "OnPremConfig",
       });
   }
@@ -2749,11 +2773,12 @@ function __c12(j: number): any {
           BucketName: S.String,
           AccessKey: S.optional(S.String),
           SecretKey: S.optional(SensitiveString),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          FederatedIdentity: S.optional(__S(210, __c13, 2)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
+          Tags: S.optional(__S(1041, __c65, 1)),
           ServerCertificate: S.optional(T.Blob),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationObjectStorageRequest" });
   }
@@ -2763,17 +2788,41 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ProjectName: S.String,
+          ProjectNumber: S.String,
+          IdentityPoolName: S.String,
+          IdentityProviderName: S.String,
+        }),
+      ).annotate({ identifier: "GoogleOidcConfig" });
+    case 1:
+      return S.suspend(() => S.Struct({ GoogleOidc: S.optional(__S(208, __c13, 0)) })).annotate({
+        identifier: "ObjectStorageExternalIdentityConfig",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AwsIamRole: S.optional(S.String),
+          ExternalIdentity: S.optional(__S(209, __c13, 1)),
+        }),
+      ).annotate({ identifier: "ObjectStorageFederatedIdentityConfig" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Subdirectory: S.optional(S.String),
           S3BucketArn: S.String,
           S3StorageClass: S.optional(S.String),
-          S3Config: __S(224, __c14, 0),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          S3Config: __S(240, __c15, 0),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationS3Request" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ BucketAccessRoleArn: S.String })).annotate({
@@ -2781,7 +2830,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2791,13 +2840,13 @@ function __c15(j: number): any {
           User: S.optional(S.String),
           Domain: S.optional(S.String),
           Password: S.optional(SensitiveString),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
-          AgentArns: __S(1040, __c65, 0),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
+          AgentArns: __S(1056, __c66, 0),
           MountOptions: S.optional(__S(32, __c2, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
           AuthenticationType: S.optional(S.String),
-          DnsIpAddresses: S.optional(__S(1040, __c65, 0)),
+          DnsIpAddresses: S.optional(__S(1056, __c66, 0)),
           KerberosPrincipal: S.optional(S.String),
           KerberosKeytab: S.optional(T.Blob),
           KerberosKrb5Conf: S.optional(T.Blob),
@@ -2805,7 +2854,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateLocationSmbRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2814,13 +2863,13 @@ function __c16(j: number): any {
           DestinationLocationArn: S.String,
           CloudWatchLogGroupArn: S.optional(S.String),
           Name: S.optional(S.String),
-          Options: S.optional(__S(288, __c18, 0)),
-          Excludes: S.optional(__S(273, __c17, 1)),
-          Schedule: S.optional(__S(304, __c19, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
-          Includes: S.optional(__S(273, __c17, 1)),
-          ManifestConfig: S.optional(__S(276, __c17, 4)),
-          TaskReportConfig: S.optional(__S(281, __c17, 9)),
+          Options: S.optional(__S(304, __c19, 0)),
+          Excludes: S.optional(__S(289, __c18, 1)),
+          Schedule: S.optional(__S(320, __c20, 0)),
+          Tags: S.optional(__S(1041, __c65, 1)),
+          Includes: S.optional(__S(289, __c18, 1)),
+          ManifestConfig: S.optional(__S(292, __c18, 4)),
+          TaskReportConfig: S.optional(__S(297, __c18, 9)),
           TaskMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateTaskRequest" });
@@ -2830,14 +2879,14 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ FilterType: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "FilterRule" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2848,7 +2897,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "S3ManifestConfig" });
     case 3:
-      return S.suspend(() => S.Struct({ S3: __S(274, __c17, 2) })).annotate({
+      return S.suspend(() => S.Struct({ S3: __S(290, __c18, 2) })).annotate({
         identifier: "SourceManifestConfig",
       });
     case 4:
@@ -2856,7 +2905,7 @@ function __c17(j: number): any {
         S.Struct({
           Action: S.optional(S.String),
           Format: S.optional(S.String),
-          Source: S.optional(__S(275, __c17, 3)),
+          Source: S.optional(__S(291, __c18, 3)),
         }),
       ).annotate({ identifier: "ManifestConfig" });
     case 5:
@@ -2868,7 +2917,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ReportDestinationS3" });
     case 6:
-      return S.suspend(() => S.Struct({ S3: S.optional(__S(277, __c17, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ S3: S.optional(__S(293, __c18, 5)) })).annotate({
         identifier: "ReportDestination",
       });
     case 7:
@@ -2878,25 +2927,25 @@ function __c17(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Transferred: S.optional(__S(279, __c17, 7)),
-          Verified: S.optional(__S(279, __c17, 7)),
-          Deleted: S.optional(__S(279, __c17, 7)),
-          Skipped: S.optional(__S(279, __c17, 7)),
+          Transferred: S.optional(__S(295, __c18, 7)),
+          Verified: S.optional(__S(295, __c18, 7)),
+          Deleted: S.optional(__S(295, __c18, 7)),
+          Skipped: S.optional(__S(295, __c18, 7)),
         }),
       ).annotate({ identifier: "ReportOverrides" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Destination: S.optional(__S(278, __c17, 6)),
+          Destination: S.optional(__S(294, __c18, 6)),
           OutputType: S.optional(S.String),
           ReportLevel: S.optional(S.String),
           ObjectVersionIds: S.optional(S.String),
-          Overrides: S.optional(__S(280, __c17, 8)),
+          Overrides: S.optional(__S(296, __c18, 8)),
         }),
       ).annotate({ identifier: "TaskReportConfig" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2921,7 +2970,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "Options" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2929,7 +2978,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TaskSchedule" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2939,7 +2988,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteAgentRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2949,7 +2998,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteLocationRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,7 +3008,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteTaskRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2972,8 +3021,8 @@ function __c23(j: number): any {
         S.Struct({
           VpcEndpointId: S.optional(S.String),
           PrivateLinkEndpoint: S.optional(S.String),
-          SubnetArns: S.optional(__S(1040, __c65, 0)),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SubnetArns: S.optional(__S(1056, __c66, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkConfig" });
     case 2:
@@ -2985,13 +3034,13 @@ function __c23(j: number): any {
           LastConnectionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndpointType: S.optional(S.String),
-          PrivateLinkConfig: S.optional(__S(369, __c23, 1)),
-          Platform: S.optional(__S(384, __c24, 0)),
+          PrivateLinkConfig: S.optional(__S(385, __c24, 1)),
+          Platform: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "DescribeAgentResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Version: S.optional(S.String) })).annotate({
@@ -2999,7 +3048,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3013,18 +3062,19 @@ function __c25(j: number): any {
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
           AuthenticationType: S.optional(S.String),
+          FederatedIdentity: S.optional(__S(1105, __c69, 1)),
           BlobType: S.optional(S.String),
           AccessTier: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "DescribeLocationAzureBlobResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3037,7 +3087,7 @@ function __c26(j: number): any {
         S.Struct({
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          Ec2Config: S.optional(__S(1136, __c71, 0)),
+          Ec2Config: S.optional(__S(1168, __c73, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AccessPointArn: S.optional(S.String),
           FileSystemAccessRoleArn: S.optional(S.String),
@@ -3046,7 +3096,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DescribeLocationEfsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3059,13 +3109,13 @@ function __c27(j: number): any {
         S.Struct({
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DescribeLocationFsxLustreResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3080,14 +3130,14 @@ function __c28(j: number): any {
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
           Protocol: S.optional(__S(81, __c5, 1)),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
           StorageVirtualMachineArn: S.optional(S.String),
           FsxFilesystemArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLocationFsxOntapResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3100,14 +3150,14 @@ function __c29(j: number): any {
         S.Struct({
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
           Protocol: S.optional(__S(81, __c5, 1)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DescribeLocationFsxOpenZfsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3120,18 +3170,18 @@ function __c30(j: number): any {
         S.Struct({
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           User: S.optional(S.String),
           Domain: S.optional(S.String),
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "DescribeLocationFsxWindowsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3152,16 +3202,16 @@ function __c31(j: number): any {
           AuthenticationType: S.optional(S.String),
           SimpleUser: S.optional(S.String),
           KerberosPrincipal: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "DescribeLocationHdfsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3181,7 +3231,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DescribeLocationNfsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3195,19 +3245,20 @@ function __c33(j: number): any {
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
           AccessKey: S.optional(S.String),
+          FederatedIdentity: S.optional(__S(210, __c13, 2)),
           ServerPort: S.optional(S.Number),
           ServerProtocol: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ServerCertificate: S.optional(T.Blob),
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "DescribeLocationObjectStorageResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3221,14 +3272,14 @@ function __c34(j: number): any {
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
           S3StorageClass: S.optional(S.String),
-          S3Config: S.optional(__S(224, __c14, 0)),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          S3Config: S.optional(__S(240, __c15, 0)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DescribeLocationS3Response" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3241,22 +3292,22 @@ function __c35(j: number): any {
         S.Struct({
           LocationArn: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           User: S.optional(S.String),
           Domain: S.optional(S.String),
           MountOptions: S.optional(__S(32, __c2, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          DnsIpAddresses: S.optional(__S(1040, __c65, 0)),
+          DnsIpAddresses: S.optional(__S(1056, __c66, 0)),
           KerberosPrincipal: S.optional(S.String),
           AuthenticationType: S.optional(S.String),
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "DescribeLocationSmbResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3282,24 +3333,24 @@ function __c36(j: number): any {
           SourceLocationArn: S.optional(S.String),
           DestinationLocationArn: S.optional(S.String),
           CloudWatchLogGroupArn: S.optional(S.String),
-          SourceNetworkInterfaceArns: S.optional(__S(1040, __c65, 0)),
-          DestinationNetworkInterfaceArns: S.optional(__S(1040, __c65, 0)),
-          Options: S.optional(__S(288, __c18, 0)),
-          Excludes: S.optional(__S(273, __c17, 1)),
-          Schedule: S.optional(__S(304, __c19, 0)),
+          SourceNetworkInterfaceArns: S.optional(__S(1056, __c66, 0)),
+          DestinationNetworkInterfaceArns: S.optional(__S(1056, __c66, 0)),
+          Options: S.optional(__S(304, __c19, 0)),
+          Excludes: S.optional(__S(289, __c18, 1)),
+          Schedule: S.optional(__S(320, __c20, 0)),
           ErrorCode: S.optional(S.String),
           ErrorDetail: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Includes: S.optional(__S(273, __c17, 1)),
-          ManifestConfig: S.optional(__S(276, __c17, 4)),
-          TaskReportConfig: S.optional(__S(281, __c17, 9)),
-          ScheduleDetails: S.optional(__S(577, __c36, 1)),
+          Includes: S.optional(__S(289, __c18, 1)),
+          ManifestConfig: S.optional(__S(292, __c18, 4)),
+          TaskReportConfig: S.optional(__S(297, __c18, 9)),
+          ScheduleDetails: S.optional(__S(593, __c37, 1)),
           TaskMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3357,10 +3408,10 @@ function __c37(j: number): any {
         S.Struct({
           TaskExecutionArn: S.optional(S.String),
           Status: S.optional(S.String),
-          Options: S.optional(__S(288, __c18, 0)),
-          Excludes: S.optional(__S(273, __c17, 1)),
-          Includes: S.optional(__S(273, __c17, 1)),
-          ManifestConfig: S.optional(__S(276, __c17, 4)),
+          Options: S.optional(__S(304, __c19, 0)),
+          Excludes: S.optional(__S(289, __c18, 1)),
+          Includes: S.optional(__S(289, __c18, 1)),
+          ManifestConfig: S.optional(__S(292, __c18, 4)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EstimatedFilesToTransfer: S.optional(S.Number),
           EstimatedBytesToTransfer: S.optional(S.Number),
@@ -3368,17 +3419,17 @@ function __c37(j: number): any {
           BytesWritten: S.optional(S.Number),
           BytesTransferred: S.optional(S.Number),
           BytesCompressed: S.optional(S.Number),
-          Result: S.optional(__S(593, __c37, 1)),
-          TaskReportConfig: S.optional(__S(281, __c17, 9)),
+          Result: S.optional(__S(609, __c38, 1)),
+          TaskReportConfig: S.optional(__S(297, __c18, 9)),
           FilesDeleted: S.optional(S.Number),
           FilesSkipped: S.optional(S.Number),
           FilesVerified: S.optional(S.Number),
-          ReportResult: S.optional(__S(594, __c37, 2)),
+          ReportResult: S.optional(__S(610, __c38, 2)),
           EstimatedFilesToDelete: S.optional(S.Number),
           TaskMode: S.optional(S.String),
           FilesPrepared: S.optional(S.Number),
-          FilesListed: S.optional(__S(595, __c37, 3)),
-          FilesFailed: S.optional(__S(596, __c37, 4)),
+          FilesListed: S.optional(__S(611, __c38, 3)),
+          FilesFailed: S.optional(__S(612, __c38, 4)),
           EstimatedFoldersToDelete: S.optional(S.Number),
           EstimatedFoldersToTransfer: S.optional(S.Number),
           FoldersSkipped: S.optional(S.Number),
@@ -3386,15 +3437,15 @@ function __c37(j: number): any {
           FoldersTransferred: S.optional(S.Number),
           FoldersVerified: S.optional(S.Number),
           FoldersDeleted: S.optional(S.Number),
-          FoldersListed: S.optional(__S(595, __c37, 3)),
-          FoldersFailed: S.optional(__S(597, __c37, 5)),
+          FoldersListed: S.optional(__S(611, __c38, 3)),
+          FoldersFailed: S.optional(__S(613, __c38, 5)),
           LaunchTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DescribeTaskExecutionResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3408,25 +3459,25 @@ function __c38(j: number): any {
           AgentArn: S.optional(S.String),
           Name: S.optional(S.String),
           Status: S.optional(S.String),
-          Platform: S.optional(__S(384, __c24, 0)),
+          Platform: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "AgentListEntry" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Agents: S.optional(__S(610, __c38, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Agents: S.optional(__S(626, __c39, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c40, 1)),
+          Filters: S.optional(__S(657, __c41, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListLocationsRequest" });
     case 1:
@@ -3434,24 +3485,24 @@ function __c39(j: number): any {
         S.Struct({ LocationArn: S.optional(S.String), LocationUri: S.optional(S.String) }),
       ).annotate({ identifier: "LocationListEntry" });
     case 2:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Locations: S.optional(__S(626, __c39, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Locations: S.optional(__S(642, __c40, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Values: __S(1040, __c65, 0), Operator: S.String }),
+        S.Struct({ Name: S.String, Values: __S(1056, __c66, 0), Operator: S.String }),
       ).annotate({ identifier: "LocationFilter" });
     case 1:
-      return S.Array(__S(640, __c40, 0));
+      return S.Array(__S(656, __c41, 0));
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3463,11 +3514,11 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Tags: S.optional(__S(1025, __c64, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Tags: S.optional(__S(1041, __c65, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3486,24 +3537,24 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "TaskExecutionListEntry" });
     case 2:
-      return S.Array(__S(673, __c42, 1));
+      return S.Array(__S(689, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TaskExecutions: S.optional(__S(674, __c42, 2)),
+          TaskExecutions: S.optional(__S(690, __c43, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTaskExecutionsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c40, 1)),
+          Filters: S.optional(__S(657, __c41, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTasksRequest" });
     case 1:
@@ -3516,25 +3567,25 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "TaskListEntry" });
     case 2:
-      return S.Array(__S(689, __c43, 1));
+      return S.Array(__S(705, __c44, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Tasks: S.optional(__S(690, __c43, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Tasks: S.optional(__S(706, __c44, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTasksResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TaskArn: S.String,
-          OverrideOptions: S.optional(__S(288, __c18, 0)),
-          Includes: S.optional(__S(273, __c17, 1)),
-          Excludes: S.optional(__S(273, __c17, 1)),
-          ManifestConfig: S.optional(__S(276, __c17, 4)),
-          TaskReportConfig: S.optional(__S(281, __c17, 9)),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          OverrideOptions: S.optional(__S(304, __c19, 0)),
+          Includes: S.optional(__S(289, __c18, 1)),
+          Excludes: S.optional(__S(289, __c18, 1)),
+          ManifestConfig: S.optional(__S(292, __c18, 4)),
+          TaskReportConfig: S.optional(__S(297, __c18, 9)),
+          Tags: S.optional(__S(1041, __c65, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartTaskExecutionRequest" });
     case 1:
@@ -3543,27 +3594,27 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, Tags: __S(1025, __c64, 1) }).pipe(
+        S.Struct({ ResourceArn: S.String, Tags: __S(1041, __c65, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, Keys: __S(1040, __c65, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, Keys: __S(1056, __c66, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3573,7 +3624,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateAgentRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3581,17 +3632,18 @@ function __c48(j: number): any {
           LocationArn: S.String,
           Subdirectory: S.optional(S.String),
           AuthenticationType: S.optional(S.String),
-          SasConfiguration: S.optional(__S(1088, __c68, 0)),
+          SasConfiguration: S.optional(__S(1120, __c70, 0)),
+          FederatedIdentity: S.optional(__S(1105, __c69, 1)),
           BlobType: S.optional(S.String),
           AccessTier: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationAzureBlobRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3605,7 +3657,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateLocationEfsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3615,7 +3667,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateLocationFsxLustreRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3624,25 +3676,25 @@ function __c51(j: number): any {
           MountOptions: S.optional(__S(32, __c2, 0)),
           Password: S.optional(SensitiveString),
           User: S.optional(S.String),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "FsxUpdateProtocolSmb" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ NFS: S.optional(__S(64, __c4, 0)), SMB: S.optional(__S(816, __c51, 0)) }),
+        S.Struct({ NFS: S.optional(__S(64, __c4, 0)), SMB: S.optional(__S(832, __c52, 0)) }),
       ).annotate({ identifier: "FsxUpdateProtocol" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           LocationArn: S.String,
-          Protocol: S.optional(__S(817, __c51, 1)),
+          Protocol: S.optional(__S(833, __c52, 1)),
           Subdirectory: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationFsxOntapRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3654,7 +3706,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateLocationFsxOpenZfsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3664,13 +3716,13 @@ function __c53(j: number): any {
           Domain: S.optional(S.String),
           User: S.optional(S.String),
           Password: S.optional(SensitiveString),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationFsxWindowsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3687,14 +3739,14 @@ function __c54(j: number): any {
           KerberosPrincipal: S.optional(S.String),
           KerberosKeytab: S.optional(T.Blob),
           KerberosKrb5Conf: S.optional(T.Blob),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationHdfsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3708,7 +3760,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateLocationNfsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3720,15 +3772,16 @@ function __c56(j: number): any {
           ServerHostname: S.optional(S.String),
           AccessKey: S.optional(S.String),
           SecretKey: S.optional(SensitiveString),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          FederatedIdentity: S.optional(__S(210, __c13, 2)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           ServerCertificate: S.optional(T.Blob),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationObjectStorageRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3736,12 +3789,12 @@ function __c57(j: number): any {
           LocationArn: S.String,
           Subdirectory: S.optional(S.String),
           S3StorageClass: S.optional(S.String),
-          S3Config: S.optional(__S(224, __c14, 0)),
+          S3Config: S.optional(__S(240, __c15, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLocationS3Request" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3752,12 +3805,12 @@ function __c58(j: number): any {
           User: S.optional(S.String),
           Domain: S.optional(S.String),
           Password: S.optional(SensitiveString),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
           MountOptions: S.optional(__S(32, __c2, 0)),
           AuthenticationType: S.optional(S.String),
-          DnsIpAddresses: S.optional(__S(1040, __c65, 0)),
+          DnsIpAddresses: S.optional(__S(1056, __c66, 0)),
           KerberosPrincipal: S.optional(S.String),
           KerberosKeytab: S.optional(T.Blob),
           KerberosKrb5Conf: S.optional(T.Blob),
@@ -3765,35 +3818,35 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateLocationSmbRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TaskArn: S.String,
-          Options: S.optional(__S(288, __c18, 0)),
-          Excludes: S.optional(__S(273, __c17, 1)),
-          Schedule: S.optional(__S(304, __c19, 0)),
+          Options: S.optional(__S(304, __c19, 0)),
+          Excludes: S.optional(__S(289, __c18, 1)),
+          Schedule: S.optional(__S(320, __c20, 0)),
           Name: S.optional(S.String),
           CloudWatchLogGroupArn: S.optional(S.String),
-          Includes: S.optional(__S(273, __c17, 1)),
-          ManifestConfig: S.optional(__S(276, __c17, 4)),
-          TaskReportConfig: S.optional(__S(281, __c17, 9)),
+          Includes: S.optional(__S(289, __c18, 1)),
+          ManifestConfig: S.optional(__S(292, __c18, 4)),
+          TaskReportConfig: S.optional(__S(297, __c18, 9)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateTaskRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ TaskExecutionArn: S.String, Options: __S(288, __c18, 0) }).pipe(
+        S.Struct({ TaskExecutionArn: S.String, Options: __S(304, __c19, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateTaskExecutionRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3803,23 +3856,23 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CancelTaskExecutionRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelTaskExecutionResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ActivationKey: S.String,
           AgentName: S.optional(S.String),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Tags: S.optional(__S(1041, __c65, 1)),
           VpcEndpointId: S.optional(S.String),
-          SubnetArns: S.optional(__S(1040, __c65, 0)),
-          SecurityGroupArns: S.optional(__S(1040, __c65, 0)),
+          SubnetArns: S.optional(__S(1056, __c66, 0)),
+          SecurityGroupArns: S.optional(__S(1056, __c66, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAgentRequest" });
     case 1:
@@ -3828,42 +3881,43 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
         identifier: "TagListEntry",
       });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(1040, __c65, 0));
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ContainerUrl: S.String,
           AuthenticationType: S.String,
-          SasConfiguration: S.optional(__S(1088, __c68, 0)),
+          SasConfiguration: S.optional(__S(1120, __c70, 0)),
+          FederatedIdentity: S.optional(__S(1105, __c69, 1)),
           BlobType: S.optional(S.String),
           AccessTier: S.optional(S.String),
           Subdirectory: S.optional(S.String),
-          AgentArns: S.optional(__S(1040, __c65, 0)),
-          Tags: S.optional(__S(1025, __c64, 1)),
-          CmkSecretConfig: S.optional(__S(1072, __c67, 0)),
-          CustomSecretConfig: S.optional(__S(1073, __c67, 1)),
+          AgentArns: S.optional(__S(1056, __c66, 0)),
+          Tags: S.optional(__S(1041, __c65, 1)),
+          CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
+          CustomSecretConfig: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLocationAzureBlobRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3875,7 +3929,19 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CustomSecretConfig" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TenantId: S.String, ClientId: S.String })).annotate({
+        identifier: "AzureOidcConfig",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AwsIamRole: S.optional(S.String), AzureOidc: S.optional(__S(1104, __c69, 0)) }),
+      ).annotate({ identifier: "AzureFederatedIdentityConfig" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Token: SensitiveString })).annotate({
@@ -3883,7 +3949,7 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ LocationArn: S.optional(S.String) })).annotate({
@@ -3891,15 +3957,15 @@ function __c69(j: number): any {
       });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Subdirectory: S.optional(S.String),
           EfsFilesystemArn: S.String,
-          Ec2Config: __S(1136, __c71, 0),
-          Tags: S.optional(__S(1025, __c64, 1)),
+          Ec2Config: __S(1168, __c73, 0),
+          Tags: S.optional(__S(1041, __c65, 1)),
           AccessPointArn: S.optional(S.String),
           FileSystemAccessRoleArn: S.optional(S.String),
           InTransitEncryption: S.optional(S.String),
@@ -3907,11 +3973,11 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateLocationEfsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SubnetArn: S.String, SecurityGroupArns: __S(1040, __c65, 0) }),
+        S.Struct({ SubnetArn: S.String, SecurityGroupArns: __S(1056, __c66, 0) }),
       ).annotate({ identifier: "Ec2Config" });
   }
 }

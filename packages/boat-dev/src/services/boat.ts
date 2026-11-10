@@ -2593,7 +2593,6 @@ export interface ListSandboxConversationsResponse {
 }
 export type ListSandboxesRequestSort = "asc" | "desc";
 export type ListSandboxesRequestLabelList = Array<string>;
-export type ListSandboxesRequestInclude = "cost";
 export interface ListSandboxesRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
   org?: string | undefined;
@@ -2613,13 +2612,13 @@ export interface ListSandboxesRequest {
   dataExpired?: boolean | undefined;
   /** `key=value`. Repeat it to require several labels, for example `label=session%3Dabc&label=env%3Dprod`. */
   label?: ListSandboxesRequestLabelList | undefined;
-  /** `cost` adds each sandbox's `cost` this calendar month (UTC), at list price. */
-  include?: ListSandboxesRequestInclude | (string & {}) | undefined;
+  /** Comma-separated. `cost` adds each sandbox's `cost` this calendar month (UTC), at list price. `deletedCost` adds wallet-wide machine time of deleted sandboxes this list would show (not for API keys limited to some sandboxes). */
+  include?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
   xBoatOrg?: string | undefined;
 }
 export type ListSandboxesResponseSandboxesList = Array<Sandbox>;
-/** Only with `include=cost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
+/** Only with `include=deletedCost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
 export type ListSandboxesResponseDeletedCost = SandboxCost;
 export interface ListSandboxesResponse {
   ok: boolean;
@@ -2627,7 +2626,7 @@ export interface ListSandboxesResponse {
   type: string;
   sandboxes: ListSandboxesResponseSandboxesList;
   pageInfo?: PageInfo | undefined;
-  /** Only with `include=cost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
+  /** Only with `include=deletedCost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
   deletedCost?: SandboxCost | undefined;
 }
 export type ListSandboxEventsRequestSort = "asc" | "desc";

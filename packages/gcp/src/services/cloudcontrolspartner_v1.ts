@@ -83,26 +83,26 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type CustomerOnboardingStepStepEnum =
-  | "STEP_UNSPECIFIED"
-  | "KAJ_ENROLLMENT"
-  | "CUSTOMER_ENVIRONMENT";
 export type CustomerOnboardingStepCompletionStateEnum =
   | "COMPLETION_STATE_UNSPECIFIED"
   | "PENDING"
   | "SUCCEEDED"
   | "FAILED"
   | "NOT_APPLICABLE";
+export type CustomerOnboardingStepStepEnum =
+  | "STEP_UNSPECIFIED"
+  | "KAJ_ENROLLMENT"
+  | "CUSTOMER_ENVIRONMENT";
 /** Container for customer onboarding information */
 export interface CustomerOnboardingStep {
+  /** The starting time of the onboarding step */
+  startTime?: string | undefined;
+  /** Output only. Current state of the step */
+  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {}) | undefined;
   /** The onboarding step */
   step?: CustomerOnboardingStepStepEnum | (string & {}) | undefined;
   /** The completion time of the onboarding step */
   completionTime?: string | undefined;
-  /** Output only. Current state of the step */
-  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {}) | undefined;
-  /** The starting time of the onboarding step */
-  startTime?: string | undefined;
 }
 export type CustomerOnboardingStepList = Array<CustomerOnboardingStep>;
 /** Container for customer onboarding steps */
@@ -112,16 +112,16 @@ export interface CustomerOnboardingState {
 }
 /** Contains metadata around a Cloud Controls Partner Customer */
 export interface Customer {
-  /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
-  organizationDomain?: string | undefined;
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
-  name?: string | undefined;
-  /** Output only. Indicates whether a customer is fully onboarded */
-  isOnboarded?: boolean | undefined;
   /** Output only. Container for customer onboarding steps */
   customerOnboardingState?: CustomerOnboardingState | undefined;
+  /** Output only. Indicates whether a customer is fully onboarded */
+  isOnboarded?: boolean | undefined;
+  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
+  name?: string | undefined;
   /** Required. Display name for the customer */
   displayName?: string | undefined;
+  /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
+  organizationDomain?: string | undefined;
 }
 export interface CreateOrganizationsLocationsCustomersRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
@@ -166,10 +166,10 @@ export interface EkmConnection {
 export type EkmConnectionList = Array<EkmConnection>;
 /** The EKM connections associated with a workload */
 export interface EkmConnections {
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
-  name?: string | undefined;
   /** The EKM connections associated with the workload */
   ekmConnections?: EkmConnectionList | undefined;
+  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
+  name?: string | undefined;
 }
 export interface GetOrganizationsLocationsCustomersRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
@@ -200,12 +200,12 @@ export type WorkloadOnboardingStepStepEnum =
   | "SIGNED_ACCESS_APPROVAL_CONFIGURED";
 /** Container for workload onboarding information. */
 export interface WorkloadOnboardingStep {
-  /** Output only. The completion state of the onboarding step. */
-  completionState?: WorkloadOnboardingStepCompletionStateEnum | undefined;
-  /** The completion time of the onboarding step. */
-  completionTime?: string | undefined;
   /** The starting time of the onboarding step. */
   startTime?: string | undefined;
+  /** The completion time of the onboarding step. */
+  completionTime?: string | undefined;
+  /** Output only. The completion state of the onboarding step. */
+  completionState?: WorkloadOnboardingStepCompletionStateEnum | undefined;
   /** The onboarding step. */
   step?: WorkloadOnboardingStepStepEnum | undefined;
 }
@@ -217,55 +217,54 @@ export interface WorkloadOnboardingState {
 }
 /** Contains metadata around the [Workload resource](https://cloud.google.com/assured-workloads/docs/reference/rest/Shared.Types/Workload) in the Assured Workloads API. */
 export interface Workload {
+  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+  name?: string | undefined;
   /** The project id of the key management project for the workload */
   keyManagementProjectId?: string | undefined;
-  /** Output only. Time the resource was created. */
-  createTime?: string | undefined;
   /** Output only. Folder id this workload is associated with */
   folderId?: string | undefined;
   /** Indicates whether a workload is fully onboarded. */
   isOnboarded?: boolean | undefined;
-  /** Output only. The name of container folder of the assured workload */
-  folder?: string | undefined;
   /** Partner associated with this workload. */
   partner?: WorkloadPartnerEnum | undefined;
+  /** Output only. Time the resource was created. */
+  createTime?: string | undefined;
   /** Container for workload onboarding steps. */
   workloadOnboardingState?: WorkloadOnboardingState | undefined;
+  /** Output only. The name of container folder of the assured workload */
+  folder?: string | undefined;
   /** The Google Cloud location of the workload */
   location?: string | undefined;
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  name?: string | undefined;
 }
 export interface GetOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
   name: string;
 }
-export type ViolationStateEnum = "STATE_UNSPECIFIED" | "RESOLVED" | "UNRESOLVED" | "EXCEPTION";
 export type StringList = Array<string>;
+/** Remediation instructions to resolve violation via cloud console */
+export interface Console {
+  /** Steps to resolve violation via cloud console */
+  steps?: StringList | undefined;
+  /** Additional urls for more information about steps */
+  additionalLinks?: StringList | undefined;
+  /** Link to console page where violations can be resolved */
+  consoleUris?: StringList | undefined;
+}
 /** Remediation instructions to resolve violation via gcloud cli */
 export interface Gcloud {
+  /** Gcloud command to resolve violation */
+  gcloudCommands?: StringList | undefined;
   /** Additional urls for more information about steps */
   additionalLinks?: StringList | undefined;
   /** Steps to resolve violation via gcloud cli */
   steps?: StringList | undefined;
-  /** Gcloud command to resolve violation */
-  gcloudCommands?: StringList | undefined;
-}
-/** Remediation instructions to resolve violation via cloud console */
-export interface Console {
-  /** Link to console page where violations can be resolved */
-  consoleUris?: StringList | undefined;
-  /** Additional urls for more information about steps */
-  additionalLinks?: StringList | undefined;
-  /** Steps to resolve violation via cloud console */
-  steps?: StringList | undefined;
 }
 /** Instructions to remediate violation */
 export interface Instructions {
-  /** Remediation instructions to resolve violation via gcloud cli */
-  gcloudInstructions?: Gcloud | undefined;
   /** Remediation instructions to resolve violation via cloud console */
   consoleInstructions?: Console | undefined;
+  /** Remediation instructions to resolve violation via gcloud cli */
+  gcloudInstructions?: Gcloud | undefined;
 }
 export type RemediationRemediationTypeEnum =
   | "REMEDIATION_TYPE_UNSPECIFIED"
@@ -283,33 +282,42 @@ export interface Remediation {
   /** Output only. Remediation type based on the type of org policy values violated */
   remediationType?: RemediationRemediationTypeEnum | undefined;
 }
+export type ViolationStateEnum = "STATE_UNSPECIFIED" | "RESOLVED" | "UNRESOLVED" | "EXCEPTION";
 /** Details of resource Violation */
 export interface Violation {
+  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
+  description?: string | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
   name?: string | undefined;
   /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
   category?: string | undefined;
-  /** Output only. Time of the event which triggered the Violation. */
-  beginTime?: string | undefined;
   /** The folder_id of the violation */
   folderId?: string | undefined;
-  /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: `projects/{project_number}/policies/{constraint_name}` `folders/{folder_id}/policies/{constraint_name}` `organizations/{organization_id}/policies/{constraint_name}` */
-  nonCompliantOrgPolicy?: string | undefined;
   /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
   resolveTime?: string | undefined;
-  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
-  description?: string | undefined;
-  /** Output only. State of the violation */
-  state?: ViolationStateEnum | undefined;
   /** Output only. Compliance violation remediation */
   remediation?: Remediation | undefined;
+  /** Output only. State of the violation */
+  state?: ViolationStateEnum | undefined;
   /** Output only. The last time when the Violation record was updated. */
   updateTime?: string | undefined;
+  /** Output only. Time of the event which triggered the Violation. */
+  beginTime?: string | undefined;
+  /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: `projects/{project_number}/policies/{constraint_name}` `folders/{folder_id}/policies/{constraint_name}` `organizations/{organization_id}/policies/{constraint_name}` */
+  nonCompliantOrgPolicy?: string | undefined;
 }
 export interface GetPartnerOrganizationsLocationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/partner` */
   name: string;
 }
+/** Represents the SKU a partner owns inside Google Cloud to sell to customers. */
+export interface Sku {
+  /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
+  id?: string | undefined;
+  /** Display name of the product identified by the SKU. A partner may want to show partner branded names for their offerings such as local sovereign cloud solutions. */
+  displayName?: string | undefined;
+}
+export type SkuList = Array<Sku>;
 export type EkmMetadataEkmSolutionEnum =
   | "EKM_SOLUTION_UNSPECIFIED"
   | "FORTANIX"
@@ -324,28 +332,20 @@ export interface EkmMetadata {
   ekmEndpointUri?: string | undefined;
 }
 export type EkmMetadataList = Array<EkmMetadata>;
-/** Represents the SKU a partner owns inside Google Cloud to sell to customers. */
-export interface Sku {
-  /** Display name of the product identified by the SKU. A partner may want to show partner branded names for their offerings such as local sovereign cloud solutions. */
-  displayName?: string | undefined;
-  /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
-  id?: string | undefined;
-}
-export type SkuList = Array<Sku>;
 /** Message describing Partner resource */
 export interface Partner {
-  /** List of Google Cloud supported EKM partners supported by the partner */
-  ekmSolutions?: EkmMetadataList | undefined;
-  /** List of Google Cloud regions that the partner sells services to customers. Valid Google Cloud regions found here: https://cloud.google.com/compute/docs/regions-zones */
-  operatedCloudRegions?: StringList | undefined;
-  /** Google Cloud project ID in the partner's Google Cloud organization for receiving enhanced Logs for Partners. */
-  partnerProjectId?: string | undefined;
   /** Identifier. The resource name of the partner. Format: `organizations/{organization}/locations/{location}/partner` Example: "organizations/123456/locations/us-central1/partner" */
   name?: string | undefined;
   /** List of SKUs the partner is offering */
   skus?: SkuList | undefined;
+  /** List of Google Cloud regions that the partner sells services to customers. Valid Google Cloud regions found here: https://cloud.google.com/compute/docs/regions-zones */
+  operatedCloudRegions?: StringList | undefined;
   /** Output only. Time the resource was created */
   createTime?: string | undefined;
+  /** Google Cloud project ID in the partner's Google Cloud organization for receiving enhanced Logs for Partners. */
+  partnerProjectId?: string | undefined;
+  /** List of Google Cloud supported EKM partners supported by the partner */
+  ekmSolutions?: EkmMetadataList | undefined;
   /** Output only. The last time the resource was updated */
   updateTime?: string | undefined;
 }
@@ -370,58 +370,58 @@ export interface PartnerPermissions {
   name?: string | undefined;
 }
 export interface ListOrganizationsLocationsCustomersRequest {
-  /** A page token, received from a previous `ListCustomers` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** The maximum number of Customers to return. The service may return fewer than this value. If unspecified, at most 500 Customers will be returned. */
-  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results */
   orderBy?: string | undefined;
+  /** The maximum number of Customers to return. The service may return fewer than this value. If unspecified, at most 500 Customers will be returned. */
+  pageSize?: number | undefined;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Filtering results */
   filter?: string | undefined;
+  /** A page token, received from a previous `ListCustomers` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type CustomerList = Array<Customer>;
 /** Response message for list customer Customers requests */
 export interface ListCustomersResponse {
-  /** List of customers */
-  customers?: CustomerList | undefined;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
+  /** List of customers */
+  customers?: CustomerList | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsRequest {
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
-  /** The maximum number of workloads to return. The service may return fewer than this value. If unspecified, at most 500 workloads will be returned. */
-  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   parent: string;
   /** A page token, received from a previous `ListWorkloads` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
+  /** The maximum number of workloads to return. The service may return fewer than this value. If unspecified, at most 500 workloads will be returned. */
+  pageSize?: number | undefined;
 }
 export type WorkloadList = Array<Workload>;
 /** Response message for list customer workloads requests. */
 export interface ListWorkloadsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** List of customer workloads */
   workloads?: WorkloadList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest {
-  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  parent: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
-  /** Optional. A page token, received from a previous `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+  parent: string;
   /** Optional. The maximum number of access requests to return. The service may return fewer than this value. If unspecified, at most 500 access requests will be returned. */
   pageSize?: number | undefined;
 }
@@ -442,50 +442,50 @@ export interface AccessReason {
 }
 /** Details about the Access request. */
 export interface AccessApprovalRequest {
-  /** The requested expiration for the approval. If the request is approved, access will be granted from the time of approval until the expiration time. */
-  requestedExpirationTime?: string | undefined;
-  /** The time at which approval was requested. */
-  requestTime?: string | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}` */
   name?: string | undefined;
+  /** The requested expiration for the approval. If the request is approved, access will be granted from the time of approval until the expiration time. */
+  requestedExpirationTime?: string | undefined;
   /** The justification for which approval is being requested. */
   requestedReason?: AccessReason | undefined;
+  /** The time at which approval was requested. */
+  requestTime?: string | undefined;
 }
 export type AccessApprovalRequestList = Array<AccessApprovalRequest>;
 /** Response message for list access requests. */
 export interface ListAccessApprovalRequestsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** List of access approval requests */
-  accessApprovalRequests?: AccessApprovalRequestList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** List of access approval requests */
+  accessApprovalRequests?: AccessApprovalRequestList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsCustomersWorkloadsViolationsRequest {
-  /** Optional. The maximum number of customers row to return. The service may return fewer than this value. If unspecified, at most 10 customers will be returned. */
-  pageSize?: number | undefined;
-  /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  parent: string;
-  /** Optional. Filtering results */
-  filter?: string | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "interval.startTime"?: string | undefined;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
   "interval.endTime"?: string | undefined;
+  /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+  parent: string;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "interval.startTime"?: string | undefined;
   /** Optional. A page token, received from a previous `ListViolations` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of customers row to return. The service may return fewer than this value. If unspecified, at most 10 customers will be returned. */
+  pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
+  /** Optional. Filtering results */
+  filter?: string | undefined;
 }
 export type ViolationList = Array<Violation>;
 /** Response message for list customer violation requests */
 export interface ListViolationsResponse {
-  /** List of violation */
-  violations?: ViolationList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
   /** Workloads that could not be reached due to permission errors or any other error. Ref: https://google.aip.dev/217 */
   unreachable?: StringList | undefined;
+  /** List of violation */
+  violations?: ViolationList | undefined;
 }
 export interface PatchOrganizationsLocationsCustomersRequest {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
@@ -792,30 +792,30 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ekmSolution: S.optional(S.String),
-          ekmEndpointUri: S.optional(S.String),
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EkmMetadata" });
+      ).annotate({ identifier: "Sku" });
     case 2:
       return S.Array(__S(1, __c0, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          id: S.optional(S.String),
+          ekmSolution: S.optional(S.String),
+          ekmEndpointUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Sku" });
+      ).annotate({ identifier: "EkmMetadata" });
     case 4:
       return S.Array(__S(3, __c0, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ekmSolutions: S.optional(__S(2, __c0, 2)),
-          operatedCloudRegions: S.optional(__S(120, __c15, 0)),
-          partnerProjectId: S.optional(S.String),
           name: S.optional(S.String),
-          skus: S.optional(__S(4, __c0, 4)),
+          skus: S.optional(__S(2, __c0, 2)),
+          operatedCloudRegions: S.optional(__S(120, __c15, 0)),
           createTime: S.optional(S.String),
+          partnerProjectId: S.optional(S.String),
+          ekmSolutions: S.optional(__S(4, __c0, 4)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Partner" });
@@ -853,11 +853,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -871,9 +871,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(17, __c2, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(120, __c15, 0)),
+          nextPageToken: S.optional(S.String),
+          customers: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "ListCustomersResponse" });
   }
@@ -883,11 +883,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -901,8 +901,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(120, __c15, 0)),
           workloads: S.optional(__S(25, __c3, 1)),
+          unreachable: S.optional(__S(120, __c15, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkloadsResponse" });
@@ -913,10 +913,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -938,10 +938,10 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requestedExpirationTime: S.optional(S.String),
-          requestTime: S.optional(S.String),
           name: S.optional(S.String),
+          requestedExpirationTime: S.optional(S.String),
           requestedReason: S.optional(__S(33, __c4, 1)),
+          requestTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessApprovalRequest" });
     case 3:
@@ -949,9 +949,9 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(120, __c15, 0)),
-          accessApprovalRequests: S.optional(__S(35, __c4, 3)),
           nextPageToken: S.optional(S.String),
+          accessApprovalRequests: S.optional(__S(35, __c4, 3)),
+          unreachable: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "ListAccessApprovalRequestsResponse" });
   }
@@ -961,13 +961,13 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          "interval.startTime": S.optional(S.String.pipe(T.Query())),
           "interval.endTime": S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          "interval.startTime": S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -981,9 +981,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          violations: S.optional(__S(41, __c5, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(120, __c15, 0)),
+          violations: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "ListViolationsResponse" });
   }
@@ -1029,10 +1029,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          startTime: S.optional(S.String),
+          completionState: S.optional(S.String),
           step: S.optional(S.String),
           completionTime: S.optional(S.String),
-          completionState: S.optional(S.String),
-          startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerOnboardingStep" });
     case 1:
@@ -1046,11 +1046,11 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          organizationDomain: S.optional(S.String),
-          name: S.optional(S.String),
-          isOnboarded: S.optional(S.Boolean),
           customerOnboardingState: S.optional(__S(66, __c8, 2)),
+          isOnboarded: S.optional(S.Boolean),
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          organizationDomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "Customer" });
   }
@@ -1109,8 +1109,8 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           ekmConnections: S.optional(__S(83, __c10, 3)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "EkmConnections" });
   }
@@ -1152,9 +1152,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          completionState: S.optional(S.String),
-          completionTime: S.optional(S.String),
           startTime: S.optional(S.String),
+          completionTime: S.optional(S.String),
+          completionState: S.optional(S.String),
           step: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkloadOnboardingStep" });
@@ -1169,15 +1169,15 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           keyManagementProjectId: S.optional(S.String),
-          createTime: S.optional(S.String),
           folderId: S.optional(S.String),
           isOnboarded: S.optional(S.Boolean),
-          folder: S.optional(S.String),
           partner: S.optional(S.String),
+          createTime: S.optional(S.String),
           workloadOnboardingState: S.optional(__S(106, __c13, 2)),
+          folder: S.optional(S.String),
           location: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Workload" });
   }
@@ -1209,24 +1209,24 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          additionalLinks: S.optional(__S(120, __c15, 0)),
           steps: S.optional(__S(120, __c15, 0)),
-          gcloudCommands: S.optional(__S(120, __c15, 0)),
+          additionalLinks: S.optional(__S(120, __c15, 0)),
+          consoleUris: S.optional(__S(120, __c15, 0)),
         }),
-      ).annotate({ identifier: "Gcloud" });
+      ).annotate({ identifier: "Console" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          consoleUris: S.optional(__S(120, __c15, 0)),
+          gcloudCommands: S.optional(__S(120, __c15, 0)),
           additionalLinks: S.optional(__S(120, __c15, 0)),
           steps: S.optional(__S(120, __c15, 0)),
         }),
-      ).annotate({ identifier: "Console" });
+      ).annotate({ identifier: "Gcloud" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gcloudInstructions: S.optional(__S(128, __c16, 0)),
-          consoleInstructions: S.optional(__S(129, __c16, 1)),
+          consoleInstructions: S.optional(__S(128, __c16, 0)),
+          gcloudInstructions: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "Instructions" });
     case 3:
@@ -1240,16 +1240,16 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
           name: S.optional(S.String),
           category: S.optional(S.String),
-          beginTime: S.optional(S.String),
           folderId: S.optional(S.String),
-          nonCompliantOrgPolicy: S.optional(S.String),
           resolveTime: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
           remediation: S.optional(__S(131, __c16, 3)),
+          state: S.optional(S.String),
           updateTime: S.optional(S.String),
+          beginTime: S.optional(S.String),
+          nonCompliantOrgPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "Violation" });
   }

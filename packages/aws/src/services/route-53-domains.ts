@@ -892,6 +892,13 @@ export interface ResendOperationAuthorizationRequest {
   OperationId: string;
 }
 export interface ResendOperationAuthorizationResponse {}
+export interface RestoreDomainRequest {
+  DomainName: string;
+  Consent?: Consent | undefined;
+}
+export interface RestoreDomainResponse {
+  OperationId?: string | undefined;
+}
 export interface RetrieveDomainAuthCodeRequest {
   DomainName: string;
 }
@@ -1005,8 +1012,8 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   AcceptDomainTransferFromAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<AcceptDomainTransferFromAnotherAwsAccountResponse>,
   errors: [DomainLimitExceeded, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1041,7 +1048,7 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AssociateDelegationSignerToDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<AssociateDelegationSignerToDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<AssociateDelegationSignerToDomainResponse>,
   errors: [
     DnssecLimitExceeded,
     DuplicateRequest,
@@ -1079,7 +1086,7 @@ export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<CancelDomainTransferToAnotherAwsAccountResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1171,7 +1178,7 @@ export const deleteDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<DeleteDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [DuplicateRequest, InvalidInput, TLDRulesViolation, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1250,7 +1257,7 @@ export const disableDomainTransferLock: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DisableDomainTransferLockRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<DisableDomainTransferLockResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<DisableDomainTransferLockResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1283,7 +1290,7 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<DisassociateDelegationSignerFromDomainResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1351,7 +1358,7 @@ export const enableDomainTransferLock: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<EnableDomainTransferLockRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<EnableDomainTransferLockResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<EnableDomainTransferLockResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1700,7 +1707,7 @@ export const registerDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<RegisterDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<RegisterDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<RegisterDomainResponse>,
   errors: [
     DomainLimitExceeded,
     DuplicateRequest,
@@ -1735,7 +1742,7 @@ export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<RejectDomainTransferFromAnotherAwsAccountResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1769,7 +1776,7 @@ export const renewDomain: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<RenewDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<RenewDomainResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<RenewDomainResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -1832,6 +1839,50 @@ export const resendOperationAuthorization: API.OperationMethod<
   span: "ResendOperationAuthorization",
 }));
 
+export type RestoreDomainError =
+  | DuplicateRequest
+  | InvalidInput
+  | OperationLimitExceeded
+  | UnsupportedTLD
+  | CommonErrors;
+/**
+ * Restores a domain that has expired, or was deleted, before it becomes available
+ * for others to register. The cost of restoring your domain is billed to your Amazon Web Services account.
+ *
+ * Not every TLD registry supports restoring domains, and the period during which a
+ * domain can be restored varies by TLD. To find out whether your domain can be restored
+ * and the period during which you can restore it, see Domains that you can
+ * register with Amazon Route 53 in the Amazon Route 53 Developer
+ * Guide.
+ *
+ * Restoring a domain typically costs more, and sometimes much more, than registering
+ * or renewing a domain. To get the restoration price for a domain before you restore
+ * it, use GetDomainPrices.
+ *
+ * Restoration is asynchronous. The response includes an operation ID that you can use
+ * with GetOperationDetail to track the progress of the request. When the restoration
+ * succeeds, the domain reappears in the response to ListDomains.
+ *
+ * For more information, see Restoring an
+ * expired or deleted domain in the Amazon Route 53 Developer
+ * Guide.
+ */
+export const restoreDomain: API.OperationMethod<
+  RestoreDomainRequest & RegionInput,
+  RestoreDomainResponse,
+  RestoreDomainError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c34, 0) as any as S.Schema<RestoreDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<RestoreDomainResponse>,
+  errors: [DuplicateRequest, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RestoreDomain",
+  telemetry: TELEMETRY,
+  span: "RestoreDomain",
+}));
+
 export type RetrieveDomainAuthCodeError =
   | InvalidInput
   | TLDInMaintenance
@@ -1848,8 +1899,8 @@ export const retrieveDomainAuthCode: API.OperationMethod<
   RetrieveDomainAuthCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<RetrieveDomainAuthCodeRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<RetrieveDomainAuthCodeResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<RetrieveDomainAuthCodeRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<RetrieveDomainAuthCodeResponse>,
   errors: [InvalidInput, TLDInMaintenance, UnsupportedTLD, DomainNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1908,8 +1959,8 @@ export const transferDomain: API.OperationMethod<
   TransferDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<TransferDomainRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<TransferDomainResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<TransferDomainRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<TransferDomainResponse>,
   errors: [
     DomainLimitExceeded,
     DuplicateRequest,
@@ -1959,8 +2010,8 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
   TransferDomainToAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<TransferDomainToAnotherAwsAccountRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<TransferDomainToAnotherAwsAccountResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<TransferDomainToAnotherAwsAccountRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<TransferDomainToAnotherAwsAccountResponse>,
   errors: [DuplicateRequest, InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1991,8 +2042,8 @@ export const updateDomainContact: API.OperationMethod<
   UpdateDomainContactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<UpdateDomainContactRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<UpdateDomainContactResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<UpdateDomainContactRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainContactResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -2043,8 +2094,8 @@ export const updateDomainContactPrivacy: API.OperationMethod<
   UpdateDomainContactPrivacyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<UpdateDomainContactPrivacyRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<UpdateDomainContactPrivacyResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<UpdateDomainContactPrivacyRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainContactPrivacyResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -2082,8 +2133,8 @@ export const updateDomainNameservers: API.OperationMethod<
   UpdateDomainNameserversError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<UpdateDomainNameserversRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<UpdateDomainNameserversResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<UpdateDomainNameserversRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<UpdateDomainNameserversResponse>,
   errors: [
     DuplicateRequest,
     InvalidInput,
@@ -2116,7 +2167,7 @@ export const updateTagsForDomain: API.OperationMethod<
   UpdateTagsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<UpdateTagsForDomainRequest>,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateTagsForDomainRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateTagsForDomainResponse>,
   errors: [InvalidInput, OperationLimitExceeded, UnsupportedTLD],
   protocol: AwsProtocol,
@@ -2137,8 +2188,8 @@ export const viewBilling: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillingRecord
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ViewBillingRequest>,
-  output: __S(331, __c41, 3) as any as S.Schema<ViewBillingResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ViewBillingRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<ViewBillingResponse>,
   errors: [InvalidInput],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2718,6 +2769,16 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ DomainName: S.String, Consent: S.optional(__S(232, __c29, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RestoreDomainRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ DomainName: S.String }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
@@ -2728,7 +2789,7 @@ function __c34(j: number): any {
       );
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2752,7 +2813,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TransferDomainRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2768,7 +2829,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "TransferDomainToAnotherAwsAccountResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2783,7 +2844,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateDomainContactRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2797,7 +2858,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateDomainContactPrivacyRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2809,7 +2870,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateDomainNameserversRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2819,7 +2880,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateTagsForDomainRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2841,17 +2902,17 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "BillingRecord" });
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextPageMarker: S.optional(S.String),
-          BillingRecords: S.optional(__S(330, __c41, 2)),
+          BillingRecords: S.optional(__S(338, __c42, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ViewBillingResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2861,7 +2922,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AcceptDomainTransferFromAnotherAwsAccountRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ OperationId: S.optional(S.String) }).pipe(ns)).annotate({

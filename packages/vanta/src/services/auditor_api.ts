@@ -278,8 +278,10 @@ export type FrameworkId =
   | "SOX_ITGC"
   | "UK_CYBER_ESSENTIALS"
   | "US_DATA_PRIVACY";
+/** The framework's id, such as `soc2` or the id of a custom framework. The `FrameworkId` enum values are deprecated aliases that are still accepted. */
 export type FrameworkSectionFrameworkId = FrameworkId | string;
 export interface FrameworkSection {
+  /** The framework's id, such as `soc2` or the id of a custom framework. The `FrameworkId` enum values are deprecated aliases that are still accepted. */
   frameworkId: FrameworkSectionFrameworkId;
   sectionId: string;
 }
@@ -449,6 +451,7 @@ export interface DuplicateRequest {
 /** Emails of auditors with access to audit */
 export type AuditAllowAuditorEmailsList = Array<string>;
 export type AuditFocus = "EXTERNAL" | "INTERNAL";
+export type AuditView = "FULL" | "CONTROLLED";
 export type AuditIrlGenerationStatus = "PENDING" | "RUNNING" | "READY" | "FAILED";
 /** Metadata about the auditor request list. This field is only present for IRL (Information Request List) based audits and will be undefined for standard audits. Use the presence of this field to differentiate between IRL and non-IRL audits. */
 export interface AuditAuditorRequestListMetadata {
@@ -536,6 +539,8 @@ export interface Audit {
   completionDate: string | null;
   /** Audit focus determines if the audit is internal or external facing */
   auditFocus: AuditFocus;
+  /** How much population data the auditor can see: `FULL` (Full Audit View) or `CONTROLLED` (Controlled Audit View). Some population endpoints serve only one view; each endpoint's description says which. */
+  auditView: AuditView;
   /** Generation status of this audit's Vanta-generated information request list (IRL). `PENDING`/`RUNNING` defer initial sync, `READY` permits a full sync, and `FAILED` is terminal. Null means the audit has no generated IRL. */
   irlGenerationStatus: AuditIrlGenerationStatus | null;
   /** Metadata about the auditor request list. This field is only present for IRL (Information Request List) based audits and will be undefined for standard audits. Use the presence of this field to differentiate between IRL and non-IRL audits. */
@@ -651,6 +656,8 @@ export type InformationRequestSupportedEvidenceType =
   | "VANTA_POLICY"
   | "VANTA_TEST"
   | "VANTA_TEST_SNAPSHOT";
+/** IDs of the audit segments this evidence was relevant to when captured. Empty for uploaded, link and observation evidence, and for evidence captured before attribution was recorded. */
+export type InformationRequestEvidenceCapturedSegmentIdsList = Array<string>;
 /** Evidence in the form of an uploaded document file. The URL is a temporary presigned URL that expires after a certain period. */
 export interface UploadedDocumentEvidence {
   /** The unique identifier for the uploaded document in Vanta's system. */
@@ -773,7 +780,7 @@ export interface VantaTestEvidenceFile {
   /** A presigned URL for downloading the evidence file. This URL is temporary and expires after a limited time. Request a new evidence list to get a fresh URL if expired. */
   url: string;
 }
-/** Evidence in the form of a Vanta automated test run. Vanta Tests are automated compliance tests with metadata like test status, execution time, and file type. Tests generate evidence files that can be workpapers, raw data, or API request logs. */
+/** Evidence in the form of a Vanta automated test run. Vanta Tests are automated compliance tests with metadata like test status, execution time, and file type. Tests generate evidence files that can be workpapers, raw data, or API request logs. Each file in a snapshot is returned as a separate evidence item. These items share `testId` and `snapshotId` and differ by `fileType`. */
 export interface VantaTestEvidence {
   /** The title of the test run as displayed in Vanta. */
   title: string;
@@ -823,7 +830,7 @@ export type InformationRequestEvidenceUnion =
   | VantaTestEvidence
   | VantaTestSnapshotEvidence;
 export interface InformationRequestEvidence {
-  /** The unique identifier for the evidence within Vanta's system. Format: ObjectId as a string (e.g., "6890e473dce1da5d8406f5e7"). */
+  /** The unique identifier for the evidence within Vanta's system. Use it as the key when you sync evidence of any type. Each evidence item has at most one file. A file attached to two information requests appears as two evidence items with different IDs. Format: ObjectId as a string (e.g., "6890e473dce1da5d8406f5e7"). */
   id: string;
   /** Type of evidence attached to this information request. Determines the structure of the `evidence` field. */
   evidenceType: InformationRequestSupportedEvidenceType;
@@ -835,6 +842,8 @@ export interface InformationRequestEvidence {
   modificationDate: string;
   /** Timestamp when the evidence was soft-deleted. Null if the evidence has not been deleted. Soft deletes retain evidence in the system for audit history while hiding it from normal operations. Format: ISO 8601 UTC timestamp. */
   deletionDate?: string | null | undefined;
+  /** IDs of the audit segments this evidence was relevant to when captured. Empty for uploaded, link and observation evidence, and for evidence captured before attribution was recorded. */
+  capturedSegmentIds: InformationRequestEvidenceCapturedSegmentIdsList;
   /** The evidence content. Structure varies based on evidenceType. */
   evidence: InformationRequestEvidenceUnion;
 }
@@ -1045,12 +1054,15 @@ export interface PaginatedResponseComment {
   results: PaginatedResponseCommentResults;
 }
 export type ListAuditControlsRequestExternalIdMatchesAnyList = Array<string>;
+export type ListAuditControlsRequestSegmentIdsMatchesAnyList = Array<string>;
 export interface ListAuditControlsRequest {
   auditId: string;
   pageSize?: number | undefined;
   pageCursor?: string | undefined;
   /** Filter controls whose externalId matches any of the provided values (exact, case-sensitive match). */
   externalIdMatchesAny?: ListAuditControlsRequestExternalIdMatchesAnyList | undefined;
+  /** Return only controls whose `inScopeSegmentIds` include at least one of these segment IDs from the audit's `segments[].id` (exact, case-sensitive). IDs that aren't segments on this audit match nothing. Repeat the parameter for several IDs, and send the same filters with every `pageCursor`. */
+  segmentIdsMatchesAny?: ListAuditControlsRequestSegmentIdsMatchesAnyList | undefined;
 }
 /** The security domains that the control belongs to. */
 export type AuditorControlDomainsList = Array<string>;
@@ -1415,12 +1427,16 @@ export interface ListCodeChangesRequest {
   /** Filter code changes closed on or before this date (ISO 8601) */
   closedBeforeDate?: string | undefined;
 }
+/** IDs of the audit segments this code change is in scope for. Omitted when segment scoping is disabled. */
+export type CodeChangeSegmentIdsList = Array<string>;
 /** Code change data. `id` and `codeChange` are required. All other fields are optional to support customizable field visibility. Omitted keys mean the column is not in the response; `null` means the column is present but empty. */
 export interface CodeChange {
   /** Code change record ID - always present. */
   id: string;
   /** Code change title (e.g. PR title) - always present. */
   codeChange: string;
+  /** IDs of the audit segments this code change is in scope for. Omitted when segment scoping is disabled. */
+  segmentIds?: CodeChangeSegmentIdsList | undefined;
   /** Code change identifier (e.g. PR number). */
   identifier?: string | undefined;
   /** Version control source where the change originated. Known values are listed in {@link ApiCodeChangeSource}; other strings may appear if a new source is onboarded before this enum is updated. */
@@ -1659,6 +1675,8 @@ export interface ListIntegrationsRequest {
   /** Filter integrations by category values */
   categoriesMatchesAny?: ListIntegrationsRequestCategoriesMatchesAnyList | undefined;
 }
+/** IDs of the audit segments this integration is in scope for. Omitted when segment scoping is disabled. */
+export type AuditIntegrationSegmentIdsList = Array<string>;
 /** Integration tag display names describing what data this integration provides. */
 export type AuditIntegrationTagsList = Array<string>;
 /** Category display names describing what the integration is used for. */
@@ -1669,6 +1687,8 @@ export interface AuditIntegration {
   id: string;
   /** Display name of the integration. */
   name: string;
+  /** IDs of the audit segments this integration is in scope for. Omitted when segment scoping is disabled. */
+  segmentIds?: AuditIntegrationSegmentIdsList | undefined;
   /** Integration tag display names describing what data this integration provides. */
   tags?: AuditIntegrationTagsList | undefined;
   /** Category display names describing what the integration is used for. */
@@ -1698,6 +1718,8 @@ export interface ListPersonnelAccountAccessRequest {
   /** Filter by account status */
   status?: AccountAccessStatus | (string & {}) | undefined;
 }
+/** IDs of the audit segments this account is in scope for. Omitted when segment attribution is unavailable or scoping is disabled. */
+export type AccountAccessSegmentIdsList = Array<string>;
 /** Account roles; empty array when the column is visible but has no roles. */
 export type AccountAccessRoleList = Array<string>;
 /** Account access record from personnel population. This unified interface represents account access data from all service types: - IDP services (Okta, Azure AD, Google Workspace, etc.) - First-party account services (AWS, Azure, GCP, Oracle Cloud, etc.) - Role grants services (GCP, Azure role grants) - Received/third-party applications Only `id` and `accountName` are always present. Other fields are optional so disallowed columns can be omitted (for example under controlled audit view). When an optional field is present, `null` means the column is visible but empty (only fields that are nullable in population data use `null`). */
@@ -1706,6 +1728,8 @@ export interface AccountAccess {
   id: string;
   /** Account name or email address (primary identifier). */
   accountName: string;
+  /** IDs of the audit segments this account is in scope for. Omitted when segment attribution is unavailable or scoping is disabled. */
+  segmentIds?: AccountAccessSegmentIdsList | undefined;
   /** Display name of the account owner, or null when the column is visible but unknown. */
   owner?: string | null | undefined;
   /** Account roles; empty array when the column is visible but has no roles. */
@@ -1745,6 +1769,8 @@ export interface ListPersonnelGroupsRequest {
   /** Sort direction: "asc" or "desc". Default: "asc" */
   orderDirection?: OrderDirection | (string & {}) | undefined;
 }
+/** IDs of the audit segments this group is in scope for. Omitted when segment scoping is disabled. */
+export type PersonnelGroupSegmentIdsList = Array<string>;
 /** A task assigned to a personnel group. */
 export interface PersonnelGroupTask {
   /** Task name */
@@ -1758,6 +1784,8 @@ export interface PersonnelGroup {
   id: string;
   /** Display name of the group. */
   name: string;
+  /** IDs of the audit segments this group is in scope for. Omitted when segment scoping is disabled. */
+  segmentIds?: PersonnelGroupSegmentIdsList | undefined;
   /** Number of people in this group within the audit scope. */
   members?: number | undefined;
   /** The source of this group. For IDP-synced groups, this is the provider name (e.g., "Okta", "Azure AD"). For manually created groups, this is "Vanta". */
@@ -1805,6 +1833,8 @@ export interface ListPersonnelPeopleRequest {
   /** Sort direction: "asc" or "desc". Default: "asc" */
   orderDirection?: OrderDirection | (string & {}) | undefined;
 }
+/** IDs of the audit segments this person is in scope for. Omitted when segment scoping is disabled. */
+export type PersonnelPersonSegmentIdsList = Array<string>;
 export interface PersonnelPersonGroupsItem {
   name: string;
 }
@@ -1865,6 +1895,8 @@ export interface PersonnelPerson {
   name: string;
   /** Email address of the person - always present. */
   email: string;
+  /** IDs of the audit segments this person is in scope for. Omitted when segment scoping is disabled. */
+  segmentIds?: PersonnelPersonSegmentIdsList | undefined;
   /** Job title from HR system, or null if not available. */
   jobTitle?: string | null | undefined;
   /** Employment status, or null if not available. */
@@ -1955,6 +1987,8 @@ export interface ListVendorsRequest {
   /** Sort direction: "asc" or "desc". Default: "asc" */
   orderDirection?: OrderDirection | (string & {}) | undefined;
 }
+/** IDs of the audit segments this vendor is in scope for. Omitted when segment scoping is disabled. */
+export type AuditVendorSegmentIdsList = Array<string>;
 /** BAA/DPA document completion counts, or null if no such documents are required. Full Audit View only - omitted in Controlled Audit View. */
 export interface AuditVendorDataAgreements {
   total: number;
@@ -1966,6 +2000,8 @@ export interface AuditVendor {
   id: string;
   /** Vendor name. */
   name: string;
+  /** IDs of the audit segments this vendor is in scope for. Omitted when segment scoping is disabled. */
+  segmentIds?: AuditVendorSegmentIdsList | undefined;
   /** Inherent risk level of the vendor. */
   inherentRisk?: AuditVendorRiskLevel | undefined;
   /** Vendor status. */
@@ -1978,6 +2014,8 @@ export interface AuditVendor {
   nextSecurityReviewDueDate?: string | null | undefined;
   /** Vendor category (e.g. cloud provider, SaaS). */
   vendorCategory?: string | null | undefined;
+  /** ID of the vendor's category. */
+  vendorCategoryId?: string | null | undefined;
   /** Residual risk level of the vendor. Full Audit View only - omitted in Controlled Audit View. */
   residualRisk?: AuditVendorRiskLevel | null | undefined;
   /** BAA/DPA document completion counts, or null if no such documents are required. Full Audit View only - omitted in Controlled Audit View. */
@@ -2435,7 +2473,7 @@ export const getInformationRequestTestSnapshotEvidenceDetail: API.OperationMetho
 }));
 
 export type GetOrganizationInformationError = VantaOpError;
-/** Get organization information for an audit Retrieves organization information for an audit. This endpoint returns a single record containing the organization's business information visible to auditors during an audit engagement. Sorting and pagination are not applicable. Rate limit: 10 requests / minute. */
+/** Get organization information for an audit Retrieves organization information for an audit. This endpoint returns a single record containing the organization's business information visible to auditors during an audit engagement. Sorting and pagination are not applicable. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const getOrganizationInformation: API.OperationMethod<
   GetOrganizationInformationRequest,
   AuditOrganizationInformation,
@@ -2452,7 +2490,7 @@ export const getOrganizationInformation: API.OperationMethod<
 }));
 
 export type GetOrganizationNotificationsError = VantaOpError;
-/** Get organization notification settings for an audit Retrieves organization notification settings for an audit. This endpoint returns a single record containing the auditee organization's notification configuration -- schedule, personnel reminder settings, and external notification subscriptions (Compliance, Vendors, Access Reviews, Trust Center). The response is a single aggregate object per domain. Sorting and pagination are not applicable. Under a controlled audit view (TRIMMED_DOWN), only CAV-approved fields are included. Rate limit: 10 requests / minute. */
+/** Get organization notification settings for an audit Retrieves organization notification settings for an audit. This endpoint returns a single record containing the auditee organization's notification configuration -- schedule, personnel reminder settings, and external notification subscriptions (Compliance, Vendors, Access Reviews, Trust Center). The response is a single aggregate object per domain. Sorting and pagination are not applicable. Only CAV-approved fields are included. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const getOrganizationNotifications: API.OperationMethod<
   GetOrganizationNotificationsRequest,
   AuditOrganizationNotifications,
@@ -2469,7 +2507,7 @@ export const getOrganizationNotifications: API.OperationMethod<
 }));
 
 export type ListAccountAccessServicesError = VantaOpError;
-/** List account access services for an audit Retrieves connected account access services for an audit. Returns the list of identity providers and access integrations (such as Okta, Azure AD, Google Workspace, AWS IAM) that are connected to the organization and provide account access data for personnel. These integrations are used to verify user access and identity management during an audit engagement. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are returned in connection order. Sort order is not guaranteed and cannot be customized via query parameters. Returns 422 when the audit does not have exactly one program segment (multi-framework audits are not supported on this endpoint). Rate limit: 10 requests / minute. */
+/** List account access services for an audit Retrieves connected account access services for an audit. Returns the list of identity providers and access integrations (such as Okta, Azure AD, Google Workspace, AWS IAM) that are connected to the organization and provide account access data for personnel. These integrations are used to verify user access and identity management during an audit engagement. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are returned in connection order. Sort order is not guaranteed and cannot be customized via query parameters. On an audit that covers more than one framework, each service in scope for any of the audit's frameworks is listed once. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listAccountAccessServices: API.OperationMethod<
   ListAccountAccessServicesRequest,
   PaginatedResponseAccountAccessService,
@@ -2571,7 +2609,7 @@ export const listAuditIssues: API.OperationMethod<
 }));
 
 export type ListAuditRisksError = VantaOpError;
-/** List risks for an audit Retrieves risk population data for an audit. This endpoint provides access to the risk records visible to auditors during an audit engagement. Risk data is scoped to a specific risk assessment snapshot identified by the `snapshotId` parameter. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Supports filtering by: - `search`: Searches risk scenario descriptions (case-insensitive) Results are sorted by identified date (newest first) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Rate limit: 10 requests / minute. */
+/** List risks for an audit Retrieves risk population data for an audit. This endpoint provides access to the risk records visible to auditors during an audit engagement. Risk data is scoped to a specific risk assessment snapshot identified by the `snapshotId` parameter. Supports filtering by: - `search`: Searches risk scenario descriptions (case-insensitive) Results are sorted by identified date (newest first) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Also returns 403 if the snapshot is not shared with auditors, and 404 if the snapshot does not exist. Use snapshot IDs from `GET /audits/{auditId}/risks/snapshots`, which lists only snapshots shared with auditors. Rate limit: 10 requests / minute. */
 export const listAuditRisks: API.OperationMethod<
   ListAuditRisksRequest,
   PaginatedResponseAuditRisk,
@@ -2622,7 +2660,7 @@ export const listAuditSnapshots: API.OperationMethod<
 }));
 
 export type ListCodeChangesError = VantaOpError;
-/** List code changes for an audit Retrieves code changes population data for an audit. This endpoint provides access to code change records (pull requests) visible to auditors during an audit engagement. Supports filtering by: - `search`: Searches code change titles and repository names (case-insensitive) - `sourcesMatchesAny`: Filters by version control source (accepted values: github, gitlab, bitbucket, azuredevops) - `closedAfterDate` / `closedBeforeDate`: Filters by the closed date range Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are sorted by closed date (newest first). This sort order is fixed and cannot be customized via query parameters. Returns 422 when the audit does not have exactly one program segment (multi-framework audits are not supported on this endpoint). Rate limit: 10 requests / minute. */
+/** List code changes for an audit Retrieves code changes population data for an audit. This endpoint provides access to code change records (pull requests) visible to auditors during an audit engagement. Supports filtering by: - `search`: Searches code change titles and repository names (case-insensitive) - `sourcesMatchesAny`: Filters by version control source (accepted values: github, gitlab, bitbucket, azuredevops) - `closedAfterDate` / `closedBeforeDate`: Filters by the closed date range Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are sorted by closed date (newest first). This sort order is fixed and cannot be customized via query parameters. On an audit that covers more than one framework, each code change in scope for any of the audit's frameworks is returned once. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listCodeChanges: API.OperationMethod<
   ListCodeChangesRequest,
   PaginatedResponseCodeChange,
@@ -2690,7 +2728,7 @@ export const listInformationRequestActivity: API.OperationMethod<
 }));
 
 export type ListInformationRequestEvidenceError = VantaOpError;
-/** List evidence for an information request Retrieves a paginated list of all evidence attached to an information request, enabling auditors to review evidence submitted by customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. If the information request itself has been deleted, this endpoint returns a 4xx HTTP error instead of its evidence. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only evidence created, modified, shared, or deleted since that timestamp is returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
+/** List evidence for an information request Retrieves a paginated list of all evidence attached to an information request, enabling auditors to review evidence submitted by customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. If the information request itself has been deleted, this endpoint returns a 4xx HTTP error instead of its evidence. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only evidence created, modified, shared, or deleted since that timestamp is returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Identifying evidence and files: - Use `id` as the key for each evidence item, whatever its type. - To recognize the same file across information requests, use the file key for the evidence type. UPLOADED_DOCUMENT uses `evidence.id`. VANTA_DOCUMENT and VANTA_POLICY use `evidence.file.id`, which identifies the source document or policy file. VANTA_TEST uses `evidence.snapshotId` plus `evidence.fileType`. LINK, OBSERVATION, and VANTA_TEST_SNAPSHOT evidence has no file. - Do not use `file.url` as a key. It is a temporary download link. Rate limit: 50 requests / minute. */
 export const listInformationRequestEvidence: API.OperationMethod<
   ListInformationRequestEvidenceRequest,
   PaginatedResponseInformationRequestEvidence,
@@ -2741,7 +2779,7 @@ export const listInformationRequestsForControl: API.OperationMethod<
 }));
 
 export type ListIntegrationsError = VantaOpError;
-/** List integrations for an audit Retrieves integration population data for an audit. This endpoint provides access to integration records visible to auditors during an audit engagement. Integrations represent connected services (e.g., GitHub, AWS, Slack) that provide data for the audit. Supports filtering by: - `search`: Searches integration names (case-insensitive) - `tagsMatchesAny`: Filters by integration tag (ACCESS, COMPUTERS, etc.) - `categoriesMatchesAny`: Filters by category (CLOUD_PROVIDER, HR_PROVIDER, etc.) Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are sorted by integration display name (ascending). This sort order is fixed and cannot be customized via query parameters. Rate limit: 10 requests / minute. */
+/** List integrations for an audit Retrieves integration population data for an audit. This endpoint provides access to integration records visible to auditors during an audit engagement. Integrations represent connected services (e.g., GitHub, AWS, Slack) that provide data for the audit. Supports filtering by: - `search`: Searches integration names (case-insensitive) - `tagsMatchesAny`: Filters by integration tag (ACCESS, COMPUTERS, etc.) - `categoriesMatchesAny`: Filters by category (CLOUD_PROVIDER, HR_PROVIDER, etc.) Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Results are sorted by integration display name (ascending). This sort order is fixed and cannot be customized via query parameters. Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listIntegrations: API.OperationMethod<
   ListIntegrationsRequest,
   PaginatedResponseAuditIntegration,
@@ -2758,7 +2796,7 @@ export const listIntegrations: API.OperationMethod<
 }));
 
 export type ListPersonnelAccountAccessError = VantaOpError;
-/** List account access records for an audit Retrieves account access population data for an audit. This endpoint provides access to account access records visible to auditors during an audit engagement. Account access data comes from various sources: - **IDP Services** (Identity Providers): Okta, Azure AD, Google Workspace, OneLogin, PingOne - Returns user accounts from identity providers - Supports filtering by search and status - **Role Grants Services**: GCP, Azure (when role grants are enabled) - Returns accounts with role-based access grants - Supports filtering by search and status - **First-Party Account Services**: AWS, Oracle Cloud, Azure (when not using role grants), etc. - Returns cloud provider account access records - Supports filtering by search and status - **Received Account Services**: External applications (Jira, GitHub, Slack, etc.) - Returns user accounts from third-party integrations - Supports filtering by search and status Supports filtering by: - `search`: Searches account names/emails (case-insensitive) - `status`: Filters by account status Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request The default sort order depends on the service type: - Identity provider services (e.g. Okta, Azure AD): sorted by email, ascending - Cloud provider services (e.g. AWS, GCP): sorted by account name, ascending - Role grant services: sorted by account name, ascending - Third-party application services (e.g. GitHub, Jira): sorted by account name, ascending Sort order cannot be customized via query parameters. Returns 422 when the audit does not have exactly one program segment (multi-framework audits are not supported on this endpoint). Rate limit: 10 requests / minute. */
+/** List account access records for an audit Retrieves account access population data for an audit. This endpoint provides access to account access records visible to auditors during an audit engagement. Account access data comes from various sources: - **IDP Services** (Identity Providers): Okta, Azure AD, Google Workspace, OneLogin, PingOne - Returns user accounts from identity providers - Supports filtering by search and status - **Role Grants Services**: GCP, Azure (when role grants are enabled) - Returns accounts with role-based access grants - Supports filtering by search and status - **First-Party Account Services**: AWS, Oracle Cloud, Azure (when not using role grants), etc. - Returns cloud provider account access records - Supports filtering by search and status - **Received Account Services**: External applications (Jira, GitHub, Slack, etc.) - Returns user accounts from third-party integrations - Supports filtering by search and status Supports filtering by: - `search`: Searches account names/emails (case-insensitive) - `status`: Filters by account status Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request The default sort order depends on the service type: - Identity provider services (e.g. Okta, Azure AD): sorted by email, ascending - Cloud provider services (e.g. AWS, GCP): sorted by account name, ascending - Role grant services: sorted by account name, ascending - Third-party application services (e.g. GitHub, Jira): sorted by account name, ascending Sort order cannot be customized via query parameters. Returns 404 when `serviceId` is not listed by the `/personnel/account-access/services` endpoint for this audit. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listPersonnelAccountAccess: API.OperationMethod<
   ListPersonnelAccountAccessRequest,
   PaginatedResponseAccountAccess,
@@ -2775,7 +2813,7 @@ export const listPersonnelAccountAccess: API.OperationMethod<
 }));
 
 export type ListPersonnelGroupsError = VantaOpError;
-/** List groups for an audit Retrieves groups population data for an audit. This endpoint provides access to the group records visible to auditors during an audit engagement. Groups represent organizational units that contain people, either imported from an identity provider (IDP) or created manually in Vanta. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Supports filtering by: - `search`: Searches group names (case-insensitive) - `sourcesMatchesAny`: Filters by IDP source service names Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Rate limit: 10 requests / minute. */
+/** List groups for an audit Retrieves groups population data for an audit. This endpoint provides access to the group records visible to auditors during an audit engagement. Groups represent organizational units that contain people, either imported from an identity provider (IDP) or created manually in Vanta. Supports filtering by: - `search`: Searches group names (case-insensitive) - `sourcesMatchesAny`: Filters by IDP source service names Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listPersonnelGroups: API.OperationMethod<
   ListPersonnelGroupsRequest,
   PaginatedResponsePersonnelGroup,
@@ -2792,7 +2830,7 @@ export const listPersonnelGroups: API.OperationMethod<
 }));
 
 export type ListPersonnelPeopleError = VantaOpError;
-/** List people for an audit Retrieves people population data for an audit. This endpoint provides access to the people records visible to auditors during an audit engagement. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Supports filtering by: - `search`: Searches names and email addresses - `status`: Filters by employment status - `groupsMatchesAny`: Filter people by group/role IDs Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Rate limit: 10 requests / minute. */
+/** List people for an audit Retrieves people population data for an audit. This endpoint provides access to the people records visible to auditors during an audit engagement. Supports filtering by: - `search`: Searches names and email addresses - `status`: Filters by employment status - `groupsMatchesAny`: Filter people by group/role IDs Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listPersonnelPeople: API.OperationMethod<
   ListPersonnelPeopleRequest,
   PaginatedResponsePersonnelPerson,
@@ -2809,7 +2847,7 @@ export const listPersonnelPeople: API.OperationMethod<
 }));
 
 export type ListRiskSnapshotsError = VantaOpError;
-/** List risk snapshots for an audit Returns a paginated list of risk assessment snapshots available for an audit. Risk snapshots capture the state of an organization's risk register at a point in time. Each snapshot has an `id` that can be used with the `/audits/{auditId}/risks` endpoint to retrieve the individual risk scenarios within that snapshot. Results are sorted by creation date (newest first). This sort order is fixed and cannot be customized via query parameters. Only snapshots that are shared with auditors are included. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Rate limit: 10 requests / minute. */
+/** List risk snapshots for an audit Returns a paginated list of risk assessment snapshots available for an audit. Risk snapshots capture the state of an organization's risk register at a point in time. Each snapshot has an `id` that can be used with the `/audits/{auditId}/risks` endpoint to retrieve the individual risk scenarios within that snapshot. Results are sorted by creation date (newest first). This sort order is fixed and cannot be customized via query parameters. Only snapshots that are shared with auditors are included. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listRiskSnapshots: API.OperationMethod<
   ListRiskSnapshotsRequest,
   PaginatedResponseRiskSnapshot,
@@ -2843,7 +2881,7 @@ export const listShareInformationRequest: API.OperationMethod<
 }));
 
 export type ListVendorsError = VantaOpError;
-/** List vendors for an audit Retrieves vendor population data for an audit. This endpoint provides access to vendor records visible to auditors during an audit engagement. Supports filtering by: - `search`: Searches vendor names (case-insensitive) - `vendorStatusesMatchesAny`: Filters by vendor status (ACTIVE, ARCHIVED, IN_PROCUREMENT) - `inherentRiskMatchesAny`: Filters by inherent risk level Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Rate limit: 10 requests / minute. */
+/** List vendors for an audit Retrieves vendor population data for an audit. This endpoint provides access to vendor records visible to auditors during an audit engagement. Supports filtering by: - `search`: Searches vendor names (case-insensitive) - `vendorStatusesMatchesAny`: Filters by vendor status (ACTIVE, ARCHIVED, IN_PROCUREMENT) - `inherentRiskMatchesAny`: Filters by inherent risk level Results are sorted by name (ascending) by default. Use `orderBy` and `orderDirection` to customize sorting. Sort parameters must remain consistent across paginated requests. Uses cursor-based pagination. To paginate: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` 3. Use `results.pageInfo.endCursor` as `pageCursor` for next request Supports audits with one or more program segments. Audits with system segments are not supported by this endpoint. Only Controlled Audit View (CAV) audits are supported. Full Audit View audits are rejected with 403. Returns 403 if the customer has not made this population page visible to auditors. Rate limit: 10 requests / minute. */
 export const listVendors: API.OperationMethod<
   ListVendorsRequest,
   PaginatedResponseAuditVendor,
@@ -3117,6 +3155,7 @@ function __c7(j: number): any {
           modificationDate: S.NullOr(S.String),
           completionDate: S.NullOr(S.String),
           auditFocus: S.String,
+          auditView: S.String,
           irlGenerationStatus: S.NullOr(S.String),
           auditorRequestListMetadata: S.optional(__S(224, __c7, 0)),
           segments: __S(229, __c7, 5),
@@ -3304,6 +3343,7 @@ function __c17(j: number): any {
           creationDate: S.String,
           modificationDate: S.String,
           deletionDate: S.optional(S.NullOr(S.String)),
+          capturedSegmentIds: __S(32, __c1, 0),
           evidence: S.Unknown,
         }),
       ).annotate({ identifier: "InformationRequestEvidence" });
@@ -3618,6 +3658,7 @@ function __c26(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageCursor: S.optional(S.String.pipe(T.Query())),
           externalIdMatchesAny: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          segmentIdsMatchesAny: S.optional(__S(32, __c1, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/controls", code: 200 })),
       ).annotate({ identifier: "ListAuditControlsRequest" });
     case 1:
@@ -3993,6 +4034,7 @@ function __c35(j: number): any {
         S.Struct({
           id: S.String,
           codeChange: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           identifier: S.optional(S.String),
           service: S.optional(S.String),
           repository: S.optional(S.String),
@@ -4234,6 +4276,7 @@ function __c44(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(32, __c1, 0)),
           categories: S.optional(__S(32, __c1, 0)),
         }),
@@ -4299,6 +4342,7 @@ function __c46(j: number): any {
         S.Struct({
           id: S.String,
           accountName: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           owner: S.optional(S.NullOr(S.String)),
           role: S.optional(__S(32, __c1, 0)),
           status: S.optional(S.String),
@@ -4343,6 +4387,7 @@ function __c47(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           members: S.optional(S.Number),
           source: S.optional(S.String),
           tasks: S.optional(__S(1537, __c48, 1)),
@@ -4426,6 +4471,7 @@ function __c49(j: number): any {
           id: S.String,
           name: S.String,
           email: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           jobTitle: S.optional(S.NullOr(S.String)),
           employmentStatus: S.optional(S.NullOr(S.String)),
           startDate: S.optional(S.NullOr(S.String)),
@@ -4536,12 +4582,14 @@ function __c52(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
+          segmentIds: S.optional(__S(32, __c1, 0)),
           inherentRisk: S.optional(S.String),
           status: S.optional(S.String),
           findings: S.optional(S.Number),
           lastReviewedCompleted: S.optional(S.NullOr(S.String)),
           nextSecurityReviewDueDate: S.optional(S.NullOr(S.String)),
           vendorCategory: S.optional(S.NullOr(S.String)),
+          vendorCategoryId: S.optional(S.NullOr(S.String)),
           residualRisk: S.optional(S.NullOr(S.String)),
           dataAgreements: S.optional(S.NullOr(__S(1665, __c52, 1))),
         }),

@@ -138,45 +138,6 @@ export interface CreateCertificatePackRequest {
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
   cloudflareBranding?: boolean | undefined;
 }
-export type CertificatePacksCreateResponseCertificatesItemHostsList = Array<string>;
-export type CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel =
-  | "us"
-  | "eu"
-  | "highest_security";
-export interface CertificatePacksCreateResponseCertificatesItemGeoRestrictions {
-  label?: CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel | null | undefined;
-}
-export interface CertificatePacksCreateResponseCertificatesItem {
-  /** Certificate identifier. */
-  id: string;
-  /** Hostnames covered by this certificate. */
-  hosts: CertificatePacksCreateResponseCertificatesItemHostsList;
-  /** Certificate status. */
-  status: string;
-  /** Certificate bundle method. */
-  bundleMethod?: string | null | undefined;
-  /** When the certificate from the authority expires. */
-  expiresOn?: string | null | undefined;
-  /** Specify the region where your private key can be held locally. */
-  geoRestrictions?:
-    | CertificatePacksCreateResponseCertificatesItemGeoRestrictions
-    | null
-    | undefined;
-  /** The certificate authority that issued the certificate. */
-  issuer?: string | null | undefined;
-  /** When the certificate was last modified. */
-  modifiedOn?: string | null | undefined;
-  /** The order/priority in which the certificate will be used. */
-  priority?: number | null | undefined;
-  /** The type of hash used for the certificate. */
-  signature?: string | null | undefined;
-  /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null | undefined;
-  /** Identifier. */
-  zoneId?: string | null | undefined;
-}
-export type CertificatePacksCreateResponseCertificatesList =
-  Array<CertificatePacksCreateResponseCertificatesItem>;
 export type CertificatePacksCreateResponseHostsList = Array<string>;
 export type CertificatePacksCreateResponseStatus =
   | "initializing"
@@ -213,62 +174,12 @@ export type CertificatePacksCreateResponseCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export type CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList = Array<string>;
-export interface CertificatePacksCreateResponseDcvDelegationRecordsItem {
-  /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null | undefined;
-  /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null | undefined;
-  /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList | null | undefined;
-  /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null | undefined;
-  /** The url that will be checked during domain validation. */
-  httpUrl?: string | null | undefined;
-  /** Status of the validation record. */
-  status?: string | null | undefined;
-  /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null | undefined;
-  /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null | undefined;
-}
-export type CertificatePacksCreateResponseDcvDelegationRecordsList =
-  Array<CertificatePacksCreateResponseDcvDelegationRecordsItem>;
-export interface CertificatePacksCreateResponseValidationErrorsItem {
-  /** A domain validation error. */
-  message?: string | null | undefined;
-}
-export type CertificatePacksCreateResponseValidationErrorsList =
-  Array<CertificatePacksCreateResponseValidationErrorsItem>;
 export type CertificatePacksCreateResponseValidationMethod = "txt" | "http" | "email";
-export type CertificatePacksCreateResponseValidationRecordsItemEmailsList = Array<string>;
-export interface CertificatePacksCreateResponseValidationRecordsItem {
-  /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null | undefined;
-  /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null | undefined;
-  /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksCreateResponseValidationRecordsItemEmailsList | null | undefined;
-  /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null | undefined;
-  /** The url that will be checked during domain validation. */
-  httpUrl?: string | null | undefined;
-  /** Status of the validation record. */
-  status?: string | null | undefined;
-  /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null | undefined;
-  /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null | undefined;
-}
-export type CertificatePacksCreateResponseValidationRecordsList =
-  Array<CertificatePacksCreateResponseValidationRecordsItem>;
 export type CertificatePacksCreateResponseValidityDays = 14 | 30 | 90 | 365;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCertificatePackResponse {
   /** The unique identifier for a certificate_pack. */
   id: string;
-  /** Array of certificates in this pack. */
-  certificates: CertificatePacksCreateResponseCertificatesList;
   /** Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty. */
   hosts: CertificatePacksCreateResponseHostsList;
   /** Status of certificate pack. */
@@ -277,18 +188,8 @@ export interface CreateCertificatePackResponse {
   type: CertificatePacksCreateResponseType;
   /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities). */
   certificateAuthority?: CertificatePacksCreateResponseCertificateAuthority | null | undefined;
-  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean | null | undefined;
-  /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePacksCreateResponseDcvDelegationRecordsList | null | undefined;
-  /** Identifier of the primary certificate in a pack. */
-  primaryCertificate?: string | null | undefined;
-  /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePacksCreateResponseValidationErrorsList | null | undefined;
   /** Validation Method selected for the order. */
   validationMethod?: CertificatePacksCreateResponseValidationMethod | null | undefined;
-  /** Certificates' validation records. */
-  validationRecords?: CertificatePacksCreateResponseValidationRecordsList | null | undefined;
   /** Validity Days selected for the order. */
   validityDays?: CertificatePacksCreateResponseValidityDays | null | undefined;
 }
@@ -426,10 +327,12 @@ export interface CertificatePacksGetResponseDcvDelegationRecordsItem {
 }
 export type CertificatePacksGetResponseDcvDelegationRecordsList =
   Array<CertificatePacksGetResponseDcvDelegationRecordsItem>;
-export type CertificatePacksGetResponseValidationErrorsItem =
-  CertificatePacksCreateResponseValidationErrorsItem;
+export interface CertificatePacksGetResponseValidationErrorsItem {
+  /** A domain validation error. */
+  message?: string | null | undefined;
+}
 export type CertificatePacksGetResponseValidationErrorsList =
-  Array<CertificatePacksCreateResponseValidationErrorsItem>;
+  Array<CertificatePacksGetResponseValidationErrorsItem>;
 export type CertificatePacksGetResponseValidationMethod = "txt" | "http" | "email" | "cname";
 export type CertificatePacksGetResponseValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksGetResponseValidationRecordsItem {
@@ -688,9 +591,9 @@ export interface CertificatePacksListResultItemDcvDelegationRecordsItem {
 export type CertificatePacksListResultItemDcvDelegationRecordsList =
   Array<CertificatePacksListResultItemDcvDelegationRecordsItem>;
 export type CertificatePacksListResultItemValidationErrorsItem =
-  CertificatePacksCreateResponseValidationErrorsItem;
+  CertificatePacksGetResponseValidationErrorsItem;
 export type CertificatePacksListResultItemValidationErrorsList =
-  Array<CertificatePacksCreateResponseValidationErrorsItem>;
+  Array<CertificatePacksGetResponseValidationErrorsItem>;
 export type CertificatePacksListResultItemValidationMethod = "txt" | "http" | "email";
 export type CertificatePacksListResultItemValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksListResultItemValidationRecordsItem {
@@ -883,9 +786,9 @@ export interface CertificatePacksEditResponseDcvDelegationRecordsItem {
 export type CertificatePacksEditResponseDcvDelegationRecordsList =
   Array<CertificatePacksEditResponseDcvDelegationRecordsItem>;
 export type CertificatePacksEditResponseValidationErrorsItem =
-  CertificatePacksCreateResponseValidationErrorsItem;
+  CertificatePacksGetResponseValidationErrorsItem;
 export type CertificatePacksEditResponseValidationErrorsList =
-  Array<CertificatePacksCreateResponseValidationErrorsItem>;
+  Array<CertificatePacksGetResponseValidationErrorsItem>;
 export type CertificatePacksEditResponseValidationMethod = "txt" | "http" | "email";
 export type CertificatePacksEditResponseValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksEditResponseValidationRecordsItem {
@@ -995,7 +898,7 @@ export const createCertificatePack: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<CreateCertificatePackRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreateCertificatePackResponse>,
+  output: __S(97, __c12, 1) as any as S.Schema<CreateCertificatePackResponse>,
   errors: [AdvancedCertificateManagerRequired, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1015,8 +918,8 @@ export const deleteCertificatePack: API.OperationMethod<
   DeleteCertificatePackError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteCertificatePackRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<DeleteCertificatePackResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteCertificatePackRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<DeleteCertificatePackResponse>,
   errors: [
     CertificatePackNotFound,
     Forbidden,
@@ -1038,8 +941,8 @@ export const getAutomaticUpgrader: API.OperationMethod<
   GetAutomaticUpgraderError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetAutomaticUpgraderRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GetAutomaticUpgraderResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetAutomaticUpgraderRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<GetAutomaticUpgraderResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1055,8 +958,8 @@ export const getAutoOriginTlsKex: API.OperationMethod<
   GetAutoOriginTlsKexError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetAutoOriginTlsKexRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<GetAutoOriginTlsKexResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetAutoOriginTlsKexRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetAutoOriginTlsKexResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1072,8 +975,8 @@ export const getCertificatePack: API.OperationMethod<
   GetCertificatePackError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetCertificatePackRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetCertificatePackResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetCertificatePackRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<GetCertificatePackResponse>,
   errors: [CertificatePackNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1107,7 +1010,7 @@ export const getRecommendation: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetRecommendationRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GetRecommendationResponse>,
+  output: __S(128, __c16, 0) as any as S.Schema<GetRecommendationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1186,7 +1089,7 @@ export const patchAutomaticUpgrader: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<PatchAutomaticUpgraderRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<PatchAutomaticUpgraderResponse>,
+  output: __S(128, __c16, 0) as any as S.Schema<PatchAutomaticUpgraderResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1203,7 +1106,7 @@ export const patchAutoOriginTlsKex: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<PatchAutoOriginTlsKexRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<PatchAutoOriginTlsKexResponse>,
+  output: __S(144, __c18, 0) as any as S.Schema<PatchAutoOriginTlsKexResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1220,7 +1123,7 @@ export const patchCertificatePack: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<PatchCertificatePackRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PatchCertificatePackResponse>,
+  output: __S(168, __c21, 0) as any as S.Schema<PatchCertificatePackResponse>,
   errors: [CertificatePackNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1389,7 +1292,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          certificates: __S(107, __c13, 3),
+          certificates: __S(162, __c20, 2),
           hosts: __S(104, __c13, 0),
           status: S.String,
           type: S.String,
@@ -1398,15 +1301,15 @@ function __c5(j: number): any {
           ),
           cloudflareBranding: S.optional(S.NullOr(S.Boolean).pipe(T.Body("cloudflare_branding"))),
           dcvDelegationRecords: S.optional(
-            S.NullOr(__S(109, __c13, 5)).pipe(T.Body("dcv_delegation_records")),
+            S.NullOr(__S(164, __c20, 4)).pipe(T.Body("dcv_delegation_records")),
           ),
           primaryCertificate: S.optional(S.NullOr(S.String).pipe(T.Body("primary_certificate"))),
           validationErrors: S.optional(
-            S.NullOr(__S(111, __c13, 7)).pipe(T.Body("validation_errors")),
+            S.NullOr(__S(166, __c20, 6)).pipe(T.Body("validation_errors")),
           ),
           validationMethod: S.optional(S.NullOr(S.String).pipe(T.Body("validation_method"))),
           validationRecords: S.optional(
-            S.NullOr(__S(109, __c13, 5)).pipe(T.Body("validation_records")),
+            S.NullOr(__S(164, __c20, 4)).pipe(T.Body("validation_records")),
           ),
           validityDays: S.optional(S.NullOr(S.Number).pipe(T.Body("validity_days"))),
         }),
@@ -1562,95 +1465,29 @@ function __c12(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCertificatePackRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CertificatePacksCreateResponseCertificatesItemGeoRestrictions" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String,
-          hosts: __S(104, __c13, 0),
-          status: S.String,
-          bundleMethod: S.optional(S.NullOr(S.String).pipe(T.Body("bundle_method"))),
-          expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
-          geoRestrictions: S.optional(
-            S.NullOr(__S(105, __c13, 1)).pipe(T.Body("geo_restrictions")),
-          ),
-          issuer: S.optional(S.NullOr(S.String)),
-          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          priority: S.optional(S.NullOr(S.Number)),
-          signature: S.optional(S.NullOr(S.String)),
-          uploadedOn: S.optional(S.NullOr(S.String).pipe(T.Body("uploaded_on"))),
-          zoneId: S.optional(S.NullOr(S.String).pipe(T.Body("zone_id"))),
-        }),
-      ).annotate({ identifier: "CertificatePacksCreateResponseCertificatesItem" });
-    case 3:
-      return S.Array(__S(106, __c13, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          cname: S.optional(S.NullOr(S.String)),
-          cnameTarget: S.optional(S.NullOr(S.String).pipe(T.Body("cname_target"))),
-          emails: S.optional(S.NullOr(__S(104, __c13, 0))),
-          httpBody: S.optional(S.NullOr(S.String).pipe(T.Body("http_body"))),
-          httpUrl: S.optional(S.NullOr(S.String).pipe(T.Body("http_url"))),
-          status: S.optional(S.NullOr(S.String)),
-          txtName: S.optional(S.NullOr(S.String).pipe(T.Body("txt_name"))),
-          txtValue: S.optional(S.NullOr(S.String).pipe(T.Body("txt_value"))),
-        }),
-      ).annotate({ identifier: "CertificatePacksCreateResponseDcvDelegationRecordsItem" });
-    case 5:
-      return S.Array(__S(108, __c13, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CertificatePacksCreateResponseValidationErrorsItem" });
-    case 7:
-      return S.Array(__S(110, __c13, 6));
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          certificates: __S(107, __c13, 3),
           hosts: __S(104, __c13, 0),
           status: S.String,
           type: S.String,
           certificateAuthority: S.optional(
             S.NullOr(S.String).pipe(T.Body("certificate_authority")),
           ),
-          cloudflareBranding: S.optional(S.NullOr(S.Boolean).pipe(T.Body("cloudflare_branding"))),
-          dcvDelegationRecords: S.optional(
-            S.NullOr(__S(109, __c13, 5)).pipe(T.Body("dcv_delegation_records")),
-          ),
-          primaryCertificate: S.optional(S.NullOr(S.String).pipe(T.Body("primary_certificate"))),
-          validationErrors: S.optional(
-            S.NullOr(__S(111, __c13, 7)).pipe(T.Body("validation_errors")),
-          ),
           validationMethod: S.optional(S.NullOr(S.String).pipe(T.Body("validation_method"))),
-          validationRecords: S.optional(
-            S.NullOr(__S(109, __c13, 5)).pipe(T.Body("validation_records")),
-          ),
           validityDays: S.optional(S.NullOr(S.Number).pipe(T.Body("validity_days"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCertificatePackResponse" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1675,7 +1512,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteCertificatePackResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1693,7 +1530,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetAutomaticUpgraderRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1707,7 +1544,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetAutomaticUpgraderResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1725,7 +1562,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetAutoOriginTlsKexRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1737,7 +1574,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetAutoOriginTlsKexResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1754,6 +1591,90 @@ function __c20(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetCertificatePackRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CertificatePacksGetResponseCertificatesItemGeoRestrictions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          hosts: __S(104, __c13, 0),
+          status: S.String,
+          bundleMethod: S.optional(S.NullOr(S.String).pipe(T.Body("bundle_method"))),
+          expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
+          geoRestrictions: S.optional(
+            S.NullOr(__S(160, __c20, 0)).pipe(T.Body("geo_restrictions")),
+          ),
+          issuer: S.optional(S.NullOr(S.String)),
+          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+          priority: S.optional(S.NullOr(S.Number)),
+          signature: S.optional(S.NullOr(S.String)),
+          uploadedOn: S.optional(S.NullOr(S.String).pipe(T.Body("uploaded_on"))),
+          zoneId: S.optional(S.NullOr(S.String).pipe(T.Body("zone_id"))),
+        }),
+      ).annotate({ identifier: "CertificatePacksGetResponseCertificatesItem" });
+    case 2:
+      return S.Array(__S(161, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          cname: S.optional(S.NullOr(S.String)),
+          cnameTarget: S.optional(S.NullOr(S.String).pipe(T.Body("cname_target"))),
+          emails: S.optional(S.NullOr(__S(104, __c13, 0))),
+          httpBody: S.optional(S.NullOr(S.String).pipe(T.Body("http_body"))),
+          httpUrl: S.optional(S.NullOr(S.String).pipe(T.Body("http_url"))),
+          status: S.optional(S.NullOr(S.String)),
+          txtName: S.optional(S.NullOr(S.String).pipe(T.Body("txt_name"))),
+          txtValue: S.optional(S.NullOr(S.String).pipe(T.Body("txt_value"))),
+        }),
+      ).annotate({ identifier: "CertificatePacksGetResponseDcvDelegationRecordsItem" });
+    case 4:
+      return S.Array(__S(163, __c20, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CertificatePacksGetResponseValidationErrorsItem" });
+    case 6:
+      return S.Array(__S(165, __c20, 5));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          certificates: __S(162, __c20, 2),
+          hosts: __S(104, __c13, 0),
+          status: S.String,
+          type: S.String,
+          certificateAuthority: S.optional(
+            S.NullOr(S.String).pipe(T.Body("certificate_authority")),
+          ),
+          cloudflareBranding: S.optional(S.NullOr(S.Boolean).pipe(T.Body("cloudflare_branding"))),
+          dcvDelegationRecords: S.optional(
+            S.NullOr(__S(164, __c20, 4)).pipe(T.Body("dcv_delegation_records")),
+          ),
+          primaryCertificate: S.optional(S.NullOr(S.String).pipe(T.Body("primary_certificate"))),
+          validationErrors: S.optional(
+            S.NullOr(__S(166, __c20, 6)).pipe(T.Body("validation_errors")),
+          ),
+          validationMethod: S.optional(S.NullOr(S.String).pipe(T.Body("validation_method"))),
+          validationRecords: S.optional(
+            S.NullOr(__S(164, __c20, 4)).pipe(T.Body("validation_records")),
+          ),
+          validityDays: S.optional(S.NullOr(S.Number).pipe(T.Body("validity_days"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetCertificatePackResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -83,80 +83,24 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Options for caching cross-cloud data and metadata files. */
-export interface CrossCloudCacheOptions {
-  /** Optional. Whether cross-cloud caching is enabled. This only affects queries through BigQuery. If this value is `true`, read data and metadata are stored in a cache, which can increase performance and decrease network egress costs for cross-cloud queries. If this value is `false`, cross-cloud caching is disabled. */
-  enabled?: boolean | undefined;
-}
-/** Connection properties specific to Salesforce DataCloud. This is intended for use only by Salesforce partner projects. */
-export interface SalesforceDataCloudProperties {
-  /** The URL to the user's Salesforce DataCloud instance. */
-  instanceUri?: string | undefined;
-  /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
-  identity?: string | undefined;
-  /** The ID of the user's Salesforce tenant. */
-  tenantId?: string | undefined;
-  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
-  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
-}
-export type CloudSqlPropertiesTypeEnum = "DATABASE_TYPE_UNSPECIFIED" | "POSTGRES" | "MYSQL";
-/** Credential info for the Cloud SQL. */
-export interface CloudSqlCredential {
-  /** The username for the credential. */
-  username?: string | undefined;
-  /** The password for the credential. */
-  password?: string | undefined;
-}
-/** Connection properties specific to the Cloud SQL. */
-export interface CloudSqlProperties {
-  /** Cloud SQL instance ID in the form `project:location:instance`. */
-  instanceId?: string | undefined;
-  /** Type of the Cloud SQL database. */
-  type?: CloudSqlPropertiesTypeEnum | (string & {}) | undefined;
-  /** Database name. */
-  database?: string | undefined;
-  /** Input only. Cloud SQL credential. */
-  credential?: CloudSqlCredential | undefined;
-  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
-  serviceAccountId?: string | undefined;
+/** Configuration of the Spark History Server. */
+export interface SparkHistoryServerConfig {
+  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
+  dataprocCluster?: string | undefined;
 }
 /** Configuration of the Dataproc Metastore Service. */
 export interface MetastoreServiceConfig {
   /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
   metastoreService?: string | undefined;
 }
-/** Configuration of the Spark History Server. */
-export interface SparkHistoryServerConfig {
-  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
-  dataprocCluster?: string | undefined;
-}
 /** Container for connection properties to execute stored procedures for Apache Spark. */
 export interface SparkProperties {
+  /** Optional. Spark History Server configuration for the connection. */
+  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
   /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
   serviceAccountId?: string | undefined;
   /** Optional. Dataproc Metastore Service configuration for the connection. */
   metastoreServiceConfig?: MetastoreServiceConfig | undefined;
-  /** Optional. Spark History Server configuration for the connection. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
-}
-/** Container for connection properties specific to Azure. */
-export interface AzureProperties {
-  /** Output only. The client id of the Azure Active Directory Application. */
-  clientId?: string | undefined;
-  /** Output only. The object id of the Azure Active Directory Application. */
-  objectId?: string | undefined;
-  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
-  federatedApplicationClientId?: string | undefined;
-  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
-  identity?: string | undefined;
-  /** The id of customer's directory that host the data. */
-  customerTenantId?: string | undefined;
-  /** Output only. The name of the Azure Active Directory Application. */
-  application?: string | undefined;
-  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
-  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
-  /** The URL user will be redirected to after granting consent during connection setup. */
-  redirectUri?: string | undefined;
 }
 /** Authentication method for Amazon Web Services (AWS) that uses Google owned Google service account to assume into customer's AWS IAM Role. */
 export interface AwsAccessRole {
@@ -165,17 +109,69 @@ export interface AwsAccessRole {
   /** A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role. */
   identity?: string | undefined;
 }
+/** Options for caching cross-cloud data and metadata files. */
+export interface CrossCloudCacheOptions {
+  /** Optional. Whether cross-cloud caching is enabled. This only affects queries through BigQuery. If this value is `true`, read data and metadata are stored in a cache, which can increase performance and decrease network egress costs for cross-cloud queries. If this value is `false`, cross-cloud caching is disabled. */
+  enabled?: boolean | undefined;
+}
 /** Connection properties specific to Amazon Web Services (AWS). */
 export interface AwsProperties {
-  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
-  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
   /** Authentication using Google owned service account to assume into customer's AWS IAM Role. */
   accessRole?: AwsAccessRole | undefined;
+  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
+  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
+}
+export type CloudSqlPropertiesTypeEnum = "DATABASE_TYPE_UNSPECIFIED" | "POSTGRES" | "MYSQL";
+/** Credential info for the Cloud SQL. */
+export interface CloudSqlCredential {
+  /** The password for the credential. */
+  password?: string | undefined;
+  /** The username for the credential. */
+  username?: string | undefined;
+}
+/** Connection properties specific to the Cloud SQL. */
+export interface CloudSqlProperties {
+  /** Database name. */
+  database?: string | undefined;
+  /** Type of the Cloud SQL database. */
+  type?: CloudSqlPropertiesTypeEnum | (string & {}) | undefined;
+  /** Cloud SQL instance ID in the form `project:location:instance`. */
+  instanceId?: string | undefined;
+  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
+  serviceAccountId?: string | undefined;
+  /** Input only. Cloud SQL credential. */
+  credential?: CloudSqlCredential | undefined;
+}
+/** Container for connection properties for delegation of access to GCP resources. */
+export interface CloudResourceProperties {
+  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of an operation in BigQuery, the service account will be used to connect to the desired resources in GCP. The account ID is in the form of: @gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com */
+  serviceAccountId?: string | undefined;
+}
+/** Container for connection properties specific to Azure. */
+export interface AzureProperties {
+  /** The id of customer's directory that host the data. */
+  customerTenantId?: string | undefined;
+  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
+  federatedApplicationClientId?: string | undefined;
+  /** Output only. The client id of the Azure Active Directory Application. */
+  clientId?: string | undefined;
+  /** Output only. The name of the Azure Active Directory Application. */
+  application?: string | undefined;
+  /** The URL user will be redirected to after granting consent during connection setup. */
+  redirectUri?: string | undefined;
+  /** Output only. The object id of the Azure Active Directory Application. */
+  objectId?: string | undefined;
+  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
+  identity?: string | undefined;
+  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
+  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
 }
 /** Connection properties specific to Cloud Spanner. */
 export interface CloudSpannerProperties {
   /** Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. REQUIRES: `use_parallelism` must be set. REQUIRES: `use_data_boost` must be set. */
   maxParallelism?: number | undefined;
+  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
+  databaseRole?: string | undefined;
   /** Deprecated: prefer use_data_boost instead. If the serverless analytics service should be used to read data from Cloud Spanner. Note: `use_parallelism` must be set when using serverless analytics. */
   useServerlessAnalytics?: boolean | undefined;
   /** If parallelism should be used when reading from Cloud Spanner */
@@ -184,53 +180,33 @@ export interface CloudSpannerProperties {
   useDataBoost?: boolean | undefined;
   /** Cloud Spanner database in the form `project/instance/database' */
   database?: string | undefined;
-  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
-  databaseRole?: string | undefined;
 }
 /** Remote endpoint specification. */
 export interface ConnectorConfigurationEndpoint {
   /** Host and port in a format of `hostname:port` as defined in https://www.ietf.org/rfc/rfc3986.html#section-3.2.2 and https://www.ietf.org/rfc/rfc3986.html#section-3.2.3. */
   hostPort?: string | undefined;
 }
-export type ConnectorConfigurationSecretSecretTypeEnum = "SECRET_TYPE_UNSPECIFIED" | "PLAINTEXT";
-/** Secret value parameter. */
-export interface ConnectorConfigurationSecret {
-  /** Input only. Secret as plaintext. */
-  plaintext?: string | undefined;
-  /** Output only. Indicates type of secret. Can be used to check type of stored secret value even if it's `INPUT_ONLY`. */
-  secretType?: ConnectorConfigurationSecretSecretTypeEnum | (string & {}) | undefined;
+export type ConnectorConfigurationTlsModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "DISABLE"
+  | "ENCRYPT_VERIFY_NONE"
+  | "ENCRYPT_VERIFY_CA"
+  | "ENCRYPT_VERIFY_CA_AND_HOST";
+/** Private PKI. */
+export interface ConnectorConfigurationTlsPrivatePki {
+  /** Optional. a PEM-encoded list of certificates to trust */
+  trustedCertificatesPem?: string | undefined;
 }
-/** Represents a value for a connector parameter. */
-export interface ConnectorConfigurationParameterValue {
-  /** A boolean parameter value. */
-  boolValue?: boolean | undefined;
-  /** A string parameter value. */
-  stringValue?: string | undefined;
-  /** A double parameter value. */
-  doubleValue?: number | undefined;
-  /** An int32 parameter value. */
-  int32Value?: number | undefined;
-  /** A secret parameter value. Allowed only for Authentication parameters. */
-  secretValue?: ConnectorConfigurationSecret | undefined;
-}
-export type ConnectorConfigurationParameterValueMap = {
-  [key: string]: ConnectorConfigurationParameterValue | undefined;
-};
-/** Username and Password authentication. */
-export interface ConnectorConfigurationUsernamePassword {
-  /** Required. Username. */
-  username?: string | undefined;
-  /** Required. Password. */
-  password?: ConnectorConfigurationSecret | undefined;
-}
-/** Client authentication. */
-export interface ConnectorConfigurationAuthentication {
-  /** Output only. Google-managed service account associated with this connection, e.g., `service-{project_number}@gcp-sa-bigqueryconnection.iam.gserviceaccount.com`. BigQuery jobs using this connection will act as `service_account` identity while connecting to the datasource. */
-  serviceAccount?: string | undefined;
-  /** Username/password authentication. */
-  usernamePassword?: ConnectorConfigurationUsernamePassword | undefined;
-  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks--for example, ``configuration.parameters.`parameter id` ``. */
-  parameters?: ConnectorConfigurationParameterValueMap | undefined;
+/** Web PKI. */
+export interface ConnectorConfigurationTlsWebPki {}
+/** TLS configuration options. */
+export interface ConnectorConfigurationTls {
+  /** Optional. The mode of TLS configuration. */
+  mode?: ConnectorConfigurationTlsModeEnum | (string & {}) | undefined;
+  /** Optional. Private PKI. */
+  privatePki?: ConnectorConfigurationTlsPrivatePki | undefined;
+  /** Optional. Web PKI. */
+  webPki?: ConnectorConfigurationTlsWebPki | undefined;
 }
 /** Private Service Connect configuration. */
 export interface ConnectorConfigurationPrivateServiceConnect {
@@ -242,89 +218,113 @@ export interface ConnectorConfigurationNetwork {
   /** Private Service Connect networking configuration. */
   privateServiceConnect?: ConnectorConfigurationPrivateServiceConnect | undefined;
 }
-/** Web PKI. */
-export interface ConnectorConfigurationTlsWebPki {}
-/** Private PKI. */
-export interface ConnectorConfigurationTlsPrivatePki {
-  /** Optional. a PEM-encoded list of certificates to trust */
-  trustedCertificatesPem?: string | undefined;
-}
-export type ConnectorConfigurationTlsModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "DISABLE"
-  | "ENCRYPT_VERIFY_NONE"
-  | "ENCRYPT_VERIFY_CA"
-  | "ENCRYPT_VERIFY_CA_AND_HOST";
-/** TLS configuration options. */
-export interface ConnectorConfigurationTls {
-  /** Optional. Web PKI. */
-  webPki?: ConnectorConfigurationTlsWebPki | undefined;
-  /** Optional. Private PKI. */
-  privatePki?: ConnectorConfigurationTlsPrivatePki | undefined;
-  /** Optional. The mode of TLS configuration. */
-  mode?: ConnectorConfigurationTlsModeEnum | (string & {}) | undefined;
-}
 /** Data Asset - a resource within instance of the system, reachable under specified endpoint. For example a database name in a SQL DB. */
 export interface ConnectorConfigurationAsset {
-  /** Name of the database. */
-  database?: string | undefined;
   /** Full Google Cloud resource name - https://cloud.google.com/apis/design/resource_names#full_resource_name. Example: `//library.googleapis.com/shelves/shelf1/books/book2` */
   googleCloudResource?: string | undefined;
+  /** Name of the database. */
+  database?: string | undefined;
+}
+export type ConnectorConfigurationSecretSecretTypeEnum = "SECRET_TYPE_UNSPECIFIED" | "PLAINTEXT";
+/** Secret value parameter. */
+export interface ConnectorConfigurationSecret {
+  /** Output only. Indicates type of secret. Can be used to check type of stored secret value even if it's `INPUT_ONLY`. */
+  secretType?: ConnectorConfigurationSecretSecretTypeEnum | (string & {}) | undefined;
+  /** Input only. Secret as plaintext. */
+  plaintext?: string | undefined;
+}
+/** Username and Password authentication. */
+export interface ConnectorConfigurationUsernamePassword {
+  /** Required. Password. */
+  password?: ConnectorConfigurationSecret | undefined;
+  /** Required. Username. */
+  username?: string | undefined;
+}
+/** Represents a value for a connector parameter. */
+export interface ConnectorConfigurationParameterValue {
+  /** An int32 parameter value. */
+  int32Value?: number | undefined;
+  /** A boolean parameter value. */
+  boolValue?: boolean | undefined;
+  /** A double parameter value. */
+  doubleValue?: number | undefined;
+  /** A string parameter value. */
+  stringValue?: string | undefined;
+  /** A secret parameter value. Allowed only for Authentication parameters. */
+  secretValue?: ConnectorConfigurationSecret | undefined;
+}
+export type ConnectorConfigurationParameterValueMap = {
+  [key: string]: ConnectorConfigurationParameterValue | undefined;
+};
+/** Client authentication. */
+export interface ConnectorConfigurationAuthentication {
+  /** Username/password authentication. */
+  usernamePassword?: ConnectorConfigurationUsernamePassword | undefined;
+  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks--for example, ``configuration.parameters.`parameter id` ``. */
+  parameters?: ConnectorConfigurationParameterValueMap | undefined;
+  /** Output only. Google-managed service account associated with this connection, e.g., `service-{project_number}@gcp-sa-bigqueryconnection.iam.gserviceaccount.com`. BigQuery jobs using this connection will act as `service_account` identity while connecting to the datasource. */
+  serviceAccount?: string | undefined;
 }
 /** Represents concrete parameter values for Connector Configuration. */
 export interface ConnectorConfiguration {
-  /** Specifies how to reach the remote system this connection is pointing to. */
-  endpoint?: ConnectorConfigurationEndpoint | undefined;
-  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks--for example, ``configuration.parameters.`parameter id` ``. */
-  parameters?: ConnectorConfigurationParameterValueMap | undefined;
-  /** Client authentication. */
-  authentication?: ConnectorConfigurationAuthentication | undefined;
   /** Required. Immutable. The ID of the Connector these parameters are configured for. */
   connectorId?: string | undefined;
-  /** Networking configuration. */
-  network?: ConnectorConfigurationNetwork | undefined;
+  /** Specifies how to reach the remote system this connection is pointing to. */
+  endpoint?: ConnectorConfigurationEndpoint | undefined;
   /** Optional. TLS configuration options. */
   tls?: ConnectorConfigurationTls | undefined;
+  /** Networking configuration. */
+  network?: ConnectorConfigurationNetwork | undefined;
   /** Data asset. */
   asset?: ConnectorConfigurationAsset | undefined;
+  /** Client authentication. */
+  authentication?: ConnectorConfigurationAuthentication | undefined;
+  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks--for example, ``configuration.parameters.`parameter id` ``. */
+  parameters?: ConnectorConfigurationParameterValueMap | undefined;
 }
-/** Container for connection properties for delegation of access to GCP resources. */
-export interface CloudResourceProperties {
-  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of an operation in BigQuery, the service account will be used to connect to the desired resources in GCP. The account ID is in the form of: @gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com */
-  serviceAccountId?: string | undefined;
+/** Connection properties specific to Salesforce DataCloud. This is intended for use only by Salesforce partner projects. */
+export interface SalesforceDataCloudProperties {
+  /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
+  identity?: string | undefined;
+  /** The URL to the user's Salesforce DataCloud instance. */
+  instanceUri?: string | undefined;
+  /** Optional. Configuration options for cross-cloud caching of data and metadata files. */
+  crossCloudCacheOptions?: CrossCloudCacheOptions | undefined;
+  /** The ID of the user's Salesforce tenant. */
+  tenantId?: string | undefined;
 }
 /** Configuration parameters to establish connection with an external data source, except the credential attributes. */
 export interface Connection {
-  /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
-  kmsKeyName?: string | undefined;
-  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
-  salesforceDataCloud?: SalesforceDataCloudProperties | undefined;
-  /** Output only. The creation timestamp of the connection. */
-  creationTime?: string | undefined;
+  /** Spark properties. */
+  spark?: SparkProperties | undefined;
+  /** Amazon Web Services (AWS) properties. */
+  aws?: AwsProperties | undefined;
+  /** Cloud SQL properties. */
+  cloudSql?: CloudSqlProperties | undefined;
   /** User provided description. */
   description?: string | undefined;
+  /** Output only. The creation timestamp of the connection. */
+  creationTime?: string | undefined;
+  /** Output only. The last update timestamp of the connection. */
+  lastModifiedTime?: string | undefined;
+  /** Cloud Resource properties. */
+  cloudResource?: CloudResourceProperties | undefined;
   /** Output only. True, if credential is configured for this connection. */
   hasCredential?: boolean | undefined;
   /** User provided display name for the connection. */
   friendlyName?: string | undefined;
-  /** Cloud SQL properties. */
-  cloudSql?: CloudSqlProperties | undefined;
-  /** Spark properties. */
-  spark?: SparkProperties | undefined;
   /** Azure properties. */
   azure?: AzureProperties | undefined;
-  /** Amazon Web Services (AWS) properties. */
-  aws?: AwsProperties | undefined;
-  /** Output only. The last update timestamp of the connection. */
-  lastModifiedTime?: string | undefined;
   /** Cloud Spanner properties. */
   cloudSpanner?: CloudSpannerProperties | undefined;
-  /** Optional. Connector configuration. */
-  configuration?: ConnectorConfiguration | undefined;
-  /** Cloud Resource properties. */
-  cloudResource?: CloudResourceProperties | undefined;
   /** Output only. The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name?: string | undefined;
+  /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
+  kmsKeyName?: string | undefined;
+  /** Optional. Connector configuration. */
+  configuration?: ConnectorConfiguration | undefined;
+  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
+  salesforceDataCloud?: SalesforceDataCloudProperties | undefined;
 }
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Optional. Connection id that should be assigned to the created connection. */
@@ -356,18 +356,39 @@ export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** Request body */
   body?: GetIamPolicyRequest | undefined;
 }
+export type StringList = Array<string>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+}
+export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export type StringList = Array<string>;
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList | undefined;
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -378,37 +399,16 @@ export interface AuditConfig {
   auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-}
-export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
 }
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. Name of the requested connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
@@ -714,91 +714,88 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
+          dataprocCluster: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CrossCloudCacheOptions" });
+      ).annotate({ identifier: "SparkHistoryServerConfig" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instanceUri: S.optional(S.String),
-          identity: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          crossCloudCacheOptions: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "SalesforceDataCloudProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudSqlCredential" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String),
-          type: S.optional(S.String),
-          database: S.optional(S.String),
-          credential: S.optional(__S(130, __c4, 2)),
-          serviceAccountId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudSqlProperties" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           metastoreService: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetastoreServiceConfig" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          dataprocCluster: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SparkHistoryServerConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
+          sparkHistoryServerConfig: S.optional(__S(128, __c4, 0)),
           serviceAccountId: S.optional(S.String),
-          metastoreServiceConfig: S.optional(__S(132, __c4, 4)),
-          sparkHistoryServerConfig: S.optional(__S(133, __c4, 5)),
+          metastoreServiceConfig: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "SparkProperties" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.optional(S.String),
-          objectId: S.optional(S.String),
-          federatedApplicationClientId: S.optional(S.String),
-          identity: S.optional(S.String),
-          customerTenantId: S.optional(S.String),
-          application: S.optional(S.String),
-          crossCloudCacheOptions: S.optional(__S(128, __c4, 0)),
-          redirectUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AzureProperties" });
-    case 8:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           iamRoleId: S.optional(S.String),
           identity: S.optional(S.String),
         }),
       ).annotate({ identifier: "AwsAccessRole" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CrossCloudCacheOptions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          accessRole: S.optional(__S(131, __c4, 3)),
+          crossCloudCacheOptions: S.optional(__S(132, __c4, 4)),
+        }),
+      ).annotate({ identifier: "AwsProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudSqlCredential" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          database: S.optional(S.String),
+          type: S.optional(S.String),
+          instanceId: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          credential: S.optional(__S(134, __c4, 6)),
+        }),
+      ).annotate({ identifier: "CloudSqlProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudResourceProperties" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          crossCloudCacheOptions: S.optional(__S(128, __c4, 0)),
-          accessRole: S.optional(__S(136, __c4, 8)),
+          customerTenantId: S.optional(S.String),
+          federatedApplicationClientId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          application: S.optional(S.String),
+          redirectUri: S.optional(S.String),
+          objectId: S.optional(S.String),
+          identity: S.optional(S.String),
+          crossCloudCacheOptions: S.optional(__S(132, __c4, 4)),
         }),
-      ).annotate({ identifier: "AwsProperties" });
+      ).annotate({ identifier: "AzureProperties" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           maxParallelism: S.optional(S.Number),
+          databaseRole: S.optional(S.String),
           useServerlessAnalytics: S.optional(S.Boolean),
           useParallelism: S.optional(S.Boolean),
           useDataBoost: S.optional(S.Boolean),
           database: S.optional(S.String),
-          databaseRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudSpannerProperties" });
     case 11:
@@ -810,106 +807,109 @@ function __c4(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          plaintext: S.optional(S.String),
-          secretType: S.optional(S.String),
+          trustedCertificatesPem: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConnectorConfigurationSecret" });
+      ).annotate({ identifier: "ConnectorConfigurationTlsPrivatePki" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          boolValue: S.optional(S.Boolean),
-          stringValue: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          int32Value: S.optional(S.Number),
-          secretValue: S.optional(__S(140, __c4, 12)),
+          mode: S.optional(S.String),
+          privatePki: S.optional(__S(140, __c4, 12)),
+          webPki: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "ConnectorConfigurationParameterValue" });
+      ).annotate({ identifier: "ConnectorConfigurationTls" });
     case 14:
-      return S.Record(S.String, __S(141, __c4, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(__S(140, __c4, 12)),
-        }),
-      ).annotate({ identifier: "ConnectorConfigurationUsernamePassword" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAccount: S.optional(S.String),
-          usernamePassword: S.optional(__S(143, __c4, 15)),
-          parameters: S.optional(__S(142, __c4, 14)),
-        }),
-      ).annotate({ identifier: "ConnectorConfigurationAuthentication" });
-    case 17:
       return S.suspend(() =>
         S.Struct({
           networkAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectorConfigurationPrivateServiceConnect" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          privateServiceConnect: S.optional(__S(142, __c4, 14)),
+        }),
+      ).annotate({ identifier: "ConnectorConfigurationNetwork" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          googleCloudResource: S.optional(S.String),
+          database: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectorConfigurationAsset" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          secretType: S.optional(S.String),
+          plaintext: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectorConfigurationSecret" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          privateServiceConnect: S.optional(__S(145, __c4, 17)),
+          password: S.optional(__S(145, __c4, 17)),
+          username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConnectorConfigurationNetwork" });
+      ).annotate({ identifier: "ConnectorConfigurationUsernamePassword" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          trustedCertificatesPem: S.optional(S.String),
+          int32Value: S.optional(S.Number),
+          boolValue: S.optional(S.Boolean),
+          doubleValue: S.optional(S.Number),
+          stringValue: S.optional(S.String),
+          secretValue: S.optional(__S(145, __c4, 17)),
         }),
-      ).annotate({ identifier: "ConnectorConfigurationTlsPrivatePki" });
+      ).annotate({ identifier: "ConnectorConfigurationParameterValue" });
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          webPki: S.optional(__S(96, __c3, 0)),
-          privatePki: S.optional(__S(147, __c4, 19)),
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectorConfigurationTls" });
+      return S.Record(S.String, __S(147, __c4, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(S.String),
-          googleCloudResource: S.optional(S.String),
+          usernamePassword: S.optional(__S(146, __c4, 18)),
+          parameters: S.optional(__S(148, __c4, 20)),
+          serviceAccount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConnectorConfigurationAsset" });
+      ).annotate({ identifier: "ConnectorConfigurationAuthentication" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(__S(139, __c4, 11)),
-          parameters: S.optional(__S(142, __c4, 14)),
-          authentication: S.optional(__S(144, __c4, 16)),
           connectorId: S.optional(S.String),
-          network: S.optional(__S(146, __c4, 18)),
-          tls: S.optional(__S(148, __c4, 20)),
-          asset: S.optional(__S(149, __c4, 21)),
+          endpoint: S.optional(__S(139, __c4, 11)),
+          tls: S.optional(__S(141, __c4, 13)),
+          network: S.optional(__S(143, __c4, 15)),
+          asset: S.optional(__S(144, __c4, 16)),
+          authentication: S.optional(__S(149, __c4, 21)),
+          parameters: S.optional(__S(148, __c4, 20)),
         }),
       ).annotate({ identifier: "ConnectorConfiguration" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          serviceAccountId: S.optional(S.String),
+          identity: S.optional(S.String),
+          instanceUri: S.optional(S.String),
+          crossCloudCacheOptions: S.optional(__S(132, __c4, 4)),
+          tenantId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CloudResourceProperties" });
+      ).annotate({ identifier: "SalesforceDataCloudProperties" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyName: S.optional(S.String),
-          salesforceDataCloud: S.optional(__S(129, __c4, 1)),
-          creationTime: S.optional(S.String),
+          spark: S.optional(__S(130, __c4, 2)),
+          aws: S.optional(__S(133, __c4, 5)),
+          cloudSql: S.optional(__S(135, __c4, 7)),
           description: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          cloudResource: S.optional(__S(136, __c4, 8)),
           hasCredential: S.optional(S.Boolean),
           friendlyName: S.optional(S.String),
-          cloudSql: S.optional(__S(131, __c4, 3)),
-          spark: S.optional(__S(134, __c4, 6)),
-          azure: S.optional(__S(135, __c4, 7)),
-          aws: S.optional(__S(137, __c4, 9)),
-          lastModifiedTime: S.optional(S.String),
+          azure: S.optional(__S(137, __c4, 9)),
           cloudSpanner: S.optional(__S(138, __c4, 10)),
-          configuration: S.optional(__S(150, __c4, 22)),
-          cloudResource: S.optional(__S(151, __c4, 23)),
           name: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          configuration: S.optional(__S(150, __c4, 22)),
+          salesforceDataCloud: S.optional(__S(151, __c4, 23)),
         }),
       ).annotate({ identifier: "Connection" });
   }
@@ -964,47 +964,47 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "AuditLogConfig" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "AuditConfig" });
-    case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          location: S.optional(S.String),
           expression: S.optional(S.String),
+          title: S.optional(S.String),
           description: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
-    case 5:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(228, __c7, 4)),
           members: S.optional(__S(256, __c8, 0)),
+          condition: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "Binding" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          exemptedMembers: S.optional(__S(256, __c8, 0)),
+          logType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditLogConfig" });
+    case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(228, __c7, 4)),
+        }),
+      ).annotate({ identifier: "AuditConfig" });
     case 6:
       return S.Array(__S(229, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(227, __c7, 3)),
-          bindings: S.optional(__S(230, __c7, 6)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(226, __c7, 2)),
+          etag: S.optional(S.String),
+          auditConfigs: S.optional(__S(230, __c7, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }

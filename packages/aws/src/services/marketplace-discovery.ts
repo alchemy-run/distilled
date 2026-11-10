@@ -204,7 +204,7 @@ export interface Resource {
   displayName?: string | undefined;
 }
 export type ResourceList = Resource[];
-export type ReviewSourceId = "AWS_MARKETPLACE" | (string & {});
+export type ReviewSourceId = "AWS_MARKETPLACE" | "G2" | "PEERSPOT" | (string & {});
 export type NonNegativeCount = number;
 export interface ReviewSourceSummary {
   sourceName: string;

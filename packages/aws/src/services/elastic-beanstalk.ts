@@ -1077,6 +1077,12 @@ export interface CustomAmi {
   ImageId?: string | undefined;
 }
 export type CustomAmiList = CustomAmi[];
+export type AmiArchitecture = "x86_64" | "arm64" | (string & {});
+export interface DefaultAmi {
+  Architecture?: AmiArchitecture | undefined;
+  ImageId?: string | undefined;
+}
+export type DefaultAmiList = DefaultAmi[];
 export interface PlatformDescription {
   PlatformArn?: string | undefined;
   PlatformOwner?: string | undefined;
@@ -1094,6 +1100,7 @@ export interface PlatformDescription {
   ProgrammingLanguages?: PlatformProgrammingLanguage[] | undefined;
   Frameworks?: PlatformFramework[] | undefined;
   CustomAmiList?: CustomAmi[] | undefined;
+  DefaultAmiList?: DefaultAmi[] | undefined;
   SupportedTierList?: string[] | undefined;
   SupportedAddonList?: string[] | undefined;
   PlatformLifecycleState?: string | undefined;
@@ -2143,7 +2150,7 @@ export const describePlatformVersion: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DescribePlatformVersionRequest>,
-  output: __S(1480, __c46, 8) as any as S.Schema<DescribePlatformVersionResult>,
+  output: __S(1482, __c46, 10) as any as S.Schema<DescribePlatformVersionResult>,
   errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3759,6 +3766,12 @@ function __c46(j: number): any {
       return S.Array(__S(1477, __c46, 5));
     case 7:
       return S.suspend(() =>
+        S.Struct({ Architecture: S.optional(S.String), ImageId: S.optional(S.String) }),
+      ).annotate({ identifier: "DefaultAmi" });
+    case 8:
+      return S.Array(__S(1479, __c46, 7));
+    case 9:
+      return S.suspend(() =>
         S.Struct({
           PlatformArn: S.optional(S.String),
           PlatformOwner: S.optional(S.String),
@@ -3776,6 +3789,7 @@ function __c46(j: number): any {
           ProgrammingLanguages: S.optional(__S(1474, __c46, 2)),
           Frameworks: S.optional(__S(1476, __c46, 4)),
           CustomAmiList: S.optional(__S(1478, __c46, 6)),
+          DefaultAmiList: S.optional(__S(1480, __c46, 8)),
           SupportedTierList: S.optional(__S(768, __c24, 0)),
           SupportedAddonList: S.optional(__S(800, __c25, 0)),
           PlatformLifecycleState: S.optional(S.String),
@@ -3783,9 +3797,9 @@ function __c46(j: number): any {
           PlatformBranchLifecycleState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformDescription" });
-    case 8:
+    case 10:
       return S.suspend(() =>
-        S.Struct({ PlatformDescription: S.optional(__S(1479, __c46, 7)) }).pipe(ns),
+        S.Struct({ PlatformDescription: S.optional(__S(1481, __c46, 9)) }).pipe(ns),
       ).annotate({ identifier: "DescribePlatformVersionResult" });
   }
 }

@@ -721,11 +721,105 @@ export type DatabaseObjectResponseDatabaseType =
   | "meeting_notes"
   | "skills"
   | "github_prs";
+export interface DataSourceReferenceResponseSyncMetadataHealthCase0Checks {
+  sync_version_updated_at: string;
+  delta_synced_through_at?: string | undefined;
+  last_execution_succeeded_at?: string | undefined;
+}
+export type DataSourceReferenceResponseSyncMetadataHealthCase0ErrorSeverity =
+  | "action_required"
+  | "degraded"
+  | "failing";
+export interface DataSourceReferenceResponseSyncMetadataHealthCase0Error {
+  code: string;
+  severity: DataSourceReferenceResponseSyncMetadataHealthCase0ErrorSeverity;
+}
+export type DataSourceReferenceResponseSyncMetadataHealthCase0Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceReferenceResponseSyncMetadataHealthCase0 {
+  checks: DataSourceReferenceResponseSyncMetadataHealthCase0Checks;
+  error: DataSourceReferenceResponseSyncMetadataHealthCase0Error;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceReferenceResponseSyncMetadataHealthCase0Stage;
+}
+export type DataSourceReferenceResponseSyncMetadataHealthCase1Checks =
+  DataSourceReferenceResponseSyncMetadataHealthCase0Checks;
+export type DataSourceReferenceResponseSyncMetadataHealthCase1Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceReferenceResponseSyncMetadataHealthCase1 {
+  checks: DataSourceReferenceResponseSyncMetadataHealthCase0Checks;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceReferenceResponseSyncMetadataHealthCase1Stage;
+}
+export interface DataSourceReferenceResponseSyncMetadataHealthCase2 {
+  paused: boolean;
+}
+/** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+export type DataSourceReferenceResponseSyncMetadataHealth =
+  | DataSourceReferenceResponseSyncMetadataHealthCase0
+  | DataSourceReferenceResponseSyncMetadataHealthCase1
+  | DataSourceReferenceResponseSyncMetadataHealthCase2;
+/** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+export type DataSourceReferenceResponseSyncMetadataExternalDatabaseSyncProvider =
+  | "github"
+  | "jira"
+  | "salesforce";
+/** Stored identity of an external database sync. */
+export interface DataSourceReferenceResponseSyncMetadataExternalDatabaseSync {
+  /** The stored sync ID. This is not a credential. */
+  sync_id: string;
+  /** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+  provider: DataSourceReferenceResponseSyncMetadataExternalDatabaseSyncProvider;
+}
+/** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+export type DataSourceReferenceResponseSyncMetadataExternalCollectionType = "Jira" | "Salesforce";
+/** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+export type DataSourceReferenceResponseSyncMetadataSyncStateSyncing = boolean | string;
+/** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+export interface DataSourceReferenceResponseSyncMetadataSyncState {
+  /** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+  syncing: DataSourceReferenceResponseSyncMetadataSyncStateSyncing;
+  /** Stored legacy sync update time in UTC ISO 8601 format. This does not guarantee that all source changes have been imported. */
+  last_synced_at?: string | undefined;
+  /** Stored legacy sync checkpoint time in UTC ISO 8601 format. */
+  last_sync_checkpoint_at?: string | undefined;
+  /** Stored legacy sync heartbeat time in UTC ISO 8601 format. */
+  last_sync_heartbeat_at?: string | undefined;
+}
+/** Sync identity and available health, included when retrieving a database. */
+export interface DataSourceReferenceResponseSyncMetadata {
+  /** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+  health?: DataSourceReferenceResponseSyncMetadataHealth | null | undefined;
+  /** Notion user who owns the sync credential, included when health is available. */
+  owner_user_id?: string | undefined;
+  /** Provider resource synced to this data source, when available. */
+  resource?: string | undefined;
+  /** Stored identity of an external database sync. */
+  external_database_sync?: DataSourceReferenceResponseSyncMetadataExternalDatabaseSync | undefined;
+  /** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+  external_collection_type?:
+    | DataSourceReferenceResponseSyncMetadataExternalCollectionType
+    | undefined;
+  /** The stored sync ID when provider details are unavailable. This is not a credential. */
+  sync_id?: string | undefined;
+  /** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+  sync_state?: DataSourceReferenceResponseSyncMetadataSyncState | undefined;
+  /** Opaque, developer-defined collection key for a worker sync. It is not a globally unique ID or a credential. Worker status is not included. */
+  synced_collection_key?: string | undefined;
+}
 export interface DataSourceReferenceResponse {
   /** The ID of the data source. */
   id: string;
   /** The name of the data source. */
   name: string;
+  /** Sync identity and available health, included when retrieving a database. */
+  sync_metadata?: DataSourceReferenceResponseSyncMetadata | undefined;
 }
 /** The data sources of the database. */
 export type DatabaseObjectResponseDataSourcesList = Array<DataSourceReferenceResponse>;

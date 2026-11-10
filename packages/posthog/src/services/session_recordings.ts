@@ -78,6 +78,8 @@ export interface SharingConfiguration {
   share_passwords?: SharingConfigurationSharePasswordsList | undefined;
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
+  /** Whether the project has configured access controls for shared content or its underlying data. */
+  has_relevant_access_controls: boolean;
 }
 export interface ListSessionRecordingsSharingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -220,6 +222,7 @@ function __c1(j: number): any {
           password_required: S.optional(S.Boolean),
           share_passwords: S.optional(__S(5, __c1, 1)),
           user_access_level: S.optional(S.NullOr(S.String)),
+          has_relevant_access_controls: S.Boolean,
         }),
       ).annotate({ identifier: "SharingConfiguration" });
   }

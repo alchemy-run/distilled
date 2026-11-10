@@ -2192,7 +2192,8 @@ export type ListRuleTypesError = InvalidNextTokenException | ValidationException
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
- * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
+ * stage conditions work?.For more information about rules, see the
+ * CodePipeline rule reference.
  */
 export const listRuleTypes: API.OperationMethod<
   ListRuleTypesInput & RegionInput,

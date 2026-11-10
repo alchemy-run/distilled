@@ -54,6 +54,7 @@ export interface CreateBlobResponse {
 }
 export interface GetBlobRequest {
   blobId?: string | undefined;
+  functionId?: string | undefined;
 }
 export interface GetBlobResponse {
   downloadUrl: string;
@@ -145,6 +146,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blobId: S.optional(S.String),
+          functionId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/BlobGet", code: 200 })),
       ).annotate({ identifier: "GetBlobRequest" });
     case 1:

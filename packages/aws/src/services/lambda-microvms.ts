@@ -106,8 +106,8 @@ export class ConflictException
       resourceId: /*@__PURE__*/ S.optional(S.String),
       resourceType: /*@__PURE__*/ S.optional(S.String),
     },
-    /*@__PURE__*/ T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(409), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withConflictError, C.withRetryableError) {}
 export class InsufficientCapacityException
   extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
     "InsufficientCapacityException",
@@ -242,7 +242,7 @@ export type Logging =
   | { disabled?: undefined; cloudWatch: CloudWatchLogging };
 export type NetworkConnector = string;
 export type NetworkConnectorList = string[];
-export type Architecture = "ARM_64" | (string & {});
+export type Architecture = "ARM_64" | "X86_64" | (string & {});
 export interface CpuConfiguration {
   architecture: Architecture;
 }
@@ -423,7 +423,7 @@ export interface GetMicrovmImageBuildInput {
   buildId: string;
 }
 export type BuildState = "PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | (string & {});
-export type Chipset = "GRAVITON" | (string & {});
+export type Chipset = "GRAVITON" | "INTEL" | (string & {});
 export interface SnapshotBuild {
   memorySnapshotSizeInBytes?: number | undefined;
   codeInstallSizeInBytes?: number | undefined;
@@ -489,11 +489,16 @@ export interface ListManagedMicrovmImageVersionsInput {
   nextToken?: string | undefined;
   imageIdentifier: string;
 }
-export type ManagedMicrovmImageVersionStatus = "AVAILABLE" | "DEPRECATED" | (string & {});
+export type ManagedMicrovmImageVersionStatus =
+  | "AVAILABLE"
+  | "DEPRECATED"
+  | "RECALLED"
+  | (string & {});
 export interface ManagedMicrovmImageVersion {
   imageArn: string;
   imageVersion: string;
   status?: ManagedMicrovmImageVersionStatus | undefined;
+  supportedCpuConfigurations?: CpuConfiguration[] | undefined;
   createdAt: Date;
   updatedAt?: Date | undefined;
 }
@@ -744,7 +749,7 @@ export const createMicrovmAuthToken: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3, __c0, 3) as any as S.Schema<CreateMicrovmAuthTokenRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<CreateMicrovmAuthTokenResponse>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateMicrovmAuthTokenResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -778,8 +783,8 @@ export const createMicrovmImage: API.OperationMethod<
   CreateMicrovmImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateMicrovmImageRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<CreateMicrovmImageResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateMicrovmImageRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<CreateMicrovmImageResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -813,8 +818,8 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
   CreateMicrovmShellAuthTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateMicrovmShellAuthTokenRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<CreateMicrovmShellAuthTokenResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateMicrovmShellAuthTokenRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateMicrovmShellAuthTokenResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -847,8 +852,8 @@ export const deleteMicrovmImage: API.OperationMethod<
   DeleteMicrovmImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteMicrovmImageInput>,
-  output: __S(161, __c10, 1) as any as S.Schema<DeleteMicrovmImageOutput>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteMicrovmImageInput>,
+  output: __S(89, __c11, 1) as any as S.Schema<DeleteMicrovmImageOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -881,8 +886,8 @@ export const deleteMicrovmImageVersion: API.OperationMethod<
   DeleteMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteMicrovmImageVersionInput>,
-  output: __S(177, __c11, 1) as any as S.Schema<DeleteMicrovmImageVersionOutput>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteMicrovmImageVersionInput>,
+  output: __S(97, __c12, 1) as any as S.Schema<DeleteMicrovmImageVersionOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -914,8 +919,8 @@ export const getMicrovm: API.OperationMethod<
   GetMicrovmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetMicrovmRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GetMicrovmResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetMicrovmRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetMicrovmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -946,8 +951,8 @@ export const getMicrovmImage: API.OperationMethod<
   GetMicrovmImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetMicrovmImageInput>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetMicrovmImageOutput>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetMicrovmImageInput>,
+  output: __S(121, __c15, 1) as any as S.Schema<GetMicrovmImageOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -978,8 +983,8 @@ export const getMicrovmImageBuild: API.OperationMethod<
   GetMicrovmImageBuildError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetMicrovmImageBuildInput>,
-  output: __S(242, __c15, 2) as any as S.Schema<GetMicrovmImageBuildOutput>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetMicrovmImageBuildInput>,
+  output: __S(130, __c16, 2) as any as S.Schema<GetMicrovmImageBuildOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1010,8 +1015,8 @@ export const getMicrovmImageVersion: API.OperationMethod<
   GetMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetMicrovmImageVersionInput>,
-  output: __S(272, __c17, 0) as any as S.Schema<GetMicrovmImageVersionOutput>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetMicrovmImageVersionInput>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetMicrovmImageVersionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1042,8 +1047,8 @@ export const listManagedMicrovmImages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ManagedMicrovmImageSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListManagedMicrovmImagesInput>,
-  output: __S(291, __c18, 3) as any as S.Schema<ListManagedMicrovmImagesOutput>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListManagedMicrovmImagesInput>,
+  output: __S(155, __c19, 3) as any as S.Schema<ListManagedMicrovmImagesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1080,8 +1085,8 @@ export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ManagedMicrovmImageVersion
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListManagedMicrovmImageVersionsInput>,
-  output: __S(307, __c19, 3) as any as S.Schema<ListManagedMicrovmImageVersionsOutput>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListManagedMicrovmImageVersionsInput>,
+  output: __S(163, __c20, 3) as any as S.Schema<ListManagedMicrovmImageVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1119,8 +1124,8 @@ export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MicrovmImageBuildSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListMicrovmImageBuildsInput>,
-  output: __S(323, __c20, 3) as any as S.Schema<ListMicrovmImageBuildsOutput>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListMicrovmImageBuildsInput>,
+  output: __S(171, __c21, 3) as any as S.Schema<ListMicrovmImageBuildsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1157,8 +1162,8 @@ export const listMicrovmImages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MicrovmImageSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListMicrovmImagesRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<ListMicrovmImagesResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListMicrovmImagesRequest>,
+  output: __S(179, __c22, 3) as any as S.Schema<ListMicrovmImagesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1195,8 +1200,8 @@ export const listMicrovmImageVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MicrovmImageVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListMicrovmImageVersionsInput>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListMicrovmImageVersionsOutput>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListMicrovmImageVersionsInput>,
+  output: __S(186, __c23, 2) as any as S.Schema<ListMicrovmImageVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1234,8 +1239,8 @@ export const listMicrovms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MicrovmItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListMicrovmsRequest>,
-  output: __S(371, __c23, 3) as any as S.Schema<ListMicrovmsResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListMicrovmsRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<ListMicrovmsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1271,8 +1276,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListTagsResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -1303,8 +1308,8 @@ export const resumeMicrovm: API.OperationMethod<
   ResumeMicrovmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ResumeMicrovmRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ResumeMicrovmResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<ResumeMicrovmRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<ResumeMicrovmResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1339,8 +1344,8 @@ export const runMicrovm: API.OperationMethod<
   RunMicrovmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<RunMicrovmRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<RunMicrovmResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<RunMicrovmRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<RunMicrovmResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1375,8 +1380,8 @@ export const suspendMicrovm: API.OperationMethod<
   SuspendMicrovmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<SuspendMicrovmRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<SuspendMicrovmResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<SuspendMicrovmRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<SuspendMicrovmResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1408,8 +1413,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -1441,8 +1446,8 @@ export const terminateMicrovm: API.OperationMethod<
   TerminateMicrovmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<TerminateMicrovmRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<TerminateMicrovmResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<TerminateMicrovmRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TerminateMicrovmResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1474,8 +1479,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(481, __c30, 1) as any as S.Schema<UntagResourceRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(249, __c31, 1) as any as S.Schema<UntagResourceRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InvalidParameterValueException,
     ResourceConflictException,
@@ -1508,8 +1513,8 @@ export const updateMicrovmImage: API.OperationMethod<
   UpdateMicrovmImageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpdateMicrovmImageRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<UpdateMicrovmImageResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<UpdateMicrovmImageRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<UpdateMicrovmImageResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1543,8 +1548,8 @@ export const updateMicrovmImageVersion: API.OperationMethod<
   UpdateMicrovmImageVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UpdateMicrovmImageVersionRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<UpdateMicrovmImageVersionResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateMicrovmImageVersionRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<UpdateMicrovmImageVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1603,7 +1608,7 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ authToken: __S(16, __c1, 0) })).annotate({
+      return S.suspend(() => S.Struct({ authToken: __S(8, __c1, 0) })).annotate({
         identifier: "CreateMicrovmAuthTokenResponse",
       });
   }
@@ -1617,16 +1622,16 @@ function __c3(j: number): any {
           baseImageVersion: S.optional(S.String),
           buildRoleArn: S.String,
           description: S.optional(S.String),
-          codeArtifact: __S(128, __c8, 0),
-          logging: S.optional(__S(113, __c7, 1)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          cpuConfigurations: S.optional(__S(130, __c8, 2)),
-          resources: S.optional(__S(132, __c8, 4)),
-          additionalOsCapabilities: S.optional(__S(133, __c8, 5)),
-          hooks: S.optional(__S(136, __c8, 8)),
-          environmentVariables: S.optional(__S(16, __c1, 0)),
+          codeArtifact: __S(72, __c9, 0),
+          logging: S.optional(__S(65, __c8, 1)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          cpuConfigurations: S.optional(__S(49, __c6, 1)),
+          resources: S.optional(__S(74, __c9, 2)),
+          additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
+          hooks: S.optional(__S(78, __c9, 6)),
+          environmentVariables: S.optional(__S(8, __c1, 0)),
           name: S.String,
-          tags: S.optional(__S(80, __c5, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -1652,15 +1657,15 @@ function __c3(j: number): any {
           baseImageVersion: S.optional(S.String),
           buildRoleArn: S.String,
           description: S.optional(S.String),
-          codeArtifact: __S(128, __c8, 0),
-          logging: S.optional(__S(113, __c7, 1)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          cpuConfigurations: S.optional(__S(130, __c8, 2)),
-          resources: S.optional(__S(132, __c8, 4)),
-          additionalOsCapabilities: S.optional(__S(133, __c8, 5)),
-          hooks: S.optional(__S(136, __c8, 8)),
-          environmentVariables: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(80, __c5, 0)),
+          codeArtifact: __S(72, __c9, 0),
+          logging: S.optional(__S(65, __c8, 1)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          cpuConfigurations: S.optional(__S(49, __c6, 1)),
+          resources: S.optional(__S(74, __c9, 2)),
+          additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
+          hooks: S.optional(__S(78, __c9, 6)),
+          environmentVariables: S.optional(__S(8, __c1, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           imageVersion: S.String,
         }),
@@ -1682,10 +1687,20 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "LoggingDisabled" });
+      return S.suspend(() => S.Struct({ architecture: S.String })).annotate({
+        identifier: "CpuConfiguration",
+      });
+    case 1:
+      return S.Array(__S(48, __c6, 0));
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "LoggingDisabled" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1693,30 +1708,24 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CloudWatchLogging" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ disabled: __S(96, __c6, 0) }),
-        /*@__PURE__*/ S.Struct({ cloudWatch: __S(112, __c7, 0) }),
+        /*@__PURE__*/ S.Struct({ disabled: __S(56, __c7, 0) }),
+        /*@__PURE__*/ S.Struct({ cloudWatch: __S(64, __c8, 0) }),
       ]);
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ uri: S.String })]);
     case 1:
-      return S.suspend(() => S.Struct({ architecture: S.String })).annotate({
-        identifier: "CpuConfiguration",
-      });
-    case 2:
-      return S.Array(__S(129, __c8, 1));
-    case 3:
       return S.suspend(() => S.Struct({ minimumMemoryInMiB: S.Number })).annotate({
         identifier: "Resources",
       });
-    case 4:
-      return S.Array(__S(131, __c8, 3));
-    case 5:
+    case 2:
+      return S.Array(__S(73, __c9, 1));
+    case 3:
       return S.Array(S.String);
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           run: S.optional(S.String),
@@ -1729,7 +1738,7 @@ function __c8(j: number): any {
           terminateTimeoutInSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MicrovmHooks" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           ready: S.optional(S.String),
@@ -1738,17 +1747,17 @@ function __c8(j: number): any {
           validateTimeoutInSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MicrovmImageHooks" });
-    case 8:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           port: S.optional(S.Number),
-          microvmHooks: S.optional(__S(134, __c8, 6)),
-          microvmImageHooks: S.optional(__S(135, __c8, 7)),
+          microvmHooks: S.optional(__S(76, __c9, 4)),
+          microvmImageHooks: S.optional(__S(77, __c9, 5)),
         }),
       ).annotate({ identifier: "Hooks" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1771,7 +1780,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateMicrovmShellAuthTokenRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1792,7 +1801,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1819,7 +1828,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteMicrovmImageVersionOutput" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1836,7 +1845,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetMicrovmRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1855,18 +1864,18 @@ function __c13(j: number): any {
           imageArn: S.String,
           imageVersion: S.String,
           executionRoleArn: S.optional(S.String),
-          idlePolicy: S.optional(__S(208, __c13, 0)),
+          idlePolicy: S.optional(__S(112, __c14, 0)),
           maximumDurationInSeconds: S.Number,
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           terminatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           stateReason: S.optional(S.String),
-          ingressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
+          ingressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "GetMicrovmResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1890,13 +1899,13 @@ function __c14(j: number): any {
           latestActiveImageVersion: S.optional(S.String),
           latestFailedImageVersion: S.optional(S.String),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(80, __c5, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "GetMicrovmImageOutput" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1938,12 +1947,12 @@ function __c15(j: number): any {
           chipsetGeneration: S.String,
           stateReason: S.optional(S.String),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          snapshotBuild: S.optional(__S(241, __c15, 1)),
+          snapshotBuild: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "GetMicrovmImageBuildOutput" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1966,7 +1975,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetMicrovmImageVersionInput" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1975,14 +1984,14 @@ function __c17(j: number): any {
           baseImageVersion: S.optional(S.String),
           buildRoleArn: S.String,
           description: S.optional(S.String),
-          codeArtifact: __S(128, __c8, 0),
-          logging: S.optional(__S(113, __c7, 1)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          cpuConfigurations: S.optional(__S(130, __c8, 2)),
-          resources: S.optional(__S(132, __c8, 4)),
-          additionalOsCapabilities: S.optional(__S(133, __c8, 5)),
-          hooks: S.optional(__S(136, __c8, 8)),
-          environmentVariables: S.optional(__S(16, __c1, 0)),
+          codeArtifact: __S(72, __c9, 0),
+          logging: S.optional(__S(65, __c8, 1)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          cpuConfigurations: S.optional(__S(49, __c6, 1)),
+          resources: S.optional(__S(74, __c9, 2)),
+          additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
+          hooks: S.optional(__S(78, __c9, 6)),
+          environmentVariables: S.optional(__S(8, __c1, 0)),
           imageArn: S.String,
           imageVersion: S.String,
           state: S.String,
@@ -1990,12 +1999,12 @@ function __c17(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           stateReason: S.optional(S.String),
-          tags: S.optional(__S(80, __c5, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "GetMicrovmImageVersionOutput" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2022,14 +2031,14 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ManagedMicrovmImageSummary" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(290, __c18, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(154, __c19, 2) }),
       ).annotate({ identifier: "ListManagedMicrovmImagesOutput" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2057,19 +2066,20 @@ function __c19(j: number): any {
           imageArn: S.String,
           imageVersion: S.String,
           status: S.optional(S.String),
+          supportedCpuConfigurations: S.optional(__S(49, __c6, 1)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ManagedMicrovmImageVersion" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(306, __c19, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(162, __c20, 2) }),
       ).annotate({ identifier: "ListManagedMicrovmImageVersionsOutput" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2110,14 +2120,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MicrovmImageBuildSummary" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(322, __c20, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(170, __c21, 2) }),
       ).annotate({ identifier: "ListMicrovmImageBuildsOutput" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2148,14 +2158,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "MicrovmImageSummary" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(177, __c22, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(338, __c21, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(178, __c22, 2) }),
       ).annotate({ identifier: "ListMicrovmImagesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2175,14 +2185,14 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListMicrovmImageVersionsInput" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(353, __c22, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(185, __c23, 1) }),
       ).annotate({ identifier: "ListMicrovmImageVersionsOutput" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2213,14 +2223,14 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "MicrovmItem" });
     case 2:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), items: __S(370, __c23, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), items: __S(194, __c24, 2) }),
       ).annotate({ identifier: "ListMicrovmsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2236,12 +2246,12 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(80, __c5, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(40, __c5, 0)) })).annotate({
         identifier: "ListTagsResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2258,18 +2268,18 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ResumeMicrovmRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ingressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
+          ingressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
           imageIdentifier: S.String,
           imageVersion: S.optional(S.String),
           executionRoleArn: S.optional(S.String),
-          idlePolicy: S.optional(__S(208, __c13, 0)),
-          logging: S.optional(__S(113, __c7, 1)),
+          idlePolicy: S.optional(__S(112, __c14, 0)),
+          logging: S.optional(__S(65, __c8, 1)),
           runHookPayload: S.optional(SensitiveString),
           maximumDurationInSeconds: S.optional(S.Number),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -2286,7 +2296,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RunMicrovmRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2303,11 +2313,11 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SuspendMicrovmRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Resource: S.String.pipe(T.HttpLabel("Resource")), Tags: __S(80, __c5, 0) }).pipe(
+        S.Struct({ Resource: S.String.pipe(T.HttpLabel("Resource")), Tags: __S(40, __c5, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2017-03-31/tags/{Resource}" }),
             svc,
@@ -2320,7 +2330,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2337,7 +2347,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TerminateMicrovmRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Key")));
@@ -2345,7 +2355,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Resource: S.String.pipe(T.HttpLabel("Resource")),
-          TagKeys: __S(480, __c30, 0).pipe(T.HttpQuery("tagKeys")),
+          TagKeys: __S(248, __c31, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/2017-03-31/tags/{Resource}" }),
@@ -2359,7 +2369,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2368,14 +2378,14 @@ function __c31(j: number): any {
           baseImageVersion: S.optional(S.String),
           buildRoleArn: S.String,
           description: S.optional(S.String),
-          codeArtifact: __S(128, __c8, 0),
-          logging: S.optional(__S(113, __c7, 1)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          cpuConfigurations: S.optional(__S(130, __c8, 2)),
-          resources: S.optional(__S(132, __c8, 4)),
-          additionalOsCapabilities: S.optional(__S(133, __c8, 5)),
-          hooks: S.optional(__S(136, __c8, 8)),
-          environmentVariables: S.optional(__S(16, __c1, 0)),
+          codeArtifact: __S(72, __c9, 0),
+          logging: S.optional(__S(65, __c8, 1)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          cpuConfigurations: S.optional(__S(49, __c6, 1)),
+          resources: S.optional(__S(74, __c9, 2)),
+          additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
+          hooks: S.optional(__S(78, __c9, 6)),
+          environmentVariables: S.optional(__S(8, __c1, 0)),
           imageIdentifier: S.String.pipe(T.HttpLabel("imageIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -2402,21 +2412,21 @@ function __c31(j: number): any {
           baseImageVersion: S.optional(S.String),
           buildRoleArn: S.String,
           description: S.optional(S.String),
-          codeArtifact: __S(128, __c8, 0),
-          logging: S.optional(__S(113, __c7, 1)),
-          egressNetworkConnectors: S.optional(__S(64, __c4, 0)),
-          cpuConfigurations: S.optional(__S(130, __c8, 2)),
-          resources: S.optional(__S(132, __c8, 4)),
-          additionalOsCapabilities: S.optional(__S(133, __c8, 5)),
-          hooks: S.optional(__S(136, __c8, 8)),
-          environmentVariables: S.optional(__S(16, __c1, 0)),
+          codeArtifact: __S(72, __c9, 0),
+          logging: S.optional(__S(65, __c8, 1)),
+          egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
+          cpuConfigurations: S.optional(__S(49, __c6, 1)),
+          resources: S.optional(__S(74, __c9, 2)),
+          additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
+          hooks: S.optional(__S(78, __c9, 6)),
+          environmentVariables: S.optional(__S(8, __c1, 0)),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           imageVersion: S.String,
         }),
       ).annotate({ identifier: "UpdateMicrovmImageResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

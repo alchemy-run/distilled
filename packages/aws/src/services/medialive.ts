@@ -1440,7 +1440,6 @@ export type __listOfMediaPackageAdditionalDestinations = MediaPackageAdditionalD
 const __listOfMediaPackageAdditionalDestinations = /*@__PURE__*/ __L.at(__c51, 23);
 export type __listOfOutputLocationRef = OutputLocationRef[];
 const __listOfOutputLocationRef = /*@__PURE__*/ __L.at(__c51, 24);
-export type __doubleMin250Max5000 = number;
 export type __doubleMinNegative1Max5 = number;
 export type __doubleMin32Max46 = number;
 export interface AbWatermarkingCustomProfile {
@@ -2036,9 +2035,18 @@ export interface BandwidthReductionFilterSettings {
   PostFilterSharpening?: BandwidthReductionPostFilterSharpening | undefined;
   Strength?: BandwidthReductionFilterStrength | undefined;
 }
+export interface AutoFilterSettings {}
+export interface NoneFilterSettings {}
+export type PerceptualFilterStrength = "STRENGTH_1" | "STRENGTH_2" | (string & {});
+export interface PerceptualFilterSettings {
+  Strength?: PerceptualFilterStrength | undefined;
+}
 export interface H264FilterSettings {
   TemporalFilterSettings?: TemporalFilterSettings | undefined;
   BandwidthReductionFilterSettings?: BandwidthReductionFilterSettings | undefined;
+  AutoFilterSettings?: AutoFilterSettings | undefined;
+  NoneFilterSettings?: NoneFilterSettings | undefined;
+  PerceptualFilterSettings?: PerceptualFilterSettings | undefined;
 }
 export type FixedAfd =
   | "AFD_0000"
@@ -2102,6 +2110,7 @@ export type H264Syntax = "DEFAULT" | "RP2027" | (string & {});
 export type H264TemporalAq = "DISABLED" | "ENABLED" | (string & {});
 export type H264TimecodeInsertionBehavior = "DISABLED" | "PIC_TIMING_SEI" | (string & {});
 export type __integerMin1Max51 = number;
+export type H264AllowExplicitWeightedPrediction = "DISABLED" | "ENABLED" | (string & {});
 export interface H264Settings {
   AdaptiveQuantization?: H264AdaptiveQuantization | undefined;
   AfdSignaling?: AfdSignaling | undefined;
@@ -2147,6 +2156,7 @@ export interface H264Settings {
   TimecodeBurninSettings?: TimecodeBurninSettings | undefined;
   MinQp?: number | undefined;
   MinBitrate?: number | undefined;
+  AllowExplicitWeightedPrediction?: H264AllowExplicitWeightedPrediction | undefined;
 }
 export type H265AdaptiveQuantization =
   | "AUTO"
@@ -2179,6 +2189,9 @@ export interface H265ColorSpaceSettings {
 export interface H265FilterSettings {
   TemporalFilterSettings?: TemporalFilterSettings | undefined;
   BandwidthReductionFilterSettings?: BandwidthReductionFilterSettings | undefined;
+  AutoFilterSettings?: AutoFilterSettings | undefined;
+  NoneFilterSettings?: NoneFilterSettings | undefined;
+  PerceptualFilterSettings?: PerceptualFilterSettings | undefined;
 }
 export type H265FlickerAq = "DISABLED" | "ENABLED" | (string & {});
 export type __integerMin1Max3003 = number;
@@ -2326,6 +2339,11 @@ export type Av1SpatialAq = "DISABLED" | "ENABLED" | (string & {});
 export type Av1TemporalAq = "DISABLED" | "ENABLED" | (string & {});
 export type Av1TimecodeInsertionBehavior = "DISABLED" | "METADATA_OBU" | (string & {});
 export type Av1BitDepth = "DEPTH_10" | "DEPTH_8" | (string & {});
+export interface Av1FilterSettings {
+  AutoFilterSettings?: AutoFilterSettings | undefined;
+  NoneFilterSettings?: NoneFilterSettings | undefined;
+  PerceptualFilterSettings?: PerceptualFilterSettings | undefined;
+}
 export interface Av1Settings {
   AfdSignaling?: AfdSignaling | undefined;
   BufSize?: number | undefined;
@@ -2351,6 +2369,7 @@ export interface Av1Settings {
   TemporalAq?: Av1TemporalAq | undefined;
   TimecodeInsertion?: Av1TimecodeInsertionBehavior | undefined;
   BitDepth?: Av1BitDepth | undefined;
+  FilterSettings?: Av1FilterSettings | undefined;
 }
 export interface VideoCodecSettings {
   FrameCaptureSettings?: FrameCaptureSettings | undefined;
@@ -2386,7 +2405,7 @@ export interface VideoDescription {
   Border?: number | undefined;
 }
 export type __listOfVideoDescription = VideoDescription[];
-const __listOfVideoDescription = /*@__PURE__*/ __L.at(__c53, 23);
+const __listOfVideoDescription = /*@__PURE__*/ __L.at(__c53, 25);
 export type ThumbnailState = "AUTO" | "DISABLED" | (string & {});
 export interface ThumbnailConfiguration {
   State?: ThumbnailState | undefined;
@@ -2398,7 +2417,7 @@ export interface ColorCorrection {
   Uri?: string | undefined;
 }
 export type __listOfColorCorrection = ColorCorrection[];
-const __listOfColorCorrection = /*@__PURE__*/ __L.at(__c53, 26);
+const __listOfColorCorrection = /*@__PURE__*/ __L.at(__c53, 28);
 export interface ColorCorrectionSettings {
   GlobalColorCorrections?: ColorCorrection[] | undefined;
 }
@@ -2769,7 +2788,7 @@ export interface PipelineDetail {
     | undefined;
 }
 export type __listOfPipelineDetail = PipelineDetail[];
-const __listOfPipelineDetail = /*@__PURE__*/ __L.at(__c54, 0);
+const __listOfPipelineDetail = /*@__PURE__*/ __L.at(__c54, 2);
 export type ChannelState =
   | "CREATING"
   | "CREATE_FAILED"
@@ -2906,7 +2925,7 @@ export interface CreateChannelResponse {
                       OperatorId: __integerMin1Max511;
                       Profile: AbWatermarkingProfile;
                       CustomProfile: AbWatermarkingCustomProfile & {
-                        EmbeddingFrequency: __doubleMin250Max5000;
+                        EmbeddingFrequency: number;
                         SceneCut: __doubleMinNegative1Max5;
                         TargetPsnr: __doubleMin32Max46;
                       };
@@ -2930,7 +2949,7 @@ export interface CreateChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -3009,6 +3028,11 @@ export interface CreateChannelResponse {
                 };
               };
               H264Settings: H264Settings & {
+                FilterSettings: H264FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -3017,6 +3041,11 @@ export interface CreateChannelResponse {
               H265Settings: H265Settings & {
                 FramerateDenominator: __integerMin1Max3003;
                 FramerateNumerator: __integerMin1;
+                FilterSettings: H265FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -3036,6 +3065,11 @@ export interface CreateChannelResponse {
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
+                };
+                FilterSettings: Av1FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
                 };
               };
             };
@@ -3473,6 +3507,8 @@ export type InputNetworkLocation = "AWS" | "ON_PREMISES" | (string & {});
 export interface MulticastSourceCreateRequest {
   SourceIp?: string | undefined;
   Url?: string | undefined;
+  SecondarySourceIp?: string | undefined;
+  SecondaryUrl?: string | undefined;
 }
 export type __listOfMulticastSourceCreateRequest = MulticastSourceCreateRequest[];
 const __listOfMulticastSourceCreateRequest = /*@__PURE__*/ __L.at(__c76, 12);
@@ -3601,6 +3637,8 @@ export interface SrtSettings {
 export interface MulticastSource {
   SourceIp?: string | undefined;
   Url?: string | undefined;
+  SecondarySourceIp?: string | undefined;
+  SecondaryUrl?: string | undefined;
 }
 export type __listOfMulticastSource = MulticastSource[];
 export interface MulticastSettings {
@@ -4172,7 +4210,7 @@ export interface DeleteChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -4196,7 +4234,7 @@ export interface DeleteChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -4273,6 +4311,11 @@ export interface DeleteChannelResponse {
               };
             };
             H264Settings: H264Settings & {
+              FilterSettings: H264FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -4281,6 +4324,11 @@ export interface DeleteChannelResponse {
             H265Settings: H265Settings & {
               FramerateDenominator: __integerMin1Max3003;
               FramerateNumerator: __integerMin1;
+              FilterSettings: H265FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -4300,6 +4348,11 @@ export interface DeleteChannelResponse {
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
+              };
+              FilterSettings: Av1FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
               };
             };
           };
@@ -4727,7 +4780,7 @@ export interface DescribeChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -4751,7 +4804,7 @@ export interface DescribeChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -4828,6 +4881,11 @@ export interface DescribeChannelResponse {
               };
             };
             H264Settings: H264Settings & {
+              FilterSettings: H264FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -4836,6 +4894,11 @@ export interface DescribeChannelResponse {
             H265Settings: H265Settings & {
               FramerateDenominator: __integerMin1Max3003;
               FramerateNumerator: __integerMin1;
+              FilterSettings: H265FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -4855,6 +4918,11 @@ export interface DescribeChannelResponse {
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
+              };
+              FilterSettings: Av1FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
               };
             };
           };
@@ -6259,7 +6327,7 @@ export interface RestartChannelPipelinesResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -6283,7 +6351,7 @@ export interface RestartChannelPipelinesResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -6360,6 +6428,11 @@ export interface RestartChannelPipelinesResponse {
               };
             };
             H264Settings: H264Settings & {
+              FilterSettings: H264FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -6368,6 +6441,11 @@ export interface RestartChannelPipelinesResponse {
             H265Settings: H265Settings & {
               FramerateDenominator: __integerMin1Max3003;
               FramerateNumerator: __integerMin1;
+              FilterSettings: H265FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -6387,6 +6465,11 @@ export interface RestartChannelPipelinesResponse {
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
+              };
+              FilterSettings: Av1FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
               };
             };
           };
@@ -6613,7 +6696,7 @@ export interface StartChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -6637,7 +6720,7 @@ export interface StartChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -6714,6 +6797,11 @@ export interface StartChannelResponse {
               };
             };
             H264Settings: H264Settings & {
+              FilterSettings: H264FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -6722,6 +6810,11 @@ export interface StartChannelResponse {
             H265Settings: H265Settings & {
               FramerateDenominator: __integerMin1Max3003;
               FramerateNumerator: __integerMin1;
+              FilterSettings: H265FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -6741,6 +6834,11 @@ export interface StartChannelResponse {
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
+              };
+              FilterSettings: Av1FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
               };
             };
           };
@@ -7145,7 +7243,7 @@ export interface StopChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -7169,7 +7267,7 @@ export interface StopChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -7246,6 +7344,11 @@ export interface StopChannelResponse {
               };
             };
             H264Settings: H264Settings & {
+              FilterSettings: H264FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -7254,6 +7357,11 @@ export interface StopChannelResponse {
             H265Settings: H265Settings & {
               FramerateDenominator: __integerMin1Max3003;
               FramerateNumerator: __integerMin1;
+              FilterSettings: H265FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
+              };
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
@@ -7273,6 +7381,11 @@ export interface StopChannelResponse {
               TimecodeBurninSettings: TimecodeBurninSettings & {
                 FontSize: TimecodeBurninFontSize;
                 Position: TimecodeBurninPosition;
+              };
+              FilterSettings: Av1FilterSettings & {
+                PerceptualFilterSettings: PerceptualFilterSettings & {
+                  Strength: PerceptualFilterStrength;
+                };
               };
             };
           };
@@ -7555,7 +7668,7 @@ export interface UpdateChannelResponse {
                       OperatorId: __integerMin1Max511;
                       Profile: AbWatermarkingProfile;
                       CustomProfile: AbWatermarkingCustomProfile & {
-                        EmbeddingFrequency: __doubleMin250Max5000;
+                        EmbeddingFrequency: number;
                         SceneCut: __doubleMinNegative1Max5;
                         TargetPsnr: __doubleMin32Max46;
                       };
@@ -7579,7 +7692,7 @@ export interface UpdateChannelResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -7658,6 +7771,11 @@ export interface UpdateChannelResponse {
                 };
               };
               H264Settings: H264Settings & {
+                FilterSettings: H264FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -7666,6 +7784,11 @@ export interface UpdateChannelResponse {
               H265Settings: H265Settings & {
                 FramerateDenominator: __integerMin1Max3003;
                 FramerateNumerator: __integerMin1;
+                FilterSettings: H265FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -7685,6 +7808,11 @@ export interface UpdateChannelResponse {
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
+                };
+                FilterSettings: Av1FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
                 };
               };
             };
@@ -7891,7 +8019,7 @@ export interface UpdateChannelClassResponse {
                       OperatorId: __integerMin1Max511;
                       Profile: AbWatermarkingProfile;
                       CustomProfile: AbWatermarkingCustomProfile & {
-                        EmbeddingFrequency: __doubleMin250Max5000;
+                        EmbeddingFrequency: number;
                         SceneCut: __doubleMinNegative1Max5;
                         TargetPsnr: __doubleMin32Max46;
                       };
@@ -7915,7 +8043,7 @@ export interface UpdateChannelClassResponse {
                     OperatorId: __integerMin1Max511;
                     Profile: AbWatermarkingProfile;
                     CustomProfile: AbWatermarkingCustomProfile & {
-                      EmbeddingFrequency: __doubleMin250Max5000;
+                      EmbeddingFrequency: number;
                       SceneCut: __doubleMinNegative1Max5;
                       TargetPsnr: __doubleMin32Max46;
                     };
@@ -7994,6 +8122,11 @@ export interface UpdateChannelClassResponse {
                 };
               };
               H264Settings: H264Settings & {
+                FilterSettings: H264FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -8002,6 +8135,11 @@ export interface UpdateChannelClassResponse {
               H265Settings: H265Settings & {
                 FramerateDenominator: __integerMin1Max3003;
                 FramerateNumerator: __integerMin1;
+                FilterSettings: H265FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
+                };
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
@@ -8021,6 +8159,11 @@ export interface UpdateChannelClassResponse {
                 TimecodeBurninSettings: TimecodeBurninSettings & {
                   FontSize: TimecodeBurninFontSize;
                   Position: TimecodeBurninPosition;
+                };
+                FilterSettings: Av1FilterSettings & {
+                  PerceptualFilterSettings: PerceptualFilterSettings & {
+                    Strength: PerceptualFilterStrength;
+                  };
                 };
               };
             };
@@ -8280,6 +8423,8 @@ const __listOfInputDeviceRequest =
 export interface MulticastSourceUpdateRequest {
   SourceIp?: string | undefined;
   Url?: string | undefined;
+  SecondarySourceIp?: string | undefined;
+  SecondaryUrl?: string | undefined;
 }
 export type __listOfMulticastSourceUpdateRequest = MulticastSourceUpdateRequest[];
 export interface MulticastSettingsUpdateRequest {
@@ -13168,7 +13313,7 @@ function __c4(j: number): any {
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
           EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           Id: S.optional(S.String),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
@@ -13555,7 +13700,7 @@ function __c20(j: number): any {
           CdiInputSpecification: S.optional(__S(1792, __c56, 0)),
           ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
           Destinations: S.optional(__listOfOutputDestination),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
           LogLevel: S.optional(S.String),
@@ -14658,7 +14803,7 @@ function __c46(j: number): any {
           CdiInputSpecification: S.optional(__S(1792, __c56, 0)),
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
           LogLevel: S.optional(S.String),
@@ -16501,17 +16646,27 @@ function __c53(j: number): any {
       ).annotate({ identifier: "TemporalFilterSettings" });
     case 12:
       return S.suspend(() =>
+        S.Struct({ Strength: S.optional(S.String) }).pipe(S.encodeKeys({ Strength: "strength" })),
+      ).annotate({ identifier: "PerceptualFilterSettings" });
+    case 13:
+      return S.suspend(() =>
         S.Struct({
           TemporalFilterSettings: S.optional(__S(1707, __c53, 11)),
           BandwidthReductionFilterSettings: S.optional(__S(1707, __c53, 11)),
+          AutoFilterSettings: S.optional(__S(32, __c1, 0)),
+          NoneFilterSettings: S.optional(__S(32, __c1, 0)),
+          PerceptualFilterSettings: S.optional(__S(1708, __c53, 12)),
         }).pipe(
           S.encodeKeys({
             TemporalFilterSettings: "temporalFilterSettings",
             BandwidthReductionFilterSettings: "bandwidthReductionFilterSettings",
+            AutoFilterSettings: "autoFilterSettings",
+            NoneFilterSettings: "noneFilterSettings",
+            PerceptualFilterSettings: "perceptualFilterSettings",
           }),
         ),
       ).annotate({ identifier: "H264FilterSettings" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16522,7 +16677,7 @@ function __c53(j: number): any {
           ColorMetadata: S.optional(S.String),
           ColorSpaceSettings: S.optional(__S(1706, __c53, 10)),
           EntropyEncoding: S.optional(S.String),
-          FilterSettings: S.optional(__S(1708, __c53, 12)),
+          FilterSettings: S.optional(__S(1709, __c53, 13)),
           FixedAfd: S.optional(S.String),
           FlickerAq: S.optional(S.String),
           ForceFieldPictures: S.optional(S.String),
@@ -16558,6 +16713,7 @@ function __c53(j: number): any {
           TimecodeBurninSettings: S.optional(__S(1704, __c53, 8)),
           MinQp: S.optional(S.Number),
           MinBitrate: S.optional(S.Number),
+          AllowExplicitWeightedPrediction: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
@@ -16604,10 +16760,11 @@ function __c53(j: number): any {
             TimecodeBurninSettings: "timecodeBurninSettings",
             MinQp: "minQp",
             MinBitrate: "minBitrate",
+            AllowExplicitWeightedPrediction: "allowExplicitWeightedPrediction",
           }),
         ),
       ).annotate({ identifier: "H264Settings" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           ColorSpacePassthroughSettings: S.optional(__S(32, __c1, 0)),
@@ -16627,7 +16784,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H265ColorSpaceSettings" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16636,8 +16793,8 @@ function __c53(j: number): any {
           Bitrate: S.optional(S.Number),
           BufSize: S.optional(S.Number),
           ColorMetadata: S.optional(S.String),
-          ColorSpaceSettings: S.optional(__S(1710, __c53, 14)),
-          FilterSettings: S.optional(__S(1708, __c53, 12)),
+          ColorSpaceSettings: S.optional(__S(1711, __c53, 15)),
+          FilterSettings: S.optional(__S(1709, __c53, 13)),
           FixedAfd: S.optional(S.String),
           FlickerAq: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
@@ -16719,13 +16876,13 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H265Settings" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({ TemporalFilterSettings: S.optional(__S(1707, __c53, 11)) }).pipe(
           S.encodeKeys({ TemporalFilterSettings: "temporalFilterSettings" }),
         ),
       ).annotate({ identifier: "Mpeg2FilterSettings" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16733,7 +16890,7 @@ function __c53(j: number): any {
           ColorMetadata: S.optional(S.String),
           ColorSpace: S.optional(S.String),
           DisplayAspectRatio: S.optional(S.String),
-          FilterSettings: S.optional(__S(1712, __c53, 16)),
+          FilterSettings: S.optional(__S(1713, __c53, 17)),
           FixedAfd: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
           FramerateNumerator: S.optional(S.Number),
@@ -16767,7 +16924,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mpeg2Settings" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           ColorSpacePassthroughSettings: S.optional(__S(32, __c1, 0)),
@@ -16785,12 +16942,26 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Av1ColorSpaceSettings" });
-    case 19:
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          AutoFilterSettings: S.optional(__S(32, __c1, 0)),
+          NoneFilterSettings: S.optional(__S(32, __c1, 0)),
+          PerceptualFilterSettings: S.optional(__S(1708, __c53, 12)),
+        }).pipe(
+          S.encodeKeys({
+            AutoFilterSettings: "autoFilterSettings",
+            NoneFilterSettings: "noneFilterSettings",
+            PerceptualFilterSettings: "perceptualFilterSettings",
+          }),
+        ),
+      ).annotate({ identifier: "Av1FilterSettings" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AfdSignaling: S.optional(S.String),
           BufSize: S.optional(S.Number),
-          ColorSpaceSettings: S.optional(__S(1714, __c53, 18)),
+          ColorSpaceSettings: S.optional(__S(1715, __c53, 19)),
           FixedAfd: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
           FramerateNumerator: S.optional(S.Number),
@@ -16812,6 +16983,7 @@ function __c53(j: number): any {
           TemporalAq: S.optional(S.String),
           TimecodeInsertion: S.optional(S.String),
           BitDepth: S.optional(S.String),
+          FilterSettings: S.optional(__S(1716, __c53, 20)),
         }).pipe(
           S.encodeKeys({
             AfdSignaling: "afdSignaling",
@@ -16838,17 +17010,18 @@ function __c53(j: number): any {
             TemporalAq: "temporalAq",
             TimecodeInsertion: "timecodeInsertion",
             BitDepth: "bitDepth",
+            FilterSettings: "filterSettings",
           }),
         ),
       ).annotate({ identifier: "Av1Settings" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           FrameCaptureSettings: S.optional(__S(1705, __c53, 9)),
-          H264Settings: S.optional(__S(1709, __c53, 13)),
-          H265Settings: S.optional(__S(1711, __c53, 15)),
-          Mpeg2Settings: S.optional(__S(1713, __c53, 17)),
-          Av1Settings: S.optional(__S(1715, __c53, 19)),
+          H264Settings: S.optional(__S(1710, __c53, 14)),
+          H265Settings: S.optional(__S(1712, __c53, 16)),
+          Mpeg2Settings: S.optional(__S(1714, __c53, 18)),
+          Av1Settings: S.optional(__S(1717, __c53, 21)),
         }).pipe(
           S.encodeKeys({
             FrameCaptureSettings: "frameCaptureSettings",
@@ -16859,7 +17032,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoCodecSettings" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           Height: S.optional(S.Number),
@@ -16868,18 +17041,18 @@ function __c53(j: number): any {
           Y: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Height: "height", Width: "width", X: "x", Y: "y" })),
       ).annotate({ identifier: "VideoPositionRectangle" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          CodecSettings: S.optional(__S(1716, __c53, 20)),
+          CodecSettings: S.optional(__S(1718, __c53, 22)),
           Height: S.optional(S.Number),
           Name: S.optional(S.String),
           RespondToAfd: S.optional(S.String),
           ScalingBehavior: S.optional(S.String),
           Sharpness: S.optional(S.Number),
           Width: S.optional(S.Number),
-          CropRectangle: S.optional(__S(1717, __c53, 21)),
-          OutputPositionRectangle: S.optional(__S(1717, __c53, 21)),
+          CropRectangle: S.optional(__S(1719, __c53, 23)),
+          OutputPositionRectangle: S.optional(__S(1719, __c53, 23)),
           Border: S.optional(S.Number),
         }).pipe(
           S.encodeKeys({
@@ -16896,13 +17069,13 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoDescription" });
-    case 23:
-      return S.Array(__S(1718, __c53, 22));
-    case 24:
+    case 25:
+      return S.Array(__S(1720, __c53, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({ State: S.optional(S.String) }).pipe(S.encodeKeys({ State: "state" })),
       ).annotate({ identifier: "ThumbnailConfiguration" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           InputColorSpace: S.optional(S.String),
@@ -16916,15 +17089,15 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ColorCorrection" });
-    case 26:
-      return S.Array(__S(1721, __c53, 25));
-    case 27:
+    case 28:
+      return S.Array(__S(1723, __c53, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({ GlobalColorCorrections: S.optional(__listOfColorCorrection) }).pipe(
           S.encodeKeys({ GlobalColorCorrections: "globalColorCorrections" }),
         ),
       ).annotate({ identifier: "ColorCorrectionSettings" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           AudioDescriptions: S.optional(__listOfAudioDescription),
@@ -16939,8 +17112,8 @@ function __c53(j: number): any {
           OutputGroups: S.optional(__listOfOutputGroup),
           TimecodeConfig: S.optional(__S(1703, __c53, 7)),
           VideoDescriptions: S.optional(__listOfVideoDescription),
-          ThumbnailConfiguration: S.optional(__S(1720, __c53, 24)),
-          ColorCorrectionSettings: S.optional(__S(1723, __c53, 27)),
+          ThumbnailConfiguration: S.optional(__S(1722, __c53, 26)),
+          ColorCorrectionSettings: S.optional(__S(1725, __c53, 29)),
         }).pipe(
           S.encodeKeys({
             AudioDescriptions: "audioDescriptions",
@@ -16960,15 +17133,19 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EncoderSettings" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({ RouterInputArn: S.optional(S.String) }).pipe(
           S.encodeKeys({ RouterInputArn: "routerInputArn" }),
         ),
       ).annotate({ identifier: "MediaConnectRouterOutputConnection" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ __S(1725, __c53, 29).pipe(S.optional));
-    case 31:
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(1727, __c53, 31).pipe(S.optional));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ActiveInputAttachmentName: S.optional(S.String),
@@ -16977,7 +17154,7 @@ function __c53(j: number): any {
           ActiveMotionGraphicsUri: S.optional(S.String),
           PipelineId: S.optional(S.String),
           ChannelEngineVersion: S.optional(__S(1888, __c59, 0)),
-          MediaConnectRouterOutputConnectionMap: S.optional(__S(1726, __c53, 30)),
+          MediaConnectRouterOutputConnectionMap: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             ActiveInputAttachmentName: "activeInputAttachmentName",
@@ -16990,12 +17167,8 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PipelineDetail" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1727, __c53, 31));
+    case 2:
+      return S.Array(__S(1729, __c54, 1));
   }
 }
 function __c55(j: number): any {
@@ -17008,7 +17181,7 @@ function __c55(j: number): any {
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
           EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           Id: S.optional(S.String),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
@@ -18384,8 +18557,18 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SrtSettingsRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ SourceIp: S.optional(S.String), Url: S.optional(S.String) }).pipe(
-          S.encodeKeys({ SourceIp: "sourceIp", Url: "url" }),
+        S.Struct({
+          SourceIp: S.optional(S.String),
+          Url: S.optional(S.String),
+          SecondarySourceIp: S.optional(S.String),
+          SecondaryUrl: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            SourceIp: "sourceIp",
+            Url: "url",
+            SecondarySourceIp: "secondarySourceIp",
+            SecondaryUrl: "secondaryUrl",
+          }),
         ),
       ).annotate({ identifier: "MulticastSourceCreateRequest" });
     case 12:

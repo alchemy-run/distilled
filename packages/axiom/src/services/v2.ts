@@ -108,11 +108,6 @@ export interface Annotation {
   /** URL relevant for the event marked by the annotation. For example, link to GitHub pull request. */
   url?: string | undefined;
 }
-export type DatasetCapabilitiesValueDataItem = "delete";
-/** Data Management capability */
-export type DatasetCapabilitiesValueDataList = Array<
-  DatasetCapabilitiesValueDataItem | (string & {})
->;
 export type DatasetCapabilitiesValueIngestItem = "create";
 /** Ingest capability */
 export type DatasetCapabilitiesValueIngestList = Array<
@@ -134,7 +129,7 @@ export type DatasetCapabilitiesValueStarredQueriesList = Array<
   DatasetCapabilitiesValueStarredQueriesItem | (string & {})
 >;
 export type DatasetCapabilitiesValueTrimItem = "update";
-/** Data Trimming capability */
+/** Data Trimming and Deletion capability */
 export type DatasetCapabilitiesValueTrimList = Array<
   DatasetCapabilitiesValueTrimItem | (string & {})
 >;
@@ -149,8 +144,6 @@ export type DatasetCapabilitiesValueVirtualFieldsList = Array<
   DatasetCapabilitiesValueVirtualFieldsItem | (string & {})
 >;
 export interface DatasetCapabilitiesValue {
-  /** Data Management capability */
-  data?: DatasetCapabilitiesValueDataList | undefined;
   /** Ingest capability */
   ingest?: DatasetCapabilitiesValueIngestList | undefined;
   /** Query capability */
@@ -159,7 +152,7 @@ export interface DatasetCapabilitiesValue {
   share?: DatasetCapabilitiesValueShareList | undefined;
   /** Starred queries capability */
   starredQueries?: DatasetCapabilitiesValueStarredQueriesList | undefined;
-  /** Data Trimming capability */
+  /** Data Trimming and Deletion capability */
   trim?: DatasetCapabilitiesValueTrimList | undefined;
   /** Field Vacuuming capability */
   vacuum?: DatasetCapabilitiesValueVacuumList | undefined;
@@ -188,14 +181,14 @@ export type OrgCapabilitiesDatasetsList = Array<OrgCapabilitiesDatasetsItem | (s
 export type OrgCapabilitiesEndpointsItem = "create" | "read" | "update" | "delete";
 /** Endpoints capability */
 export type OrgCapabilitiesEndpointsList = Array<OrgCapabilitiesEndpointsItem | (string & {})>;
-export type OrgCapabilitiesFlowsItem = "create" | "read" | "update" | "delete";
-/** Flows capability */
-export type OrgCapabilitiesFlowsList = Array<OrgCapabilitiesFlowsItem | (string & {})>;
 export type OrgCapabilitiesIntegrationsItem = "create" | "read" | "update" | "delete";
 /** Integrations capability */
 export type OrgCapabilitiesIntegrationsList = Array<
   OrgCapabilitiesIntegrationsItem | (string & {})
 >;
+export type OrgCapabilitiesLabelsItem = "create" | "read" | "update" | "delete";
+/** Labels capability */
+export type OrgCapabilitiesLabelsList = Array<OrgCapabilitiesLabelsItem | (string & {})>;
 export type OrgCapabilitiesMonitorsItem = "create" | "read" | "update" | "delete";
 /** Monitors capability */
 export type OrgCapabilitiesMonitorsList = Array<OrgCapabilitiesMonitorsItem | (string & {})>;
@@ -231,10 +224,10 @@ export interface OrgCapabilities {
   datasets?: OrgCapabilitiesDatasetsList | undefined;
   /** Endpoints capability */
   endpoints?: OrgCapabilitiesEndpointsList | undefined;
-  /** Flows capability */
-  flows?: OrgCapabilitiesFlowsList | undefined;
   /** Integrations capability */
   integrations?: OrgCapabilitiesIntegrationsList | undefined;
+  /** Labels capability */
+  labels?: OrgCapabilitiesLabelsList | undefined;
   /** Monitors capability */
   monitors?: OrgCapabilitiesMonitorsList | undefined;
   /** Notifiers capability */
@@ -273,6 +266,10 @@ export interface CreateAPITokenRequest {
   viewCapabilities?: ViewCapabilities | undefined;
 }
 export interface CreateAPITokenResponse {
+  /** When the token was last used on an API other than ingest */
+  apiLastUsed?: string | null | undefined;
+  /** Audit identity of the token */
+  auditIdentity?: string | undefined;
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
   description?: string | undefined;
@@ -280,6 +277,8 @@ export interface CreateAPITokenResponse {
   expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
+  /** When the token was last used to ingest */
+  ingestLastUsed?: string | null | undefined;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
@@ -317,6 +316,7 @@ export interface TimeSeriesNativeMplQuery {
 export type TimeSeriesChartQuery = TimeSeriesNonMetricsAplQuery | TimeSeriesNativeMplQuery;
 export interface TimeSeriesChart {
   id: string;
+  sectionId?: string | undefined;
   type: TimeSeriesChartType;
   name?: string | undefined;
   query: TimeSeriesChartQuery;
@@ -339,11 +339,24 @@ export interface HeatmapNativeMplQuery {
   queryOptions?: HeatmapQueryOptions | undefined;
 }
 export type HeatmapChartQuery = HeatmapNonMetricsAplQuery | HeatmapNativeMplQuery;
+export type HeatmapChartColorScheme =
+  | "Blue"
+  | "Orange"
+  | "Red"
+  | "Purple"
+  | "Teal"
+  | "Yellow"
+  | "Green"
+  | "Pink"
+  | "Grey"
+  | "Brown";
 export interface HeatmapChart {
   id: string;
+  sectionId?: string | undefined;
   type: HeatmapChartType;
   name?: string | undefined;
   query: HeatmapChartQuery;
+  colorScheme?: HeatmapChartColorScheme | (string & {}) | undefined;
 }
 export type LogStreamChartType = "LogStream";
 export interface SimpleNonMetricsAplQuery {
@@ -375,6 +388,7 @@ export interface TableSettings {
 }
 export interface LogStreamChart {
   id: string;
+  sectionId?: string | undefined;
   type: LogStreamChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -383,6 +397,7 @@ export interface LogStreamChart {
 export type PieChartType = "Pie";
 export interface PieChart {
   id: string;
+  sectionId?: string | undefined;
   type: PieChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -390,6 +405,7 @@ export interface PieChart {
 export type ScatterChartType = "Scatter";
 export interface ScatterChart {
   id: string;
+  sectionId?: string | undefined;
   type: ScatterChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -397,6 +413,7 @@ export interface ScatterChart {
 export type TableChartType = "Table";
 export interface TableChart {
   id: string;
+  sectionId?: string | undefined;
   type: TableChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -405,6 +422,7 @@ export interface TableChart {
 export type TopKChartType = "TopK";
 export interface TopKChart {
   id: string;
+  sectionId?: string | undefined;
   type: TopKChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -443,6 +461,7 @@ export interface StatisticChartColorProps {
 }
 export interface StatisticChart {
   id: string;
+  sectionId?: string | undefined;
   type: StatisticChartType;
   name?: string | undefined;
   query: SimpleChartQuery;
@@ -455,6 +474,7 @@ export interface StatisticChart {
   errorThresholdValue?: string | undefined;
   warningThreshold?: StatisticChartWarningThreshold | (string & {}) | undefined;
   warningThresholdValue?: string | undefined;
+  roundTo?: number | undefined;
   invertTheme?: boolean | undefined;
   background?: string | undefined;
   textColor?: string | undefined;
@@ -464,13 +484,37 @@ export interface StatisticChart {
   warningColorProps?: StatisticChartColorProps | undefined;
   errorColorProps?: StatisticChartColorProps | undefined;
 }
+export type GaugeChartType = "Gauge";
+export interface GaugeChartSegment {
+  from: number;
+  to: number;
+}
+export type GaugeChartSegmentsList = Array<GaugeChartSegment>;
+export type GaugeChartColorScale = "green-to-red" | "red-to-green";
+export type GaugeChartLabelMode = "none" | "boundaries" | "intervals";
+export interface GaugeChart {
+  id: string;
+  sectionId?: string | undefined;
+  type: GaugeChartType;
+  name?: string | undefined;
+  query: SimpleChartQuery;
+  segments: GaugeChartSegmentsList;
+  colorScale?: GaugeChartColorScale | (string & {}) | undefined;
+  showRing?: boolean | undefined;
+  labelMode?: GaugeChartLabelMode | (string & {}) | undefined;
+  showSparkline?: boolean | undefined;
+  scaleToTimeRange?: boolean | undefined;
+  scaleBaseDurationMs?: number | undefined;
+  customUnits?: string | undefined;
+}
 export type NoteChartType = "Note";
-export type NoteChartVariant = "default";
+export type NoteChartVariant = "" | "default" | "plain";
 export interface NoteChart {
   id: string;
+  sectionId?: string | undefined;
   type: NoteChartType;
   text: string;
-  variant?: NoteChartVariant | (string & {}) | undefined;
+  variant?: NoteChartVariant | (string & {}) | null | undefined;
 }
 export type MonitorListChartType = "MonitorList";
 export type MonitorListChartSelectedMonitorsList = Array<string>;
@@ -483,6 +527,7 @@ export interface MonitorListColumns {
 }
 export interface MonitorListChart {
   id: string;
+  sectionId?: string | undefined;
   type: MonitorListChartType;
   name?: string | undefined;
   selectedMonitors: MonitorListChartSelectedMonitorsList;
@@ -546,6 +591,7 @@ export type SmartFilterConfig = SmartFilterSearch | SmartFilterSelect;
 export type SmartFilterChartFiltersList = Array<SmartFilterConfig>;
 export interface SmartFilterChart {
   id: string;
+  sectionId?: string | undefined;
   type: SmartFilterChartType;
   name?: string | undefined;
   filters: SmartFilterChartFiltersList;
@@ -553,10 +599,163 @@ export interface SmartFilterChart {
   logoDark?: string | undefined;
 }
 export type SpacerChartType = "Spacer";
+export type SpacerChartVariant = "transparent" | "dashed" | "solid";
 export interface SpacerChart {
   id: string;
+  sectionId?: string | undefined;
   type: SpacerChartType;
   name?: string | undefined;
+  variant?: SpacerChartVariant | (string & {}) | undefined;
+}
+export type VisualizeChartType = "Visualize";
+export type VisualizeConfigurationVersion = 1;
+export type ScatterVisualizationType = "scatter";
+export type VisualizeAxisFieldType = "datetime" | "integer" | "float";
+export interface VisualizeAxisColumnRef {
+  name: string;
+  type: VisualizeAxisFieldType | (string & {});
+}
+export type VisualizeNumericFieldType = "integer" | "float";
+export interface VisualizeNumericColumnRef {
+  name: string;
+  type: VisualizeNumericFieldType | (string & {});
+}
+export type VisualizeCategoricalFieldType = "string" | "boolean";
+export interface VisualizeCategoricalColumnRef {
+  name: string;
+  type: VisualizeCategoricalFieldType | (string & {});
+}
+export interface ScatterVisualizationBindings {
+  x: VisualizeAxisColumnRef;
+  y: VisualizeNumericColumnRef;
+  series?: VisualizeCategoricalColumnRef | undefined;
+}
+export type VisualizeColorSettingsPalette = "axiom" | "polychrome";
+export type VisualizeColorSettingsAssignment = "series-name" | "series-order";
+export interface VisualizeColorSettings {
+  palette: VisualizeColorSettingsPalette | (string & {});
+  assignment: VisualizeColorSettingsAssignment | (string & {});
+}
+export type VisualizeAxisSettingsScale = "linear" | "log";
+export type VisualizeAxisSettingsRange = "fit" | "includeZero";
+export interface VisualizeAxisSettings {
+  scale: VisualizeAxisSettingsScale | (string & {});
+  range: VisualizeAxisSettingsRange | (string & {});
+}
+export type VisualizeLegendSettingsPosition = "none" | "bottom" | "right";
+export interface VisualizeLegendSettings {
+  position: VisualizeLegendSettingsPosition | (string & {});
+}
+export interface ScatterVisualizationSettings {
+  colors?: VisualizeColorSettings | undefined;
+  xAxis?: VisualizeAxisSettings | undefined;
+  yAxis?: VisualizeAxisSettings | undefined;
+  legend?: VisualizeLegendSettings | undefined;
+}
+export interface ScatterVisualization {
+  version: VisualizeConfigurationVersion;
+  type: ScatterVisualizationType;
+  bindings: ScatterVisualizationBindings;
+  settings: ScatterVisualizationSettings;
+}
+export type BarVisualizationType = "bar";
+export interface BarVisualizationBindings {
+  category: VisualizeCategoricalColumnRef;
+  value: VisualizeNumericColumnRef;
+  series?: VisualizeCategoricalColumnRef | undefined;
+}
+export type VisualizeStandardAggregation = "avg" | "sum" | "count" | "min" | "max";
+export interface VisualizeStandardAggregationSettings {
+  aggregation: VisualizeStandardAggregation | (string & {});
+  categoryLimit: number;
+  colors?: VisualizeColorSettings | undefined;
+  yAxis?: VisualizeAxisSettings | undefined;
+  legend?: VisualizeLegendSettings | undefined;
+}
+export type VisualizePercentileAggregationSettingsAggregation = "percentile";
+export interface VisualizePercentileAggregationSettings {
+  aggregation: VisualizePercentileAggregationSettingsAggregation;
+  percentile: number;
+  categoryLimit: number;
+  colors?: VisualizeColorSettings | undefined;
+  yAxis?: VisualizeAxisSettings | undefined;
+  legend?: VisualizeLegendSettings | undefined;
+}
+export type VisualizeBarSettings =
+  | VisualizeStandardAggregationSettings
+  | VisualizePercentileAggregationSettings;
+export interface BarVisualization {
+  version: VisualizeConfigurationVersion;
+  type: BarVisualizationType;
+  bindings: BarVisualizationBindings;
+  settings: VisualizeBarSettings;
+}
+export type HorizontalBarVisualizationType = "horizontalBar";
+export type HorizontalBarVisualizationBindings = BarVisualizationBindings;
+export interface HorizontalBarVisualization {
+  version: VisualizeConfigurationVersion;
+  type: HorizontalBarVisualizationType;
+  bindings: BarVisualizationBindings;
+  settings: VisualizeBarSettings;
+}
+export type HistogramVisualizationType = "histogram";
+export interface HistogramVisualizationBindings {
+  value: VisualizeNumericColumnRef;
+}
+export interface HistogramVisualizationSettings {
+  binCount: number;
+  colors?: VisualizeColorSettings | undefined;
+  yAxis?: VisualizeAxisSettings | undefined;
+}
+export interface HistogramVisualization {
+  version: VisualizeConfigurationVersion;
+  type: HistogramVisualizationType;
+  bindings: HistogramVisualizationBindings;
+  settings: HistogramVisualizationSettings;
+}
+export type FrequencyBarVisualizationType = "frequencyBar";
+export interface FrequencyBarVisualizationBindings {
+  category: VisualizeCategoricalColumnRef;
+}
+export interface FrequencyBarVisualizationSettings {
+  categoryLimit: number;
+  colors?: VisualizeColorSettings | undefined;
+  yAxis?: VisualizeAxisSettings | undefined;
+}
+export interface FrequencyBarVisualization {
+  version: VisualizeConfigurationVersion;
+  type: FrequencyBarVisualizationType;
+  bindings: FrequencyBarVisualizationBindings;
+  settings: FrequencyBarVisualizationSettings;
+}
+export type VisualizeHeatmapType = "heatmap";
+export interface VisualizeHeatmapBindings {
+  x: VisualizeCategoricalColumnRef;
+  y: VisualizeCategoricalColumnRef;
+}
+export interface VisualizeHeatmapSettings {
+  categoryLimit: number;
+}
+export interface VisualizeHeatmap {
+  version: VisualizeConfigurationVersion;
+  type: VisualizeHeatmapType;
+  bindings: VisualizeHeatmapBindings;
+  settings: VisualizeHeatmapSettings;
+}
+export type VisualizeConfiguration =
+  | ScatterVisualization
+  | BarVisualization
+  | HorizontalBarVisualization
+  | HistogramVisualization
+  | FrequencyBarVisualization
+  | VisualizeHeatmap;
+export interface VisualizeChart {
+  id: string;
+  sectionId?: string | undefined;
+  type: VisualizeChartType;
+  name?: string | undefined;
+  query: SimpleChartQuery;
+  visualization: VisualizeConfiguration;
 }
 export type Chart =
   | TimeSeriesChart
@@ -567,10 +766,12 @@ export type Chart =
   | TableChart
   | TopKChart
   | StatisticChart
+  | GaugeChart
   | NoteChart
   | MonitorListChart
   | SmartFilterChart
-  | SpacerChart;
+  | SpacerChart
+  | VisualizeChart;
 export type DashboardChartsList = Array<Chart>;
 export interface LayoutItem {
   i: string;
@@ -585,7 +786,13 @@ export interface LayoutItem {
   static?: boolean | undefined;
 }
 export type DashboardLayoutList = Array<LayoutItem>;
-export type DashboardRefreshTime = 15 | 60 | 300;
+export interface Section {
+  id: string;
+  title: string;
+  defaultCollapsed?: boolean | undefined;
+}
+export type DashboardSectionsList = Array<Section>;
+export type DashboardRefreshTime = 0 | 15 | 60 | 300;
 export type SchemaVersion = 2;
 /** Relative time comparison offset. Compares the current time window against a previous period offset by this duration. Mutually exclusive with `againstTimestamp` -- setting one clears the other. Use an empty string or omit to disable comparison. */
 export type DashboardAgainst =
@@ -608,6 +815,7 @@ export interface Dashboard {
   description?: string | undefined;
   charts: DashboardChartsList;
   layout: DashboardLayoutList;
+  sections?: DashboardSectionsList | undefined;
   refreshTime: DashboardRefreshTime | (number & {});
   schemaVersion: SchemaVersion | (number & {});
   /** Relative time comparison offset. Compares the current time window against a previous period offset by this duration. Mutually exclusive with `againstTimestamp` -- setting one clears the other. Use an empty string or omit to disable comparison. */
@@ -618,10 +826,14 @@ export interface Dashboard {
   timeWindowEnd: string;
   uid?: string | undefined;
 }
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type CreateDashboardRequestLabelIdsList = Array<string>;
 /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
 export type CreateDashboardRequestVersion = string | number;
 export interface CreateDashboardRequest {
   dashboard: Dashboard;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: CreateDashboardRequestLabelIdsList | undefined;
   message?: string | undefined;
   overwrite?: boolean | undefined;
   /** Stable external dashboard identifier (org-scoped unique). */
@@ -629,18 +841,61 @@ export interface CreateDashboardRequest {
   /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
   version?: CreateDashboardRequestVersion | undefined;
 }
+export type DashboardResourceLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type DashboardResourceLabelNamesList = Array<string>;
+export type LabelColorName =
+  | "red"
+  | "coral"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "teal"
+  | "blue"
+  | "iris"
+  | "purple"
+  | "pink";
+export type LabelColorType = "palette";
+export interface LabelColor {
+  name: LabelColorName | (string & {});
+  type: LabelColorType | (string & {});
+}
+export interface Label {
+  color: LabelColor;
+  description?: string | null | undefined;
+  id: string;
+  name: string;
+}
+export type DashboardResourceLabelsList = Array<Label>;
+/** Managed dashboards are saved documents; integration dashboards are read-only and generated for matching datasets. */
+export type DashboardResourceType = "managed" | "integration";
 /** 64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision. */
 export type DashboardResourceVersion = string | number;
 export interface DashboardResource {
-  createdAt: string;
-  createdBy: string;
+  /** Creation time, present only for managed dashboards. */
+  createdAt?: string | null | undefined;
+  /** Creator, present only for managed dashboards. */
+  createdBy?: string | null | undefined;
   dashboard: Dashboard;
   id: string;
+  labelIds: DashboardResourceLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames?: DashboardResourceLabelNamesList | undefined;
+  labels?: DashboardResourceLabelsList | undefined;
+  /** Managed dashboards are saved documents; integration dashboards are read-only and generated for matching datasets. */
+  type: DashboardResourceType;
+  /** Managed dashboard UID, or stable integration dashboard ID for read requests. */
   uid: string;
-  updatedAt: string;
-  updatedBy: string;
+  /** Last save time, present only for managed dashboards. */
+  updatedAt?: string | null | undefined;
+  /** Last editor, present only for managed dashboards. */
+  updatedBy?: string | null | undefined;
+  /** true when the last save came from the MCP server */
+  updatedByAgent?: boolean | undefined;
   /** 64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision. */
-  version: DashboardResourceVersion;
+  version?: DashboardResourceVersion | null | undefined;
 }
 export type DashboardWriteResponseStatus = "created" | "updated";
 export interface DashboardWriteResponse {
@@ -654,6 +909,8 @@ export type CreateDatasetRequestKind =
   | "otel:traces:v1"
   | "otel:logs:v1"
   | "axiom:events:v1";
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type CreateDatasetRequestLabelIdsList = Array<string>;
 export interface CreateDatasetRequest {
   /** Referrer slug */
   referrer?: string | undefined;
@@ -663,21 +920,31 @@ export interface CreateDatasetRequest {
   edgeDeployment?: string | undefined;
   /** The kind of the dataset */
   kind?: CreateDatasetRequestKind | (string & {}) | undefined;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: CreateDatasetRequestLabelIdsList | undefined;
   /** Dataset unique name */
   name: string;
   /** Number of days to retain data in the dataset */
   retentionDays?: number | undefined;
-  /** Whether to use the retention period */
+  /** Ignored. Axiom derives this value from `retentionDays`. */
   useRetentionPeriod?: boolean | undefined;
 }
 /** The kind of the dataset */
 export type DatasetKind = "otel:metrics:v1" | "otel:traces:v1" | "otel:logs:v1" | "axiom:events:v1";
+/** IDs of labels assigned to this dataset. */
+export type DatasetLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type DatasetLabelNamesList = Array<string>;
+/** Resolved labels assigned to this dataset. */
+export type DatasetLabelsList = Array<Label>;
 export type DatasetMapFieldsList = Array<string>;
 export interface Dataset {
   /** Whether this dataset has write access */
   canWrite?: boolean | undefined;
   /** The RFC3339-formatted time when the dataset was created. */
   created: string;
+  /** true when the MCP server created this dataset */
+  createdByAgent?: boolean | undefined;
   /** Dataset description */
   description: string;
   /** Edge deployment of the dataset */
@@ -688,9 +955,17 @@ export interface Dataset {
   id: string;
   /** The kind of the dataset */
   kind: DatasetKind;
+  /** IDs of labels assigned to this dataset. */
+  labelIds: DatasetLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: DatasetLabelNamesList;
+  /** Resolved labels assigned to this dataset. */
+  labels?: DatasetLabelsList | undefined;
   mapFields?: DatasetMapFieldsList | undefined;
   /** Unique dataset name */
   name: string;
+  /** Number of unused fields a vacuum can reclaim, when the dataset is a vacuum candidate */
+  reclaimableFields?: number | undefined;
   /** Number of days to retain data in the dataset */
   retentionDays?: number | undefined;
   /** ID of the org that shared this resource, if it's shared */
@@ -699,12 +974,14 @@ export interface Dataset {
   updatedAt: string;
   /** Whether to use the retention period */
   useRetentionPeriod?: boolean | undefined;
+  /** Whether the dataset has unused fields that a vacuum can reclaim */
+  vacuumCandidate?: boolean | undefined;
   /** Name of the dataset creator */
   who: string;
 }
 /** List of user IDs that are assigned to this group */
 export type CreateGroupRequestMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type CreateGroupRequestRolesList = Array<string>;
 export interface CreateGroupRequest {
   /** Detailed description of the group's purpose and scope */
@@ -713,26 +990,45 @@ export interface CreateGroupRequest {
   members?: CreateGroupRequestMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: CreateGroupRequestRolesList | undefined;
 }
 /** List of user IDs that are assigned to this group */
 export type CreateGroupResponseMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type CreateGroupResponseRolesList = Array<string>;
 export interface CreateGroupResponse {
   /** Detailed description of the group's purpose and scope */
   description?: string | undefined;
-  /** Whether the group is managed by Axiom */
+  /** Whether the group is synced from your identity provider. You can't delete a managed group or change its members. */
   isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
   members?: CreateGroupResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: CreateGroupResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
+}
+export interface CreateLabelRequest {
+  color?: LabelColor | undefined;
+  description?: string | null | undefined;
+  name: string;
+}
+export interface LabelResourcesCount {
+  dashboards: number;
+  datasets: number;
+  monitors: number;
+  notifiers: number;
+  total: number;
+}
+export interface LabelSummary {
+  color: LabelColor;
+  description?: string | null | undefined;
+  id: string;
+  name: string;
+  resources_count: LabelResourcesCount;
 }
 export interface CreateMapFieldRequest {
   dataset_id: string;
@@ -753,6 +1049,8 @@ export type CreateMonitorRequestOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type CreateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type CreateMonitorRequestLabelIdsList = Array<string>;
 export interface CreateMonitorRequest {
   /** Whether to alert when no data is received */
   alertOnNoData?: boolean | undefined;
@@ -762,16 +1060,14 @@ export interface CreateMonitorRequest {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -790,7 +1086,7 @@ export interface CreateMonitorRequest {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -798,14 +1094,14 @@ export interface CreateMonitorRequest {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: CreateMonitorRequestType | (string & {});
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: CreateMonitorRequestLabelIdsList | undefined;
 }
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type CreateMonitorResponseNotifierIdsList = Array<string>;
@@ -818,6 +1114,14 @@ export type CreateMonitorResponseOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type CreateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Dataset names referenced by the monitor query. */
+export type CreateMonitorResponseDatasetsList = Array<string>;
+/** IDs of labels assigned to this monitor. */
+export type CreateMonitorResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type CreateMonitorResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this monitor. */
+export type CreateMonitorResponseLabelsList = Array<Label>;
 export interface CreateMonitorResponse {
   /** Whether to alert when no data is received */
   alertOnNoData?: boolean | undefined;
@@ -827,16 +1131,14 @@ export interface CreateMonitorResponse {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -855,7 +1157,7 @@ export interface CreateMonitorResponse {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -863,16 +1165,58 @@ export interface CreateMonitorResponse {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: CreateMonitorResponseType;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Timestamp when the monitor was created */
+  createdAt?: string | undefined;
+  /** ID of the user who created the monitor */
+  createdBy?: string | undefined;
+  /** true when the MCP server created this monitor */
+  createdByAgent?: boolean | undefined;
+  /** Dataset names referenced by the monitor query. */
+  datasets?: CreateMonitorResponseDatasetsList | undefined;
   /** Unique identifier for the monitor */
   id: string;
+  /** IDs of labels assigned to this monitor. */
+  labelIds: CreateMonitorResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: CreateMonitorResponseLabelNamesList;
+  /** Resolved labels assigned to this monitor. */
+  labels?: CreateMonitorResponseLabelsList | undefined;
+  /** Most recent error encountered while evaluating the monitor. */
+  lastError?: string | undefined;
+  /** Timestamp when the monitor was last updated */
+  updatedAt?: string | undefined;
+}
+/** Amp Orb webhook. The receiving plugin must accept {"text": "<monitor summary>"}. */
+export interface AmpConfig {
+  /** Secret HTTPS URL from the Amp plugin createWebhook registration. Returned encrypted on reads; submit it unchanged to retain it on updates. */
+  webhookUrl: string;
+}
+/** Published ChatGPT Workspace Agent API channel. Axiom sends {"input": "<monitor summary>"}. */
+export interface ChatGPTWorkspaceAgentConfig {
+  /** ChatGPT access token with the Workspace Agents scope */
+  token: string;
+  /** API channel trigger ID beginning with agtch_ */
+  triggerId: string;
+}
+/** Claude Code routine. Axiom sends a fixed text body when the monitor fires. */
+export interface ClaudeCodeConfig {
+  /** Routine ID from a Claude Code API trigger */
+  routineId: string;
+  /** Bearer token for the routine */
+  token: string;
+}
+/** Cursor automation webhook. Axiom sends a fixed context body when the monitor fires. */
+export interface CursorConfig {
+  /** Bearer token for the automation webhook */
+  token: string;
+  /** Automation webhook URL from a Cursor automation */
+  webhookUrl: string;
 }
 /** HTTP headers to include in the request */
 export type CustomNotifierConfigHeadersMap = { [key: string]: string | undefined };
@@ -891,17 +1235,26 @@ export interface CustomNotifierConfig {
   /** Custom webhook endpoint URL */
   url: string;
 }
+/** Go templates that replace the title and body of the notifier's default message. An empty field keeps the default. Variables include {{.Title}}, {{.Body}}, {{.Name}}, {{.Action}}, {{.Value}}, {{.Threshold}}, {{.Labels}}, {{.Groups}} and {{.MatchedEvent}}. If a template fails when a notification is sent, the default message is sent and the delivery records the error. */
+export interface MessageTemplate {
+  /** Template for the message body */
+  body?: string | undefined;
+  /** Template for the message title */
+  title?: string | undefined;
+}
 /** Configuration for Discord notifications using bot token */
 export interface DiscordConfig {
   /** Discord channel ID to send notifications */
   discordChannel?: string | undefined;
   /** Discord bot token for authentication */
   discordToken?: string | Redacted.Redacted<string> | undefined;
+  messageTemplate?: MessageTemplate | undefined;
 }
 /** Configuration for Discord notifications using webhooks */
 export interface DiscordWebhookConfig {
   /** Discord webhook URL */
   discordWebhookUrl?: string | Redacted.Redacted<string> | undefined;
+  messageTemplate?: MessageTemplate | undefined;
 }
 /** List of email addresses to receive notifications */
 export type EmailConfigEmailsList = Array<string>;
@@ -909,9 +1262,16 @@ export type EmailConfigEmailsList = Array<string>;
 export interface EmailConfig {
   /** List of email addresses to receive notifications */
   emails?: EmailConfigEmailsList | undefined;
+  messageTemplate?: MessageTemplate | undefined;
+}
+/** Configuration for Jira Service Management Ops alerts using an API integration */
+export interface JiraServiceManagementConfig {
+  /** API key of the Jira Service Management API integration */
+  apiKey: string | Redacted.Redacted<string>;
 }
 /** Configuration for Microsoft Teams notifications */
 export interface MicrosoftTeamsConfig {
+  messageTemplate?: MessageTemplate | undefined;
   /** Microsoft Teams webhook URL */
   microsoftTeamsUrl?: string | Redacted.Redacted<string> | undefined;
 }
@@ -931,6 +1291,7 @@ export interface PagerDutyConfig {
 }
 /** Configuration for Slack notifications using incoming webhooks */
 export interface SlackConfig {
+  messageTemplate?: MessageTemplate | undefined;
   /** Slack incoming webhook URL */
   slackUrl?: string | Redacted.Redacted<string> | undefined;
 }
@@ -941,30 +1302,57 @@ export interface WebhookConfig {
 }
 /** Configuration options for different notification channels. Only one channel should be configured per notifier. */
 export interface NotifierProperties {
+  amp?: AmpConfig | undefined;
+  chatgptWorkspaceAgent?: ChatGPTWorkspaceAgentConfig | undefined;
+  claudeCode?: ClaudeCodeConfig | undefined;
+  cursor?: CursorConfig | undefined;
   customWebhook?: CustomNotifierConfig | undefined;
   discord?: DiscordConfig | undefined;
   discordWebhook?: DiscordWebhookConfig | undefined;
   email?: EmailConfig | undefined;
+  jiraServiceManagement?: JiraServiceManagementConfig | undefined;
   microsoftTeams?: MicrosoftTeamsConfig | undefined;
   opsgenie?: OpsGenieConfig | undefined;
   pagerduty?: PagerDutyConfig | undefined;
   slack?: SlackConfig | undefined;
   webhook?: WebhookConfig | undefined;
 }
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type CreateNotifierRequestLabelIdsList = Array<string>;
 export interface CreateNotifierRequest {
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: CreateNotifierRequestLabelIdsList | undefined;
 }
+/** IDs of labels assigned to this notifier. */
+export type CreateNotifierResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type CreateNotifierResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this notifier. */
+export type CreateNotifierResponseLabelsList = Array<Label>;
 export interface CreateNotifierResponse {
   /** Timestamp when the notifier was created */
   createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
   createdBy?: string | undefined;
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
@@ -972,6 +1360,12 @@ export interface CreateNotifierResponse {
   updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
   id?: string | undefined;
+  /** IDs of labels assigned to this notifier. */
+  labelIds: CreateNotifierResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: CreateNotifierResponseLabelNamesList;
+  /** Resolved labels assigned to this notifier. */
+  labels?: CreateNotifierResponseLabelsList | undefined;
 }
 export interface CreateOrgRequest {
   /** The default edge deployment of the organization. */
@@ -1040,11 +1434,6 @@ export interface Org {
   primaryEmail: string;
   role?: string | undefined;
 }
-export type RoleDatasetCapabilitiesValueDataItem = "delete";
-/** Controls data management operations like deletion */
-export type RoleDatasetCapabilitiesValueDataList = Array<
-  RoleDatasetCapabilitiesValueDataItem | (string & {})
->;
 export type RoleDatasetCapabilitiesValueIngestItem = "create";
 /** Controls the ability to ingest data into datasets */
 export type RoleDatasetCapabilitiesValueIngestList = Array<
@@ -1070,7 +1459,7 @@ export type RoleDatasetCapabilitiesValueStarredQueriesList = Array<
   RoleDatasetCapabilitiesValueStarredQueriesItem | (string & {})
 >;
 export type RoleDatasetCapabilitiesValueTrimItem = "update";
-/** Controls data trimming operations for storage optimization */
+/** Controls data trimming and deletion operations */
 export type RoleDatasetCapabilitiesValueTrimList = Array<
   RoleDatasetCapabilitiesValueTrimItem | (string & {})
 >;
@@ -1085,8 +1474,6 @@ export type RoleDatasetCapabilitiesValueVirtualFieldsList = Array<
   RoleDatasetCapabilitiesValueVirtualFieldsItem | (string & {})
 >;
 export interface RoleDatasetCapabilitiesValue {
-  /** Controls data management operations like deletion */
-  data?: RoleDatasetCapabilitiesValueDataList | undefined;
   /** Controls the ability to ingest data into datasets */
   ingest?: RoleDatasetCapabilitiesValueIngestList | undefined;
   /** Controls the ability to query and read data from datasets */
@@ -1095,7 +1482,7 @@ export interface RoleDatasetCapabilitiesValue {
   share?: RoleDatasetCapabilitiesValueShareList | undefined;
   /** Controls the management of starred/saved queries */
   starredQueries?: RoleDatasetCapabilitiesValueStarredQueriesList | undefined;
-  /** Controls data trimming operations for storage optimization */
+  /** Controls data trimming and deletion operations */
   trim?: RoleDatasetCapabilitiesValueTrimList | undefined;
   /** Controls field vacuuming operations for storage optimization */
   vacuum?: RoleDatasetCapabilitiesValueVacuumList | undefined;
@@ -1104,7 +1491,7 @@ export interface RoleDatasetCapabilitiesValue {
 }
 /** Defines the available permissions for dataset operations */
 export type RoleDatasetCapabilities = { [key: string]: RoleDatasetCapabilitiesValue | undefined };
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type CreateRoleRequestMembersList = Array<string>;
 export type RoleOrgCapabilitiesAnnotationsItem = "create" | "read" | "update" | "delete";
 /** Controls the management of annotations across the organization */
@@ -1139,14 +1526,14 @@ export type RoleOrgCapabilitiesEndpointsItem = "create" | "read" | "update" | "d
 export type RoleOrgCapabilitiesEndpointsList = Array<
   RoleOrgCapabilitiesEndpointsItem | (string & {})
 >;
-export type RoleOrgCapabilitiesFlowsItem = "create" | "read" | "update" | "delete";
-/** Controls the management of data flows and pipelines */
-export type RoleOrgCapabilitiesFlowsList = Array<RoleOrgCapabilitiesFlowsItem | (string & {})>;
 export type RoleOrgCapabilitiesIntegrationsItem = "create" | "read" | "update" | "delete";
 /** Controls the management of third-party integrations */
 export type RoleOrgCapabilitiesIntegrationsList = Array<
   RoleOrgCapabilitiesIntegrationsItem | (string & {})
 >;
+export type RoleOrgCapabilitiesLabelsItem = "create" | "read" | "update" | "delete";
+/** Controls the management of labels */
+export type RoleOrgCapabilitiesLabelsList = Array<RoleOrgCapabilitiesLabelsItem | (string & {})>;
 export type RoleOrgCapabilitiesMonitorsItem = "create" | "read" | "update" | "delete";
 /** Controls the management of monitoring */
 export type RoleOrgCapabilitiesMonitorsList = Array<
@@ -1187,10 +1574,10 @@ export interface RoleOrgCapabilities {
   datasets?: RoleOrgCapabilitiesDatasetsList | undefined;
   /** Controls the management of API endpoints */
   endpoints?: RoleOrgCapabilitiesEndpointsList | undefined;
-  /** Controls the management of data flows and pipelines */
-  flows?: RoleOrgCapabilitiesFlowsList | undefined;
   /** Controls the management of third-party integrations */
   integrations?: RoleOrgCapabilitiesIntegrationsList | undefined;
+  /** Controls the management of labels */
+  labels?: RoleOrgCapabilitiesLabelsList | undefined;
   /** Controls the management of monitoring */
   monitors?: RoleOrgCapabilitiesMonitorsList | undefined;
   /** Controls the management of notification settings */
@@ -1226,20 +1613,20 @@ export interface CreateRoleRequest {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: CreateRoleRequestMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
   orgCapabilities?: RoleOrgCapabilities | undefined;
   viewCapabilities?: RoleViewCapabilities | undefined;
 }
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type CreateRoleResponseMembersList = Array<string>;
 export interface CreateRoleResponse {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: CreateRoleResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
@@ -1337,22 +1724,38 @@ export interface User {
   name: string;
   role?: UserDetailsRole | undefined;
 }
+/** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
 export type CreateViewRequestDatasetsList = Array<string>;
 export interface CreateViewRequest {
+  /** APL query that defines the view */
   aplQuery: string;
+  /** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
   datasets?: CreateViewRequestDatasetsList | undefined;
   description?: string | undefined;
+  /** Region of the source datasets; ignored in requests */
+  edgeDeployment?: string | undefined;
+  /** URL of the edge deployment; ignored in requests */
+  edgeDeploymentUrl?: string | undefined;
+  /** Name of the view. Use it as the view ID and to query the view like a dataset. */
   name: string;
   /** ID of the org that shared this resource, if it's shared */
   sharedByOrg?: string | undefined;
   /** The name of the org that shared this resource, if it's shared */
   sharedByOrgName?: string | undefined;
 }
+/** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
 export type ViewDatasetsList = Array<string>;
 export interface View {
+  /** APL query that defines the view */
   aplQuery: string;
+  /** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
   datasets?: ViewDatasetsList | undefined;
   description?: string | undefined;
+  /** Region of the source datasets; ignored in requests */
+  edgeDeployment?: string | undefined;
+  /** URL of the edge deployment; ignored in requests */
+  edgeDeploymentUrl?: string | undefined;
+  /** Name of the view. Use it as the view ID and to query the view like a dataset. */
   name: string;
   /** ID of the org that shared this resource, if it's shared */
   sharedByOrg?: string | undefined;
@@ -1363,6 +1766,7 @@ export interface CreateVirtualFieldRequest {
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
@@ -1371,6 +1775,7 @@ export interface CreateVirtualFieldResponse {
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
@@ -1392,7 +1797,9 @@ export interface DeleteDashboardResponse {}
 export interface DeleteDatasetRequest {
   dataset_id: string;
 }
-export interface DeleteDatasetResponse {}
+export interface JobCreateResponse {
+  jobID: string;
+}
 export type DeleteDatasetFieldsRequestFieldsList = Array<string>;
 export interface DeleteDatasetFieldsRequest {
   dataset_id: string;
@@ -1401,6 +1808,7 @@ export interface DeleteDatasetFieldsRequest {
 export type DeleteDatasetFieldsResultFieldsList = Array<string>;
 export interface DeleteDatasetFieldsResult {
   fields?: DeleteDatasetFieldsResultFieldsList | undefined;
+  jobId?: string | undefined;
 }
 export interface DeleteFieldForDatasetRequest {
   dataset_id: string;
@@ -1411,16 +1819,22 @@ export interface DeleteGroupRequest {
   id: string;
 }
 export interface DeleteGroupResponse {}
+export interface DeleteLabelRequest {
+  id: string;
+}
+export interface DeleteLabelResponse {}
 export interface DeleteMapFieldRequest {
   dataset_id: string;
   map_field_name: string;
 }
 export interface DeleteMapFieldResponse {}
 export interface DeleteMonitorRequest {
+  /** Monitor ID. */
   id: string;
 }
 export interface DeleteMonitorResponse {}
 export interface DeleteNotifierRequest {
+  /** Notifier ID. */
   id: string;
 }
 export interface DeleteNotifierResponse {}
@@ -1434,10 +1848,12 @@ export interface DeleteStarredRequest {
 }
 export interface DeleteStarredResponse {}
 export interface DeleteViewRequest {
+  /** Name of the view */
   id: string;
 }
 export interface DeleteViewResponse {}
 export interface DeleteVirtualFieldRequest {
+  /** ID of the virtual field in the form `<dataset>.<name>` */
   id: string;
 }
 export interface DeleteVirtualFieldResponse {}
@@ -1460,6 +1876,10 @@ export interface GetAPITokenRequest {
   id: string;
 }
 export interface APIToken {
+  /** When the token was last used on an API other than ingest */
+  apiLastUsed?: string | null | undefined;
+  /** Audit identity of the token */
+  auditIdentity?: string | undefined;
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
   description?: string | undefined;
@@ -1467,6 +1887,8 @@ export interface APIToken {
   expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
+  /** When the token was last used to ingest */
+  ingestLastUsed?: string | null | undefined;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
@@ -1477,13 +1899,32 @@ export interface GetAPITokensRequest {}
 export type GetAPITokensResponseBodyList = Array<APIToken>;
 export type GetAPITokensResponse = GetAPITokensResponseBodyList;
 export interface GetCurrentUserRequest {}
+export type GetDashboardRequestExclude = "labels";
 export interface GetDashboardRequest {
   uid: string;
+  /** Exclude resolved label objects from the dashboard response. The labelIds field is still returned. */
+  exclude?: GetDashboardRequestExclude | (string & {}) | undefined;
 }
+export type GetDatasetRequestExclude = "labels";
 export interface GetDatasetRequest {
   dataset_id: string;
+  /** Exclude resolved label objects from the dataset response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetDatasetRequestExclude | (string & {}) | undefined;
 }
-export interface GetDatasetsRequest {}
+export type GetDatasetsRequestExclude = "labels";
+export type GetDatasetsRequestLabelList = Array<string>;
+export type GetDatasetsRequestLabelMatch = "any" | "all";
+export type GetDatasetsRequestLabelIdsList = Array<string>;
+export interface GetDatasetsRequest {
+  /** Exclude resolved label objects from each dataset response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetDatasetsRequestExclude | (string & {}) | undefined;
+  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
+  label?: GetDatasetsRequestLabelList | undefined;
+  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
+  labelMatch?: GetDatasetsRequestLabelMatch | (string & {}) | undefined;
+  /** Return datasets assigned every specified label ID. When combined with label names, both filters must match; labelMatch applies only to names. */
+  labelIds?: GetDatasetsRequestLabelIdsList | undefined;
+}
 export type GetDatasetsResponseBodyList = Array<Dataset>;
 export type GetDatasetsResponse = GetDatasetsResponseBodyList;
 export interface GetFieldForDatasetRequest {
@@ -1513,21 +1954,48 @@ export interface GetGroupByIdRequest {
 }
 /** List of user IDs that are assigned to this group */
 export type GetGroupByIdResponseMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type GetGroupByIdResponseRolesList = Array<string>;
 export interface GetGroupByIdResponse {
   /** Detailed description of the group's purpose and scope */
   description?: string | undefined;
-  /** Whether the group is managed by Axiom */
+  /** Whether the group is synced from your identity provider. You can't delete a managed group or change its members. */
   isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
   members?: GetGroupByIdResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: GetGroupByIdResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
+}
+export interface GetLabelRequest {
+  id: string;
+}
+export type LabelAssignedResourceType =
+  | "dashboard"
+  | "integration_dashboard"
+  | "dataset"
+  | "monitor"
+  | "notifier";
+export interface LabelAssignedResource {
+  /** Set only for frontend-generated integration dashboards. */
+  dataset?: string | undefined;
+  /** Uses the same public identifier as LabelAssignmentTarget.id. */
+  id?: string | undefined;
+  /** Set only for frontend-generated integration dashboards. */
+  templateId?: string | undefined;
+  type: LabelAssignedResourceType;
+}
+export type LabelDetailsAssignedResourcesList = Array<LabelAssignedResource>;
+export interface LabelDetails {
+  assigned_resources: LabelDetailsAssignedResourcesList;
+  color: LabelColor;
+  description?: string | null | undefined;
+  id: string;
+  name: string;
+  resources_count: LabelResourcesCount;
 }
 export interface GetMapFieldsRequest {
   dataset_id: string;
@@ -1535,9 +2003,12 @@ export interface GetMapFieldsRequest {
 /** A list of map field names */
 export type MapFields = Array<string>;
 export type GetMapFieldsResponse = MapFields;
+export type GetMonitorRequestExclude = "labels";
 export interface GetMonitorRequest {
-  /** Unique identifier of the monitor (format: mon_*) */
+  /** Monitor ID. */
   id: string;
+  /** Exclude resolved label objects from the monitor response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetMonitorRequestExclude | (string & {}) | undefined;
 }
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type GetMonitorResponseNotifierIdsList = Array<string>;
@@ -1550,6 +2021,14 @@ export type GetMonitorResponseOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Dataset names referenced by the monitor query. */
+export type GetMonitorResponseDatasetsList = Array<string>;
+/** IDs of labels assigned to this monitor. */
+export type GetMonitorResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type GetMonitorResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this monitor. */
+export type GetMonitorResponseLabelsList = Array<Label>;
 export interface GetMonitorResponse {
   /** Whether to alert when no data is received */
   alertOnNoData?: boolean | undefined;
@@ -1559,16 +2038,14 @@ export interface GetMonitorResponse {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -1587,7 +2064,7 @@ export interface GetMonitorResponse {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -1595,40 +2072,70 @@ export interface GetMonitorResponse {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: GetMonitorResponseType;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Timestamp when the monitor was created */
+  createdAt?: string | undefined;
+  /** ID of the user who created the monitor */
+  createdBy?: string | undefined;
+  /** true when the MCP server created this monitor */
+  createdByAgent?: boolean | undefined;
+  /** Dataset names referenced by the monitor query. */
+  datasets?: GetMonitorResponseDatasetsList | undefined;
   /** Unique identifier for the monitor */
   id: string;
+  /** IDs of labels assigned to this monitor. */
+  labelIds: GetMonitorResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: GetMonitorResponseLabelNamesList;
+  /** Resolved labels assigned to this monitor. */
+  labels?: GetMonitorResponseLabelsList | undefined;
+  /** Most recent error encountered while evaluating the monitor. */
+  lastError?: string | undefined;
+  /** Timestamp when the monitor was last updated */
+  updatedAt?: string | undefined;
 }
 export interface GetMonitorHistoryRequest {
+  /** Monitor ID. */
   id: string;
-  /** Start time (ISO 8601 format) for filtering alert history. */
+  /** Start of the time range (RFC 3339). */
   startTime: string;
-  /** End time (ISO 8601 format) for filtering alert history. */
+  /** End of the time range (RFC 3339). Must not be before `startTime`. */
   endTime: string;
 }
-/** Current state of the alert */
+/** `open` if the notification reported that the monitor triggered, `closed` if it reported that the monitor resolved */
 export type AlertHistoryState = "open" | "closed";
-/** Historical record of an alert's state changes. Tracks when alerts are opened and closed, allowing for incident timeline analysis. */
+/** A notification sent for a monitor. */
 export interface AlertHistory {
-  /** Unique identifier of the check that triggered the alert */
+  /** ID of the monitor */
   checkId: string;
-  /** The name of the alert */
+  /** Title of the notification: `Triggered: ` or `Resolved: ` followed by the monitor name */
   name: string;
-  /** Current state of the alert */
+  /** `open` if the notification reported that the monitor triggered, `closed` if it reported that the monitor resolved */
   state: AlertHistoryState;
-  /** ISO 8601 timestamp when the alert state changed */
+  /** Time the delivery was recorded, after any retries */
   timestamp: string;
 }
 export type GetMonitorHistoryResponseBodyList = Array<AlertHistory>;
 export type GetMonitorHistoryResponse = GetMonitorHistoryResponseBodyList;
-export interface GetMonitorsRequest {}
+export type GetMonitorsRequestExclude = "labels";
+export type GetMonitorsRequestLabelList = Array<string>;
+export type GetMonitorsRequestLabelMatch = "any" | "all";
+export type GetMonitorsRequestLabelIdsList = Array<string>;
+export interface GetMonitorsRequest {
+  /** Exclude resolved label objects from each monitor response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetMonitorsRequestExclude | (string & {}) | undefined;
+  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
+  label?: GetMonitorsRequestLabelList | undefined;
+  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
+  labelMatch?: GetMonitorsRequestLabelMatch | (string & {}) | undefined;
+  /** Return monitors assigned every specified label ID. When combined with label names, both filters must match; labelMatch applies only to names. */
+  labelIds?: GetMonitorsRequestLabelIdsList | undefined;
+}
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type MonitorWithIdNotifierIdsList = Array<string>;
 /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
@@ -1640,6 +2147,14 @@ export type MonitorWithIdOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type MonitorWithIdType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Dataset names referenced by the monitor query. */
+export type MonitorWithIdDatasetsList = Array<string>;
+/** IDs of labels assigned to this monitor. */
+export type MonitorWithIdLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type MonitorWithIdLabelNamesList = Array<string>;
+/** Resolved labels assigned to this monitor. */
+export type MonitorWithIdLabelsList = Array<Label>;
 /** Monitor configuration with its unique identifier */
 export interface MonitorWithId {
   /** Whether to alert when no data is received */
@@ -1650,16 +2165,14 @@ export interface MonitorWithId {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -1678,7 +2191,7 @@ export interface MonitorWithId {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -1686,30 +2199,61 @@ export interface MonitorWithId {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: MonitorWithIdType;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Timestamp when the monitor was created */
+  createdAt?: string | undefined;
+  /** ID of the user who created the monitor */
+  createdBy?: string | undefined;
+  /** true when the MCP server created this monitor */
+  createdByAgent?: boolean | undefined;
+  /** Dataset names referenced by the monitor query. */
+  datasets?: MonitorWithIdDatasetsList | undefined;
   /** Unique identifier for the monitor */
   id: string;
+  /** IDs of labels assigned to this monitor. */
+  labelIds: MonitorWithIdLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: MonitorWithIdLabelNamesList;
+  /** Resolved labels assigned to this monitor. */
+  labels?: MonitorWithIdLabelsList | undefined;
+  /** Most recent error encountered while evaluating the monitor. */
+  lastError?: string | undefined;
+  /** Timestamp when the monitor was last updated */
+  updatedAt?: string | undefined;
 }
 export type GetMonitorsResponseBodyList = Array<MonitorWithId>;
 export type GetMonitorsResponse = GetMonitorsResponseBodyList;
+export type GetNotifierRequestExclude = "labels";
 export interface GetNotifierRequest {
-  /** Unique identifier of the notifier (format: notify_*) */
+  /** Notifier ID. */
   id: string;
+  /** Exclude resolved label objects from the notifier response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetNotifierRequestExclude | (string & {}) | undefined;
 }
+/** IDs of labels assigned to this notifier. */
+export type GetNotifierResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type GetNotifierResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this notifier. */
+export type GetNotifierResponseLabelsList = Array<Label>;
 export interface GetNotifierResponse {
   /** Timestamp when the notifier was created */
   createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
   createdBy?: string | undefined;
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
@@ -1717,16 +2261,44 @@ export interface GetNotifierResponse {
   updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
   id?: string | undefined;
+  /** IDs of labels assigned to this notifier. */
+  labelIds: GetNotifierResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: GetNotifierResponseLabelNamesList;
+  /** Resolved labels assigned to this notifier. */
+  labels?: GetNotifierResponseLabelsList | undefined;
 }
-export interface GetNotifiersRequest {}
+export type GetNotifiersRequestExclude = "labels";
+export type GetNotifiersRequestLabelList = Array<string>;
+export type GetNotifiersRequestLabelMatch = "any" | "all";
+export interface GetNotifiersRequest {
+  /** Exclude resolved label objects from each notifier response. The labelIds and labelNames fields are still returned. */
+  exclude?: GetNotifiersRequestExclude | (string & {}) | undefined;
+  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
+  label?: GetNotifiersRequestLabelList | undefined;
+  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
+  labelMatch?: GetNotifiersRequestLabelMatch | (string & {}) | undefined;
+}
+/** IDs of labels assigned to this notifier. */
+export type NotifierWithIdLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type NotifierWithIdLabelNamesList = Array<string>;
+/** Resolved labels assigned to this notifier. */
+export type NotifierWithIdLabelsList = Array<Label>;
 /** Notifier configuration with its unique identifier */
 export interface NotifierWithId {
   /** Timestamp when the notifier was created */
   createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
   createdBy?: string | undefined;
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
@@ -1734,6 +2306,12 @@ export interface NotifierWithId {
   updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
   id?: string | undefined;
+  /** IDs of labels assigned to this notifier. */
+  labelIds: NotifierWithIdLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: NotifierWithIdLabelNamesList;
+  /** Resolved labels assigned to this notifier. */
+  labels?: NotifierWithIdLabelsList | undefined;
 }
 export type GetNotifiersResponseBodyList = Array<NotifierWithId>;
 export type GetNotifiersResponse = GetNotifiersResponseBodyList;
@@ -1747,13 +2325,13 @@ export interface GetRoleByIdRequest {
   /** Unique identifier of the role to retrieve */
   id: string;
 }
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type GetRoleByIdResponseMembersList = Array<string>;
 export interface GetRoleByIdResponse {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: GetRoleByIdResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
@@ -1779,9 +2357,11 @@ export interface GetStarredResponse {
 export interface GetStarredQueriesRequest {
   limit?: number | undefined;
   offset?: number | undefined;
+  /** Return only queries saved on this dataset. */
   dataset?: string | undefined;
-  /** - If the value of `who` is undefined, the request returns queries starred by the authenticated user. - If the value of `who` is a user ID, the request returns queries starred by the user with this ID (this request requires elevated privileges). For example, `&who='abc123'`. - If the value of `who` is `team`, the request returns queries starred by the team apart from the authenticated user.For example, `&who=team`. - If the value of `who` is `all`, the request returns queries starred by all users in the team, including the authenticated user. For example, `&who=all`. */
+  /** - If the value of `who` is your own user ID, the request returns queries saved by the authenticated user. - If the value of `who` is `team`, the request returns queries saved by other users in the organization. For example, `&who=team`. - If the value of `who` is `all`, the request returns queries saved by all users in the organization, including the authenticated user. For example, `&who=all`. - Any other value returns `400`. This includes another user's ID, and omitting `who` when you authenticate with a personal access token. */
   who?: string | undefined;
+  /** Return only queries whose name contains this string. Case-insensitive. */
   qs?: string | undefined;
 }
 export type StarredQueryWithIdKind = "apl";
@@ -1804,30 +2384,35 @@ export interface GetUsersRequest {}
 export type GetUsersResponseBodyList = Array<User>;
 export type GetUsersResponse = GetUsersResponseBodyList;
 export interface GetViewRequest {
+  /** Name of the view */
   id: string;
 }
 export interface GetViewsRequest {}
 export type GetViewsResponseBodyList = Array<View>;
 export type GetViewsResponse = GetViewsResponseBodyList;
 export interface GetVirtualFieldRequest {
+  /** ID of the virtual field in the form `<dataset>.<name>` */
   id: string;
 }
 export interface GetVirtualFieldResponse {
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
   id: string;
 }
 export interface GetVirtualFieldsRequest {
+  /** Name of the dataset */
   dataset: string;
 }
 export interface VirtualFieldWithId {
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
@@ -1835,43 +2420,82 @@ export interface VirtualFieldWithId {
 }
 export type GetVirtualFieldsResponseBodyList = Array<VirtualFieldWithId>;
 export type GetVirtualFieldsResponse = GetVirtualFieldsResponseBodyList;
+export type ListDashboardsRequestExclude = "labels";
+export type ListDashboardsRequestLabelIdsList = Array<string>;
 export interface ListDashboardsRequest {
   limit?: number | undefined;
   offset?: number | undefined;
+  /** Exclude resolved label objects from each dashboard response. The labelIds field is still returned. */
+  exclude?: ListDashboardsRequestExclude | (string & {}) | undefined;
+  /** Return dashboards assigned every specified label ID. */
+  labelIds?: ListDashboardsRequestLabelIdsList | undefined;
 }
 export type ListDashboardsResponseBodyList = Array<DashboardResource>;
 export type ListDashboardsResponse = ListDashboardsResponseBodyList;
 export interface ListGroupsRequest {}
 /** List of user IDs that are assigned to this group */
 export type GroupWithIDMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type GroupWithIDRolesList = Array<string>;
 /** Extends the base Group type to include a unique identifier */
 export interface GroupWithID {
   /** Detailed description of the group's purpose and scope */
   description?: string | undefined;
-  /** Whether the group is managed by Axiom */
+  /** Whether the group is synced from your identity provider. You can't delete a managed group or change its members. */
   isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
   members?: GroupWithIDMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: GroupWithIDRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
 }
 export type ListGroupsResponseBodyList = Array<GroupWithID>;
 export type ListGroupsResponse = ListGroupsResponseBodyList;
+export type LabelAssignmentTargetType =
+  | "dashboard"
+  | "integration_dashboard"
+  | "dataset"
+  | "monitor"
+  | "notifier";
+/** A resource that supports organization labels. Single-identifier targets use id; frontend-generated integration dashboards use templateId and dataset. */
+export interface LabelAssignmentTarget {
+  /** Required only for frontend-generated integration dashboards and rejected for other target types. Use the current dataset name. Assignments use the underlying dataset instance, so permanent deletion and recreation do not restore old labels. */
+  dataset?: string | undefined;
+  /** Public identifier for the resource. Use the dashboard UID for a dashboard, the dataset name for a dataset, and the ID returned by the monitor, notifier, or backend-provided integration dashboard APIs. */
+  id?: string | undefined;
+  /** Stable frontend-owned template key for a frontend-generated integration dashboard, such as k8s.stats. Requires dataset and rejects id. Whitespace and control characters are rejected. */
+  templateId?: string | undefined;
+  type: LabelAssignmentTargetType | (string & {});
+}
+export type ListLabelAssignmentsRequestTargetsList = Array<LabelAssignmentTarget>;
+export interface ListLabelAssignmentsRequest {
+  targets: ListLabelAssignmentsRequestTargetsList;
+}
+export type LabelAssignmentResultLabelIdsList = Array<string>;
+export interface LabelAssignmentResult {
+  labelIds: LabelAssignmentResultLabelIdsList;
+  target: LabelAssignmentTarget;
+}
+export type ListLabelAssignmentsResponseBodyList = Array<LabelAssignmentResult>;
+export type ListLabelAssignmentsResponse = ListLabelAssignmentsResponseBodyList;
+export interface ListLabelsRequest {
+  /** Filter labels by name. */
+  name?: string | undefined;
+}
+export type ListLabelsResponseBodyList = Array<LabelSummary>;
+export type ListLabelsResponse = ListLabelsResponseBodyList;
 export interface ListRolesRequest {}
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type RoleWithIDMembersList = Array<string>;
 /** Extends the base Role type to include a unique identifier */
 export interface RoleWithID {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: RoleWithIDMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
@@ -1894,18 +2518,18 @@ export interface PatchDashboardChartRequest {
   version?: number | undefined;
 }
 export interface ProvisionOrgRequest {
-  /** Optional display name for the organization. If omitted, a name is auto-generated and the owner can rename it later. */
-  name?: string | undefined;
   /** Optional edge deployment (region) the organization is created in. If omitted, the environment's default region is used. */
   edgeDeployment?: string | undefined;
+  /** Optional display name for the organization. If omitted, a name is auto-generated and the owner can rename it later. */
+  name?: string | undefined;
 }
 export interface ProvisionOrgResponse {
-  id: string;
-  name: string;
-  defaultEdgeDeployment: string;
-  expiresAt: string;
   /** URL a human follows to claim ownership of the temporary org. */
   claimUrl: string;
+  defaultEdgeDeployment: string;
+  expiresAt: string;
+  id: string;
+  name: string;
   /** Full-permission API token the agent uses to create datasets, ingest, and query. Returned once and never retrievable again. */
   token: string | Redacted.Redacted<string>;
 }
@@ -1929,6 +2553,10 @@ export interface RegenerateAPITokenRequest {
   newTokenExpiresAt?: string | null | undefined;
 }
 export interface RegenerateAPITokenResponse {
+  /** When the token was last used on an API other than ingest */
+  apiLastUsed?: string | null | undefined;
+  /** Audit identity of the token */
+  auditIdentity?: string | undefined;
   datasetCapabilities: DatasetCapabilities;
   /** Description of the token */
   description?: string | undefined;
@@ -1936,6 +2564,8 @@ export interface RegenerateAPITokenResponse {
   expiresAt?: string | null | undefined;
   /** ID of the token */
   id: string;
+  /** When the token was last used to ingest */
+  ingestLastUsed?: string | null | undefined;
   /** Name of the token */
   name: string;
   orgCapabilities: OrgCapabilities;
@@ -1947,11 +2577,15 @@ export interface RemoveUserFromOrgRequest {
   id: string;
 }
 export interface RemoveUserFromOrgResponse {}
+export type ReplaceLabelAssignmentsRequestLabelIdsList = Array<string>;
+export interface ReplaceLabelAssignmentsRequest {
+  labelIds: ReplaceLabelAssignmentsRequestLabelIdsList;
+  target: LabelAssignmentTarget;
+}
 export interface TrimDatasetRequest {
   dataset_id: string;
   maxDuration: string;
 }
-export interface TrimDatasetResponse {}
 /** array<string> of dataset names for which the annotation appears on charts */
 export type UpdateAnnotationRequestDatasetsList = Array<string>;
 export interface UpdateAnnotationRequest {
@@ -1976,22 +2610,30 @@ export interface UpdateCurrentUserRequest {
   /** New name for the user */
   name: string;
 }
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type UpdateDashboardRequestLabelIdsList = Array<string>;
 /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
 export type UpdateDashboardRequestVersion = string | number;
 export interface UpdateDashboardRequest {
   uid: string;
   dashboard: Dashboard;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: UpdateDashboardRequestLabelIdsList | undefined;
   message?: string | undefined;
   overwrite?: boolean | undefined;
   /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
   version?: UpdateDashboardRequestVersion | undefined;
 }
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type UpdateDatasetRequestLabelIdsList = Array<string>;
 export interface UpdateDatasetRequest {
   dataset_id: string;
   description?: string | undefined;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: UpdateDatasetRequestLabelIdsList | undefined;
   /** Number of days to retain data in the dataset */
   retentionDays?: number | undefined;
-  /** Whether to use the retention period */
+  /** Ignored. Axiom derives this value from `retentionDays`. */
   useRetentionPeriod?: boolean | undefined;
 }
 export interface UpdateFieldForDatasetRequest {
@@ -2010,7 +2652,7 @@ export interface UpdateFieldForDatasetRequest {
 }
 /** List of user IDs that are assigned to this group */
 export type UpdateGroupRequestMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type UpdateGroupRequestRolesList = Array<string>;
 export interface UpdateGroupRequest {
   /** Unique identifier of the group to update */
@@ -2021,26 +2663,32 @@ export interface UpdateGroupRequest {
   members?: UpdateGroupRequestMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: UpdateGroupRequestRolesList | undefined;
 }
 /** List of user IDs that are assigned to this group */
 export type UpdateGroupResponseMembersList = Array<string>;
-/** List of role IDs that are assigned to this group */
+/** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
 export type UpdateGroupResponseRolesList = Array<string>;
 export interface UpdateGroupResponse {
   /** Detailed description of the group's purpose and scope */
   description?: string | undefined;
-  /** Whether the group is managed by Axiom */
+  /** Whether the group is synced from your identity provider. You can't delete a managed group or change its members. */
   isManaged?: boolean | undefined;
   /** List of user IDs that are assigned to this group */
   members?: UpdateGroupResponseMembersList | undefined;
   /** Unique name identifier for the group */
   name: string;
-  /** List of role IDs that are assigned to this group */
+  /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
   roles?: UpdateGroupResponseRolesList | undefined;
   /** Unique identifier for the group */
   id: string;
+}
+export interface UpdateLabelRequest {
+  id: string;
+  color?: LabelColor | undefined;
+  description?: string | null | undefined;
+  name: string;
 }
 export interface UpdateMapFieldsRequest {
   dataset_id: string;
@@ -2058,7 +2706,10 @@ export type UpdateMonitorRequestOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type UpdateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type UpdateMonitorRequestLabelIdsList = Array<string>;
 export interface UpdateMonitorRequest {
+  /** Monitor ID. */
   id: string;
   /** Whether to alert when no data is received */
   alertOnNoData?: boolean | undefined;
@@ -2068,16 +2719,14 @@ export interface UpdateMonitorRequest {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -2096,7 +2745,7 @@ export interface UpdateMonitorRequest {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -2104,14 +2753,14 @@ export interface UpdateMonitorRequest {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: UpdateMonitorRequestType | (string & {});
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: UpdateMonitorRequestLabelIdsList | undefined;
 }
 /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
 export type UpdateMonitorResponseNotifierIdsList = Array<string>;
@@ -2124,6 +2773,14 @@ export type UpdateMonitorResponseOperator =
   | "AboveOrBelow";
 /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
 export type UpdateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Dataset names referenced by the monitor query. */
+export type UpdateMonitorResponseDatasetsList = Array<string>;
+/** IDs of labels assigned to this monitor. */
+export type UpdateMonitorResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type UpdateMonitorResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this monitor. */
+export type UpdateMonitorResponseLabelsList = Array<Label>;
 export interface UpdateMonitorResponse {
   /** Whether to alert when no data is received */
   alertOnNoData?: boolean | undefined;
@@ -2133,16 +2790,14 @@ export interface UpdateMonitorResponse {
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
   compareDays?: number | undefined;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
   /** Detailed description of the monitor's purpose */
   description?: string | undefined;
   /** Whether the monitor is currently disabled */
   disabled?: boolean | undefined;
   /** Timestamp until when the monitor should remain disabled */
   disabledUntil?: string | null | undefined;
+  /** Whether to include a query chart in triggered notifications */
+  includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
@@ -2161,7 +2816,7 @@ export interface UpdateMonitorResponse {
   rangeMinutes?: number | undefined;
   /** Whether the alert can be manually resolved */
   resolvable?: boolean | undefined;
-  /** Delay in seconds before triggering the alert */
+  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
   secondDelay?: number | undefined;
   /** Whether to skip resolved alerts */
   skipResolved?: boolean | undefined;
@@ -2169,32 +2824,71 @@ export interface UpdateMonitorResponse {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
-  /** Number of positive results needed before triggering */
+  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
-  /** Number of consecutive check runs that must fail before triggering an alert. Use this to avoid alerting on temporary spikes. */
+  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
   /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
   type: UpdateMonitorResponseType;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
+  /** Timestamp when the monitor was created */
+  createdAt?: string | undefined;
+  /** ID of the user who created the monitor */
+  createdBy?: string | undefined;
+  /** true when the MCP server created this monitor */
+  createdByAgent?: boolean | undefined;
+  /** Dataset names referenced by the monitor query. */
+  datasets?: UpdateMonitorResponseDatasetsList | undefined;
   /** Unique identifier for the monitor */
   id: string;
+  /** IDs of labels assigned to this monitor. */
+  labelIds: UpdateMonitorResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: UpdateMonitorResponseLabelNamesList;
+  /** Resolved labels assigned to this monitor. */
+  labels?: UpdateMonitorResponseLabelsList | undefined;
+  /** Most recent error encountered while evaluating the monitor. */
+  lastError?: string | undefined;
+  /** Timestamp when the monitor was last updated */
+  updatedAt?: string | undefined;
 }
+/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+export type UpdateNotifierRequestLabelIdsList = Array<string>;
 export interface UpdateNotifierRequest {
+  /** Notifier ID. */
   id: string;
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
+  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
+  labelIds?: UpdateNotifierRequestLabelIdsList | undefined;
 }
+/** IDs of labels assigned to this notifier. */
+export type UpdateNotifierResponseLabelIdsList = Array<string>;
+/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+export type UpdateNotifierResponseLabelNamesList = Array<string>;
+/** Resolved labels assigned to this notifier. */
+export type UpdateNotifierResponseLabelsList = Array<Label>;
 export interface UpdateNotifierResponse {
   /** Timestamp when the notifier was created */
   createdAt?: string | undefined;
   /** Email or ID of the user who created the notifier */
   createdBy?: string | undefined;
+  /** true when the MCP server created this notifier */
+  createdByAgent?: boolean | undefined;
+  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
+  disabled?: boolean | undefined;
   /** ISO timestamp until which the notifier is disabled (null if enabled) */
   disabledUntil?: string | undefined;
+  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
+  lastError?: string | undefined;
   /** Human-readable name for the notifier */
   name: string;
   properties: NotifierProperties;
@@ -2202,12 +2896,18 @@ export interface UpdateNotifierResponse {
   updatedAt?: string | undefined;
   /** Unique identifier for the notifier */
   id?: string | undefined;
+  /** IDs of labels assigned to this notifier. */
+  labelIds: UpdateNotifierResponseLabelIdsList;
+  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
+  labelNames: UpdateNotifierResponseLabelNamesList;
+  /** Resolved labels assigned to this notifier. */
+  labels?: UpdateNotifierResponseLabelsList | undefined;
 }
 export interface UpdateOrgRequest {
   id: string;
   name: string;
 }
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type UpdateRoleRequestMembersList = Array<string>;
 export interface UpdateRoleRequest {
   /** Unique identifier of the role to update */
@@ -2215,20 +2915,20 @@ export interface UpdateRoleRequest {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: UpdateRoleRequestMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
   orgCapabilities?: RoleOrgCapabilities | undefined;
   viewCapabilities?: RoleViewCapabilities | undefined;
 }
-/** List of user IDs that are assigned to this role */
+/** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
 export type UpdateRoleResponseMembersList = Array<string>;
 export interface UpdateRoleResponse {
   datasetCapabilities?: RoleDatasetCapabilities | undefined;
   /** Detailed description of the role's purpose and scope */
   description?: string | undefined;
-  /** List of user IDs that are assigned to this role */
+  /** IDs of users assigned this role directly. Returned in responses and ignored in requests. To assign a role to a user, use the Update user role endpoint. */
   members?: UpdateRoleResponseMembersList | undefined;
   /** Unique name identifier for the role */
   name: string;
@@ -2264,12 +2964,21 @@ export interface UpdateUserRoleRequest {
   /** Role identifier to assign to the user */
   role: string;
 }
+/** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
 export type UpdateViewRequestDatasetsList = Array<string>;
 export interface UpdateViewRequest {
+  /** Name of the view */
   id: string;
+  /** APL query that defines the view */
   aplQuery: string;
+  /** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
   datasets?: UpdateViewRequestDatasetsList | undefined;
   description?: string | undefined;
+  /** Region of the source datasets; ignored in requests */
+  edgeDeployment?: string | undefined;
+  /** URL of the edge deployment; ignored in requests */
+  edgeDeploymentUrl?: string | undefined;
+  /** Name of the view. Use it as the view ID and to query the view like a dataset. */
   name: string;
   /** ID of the org that shared this resource, if it's shared */
   sharedByOrg?: string | undefined;
@@ -2277,10 +2986,12 @@ export interface UpdateViewRequest {
   sharedByOrgName?: string | undefined;
 }
 export interface UpdateVirtualFieldRequest {
+  /** ID of the virtual field in the form `<dataset>.<name>` */
   id: string;
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
@@ -2289,6 +3000,7 @@ export interface UpdateVirtualFieldResponse {
   dataset: string;
   description?: string | undefined;
   expression: string;
+  /** Name of the virtual field. Use letters, digits, underscores, and hyphens, starting and ending with a letter or digit. */
   name: string;
   type?: string | undefined;
   unit?: string | undefined;
@@ -2297,17 +3009,16 @@ export interface UpdateVirtualFieldResponse {
 export interface VacuumDatasetRequest {
   dataset_id: string;
 }
-export interface VacuumDatasetResponse {}
 export type CreateAnnotationError = BadRequest | UnprocessableEntity | AxiomOpError;
-/** Create annotation */
+/** Creates an annotation on one or more existing datasets. If you omit `time`, Axiom uses the time of the request. `time` can't be in the future. */
 export const createAnnotation: API.OperationMethod<
   CreateAnnotationRequest,
   Annotation,
   CreateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<CreateAnnotationRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<Annotation>,
+  input: __S(1888, __c59, 0) as any as S.Schema<CreateAnnotationRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2316,15 +3027,15 @@ export const createAnnotation: API.OperationMethod<
 }));
 
 export type CreateAPITokenError = UnprocessableEntity | AxiomOpError;
-/** Create API token */
+/** Creates an API token and returns its secret `token` value, which you can't retrieve again. You can only grant capabilities you have yourself. If you omit `expiresAt`, the token doesn't expire. */
 export const createAPIToken: API.OperationMethod<
   CreateAPITokenRequest,
   CreateAPITokenResponse,
   CreateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateAPITokenRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<CreateAPITokenResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateAPITokenRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<CreateAPITokenResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2333,15 +3044,15 @@ export const createAPIToken: API.OperationMethod<
 }));
 
 export type CreateDashboardError = BadRequest | Conflict | AxiomOpError;
-/** Create dashboard Create a dashboard from a dashboard document payload. */
+/** Create dashboard Creates a dashboard and generates a `uid` if you don't set one. If a dashboard with the `uid` already exists, updates it and returns `200`, which requires the current `version` or `overwrite: true`. */
 export const createDashboard: API.OperationMethod<
   CreateDashboardRequest,
   DashboardWriteResponse,
   CreateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CreateDashboardRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateDashboardRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2349,17 +3060,23 @@ export const createDashboard: API.OperationMethod<
   span: "CreateDashboard",
 }));
 
-export type CreateDatasetError = BadRequest | Forbidden | UnprocessableEntity | AxiomOpError;
-/** Create dataset Create dataset */
+export type CreateDatasetError =
+  | BadRequest
+  | BadRequest
+  | UnprocessableEntity
+  | Forbidden
+  | Conflict
+  | AxiomOpError;
+/** Create dataset Creates a dataset. The `name` must be unique in your organization, and `retentionDays` can't exceed the retention window of your plan. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   Dataset,
   CreateDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<Dataset>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAxiomError],
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
+  errors: [BadRequest, BadRequest, UnprocessableEntity, Forbidden, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2367,15 +3084,15 @@ export const createDataset: API.OperationMethod<
 }));
 
 export type CreateGroupError = UnprocessableEntity | AxiomOpError;
-/** Create group Creates a new group in the organization. */
+/** Create group Creates a group whose members get the group's roles. Requires an Enterprise plan or the RBAC add-on. The name must be unique, every role ID must exist, and you can't add yourself as a member. */
 export const createGroup: API.OperationMethod<
   CreateGroupRequest,
   CreateGroupResponse,
   CreateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<CreateGroupResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<CreateGroupResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2383,15 +3100,33 @@ export const createGroup: API.OperationMethod<
   span: "CreateGroup",
 }));
 
+export type CreateLabelError = BadRequest | Conflict | AxiomOpError;
+/** Create a label */
+export const createLabel: API.OperationMethod<
+  CreateLabelRequest,
+  LabelSummary,
+  CreateLabelError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateLabelRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<LabelSummary>,
+  errors: [BadRequest, Conflict, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLabel",
+}));
+
 export type CreateMapFieldError = NotFound | UnprocessableEntity | AxiomOpError;
+/** Configures a field as a map field. Events you ingest afterward store the field's nested keys inside the map, while previously ingested events keep their structure. Not supported for metrics datasets. */
 export const createMapField: API.OperationMethod<
   CreateMapFieldRequest,
   MapField,
   CreateMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateMapFieldRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<MapField>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateMapFieldRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<MapField>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2400,15 +3135,15 @@ export const createMapField: API.OperationMethod<
 }));
 
 export type CreateMonitorError = UnprocessableEntity | AxiomOpError;
-/** Create monitor */
+/** Creates a monitor. Axiom runs the monitor's query once before saving it and rejects the request if the query fails, for example because it's invalid or references a dataset that doesn't exist. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const createMonitor: API.OperationMethod<
   CreateMonitorRequest,
   CreateMonitorResponse,
   CreateMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<CreateMonitorRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<CreateMonitorResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateMonitorRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<CreateMonitorResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2417,15 +3152,15 @@ export const createMonitor: API.OperationMethod<
 }));
 
 export type CreateNotifierError = UnprocessableEntity | AxiomOpError;
-/** Creates a new notifier configuration for sending alerts through various channels (Slack, Email, etc) */
+/** Creates a notifier. Set exactly one channel under `properties`, such as `slack`, `email`, or `webhook`. Returns `400` if the channel type isn't enabled for your organization. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const createNotifier: API.OperationMethod<
   CreateNotifierRequest,
   CreateNotifierResponse,
   CreateNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateNotifierRequest>,
-  output: __S(91, __c5, 11) as any as S.Schema<CreateNotifierResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateNotifierRequest>,
+  output: __S(273, __c8, 17) as any as S.Schema<CreateNotifierResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2433,12 +3168,13 @@ export const createNotifier: API.OperationMethod<
   span: "CreateNotifier",
 }));
 
-export type CreateOrgError = AxiomOpError;
+export type CreateOrgError = BadRequest | AxiomOpError;
+/** Creates an organization on the Personal plan with the authenticated user as its owner. Requires a personal access token (PAT). */
 export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(96, __c6, 0) as any as S.Schema<CreateOrgRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<Org>,
-    errors: [UnknownAxiomError],
+    input: __S(288, __c9, 0) as any as S.Schema<CreateOrgRequest>,
+    output: __S(322, __c10, 2) as any as S.Schema<Org>,
+    errors: [BadRequest, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2446,15 +3182,15 @@ export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgErro
   }));
 
 export type CreateRoleError = UnprocessableEntity | AxiomOpError;
-/** Create role Creates a new role in the organization with the specified permissions and member assignments. */
+/** Create role Creates a custom role. Requires an Enterprise plan or the RBAC add-on. The name must be unique and can't start with `axiom-`. The `members` field is ignored; assign users with the Update user role endpoint. */
 export const createRole: API.OperationMethod<
   CreateRoleRequest,
   CreateRoleResponse,
   CreateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<CreateRoleResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<CreateRoleResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2463,14 +3199,15 @@ export const createRole: API.OperationMethod<
 }));
 
 export type CreateStarredError = UnprocessableEntity | AxiomOpError;
+/** Saves an APL query for the authenticated user. Axiom sets `who` to the caller and `kind` to `apl`. If you omit `dataset`, Axiom uses the alphabetically first dataset that `query.apl` references. */
 export const createStarred: API.OperationMethod<
   CreateStarredRequest,
   CreateStarredResponse,
   CreateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateStarredRequest>,
-  output: __S(180, __c11, 4) as any as S.Schema<CreateStarredResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateStarredRequest>,
+  output: __S(452, __c14, 4) as any as S.Schema<CreateStarredResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2479,15 +3216,15 @@ export const createStarred: API.OperationMethod<
 }));
 
 export type CreateUserError = BadRequest | UnprocessableEntity | AxiomOpError;
-/** Create user */
+/** Adds a user to the organization with the given role and sends them an invite email. If the email address already belongs to an Axiom account, Axiom keeps its existing name. API tokens can't assign the `owner` role. */
 export const createUser: API.OperationMethod<
   CreateUserRequest,
   User,
   CreateUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<User>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<User>,
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2496,14 +3233,15 @@ export const createUser: API.OperationMethod<
 }));
 
 export type CreateViewError = UnprocessableEntity | AxiomOpError;
+/** Creates a view, a named APL query that you can query like a dataset. Axiom derives `datasets` from `aplQuery`. The name can't match an existing dataset or view, and the query can't reference views or use wildcards. */
 export const createView: API.OperationMethod<
   CreateViewRequest,
   View,
   CreateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<View>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<View>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2512,14 +3250,15 @@ export const createView: API.OperationMethod<
 }));
 
 export type CreateVirtualFieldError = UnprocessableEntity | AxiomOpError;
+/** Creates a virtual field on a dataset. Axiom sets its ID to `<dataset>.<name>`, so the name must be unique within the dataset. `expression` must be a valid APL expression. */
 export const createVirtualField: API.OperationMethod<
   CreateVirtualFieldRequest,
   CreateVirtualFieldResponse,
   CreateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateVirtualFieldRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<CreateVirtualFieldResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateVirtualFieldRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<CreateVirtualFieldResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2528,15 +3267,15 @@ export const createVirtualField: API.OperationMethod<
 }));
 
 export type DeleteAnnotationError = BadRequest | NotFound | AxiomOpError;
-/** Delete annotation */
+/** Deletes an annotation by its ID. */
 export const deleteAnnotation: API.OperationMethod<
   DeleteAnnotationRequest,
   DeleteAnnotationResponse,
   DeleteAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteAnnotationRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteAnnotationResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteAnnotationRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteAnnotationResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2545,15 +3284,15 @@ export const deleteAnnotation: API.OperationMethod<
 }));
 
 export type DeleteAPITokenError = NotFound | AxiomOpError;
-/** Delete API token */
+/** Permanently deletes an API token so it can no longer authenticate requests. */
 export const deleteAPIToken: API.OperationMethod<
   DeleteAPITokenRequest,
   DeleteAPITokenResponse,
   DeleteAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteAPITokenRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteAPITokenResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteAPITokenRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteAPITokenResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2562,15 +3301,15 @@ export const deleteAPIToken: API.OperationMethod<
 }));
 
 export type DeleteDashboardError = NotFound | AxiomOpError;
-/** Delete dashboard Delete a dashboard by UID. */
+/** Delete dashboard Permanently deletes a dashboard by UID and removes its label assignments. Returns `404` if the dashboard doesn't exist or the caller can't manage it. */
 export const deleteDashboard: API.OperationMethod<
   DeleteDashboardRequest,
   DeleteDashboardResponse,
   DeleteDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteDashboardResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteDashboardResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2578,17 +3317,17 @@ export const deleteDashboard: API.OperationMethod<
   span: "DeleteDashboard",
 }));
 
-export type DeleteDatasetError = Forbidden | NotFound | AxiomOpError;
-/** Delete dataset Delete dataset */
+export type DeleteDatasetError = Forbidden | NotFound | NotFound | AxiomOpError;
+/** Delete dataset Deletes a dataset and queues the permanent deletion of its data. For a dataset shared with your organization, removes it from your organization only. Returns the ID of the deletion job. */
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
-  DeleteDatasetResponse,
+  JobCreateResponse,
   DeleteDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
+  errors: [Forbidden, NotFound, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2596,15 +3335,15 @@ export const deleteDataset: API.OperationMethod<
 }));
 
 export type DeleteDatasetFieldsError = BadRequest | Forbidden | NotFound | AxiomOpError;
-/** Delete fields from a dataset Deletes fields asynchronously. The field disappears from listings once the deletion pipeline finishes. Re-ingesting data with that field recreates it. */
+/** Delete fields from a dataset Queues the deletion of the listed fields from the dataset schema. Deleted values stay in storage but can't be queried, and ingesting a deleted field again recreates it. You can delete fields once every 5 minutes per dataset. */
 export const deleteDatasetFields: API.OperationMethod<
   DeleteDatasetFieldsRequest,
   DeleteDatasetFieldsResult,
   DeleteDatasetFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2613,15 +3352,15 @@ export const deleteDatasetFields: API.OperationMethod<
 }));
 
 export type DeleteFieldForDatasetError = BadRequest | Forbidden | NotFound | AxiomOpError;
-/** Delete a field from a dataset Deletes the field asynchronously. The field disappears from listings once the deletion pipeline finishes. Re-ingesting data with that field recreates it. */
+/** Delete a field from a dataset Queues the deletion of a field from the dataset schema. Deleted values stay in storage but can't be queried, and ingesting the field again recreates it. You can delete fields once every 5 minutes per dataset. */
 export const deleteFieldForDataset: API.OperationMethod<
   DeleteFieldForDatasetRequest,
   DeleteDatasetFieldsResult,
   DeleteFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2630,15 +3369,15 @@ export const deleteFieldForDataset: API.OperationMethod<
 }));
 
 export type DeleteGroupError = NotFound | AxiomOpError;
-/** Delete group Permanently removes a group from the organization. */
+/** Delete group Permanently deletes a group. Members lose the roles the group granted but keep their own role, and dashboards the group owned are shared with everyone. Managed groups can't be deleted. Requires an Enterprise plan or the RBAC add-on. */
 export const deleteGroup: API.OperationMethod<
   DeleteGroupRequest,
   DeleteGroupResponse,
   DeleteGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2646,15 +3385,33 @@ export const deleteGroup: API.OperationMethod<
   span: "DeleteGroup",
 }));
 
+export type DeleteLabelError = BadRequest | NotFound | AxiomOpError;
+/** Delete a label */
+export const deleteLabel: API.OperationMethod<
+  DeleteLabelRequest,
+  DeleteLabelResponse,
+  DeleteLabelError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteLabelRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteLabelResponse>,
+  errors: [BadRequest, NotFound, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLabel",
+}));
+
 export type DeleteMapFieldError = NotFound | AxiomOpError;
+/** Removes a field from the map fields of a dataset. The field itself and its ingested data aren't deleted. Not supported for metrics datasets. */
 export const deleteMapField: API.OperationMethod<
   DeleteMapFieldRequest,
   DeleteMapFieldResponse,
   DeleteMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteMapFieldRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteMapFieldResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteMapFieldRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteMapFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2663,15 +3420,15 @@ export const deleteMapField: API.OperationMethod<
 }));
 
 export type DeleteMonitorError = NotFound | AxiomOpError;
-/** Delete monitor */
+/** Permanently deletes a monitor and removes its label assignments. The caller needs query access to the monitor's datasets. */
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorRequest,
   DeleteMonitorResponse,
   DeleteMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteMonitorRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteMonitorResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteMonitorRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteMonitorResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2680,15 +3437,15 @@ export const deleteMonitor: API.OperationMethod<
 }));
 
 export type DeleteNotifierError = NotFound | AxiomOpError;
-/** Delete notifier */
+/** Permanently deletes a notifier and removes its label assignments. Returns `400` if any monitor still uses the notifier. */
 export const deleteNotifier: API.OperationMethod<
   DeleteNotifierRequest,
   DeleteNotifierResponse,
   DeleteNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteNotifierRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteNotifierResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteNotifierRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteNotifierResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2697,15 +3454,15 @@ export const deleteNotifier: API.OperationMethod<
 }));
 
 export type DeleteRoleError = NotFound | AxiomOpError;
-/** Delete role Permanently removes a role from the organization. */
+/** Delete role Permanently deletes a custom role. Users assigned the role get the `none` role, and the role is removed from all groups. Requires an Enterprise plan or the RBAC add-on. */
 export const deleteRole: API.OperationMethod<
   DeleteRoleRequest,
   DeleteRoleResponse,
   DeleteRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2714,14 +3471,15 @@ export const deleteRole: API.OperationMethod<
 }));
 
 export type DeleteStarredError = NotFound | AxiomOpError;
+/** Deletes a saved query by its ID. With a personal access token, you can only delete queries you saved. */
 export const deleteStarred: API.OperationMethod<
   DeleteStarredRequest,
   DeleteStarredResponse,
   DeleteStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeleteStarredRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteStarredResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteStarredRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteStarredResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2730,14 +3488,15 @@ export const deleteStarred: API.OperationMethod<
 }));
 
 export type DeleteViewError = NotFound | AxiomOpError;
+/** Deletes a view by its name. */
 export const deleteView: API.OperationMethod<
   DeleteViewRequest,
   DeleteViewResponse,
   DeleteViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteViewRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteViewResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteViewRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteViewResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2746,14 +3505,15 @@ export const deleteView: API.OperationMethod<
 }));
 
 export type DeleteVirtualFieldError = NotFound | AxiomOpError;
+/** Deletes a virtual field by its ID. */
 export const deleteVirtualField: API.OperationMethod<
   DeleteVirtualFieldRequest,
   DeleteVirtualFieldResponse,
   DeleteVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2762,15 +3522,15 @@ export const deleteVirtualField: API.OperationMethod<
 }));
 
 export type GetAnnotationError = BadRequest | NotFound | AxiomOpError;
-/** Get annotation by ID */
+/** Retrieves an annotation by its ID. */
 export const getAnnotation: API.OperationMethod<
   GetAnnotationRequest,
   Annotation,
   GetAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetAnnotationRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<Annotation>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetAnnotationRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2778,17 +3538,17 @@ export const getAnnotation: API.OperationMethod<
   span: "GetAnnotation",
 }));
 
-export type GetAnnotationsError = AxiomOpError;
-/** Get annotations */
+export type GetAnnotationsError = BadRequest | AxiomOpError;
+/** Lists annotations in the organization. Filter by `datasets`, or by a time range with both `start` and `end` at most 100 days apart. Without filters, returns all annotations. */
 export const getAnnotations: API.OperationMethod<
   GetAnnotationsRequest,
   GetAnnotationsResponse,
   GetAnnotationsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetAnnotationsRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(1280, __c40, 0) as any as S.Schema<GetAnnotationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<GetAnnotationsResponse>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2796,15 +3556,15 @@ export const getAnnotations: API.OperationMethod<
 }));
 
 export type GetAPITokenError = NotFound | AxiomOpError;
-/** Get API token by ID */
+/** Retrieves an active API token by ID. The response doesn't include the token's secret value. */
 export const getAPIToken: API.OperationMethod<
   GetAPITokenRequest,
   APIToken,
   GetAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetAPITokenRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<APIToken>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetAPITokenRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<APIToken>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2813,15 +3573,15 @@ export const getAPIToken: API.OperationMethod<
 }));
 
 export type GetAPITokensError = AxiomOpError;
-/** Get API tokens */
+/** Lists the organization's active API tokens. Expired tokens, personal access tokens, and token secret values aren't included. */
 export const getAPITokens: API.OperationMethod<
   GetAPITokensRequest,
   GetAPITokensResponse,
   GetAPITokensError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetAPITokensRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<GetAPITokensResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetAPITokensRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<GetAPITokensResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2829,17 +3589,17 @@ export const getAPITokens: API.OperationMethod<
   span: "GetAPITokens",
 }));
 
-export type GetCurrentUserError = AxiomOpError;
-/** Get current user */
+export type GetCurrentUserError = Forbidden | AxiomOpError;
+/** Retrieves the user who owns the personal access token (PAT) used to authenticate. API tokens aren't supported. The response includes `role` only when the `X-AXIOM-ORG-ID` header is set. */
 export const getCurrentUser: API.OperationMethod<
   GetCurrentUserRequest,
   User,
   GetCurrentUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<User>,
-  errors: [UnknownAxiomError],
+  input: __S(1408, __c44, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  errors: [Forbidden, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2847,15 +3607,15 @@ export const getCurrentUser: API.OperationMethod<
 }));
 
 export type GetDashboardError = NotFound | AxiomOpError;
-/** Get dashboard Get a dashboard by UID. */
+/** Get dashboard Retrieves a managed dashboard by UID, or a visible integration dashboard by its stable ID. Managed dashboards include their current `version`; integration dashboards are read-only. Labels are resolved unless `exclude=labels`. */
 export const getDashboard: API.OperationMethod<
   GetDashboardRequest,
   DashboardResource,
   GetDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetDashboardRequest>,
-  output: __S(1300, __c81, 4) as any as S.Schema<DashboardResource>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetDashboardRequest>,
+  output: __S(2790, __c87, 6) as any as S.Schema<DashboardResource>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2864,15 +3624,15 @@ export const getDashboard: API.OperationMethod<
 }));
 
 export type GetDatasetError = Forbidden | NotFound | AxiomOpError;
-/** Get dataset by ID Get dataset by ID */
+/** Get dataset by ID Retrieves a dataset by its name. */
 export const getDataset: API.OperationMethod<
   GetDatasetRequest,
   Dataset,
   GetDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<Dataset>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2880,17 +3640,17 @@ export const getDataset: API.OperationMethod<
   span: "GetDataset",
 }));
 
-export type GetDatasetsError = Forbidden | AxiomOpError;
-/** Get list of datasets Get list of datasets */
+export type GetDatasetsError = BadRequest | Forbidden | AxiomOpError;
+/** Get list of datasets Lists the datasets you can read, including datasets shared with your organization, sorted by name. Returns all matching datasets in one response without pagination. */
 export const getDatasets: API.OperationMethod<
   GetDatasetsRequest,
   GetDatasetsResponse,
   GetDatasetsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetDatasetsRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<GetDatasetsResponse>,
-  errors: [Forbidden, UnknownAxiomError],
+  input: __S(1504, __c47, 0) as any as S.Schema<GetDatasetsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<GetDatasetsResponse>,
+  errors: [BadRequest, Forbidden, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2898,14 +3658,15 @@ export const getDatasets: API.OperationMethod<
 }));
 
 export type GetFieldForDatasetError = NotFound | AxiomOpError;
+/** Retrieves a field in the schema of a dataset by its name. Not supported for metrics datasets. */
 export const getFieldForDataset: API.OperationMethod<
   GetFieldForDatasetRequest,
   DatasetField,
   GetFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetFieldForDatasetRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<DatasetField>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetFieldForDatasetRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<DatasetField>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2913,16 +3674,17 @@ export const getFieldForDataset: API.OperationMethod<
   span: "GetFieldForDataset",
 }));
 
-export type GetFieldsForDatasetError = Forbidden | NotFound | AxiomOpError;
+export type GetFieldsForDatasetError = BadRequest | Forbidden | NotFound | NotFound | AxiomOpError;
+/** Lists the fields in the schema of a dataset with their type, unit, description, and hidden setting. Not supported for metrics datasets. */
 export const getFieldsForDataset: API.OperationMethod<
   GetFieldsForDatasetRequest,
   GetFieldsForDatasetResponse,
   GetFieldsForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
+  input: __S(1600, __c50, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
+  errors: [BadRequest, Forbidden, NotFound, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2930,15 +3692,15 @@ export const getFieldsForDataset: API.OperationMethod<
 }));
 
 export type GetGroupByIdError = NotFound | AxiomOpError;
-/** Get group by ID Retrieves detailed information about a specific group by its unique identifier. */
+/** Get group by ID Retrieves a group by ID with its role IDs, member user IDs, and whether it's managed by your identity provider (`isManaged`). */
 export const getGroupById: API.OperationMethod<
   GetGroupByIdRequest,
   GetGroupByIdResponse,
   GetGroupByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetGroupByIdRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<GetGroupByIdResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetGroupByIdRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<GetGroupByIdResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2946,15 +3708,33 @@ export const getGroupById: API.OperationMethod<
   span: "GetGroupById",
 }));
 
+export type GetLabelError = BadRequest | NotFound | AxiomOpError;
+/** Get a label */
+export const getLabel: API.OperationMethod<
+  GetLabelRequest,
+  LabelDetails,
+  GetLabelError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1664, __c52, 0) as any as S.Schema<GetLabelRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<LabelDetails>,
+  errors: [BadRequest, NotFound, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLabel",
+}));
+
 export type GetMapFieldsError = NotFound | AxiomOpError;
+/** Lists the names of the fields configured as map fields in a dataset. */
 export const getMapFields: API.OperationMethod<
   GetMapFieldsRequest,
   GetMapFieldsResponse,
   GetMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetMapFieldsRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<GetMapFieldsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetMapFieldsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<GetMapFieldsResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2963,15 +3743,15 @@ export const getMapFields: API.OperationMethod<
 }));
 
 export type GetMonitorError = NotFound | AxiomOpError;
-/** Retrieves detailed configuration for a specific monitor by its unique identifier */
+/** Retrieves a monitor by ID. Returns `404` if the monitor doesn't exist or the caller can't query its datasets. Labels are resolved unless `exclude=labels`. */
 export const getMonitor: API.OperationMethod<
   GetMonitorRequest,
   GetMonitorResponse,
   GetMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetMonitorRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<GetMonitorResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetMonitorRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<GetMonitorResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2980,15 +3760,15 @@ export const getMonitor: API.OperationMethod<
 }));
 
 export type GetMonitorHistoryError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Get monitor history */
+/** Lists the notifications sent for the monitor between `startTime` and `endTime`. Each delivery is a separate item: one per notifier, and one per recipient for email notifiers. Failed deliveries are included. State changes that sent no notification, for example while the monitor had no notifiers, aren't listed. The caller needs query access to the monitor's datasets. */
 export const getMonitorHistory: API.OperationMethod<
   GetMonitorHistoryRequest,
   GetMonitorHistoryResponse,
   GetMonitorHistoryError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetMonitorHistoryRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<GetMonitorHistoryResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetMonitorHistoryRequest>,
+  output: __S(1859, __c58, 3) as any as S.Schema<GetMonitorHistoryResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -2996,17 +3776,17 @@ export const getMonitorHistory: API.OperationMethod<
   span: "GetMonitorHistory",
 }));
 
-export type GetMonitorsError = AxiomOpError;
-/** Lists all configured monitors. Returns an array of monitor configurations including their IDs and current status. */
+export type GetMonitorsError = BadRequest | AxiomOpError;
+/** Lists monitors in the organization, sorted by name. Only returns monitors that query at least one dataset visible to the caller. Labels are resolved unless `exclude=labels`. */
 export const getMonitors: API.OperationMethod<
   GetMonitorsRequest,
   GetMonitorsResponse,
   GetMonitorsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetMonitorsRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<GetMonitorsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(1984, __c62, 0) as any as S.Schema<GetMonitorsRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<GetMonitorsResponse>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3014,15 +3794,15 @@ export const getMonitors: API.OperationMethod<
 }));
 
 export type GetNotifierError = NotFound | AxiomOpError;
-/** Retrieves detailed configuration for a specific notifier by its unique identifier */
+/** Retrieves a notifier by ID. Labels are resolved unless `exclude=labels`. */
 export const getNotifier: API.OperationMethod<
   GetNotifierRequest,
   GetNotifierResponse,
   GetNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetNotifierRequest>,
-  output: __S(91, __c5, 11) as any as S.Schema<GetNotifierResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetNotifierRequest>,
+  output: __S(273, __c8, 17) as any as S.Schema<GetNotifierResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3030,17 +3810,17 @@ export const getNotifier: API.OperationMethod<
   span: "GetNotifier",
 }));
 
-export type GetNotifiersError = AxiomOpError;
-/** Lists all configured notifiers. Returns an array of notification configurations including their IDs and current status. */
+export type GetNotifiersError = BadRequest | AxiomOpError;
+/** Lists all notifiers in the organization, sorted by name. Labels are resolved unless `exclude=labels`. */
 export const getNotifiers: API.OperationMethod<
   GetNotifiersRequest,
   GetNotifiersResponse,
   GetNotifiersError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetNotifiersRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<GetNotifiersResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(2048, __c64, 0) as any as S.Schema<GetNotifiersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<GetNotifiersResponse>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3048,10 +3828,11 @@ export const getNotifiers: API.OperationMethod<
 }));
 
 export type GetOrgError = NotFound | AxiomOpError;
+/** Retrieves an organization the authenticated user is a member of, including its plan and license limits. Requires a personal access token (PAT). */
 export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(912, __c57, 0) as any as S.Schema<GetOrgRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<Org>,
+    input: __S(2080, __c65, 0) as any as S.Schema<GetOrgRequest>,
+    output: __S(322, __c10, 2) as any as S.Schema<Org>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3060,14 +3841,15 @@ export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomO
   }));
 
 export type GetOrgsError = AxiomOpError;
+/** Lists the organizations the authenticated user is a member of. Requires a personal access token (PAT). Organizations that enforce SAML sign-in are omitted unless the PAT is SAML-authenticated. */
 export const getOrgs: API.OperationMethod<
   GetOrgsRequest,
   GetOrgsResponse,
   GetOrgsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetOrgsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GetOrgsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetOrgsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<GetOrgsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3076,15 +3858,15 @@ export const getOrgs: API.OperationMethod<
 }));
 
 export type GetRoleByIdError = NotFound | AxiomOpError;
-/** Get role by ID Retrieves detailed information about a specific role by its unique identifier. */
+/** Get role by ID Retrieves a custom role by ID with its capabilities and the IDs of users assigned the role directly. Built-in role IDs such as `axiom-admin` return `404`. */
 export const getRoleById: API.OperationMethod<
   GetRoleByIdRequest,
   GetRoleByIdResponse,
   GetRoleByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetRoleByIdRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<GetRoleByIdResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetRoleByIdRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<GetRoleByIdResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3093,14 +3875,15 @@ export const getRoleById: API.OperationMethod<
 }));
 
 export type GetStarredError = NotFound | AxiomOpError;
+/** Retrieves a saved query by its ID. */
 export const getStarred: API.OperationMethod<
   GetStarredRequest,
   GetStarredResponse,
   GetStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetStarredRequest>,
-  output: __S(180, __c11, 4) as any as S.Schema<GetStarredResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetStarredRequest>,
+  output: __S(452, __c14, 4) as any as S.Schema<GetStarredResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3108,16 +3891,17 @@ export const getStarred: API.OperationMethod<
   span: "GetStarred",
 }));
 
-export type GetStarredQueriesError = AxiomOpError;
+export type GetStarredQueriesError = BadRequest | NotFound | AxiomOpError;
+/** Lists saved APL queries on datasets you can read, sorted by name. Use `who` to choose whose queries to return, and `limit` and `offset` to paginate. */
 export const getStarredQueries: API.OperationMethod<
   GetStarredQueriesRequest,
   GetStarredQueriesResponse,
   GetStarredQueriesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetStarredQueriesRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<GetStarredQueriesResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(2208, __c69, 0) as any as S.Schema<GetStarredQueriesRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<GetStarredQueriesResponse>,
+  errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3125,11 +3909,11 @@ export const getStarredQueries: API.OperationMethod<
 }));
 
 export type GetUserError = NotFound | AxiomOpError;
-/** Get user by ID */
+/** Retrieves a member of the organization by user ID, including their role. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(992, __c62, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(209, __c13, 1) as any as S.Schema<User>,
+    input: __S(2240, __c70, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(513, __c16, 1) as any as S.Schema<User>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3138,15 +3922,15 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Ax
   }));
 
 export type GetUsersError = AxiomOpError;
-/** Get users */
+/** Lists all members of the organization, including each member's role. */
 export const getUsers: API.OperationMethod<
   GetUsersRequest,
   GetUsersResponse,
   GetUsersError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<GetUsersResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<GetUsersResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3155,10 +3939,11 @@ export const getUsers: API.OperationMethod<
 }));
 
 export type GetViewError = NotFound | AxiomOpError;
+/** Retrieves a view by its name. */
 export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1024, __c64, 0) as any as S.Schema<GetViewRequest>,
-    output: __S(240, __c15, 0) as any as S.Schema<View>,
+    input: __S(2400, __c75, 0) as any as S.Schema<GetViewRequest>,
+    output: __S(576, __c18, 0) as any as S.Schema<View>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3167,14 +3952,15 @@ export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, Ax
   }));
 
 export type GetViewsError = AxiomOpError;
+/** Lists the views in the organization, including views shared with it by other organizations. */
 export const getViews: API.OperationMethod<
   GetViewsRequest,
   GetViewsResponse,
   GetViewsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<GetViewsRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<GetViewsResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetViewsRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<GetViewsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3183,14 +3969,15 @@ export const getViews: API.OperationMethod<
 }));
 
 export type GetVirtualFieldError = NotFound | AxiomOpError;
+/** Retrieves a virtual field by its ID. */
 export const getVirtualField: API.OperationMethod<
   GetVirtualFieldRequest,
   GetVirtualFieldResponse,
   GetVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GetVirtualFieldRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<GetVirtualFieldResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetVirtualFieldRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<GetVirtualFieldResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3198,33 +3985,34 @@ export const getVirtualField: API.OperationMethod<
   span: "GetVirtualField",
 }));
 
-export type GetVirtualFieldsError = AxiomOpError;
+export type GetVirtualFieldsError = NotFound | AxiomOpError;
+/** Lists the virtual fields of a dataset, ordered by creation time. */
 export const getVirtualFields: API.OperationMethod<
   GetVirtualFieldsRequest,
   GetVirtualFieldsResponse,
   GetVirtualFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetVirtualFieldsRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<GetVirtualFieldsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(2496, __c78, 0) as any as S.Schema<GetVirtualFieldsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<GetVirtualFieldsResponse>,
+  errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVirtualFields",
 }));
 
-export type ListDashboardsError = AxiomOpError;
-/** List dashboards List dashboards visible to the caller. */
+export type ListDashboardsError = BadRequest | AxiomOpError;
+/** List dashboards Lists managed and integration dashboards visible to the caller, sorted by name and paginated together with `limit` and `offset`. Integration dashboards are read-only and have no save version or audit metadata. Labels are resolved unless `exclude=labels`. */
 export const listDashboards: API.OperationMethod<
   ListDashboardsRequest,
   ListDashboardsResponse,
   ListDashboardsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListDashboardsRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<ListDashboardsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(2528, __c79, 0) as any as S.Schema<ListDashboardsRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ListDashboardsResponse>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3232,15 +4020,15 @@ export const listDashboards: API.OperationMethod<
 }));
 
 export type ListGroupsError = AxiomOpError;
-/** List all groups Retrieves all groups in the organization. */
+/** List all groups Lists all groups in the organization with the role IDs and user IDs assigned to each group. */
 export const listGroups: API.OperationMethod<
   ListGroupsRequest,
   ListGroupsResponse,
   ListGroupsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(1154, __c72, 2) as any as S.Schema<ListGroupsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3248,16 +4036,50 @@ export const listGroups: API.OperationMethod<
   span: "ListGroups",
 }));
 
+export type ListLabelAssignmentsError = BadRequest | UnprocessableEntity | AxiomOpError;
+/** List label assignments for resource targets Accepts 1-500 unique resource targets and preserves their request order. Returns exactly one result per target. An eligible target without assignments, a target that does not exist, and a target that the caller cannot access all return an empty labelIds array. The response does not distinguish these cases. labelIds is a set with no meaningful order. The operation is safe and idempotent despite using POST. Eligible targets are owned saved dashboards, visible integration dashboards, readable datasets, visible monitors, and visible notifiers. Each target is checked using its resource's read permission; missing permissions yield empty labelIds for that target. Dashboards shared into the organization are not eligible. A target that uses the wrong identifier for its type returns 400. An unknown target type, duplicate targets, and more than 500 targets fail request validation with 422. An internal failure while resolving targets fails the whole request instead of returning empty label sets. */
+export const listLabelAssignments: API.OperationMethod<
+  ListLabelAssignmentsRequest,
+  ListLabelAssignmentsResponse,
+  ListLabelAssignmentsError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2592, __c81, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
+  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelAssignments",
+}));
+
+export type ListLabelsError = AxiomOpError;
+/** List labels Returns labels as JSON, or the labels Agent Skill when the request negotiates text/markdown. */
+export const listLabels: API.OperationMethod<
+  ListLabelsRequest,
+  ListLabelsResponse,
+  ListLabelsError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2656, __c83, 0) as any as S.Schema<ListLabelsRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<ListLabelsResponse>,
+  errors: [UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabels",
+}));
+
 export type ListRolesError = AxiomOpError;
-/** List all roles Retrieves all roles in the organization with their associated permissions and members. */
+/** List all roles Lists the custom roles in the organization with their capabilities and the IDs of users assigned each role directly. Built-in roles such as `axiom-admin` aren't included. */
 export const listRoles: API.OperationMethod<
   ListRolesRequest,
   ListRolesResponse,
   ListRolesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<ListRolesResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<ListRolesResponse>,
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3266,15 +4088,15 @@ export const listRoles: API.OperationMethod<
 }));
 
 export type PatchDashboardChartError = BadRequest | NotFound | AxiomOpError;
-/** Patch dashboard chart Patch a single chart in a dashboard by chart ID. */
+/** Patch dashboard chart Applies a JSON merge patch to one chart in a dashboard. Set `version` to the dashboard's current version, or `overwrite: true` to skip the check; a stale `version` returns `412`. */
 export const patchDashboardChart: API.OperationMethod<
   PatchDashboardChartRequest,
   DashboardWriteResponse,
   PatchDashboardChartError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c74, 1) as any as S.Schema<PatchDashboardChartRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(2721, __c85, 1) as any as S.Schema<PatchDashboardChartRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3282,17 +4104,17 @@ export const patchDashboardChart: API.OperationMethod<
   span: "PatchDashboardChart",
 }));
 
-export type ProvisionOrgError = AxiomOpError;
-/** Provision a temporary organization for an agent Publicly provisions a temporary organization intended for automated agents. The organization is marked temporary with a TTL and is deleted automatically if it is not claimed before it expires. The response includes a claim URL that lets a human take ownership of the org. This endpoint is unauthenticated and strict rate limits apply. */
+export type ProvisionOrgError = BadRequest | AxiomOpError;
+/** Provision a temporary organization for an agent Creates a temporary organization for an automated agent and returns a full-permission API token and a claim URL. The organization is deleted after 24 hours unless a human claims it. Doesn't require authentication and is rate limited per client IP. */
 export const provisionOrg: API.OperationMethod<
   ProvisionOrgRequest,
   ProvisionOrgResponse,
   ProvisionOrgError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ProvisionOrgRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<ProvisionOrgResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(2912, __c91, 0) as any as S.Schema<ProvisionOrgRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<ProvisionOrgResponse>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3300,15 +4122,15 @@ export const provisionOrg: API.OperationMethod<
 }));
 
 export type RegenerateAPITokenError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Regenerate API token */
+/** Creates a new API token with the existing token's capabilities, or with those in `newToken`, and returns its secret value. The existing token keeps working until `existingTokenExpiresAt`; set it to the current time to revoke it immediately. */
 export const regenerateAPIToken: API.OperationMethod<
   RegenerateAPITokenRequest,
   RegenerateAPITokenResponse,
   RegenerateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c76, 1) as any as S.Schema<RegenerateAPITokenRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<RegenerateAPITokenResponse>,
+  input: __S(2945, __c92, 1) as any as S.Schema<RegenerateAPITokenRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<RegenerateAPITokenResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3317,15 +4139,15 @@ export const regenerateAPIToken: API.OperationMethod<
 }));
 
 export type RemoveUserFromOrgError = NotFound | AxiomOpError;
-/** Remove user from org */
+/** Removes a user from the organization without deleting their Axiom account. You can't remove the organization's last member. With a personal access token (PAT), only owners can remove an owner. */
 export const removeUserFromOrg: API.OperationMethod<
   RemoveUserFromOrgRequest,
   RemoveUserFromOrgResponse,
   RemoveUserFromOrgError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3333,16 +4155,38 @@ export const removeUserFromOrg: API.OperationMethod<
   span: "RemoveUserFromOrg",
 }));
 
+export type ReplaceLabelAssignmentsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | AxiomOpError;
+/** Replace labels assigned to a resource target Replaces the complete label set for one target atomically, ignoring label IDs that do not exist in the caller's organization and removing stale assignments. The response contains only existing label IDs. Concurrent replacements use last-write-wins semantics. The operation requires only the target resource's update permission: dashboards|update, datasets|update, monitors|update, or notifiers|update. Datasets must also be readable, writable, and owned by the caller's organization. Monitor dataset permissions match those required to read the monitor. A target that uses the wrong identifier for its type returns 400. An unknown target type, duplicate label IDs, and more than 500 label IDs fail request validation with 422. A target that does not exist or is not owned by the caller's organization returns 404. */
+export const replaceLabelAssignments: API.OperationMethod<
+  ReplaceLabelAssignmentsRequest,
+  LabelAssignmentResult,
+  ReplaceLabelAssignmentsError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3008, __c94, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<LabelAssignmentResult>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLabelAssignments",
+}));
+
 export type TrimDatasetError = Forbidden | NotFound | AxiomOpError;
-/** Trim dataset by duration Trim dataset */
+/** Trim dataset by duration Queues a job that deletes data older than `maxDuration` from an events, logs, or metrics dataset, and returns the job ID. Deletion runs asynchronously. */
 export const trimDataset: API.OperationMethod<
   TrimDatasetRequest,
-  TrimDatasetResponse,
+  JobCreateResponse,
   TrimDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<TrimDatasetRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<TrimDatasetResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<TrimDatasetRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3351,15 +4195,15 @@ export const trimDataset: API.OperationMethod<
 }));
 
 export type UpdateAnnotationError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
-/** Update annotation */
+/** Updates an annotation. Only the fields you include change. Omitted or empty fields keep their current values, so you can't clear a field. */
 export const updateAnnotation: API.OperationMethod<
   UpdateAnnotationRequest,
   Annotation,
   UpdateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateAnnotationRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<Annotation>,
+  input: __S(3072, __c96, 0) as any as S.Schema<UpdateAnnotationRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Annotation>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3367,17 +4211,17 @@ export const updateAnnotation: API.OperationMethod<
   span: "UpdateAnnotation",
 }));
 
-export type UpdateCurrentUserError = AxiomOpError;
-/** Update current user */
+export type UpdateCurrentUserError = BadRequest | AxiomOpError;
+/** Updates the name of the user who owns the personal access token (PAT) used to authenticate. API tokens aren't supported. The response doesn't include `role`. */
 export const updateCurrentUser: API.OperationMethod<
   UpdateCurrentUserRequest,
   User,
   UpdateCurrentUserError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateCurrentUserRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<User>,
-  errors: [UnknownAxiomError],
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateCurrentUserRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<User>,
+  errors: [BadRequest, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3385,15 +4229,15 @@ export const updateCurrentUser: API.OperationMethod<
 }));
 
 export type UpdateDashboardError = BadRequest | Conflict | AxiomOpError;
-/** Update dashboard Update a dashboard by UID. */
+/** Update dashboard Replaces the dashboard document for the UID. Set `version` to the current version, or `overwrite: true` to skip the check; a stale `version` returns `412`. Creates the dashboard and returns `201` if the UID doesn't exist. */
 export const updateDashboard: API.OperationMethod<
   UpdateDashboardRequest,
   DashboardWriteResponse,
   UpdateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<UpdateDashboardRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<DashboardWriteResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateDashboardRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<DashboardWriteResponse>,
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3401,17 +4245,23 @@ export const updateDashboard: API.OperationMethod<
   span: "UpdateDashboard",
 }));
 
-export type UpdateDatasetError = Forbidden | NotFound | UnprocessableEntity | AxiomOpError;
-/** Update dataset Update dataset */
+export type UpdateDatasetError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | NotFound
+  | UnprocessableEntity
+  | AxiomOpError;
+/** Update dataset Updates the `description` and `retentionDays` of a dataset. Both values are replaced, so omitting `description` clears it, and omitting `retentionDays` or setting it to `0` applies your plan's default retention. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const updateDataset: API.OperationMethod<
   UpdateDatasetRequest,
   Dataset,
   UpdateDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<UpdateDatasetRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<Dataset>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateDatasetRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<Dataset>,
+  errors: [BadRequest, Forbidden, NotFound, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3419,14 +4269,15 @@ export const updateDataset: API.OperationMethod<
 }));
 
 export type UpdateFieldForDatasetError = NotFound | UnprocessableEntity | AxiomOpError;
+/** Updates the `unit`, `description`, and `hidden` settings of a field. All three are replaced, so omitted values are cleared. The `name` and `type` in the body are ignored. */
 export const updateFieldForDataset: API.OperationMethod<
   UpdateFieldForDatasetRequest,
   DatasetField,
   UpdateFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<DatasetField>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<DatasetField>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3435,15 +4286,15 @@ export const updateFieldForDataset: API.OperationMethod<
 }));
 
 export type UpdateGroupError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Update group Updates an existing group's configuration. */
+/** Update group Replaces a group's name, description, roles, and members. Fields you omit are cleared, and members of managed groups aren't changed. Requires an Enterprise plan or the RBAC add-on. */
 export const updateGroup: API.OperationMethod<
   UpdateGroupRequest,
   UpdateGroupResponse,
   UpdateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<UpdateGroupResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<UpdateGroupResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3451,15 +4302,33 @@ export const updateGroup: API.OperationMethod<
   span: "UpdateGroup",
 }));
 
+export type UpdateLabelError = BadRequest | NotFound | Conflict | AxiomOpError;
+/** Update a label */
+export const updateLabel: API.OperationMethod<
+  UpdateLabelRequest,
+  LabelSummary,
+  UpdateLabelError,
+  AxiomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3328, __c104, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<LabelSummary>,
+  errors: [BadRequest, NotFound, Conflict, UnknownAxiomError],
+  protocol: AxiomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLabel",
+}));
+
 export type UpdateMapFieldsError = NotFound | AxiomOpError;
+/** Replaces the list of map fields in a dataset. Fields you leave out of the list stop being map fields. Not supported for metrics datasets. */
 export const updateMapFields: API.OperationMethod<
   UpdateMapFieldsRequest,
   UpdateMapFieldsResponse,
   UpdateMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UpdateMapFieldsRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<UpdateMapFieldsResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateMapFieldsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<UpdateMapFieldsResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3468,15 +4337,15 @@ export const updateMapFields: API.OperationMethod<
 }));
 
 export type UpdateMonitorError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Update monitor */
+/** Replaces a monitor's configuration with the request body, so omitted fields reset to their defaults. Axiom runs the new query once before saving, and the update clears the monitor's current alert state. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const updateMonitor: API.OperationMethod<
   UpdateMonitorRequest,
   UpdateMonitorResponse,
   UpdateMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateMonitorRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<UpdateMonitorResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateMonitorRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<UpdateMonitorResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3485,15 +4354,15 @@ export const updateMonitor: API.OperationMethod<
 }));
 
 export type UpdateNotifierError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Update notifier */
+/** Replaces a notifier's name, channel `properties`, and `disabledUntil` with the request body, so omitted fields are cleared. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
 export const updateNotifier: API.OperationMethod<
   UpdateNotifierRequest,
   UpdateNotifierResponse,
   UpdateNotifierError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdateNotifierRequest>,
-  output: __S(91, __c5, 11) as any as S.Schema<UpdateNotifierResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateNotifierRequest>,
+  output: __S(273, __c8, 17) as any as S.Schema<UpdateNotifierResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3502,10 +4371,11 @@ export const updateNotifier: API.OperationMethod<
 }));
 
 export type UpdateOrgError = NotFound | AxiomOpError;
+/** Renames an organization and returns the updated organization. Requires a personal access token (PAT) of an owner of the organization. */
 export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1456, __c91, 0) as any as S.Schema<UpdateOrgRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<Org>,
+    input: __S(3456, __c108, 0) as any as S.Schema<UpdateOrgRequest>,
+    output: __S(322, __c10, 2) as any as S.Schema<Org>,
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
@@ -3514,15 +4384,15 @@ export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgErro
   }));
 
 export type UpdateRoleError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Update role Updates an existing role's configuration including its permissions and member assignments. */
+/** Update role Replaces a custom role's name, description, and capabilities. Capabilities you omit are removed, and the `members` field is ignored. Requires an Enterprise plan or the RBAC add-on. */
 export const updateRole: API.OperationMethod<
   UpdateRoleRequest,
   UpdateRoleResponse,
   UpdateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<UpdateRoleResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<UpdateRoleResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3531,14 +4401,15 @@ export const updateRole: API.OperationMethod<
 }));
 
 export type UpdateStarredError = NotFound | UnprocessableEntity | AxiomOpError;
+/** Replaces the `name`, `dataset`, `query`, and `metadata` of a saved query. With a personal access token, you can only update queries you saved. */
 export const updateStarred: API.OperationMethod<
   UpdateStarredRequest,
   UpdateStarredResponse,
   UpdateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UpdateStarredRequest>,
-  output: __S(180, __c11, 4) as any as S.Schema<UpdateStarredResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateStarredRequest>,
+  output: __S(452, __c14, 4) as any as S.Schema<UpdateStarredResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3547,15 +4418,15 @@ export const updateStarred: API.OperationMethod<
 }));
 
 export type UpdateUserRoleError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Update user role */
+/** Changes the role of a member of the organization and returns the updated user. You can't change your own role. Only owners using a personal access token (PAT) can assign `owner` or change an owner's role. */
 export const updateUserRole: API.OperationMethod<
   UpdateUserRoleRequest,
   User,
   UpdateUserRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<UpdateUserRoleRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<User>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateUserRoleRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<User>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3564,14 +4435,15 @@ export const updateUserRole: API.OperationMethod<
 }));
 
 export type UpdateViewError = NotFound | UnprocessableEntity | AxiomOpError;
+/** Replaces the `aplQuery` and `description` of a view, identified by its name. Axiom ignores `name` and `datasets` in the body and derives `datasets` from the new query. */
 export const updateView: API.OperationMethod<
   UpdateViewRequest,
   View,
   UpdateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UpdateViewRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<View>,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdateViewRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<View>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3580,14 +4452,15 @@ export const updateView: API.OperationMethod<
 }));
 
 export type UpdateVirtualFieldError = NotFound | UnprocessableEntity | AxiomOpError;
+/** Replaces all fields of a virtual field. Omitted optional fields are cleared. The ID doesn't change, even if you change `name` or `dataset`. */
 export const updateVirtualField: API.OperationMethod<
   UpdateVirtualFieldRequest,
   UpdateVirtualFieldResponse,
   UpdateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3595,16 +4468,17 @@ export const updateVirtualField: API.OperationMethod<
   span: "UpdateVirtualField",
 }));
 
-export type VacuumDatasetError = AxiomOpError;
+export type VacuumDatasetError = BadRequest | Forbidden | NotFound | AxiomOpError;
+/** Queues a job that rebuilds the field schema of a dataset from its stored events, removing fields that no longer occur in any event. Doesn't delete events. You can vacuum each dataset once per hour. */
 export const vacuumDataset: API.OperationMethod<
   VacuumDatasetRequest,
-  VacuumDatasetResponse,
+  JobCreateResponse,
   VacuumDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<VacuumDatasetRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<VacuumDatasetResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(3712, __c116, 0) as any as S.Schema<VacuumDatasetRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<JobCreateResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3613,6 +4487,46 @@ export const vacuumDataset: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.optional(__S(2848, __c89, 0)),
+          description: S.optional(S.NullOr(S.String)),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/labels", code: 200 })),
+      ).annotate({ identifier: "CreateLabelRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dashboards: S.Number,
+          datasets: S.Number,
+          monitors: S.Number,
+          notifiers: S.Number,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "LabelResourcesCount" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: __S(2848, __c89, 0),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          name: S.String,
+          resources_count: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "LabelSummary" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3629,188 +4543,254 @@ function __c0(j: number): any {
       ).annotate({ identifier: "MapField" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alertOnNoData: S.optional(S.Boolean),
-          aplQuery: S.optional(S.String),
-          columnName: S.optional(S.String),
-          compareDays: S.optional(S.Number),
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.NullOr(S.String)),
-          intervalMinutes: S.optional(S.Number),
-          mplQuery: S.optional(S.String),
-          name: S.String,
-          notifierIds: S.optional(__S(896, __c56, 0)),
-          notifyByGroup: S.optional(S.Boolean),
-          notifyEveryRun: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          rangeMinutes: S.optional(S.Number),
-          resolvable: S.optional(S.Boolean),
-          secondDelay: S.optional(S.Number),
-          skipResolved: S.optional(S.Boolean),
-          threshold: S.optional(S.Number),
-          tolerance: S.optional(S.Number),
-          triggerAfterNPositiveResults: S.optional(S.Number),
-          triggerFromNRuns: S.optional(S.Number),
-          type: S.String,
-          updatedAt: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/monitors", code: 200 })),
-      ).annotate({ identifier: "CreateMonitorRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alertOnNoData: S.optional(S.Boolean),
-          aplQuery: S.optional(S.String),
-          columnName: S.optional(S.String),
-          compareDays: S.optional(S.Number),
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.NullOr(S.String)),
-          intervalMinutes: S.optional(S.Number),
-          mplQuery: S.optional(S.String),
-          name: S.String,
-          notifierIds: S.optional(__S(896, __c56, 0)),
-          notifyByGroup: S.optional(S.Boolean),
-          notifyEveryRun: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          rangeMinutes: S.optional(S.Number),
-          resolvable: S.optional(S.Boolean),
-          secondDelay: S.optional(S.Number),
-          skipResolved: S.optional(S.Boolean),
-          threshold: S.optional(S.Number),
-          tolerance: S.optional(S.Number),
-          triggerAfterNPositiveResults: S.optional(S.Number),
-          triggerFromNRuns: S.optional(S.Number),
-          type: S.String,
-          updatedAt: S.optional(S.String),
-          id: S.String,
-        }),
-      ).annotate({ identifier: "CreateMonitorResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          disabledUntil: S.optional(S.String),
-          name: S.String,
-          properties: __S(90, __c5, 10),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/notifiers", code: 200 })),
-      ).annotate({ identifier: "CreateNotifierRequest" });
-  }
-}
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          alertOnNoData: S.optional(S.Boolean),
+          aplQuery: S.optional(S.String),
+          columnName: S.optional(S.String),
+          compareDays: S.optional(S.Number),
+          description: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          disabledUntil: S.optional(S.NullOr(S.String)),
+          includeChart: S.optional(S.Boolean),
+          intervalMinutes: S.optional(S.Number),
+          mplQuery: S.optional(S.String),
+          name: S.String,
+          notifierIds: S.optional(__S(1952, __c61, 0)),
+          notifyByGroup: S.optional(S.Boolean),
+          notifyEveryRun: S.optional(S.Boolean),
+          operator: S.optional(S.String),
+          rangeMinutes: S.optional(S.Number),
+          resolvable: S.optional(S.Boolean),
+          secondDelay: S.optional(S.Number),
+          skipResolved: S.optional(S.Boolean),
+          threshold: S.optional(S.Number),
+          tolerance: S.optional(S.Number),
+          triggerAfterNPositiveResults: S.optional(S.Number),
+          triggerFromNRuns: S.optional(S.Number),
+          type: S.String,
+          labelIds: S.optional(__S(1952, __c61, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/monitors", code: 200 })),
+      ).annotate({ identifier: "CreateMonitorRequest" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+      return S.suspend(() =>
+        S.Struct({
+          alertOnNoData: S.optional(S.Boolean),
+          aplQuery: S.optional(S.String),
+          columnName: S.optional(S.String),
+          compareDays: S.optional(S.Number),
+          description: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          disabledUntil: S.optional(S.NullOr(S.String)),
+          includeChart: S.optional(S.Boolean),
+          intervalMinutes: S.optional(S.Number),
+          mplQuery: S.optional(S.String),
+          name: S.String,
+          notifierIds: S.optional(__S(1952, __c61, 0)),
+          notifyByGroup: S.optional(S.Boolean),
+          notifyEveryRun: S.optional(S.Boolean),
+          operator: S.optional(S.String),
+          rangeMinutes: S.optional(S.Number),
+          resolvable: S.optional(S.Boolean),
+          secondDelay: S.optional(S.Number),
+          skipResolved: S.optional(S.Boolean),
+          threshold: S.optional(S.Number),
+          tolerance: S.optional(S.Number),
+          triggerAfterNPositiveResults: S.optional(S.Number),
+          triggerFromNRuns: S.optional(S.Number),
+          type: S.String,
+          createdAt: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          createdByAgent: S.optional(S.Boolean),
+          datasets: S.optional(__S(1952, __c61, 0)),
+          id: S.String,
+          labelIds: __S(1952, __c61, 0),
+          labelNames: __S(1952, __c61, 0),
+          labels: S.optional(__S(2881, __c90, 1)),
+          lastError: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateMonitorResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdByAgent: S.optional(S.Boolean),
+          disabled: S.optional(S.Boolean),
+          disabledUntil: S.optional(S.String),
+          lastError: S.optional(S.String),
+          name: S.String,
+          properties: __S(272, __c8, 16),
+          labelIds: S.optional(__S(1952, __c61, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/notifiers", code: 200 })),
+      ).annotate({ identifier: "CreateNotifierRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookUrl: S.String,
+        }),
+      ).annotate({ identifier: "AmpConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          token: S.String,
+          triggerId: S.String,
+        }),
+      ).annotate({ identifier: "ChatGPTWorkspaceAgentConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          routineId: S.String,
+          token: S.String,
+        }),
+      ).annotate({ identifier: "ClaudeCodeConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String,
+          webhookUrl: S.String,
+        }),
+      ).annotate({ identifier: "CursorConfig" });
+    case 4:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           body: S.String,
-          headers: S.optional(__S(64, __c4, 0)),
-          secretHeaders: S.optional(__S(80, __c5, 0)),
+          headers: S.optional(__S(224, __c7, 0)),
+          secretHeaders: S.optional(__S(260, __c8, 4)),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomNotifierConfig" });
-    case 2:
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MessageTemplate" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           discordChannel: S.optional(S.String),
           discordToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          messageTemplate: S.optional(__S(262, __c8, 6)),
         }),
       ).annotate({ identifier: "DiscordConfig" });
-    case 3:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           discordWebhookUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          messageTemplate: S.optional(__S(262, __c8, 6)),
         }),
       ).annotate({ identifier: "DiscordWebhookConfig" });
-    case 4:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(896, __c56, 0)),
+          emails: S.optional(__S(1952, __c61, 0)),
+          messageTemplate: S.optional(__S(262, __c8, 6)),
         }),
       ).annotate({ identifier: "EmailConfig" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({
+          apiKey: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "JiraServiceManagementConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          messageTemplate: S.optional(__S(262, __c8, 6)),
           microsoftTeamsUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MicrosoftTeamsConfig" });
-    case 6:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEU: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OpsGenieConfig" });
-    case 7:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           routingKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PagerDutyConfig" });
-    case 8:
+    case 14:
       return S.suspend(() =>
         S.Struct({
+          messageTemplate: S.optional(__S(262, __c8, 6)),
           slackUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SlackConfig" });
-    case 9:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookConfig" });
-    case 10:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          customWebhook: S.optional(__S(81, __c5, 1)),
-          discord: S.optional(__S(82, __c5, 2)),
-          discordWebhook: S.optional(__S(83, __c5, 3)),
-          email: S.optional(__S(84, __c5, 4)),
-          microsoftTeams: S.optional(__S(85, __c5, 5)),
-          opsgenie: S.optional(__S(86, __c5, 6)),
-          pagerduty: S.optional(__S(87, __c5, 7)),
-          slack: S.optional(__S(88, __c5, 8)),
-          webhook: S.optional(__S(89, __c5, 9)),
+          amp: S.optional(__S(256, __c8, 0)),
+          chatgptWorkspaceAgent: S.optional(__S(257, __c8, 1)),
+          claudeCode: S.optional(__S(258, __c8, 2)),
+          cursor: S.optional(__S(259, __c8, 3)),
+          customWebhook: S.optional(__S(261, __c8, 5)),
+          discord: S.optional(__S(263, __c8, 7)),
+          discordWebhook: S.optional(__S(264, __c8, 8)),
+          email: S.optional(__S(265, __c8, 9)),
+          jiraServiceManagement: S.optional(__S(266, __c8, 10)),
+          microsoftTeams: S.optional(__S(267, __c8, 11)),
+          opsgenie: S.optional(__S(268, __c8, 12)),
+          pagerduty: S.optional(__S(269, __c8, 13)),
+          slack: S.optional(__S(270, __c8, 14)),
+          webhook: S.optional(__S(271, __c8, 15)),
         }),
       ).annotate({ identifier: "NotifierProperties" });
-    case 11:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           createdBy: S.optional(S.String),
+          createdByAgent: S.optional(S.Boolean),
+          disabled: S.optional(S.Boolean),
           disabledUntil: S.optional(S.String),
+          lastError: S.optional(S.String),
           name: S.String,
-          properties: __S(90, __c5, 10),
+          properties: __S(272, __c8, 16),
           updatedAt: S.optional(S.String),
           id: S.optional(S.String),
+          labelIds: __S(1952, __c61, 0),
+          labelNames: __S(1952, __c61, 0),
+          labels: S.optional(__S(2881, __c90, 1)),
         }),
       ).annotate({ identifier: "CreateNotifierResponse" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3821,7 +4801,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateOrgRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
@@ -3832,9 +4812,9 @@ function __c7(j: number): any {
           billingPeriodEnd: S.optional(S.String),
           billingPeriodStart: S.optional(S.String),
           defaultEdgeDeployment: S.optional(S.String),
-          edgeDeployments: S.optional(__S(896, __c56, 0)),
+          edgeDeployments: S.optional(__S(1952, __c61, 0)),
           expiresAt: S.optional(S.NullOr(S.String)),
-          features: S.optional(__S(112, __c7, 0)),
+          features: S.optional(__S(320, __c10, 0)),
           id: S.String,
           issuedAt: S.optional(S.String),
           issuedTo: S.optional(S.String),
@@ -3851,7 +4831,7 @@ function __c7(j: number): any {
           storageAllowanceGB: S.optional(S.Number),
           tier: S.String,
           validFrom: S.optional(S.String),
-          withAuths: S.optional(__S(896, __c56, 0)),
+          withAuths: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "License" });
     case 2:
@@ -3861,7 +4841,7 @@ function __c7(j: number): any {
           firstFailedPayment: S.optional(S.String),
           id: S.String,
           lastUsageSync: S.String,
-          license: __S(113, __c7, 1),
+          license: __S(321, __c10, 1),
           metaCreated: S.optional(S.String),
           metaModified: S.optional(S.String),
           metaVersion: S.optional(S.String),
@@ -3875,53 +4855,53 @@ function __c7(j: number): any {
       ).annotate({ identifier: "Org" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(1090, __c68, 2)),
+          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
+          members: S.optional(__S(1952, __c61, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(1091, __c68, 3)),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
+          orgCapabilities: S.optional(__S(2339, __c73, 3)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(1090, __c68, 2)),
+          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
+          members: S.optional(__S(1952, __c61, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(1091, __c68, 3)),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
+          orgCapabilities: S.optional(__S(2339, __c73, 3)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
           id: S.String,
         }),
       ).annotate({ identifier: "CreateRoleResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(64, __c4, 0),
+          metadata: __S(224, __c7, 0),
           name: S.String,
-          query: __S(179, __c11, 3),
+          query: __S(451, __c14, 3),
           who: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "CreateStarredRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3931,7 +4911,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "APLRequestWithOptionsDefaultOrder" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3958,12 +4938,12 @@ function __c11(j: number): any {
           apl: S.String,
           cursor: S.optional(S.String),
           defaultLimit: S.optional(S.Number),
-          defaultOrder: S.optional(__S(177, __c11, 1)),
+          defaultOrder: S.optional(__S(449, __c14, 1)),
           endTime: S.optional(S.String),
           includeCursor: S.optional(S.Boolean),
           includeCursorField: S.optional(S.Boolean),
-          libraries: S.optional(__S(896, __c56, 0)),
-          queryOptions: S.optional(__S(178, __c11, 2)),
+          libraries: S.optional(__S(1952, __c61, 0)),
+          queryOptions: S.optional(__S(450, __c14, 2)),
           startTime: S.optional(S.String),
           variables: S.optional(S.Unknown),
         }),
@@ -3973,16 +4953,16 @@ function __c11(j: number): any {
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(64, __c4, 0),
+          metadata: __S(224, __c7, 0),
           name: S.String,
-          query: __S(179, __c11, 3),
+          query: __S(451, __c14, 3),
           who: S.String,
           id: S.String,
         }),
       ).annotate({ identifier: "CreateStarredResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3994,7 +4974,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4009,19 +4989,21 @@ function __c13(j: number): any {
           email: S.String,
           id: S.String,
           name: S.String,
-          role: S.optional(__S(208, __c13, 0)),
+          role: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "User" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(896, __c56, 0)),
+          datasets: S.optional(__S(1952, __c61, 0)),
           description: S.optional(S.String),
+          edgeDeployment: S.optional(S.String),
+          edgeDeploymentUrl: S.optional(S.String),
           name: S.String,
           sharedByOrg: S.optional(S.String),
           sharedByOrgName: S.optional(S.String),
@@ -4029,14 +5011,16 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(896, __c56, 0)),
+          datasets: S.optional(__S(1952, __c61, 0)),
           description: S.optional(S.String),
+          edgeDeployment: S.optional(S.String),
+          edgeDeploymentUrl: S.optional(S.String),
           name: S.String,
           sharedByOrg: S.optional(S.String),
           sharedByOrgName: S.optional(S.String),
@@ -4044,7 +5028,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "View" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4059,7 +5043,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4075,7 +5059,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4085,13 +5069,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAnnotationResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4101,7 +5085,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteAPITokenRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4111,7 +5095,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4121,30 +5105,41 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteDatasetRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobID: S.String,
+        }),
+      ).annotate({ identifier: "JobCreateResponse" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
-          fields: __S(896, __c56, 0),
+          fields: __S(1952, __c61, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/delete-fields", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteDatasetFieldsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(896, __c56, 0)),
+          fields: S.optional(__S(1952, __c61, 0)),
+          jobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteDatasetFieldsResult" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4161,7 +5156,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteFieldForDatasetRequest" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4171,7 +5166,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v2/labels/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteLabelRequest" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4188,7 +5193,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteMapFieldRequest" });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4198,7 +5203,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteMonitorRequest" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4208,7 +5213,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteNotifierRequest" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4218,7 +5223,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4228,7 +5233,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteStarredRequest" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4238,7 +5243,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteViewRequest" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4248,7 +5253,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteVirtualFieldRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4258,25 +5263,25 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetAnnotationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: S.optional(__S(896, __c56, 0).pipe(T.Query())),
+          datasets: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/annotations", code: 200 })),
       ).annotate({ identifier: "GetAnnotationsRequest" });
     case 1:
-      return S.Array(__S(880, __c55, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
-      return S.suspend(() => __S(561, __c35, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1281, __c40, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAnnotationsResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4286,38 +5291,41 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetAPITokenRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: __S(1090, __c68, 2),
+          apiLastUsed: S.optional(S.NullOr(S.String)),
+          auditIdentity: S.optional(S.String),
+          datasetCapabilities: __S(2338, __c73, 2),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           id: S.String,
+          ingestLastUsed: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: __S(1091, __c68, 3),
+          orgCapabilities: __S(2339, __c73, 3),
           samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
         }),
       ).annotate({ identifier: "APIToken" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/tokens", code: 200 })),
       ).annotate({ identifier: "GetAPITokensRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
-      return S.suspend(() => __S(609, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1377, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAPITokensResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4325,41 +5333,48 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
+          exclude: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/dashboards/uid/{uid}", code: 200 })),
       ).annotate({ identifier: "GetDashboardRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
+          exclude: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/datasets/{dataset_id}", code: 200 })),
       ).annotate({ identifier: "GetDatasetRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/datasets", code: 200 })),
+        S.Struct({
+          exclude: S.optional(S.String.pipe(T.Query())),
+          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          labelMatch: S.optional(S.String.pipe(T.Query())),
+          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/datasets", code: 200 })),
       ).annotate({ identifier: "GetDatasetsRequest" });
     case 1:
-      return S.Array(__S(1504, __c94, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
-      return S.suspend(() => __S(673, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDatasetsResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4372,7 +5387,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetFieldForDatasetRequest" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4386,7 +5401,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DatasetField" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4395,14 +5410,14 @@ function __c45(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/datasets/{dataset_id}/fields", code: 200 })),
       ).annotate({ identifier: "GetFieldsForDatasetRequest" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
-      return S.suspend(() => __S(721, __c45, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1601, __c50, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFieldsForDatasetResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4412,7 +5427,47 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetGroupByIdRequest" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/labels/{id}", code: 200 })),
+      ).annotate({ identifier: "GetLabelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          assigned_resources: __S(1696, __c53, 0),
+          color: __S(2848, __c89, 0),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          name: S.String,
+          resources_count: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "LabelDetails" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1728, __c54, 0));
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataset: S.optional(S.String),
+          id: S.optional(S.String),
+          templateId: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "LabelAssignedResource" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4422,25 +5477,26 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetMapFieldsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(896, __c56, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1952, __c61, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMapFieldsResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          exclude: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "GetMonitorRequest" });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4460,57 +5516,19 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "AlertHistory" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 3:
-      return S.suspend(() => __S(802, __c50, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1858, __c58, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMonitorHistoryResponse",
       });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/monitors", code: 200 })),
-      ).annotate({ identifier: "GetMonitorsRequest" });
-    case 1:
-      return S.Array(__S(32, __c2, 0));
-    case 2:
-      return S.suspend(() => __S(817, __c51, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetMonitorsResponse",
-      });
-  }
-}
-function __c52(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers/{id}", code: 200 })),
-      ).annotate({ identifier: "GetNotifierRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/notifiers", code: 200 })),
-      ).annotate({ identifier: "GetNotifiersRequest" });
-    case 1:
-      return S.Array(__S(91, __c5, 11));
-    case 2:
-      return S.suspend(() => __S(849, __c53, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNotifiersResponse",
-      });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasets: __S(896, __c56, 0),
+          datasets: __S(1952, __c61, 0),
           description: S.optional(S.String),
           endTime: S.optional(S.String),
           time: S.optional(S.String),
@@ -4521,12 +5539,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateAnnotationRequest" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: __S(896, __c56, 0),
+          datasets: __S(1952, __c61, 0),
           description: S.optional(S.String),
           endTime: S.optional(S.NullOr(S.String)),
           id: S.String,
@@ -4538,13 +5556,61 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Annotation" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exclude: S.optional(S.String.pipe(T.Query())),
+          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          labelMatch: S.optional(S.String.pipe(T.Query())),
+          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/monitors", code: 200 })),
+      ).annotate({ identifier: "GetMonitorsRequest" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() => __S(1985, __c62, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetMonitorsResponse",
+      });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          exclude: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers/{id}", code: 200 })),
+      ).annotate({ identifier: "GetNotifierRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exclude: S.optional(S.String.pipe(T.Query())),
+          label: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
+          labelMatch: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers", code: 200 })),
+      ).annotate({ identifier: "GetNotifiersRequest" });
+    case 1:
+      return S.Array(__S(273, __c8, 17));
+    case 2:
+      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNotifiersResponse",
+      });
+  }
+}
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4554,21 +5620,21 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetOrgRequest" });
   }
 }
-function __c58(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/orgs", code: 200 })),
       ).annotate({ identifier: "GetOrgsRequest" });
     case 1:
-      return S.Array(__S(114, __c7, 2));
+      return S.Array(__S(322, __c10, 2));
     case 2:
-      return S.suspend(() => __S(929, __c58, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgsResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4578,7 +5644,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetRoleByIdRequest" });
   }
 }
-function __c60(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4588,7 +5654,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetStarredRequest" });
   }
 }
-function __c61(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4601,14 +5667,14 @@ function __c61(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "GetStarredQueriesRequest" });
     case 1:
-      return S.Array(__S(180, __c11, 4));
+      return S.Array(__S(452, __c14, 4));
     case 2:
-      return S.suspend(() => __S(977, __c61, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2209, __c69, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStarredQueriesResponse",
       });
   }
 }
-function __c62(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4618,21 +5684,106 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c63(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/users", code: 200 })),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(513, __c16, 1));
     case 2:
-      return S.suspend(() => __S(1009, __c63, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2273, __c71, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUsersResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: S.optional(__S(2339, __c73, 3)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
+      ).annotate({ identifier: "CreateAPITokenRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingest: S.optional(__S(2336, __c73, 0)),
+          query: S.optional(__S(2336, __c73, 0)),
+          share: S.optional(__S(2336, __c73, 0)),
+          starredQueries: S.optional(__S(2336, __c73, 0)),
+          trim: S.optional(__S(2336, __c73, 0)),
+          vacuum: S.optional(__S(2336, __c73, 0)),
+          virtualFields: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "DatasetCapabilitiesValue" });
+    case 2:
+      return S.Record(S.String, __S(2337, __c73, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(2336, __c73, 0)),
+          apiTokens: S.optional(__S(2336, __c73, 0)),
+          auditLog: S.optional(__S(2336, __c73, 0)),
+          billing: S.optional(__S(2336, __c73, 0)),
+          dashboards: S.optional(__S(2336, __c73, 0)),
+          datasets: S.optional(__S(2336, __c73, 0)),
+          endpoints: S.optional(__S(2336, __c73, 0)),
+          integrations: S.optional(__S(2336, __c73, 0)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          monitors: S.optional(__S(2336, __c73, 0)),
+          notifiers: S.optional(__S(2336, __c73, 0)),
+          rbac: S.optional(__S(2336, __c73, 0)),
+          sharedAccessKeys: S.optional(__S(2336, __c73, 0)),
+          users: S.optional(__S(2336, __c73, 0)),
+          views: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "OrgCapabilities" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(__S(2336, __c73, 0)),
+          share: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "ViewCapabilitiesValue" });
+    case 5:
+      return S.Record(S.String, __S(2340, __c73, 4));
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiLastUsed: S.optional(S.NullOr(S.String)),
+          auditIdentity: S.optional(S.String),
+          datasetCapabilities: __S(2338, __c73, 2),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          ingestLastUsed: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: __S(2339, __c73, 3),
+          samlAuthenticated: S.optional(S.Boolean),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAPITokenResponse" });
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4642,21 +5793,21 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetViewRequest" });
   }
 }
-function __c65(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/views", code: 200 })),
       ).annotate({ identifier: "GetViewsRequest" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
-      return S.suspend(() => __S(1041, __c65, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2433, __c76, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetViewsResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4666,90 +5817,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetVirtualFieldRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasetCapabilities: S.optional(__S(1090, __c68, 2)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          name: S.String,
-          orgCapabilities: S.optional(__S(1091, __c68, 3)),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
-      ).annotate({ identifier: "CreateAPITokenRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(1088, __c68, 0)),
-          ingest: S.optional(__S(1088, __c68, 0)),
-          query: S.optional(__S(1088, __c68, 0)),
-          share: S.optional(__S(1088, __c68, 0)),
-          starredQueries: S.optional(__S(1088, __c68, 0)),
-          trim: S.optional(__S(1088, __c68, 0)),
-          vacuum: S.optional(__S(1088, __c68, 0)),
-          virtualFields: S.optional(__S(1088, __c68, 0)),
-        }),
-      ).annotate({ identifier: "DatasetCapabilitiesValue" });
-    case 2:
-      return S.Record(S.String, __S(1089, __c68, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(1088, __c68, 0)),
-          apiTokens: S.optional(__S(1088, __c68, 0)),
-          auditLog: S.optional(__S(1088, __c68, 0)),
-          billing: S.optional(__S(1088, __c68, 0)),
-          dashboards: S.optional(__S(1088, __c68, 0)),
-          datasets: S.optional(__S(1088, __c68, 0)),
-          endpoints: S.optional(__S(1088, __c68, 0)),
-          flows: S.optional(__S(1088, __c68, 0)),
-          integrations: S.optional(__S(1088, __c68, 0)),
-          monitors: S.optional(__S(1088, __c68, 0)),
-          notifiers: S.optional(__S(1088, __c68, 0)),
-          rbac: S.optional(__S(1088, __c68, 0)),
-          sharedAccessKeys: S.optional(__S(1088, __c68, 0)),
-          users: S.optional(__S(1088, __c68, 0)),
-          views: S.optional(__S(1088, __c68, 0)),
-        }),
-      ).annotate({ identifier: "OrgCapabilities" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          query: S.optional(__S(1088, __c68, 0)),
-          share: S.optional(__S(1088, __c68, 0)),
-        }),
-      ).annotate({ identifier: "ViewCapabilitiesValue" });
-    case 5:
-      return S.Record(S.String, __S(1092, __c68, 4));
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasetCapabilities: __S(1090, __c68, 2),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          name: S.String,
-          orgCapabilities: __S(1091, __c68, 3),
-          samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "CreateAPITokenResponse" });
-  }
-}
-function __c70(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4758,59 +5826,104 @@ function __c70(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/vfields", code: 200 })),
       ).annotate({ identifier: "GetVirtualFieldsRequest" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
-      return S.suspend(() => __S(1121, __c70, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2497, __c78, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetVirtualFieldsResponse",
       });
   }
 }
-function __c71(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          exclude: S.optional(S.String.pipe(T.Query())),
+          labelIds: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/dashboards", code: 200 })),
       ).annotate({ identifier: "ListDashboardsRequest" });
     case 1:
-      return S.Array(__S(1300, __c81, 4));
+      return S.Array(__S(2790, __c87, 6));
     case 2:
-      return S.suspend(() => __S(1137, __c71, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2529, __c79, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDashboardsResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/groups", code: 200 })),
       ).annotate({ identifier: "ListGroupsRequest" });
     case 1:
-      return S.Array(__S(1616, __c101, 0));
+      return S.Array(__S(3648, __c114, 0));
     case 2:
-      return S.suspend(() => __S(1153, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2561, __c80, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupsResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targets: __S(1696, __c53, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/labels/assignments", code: 200 })),
+      ).annotate({ identifier: "ListLabelAssignmentsRequest" });
+    case 1:
+      return S.Array(__S(2624, __c82, 0));
+    case 2:
+      return S.suspend(() => __S(2593, __c81, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLabelAssignmentsResponse",
+      });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labelIds: __S(1952, __c61, 0),
+          target: __S(1728, __c54, 0),
+        }),
+      ).annotate({ identifier: "LabelAssignmentResult" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/labels", code: 200 })),
+      ).annotate({ identifier: "ListLabelsRequest" });
+    case 1:
+      return S.Array(__S(64, __c2, 0));
+    case 2:
+      return S.suspend(() => __S(2657, __c83, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLabelsResponse",
+      });
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "ListRolesRequest" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
-      return S.suspend(() => __S(1169, __c73, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2689, __c84, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesResponse",
       });
   }
 }
-function __c74(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -4819,7 +5932,7 @@ function __c74(j: number): any {
         S.Struct({
           uid: S.String.pipe(T.Label()),
           chartId: S.String.pipe(T.Label()),
-          chart: __S(1184, __c74, 0),
+          chart: __S(2720, __c85, 0),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Number),
@@ -4829,96 +5942,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchDashboardChartRequest" });
   }
 }
-function __c75(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          edgeDeployment: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/orgs/provision", code: 200 })),
-      ).annotate({ identifier: "ProvisionOrgRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          defaultEdgeDeployment: S.String,
-          expiresAt: S.String,
-          claimUrl: S.String,
-          token: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "ProvisionOrgResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasetCapabilities: S.optional(__S(1090, __c68, 2)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          name: S.String,
-          orgCapabilities: S.optional(__S(1091, __c68, 3)),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
-        }),
-      ).annotate({ identifier: "CreateAPIToken2" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          existingTokenExpiresAt: S.String,
-          newToken: S.optional(__S(1216, __c76, 0)),
-          newTokenExpiresAt: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens/{id}/regenerate", code: 200 })),
-      ).annotate({ identifier: "RegenerateAPITokenRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/users/{id}", code: 200 })),
-      ).annotate({ identifier: "RemoveUserFromOrgRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          maxDuration: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/trim", code: 200 })),
-      ).annotate({ identifier: "TrimDatasetRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          datasets: S.optional(__S(896, __c56, 0)),
-          description: S.optional(S.String),
-          endTime: S.optional(S.String),
-          time: S.optional(S.String),
-          title: S.optional(S.String),
-          type: S.optional(S.String),
-          url: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/annotations/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAnnotationRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dashboard: __S(1299, __c81, 3),
+          dashboard: __S(2789, __c87, 5),
+          labelIds: S.optional(__S(1952, __c61, 0)),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           uid: S.optional(S.String),
@@ -4927,7 +5957,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateDashboardRequest" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -4947,15 +5977,26 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "LayoutItem" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(2785, __c87, 1));
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          defaultCollapsed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Section" });
+    case 4:
+      return S.Array(__S(2787, __c87, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           owner: S.String,
           description: S.optional(S.String),
-          charts: __S(1296, __c81, 0),
-          layout: __S(1298, __c81, 2),
+          charts: __S(2784, __c87, 0),
+          layout: __S(2786, __c87, 2),
+          sections: S.optional(__S(2788, __c87, 4)),
           refreshTime: S.Number,
           schemaVersion: S.Number,
           against: S.optional(S.String),
@@ -4965,34 +6006,160 @@ function __c81(j: number): any {
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dashboard" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.String,
-          createdBy: S.String,
-          dashboard: __S(1299, __c81, 3),
+          createdAt: S.optional(S.NullOr(S.String)),
+          createdBy: S.optional(S.NullOr(S.String)),
+          dashboard: __S(2789, __c87, 5),
           id: S.String,
+          labelIds: __S(1952, __c61, 0),
+          labelNames: S.optional(__S(1952, __c61, 0)),
+          labels: S.optional(__S(2881, __c90, 1)),
+          type: S.String,
           uid: S.String,
-          updatedAt: S.String,
-          updatedBy: S.String,
-          version: S.Unknown,
+          updatedAt: S.optional(S.NullOr(S.String)),
+          updatedBy: S.optional(S.NullOr(S.String)),
+          updatedByAgent: S.optional(S.Boolean),
+          version: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "DashboardResource" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboard: __S(1300, __c81, 4),
+          dashboard: __S(2790, __c87, 6),
           overwritten: S.optional(S.Boolean),
           status: S.String,
         }),
       ).annotate({ identifier: "DashboardWriteResponse" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "LabelColor" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: __S(2848, __c89, 0),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(2880, __c90, 0));
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          edgeDeployment: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/orgs/provision", code: 200 })),
+      ).annotate({ identifier: "ProvisionOrgRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          claimUrl: S.String,
+          defaultEdgeDeployment: S.String,
+          expiresAt: S.String,
+          id: S.String,
+          name: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "ProvisionOrgResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: S.optional(__S(2339, __c73, 3)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
+        }),
+      ).annotate({ identifier: "CreateAPIToken2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          existingTokenExpiresAt: S.String,
+          newToken: S.optional(__S(2944, __c92, 0)),
+          newTokenExpiresAt: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens/{id}/regenerate", code: 200 })),
+      ).annotate({ identifier: "RegenerateAPITokenRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v2/users/{id}", code: 200 })),
+      ).annotate({ identifier: "RemoveUserFromOrgRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labelIds: __S(1952, __c61, 0),
+          target: __S(1728, __c54, 0),
+        }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/assignments", code: 200 })),
+      ).annotate({ identifier: "ReplaceLabelAssignmentsRequest" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataset_id: S.String.pipe(T.Label()),
+          maxDuration: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/trim", code: 200 })),
+      ).annotate({ identifier: "TrimDatasetRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          datasets: S.optional(__S(1952, __c61, 0)),
+          description: S.optional(S.String),
+          endTime: S.optional(S.String),
+          time: S.optional(S.String),
+          title: S.optional(S.String),
+          type: S.optional(S.String),
+          url: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v2/annotations/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAnnotationRequest" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5002,13 +6169,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateCurrentUserRequest" });
   }
 }
-function __c84(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          dashboard: __S(1299, __c81, 3),
+          dashboard: __S(2789, __c87, 5),
+          labelIds: S.optional(__S(1952, __c61, 0)),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Unknown),
@@ -5016,20 +6184,21 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateDashboardRequest" });
   }
 }
-function __c85(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
+          labelIds: S.optional(__S(1952, __c61, 0)),
           retentionDays: S.optional(S.Number),
           useRetentionPeriod: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}", code: 200 })),
       ).annotate({ identifier: "UpdateDatasetRequest" });
   }
 }
-function __c86(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5047,32 +6216,91 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateFieldForDatasetRequest" });
   }
 }
-function __c87(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          referrer: S.optional(S.String.pipe(T.Query())),
+          description: S.optional(S.String),
+          edgeDeployment: S.optional(S.String),
+          kind: S.optional(S.String),
+          labelIds: S.optional(__S(1952, __c61, 0)),
+          name: S.String,
+          retentionDays: S.optional(S.Number),
+          useRetentionPeriod: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets", code: 200 })),
+      ).annotate({ identifier: "CreateDatasetRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          canWrite: S.optional(S.Boolean),
+          created: S.String,
+          createdByAgent: S.optional(S.Boolean),
+          description: S.String,
+          edgeDeployment: S.optional(S.String),
+          edgeDeploymentUrl: S.optional(S.String),
+          id: S.String,
+          kind: S.String,
+          labelIds: __S(1952, __c61, 0),
+          labelNames: __S(1952, __c61, 0),
+          labels: S.optional(__S(2881, __c90, 1)),
+          mapFields: S.optional(__S(1952, __c61, 0)),
+          name: S.String,
+          reclaimableFields: S.optional(S.Number),
+          retentionDays: S.optional(S.Number),
+          sharedByOrg: S.optional(S.String),
+          updatedAt: S.String,
+          useRetentionPeriod: S.optional(S.Boolean),
+          vacuumCandidate: S.optional(S.Boolean),
+          who: S.String,
+        }),
+      ).annotate({ identifier: "Dataset" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
+          members: S.optional(__S(1952, __c61, 0)),
           name: S.String,
-          roles: S.optional(__S(896, __c56, 0)),
+          roles: S.optional(__S(1952, __c61, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/groups/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c88(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          color: S.optional(__S(2848, __c89, 0)),
+          description: S.optional(S.NullOr(S.String)),
+          name: S.String,
+        }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateLabelRequest" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
-          body: __S(896, __c56, 0).pipe(T.HttpBody()),
+          body: __S(1952, __c61, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}/mapfields", code: 200 })),
       ).annotate({ identifier: "UpdateMapFieldsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5082,15 +6310,14 @@ function __c89(j: number): any {
           aplQuery: S.optional(S.String),
           columnName: S.optional(S.String),
           compareDays: S.optional(S.Number),
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
           description: S.optional(S.String),
           disabled: S.optional(S.Boolean),
           disabledUntil: S.optional(S.NullOr(S.String)),
+          includeChart: S.optional(S.Boolean),
           intervalMinutes: S.optional(S.Number),
           mplQuery: S.optional(S.String),
           name: S.String,
-          notifierIds: S.optional(__S(896, __c56, 0)),
+          notifierIds: S.optional(__S(1952, __c61, 0)),
           notifyByGroup: S.optional(S.Boolean),
           notifyEveryRun: S.optional(S.Boolean),
           operator: S.optional(S.String),
@@ -5103,25 +6330,29 @@ function __c89(j: number): any {
           triggerAfterNPositiveResults: S.optional(S.Number),
           triggerFromNRuns: S.optional(S.Number),
           type: S.String,
-          updatedAt: S.optional(S.String),
+          labelIds: S.optional(__S(1952, __c61, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateMonitorRequest" });
   }
 }
-function __c90(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          createdByAgent: S.optional(S.Boolean),
+          disabled: S.optional(S.Boolean),
           disabledUntil: S.optional(S.String),
+          lastError: S.optional(S.String),
           name: S.String,
-          properties: __S(90, __c5, 10),
+          properties: __S(272, __c8, 16),
+          labelIds: S.optional(__S(1952, __c61, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/notifiers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateNotifierRequest" });
   }
 }
-function __c91(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5132,62 +6363,23 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateOrgRequest" });
   }
 }
-function __c92(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          datasetCapabilities: S.optional(__S(1090, __c68, 2)),
+          datasetCapabilities: S.optional(__S(2338, __c73, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
+          members: S.optional(__S(1952, __c61, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(1091, __c68, 3)),
-          viewCapabilities: S.optional(__S(1093, __c68, 5)),
+          orgCapabilities: S.optional(__S(2339, __c73, 3)),
+          viewCapabilities: S.optional(__S(2341, __c73, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/roles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          referrer: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          edgeDeployment: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.String,
-          retentionDays: S.optional(S.Number),
-          useRetentionPeriod: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets", code: 200 })),
-      ).annotate({ identifier: "CreateDatasetRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          canWrite: S.optional(S.Boolean),
-          created: S.String,
-          description: S.String,
-          edgeDeployment: S.optional(S.String),
-          edgeDeploymentUrl: S.optional(S.String),
-          id: S.String,
-          kind: S.String,
-          mapFields: S.optional(__S(896, __c56, 0)),
-          name: S.String,
-          retentionDays: S.optional(S.Number),
-          sharedByOrg: S.optional(S.String),
-          updatedAt: S.String,
-          useRetentionPeriod: S.optional(S.Boolean),
-          who: S.String,
-        }),
-      ).annotate({ identifier: "Dataset" });
-  }
-}
-function __c95(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5195,15 +6387,15 @@ function __c95(j: number): any {
           id: S.String.pipe(T.Label()),
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(64, __c4, 0),
+          metadata: __S(224, __c7, 0),
           name: S.String,
-          query: __S(179, __c11, 3),
+          query: __S(451, __c14, 3),
           who: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/v2/apl-starred-queries/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateStarredRequest" });
   }
 }
-function __c96(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5214,15 +6406,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateUserRoleRequest" });
   }
 }
-function __c97(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           aplQuery: S.String,
-          datasets: S.optional(__S(896, __c56, 0)),
+          datasets: S.optional(__S(1952, __c61, 0)),
           description: S.optional(S.String),
+          edgeDeployment: S.optional(S.String),
+          edgeDeploymentUrl: S.optional(S.String),
           name: S.String,
           sharedByOrg: S.optional(S.String),
           sharedByOrgName: S.optional(S.String),
@@ -5230,7 +6424,35 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateViewRequest" });
   }
 }
-function __c98(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          members: S.optional(__S(1952, __c61, 0)),
+          name: S.String,
+          roles: S.optional(__S(1952, __c61, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/groups", code: 200 })),
+      ).annotate({ identifier: "CreateGroupRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          isManaged: S.optional(S.Boolean),
+          members: S.optional(__S(1952, __c61, 0)),
+          name: S.String,
+          roles: S.optional(__S(1952, __c61, 0)),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CreateGroupResponse" });
+  }
+}
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5246,7 +6468,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateVirtualFieldRequest" });
   }
 }
-function __c99(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5254,34 +6476,6 @@ function __c99(j: number): any {
           dataset_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/vacuum", code: 200 })),
       ).annotate({ identifier: "VacuumDatasetRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
-          name: S.String,
-          roles: S.optional(__S(896, __c56, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/groups", code: 200 })),
-      ).annotate({ identifier: "CreateGroupRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          isManaged: S.optional(S.Boolean),
-          members: S.optional(__S(896, __c56, 0)),
-          name: S.String,
-          roles: S.optional(__S(896, __c56, 0)),
-          id: S.String,
-        }),
-      ).annotate({ identifier: "CreateGroupResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

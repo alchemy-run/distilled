@@ -387,6 +387,8 @@ export interface CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent {
   start_time: string;
   /** ISO-8601 end time of the calendar event. */
   end_time: string;
+  /** ID of the calendar event, as returned by the calendar tools. */
+  event_id?: string | undefined;
   /** List of attendee user IDs. */
   attendees?: CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList | undefined;
 }
@@ -399,6 +401,8 @@ export interface CreateMeetingNoteResponseBodyCase1MeetingNotesRecording {
 }
 /** Meeting note content fields. */
 export interface CreateMeetingNoteResponseBodyCase1MeetingNotes {
+  /** Whether this is a full-page meeting note. */
+  is_full_page: boolean;
   /** Title of the meeting note as rich text. */
   title?: CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList | undefined;
   /** Current processing status of the meeting note transcription. */
@@ -728,6 +732,8 @@ export interface QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent {
   start_time: string;
   /** ISO-8601 end time of the calendar event. */
   end_time: string;
+  /** ID of the calendar event, as returned by the calendar tools. */
+  event_id?: string | undefined;
   /** List of attendee user IDs. */
   attendees?:
     | QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEventAttendeesList
@@ -738,6 +744,8 @@ export type QueryMeetingNotesResponseResultsItemMeetingNotesRecording =
   CreateMeetingNoteResponseBodyCase1MeetingNotesRecording;
 /** Meeting note content fields. */
 export interface QueryMeetingNotesResponseResultsItemMeetingNotes {
+  /** Whether this is a full-page meeting note. */
+  is_full_page: boolean;
   /** Title of the meeting note as rich text. */
   title?: QueryMeetingNotesResponseResultsItemMeetingNotesTitleList | undefined;
   /** Current processing status of the meeting note transcription. */
@@ -921,6 +929,7 @@ function __c1(j: number): any {
         S.Struct({
           start_time: S.String,
           end_time: S.String,
+          event_id: S.optional(S.String),
           attendees: S.optional(__S(40, __c1, 8)),
         }),
       ).annotate({ identifier: "CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent" });
@@ -934,6 +943,7 @@ function __c1(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          is_full_page: S.Boolean,
           title: S.optional(__S(38, __c1, 6)),
           status: S.optional(S.String),
           children: S.optional(__S(39, __c1, 7)),

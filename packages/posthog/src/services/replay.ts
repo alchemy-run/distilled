@@ -226,6 +226,47 @@ export interface GetSessionRecordingPlaylistsRecordingRequest {
   short_id: string;
 }
 export interface GetSessionRecordingPlaylistsRecordingResponse {}
+export type GetSessionRecordingsConsoleLogRequestLevel = "info" | "warn" | "error";
+export interface GetSessionRecordingsConsoleLogRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this session recording. */
+  id: string;
+  /** Only return entries at or after this ISO 8601 timestamp. The results never extend outside the recording's own start and end time. */
+  after?: string | undefined;
+  /** Only return entries at or before this ISO 8601 timestamp. The results never extend outside the recording's own start and end time. */
+  before?: string | undefined;
+  /** Only return entries at this level. Omit to return every level. * `info` - Info * `warn` - Warn * `error` - Error */
+  level?: GetSessionRecordingsConsoleLogRequestLevel | (string & {}) | undefined;
+  /** Maximum number of entries to return (1-500, default 100). */
+  limit?: number | undefined;
+  /** Number of entries to skip. Use with `limit` to page through a long recording. */
+  offset?: number | undefined;
+}
+/** * `info` - Info * `warn` - Warn * `error` - Error */
+export type ConsoleLogLevelEnum = "info" | "warn" | "error";
+export interface SessionRecordingConsoleLogEntry {
+  /** When the browser logged the message. */
+  timestamp: string;
+  /** Console level of the message. * `info` - Info * `warn` - Warn * `error` - Error */
+  level: ConsoleLogLevelEnum;
+  /** The logged text. String arguments are joined with spaces, and non-string arguments are left out. Cut to 3000 characters. */
+  message: string;
+  /** True when the message was cut to fit the length limit. */
+  truncated: boolean;
+}
+/** Console log entries in chronological order. */
+export type SessionRecordingConsoleLogsResponseResultsList = Array<SessionRecordingConsoleLogEntry>;
+export interface SessionRecordingConsoleLogsResponse {
+  /** Console log entries in chronological order. */
+  results: SessionRecordingConsoleLogsResponseResultsList;
+  /** True when more entries exist after this page. */
+  has_more: boolean;
+  /** Whether the project captures console logs now. When false, an empty result means that nothing was captured, not that the session had no console output. */
+  console_log_capture_enabled: boolean;
+  /** True when the recording started longer ago than the console log retention period. The recording can still exist after its console log entries are deleted. Entries expire one at a time, so a recording close to the retention period can already miss its earliest entries while this is false. */
+  logs_expired: boolean;
+}
 export interface ListSessionRecordingPlaylistsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -252,12 +293,17 @@ export interface ListSessionRecordingsRequest {
   /** The initial index from which to return the results. */
   offset?: number | undefined;
 }
-export type PaginatedSessionRecordingListResultsList = Array<SessionRecording>;
-export interface PaginatedSessionRecordingList {
-  count?: number | undefined;
-  next?: string | null | undefined;
-  previous?: string | null | undefined;
-  results?: PaginatedSessionRecordingListResultsList | undefined;
+/** Recordings on this page. */
+export type SessionRecordingListResponseResultsList = Array<SessionRecording>;
+export interface SessionRecordingListResponse {
+  /** Recordings on this page. */
+  results?: SessionRecordingListResponseResultsList | undefined;
+  /** Whether more recordings match the query after this page. */
+  has_next: boolean;
+  /** Version of the listing response format. */
+  version: number;
+  /** Cursor for the next page. Send it back as `after` to load the next page. Absent when the query does not page by cursor or there is no next page. */
+  next_cursor?: string | undefined;
 }
 export interface SessionRecordingPlaylistsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -372,8 +418,8 @@ export const createSessionRecordingPlaylist: API.OperationMethod<
   CreateSessionRecordingPlaylistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CreateSessionRecordingPlaylistRequest>,
-  output: __S(47, __c11, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
+  input: __S(40, __c10, 0) as any as S.Schema<CreateSessionRecordingPlaylistRequest>,
+  output: __S(51, __c12, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -392,8 +438,8 @@ export const createSessionRecordingPlaylistsRecording: API.OperationMethod<
   CreateSessionRecordingPlaylistsRecordingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CreateSessionRecordingPlaylistsRecordingRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<CreateSessionRecordingPlaylistsRecordingResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<CreateSessionRecordingPlaylistsRecordingRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<CreateSessionRecordingPlaylistsRecordingResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -408,8 +454,8 @@ export const getSessionRecording: API.OperationMethod<
   GetSessionRecordingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetSessionRecordingRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<SessionRecording>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetSessionRecordingRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<SessionRecording>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -424,8 +470,8 @@ export const getSessionRecordingPlaylist: API.OperationMethod<
   GetSessionRecordingPlaylistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetSessionRecordingPlaylistRequest>,
-  output: __S(47, __c11, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetSessionRecordingPlaylistRequest>,
+  output: __S(51, __c12, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -440,13 +486,30 @@ export const getSessionRecordingPlaylistsRecording: API.OperationMethod<
   GetSessionRecordingPlaylistsRecordingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetSessionRecordingPlaylistsRecordingRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<GetSessionRecordingPlaylistsRecordingResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetSessionRecordingPlaylistsRecordingRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<GetSessionRecordingPlaylistsRecordingResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSessionRecordingPlaylistsRecording",
+}));
+
+export type GetSessionRecordingsConsoleLogError = PosthogOpError;
+/** List console logs of a session recording Returns the browser console messages captured during a recording, oldest first. */
+export const getSessionRecordingsConsoleLog: API.OperationMethod<
+  GetSessionRecordingsConsoleLogRequest,
+  SessionRecordingConsoleLogsResponse,
+  GetSessionRecordingsConsoleLogError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c20, 0) as any as S.Schema<GetSessionRecordingsConsoleLogRequest>,
+  output: __S(83, __c20, 3) as any as S.Schema<SessionRecordingConsoleLogsResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionRecordingsConsoleLog",
 }));
 
 export type ListSessionRecordingPlaylistsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -457,8 +520,8 @@ export const listSessionRecordingPlaylists: API.OperationMethod<
   ListSessionRecordingPlaylistsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<ListSessionRecordingPlaylistsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<PaginatedSessionRecordingPlaylistListOutput>,
+  input: __S(84, __c21, 0) as any as S.Schema<ListSessionRecordingPlaylistsRequest>,
+  output: __S(86, __c21, 2) as any as S.Schema<PaginatedSessionRecordingPlaylistListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -469,12 +532,12 @@ export const listSessionRecordingPlaylists: API.OperationMethod<
 export type ListSessionRecordingsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listSessionRecordings: API.OperationMethod<
   ListSessionRecordingsRequest,
-  PaginatedSessionRecordingList,
+  SessionRecordingListResponse,
   ListSessionRecordingsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<ListSessionRecordingsRequest>,
-  output: __S(82, __c20, 2) as any as S.Schema<PaginatedSessionRecordingList>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListSessionRecordingsRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<SessionRecordingListResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -490,8 +553,8 @@ export const sessionRecordingPlaylistsDestroy: API.OperationMethod<
   SessionRecordingPlaylistsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SessionRecordingPlaylistsDestroyRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<SessionRecordingPlaylistsDestroyResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<SessionRecordingPlaylistsDestroyRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<SessionRecordingPlaylistsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -506,8 +569,8 @@ export const sessionRecordingPlaylistsRecordingsDestroy: API.OperationMethod<
   SessionRecordingPlaylistsRecordingsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<SessionRecordingPlaylistsRecordingsDestroyRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<SessionRecordingPlaylistsRecordingsDestroyResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<SessionRecordingPlaylistsRecordingsDestroyRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<SessionRecordingPlaylistsRecordingsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -523,8 +586,8 @@ export const sessionRecordingsBulkDeleteCreate: API.OperationMethod<
   SessionRecordingsBulkDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<SessionRecordingsBulkDeleteCreateRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<SessionRecordingBulkDeleteResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<SessionRecordingsBulkDeleteCreateRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<SessionRecordingBulkDeleteResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -539,8 +602,8 @@ export const sessionRecordingsDestroy: API.OperationMethod<
   SessionRecordingsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<SessionRecordingsDestroyRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<SessionRecordingsDestroyResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<SessionRecordingsDestroyRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<SessionRecordingsDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -555,8 +618,8 @@ export const updateSessionRecording: API.OperationMethod<
   UpdateSessionRecordingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UpdateSessionRecordingRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<SessionRecording>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateSessionRecordingRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<SessionRecording>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -575,8 +638,8 @@ export const updateSessionRecordingPlaylist: API.OperationMethod<
   UpdateSessionRecordingPlaylistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateSessionRecordingPlaylistRequest>,
-  output: __S(47, __c11, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
+  input: __S(28, __c7, 0) as any as S.Schema<UpdateSessionRecordingPlaylistRequest>,
+  output: __S(51, __c12, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -595,8 +658,8 @@ export const updateSessionRecordingPlaylistsPartial: API.OperationMethod<
   UpdateSessionRecordingPlaylistsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateSessionRecordingPlaylistsPartialRequest>,
-  output: __S(47, __c11, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateSessionRecordingPlaylistsPartialRequest>,
+  output: __S(51, __c12, 3) as any as S.Schema<SessionRecordingPlaylistOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -615,8 +678,8 @@ export const updateSessionRecordingsPartial: API.OperationMethod<
   UpdateSessionRecordingsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<UpdateSessionRecordingsPartialRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<SessionRecording>,
+  input: __S(36, __c9, 0) as any as S.Schema<UpdateSessionRecordingsPartialRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<SessionRecording>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -626,6 +689,35 @@ export const updateSessionRecordingsPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/session_recordings/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSessionRecordingsRequest" });
+    case 1:
+      return S.Array(__S(70, __c17, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          results: S.optional(__S(1, __c0, 1)),
+          has_next: S.Boolean,
+          version: S.Number,
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SessionRecordingListResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -642,7 +734,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SessionRecordingPlaylistsDestroyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -660,13 +752,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SessionRecordingPlaylistsRecordingsDestroyRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          session_recording_ids: __S(60, __c15, 0),
+          session_recording_ids: __S(64, __c16, 0),
           date_from: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -682,12 +774,12 @@ function __c2(j: number): any {
           success: S.Boolean,
           deleted_count: S.Number,
           total_requested: S.Number,
-          failed_ids: __S(60, __c15, 0),
+          failed_ids: __S(64, __c16, 0),
         }),
       ).annotate({ identifier: "SessionRecordingBulkDeleteResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -704,14 +796,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SessionRecordingsDestroyRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          person: S.optional(__S(20, __c5, 0)),
+          person: S.optional(__S(24, __c6, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -722,7 +814,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateSessionRecordingRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -732,7 +824,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "MinimalPersonInput" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -758,7 +850,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateSessionRecordingPlaylistRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -784,14 +876,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateSessionRecordingPlaylistsPartialRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          person: S.optional(__S(20, __c5, 0)),
+          person: S.optional(__S(24, __c6, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -802,7 +894,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateSessionRecordingsPartialRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -827,13 +919,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateSessionRecordingPlaylistRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -845,14 +937,14 @@ function __c11(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(40, __c10, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(44, __c11, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
     case 1:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
     case 2:
-      return S.Record(S.String, __S(45, __c11, 1));
+      return S.Record(S.String, __S(49, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -863,19 +955,19 @@ function __c11(j: number): any {
           description: S.optional(S.String),
           pinned: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(44, __c11, 0))),
+          created_by: S.optional(S.NullOr(__S(48, __c12, 0))),
           deleted: S.optional(S.Boolean),
           filters: S.optional(S.Unknown),
           last_modified_at: S.optional(S.String),
-          last_modified_by: S.optional(S.NullOr(__S(44, __c11, 0))),
-          recordings_counts: S.optional(__S(46, __c11, 2)),
+          last_modified_by: S.optional(S.NullOr(__S(48, __c12, 0))),
+          recordings_counts: S.optional(__S(50, __c12, 2)),
           type: S.optional(S.NullOr(S.String)),
           is_synthetic: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SessionRecordingPlaylistOutput" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -902,7 +994,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateSessionRecordingPlaylistsRecordingRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -910,7 +1002,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -927,20 +1019,20 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSessionRecordingRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(60, __c15, 0)),
+          distinct_ids: S.optional(__S(64, __c16, 0)),
           properties: S.optional(S.Unknown),
           created_at: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -948,14 +1040,14 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "MinimalPerson" });
     case 1:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(44, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           distinct_id: S.optional(S.NullOr(S.String)),
           viewed: S.optional(S.Boolean),
-          viewers: S.optional(__S(60, __c15, 0)),
+          viewers: S.optional(__S(64, __c16, 0)),
           recording_duration: S.optional(S.Number),
           active_seconds: S.optional(S.NullOr(S.Number)),
           inactive_seconds: S.optional(S.NullOr(S.Number)),
@@ -968,7 +1060,7 @@ function __c16(j: number): any {
           console_warn_count: S.optional(S.NullOr(S.Number)),
           console_error_count: S.optional(S.NullOr(S.Number)),
           start_url: S.optional(S.NullOr(S.String)),
-          person: S.optional(__S(64, __c16, 0)),
+          person: S.optional(__S(68, __c17, 0)),
           retention_period_days: S.optional(S.NullOr(S.Number)),
           expiry_time: S.optional(S.NullOr(S.String)),
           recording_ttl: S.optional(S.NullOr(S.Number)),
@@ -976,7 +1068,7 @@ function __c16(j: number): any {
           snapshot_library: S.optional(S.NullOr(S.String)),
           ongoing: S.optional(S.Boolean),
           activity_score: S.optional(S.NullOr(S.Number)),
-          external_references: S.optional(__S(65, __c16, 1)),
+          external_references: S.optional(__S(69, __c17, 1)),
           matches_filters: S.optional(S.Boolean),
           total_size: S.optional(S.NullOr(S.Number)),
           event_count: S.optional(S.NullOr(S.Number)),
@@ -984,7 +1076,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SessionRecording" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1001,7 +1093,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetSessionRecordingPlaylistRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1018,7 +1110,49 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetSessionRecordingPlaylistsRecordingRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
+          level: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/session_recordings/{id}/console_logs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSessionRecordingsConsoleLogRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.String,
+          level: S.String,
+          message: S.String,
+          truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "SessionRecordingConsoleLogEntry" });
+    case 2:
+      return S.Array(__S(81, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(82, __c20, 2),
+          has_more: S.Boolean,
+          console_log_capture_enabled: S.Boolean,
+          logs_expired: S.Boolean,
+        }),
+      ).annotate({ identifier: "SessionRecordingConsoleLogsResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1037,45 +1171,16 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListSessionRecordingPlaylistsRequest" });
     case 1:
-      return S.Array(__S(47, __c11, 3));
+      return S.Array(__S(51, __c12, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(77, __c19, 1)),
+          results: S.optional(__S(85, __c21, 1)),
         }),
       ).annotate({ identifier: "PaginatedSessionRecordingPlaylistListOutput" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/session_recordings/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSessionRecordingsRequest" });
-    case 1:
-      return S.Array(__S(66, __c16, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(81, __c20, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedSessionRecordingList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

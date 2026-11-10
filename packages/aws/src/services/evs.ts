@@ -280,7 +280,13 @@ export interface LicenseInfo {
 export type LicenseInfoList = LicenseInfo[];
 export type HostName = string;
 export type KeyName = string;
-export type InstanceType = "i4i.metal" | "i7i.metal-24xl" | "i7i.metal-48xl" | (string & {});
+export type InstanceType =
+  | "i4i.metal"
+  | "i7i.metal-24xl"
+  | "i7i.metal-48xl"
+  | "r7i.metal-24xl"
+  | "r7i.metal-48xl"
+  | (string & {});
 export type PlacementGroupId = string;
 export type DedicatedHostId = string;
 export interface HostInfoForCreate {

@@ -177,7 +177,7 @@ export interface CreateAbuseReportRequest {
   state?: string | undefined;
   /** A list of valid URLs separated by '\n' (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   urls: string;
-  /** Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full. */
+  /** Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full. */
   comments?: string | undefined;
   /** Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   company?: string | undefined;
@@ -259,6 +259,8 @@ export interface GetResponse {
   status: GetResponseStatus;
   /** The abuse report type */
   type: GetResponseType;
+  /** Whether the report is in an open Notice and Takedown notice period: no mitigation is placed yet, but one will take effect when the period ends. */
+  hasPendingNotice?: boolean | null | undefined;
   /** Justification for the report. */
   justification?: string | null | undefined;
   /** Original work / Targeted brand in the alleged abuse. */
@@ -431,6 +433,8 @@ export interface ListAbuseReportsRequest {
   mitigationStatus?: ListRequestMitigationStatus | (string & {}) | undefined;
   /** Where in pagination to start listing abuse reports */
   page?: number | undefined;
+  /** Also include reports in an open Notice and Takedown notice period. Combined with mitigation_status using OR, e.g. ?mitigation_status=active&pending_notice=true. */
+  pendingNotice?: boolean | undefined;
   /** How many abuse reports per page to list */
   perPage?: number | undefined;
   /** Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND. */
@@ -469,6 +473,8 @@ export interface ListResponseReportsItem {
   status: ListResponseReportsItemStatus;
   /** The abuse report type */
   type: ListResponseReportsItemType;
+  /** Whether the report is in an open Notice and Takedown notice period: no mitigation is placed yet, but one will take effect when the period ends. */
+  hasPendingNotice?: boolean | null | undefined;
   /** Justification for the report. */
   justification?: string | null | undefined;
   /** Original work / Targeted brand in the alleged abuse. */
@@ -728,7 +734,7 @@ export interface ReviewMitigationResponse {
   resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateAbuseReportError = InvalidRequest | CloudflareOpError;
-/** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare works with select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full--including reporter contact information, comments, and supporting evidence--without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report--including contact information and comments--will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values. */
+/** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full--including reporter contact information, comments, and supporting evidence--without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report--including contact information and comments--will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values. */
 export const createAbuseReport: API.OperationMethod<
   CreateAbuseReportRequest,
   CreateAbuseReportResponse,
@@ -971,6 +977,7 @@ function __c2(j: number): any {
           mitigationSummary: __S(40, __c5, 0).pipe(T.Body("mitigation_summary")),
           status: S.String,
           type: S.String,
+          hasPendingNotice: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_pending_notice"))),
           justification: S.optional(S.NullOr(S.String)),
           originalWork: S.optional(S.NullOr(S.String).pipe(T.Body("original_work"))),
           submitter: S.optional(S.NullOr(__S(24, __c3, 0))),
@@ -1097,6 +1104,7 @@ function __c7(j: number): any {
           domain: S.optional(S.String.pipe(T.Query())),
           mitigationStatus: S.optional(S.String.pipe(T.Query("mitigation_status"))),
           page: S.optional(S.Number.pipe(T.Query())),
+          pendingNotice: S.optional(S.Boolean.pipe(T.Query("pending_notice"))),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           search: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
@@ -1115,6 +1123,7 @@ function __c7(j: number): any {
           mitigationSummary: __S(40, __c5, 0).pipe(T.Body("mitigation_summary")),
           status: S.String,
           type: S.String,
+          hasPendingNotice: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_pending_notice"))),
           justification: S.optional(S.NullOr(S.String)),
           originalWork: S.optional(S.NullOr(S.String).pipe(T.Body("original_work"))),
           submitter: S.optional(S.NullOr(__S(24, __c3, 0))),

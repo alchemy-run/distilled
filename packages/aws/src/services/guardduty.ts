@@ -411,6 +411,7 @@ export type DestinationType = "S3" | (string & {});
 export interface DestinationProperties {
   DestinationArn?: string | undefined;
   KmsKeyArn?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreatePublishingDestinationRequest {
   DetectorId: string;
@@ -826,7 +827,10 @@ export interface GetCustomDetectionRuleRequest {
 export type RuleName = string;
 export type DetectionRuleDescription = string;
 export type DetectionRuleSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
-export type DetectionRuleDataSource = "CloudTrailManagementEvent" | (string & {});
+export type DetectionRuleDataSource =
+  | "CloudTrailManagementEvent"
+  | "RuntimeMonitoring"
+  | (string & {});
 export type MitreTactic = string;
 export type MitreTechnique = string;
 export type DetectionRuleServiceName = string;
@@ -836,6 +840,24 @@ export interface RuleDefinition {
 }
 export type RuleLanguage = "SQL" | (string & {});
 export type RuleSchema = "CloudTrail" | (string & {});
+export type DetectionRuleAgentVersion = string;
+export interface DetectionRuleEksRequirements {
+  MinAgentVersion?: string | undefined;
+}
+export interface DetectionRuleEc2Requirements {
+  MinAgentVersion?: string | undefined;
+}
+export interface DetectionRuleEcsFargateRequirements {
+  MinAgentVersion?: string | undefined;
+}
+export interface DetectionRuleRuntimePlatforms {
+  Eks?: DetectionRuleEksRequirements | undefined;
+  Ec2?: DetectionRuleEc2Requirements | undefined;
+  EcsFargate?: DetectionRuleEcsFargateRequirements | undefined;
+}
+export interface DetectionRuleRuntimeMonitoringDetails {
+  Platforms?: DetectionRuleRuntimePlatforms | undefined;
+}
 export interface RuleDetail {
   RuleId?: string | undefined;
   Arn?: string | undefined;
@@ -849,6 +871,7 @@ export interface RuleDetail {
   Definition?: RuleDefinition | undefined;
   Language?: RuleLanguage | undefined;
   Schema?: RuleSchema | undefined;
+  RuntimeMonitoringDetails?: DetectionRuleRuntimeMonitoringDetails | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
 }
@@ -2059,6 +2082,7 @@ export interface Finding {
   Type?: string | undefined;
   UpdatedAt?: string | undefined;
   AssociatedAttackSequenceArn?: string | undefined;
+  CustomDetectionRuleName?: string | undefined;
 }
 export type Findings = Finding[];
 export interface GetFindingsResponse {
@@ -4412,7 +4436,7 @@ export const getCustomDetectionRule: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetCustomDetectionRuleRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<GetCustomDetectionRuleResponse>,
+  output: __S(1958, __c61, 6) as any as S.Schema<GetCustomDetectionRuleResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -6754,8 +6778,16 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DestinationArn: S.optional(S.String), KmsKeyArn: S.optional(S.String) }).pipe(
-          S.encodeKeys({ DestinationArn: "destinationArn", KmsKeyArn: "kmsKeyArn" }),
+        S.Struct({
+          DestinationArn: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+          ExpectedBucketOwner: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            DestinationArn: "destinationArn",
+            KmsKeyArn: "kmsKeyArn",
+            ExpectedBucketOwner: "expectedBucketOwner",
+          }),
         ),
       ).annotate({ identifier: "DestinationProperties" });
   }
@@ -7743,6 +7775,26 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RuleDefinition" });
     case 2:
       return S.suspend(() =>
+        S.Struct({ MinAgentVersion: S.optional(S.String) }).pipe(
+          S.encodeKeys({ MinAgentVersion: "minAgentVersion" }),
+        ),
+      ).annotate({ identifier: "DetectionRuleEksRequirements" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Eks: S.optional(__S(1954, __c61, 2)),
+          Ec2: S.optional(__S(1954, __c61, 2)),
+          EcsFargate: S.optional(__S(1954, __c61, 2)),
+        }).pipe(S.encodeKeys({ Eks: "eks", Ec2: "ec2", EcsFargate: "ecsFargate" })),
+      ).annotate({ identifier: "DetectionRuleRuntimePlatforms" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Platforms: S.optional(__S(1955, __c61, 3)) }).pipe(
+          S.encodeKeys({ Platforms: "platforms" }),
+        ),
+      ).annotate({ identifier: "DetectionRuleRuntimeMonitoringDetails" });
+    case 5:
+      return S.suspend(() =>
         S.Struct({
           RuleId: S.optional(S.String),
           Arn: S.optional(S.String),
@@ -7756,6 +7808,7 @@ function __c61(j: number): any {
           Definition: S.optional(__S(1953, __c61, 1)),
           Language: S.optional(S.String),
           Schema: S.optional(S.String),
+          RuntimeMonitoringDetails: S.optional(__S(1956, __c61, 4)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(
@@ -7772,14 +7825,15 @@ function __c61(j: number): any {
             Definition: "definition",
             Language: "language",
             Schema: "schema",
+            RuntimeMonitoringDetails: "runtimeMonitoringDetails",
             CreatedAt: "createdAt",
             UpdatedAt: "updatedAt",
           }),
         ),
       ).annotate({ identifier: "RuleDetail" });
-    case 3:
+    case 6:
       return S.suspend(() =>
-        S.Struct({ Rule: S.optional(__S(1954, __c61, 2)) }).pipe(S.encodeKeys({ Rule: "rule" })),
+        S.Struct({ Rule: S.optional(__S(1957, __c61, 5)) }).pipe(S.encodeKeys({ Rule: "rule" })),
       ).annotate({ identifier: "GetCustomDetectionRuleResponse" });
   }
 }
@@ -9929,6 +9983,7 @@ function __c71(j: number): any {
           Type: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
           AssociatedAttackSequenceArn: S.optional(S.String),
+          CustomDetectionRuleName: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AccountId: "accountId",
@@ -9947,6 +10002,7 @@ function __c71(j: number): any {
             Type: "type",
             UpdatedAt: "updatedAt",
             AssociatedAttackSequenceArn: "associatedAttackSequenceArn",
+            CustomDetectionRuleName: "customDetectionRuleName",
           }),
         ),
       ).annotate({ identifier: "Finding" });

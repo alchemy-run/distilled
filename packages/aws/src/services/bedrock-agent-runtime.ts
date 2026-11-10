@@ -522,6 +522,12 @@ export interface AgenticRetrieveMemoryConfiguration {
   retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[] | undefined;
   persistenceMode?: AgenticRetrieveMemoryPersistenceMode | undefined;
 }
+export type RetrievalInstructionId = string;
+export type RetrievalInstructionVersion = string;
+export interface AgenticRetrieveInstructionConfiguration {
+  retrievalInstructionId: string;
+  version?: string | undefined;
+}
 export interface AgenticRetrieveStreamRequest {
   messages: AgenticRetrieveMessage[];
   retrievers: AgenticRetriever[];
@@ -530,6 +536,7 @@ export interface AgenticRetrieveStreamRequest {
   nextToken?: string | undefined;
   userContext?: UserContext | undefined;
   memoryConfiguration?: AgenticRetrieveMemoryConfiguration | undefined;
+  retrievalInstructionConfiguration?: AgenticRetrieveInstructionConfiguration | undefined;
   generateResponse?: boolean | undefined;
 }
 export type MimeType = string;
@@ -573,6 +580,7 @@ export type AgenticRetrieveStep =
   | "SpeculativeRetrieval"
   | "FullDocumentExpansion"
   | "SessionHistoryLoad"
+  | "CodeExecution"
   | (string & {});
 export type AgenticRetrieveStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type AgenticRetrieveSourceRetrieverList = AgenticRetrieveSourceRetriever[];
@@ -591,10 +599,19 @@ export interface AgenticRetrieveMemoryRetrieveDetails {
   namespacePath?: string | undefined;
   strategyId?: string | undefined;
 }
+export interface AgenticRetrieveCodeExecutionDocument {
+  documentId?: string | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
+}
+export type AgenticRetrieveCodeExecutionDocumentList = AgenticRetrieveCodeExecutionDocument[];
+export interface AgenticRetrieveCodeExecutionDetails {
+  documents?: AgenticRetrieveCodeExecutionDocument[] | undefined;
+}
 export interface AgenticRetrieveAction {
   retrieve?: AgenticRetrieveActionDetails | undefined;
   fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails | undefined;
   memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails | undefined;
+  codeExecution?: AgenticRetrieveCodeExecutionDetails | undefined;
 }
 export type AgenticRetrieveActions = AgenticRetrieveAction[];
 export interface AgenticRetrieveWarningMessage {
@@ -627,6 +644,10 @@ export interface AgenticRetrieveTraceResultItem {
   sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
 }
 export type AgenticRetrieveTraceResults = AgenticRetrieveTraceResultItem[];
+export interface AgenticRetrieveAppliedInstruction {
+  id: string;
+  version?: string | undefined;
+}
 export interface AgenticRetrieveTraceEventAttributes {
   step: AgenticRetrieveStep;
   status: AgenticRetrieveStatus;
@@ -636,6 +657,7 @@ export interface AgenticRetrieveTraceEventAttributes {
   failures?: AgenticRetrieveFailure[] | undefined;
   retrievalMetadata?: AgenticRetrieveSourceMetadata[] | undefined;
   retrievalResponse?: AgenticRetrieveTraceResultItem[] | undefined;
+  appliedInstruction?: AgenticRetrieveAppliedInstruction | undefined;
 }
 export interface AgenticRetrieveTraceEvent {
   id: string;
@@ -942,11 +964,13 @@ export interface GetAgentMemoryResponse {
   nextToken?: string | undefined;
   memoryContents?: Memory[] | undefined;
 }
+export type MediaId = string;
 export type DocumentOutputFormat = "RAW" | "EXTRACTED" | (string & {});
 export interface GetDocumentContentRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   documentId: string;
+  mediaId?: string | undefined;
   outputFormat?: DocumentOutputFormat | undefined;
   userContext?: UserContext | undefined;
 }
@@ -3764,8 +3788,8 @@ export const agenticRetrieveStream: API.OperationMethod<
   AgenticRetrieveStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c0, 24) as any as S.Schema<AgenticRetrieveStreamRequest>,
-  output: __S(53, __c1, 21) as any as S.Schema<AgenticRetrieveStreamResponse>,
+  input: __S(25, __c0, 25) as any as S.Schema<AgenticRetrieveStreamRequest>,
+  output: __S(57, __c1, 25) as any as S.Schema<AgenticRetrieveStreamResponse>,
   errors: [
     AccessDeniedException,
     BadGatewayException,
@@ -4111,7 +4135,7 @@ export type GetDocumentContentError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+ * Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a `Retrieve` result.
  */
 export const getDocumentContent: API.OperationMethod<
   GetDocumentContentRequest & RegionInput,
@@ -5241,6 +5265,10 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AgenticRetrieveMemoryConfiguration" });
     case 24:
       return S.suspend(() =>
+        S.Struct({ retrievalInstructionId: S.String, version: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveInstructionConfiguration" });
+    case 25:
+      return S.suspend(() =>
         S.Struct({
           messages: __S(1, __c0, 1),
           retrievers: __S(6, __c0, 6),
@@ -5249,6 +5277,7 @@ function __c0(j: number): any {
           nextToken: S.optional(S.String),
           userContext: S.optional(__S(64, __c2, 0)),
           memoryConfiguration: S.optional(__S(23, __c0, 23)),
+          retrievalInstructionConfiguration: S.optional(__S(24, __c0, 24)),
           generateResponse: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -5261,7 +5290,7 @@ function __c0(j: number): any {
           ),
         ),
       ).annotate({ identifier: "AgenticRetrieveStreamRequest" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           byteContent: S.optional(T.Blob),
@@ -5269,62 +5298,62 @@ function __c0(j: number): any {
           mimeType: S.String,
         }),
       ).annotate({ identifier: "RetrievalContent" });
-    case 26:
+    case 27:
       return S.suspend(() => S.Struct({ identifier: S.String })).annotate({
         identifier: "AgenticRetrieveSourceRetriever",
       });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          content: __S(25, __c0, 25),
+          content: __S(26, __c0, 26),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: __S(26, __c0, 26),
+          sourceRetriever: __S(27, __c0, 27),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultItem" });
-    case 28:
-      return S.Array(__S(27, __c0, 27));
     case 29:
+      return S.Array(__S(28, __c0, 28));
+    case 30:
       return S.suspend(() => S.Struct({ resultIndex: S.Number })).annotate({
         identifier: "AgenticRetrieveCitationReference",
       });
-    case 30:
-      return S.Array(__S(29, __c0, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(30, __c0, 30) }),
-      ).annotate({ identifier: "AgenticRetrieveCitation" });
+      return S.Array(__S(30, __c0, 30));
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(31, __c0, 31));
-    case 1:
       return S.suspend(() =>
-        S.Struct({ answer: S.String, citations: S.optional(__S(32, __c1, 0)) }),
-      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(31, __c0, 31) }),
+      ).annotate({ identifier: "AgenticRetrieveCitation" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
+        S.Struct({ answer: S.String, citations: S.optional(__S(33, __c1, 1)) }),
+      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
-          results: __S(28, __c0, 28),
-          generatedResponse: S.optional(__S(33, __c1, 1)),
+          results: __S(29, __c0, 29),
+          generatedResponse: S.optional(__S(34, __c1, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultEvent" });
-    case 3:
-      return S.Array(__S(26, __c0, 26));
     case 4:
-      return S.suspend(() =>
-        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(35, __c1, 3) }),
-      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+      return S.Array(__S(27, __c0, 27));
     case 5:
+      return S.suspend(() =>
+        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(36, __c1, 4) }),
+      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           documentId: S.optional(S.String),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveFullDocExpansionDetails" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           inputQuery: __S(96, __c3, 0),
@@ -5334,21 +5363,28 @@ function __c1(j: number): any {
           strategyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveMemoryRetrieveDetails" });
-    case 7:
+    case 8:
+      return S.Array(__S(38, __c1, 6));
+    case 9:
+      return S.suspend(() => S.Struct({ documents: S.optional(__S(40, __c1, 8)) })).annotate({
+        identifier: "AgenticRetrieveCodeExecutionDetails",
+      });
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          retrieve: S.optional(__S(36, __c1, 4)),
-          fullDocumentExpansion: S.optional(__S(37, __c1, 5)),
-          memoryRetrieve: S.optional(__S(38, __c1, 6)),
+          retrieve: S.optional(__S(37, __c1, 5)),
+          fullDocumentExpansion: S.optional(__S(38, __c1, 6)),
+          memoryRetrieve: S.optional(__S(39, __c1, 7)),
+          codeExecution: S.optional(__S(41, __c1, 9)),
         }),
       ).annotate({ identifier: "AgenticRetrieveAction" });
-    case 8:
-      return S.Array(__S(39, __c1, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(42, __c1, 10));
+    case 12:
       return S.suspend(() => S.Struct({ message: S.String })).annotate({
         identifier: "AgenticRetrieveWarningMessage",
       });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -5357,53 +5393,58 @@ function __c1(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveGuardrailWarning" });
-    case 11:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ message: __S(41, __c1, 9) }),
-        /*@__PURE__*/ S.Struct({ guardrail: __S(42, __c1, 10) }),
-      ]);
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.Array(__S(41, __c1, 9));
     case 14:
-      return S.suspend(() =>
-        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
-      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ message: __S(44, __c1, 12) }),
+        /*@__PURE__*/ S.Struct({ guardrail: __S(45, __c1, 13) }),
+      ]);
     case 15:
       return S.Array(__S(46, __c1, 14));
     case 16:
+      return S.Array(__S(44, __c1, 12));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+    case 18:
+      return S.Array(__S(49, __c1, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(25, __c0, 25)),
+          content: S.optional(__S(26, __c0, 26)),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceResultItem" });
-    case 17:
-      return S.Array(__S(48, __c1, 16));
-    case 18:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
+      return S.suspend(() => S.Struct({ id: S.String, version: S.optional(S.String) })).annotate({
+        identifier: "AgenticRetrieveAppliedInstruction",
+      });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           step: S.String,
           status: S.String,
           message: S.String,
-          actions: S.optional(__S(40, __c1, 8)),
-          warnings: S.optional(__S(44, __c1, 12)),
-          failures: S.optional(__S(45, __c1, 13)),
-          retrievalMetadata: S.optional(__S(47, __c1, 15)),
-          retrievalResponse: S.optional(__S(49, __c1, 17)),
+          actions: S.optional(__S(43, __c1, 11)),
+          warnings: S.optional(__S(47, __c1, 15)),
+          failures: S.optional(__S(48, __c1, 16)),
+          retrievalMetadata: S.optional(__S(50, __c1, 18)),
+          retrievalResponse: S.optional(__S(52, __c1, 20)),
+          appliedInstruction: S.optional(__S(53, __c1, 21)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceEventAttributes" });
-    case 19:
+    case 23:
       return S.suspend(() =>
-        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(50, __c1, 18) }),
+        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(54, __c1, 22) }),
       ).annotate({ identifier: "AgenticRetrieveTraceEvent" });
-    case 20:
+    case 24:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ result: __S(34, __c1, 2) }),
-          /*@__PURE__*/ S.Struct({ traceEvent: __S(51, __c1, 19) }),
+          /*@__PURE__*/ S.Struct({ result: __S(35, __c1, 3) }),
+          /*@__PURE__*/ S.Struct({ traceEvent: __S(55, __c1, 23) }),
           /*@__PURE__*/ S.Struct({ responseEvent: __S(224, __c7, 0) }),
           /*@__PURE__*/ S.Struct({
             internalServerException: /*@__PURE__*/ S.suspend(
@@ -5452,9 +5493,9 @@ function __c1(j: number): any {
           }),
         ]),
       );
-    case 21:
+    case 25:
       return S.suspend(() =>
-        S.Struct({ stream: __S(52, __c1, 20).pipe(T.HttpPayload()) }),
+        S.Struct({ stream: __S(56, __c1, 24).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "AgenticRetrieveStreamResponse" });
   }
 }
@@ -5793,6 +5834,7 @@ function __c20(j: number): any {
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
           documentId: S.String.pipe(T.HttpLabel("documentId")),
+          mediaId: S.optional(S.String),
           outputFormat: S.optional(S.String),
           userContext: S.optional(__S(64, __c2, 0)),
         }).pipe(

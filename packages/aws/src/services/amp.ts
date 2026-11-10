@@ -332,7 +332,16 @@ export type OpenSearchDomainArn = string;
 export interface OpenSearchExporterConfiguration {
   domainArn: string;
 }
-export type ExporterConfiguration = { openSearchConfiguration: OpenSearchExporterConfiguration };
+export type MskClusterArn = string;
+export type KafkaExporterFilter = string;
+export interface KafkaExporterConfiguration {
+  clusterArn: string;
+  topicFilter?: string | undefined;
+  consumerGroupFilter?: string | undefined;
+}
+export type ExporterConfiguration =
+  | { openSearchConfiguration: OpenSearchExporterConfiguration; kafkaConfiguration?: undefined }
+  | { openSearchConfiguration?: undefined; kafkaConfiguration: KafkaExporterConfiguration };
 export type ExporterList = ExporterConfiguration[];
 export interface CreateScraperRequest {
   alias?: string | undefined;
@@ -1008,7 +1017,7 @@ export type CreateScraperError =
 /**
  * Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to the metrics, and more.
  *
- * An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the *Amazon Managed Service for Prometheus User Guide*.
+ * An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the *Amazon Managed Service for Prometheus User Guide*. For a Kafka exporter, grant this role access with a cluster policy on the Amazon MSK cluster instead. For details, see `KafkaExporterConfiguration`.
  *
  * The `scrapeConfiguration` parameter contains the base-64 encoded YAML configuration for the scraper.
  *
@@ -2422,7 +2431,7 @@ function __c5(j: number): any {
           roleConfiguration: S.optional(__S(75, __c9, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(464, __c58, 0)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/scrapers" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateScraperRequest" });
   }
@@ -2486,9 +2495,20 @@ function __c9(j: number): any {
         identifier: "OpenSearchExporterConfiguration",
       });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ openSearchConfiguration: __S(76, __c9, 4) })]);
+      return S.suspend(() =>
+        S.Struct({
+          clusterArn: S.String,
+          topicFilter: S.optional(S.String),
+          consumerGroupFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KafkaExporterConfiguration" });
     case 6:
-      return S.Array(__S(77, __c9, 5));
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ openSearchConfiguration: __S(76, __c9, 4) }),
+        /*@__PURE__*/ S.Struct({ kafkaConfiguration: __S(77, __c9, 5) }),
+      ]);
+    case 7:
+      return S.Array(__S(78, __c9, 6));
   }
 }
 function __c10(j: number): any {
@@ -2959,7 +2979,7 @@ function __c29(j: number): any {
           source: __S(58, __c7, 2),
           destination: __S(74, __c9, 2),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }),
       ).annotate({ identifier: "ScraperDescription" });
     case 2:
@@ -3217,7 +3237,7 @@ function __c38(j: number): any {
           source: __S(58, __c7, 2),
           destination: __S(74, __c9, 2),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }),
       ).annotate({ identifier: "ScraperSummary" });
     case 3:
@@ -3469,7 +3489,7 @@ function __c49(j: number): any {
           destination: S.optional(__S(74, __c9, 2)),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/scrapers/{scraperId}" }),

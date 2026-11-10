@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { SlackError, SlackRateLimited } from "../errors.ts";
+import { slackPaginate } from "../pagination.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -160,6 +161,12 @@ export interface SearchContextResponseResultsFilesItem {
 }
 export type SearchContextResponseResultsFilesList = Array<SearchContextResponseResultsFilesItem>;
 export type SearchContextResponseResultsEnterpriseList = Array<unknown>;
+/** Type of the channel */
+export type SearchContextResponseResultsChannelsItemChannelType =
+  | "public_channel"
+  | "private_channel"
+  | "mpim"
+  | "im";
 export interface SearchContextResponseResultsChannelsItem {
   /** ID of the workspace in which the channel was created. */
   team_id: string;
@@ -181,6 +188,8 @@ export interface SearchContextResponseResultsChannelsItem {
   permalink: string;
   /** Whether the channel is archived. */
   is_archived: boolean;
+  /** Type of the channel */
+  channel_type: SearchContextResponseResultsChannelsItemChannelType;
 }
 export type SearchContextResponseResultsChannelsList =
   Array<SearchContextResponseResultsChannelsItem>;
@@ -213,12 +222,22 @@ export interface SearchContextResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
   next_cursor?: string | undefined;
 }
+export type SearchContextResponseFailedContentTypesItem =
+  | "messages"
+  | "files"
+  | "channels"
+  | "users";
+/** Requested content types whose search failed. Their lists in `results` are empty because they could not be searched, not because nothing matched. Present only when at least one failed; see the `content_type_search_failed` warning. */
+export type SearchContextResponseFailedContentTypesList =
+  Array<SearchContextResponseFailedContentTypesItem>;
 export interface SearchContextResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   results: SearchContextResponseResults;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
   response_metadata?: SearchContextResponseResponseMetadata | undefined;
+  /** Requested content types whose search failed. Their lists in `results` are empty because they could not be searched, not because nothing matched. Present only when at least one failed; see the `content_type_search_failed` warning. */
+  failed_content_types: SearchContextResponseFailedContentTypesList;
 }
 export interface SearchInfoRequest {}
 export interface SearchInfoResponse {
@@ -276,21 +295,32 @@ export interface SetTitleResponse {
   ok: boolean;
 }
 export type SearchContextError = SlackOpError;
-/** Searches messages, files, channels and users across your Slack organization. Required scopes -- user: `search:read.public`, `search:read.private`, `search:read.im`, `search:read.mpim`, `search:read.files`, `search:read.users`; bot: `search:read.public`, `search:read.files`, `search:read.users` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal error. - `rate_limited` -- Rate limited. - `missing_query` -- Missing query. - `query_too_long` -- Query too long. - `feature_not_enabled` -- The feature is not available on the current workspace. - `invalid_action_token` -- The `action_token` provided is not valid. - `invalid_cursor` -- The cursormark provided is not valid. - `context_channel_not_found` -- Specified `context_channel_id` is invalid or the user lacks permission to view it. - `missing_scope` -- The requested channel types are not allowed by the provided scopes. - `assistant_search_context_disabled` -- We're having issues returning your search results. Please wait and try again. See https://docs.slack.dev/reference/methods/assistant.search.context */
-export const searchContext: API.OperationMethod<
+/** Searches messages, files, channels and users across your Slack organization. Required scopes -- user: `search:read.public`, `search:read.private`, `search:read.im`, `search:read.mpim`, `search:read.files`, `search:read.users`; bot: `search:read.public`, `search:read.files`, `search:read.users` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal error. - `rate_limited` -- Rate limited. - `missing_query` -- Missing query. - `query_too_long` -- Query too long. - `feature_not_enabled` -- The feature is not available on the current workspace. - `invalid_action_token` -- The `action_token` provided is not valid, has expired, or was not issued to the app whose token accompanies it. - `invalid_cursor` -- The cursormark provided is not valid. - `context_channel_not_found` -- Specified `context_channel_id` is invalid or the user lacks permission to view it. - `missing_scope` -- The requested channel types are not allowed by the provided scopes. - `assistant_search_context_disabled` -- We're having issues returning your search results. Please wait and try again. - `restricted_action` -- The calling user is a guest, or is not an active member of the workspace. See https://docs.slack.dev/reference/methods/assistant.search.context */
+export const searchContext: API.PaginatedOperationMethod<
   SearchContextRequest,
   SearchContextResponse,
   SearchContextError,
-  SlackOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<SearchContextRequest>,
-  output: __S(14, __c0, 14) as any as S.Schema<SearchContextResponse>,
-  errors: [SlackError, SlackRateLimited],
-  protocol: SlackProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "SearchContext",
-}));
+  SlackOpContext,
+  SearchContextResponseFailedContentTypesItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1, __c0, 1) as any as S.Schema<SearchContextRequest>,
+    output: __S(14, __c0, 14) as any as S.Schema<SearchContextResponse>,
+    errors: [SlackError, SlackRateLimited],
+    protocol: SlackProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SearchContext",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "response_metadata.next_cursor",
+      items: "failed_content_types",
+      pageSize: "limit",
+    } as const,
+  }),
+  slackPaginate,
+) as any;
 
 export type SearchInfoError = SlackOpError;
 /** Returns search capabilities on a given team. Required scopes -- user: `search:read.public`; bot: `search:read.public` Rate limit tier: 2 See https://docs.slack.dev/reference/methods/assistant.search.info */
@@ -452,6 +482,7 @@ function __c0(j: number): any {
           purpose: S.optional(S.String),
           permalink: S.String,
           is_archived: S.Boolean,
+          channel_type: S.String,
         }),
       ).annotate({ identifier: "SearchContextResponseResultsChannelsItem" });
     case 9:
@@ -492,6 +523,7 @@ function __c0(j: number): any {
           ok: S.Boolean,
           results: __S(12, __c0, 12),
           response_metadata: S.optional(__S(13, __c0, 13)),
+          failed_content_types: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "SearchContextResponse" });
   }

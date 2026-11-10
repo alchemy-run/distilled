@@ -115,14 +115,14 @@ export interface FeatureFlagFilterPropertyDateSchema {
   /** Date value in ISO format or relative date expression. */
   value?: string | undefined;
 }
-/** * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-export type FeatureFlagFilterPropertySemverSchemaOperatorEnum =
+/** * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+export type SemverOperatorEnum =
+  | "semver_eq"
+  | "semver_neq"
   | "semver_gt"
   | "semver_gte"
   | "semver_lt"
   | "semver_lte"
-  | "semver_eq"
-  | "semver_neq"
   | "semver_tilde"
   | "semver_caret"
   | "semver_wildcard";
@@ -135,8 +135,8 @@ export interface FeatureFlagFilterPropertySemverSchema {
   cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
   group_type_index?: number | null | undefined;
-  /** Semantic version comparison operator. * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-  operator?: FeatureFlagFilterPropertySemverSchemaOperatorEnum | (string & {}) | undefined;
+  /** Semantic version comparison operator. * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
+  operator?: SemverOperatorEnum | (string & {}) | undefined;
   /** Semantic version string. */
   value?: string | undefined;
 }
@@ -177,6 +177,10 @@ export interface FeatureFlagFilterPropertyCohortInSchema {
   operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | (string & {}) | undefined;
   /** Cohort comparison value (single or list, depending on usage). */
   value?: unknown | undefined;
+  /** Set to true in responses when the cohort is deleted or does not exist. The flag cannot evaluate this condition. Ignored on write. */
+  cohort_deleted?: boolean | undefined;
+  /** Set to true in responses when no cohort with this id exists in the project, so it cannot be restored. `cohort_deleted` is also true. Absent for a soft-deleted cohort. Ignored on write. */
+  cohort_missing?: boolean | undefined;
 }
 /** * `flag` - flag */
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
