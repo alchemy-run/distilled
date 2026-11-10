@@ -1028,7 +1028,7 @@ export interface SearchMonitorContents {
   extras?: SearchMonitorContentsExtras | undefined;
   /** The timeout for livecrawling in milliseconds. */
   livecrawlTimeout?: number | undefined;
-  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
+  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. A failed fetch may return the latest cached copy instead. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
   maxAgeHours?: number | undefined;
   /** Filter out results with no content */
   filterEmptyResults?: boolean | undefined;
@@ -1190,7 +1190,7 @@ export interface SearchMonitorContentsOutput {
   extras?: SearchMonitorContentsExtras | undefined;
   /** The timeout for livecrawling in milliseconds. */
   livecrawlTimeout?: number | undefined;
-  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
+  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. A failed fetch may return the latest cached copy instead. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
   maxAgeHours?: number | undefined;
   /** Filter out results with no content */
   filterEmptyResults?: boolean | undefined;
@@ -3229,7 +3229,7 @@ export type SearchSynthesisResponseWarningsList = Array<SearchWarningOutput>;
 export type SearchNoticeOutputDetailsMap = { [key: string]: unknown | undefined };
 /** A note about how the results were produced, written to be passed to a model with the results. */
 export interface SearchNoticeOutput {
-  /** Machine-readable notice code, UPPER_SNAKE. `RESTRICTIONS_RELAXED`: the `site:` or exact-phrase restrictions written in the query matched nothing, so the results come from a search with them removed; filters set in the request body were kept. Codes are an open set: tolerate codes you do not recognize. */
+  /** Machine-readable notice code. Handle codes you do not recognize without failing. See [notice codes](https://exa.ai/docs/search/best-practices#notice-codes) for what each code means. */
   code: string;
   /** JSON Pointer to the request field the notice is about. */
   path: string;
