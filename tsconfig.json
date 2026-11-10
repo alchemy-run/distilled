@@ -60,6 +60,9 @@
     {
       "path": "./packages/coinbase/tsconfig.scripts.json"
     },
+    { "path": "./packages/coinflow/tsconfig.json" },
+    { "path": "./packages/coinflow/tsconfig.test.json" },
+    { "path": "./packages/coinflow/tsconfig.scripts.json" },
     {
       "path": "./packages/discord/tsconfig.json"
     },

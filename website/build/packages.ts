@@ -99,7 +99,18 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ["Secrets & certificates", ["onepassword", "doppler", "infisical", "unkey", "acme", "zerossl"]],
   [
     "Payments",
-    ["stripe", "adyen", "paypal", "plaid", "coinbase", "mercury", "polar", "whop", "gusto"],
+    [
+      "stripe",
+      "adyen",
+      "paypal",
+      "plaid",
+      "coinbase",
+      "coinflow",
+      "mercury",
+      "polar",
+      "whop",
+      "gusto",
+    ],
   ],
   [
     "Observability",
@@ -172,6 +183,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   paypal: "payments",
   plaid: "banking",
   coinbase: "crypto",
+  coinflow: "payments payouts checkout stablecoin crypto",
   mercury: "banking",
   polar: "payments open source",
   whop: "payments",

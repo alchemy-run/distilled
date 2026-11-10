@@ -458,3 +458,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-e2b.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/coinflow/specs/spec-mirror-coinflow"]
+	path = packages/coinflow/specs/spec-mirror-coinflow
+	url = https://github.com/distilled-mirror/spec-mirror-coinflow.git
+	ignore = dirty
+	shallow = true
