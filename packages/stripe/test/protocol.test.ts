@@ -334,6 +334,66 @@ describe("Request headers", () => {
     expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
   });
 
+  test("inner idempotency inherits the outer API version and Connect scope", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        withRequestOptions({ idempotencyKey: "nested" }),
+        withRequestOptions({ apiVersion: "2026-09-30.endive", stripeAccount: "acct_outer" }),
+      ),
+    );
+    await result;
+    expect(requests[0]!.headers).toMatchObject({
+      "idempotency-key": "nested",
+      "stripe-version": "2026-09-30.endive",
+      "stripe-account": "acct_outer",
+    });
+    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
+  });
+
+  test("inner request options override outer values", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        withRequestOptions({ idempotencyKey: "inner", apiVersion: "2026-09-30.endive" }),
+        withRequestOptions({ idempotencyKey: "outer", apiVersion: "2025-01-27.acacia" }),
+      ),
+    );
+    await result;
+    expect(requests[0]!.headers).toMatchObject({
+      "idempotency-key": "inner",
+      "stripe-version": "2026-09-30.endive",
+    });
+  });
+
+  test("an inner Stripe-Account clears the inherited Stripe-Context", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        withRequestOptions({ stripeAccount: "acct_inner" }),
+        withRequestOptions({ stripeContext: "ctx_outer", apiVersion: "2026-09-30.endive" }),
+      ),
+    );
+    await result;
+    expect(requests[0]!.headers).toMatchObject({
+      "stripe-account": "acct_inner",
+      "stripe-version": "2026-09-30.endive",
+    });
+    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
+  });
+
+  test("an inner Stripe-Context clears the inherited Stripe-Account", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        withRequestOptions({ stripeContext: "ctx_inner" }),
+        withRequestOptions({ stripeAccount: "acct_outer", apiVersion: "2026-09-30.endive" }),
+      ),
+    );
+    await result;
+    expect(requests[0]!.headers).toMatchObject({
+      "stripe-context": "ctx_inner",
+      "stripe-version": "2026-09-30.endive",
+    });
+    expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
+  });
+
   test("multipart requests carry the request options too", async () => {
     const { result, requests } = run(
       CreateFile({

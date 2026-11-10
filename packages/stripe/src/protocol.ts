@@ -66,6 +66,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
@@ -129,7 +130,20 @@ export class RequestOptions
  * ```
  */
 export const withRequestOptions = (options: StripeRequestOptions) =>
-  Effect.provide(Layer.succeed(RequestOptions, options));
+  Effect.provideServiceEffect(
+    RequestOptions,
+    Effect.map(Effect.serviceOption(RequestOptions), (parent) => {
+      const { stripeAccount, stripeContext, ...overrides } = options;
+      const merged = { ...Option.getOrUndefined(parent), ...overrides };
+      if (stripeAccount !== undefined) {
+        return { ...merged, stripeAccount, stripeContext: undefined };
+      }
+      if (stripeContext !== undefined) {
+        return { ...merged, stripeContext, stripeAccount: undefined };
+      }
+      return merged;
+    }),
+  );
 
 const stripeRequestHeaders = (
   options: StripeRequestOptions | undefined,
