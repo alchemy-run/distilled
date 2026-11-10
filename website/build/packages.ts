@@ -49,7 +49,18 @@ export const readPackages = async (packagesDir: string): Promise<Pkg[]> => {
 export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   [
     "Clouds",
-    ["aws", "azure", "gcp", "cloudflare", "digitalocean", "hetzner", "ovh", "hostinger", "stackit"],
+    [
+      "aws",
+      "azure",
+      "gcp",
+      "cloudflare",
+      "digitalocean",
+      "hetzner",
+      "ovh",
+      "hostinger",
+      "stackit",
+      "tencentcloud",
+    ],
   ],
   [
     "Platforms",
@@ -168,6 +179,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   stackit: "schwarz german cloud iaas",
   gcp: "google compute storage discovery",
   azure: "microsoft arm",
+  tencentcloud: "tencent qcloud cvm vpc tke lighthouse dnspod",
   cloudflare: "workers r2 kv d1",
   github: "git repos actions",
   forgejo: "git gitea",
