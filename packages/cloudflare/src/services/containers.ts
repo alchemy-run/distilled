@@ -4,8 +4,10 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
+import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
   CloudflareProtocol,
+  CloudflarePaginatedProtocol,
   type CloudflareOpError,
   type CloudflareOpContext,
 } from "../protocol.ts";
@@ -826,7 +828,12 @@ export interface ContainerInstance {
   startedAt?: string | null | undefined;
 }
 export type ContainerInstanceList = Array<ContainerInstance>;
-export type ListContainerApplicationInstancesResponse = ContainerInstanceList;
+export interface ListContainerApplicationInstancesResponse {
+  /** The unwrapped `result` payload of the v4 response envelope. */
+  result: ContainerInstanceList;
+  /** Pagination info from the envelope's `result_info`. */
+  resultInfo?: ResultInfo | null | undefined;
+}
 export interface ListContainerApplicationsRequest {
   accountId: string;
   /** Filter applications by image. */
@@ -1114,20 +1121,31 @@ export const getContainerIdentity: API.OperationMethod<
 
 export type ListContainerApplicationInstancesError = CloudflareOpError;
 /** Lists container instances belonging to an application. */
-export const listContainerApplicationInstances: API.OperationMethod<
+export const listContainerApplicationInstances: API.PaginatedOperationMethod<
   ListContainerApplicationInstancesRequest,
   ListContainerApplicationInstancesResponse,
   ListContainerApplicationInstancesError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListContainerApplicationInstancesRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ListContainerApplicationInstancesResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListContainerApplicationInstances",
-}));
+  CloudflareOpContext,
+  ContainerInstance
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(288, __c18, 0) as any as S.Schema<ListContainerApplicationInstancesRequest>,
+    output: __S(291, __c18, 3) as any as S.Schema<ListContainerApplicationInstancesResponse>,
+    errors: [CloudflareRateLimited, CloudflareError],
+    protocol: CloudflarePaginatedProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListContainerApplicationInstances",
+    pagination: {
+      mode: "cursor",
+      inputToken: "pageToken",
+      outputToken: "resultInfo.nextPageToken",
+      items: "result",
+      pageSize: "perPage",
+    } as const,
+  }),
+  cloudflarePaginate,
+) as any;
 
 export type ListContainerApplicationsError = InvalidRoute | CloudflareOpError;
 /** Lists all the applications that are associated with your account. */
@@ -1899,7 +1917,10 @@ function __c18(j: number): any {
       return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
-        __S(290, __c18, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        S.Struct({
+          result: __S(290, __c18, 2).pipe(T.EnvelopePayload()),
+          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListContainerApplicationInstancesResponse" });
   }
 }

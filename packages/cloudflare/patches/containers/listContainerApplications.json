@@ -1,5 +1,5 @@
 {
-  "description": "Keep the SDK's name listContainerApplications and return a list of the shared ContainerApplicationItem.",
+  "description": "Keep the SDK's name listContainerApplications and return a list of the shared ContainerApplicationItem. Not paginated: without page_token the API returns every application in one response (https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/list/), so the bare list is complete.",
   "patches": [
     {
       "op": "replace",

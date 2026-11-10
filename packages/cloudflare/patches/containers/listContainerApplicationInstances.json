@@ -1,5 +1,5 @@
 {
-  "description": "Name the documented instances listing (GET …/applications/{application_id}/instances-v2) listContainerApplicationInstances, like the other containers operations. Drop the deprecated GET …/applications/{application_id}/instances: the docs mark it deprecated in favour of instances-v2, which returns the same instances.",
+  "description": "Name the documented instances listing (GET …/applications/{application_id}/instances-v2) listContainerApplicationInstances, like the other containers operations, and page it with the documented cursor: page_token and per_page (default 100, max 1000) in the request, result_info.next_page_token in the response. Drop the deprecated GET …/applications/{application_id}/instances: the docs mark it deprecated in favour of instances-v2, which returns the same instances.",
   "patches": [
     {
       "op": "remove",
@@ -74,6 +74,17 @@
       "op": "move",
       "from": "/shapes/com.cloudflare.containers#ApplicationsInstancesListRequestState",
       "path": "/shapes/com.cloudflare.containers#ContainerInstanceStateFilter"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsInstancesList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "pageToken",
+        "outputToken": "resultInfo.nextPageToken",
+        "items": "result",
+        "pageSize": "perPage"
+      }
     },
     {
       "op": "move",
