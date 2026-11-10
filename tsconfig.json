@@ -346,6 +346,12 @@
       "path": "./packages/elasticsearch/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/exa/tsconfig.json"
+    },
+    {
+      "path": "./packages/exa/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/gusto/tsconfig.json"
     },
     {

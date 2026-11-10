@@ -1,5 +1,5 @@
 {
-  "_license": "Marks are rendered monochrome in currentColor. Sources: svgl.app (per-brand terms, see each brand's page) for most; Simple Icons (CC0) for stripe, planetscale, huggingface, npm (svgl's mark is two-colour) and brands svgl lacks; official vector files for aws; mercury.com favicon for mercury; Prisma's brand kit for prisma; Rivet's logo.svg (rivet-dev/rivet frontend/public) for rivet. Each entry: { viewBox, inner } where inner is SVG markup with fills set to currentColor.",
+  "_license": "Marks are rendered monochrome in currentColor. Sources: svgl.app (per-brand terms, see each brand's page) for most; Simple Icons (CC0) for stripe, planetscale, huggingface, npm (svgl's mark is two-colour) and brands svgl lacks; official vector files for aws; mercury.com favicon for mercury; Prisma's brand kit for prisma; Rivet's logo.svg (rivet-dev/rivet frontend/public) for rivet; the mark from Exa's site logo (exa.ai/images/logo/exa-logo-blue.svg) for exa. Each entry: { viewBox, inner } where inner is SVG markup with fills set to currentColor.",
   "apache-superset": {
     "viewBox": "0 0 24 24",
     "inner": "<path d=\"M6.168 6.045C2.603 6.045 0 8.579 0 12.014c0 3.434 2.603 5.941 6.168 5.941 2.184 0 3.888-1.026 5.775-3.078 1.53 2.033 4.037 3.136 5.89 3.078 3.566 0 6.167-2.503 6.167-5.941 0-3.438-2.601-5.97-6.168-5.97-2.864 0-5.138 2.425-5.771 3.173-.76-.9-1.674-1.665-2.682-2.274-1.019-.588-2.084-.898-3.211-.898Zm2.875 1.303c1.156.595 1.952 1.42 2.639 2.304-.534.63-1.245 1.483-1.739 2.07-.56-.658-1.58-1.907-2.609-2.308ZM6.186 9.703c1.018.027 1.81.458 3.435 2.408-1.158 1.378-2.202 2.244-3.435 2.244-1.51 0-2.41-.99-2.41-2.31s.906-2.382 2.41-2.342zm11.535 0c1.51 0 2.408 1.026 2.408 2.342 0 1.315-.862 2.301-2.402 2.31-.571-.037-1.529-.026-3.442-2.314l.074-.09.002.002c1.122-1.328 2.097-2.25 3.36-2.25zm-3.762 2.738c.61.68 1.795 1.988 2.713 2.24l-1.684 2.016h-.002c-.753-.371-2.031-1.134-2.716-2.215l1.689-2.04z\"/>"
@@ -259,5 +259,9 @@
   "npm": {
     "viewBox": "0 0 24 24",
     "inner": "<path fill=\"currentColor\" d=\"M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z\"/>"
+  },
+  "exa": {
+    "viewBox": "0 0 107 129",
+    "inner": "<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M106.417 9.30741C106.417 9.57392 106.324 9.83227 106.155 10.0388L61.5395 64.5L106.155 118.96C106.324 119.166 106.417 119.425 106.417 119.691V127.843C106.417 128.482 105.897 129 105.255 129H1.16175C0.520132 129 0 128.482 0 127.843V1.15695C0 0.517982 0.520131 0 1.16174 0H105.255C105.897 0 106.417 0.517984 106.417 1.15695V9.30741ZM19.0364 116.382H87.6921L53.363 74.4795L19.0364 116.382ZM12.6699 104.192L40.1426 70.6585H12.6699V104.192ZM12.6699 58.0409H39.8964L12.6699 24.8064V58.0409ZM53.363 54.5193L87.6921 12.6176H19.0364L53.363 54.5193Z\" fill=\"currentColor\"/>"
   }
 }
