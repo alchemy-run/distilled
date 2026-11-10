@@ -592,6 +592,12 @@
     },
     {
       "path": "./packages/npm/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.scripts.json"
     }
   ]
 }
